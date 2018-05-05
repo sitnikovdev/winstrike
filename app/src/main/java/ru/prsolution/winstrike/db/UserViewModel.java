@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,7 +13,7 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 
 public class UserViewModel extends AndroidViewModel {
-    private LiveData<UserEntity> mUser;
+    private LiveData<List<UserEntity>> mUsers;
 
     @Inject
     AppRepository mRepository;
@@ -21,14 +22,16 @@ public class UserViewModel extends AndroidViewModel {
         super(application);
         WinstrikeApp.getInstance().getAppComponent().inject(this);
         //mRepository = new AppRepository(application);
-        mUser = mRepository.getUser();
+        mUsers = mRepository.getUsersList();
     }
 
-    public LiveData<UserEntity> getUser() {
-        return mUser;
+    public LiveData<List<UserEntity>> getUser() {
+        return mUsers;
     }
 
     public void insert(UserEntity UserEntity) {
         mRepository.insert(UserEntity);
     }
+
+    public void delete(){mRepository.delete();}
 }

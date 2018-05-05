@@ -1,23 +1,24 @@
 package ru.prsolution.winstrike.db;
 
-import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
+
+import java.util.List;
 
 import ru.prsolution.winstrike.db.dao.UserDao;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 
 public class AppRepository {
     private UserDao mUserDao;
-    private LiveData<UserEntity> mUser;
+    private LiveData<List<UserEntity>> mUser;
 
     public AppRepository(AppDatabase db) {
 //        AppDatabase db = AppDatabase.getInstance(application);
         mUserDao = db.userDao();
-        mUser = mUserDao.loadUser();
+        mUser = mUserDao.loadAllUsers();
     }
 
-    public LiveData<UserEntity> getUser() {
+    public LiveData<List<UserEntity>> getUsersList() {
         return mUser;
     }
 
@@ -25,7 +26,11 @@ public class AppRepository {
         new insertAsyncTask(mUserDao).execute(user);
     }
 
-    private static class insertAsyncTask extends AsyncTask<UserEntity, Void, Void> {
+    public void delete() {
+        new deleteAsyncTask(mUserDao).execute();
+    }
+
+    private static class insertAsyncTask extends android.os.AsyncTask<UserEntity, Void, Void> {
         private UserDao mAsyncTaskDao;
 
         public insertAsyncTask(UserDao mAsyncTaskDao) {
@@ -33,8 +38,22 @@ public class AppRepository {
         }
 
         @Override
-        protected Void doInBackground(UserEntity... userEntities) {
+        protected Void doInBackground(final UserEntity... userEntities) {
             mAsyncTaskDao.insertUser(userEntities[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<UserEntity, Void, Void> {
+        private UserDao mAsyncTaskDao;
+
+        public deleteAsyncTask(UserDao mAsyncTaskDao) {
+            this.mAsyncTaskDao = mAsyncTaskDao;
+        }
+
+        @Override
+        protected Void doInBackground(final UserEntity... userEntities) {
+            mAsyncTaskDao.deleteAllUsers();
             return null;
         }
     }

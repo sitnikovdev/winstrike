@@ -35,12 +35,12 @@ public class BaseApp extends AppCompatActivity {
 
     protected void saveUser(AuthResponse authResponse) {
 /*        tinyDB.putString("token", authResponse.getToken());
-        tinyDB.putString("public_id", authResponse.getUser().getPublicId());
-        tinyDB.putString("phone", authResponse.getUser().getPhone());
-        if (authResponse.getUser().getEmail() != null) {
-            tinyDB.putString("email", authResponse.getUser().getEmail());
+        tinyDB.putString("public_id", authResponse.getUsersList().getPublicId());
+        tinyDB.putString("phone", authResponse.getUsersList().getPhone());
+        if (authResponse.getUsersList().getEmail() != null) {
+            tinyDB.putString("email", authResponse.getUsersList().getEmail());
         }
-        tinyDB.putString("role", authResponse.getUser().getRole());
+        tinyDB.putString("role", authResponse.getUsersList().getRole());
         tinyDB.putBoolean("loggedin", true);*/
     }
 

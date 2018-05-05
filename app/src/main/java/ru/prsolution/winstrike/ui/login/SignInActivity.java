@@ -119,18 +119,21 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
          *  Check if user is confirmed, if true - go to MainScreenActivity
          *  no - go to sendSms.
          */
-        mUserViewModel.getUser().observe(this, (userEntity ->{
-            if (userEntity != null) {
-                Timber.d("User load successfully: %s",userEntity.getConfirmed());
-                if (userEntity.getConfirmed()) {
+        mUserViewModel.getUser().observe(this, (usersEntity ->{
+            if (usersEntity != null) {
+                if (!usersEntity.isEmpty()) {
+//                    mUserViewModel.delete();
+                    Timber.d("User load successfully: %s", usersEntity);
+                    if (usersEntity.get(0).getConfirmed()) {
 //                    toast("Пользователь авторизован");
-                    router.replaceScreen(Screens.START_SCREEN);
-                    Timber.d("Success signIn");
-                } else {
-                    toast("Пользователь не подтвержден");
-                    ConfirmSmsModel smsModel = new ConfirmSmsModel();
-                    smsModel.setUsername(userEntity.getPhone());
-                    mSignInPresenter.sendSms(smsModel);
+                        router.replaceScreen(Screens.START_SCREEN);
+                        Timber.d("Success signIn");
+                    } else {
+                        toast("Пользователь не подтвержден");
+                        ConfirmSmsModel smsModel = new ConfirmSmsModel();
+                        smsModel.setUsername(usersEntity.get(0).getPhone());
+                        mSignInPresenter.sendSms(smsModel);
+                    }
                 }
             }
         }));
@@ -208,11 +211,11 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
 
     @Override
     public void onAuthResponseSuccess(AuthResponse authResponse) {
-        Boolean confirmed = false;
+        Boolean confirmed = authResponse.getUser().getConfirmed();
         UserEntity userEntity = new UserEntity();
 
 
-
+        // TODO: 05/05/2018 Replace list of users by one user.
         // Save user in db
         userEntity.setPublickId(authResponse.getUser().getPublicId());
         userEntity.setPhone(authResponse.getUser().getPhone());

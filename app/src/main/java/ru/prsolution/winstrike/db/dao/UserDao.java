@@ -22,6 +22,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import java.util.List;
 
 import ru.prsolution.winstrike.db.entity.UserEntity;
 
@@ -29,12 +30,15 @@ import ru.prsolution.winstrike.db.entity.UserEntity;
 @Dao
 public interface UserDao {
     @Query("SELECT * FROM user")
-    LiveData<UserEntity> loadUser();
+    LiveData<List<UserEntity>> loadAllUsers();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(UserEntity userEntity);
 
     @Query("select * from user where id = :userId")
-    LiveData<UserEntity>  loadUser(int userId);
+    LiveData<UserEntity> loadAllUsers(int userId);
+
+    @Query("DELETE FROM user")
+    void deleteAllUsers();
 
 }
