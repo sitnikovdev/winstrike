@@ -1,0 +1,223 @@
+{
+  "room_layout": {
+    "places": [
+      {
+        "offer_pid": "e06c1778-e189-4b4d-aba3-205944357894",
+        "is_hidden": false,
+        "computer": {
+          "active": false,
+          "name": "Место 1 (Обычное)",
+          "public_id": "4c1e7181-29cf-41fa-8ee9-0f5b1b7f44f2",
+          "create_at": "2018-04-13T18:05:47.810827+00:00"
+        },
+        "public_id": "deb8fba4-a827-4081-a6cf-ccc798469cd5",
+        "offer": {
+          "name": "1 рубль",
+          "cost": 1,
+          "public_id": "e06c1778-e189-4b4d-aba3-205944357894",
+          "create_at": "2018-04-19T08:25:24.112258+00:00"
+        },
+        "computer_pid": "4c1e7181-29cf-41fa-8ee9-0f5b1b7f44f2",
+        "room_layout_pid": "6301a0b8-5df8-43e3-9a16-16d38b740c86",
+        "name": "Место 1 (Обычное)",
+        "create_at": "2018-04-13T20:15:57.207967+00:00",
+        "coors": {
+          "id": "0",
+          "x": 32,
+          "y": 70,
+          "angle": -1.5708,
+          "type": 0
+        },
+        "status": "free"
+      },
+      {
+        "offer_pid": "e06c1778-e189-4b4d-aba3-205944357894",
+        "is_hidden": false,
+        "computer": {
+          "active": false,
+          "name": "Место 2 (Обычное)",
+          "public_id": "6942a9da-73f4-4ad8-94ac-073b89aef854",
+          "create_at": "2018-04-13T18:05:47.814080+00:00"
+        },
+        "public_id": "45623542-9a8c-41a6-b012-7eca4456473f",
+        "offer": {
+          "name": "1 рубль",
+          "cost": 1,
+          "public_id": "e06c1778-e189-4b4d-aba3-205944357894",
+          "create_at": "2018-04-19T08:25:24.112258+00:00"
+        },
+        "computer_pid": "6942a9da-73f4-4ad8-94ac-073b89aef854",
+        "room_layout_pid": "6301a0b8-5df8-43e3-9a16-16d38b740c86",
+        "name": "Место 2 (Обычное)",
+        "create_at": "2018-04-13T20:16:08.268273+00:00",
+        "coors": {
+          "id": "1",
+          "x": 52,
+          "y": 70,
+          "angle": -1.5708,
+          "type": 0
+        },
+        "status": "free"
+      },
+      {
+        "offer_pid": "327389e9-9da0-42e1-8fbf-82dda26eaf6c",
+        "is_hidden": false,
+        "computer": {
+          "active": false,
+          "name": "Место 3 (Обычное)",
+          "public_id": "353fb78d-18d8-430a-8d1f-97a68911baab",
+          "create_at": "2018-04-13T18:05:47.815808+00:00"
+        },
+        "public_id": "088b3f92-e102-4741-aedf-2adaaf57fc31",
+        "offer": {
+          "name": "Обычное место",
+          "cost": 50,
+          "public_id": "327389e9-9da0-42e1-8fbf-82dda26eaf6c",
+          "create_at": "2018-04-13T17:03:28.624267+00:00"
+        },
+        "computer_pid": "353fb78d-18d8-430a-8d1f-97a68911baab",
+        "room_layout_pid": "6301a0b8-5df8-43e3-9a16-16d38b740c86",
+        "name": "Место 3 (Обычное)",
+        "create_at": "2018-04-13T20:16:19.669512+00:00",
+        "coors": {
+          "id": "2",
+          "x": 72,
+          "y": 70,
+          "angle": -1.5708,
+          "type": 0
+        },
+        "status": "free"
+      },
+      {
+        "offer_pid": "327389e9-9da0-42e1-8fbf-82dda26eaf6c",
+        "is_hidden": false,
+        "computer": {
+          "active": false,
+          "name": "Место 4 (Обычное)",
+          "public_id": "6aff9047-6945-4ee3-aba0-b9b6e9d1e338",
+          "create_at": "2018-04-13T18:05:47.817449+00:00"
+        },
+        "public_id": "54124b4d-e929-486a-aa3c-de0631f8126a",
+        "offer": {
+          "name": "Обычное место",
+          "cost": 50,
+          "public_id": "327389e9-9da0-42e1-8fbf-82dda26eaf6c",
+          "create_at": "2018-04-13T17:03:28.624267+00:00"
+        },
+        "computer_pid": "6aff9047-6945-4ee3-aba0-b9b6e9d1e338",
+        "room_layout_pid": "6301a0b8-5df8-43e3-9a16-16d38b740c86",
+        "name": "Место 4 (Обычное)",
+        "create_at": "2018-04-13T20:17:33.162825+00:00",
+        "coors": {
+          "id": "3",
+          "x": 92,
+          "y": 70,
+          "angle": -1.5708,
+          "type": 0
+        },
+        "status": "free"
+      },
+      {
+        "offer_pid": "e06c1778-e189-4b4d-aba3-205944357894",
+        "is_hidden": false,
+        "computer": {
+          "active": false,
+          "name": "Место 114 (VIP)",
+          "public_id": "eb7d51e3-3c8b-4a0f-8579-aeeb66897c61",
+          "create_at": "2018-04-16T15:54:57.616639+00:00"
+        },
+        "public_id": "e06c9d05-f5a8-436b-a687-38bc8db35aee",
+        "offer": {
+          "name": "1 рубль",
+          "cost": 1,
+          "public_id": "e06c1778-e189-4b4d-aba3-205944357894",
+          "create_at": "2018-04-19T08:25:24.112258+00:00"
+        },
+        "computer_pid": "eb7d51e3-3c8b-4a0f-8579-aeeb66897c61",
+        "room_layout_pid": "6301a0b8-5df8-43e3-9a16-16d38b740c86",
+        "name": "Место 114 (VIP)",
+        "create_at": "2018-04-16T17:03:16.568583+00:00",
+        "coors": {
+          "id": "113",
+          "x": 307,
+          "y": 516,
+          "angle": 1.5708,
+          "type": 1
+        },
+        "status": "free"
+      },
+      {
+        "offer_pid": "e06c1778-e189-4b4d-aba3-205944357894",
+        "is_hidden": false,
+        "computer": {
+          "active": false,
+          "name": "Место 115 (VIP)",
+          "public_id": "06b1194f-5356-4911-9d1f-e43434dd57e8",
+          "create_at": "2018-04-16T15:55:01.129135+00:00"
+        },
+        "public_id": "06591bd6-0595-4bf3-afc6-29d227554e91",
+        "offer": {
+          "name": "1 рубль",
+          "cost": 1,
+          "public_id": "e06c1778-e189-4b4d-aba3-205944357894",
+          "create_at": "2018-04-19T08:25:24.112258+00:00"
+        },
+        "computer_pid": "06b1194f-5356-4911-9d1f-e43434dd57e8",
+        "room_layout_pid": "6301a0b8-5df8-43e3-9a16-16d38b740c86",
+        "name": "Место 115 (VIP)",
+        "create_at": "2018-04-16T17:03:23.706819+00:00",
+        "coors": {
+          "id": "114",
+          "x": 327,
+          "y": 516,
+          "angle": 1.5708,
+          "type": 1
+        },
+        "status": "free"
+      }
+    ],
+    "room_pid": "098695ce-a80b-4b77-af30-30d2d37567b2",
+    "public_id": "6301a0b8-5df8-43e3-9a16-16d38b740c86",
+    "name": "Winstrike Arena",
+    "create_at": "2018-04-13T17:18:44.423040+00:00",
+    "walls": [
+      {
+        "start": {
+          "x": 32,
+          "y": 375
+        },
+        "end": {
+          "x": 344,
+          "y": 375
+        }
+      }
+    ],
+    "labels": [
+      {
+        "x": 32,
+        "y": 34,
+        "text": "ЗАЛ"
+      },
+      {
+        "x": 32,
+        "y": 402,
+        "text": "HP STAGE 1"
+      },
+      {
+        "x": 247,
+        "y": 402,
+        "text": "HP STAGE 2"
+      },
+      {
+        "x": 32,
+        "y": 461,
+        "text": "VIP ROOM"
+      },
+      {
+        "x": 247,
+        "y": 461,
+        "text": "LG ROOM"
+      }
+    ]
+  }
+}

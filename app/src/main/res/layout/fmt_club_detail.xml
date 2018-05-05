@@ -1,0 +1,131 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ru.prsolution.winstrike.common.fragment.ClubDetailFragment">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/keyline_40dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/keyline_40dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/height_toolbar_56dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/height_statusbar_14dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="66dp" />
+
+
+    <ImageView
+        android:id="@+id/head_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:src="@drawable/video"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toBottomOf="@id/line_head" />
+
+    <TextView
+        android:id="@+id/seat_title"
+        style="@style/StemRegular15Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="@string/seatdetail_titlethumb"
+        app:layout_constraintBottom_toTopOf="@id/head_image"
+        app:layout_constraintStart_toStartOf="@id/head_image" />
+
+    <ImageView
+        android:id="@+id/play_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_play"
+        app:layout_constraintBottom_toBottomOf="@id/head_image"
+        app:layout_constraintEnd_toEndOf="@id/head_image"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toTopOf="@id/head_image" />
+
+    <TextView
+        android:id="@+id/description"
+        style="@style/StemRegular14Black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:lineSpacingExtra="2dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/seatdetail_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/head_image" />
+
+    <TextView
+        android:id="@+id/category"
+        android:text="@string/seatdetail_category"
+        style="@style/StemRegular15Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_seat"
+        android:layout_width="0dp"
+        android:layout_marginTop="18dp"
+        android:layout_height="180dp"
+        android:overScrollMode="never"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        />
+
+
+    <View
+        android:id="@+id/footer_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_footer" />
+
+    <View
+        android:id="@+id/image_gradient"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:background="@drawable/bonus_shadow_footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_footer" />
+
+
+</android.support.constraint.ConstraintLayout>

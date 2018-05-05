@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ru.prsolution.winstrike.common.LocationActivity"
+    >
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_logo_66dp"
+        android:layout_marginTop="@dimen/top_logo_115dp"
+        android:src="@drawable/winstrike_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="65dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="65dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="75dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="14dp" />
+
+    <!--Language select-->
+    <View
+        android:id="@+id/v_lang"
+        android:layout_width="244dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/spacing_lang_top"
+        android:background="@drawable/edit_text_shape"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toBottomOf="@id/image_logo" />
+
+    <TextView
+        android:id="@+id/text_lang_title"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/all_selectlang"
+        app:layout_constraintBottom_toBottomOf="@id/v_lang"
+        app:layout_constraintEnd_toEndOf="@id/v_lang"
+        app:layout_constraintStart_toStartOf="@id/v_lang"
+        app:layout_constraintTop_toTopOf="@id/v_lang"
+        />
+
+
+    <View
+        android:id="@+id/fl_arrow_tap_down_lang"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="visible"
+        android:foreground="@drawable/ripple_effect"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="@id/v_lang"
+        app:layout_constraintTop_toTopOf="@id/v_lang" />
+
+    <View
+        android:id="@+id/fl_arrow_tap_up_lang"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/ripple_effect"
+        android:clickable="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/v_lang"
+        app:layout_constraintTop_toTopOf="@id/v_lang" />
+
+    <ImageView
+        android:id="@+id/image_lang_down_arrow_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/down_arrow"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/v_lang"
+        app:layout_constraintTop_toTopOf="@id/text_lang_title" />
+
+    <ImageView
+        android:id="@+id/image_lang_up_arrow_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/up_arow"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/v_lang"
+        app:layout_constraintTop_toTopOf="@id/text_lang_title" />
+
+    <ImageView
+        android:id="@+id/image_lang_ru_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:background="@drawable/ru_lang"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="@id/v_lang"
+        app:layout_constraintBottom_toBottomOf="@id/v_lang"
+        app:layout_constraintTop_toTopOf="@id/v_lang" />
+
+    <ImageView
+        android:id="@+id/image_lang_en_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:background="@drawable/en_lang"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/v_lang"
+        app:layout_constraintBottom_toBottomOf="@id/v_lang"
+        app:layout_constraintTop_toTopOf="@id/v_lang" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_languages_list"
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_shape"
+        android:layout_marginTop="24dp"
+        android:paddingTop="10dp"
+        android:scrollbars="vertical"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/v_lang"
+        app:layout_constraintTop_toBottomOf="@id/v_lang" />
+
+    <!--City select-->
+    <View
+        android:id="@+id/image_round_frame_city"
+        android:layout_width="244dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/space_city_top"
+        android:background="@drawable/edit_text_shape"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toBottomOf="@id/rv_languages_list" />
+
+    <TextView
+        android:id="@+id/text_city_title"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/all_selectcity"
+        app:layout_constraintBottom_toBottomOf="@id/image_round_frame_city"
+        app:layout_constraintEnd_toEndOf="@id/image_round_frame_city"
+        app:layout_constraintStart_toStartOf="@id/image_round_frame_city"
+        app:layout_constraintTop_toTopOf="@id/image_round_frame_city" />
+
+
+    <ImageView
+        android:id="@+id/image_city_down_arrow_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/down_arrow"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/image_round_frame_city"
+        app:layout_constraintTop_toTopOf="@id/text_city_title" />
+
+    <ImageView
+        android:id="@+id/image_city_up_arrow_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/up_arow"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/image_round_frame_city"
+        app:layout_constraintTop_toTopOf="@id/text_city_title" />
+
+    <View
+        android:id="@+id/fl_arrow_tap_down_city"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/ripple_effect"
+        android:clickable="true"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/image_round_frame_city"
+        app:layout_constraintTop_toTopOf="@id/image_round_frame_city" />
+
+    <View
+        android:id="@+id/fl_arrow__tap_up_city"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/ripple_effect"
+        android:clickable="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/image_round_frame_city"
+        app:layout_constraintTop_toTopOf="@id/image_round_frame_city" />
+
+    <ImageView
+        android:id="@+id/image_loc_city_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/bullet"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/image_round_frame_city"
+        app:layout_constraintBottom_toBottomOf="@id/image_round_frame_city"
+        app:layout_constraintStart_toStartOf="@id/image_round_frame_city"
+        />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_cities_list"
+        android:layout_width="244dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_shape"
+        android:layout_marginTop="24dp"
+        android:paddingTop="10dp"
+        android:scrollbars="vertical"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/image_round_frame_city"
+        app:layout_constraintTop_toBottomOf="@id/image_round_frame_city" />
+
+    <View
+        android:id="@+id/next_button"
+        android:layout_width="160dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/button_bgr_16dp"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toBottomOf="@id/rv_cities_list"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/text_button_title"
+        style="@style/StemMedium15Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/all_nextbtn"
+        app:layout_constraintBottom_toBottomOf="@id/next_button"
+        app:layout_constraintEnd_toEndOf="@id/next_button"
+        app:layout_constraintStart_toStartOf="@id/next_button"
+        app:layout_constraintTop_toTopOf="@id/next_button"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+        android:alpha="0.6"
+        android:background="@drawable/footer_layer1"
+        android:scaleX="-1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="103dp"
+        android:alpha="0.71"
+        android:background="@drawable/footer_layer3"
+        android:scaleX="-1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:alpha="0.68"
+        android:background="@drawable/footer_layer2"
+        android:scaleX="-1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

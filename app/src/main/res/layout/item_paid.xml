@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorPrimary"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="@dimen/card_club_radius">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/line_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/keyline_40dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/line_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/keyline_40dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/line_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="@dimen/height_toolbar_56dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/line_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="@dimen/height_statusbar_14dp" />
+
+            <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="@dimen/width_tumb_294dp"
+                android:layout_height="@dimen/height_tumb_140dp"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:foreground="?selectableItemBackgroundBorderless"
+                android:src="@drawable/main_screen"
+                android:clickable="true"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="@id/line_end"
+                app:layout_constraintStart_toStartOf="@id/line_start"
+                app:layout_constraintTop_toBottomOf="@id/seat_title"/>
+
+            <TextView
+                android:id="@+id/seat_title"
+                style="@style/StemMedium15Black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/club_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/thumbnail"
+                />
+
+            <TextView
+                android:id="@+id/tv_date_tt"
+                style="@style/StemMedium15Black"
+                android:text="@string/itempaid_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:layout_constraintStart_toStartOf="@id/thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/thumbnail"
+                />
+
+            <TextView
+                android:id="@+id/tv_date"
+                style="@style/StemRegular15Black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/itempaid_dateval"
+                android:clickable="false"
+                app:layout_constraintStart_toStartOf="@id/thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/tv_date_tt"
+                />
+
+            <TextView
+                android:id="@+id/tv_time_tt"
+                style="@style/StemMedium15Black"
+                android:text="@string/itempaid_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@id/thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/tv_date"
+                />
+
+            <TextView
+                android:id="@+id/tv_time"
+                style="@style/StemRegular15Black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/itempaid_timeval"
+                android:clickable="false"
+                app:layout_constraintStart_toStartOf="@id/thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/tv_time_tt" />
+
+            <TextView
+                android:id="@+id/tv_pc_tt"
+                style="@style/StemMedium15Black"
+                android:text="@string/itempaid_pc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@id/thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/tv_time"
+                />
+
+            <TextView
+                android:id="@+id/tv_pc"
+                style="@style/StemRegular15Black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="comp name"
+                android:clickable="false"
+                app:layout_constraintStart_toStartOf="@id/thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/tv_pc_tt" />
+
+            <TextView
+                android:id="@+id/tv_pccode_tt"
+                style="@style/StemMedium15Black"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/itempaid_pccode"
+                app:layout_constraintStart_toStartOf="@id/thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/tv_pc" />
+
+            <TextView
+                android:id="@+id/tv_pccode"
+                style="@style/StemRegular15Black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/itempaid_pccodeval"
+                android:clickable="false"
+                app:layout_constraintStart_toStartOf="@id/thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/tv_pccode_tt" />
+
+
+            <View
+                android:id="@+id/v_separator"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/main_shadow_separator"
+                app:layout_constraintTop_toBottomOf="@id/tv_pccode"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,117 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ru.prsolution.winstrike.common.fragment.ChatListFragment">
+
+    <!--By default, height of Toolbar and Bottom Navigation are equal-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_chat_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/height_toolbar_56dp"
+        android:paddingTop="@dimen/height_toolbar_56dp"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v_bgr"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/color_primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bar_chat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+    <ImageView
+        android:id="@+id/bar_chat"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:src="@drawable/chat_line"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/et_chat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Сегодня в 11.."
+        style="@style/StemRegular14Black"
+        android:layout_marginStart="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/ic_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_plus"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:foreground="@drawable/ripple_effect_circle"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="@id/ic_plus"
+        app:layout_constraintEnd_toEndOf="@id/ic_plus"
+        app:layout_constraintTop_toTopOf="@id/ic_plus"
+        app:layout_constraintBottom_toBottomOf="@id/ic_plus"
+        android:focusable="true" />
+
+    <ImageView
+        android:id="@+id/ic_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_send_chat"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:foreground="@drawable/ripple_effect_circle"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="@id/ic_send"
+        app:layout_constraintEnd_toEndOf="@id/ic_send"
+        app:layout_constraintTop_toTopOf="@id/ic_send"
+        app:layout_constraintBottom_toBottomOf="@id/ic_send"
+        android:focusable="true" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_message_top"
+        app:layout_constraintGuide_end="358dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_message_bottom"
+        app:layout_constraintGuide_end="308dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+</android.support.constraint.ConstraintLayout>

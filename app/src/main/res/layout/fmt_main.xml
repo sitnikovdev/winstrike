@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="."
+    android:id="@+id/cl_seat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/keyline_40dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/keyline_40dp" />
+
+    <ImageView
+        android:id="@+id/head_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="98dp"
+        android:src="@drawable/main_screen"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/seat_title"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="@string/club_name"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toTopOf="@id/head_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/description"
+        style="@style/StemRegular14Black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/seatdetail_description"
+        android:gravity="start"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintTop_toBottomOf="@id/head_image" />
+
+    <TextView
+        android:id="@+id/category"
+        android:text="@string/seatdetail_category"
+        style="@style/StemMedium15Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_category_seat"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_seat"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/space_vp_seat"
+        android:overScrollMode="never"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category"
+        />
+
+
+</android.support.constraint.ConstraintLayout>

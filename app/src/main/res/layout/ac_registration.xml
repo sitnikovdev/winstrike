@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/phone_root"
+    tools:context="ru.prsolution.winstrike.common.fragment.RegPhoneFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_start"
+        app:layout_constraintGuide_begin="@dimen/keyline_40dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <android.support.constraint.Guideline
+        android:id="@+id/line_end"
+        app:layout_constraintGuide_end="@dimen/keyline_40dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <android.support.constraint.Guideline
+        android:id="@+id/line_center"
+        app:layout_constraintGuide_begin="186dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <View
+        android:id="@+id/v_oval"
+        android:layout_width="87dp"
+        android:layout_height="87dp"
+        android:background="@drawable/sp_circle"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        />
+
+
+    <ImageView
+        android:id="@+id/phone_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_phone"
+        app:layout_constraintTop_toTopOf="@id/v_oval"
+        app:layout_constraintBottom_toBottomOf="@id/v_oval"
+        app:layout_constraintStart_toStartOf="@id/v_oval"
+        app:layout_constraintEnd_toEndOf="@id/v_oval"
+        />
+
+
+    <View
+        android:id="@+id/v_code"
+        android:layout_width="@dimen/width_edit_294dp"
+        android:layout_height="@dimen/height_edit_48dp"
+        android:background="@drawable/etittext_bgr_28dp"
+        android:layout_marginTop="@dimen/padding_standart_16dp"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_phone"
+        />
+
+    <TextView
+        android:id="@+id/tv_title_phone"
+        style="@style/StemMedium15Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="@dimen/spacing_56dp"
+        android:text="@string/reg_phonetitle"
+        app:layout_constraintStart_toStartOf="@id/v_code"
+        app:layout_constraintTop_toBottomOf="@id/v_oval"
+        />
+
+
+        <TextView
+            android:id="@+id/tv_country"
+            style="@style/StemRegular15Base04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/start_edit_24dp"
+            android:text="@string/all_phonemaskru"
+            app:layout_constraintStart_toStartOf="@id/v_code"
+            app:layout_constraintTop_toTopOf="@id/v_code"
+            app:layout_constraintBottom_toBottomOf="@id/v_code"
+            />
+
+
+    <View
+        android:id="@+id/img_div"
+        android:layout_width="1dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="15dp"
+        android:background="#000000"
+        android:alpha=".2"
+        app:layout_constraintStart_toEndOf="@id/tv_country"
+        app:layout_constraintTop_toTopOf="@id/v_code"
+        app:layout_constraintBottom_toBottomOf="@id/v_code"
+        />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_email"
+        app:layout_constraintGuide_begin="60dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/et_phone"
+            style="@style/StemRegular15Base"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="phone"
+            android:textColorHint="@color/color_grey"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toStartOf="@id/img_div"
+            app:layout_constraintTop_toTopOf="@id/v_code"
+            app:layout_constraintBottom_toBottomOf="@id/v_code"
+            android:visibility="visible"
+            />
+
+    <TextView
+        android:id="@+id/tv_hint"
+        style="@style/StemRegular13Gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reg_codehint"
+        android:layout_marginTop="@dimen/padding_standarthalf_8dp"
+        app:layout_constraintStart_toStartOf="@id/v_code"
+        app:layout_constraintEnd_toEndOf="@id/v_code"
+        app:layout_constraintTop_toBottomOf="@id/v_code"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_passw"
+        style="@style/StemMedium15Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="24dp"
+        android:text="@string/reg_password"
+        app:layout_constraintStart_toStartOf="@id/v_code"
+        app:layout_constraintTop_toBottomOf="@id/tv_hint"
+        />
+
+    <View
+        android:id="@+id/v_pass"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="@dimen/padding_standart_16dp"
+        android:background="@drawable/edit_text_shape"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_passw"
+        />
+
+    <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
+        android:id="@+id/et_password"
+        style="@style/StemRegular15Base"
+        android:inputType="textPassword"
+        android:textColorHint="@color/color_grey"
+        app:additionalTouchTargetSize="80dp"
+        app:drawable_hide="@mipmap/ic_hide_eye"
+        app:drawable_show="@mipmap/ic_show_eye"
+        app:tint_color="@color/color_accent"
+        android:layout_width="235dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="@string/login_password_hint"
+        app:layout_constraintBottom_toBottomOf="@id/v_pass"
+        app:layout_constraintEnd_toEndOf="@id/v_pass"
+        app:layout_constraintStart_toStartOf="@id/v_pass"
+        app:layout_constraintTop_toTopOf="@id/v_pass" />
+
+
+    <View
+        android:id="@+id/next_button_phone"
+        android:layout_width="160dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="@dimen/margingtop_button_32dp"
+        android:background="@drawable/button_bgr_24dp"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toBottomOf="@id/v_pass"
+        />
+
+    <TextView
+        android:id="@+id/text_button_title"
+        style="@style/StemMedium15Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/all_nextbtn"
+        app:layout_constraintBottom_toBottomOf="@id/next_button_phone"
+        app:layout_constraintEnd_toEndOf="@id/next_button_phone"
+        app:layout_constraintStart_toStartOf="@id/next_button_phone"
+        app:layout_constraintTop_toTopOf="@id/next_button_phone" />
+
+
+    <TextView
+        android:id="@+id/text_footer"
+        style="@style/StemRegular15Base"
+        android:text="Уже есть аккаунт?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:clickable="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintEnd_toStartOf="@id/text_footer2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/text_footer2"
+        style="@style/StemRegular15Base"
+        android:text="Войдите"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/ripple_effect_title_click"
+        android:clickable="true"
+        app:layout_constraintStart_toEndOf="@id/text_footer"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+</android.support.constraint.ConstraintLayout>

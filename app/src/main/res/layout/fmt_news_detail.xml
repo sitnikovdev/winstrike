@@ -1,0 +1,171 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ru.prsolution.winstrike.common.fragment.NewsDetailFragment"
+    >
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/keyline_40dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/keyline_40dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/height_toolbar_56dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/height_statusbar_14dp" />
+
+    <include layout="@layout/inc_main_toolbar" />
+
+    <ImageView
+        android:id="@+id/iv_thumbnail"
+        android:layout_width="@dimen/width_tumb_295dp"
+        android:layout_height="@dimen/height_tumb_195dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/img_esl"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toTopOf="@id/line_head" />
+
+    <TextView
+        android:id="@+id/tv_news_date"
+        style="@style/StemRegular12Black07"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="@string/newdetail_date"
+        app:layout_constraintBottom_toTopOf="@id/iv_thumbnail"
+        app:layout_constraintStart_toStartOf="@id/iv_thumbnail" />
+
+    <ImageView
+        android:id="@+id/iv_eye"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/eye"
+        app:layout_constraintBottom_toTopOf="@id/iv_thumbnail"
+        app:layout_constraintStart_toEndOf="@id/tv_news_date" />
+
+    <TextView
+        android:id="@+id/tv_views"
+        style="@style/StemRegular12Black07"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginStart="6dp"
+        android:text="@string/newdetail_count"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_news_date"
+        app:layout_constraintStart_toEndOf="@id/iv_eye" />
+
+    <TextView
+        android:id="@+id/tv_detail"
+        style="@style/StemRegular15Base"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="@string/newdetail_description"
+        app:layout_constraintEnd_toEndOf="@id/iv_thumbnail"
+        app:layout_constraintStart_toStartOf="@id/iv_thumbnail"
+        app:layout_constraintTop_toBottomOf="@id/iv_thumbnail" />
+
+
+    <ImageView
+        android:id="@+id/image_bottom"
+        android:layout_width="@dimen/width_tumb_295dp"
+        android:layout_height="@dimen/height_tumb_195dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/video_mdpi"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_detail" />
+
+    <View
+        android:id="@+id/shape_youtube"
+        android:layout_width="@dimen/width_tumb_295dp"
+        android:layout_height="28dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/image_bottom"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start" />
+
+    <ImageView
+        android:id="@+id/icon_expand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/expand"
+        app:layout_constraintBottom_toBottomOf="@id/image_bottom"
+        app:layout_constraintEnd_toEndOf="@id/shape_youtube" />
+
+    <ImageView
+        android:id="@+id/icon_youtube"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icon_youtube"
+        app:layout_constraintBottom_toBottomOf="@id/image_bottom"
+        app:layout_constraintEnd_toStartOf="@id/icon_expand" />
+
+    <TextView
+        android:id="@+id/text_views"
+        style="@style/StemRegular15White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
+        android:text="6,483 viewers"
+        app:layout_constraintBottom_toBottomOf="@id/image_bottom"
+        app:layout_constraintStart_toStartOf="@id/shape_youtube" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_youtube"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="100dp" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="66dp" />
+
+    <View
+        android:id="@+id/image_gradient"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:background="@drawable/bonus_shadow_footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_footer" />
+
+
+    <include layout="@layout/inc_bottom_nav"/>
+
+</android.support.constraint.ConstraintLayout>

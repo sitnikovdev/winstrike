@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ru.prsolution.winstrike.common.HelpActivity">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="48dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="75dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="14dp" />
+
+    <include layout="@layout/inc_main_toolbar"/>
+
+    <TextView
+        android:id="@+id/tv_access"
+        style="@style/StemMedium17Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/help_account_title"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/line_head"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_mobile"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toTopOf="@id/tv_sms"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
+
+        <TextView
+            android:id="@+id/tv_sms"
+            style="@style/StemRegular15Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_menu_title"
+            android:background="@drawable/ripple_effect_title_click"
+            android:clickable="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="42dp"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_access"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
+
+    <TextView
+        android:id="@+id/tv_help"
+        style="@style/StemMedium17Black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/help_center_title"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_sms"
+        />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_book"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toTopOf="@id/tv_help_centr"
+            />
+
+        <TextView
+            android:id="@+id/tv_help_centr"
+            style="@style/StemRegular15Base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_winstrike_title"
+            android:background="@drawable/ripple_effect_title_click"
+            android:clickable="true"
+            android:layout_marginStart="42dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_help"
+            />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/color_primary_dark"
+        android:elevation="4dp">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@style/StemMedium17Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/all_toolbartitle" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <HorizontalScrollView
+        android:id="@+id/rootScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ru.prsolution.winstrike.ui.common.ZoomLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="26dp"
+            android:background="@android:color/black">
+
+        </RelativeLayout>
+
+        </ru.prsolution.winstrike.ui.common.ZoomLayout>
+
+    </HorizontalScrollView>
+</RelativeLayout>

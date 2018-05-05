@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ab_container"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentBottom="true"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+<android.support.constraint.ConstraintLayout
+    android:layout_marginTop="56dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/keyline_40dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/keyline_40dp" />
+
+
+    <ImageView
+        android:id="@+id/head_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/vip"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/seat_title"
+        style="@style/StemMedium15Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="@string/seatdetail_title"
+        app:layout_constraintBottom_toTopOf="@id/head_image"
+        app:layout_constraintStart_toStartOf="@id/head_image" />
+
+    <TextView
+        android:id="@+id/gear"
+        style="@style/StemMedium15Black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="7dp"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/seatdetail_gear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/head_image" />
+
+    <TextView
+        android:id="@+id/cpu"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/seatdetail_cpu"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/gear"
+
+        />
+
+    <TextView
+        android:id="@+id/ram"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/seatdetail_ram"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/cpu"
+        />
+
+    <TextView
+        android:id="@+id/gpu"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/ram"
+        android:text="@string/seatdetail_gpu" />
+
+    <TextView
+        android:id="@+id/monitor"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/gpu"
+        android:text="@string/seatdetail_monitor" />
+
+
+    <TextView
+        android:id="@+id/tv_date_news"
+        style="@style/StemMedium15Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_date_seat"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/monitor"
+        android:text="@string/seatdetail_date" />
+
+    <View
+        android:id="@+id/v_date_tap"
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        app:layout_constraintStart_toStartOf="@id/tv_date_news"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintTop_toTopOf="@id/tv_date_news"
+        />
+
+
+    <ImageView
+        android:id="@+id/iv_arr_date"
+        android:src="@drawable/down_arrow"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="@id/head_image"
+        app:layout_constraintTop_toTopOf="@id/tv_date_news"
+        />
+
+    <TextView
+        android:id="@+id/tv_time_left"
+        style="@style/StemMedium15Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_time_seat"
+        android:background="@drawable/ripple_effect_title_click"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/monitor"
+        android:text="@string/seatdetail_time"
+        android:focusable="true" />
+    <View
+        android:id="@+id/v_time_tap"
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        app:layout_constraintStart_toStartOf="@id/tv_time_left"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintTop_toTopOf="@id/tv_time_left"
+        />
+
+    <ImageView
+        android:id="@+id/iv_arr_time"
+        android:src="@drawable/down_arrow"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_time_seat"
+        app:layout_constraintEnd_toEndOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/monitor"
+        />
+
+    <View
+        android:id="@+id/next_button"
+        android:layout_width="@dimen/width_button"
+        android:layout_height="@dimen/height_button"
+        android:layout_marginTop="@dimen/space_btn_seat"
+        android:background="@drawable/button_bgr_24dp"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toBottomOf="@id/head_image" />
+
+    <TextView
+        android:id="@+id/btn_next"
+        style="@style/StemMedium15Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/seatdetail_btn"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@id/next_button"
+        app:layout_constraintEnd_toEndOf="@id/next_button"
+        app:layout_constraintStart_toStartOf="@id/next_button"
+        app:layout_constraintTop_toTopOf="@id/next_button" />
+
+
+</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

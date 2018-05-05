@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_avatar_left"
+        android:src="@drawable/avatar_vasyan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/tv_name_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/StemRegular11Black"
+        android:text="@string/itemchat_left_name"
+        app:layout_constraintStart_toStartOf="@id/iv_avatar_left"
+        app:layout_constraintTop_toBottomOf="@id/iv_avatar_left"
+        />
+
+
+    <ImageView
+        android:id="@+id/iv_bubble_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_bubble_left"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar_left"
+        app:layout_constraintBottom_toTopOf="@id/iv_avatar_left"
+        />
+
+    <TextView
+        android:id="@+id/tv_message_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/StemLight14Black"
+        android:text="@string/itemchat_left_message"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toStartOf="@id/iv_bubble_left"
+        app:layout_constraintTop_toTopOf="@id/iv_bubble_left"
+        app:layout_constraintBottom_toBottomOf="@id/iv_bubble_left"
+        />
+
+    <TextView
+        android:id="@+id/tv_time_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/StemLight10Grey"
+        android:text="@string/itemchat_left_time"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/iv_bubble_left"
+        app:layout_constraintTop_toTopOf="@id/iv_bubble_left"
+        app:layout_constraintBottom_toBottomOf="@id/iv_bubble_left"
+        />
+
+
+</android.support.constraint.ConstraintLayout>
