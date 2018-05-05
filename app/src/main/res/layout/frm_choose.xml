@@ -8,6 +8,7 @@
     android:layout_alignParentEnd="true"
     android:layout_alignParentTop="true"
     android:layout_alignParentBottom="true"
+    android:layout_marginTop="50dp"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
 
@@ -15,11 +16,10 @@
         android:id="@+id/head_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="40dp"
-        android:paddingEnd="40dp"
         android:src="@drawable/vip"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="40dp"
         />
 
     <TextView
@@ -28,7 +28,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/seatdetail_title"
+        android:layout_alignStart="@id/head_image"
+        android:layout_marginStart="16dp"
         android:layout_alignTop="@id/head_image"
+        android:layout_marginTop="-20dp"
+
         />
 
     <TextView
@@ -108,8 +112,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignBottom="@id/iv_arr_date"
-        android:layout_alignEnd="@id/head_image"
-        android:layout_marginEnd="40dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="-20dp"
         />
 
@@ -119,8 +122,7 @@
         android:src="@drawable/down_arrow"
         android:layout_width="50dp"
         android:layout_height="10dp"
-        android:layout_alignEnd="@id/head_image"
-        android:layout_marginEnd="40dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
         android:layout_alignTop="@id/tv_date_news"
         />
@@ -145,7 +147,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignBottom="@id/iv_arr_time"
-        android:layout_alignEnd="@id/head_image"
+        android:layout_alignParentEnd="true"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="-20dp"
         />
@@ -155,7 +157,7 @@
         android:src="@drawable/down_arrow"
         android:layout_width="50dp"
         android:layout_height="10dp"
-        android:layout_alignEnd="@id/head_image"
+        android:layout_alignParentEnd="true"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="5dp"
         android:layout_alignTop="@id/tv_time_left"
