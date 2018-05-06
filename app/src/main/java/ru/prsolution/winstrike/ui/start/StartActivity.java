@@ -10,7 +10,6 @@ import android.util.Log;
 
 
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.common.MapActivity;
 import ru.prsolution.winstrike.ui.guides.GuideActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
@@ -88,7 +87,6 @@ public class StartActivity extends AppCompatActivity {
         Intent guideActivity = new Intent(this, GuideActivity.class);
         Intent favPushDialog = new Intent(this, FavPushDialogActivity.class);
         Intent helpActivity = new Intent(this, HelpActivity.class);
-        Intent mapActivity = new Intent(this, MapActivity.class);
         Intent mainScreen = new Intent(this, MainScreenActivity.class);
 
         Intent testWebView = new Intent(this, YandexWebView.class);

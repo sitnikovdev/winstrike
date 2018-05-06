@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,7 +36,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.common.MapActivity;
 import ru.prsolution.winstrike.common.datetimeweels.datetimepicker.DateTimeWheel.TimeWheel.TimePickerPopWin;
 import ru.prsolution.winstrike.common.entity.SeatModel;
 import ru.prsolution.winstrike.common.utils.TinyDB;
@@ -491,8 +489,6 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         Timber.d("Success get layout data from server: %s", roomLayoutFactory);
         MapInfoSingleton.getInstance().setRoomLayout(roomLayoutFactory.getRoomLayout());
         if (MapInfoSingleton.getInstance().getRoomLayout() != null) {
-            Intent intent = new Intent(getActivity(), MapActivity.class);
-//            startActivity(intent);
             listener.onMapShowClick();
         }
     }
