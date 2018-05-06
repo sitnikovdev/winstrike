@@ -112,7 +112,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignBottom="@id/iv_arr_date"
-        android:layout_alignParentEnd="true"
+        android:layout_alignEnd="@id/head_image"
+        android:layout_marginEnd="-20dp"
         android:layout_marginBottom="-20dp"
         />
 
@@ -122,8 +123,9 @@
         android:src="@drawable/down_arrow"
         android:layout_width="50dp"
         android:layout_height="10dp"
-        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="-20dp"
         android:layout_marginTop="5dp"
+        android:layout_alignEnd="@id/head_image"
         android:layout_alignTop="@id/tv_date_news"
         />
 
@@ -147,8 +149,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignBottom="@id/iv_arr_time"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="40dp"
+        android:layout_alignEnd="@id/head_image"
+        android:layout_marginEnd="-20dp"
         android:layout_marginBottom="-20dp"
         />
 
@@ -157,8 +159,8 @@
         android:src="@drawable/down_arrow"
         android:layout_width="50dp"
         android:layout_height="10dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="40dp"
+        android:layout_alignEnd="@id/head_image"
+        android:layout_marginEnd="-20dp"
         android:layout_marginTop="5dp"
         android:layout_alignTop="@id/tv_time_left"
         />
