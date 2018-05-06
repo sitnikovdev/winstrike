@@ -30,7 +30,7 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.mvp.apimodels.Label;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.apimodels.Seat;
-import ru.prsolution.winstrike.mvp.models.SeatStatus;
+import ru.prsolution.winstrike.mvp.models.SeatType;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.Service;
@@ -158,26 +158,26 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     @Override
     public void setSeatSelected(ImageView ivSeat, Seat seat, boolean isSelected) {
         String seatStatus = seat.getSeatStatus();
-        SeatStatus status = SeatStatus.get(seatStatus);
+        SeatType status = SeatType.Companion.get(seatStatus);
 
         if (isSelected) {
             ivSeat.setBackgroundResource(R.drawable.seat_white);
             presenter.showSnackBar();
         } else {
 
-            if (status == SeatStatus.FREE) {
+            if (status == SeatType.FREE) {
                 ivSeat.setImageResource(R.drawable.seat_grey);
             }
-            if (status == SeatStatus.BOOKING) {
+            if (status == SeatType.BOOKING) {
                 ivSeat.setImageResource(R.drawable.seat_red);
             }
-            if (status == SeatStatus.SELF_BOOKING) {
+            if (status == SeatType.SELF_BOOKING) {
                 ivSeat.setImageResource(R.drawable.seat_blue);
             }
-            if (status == SeatStatus.VIP) {
+            if (status == SeatType.VIP) {
                 ivSeat.setImageResource(R.drawable.seat_yellow);
             }
-            if (status == SeatStatus.HIDDEN) {
+            if (status == SeatType.HIDDEN) {
                 ivSeat.setImageResource(R.drawable.seat_darkgrey);
             }
 
@@ -192,7 +192,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         for (Seat seat : seats) {
             ImageView ivSeat = new ImageView(getContext());
 
-            SeatStatus seatStatus = SeatStatus.get(seat.getSeatStatus());
+            SeatType seatStatus = SeatType.Companion.get(seat.getSeatStatus());
             ivSeat.setBackgroundResource(seatStatus.getImage());
 
             seatParams = new RelativeLayout.LayoutParams(RLW, RLW);

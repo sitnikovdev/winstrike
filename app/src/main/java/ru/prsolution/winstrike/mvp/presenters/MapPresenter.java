@@ -20,6 +20,7 @@ import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Seat;
 import ru.prsolution.winstrike.mvp.apimodels.Start;
 import ru.prsolution.winstrike.mvp.apimodels.Wall;
+import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
@@ -77,6 +78,9 @@ public class MapPresenter extends MvpPresenter<MapView> {
         roomLayoutFactory = new RoomLayoutFactory();
         roomLayoutFactory.setRoomLayout(MapInfoSingleton.getInstance().getRoomLayout());
         arenaName = roomLayoutFactory.getRoomLayout().getName();
+
+        // Init models:
+        GameRoom room = new GameRoom(roomLayoutFactory.getRoomLayout());
 
         places = roomLayoutFactory.getRoomLayout().getPlaces();
         labels = roomLayoutFactory.getRoomLayout().getLabels();

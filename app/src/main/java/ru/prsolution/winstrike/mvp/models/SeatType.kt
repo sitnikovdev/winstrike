@@ -1,5 +1,7 @@
-package ru.prsolution.winstrike.mvp.models;//
-//  SeatStatus.swift
+package ru.prsolution.winstrike.mvp.models
+
+//
+//  SeatType.swift
 //  winstrike
 //
 //  Created by PRS on 28/02/2018.
@@ -7,72 +9,69 @@ package ru.prsolution.winstrike.mvp.models;//
 //
 
 
-import java.util.HashMap;
-import java.util.Map;
+import ru.prsolution.winstrike.R
+import java.util.*
 
-import ru.prsolution.winstrike.R;
+enum class SeatType private constructor(val type: String) {
+    FREE("free"), HIDDEN("hidden"), SELF_BOOKING("self_booking"), BOOKING("booking"), VIP("vip");
 
-public enum SeatStatus {
-    FREE("free"), HIDDEN("hidden"), SELF_BOOKING("self_booking"), BOOKING("booking"),VIP("vip");
+    val image: Int
+        get() {
+            if (this == FREE) {
+                return R.drawable.seat_grey
+            }
 
-    private String type;
+            if (this == SELF_BOOKING) {
+                return R.drawable.seat_blue
+            }
 
-     SeatStatus(String type) {
-         this.type = type;
+            if (this == BOOKING) {
+                return R.drawable.seat_red
+            }
+
+            if (this == VIP) {
+                return R.drawable.seat_yellow
+            }
+
+            return if (this == HIDDEN) {
+                R.drawable.seat_darkgrey
+            } else R.drawable.seat_grey
+
+        }
+
+    companion object {
+
+
+        //Lookup table
+        private val lookup = HashMap<String, SeatType>()
+
+        //Populate the lookup table on loading time
+        init {
+            for (status in SeatType.values()) {
+                lookup[status.type] = status
+            }
+        }
+
+        //This method can be used for reverse lookup purpose
+        operator fun get(status: String): SeatType? {
+            return lookup[status]
+        }
+
+        // TODO Add image resources
+     public  fun getImage(status: String): Int? {
+            when (lookup[status]) {
+                SeatType.FREE -> return 0
+                SeatType.BOOKING -> return 1
+                else -> {
+                    return 0
+                }
+            }
+
+        }
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getImage() {
-        if (this.equals(FREE)) {
-            return R.drawable.seat_grey;
-        }
-
-        if (this.equals(SELF_BOOKING)) {
-            return R.drawable.seat_blue;
-        }
-
-        if (this.equals(BOOKING)) {
-            return R.drawable.seat_red;
-        }
-
-        if (this.equals(VIP)) {
-            return R.drawable.seat_yellow;
-        }
-
-        if (this.equals(HIDDEN)) {
-            return R.drawable.seat_darkgrey;
-        }
-
-        return R.drawable.seat_grey;
-    }
-
-
-    //Lookup table
-    private static final Map<String, SeatStatus> lookup = new HashMap<>();
-
-    //Populate the lookup table on loading time
-    static
-    {
-        for(SeatStatus status : SeatStatus.values())
-        {
-            lookup.put(status.getType(), status);
-        }
-    }
-
-    //This method can be used for reverse lookup purpose
-    public static SeatStatus get(String status)
-    {
-        return lookup.get(status);
-    }
-
 }
 
-
-
-/* enum SeatStatus: String {
+/* enum SeatType: String {
     case available = "free"
     case vip
     case bookedYou = "self_booking"

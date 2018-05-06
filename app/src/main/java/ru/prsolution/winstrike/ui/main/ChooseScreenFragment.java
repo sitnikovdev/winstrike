@@ -463,6 +463,11 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         String timeFrom = tinyDB.getString("timeFrom");
         String timeTo = tinyDB.getString("timeTo");
 
+        // TODO: 06/05/2018 REMOVE AFTE TEST!!!
+        timeFrom = "2018-05-07T14:48:00";
+        timeTo = "2018-05-07T16:48:00";
+
+
         time.put("start_at", timeFrom);
         time.put("end_at", timeTo);
 //        presenter.getArena(activePid);
