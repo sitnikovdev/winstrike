@@ -57,11 +57,14 @@ enum class SeatType private constructor(val type: String) {
             return lookup[status]
         }
 
-        // TODO Add image resources
-     public  fun getImage(status: String): Int? {
-            when (lookup[status]) {
+        // TODO Get image resources for seat status
+       fun getImage(status: SeatType): Int? {
+            when (status) {
                 SeatType.FREE -> return 0
                 SeatType.BOOKING -> return 1
+                SeatType.SELF_BOOKING -> return 2
+                SeatType.HIDDEN -> return 3
+                SeatType.VIP -> return 3
                 else -> {
                     return 0
                 }
