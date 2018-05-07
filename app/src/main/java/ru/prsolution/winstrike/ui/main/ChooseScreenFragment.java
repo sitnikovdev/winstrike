@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -57,6 +58,8 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
 
     private static final String EXTRA_NAME = "extra_name";
     private static final String EXTRA_NUMBER = "extra_number";
+    private SharedPreferences sharedPref;
+
 
     public interface onMapShowClicked {
         void onMapShowClick();
@@ -162,6 +165,8 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     public void onCreate(Bundle savedInstanceState) {
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
+        sharedPref = getActivity().getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
     }
 
     @Nullable
@@ -256,6 +261,21 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
 
 
     private void showMap() {
+
+        // TODO: 07/05/2018 REMOVE IT BLOCK AFTER TEST!!!
+        String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-07T17:07:00");
+        String timeToData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-07T18:07:00");
+
+        timeFromUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeFromData));
+        timeToUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeToData));
+
+        MapInfoSingleton.getInstance().setDateFrom(timeFromUTC);
+        MapInfoSingleton.getInstance().setDateTo(timeToUTC);
+        // TODO: 27/04/2018 Call getActivePid api mService
+
+        presenter.getActivePid();
+        // TODO: 07/05/2018 END BLOCK
+
         RxView.clicks(next_button).subscribe(
                 it -> {
                     if (timeFromUTC != null) {
@@ -263,9 +283,11 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
                                 (timeToUTC.compareTo(new Date()) >= 0);
 
                         if (isDateValid) {
+
                             MapInfoSingleton.getInstance().setDateFrom(timeFromUTC);
                             MapInfoSingleton.getInstance().setDateTo(timeToUTC);
                             // TODO: 27/04/2018 Call getActivePid api mService
+
 
                             presenter.getActivePid();
 //                            listener.onMapShowClick();
@@ -321,6 +343,11 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             tinyDB.putString("timeFrom", String.valueOf(timeFromData));
             tinyDB.putString("timeTo", String.valueOf(timeToData));
 */
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.saved_time_from), String.valueOf(timeFromData));
+            editor.putString(getString(R.string.saved_time_to), String.valueOf(timeToData));
+            editor.commit();
+
 
             timeFromUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeFromData));
             timeToUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeToData));
@@ -464,8 +491,8 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         String timeTo = tinyDB.getString("timeTo");
 
         // TODO: 06/05/2018 REMOVE AFTE TEST!!!
-        timeFrom = "2018-05-07T14:48:00";
-        timeTo = "2018-05-07T16:48:00";
+/*        timeFrom = "2018-05-07T14:48:00";
+        timeTo = "2018-05-07T16:48:00";*/
 
 
         time.put("start_at", timeFrom);
