@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -164,9 +163,8 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
 
         }
-        View uiSeatView = new UISeatsView(getContext());
-        View bubleView = new BubbleSurfaceView(getContext());
-        rootLayout.addView(bubleView);
+        View seatView = new UISeatsView(getContext());
+        rootLayout.addView(seatView);
     }
 
 

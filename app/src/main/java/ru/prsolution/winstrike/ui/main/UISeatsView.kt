@@ -1,15 +1,12 @@
 package ru.prsolution.winstrike.ui.main
 
-import android.graphics.Point
 import ru.prsolution.winstrike.mvp.models.GameRoom
 import ru.prsolution.winstrike.mvp.models.SeatType
 import java.util.Collections.rotate
 import android.R.attr.y
 import android.R.attr.x
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.view.SurfaceView
 import android.widget.ImageView
@@ -18,27 +15,27 @@ import android.view.SurfaceHolder
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 
 
-
-
 /*protocol UISeatsViewDelegate: class {
     func seatPicked(id: String, unselect: Bool, publicPid: String)
 }*/
 
-class BubbleSurfaceView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
-    private val sh: SurfaceHolder
+
+class UISeatsView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
+    //    weak var delegate: UISeatsViewDelegate?
+    private val sh: SurfaceHolder = holder
     private val paint = Paint(ANTI_ALIAS_FLAG)
+    private val rect = Rect(50, 50, 100, 100)
 
     init {
-        sh = holder
         sh.addCallback(this)
-        paint.setColor(Color.BLUE)
-        paint.setStyle(Paint.Style.FILL)
+        paint.color = Color.BLUE
+        paint.style = Paint.Style.FILL
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         val canvas = sh.lockCanvas()
         canvas.drawColor(Color.BLACK)
-        canvas.drawCircle(100f, 200f, 50f, paint)
+        canvas.drawRect(rect, paint)
         sh.unlockCanvasAndPost(canvas)
     }
 
@@ -47,10 +44,6 @@ class BubbleSurfaceView(context: Context) : SurfaceView(context), SurfaceHolder.
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {}
-}
-
-class UISeatsView {
-//    weak var delegate: UISeatsViewDelegate?
 
     lateinit var gameRoom: GameRoom
 
@@ -71,7 +64,7 @@ class UISeatsView {
 //        var mainGroup = Group()
         //добавляем кресла
         gameRoom.seats.forEachIndexed { index, seat ->
-//            var seatView = createMImage(seatApi)
+            //            var seatView = createMImage(seatApi)
         }
     }
 
