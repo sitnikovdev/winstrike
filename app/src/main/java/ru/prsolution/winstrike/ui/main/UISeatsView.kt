@@ -36,20 +36,20 @@ class UISeatsView {
 //        var mainGroup = Group()
         //добавляем кресла
         gameRoom.seats.forEachIndexed { index, seat ->
-//            var seatView = createMImage(seat)
+//            var seatView = createMImage(seatApi)
         }
     }
 
-/*    private fun createMImage(seat: Seat): ImageView {
+/*    private fun createMImage(seatApi: SeatApi): ImageView {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        var image = SeatType.getImage(seat.type)
+        var image = SeatType.getImage(seatApi.type)
 //        var seatView = MImage(image: image, opaque: false)
 
 //        var animation = seatView.srcVar.value = "ChooseSeat/seatGrey.png";
         var seatTransform = Transform
-                .move(dx: seat.dx, dy: seat.dy)
+                .move(dx: seatApi.dx, dy: seatApi.dy)
                 .rotate(
-                        angle: seat.angle,
+                        angle: seatApi.angle,
                         x: Double(image.size.width) / 2,
                         y: Double(image.size.height) / 2
         )

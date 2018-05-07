@@ -64,7 +64,7 @@
     <dimen name="space_detail_">16dp</dimen>
     <dimen name="space_title_pres3">20dp</dimen>
     <dimen name="space_city_top">24dp</dimen>
-    <!--Seat map-->
+    <!--SeatApi map-->
     <dimen name="space_vertical_row_seat">19dp</dimen>
     <dimen name="space_vert_seat">12dp</dimen>
     <dimen name="space_small_vertical">7dp</dimen>

@@ -56,7 +56,7 @@ public class CarouselSeatFragment extends Fragment {
         TextView seat_title = itemSeat.findViewById(R.id.seat_title);
         seat_title.setText(seat.getType());
         ImageView thumbnail = itemSeat.findViewById(R.id.content);
-//        Picasso.with(getContext()).load(seat.getThumbnail()).into(thumbnail);
+//        Picasso.with(getContext()).load(seatApi.getThumbnail()).into(thumbnail);
         thumbnail.setImageResource(seat.getThumbnail());
 
         ChooseSeatLinearLayout root = itemSeat.findViewById(R.id.root);

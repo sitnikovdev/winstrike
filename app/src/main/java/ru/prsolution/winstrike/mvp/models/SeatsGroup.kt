@@ -11,15 +11,15 @@ class SeatsGroup(json: Array<String>) {
 /*          let x = json["x"] as? Double,
             let y = json["y"] as? Double,
             let angle = json["angle"] as? Double,
-            let seats = json["seats"] as? [Any]
+            let seatApis = json["seatApis"] as? [Any]
 
         this.dx = x
         this.dy = y
         this.angle = angle
 //        this.title = json["title"] as? String
-        for (seatData in seats) {
+        for (seatData in seatApis) {
 //                let seatJson = seatData as? [String: Any],
-            var seat = Seat(arrayOf("1", "2", "3"), "", "", "", false)
-            this.seats.add(seat)*/
+            var seatApi = SeatApi(arrayOf("1", "2", "3"), "", "", "", false)
+            this.seatApis.add(seatApi)*/
         }
     }

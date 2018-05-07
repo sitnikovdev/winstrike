@@ -1,6 +1,6 @@
 package ru.prsolution.winstrike.mvp.apimodels;
 
-public class Seat {
+public class SeatApi {
     String public_id;
     Integer seatXLeft;
     Integer seatYTop;
@@ -9,7 +9,7 @@ public class Seat {
     String seatStatus;
     private boolean selected;
 
-    public Seat(String public_id, Integer seatXLeft, Integer seatYTop, Double seatAngle, Integer seatType, String seatStatus) {
+    public SeatApi(String public_id, Integer seatXLeft, Integer seatYTop, Double seatAngle, Integer seatType, String seatStatus) {
         this.public_id = public_id;
         this.seatXLeft = seatXLeft;
         this.seatYTop = seatYTop;

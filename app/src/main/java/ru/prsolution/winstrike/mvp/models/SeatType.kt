@@ -57,7 +57,7 @@ enum class SeatType private constructor(val type: String) {
             return lookup[status]
         }
 
-        // TODO Get image resources for seat status
+        // TODO Get image resources for seatApi status
        fun getImage(status: SeatType): Int? {
             when (status) {
                 SeatType.FREE -> return 0

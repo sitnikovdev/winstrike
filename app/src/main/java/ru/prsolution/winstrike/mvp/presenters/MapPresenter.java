@@ -12,15 +12,16 @@ import java.util.List;
 
 import ru.prsolution.winstrike.mvp.apimodels.Coors;
 import ru.prsolution.winstrike.mvp.apimodels.End;
-import ru.prsolution.winstrike.mvp.apimodels.Label;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentModel;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.apimodels.Place;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
-import ru.prsolution.winstrike.mvp.apimodels.Seat;
+import ru.prsolution.winstrike.mvp.apimodels.SeatApi;
 import ru.prsolution.winstrike.mvp.apimodels.Start;
 import ru.prsolution.winstrike.mvp.apimodels.Wall;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
+import ru.prsolution.winstrike.mvp.models.LabelRoom;
+import ru.prsolution.winstrike.mvp.models.Seat;
 import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
@@ -64,67 +65,36 @@ public class MapPresenter extends MvpPresenter<MapView> {
     }
 
     public void readMap() {
-        List<Place> places;
         List<Seat> seats;
-        List<Label> labels;
-        List<Wall> walls;
-        Start start;
-        End end;
+        List<LabelRoom> labels;
 
         RoomLayoutFactory roomLayoutFactory;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String arenaName;
 
         roomLayoutFactory = new RoomLayoutFactory();
         roomLayoutFactory.setRoomLayout(MapInfoSingleton.getInstance().getRoomLayout());
-        arenaName = roomLayoutFactory.getRoomLayout().getName();
 
         // Init models:
         GameRoom room = new GameRoom(roomLayoutFactory.getRoomLayout());
 
-        places = roomLayoutFactory.getRoomLayout().getPlaces();
-        labels = roomLayoutFactory.getRoomLayout().getLabels();
-
-        walls = roomLayoutFactory.getRoomLayout().getWalls();
-        start = walls.get(0).getStart();
-        end = walls.get(0).getEnd();
-        Integer wallStartLeft = start.getX(); // start screen position
-        Integer wallEndLeft = end.getX();     // end screen position
+        seats = room.getSeats();
+        labels = room.getLabels();
 
         getViewState().showLabel(labels);
-
-        // Ouputs seats:
-        seats = new ArrayList<>();
-        for (Place place : places) {
-            Coors coors;
-            coors = place.getCoors();
-
-            String public_id = place.getPublicId();
-            Integer seatXLeft = coors.getX();
-            Integer seatYTop = coors.getY();
-            Double seatAngle = coors.getAngle();
-            Integer seatType = coors.getType();
-            String seatStatus = place.getStatus();
-
-            Timber.tag("Map-->").d("seat type: " + seatType);
-
-            Seat seat = new Seat(public_id, seatXLeft, seatYTop, seatAngle, seatType, seatStatus);
-            seats.add(seat);
-        }
         getViewState().showSeat(seats);
+
     }
 
-    public void onSeatClicked(Seat seat, ImageView ivSeat) {
-/*        if (seat.getSeatType() == 0 || seat.getSeatType() == 1) {
-            if (!seat.isSelected()) {
-                getViewState().setSeatSelected(ivSeat, seat, true);
-                MapInfoSingleton.getInstance().addToArray(seat.getPublic_id());
-                seat.setSelected(true);
+    public void onSeatClicked(SeatApi seatApi, ImageView ivSeat) {
+/*        if (seatApi.getSeatType() == 0 || seatApi.getSeatType() == 1) {
+            if (!seatApi.isSelected()) {
+                getViewState().setSeatSelected(ivSeat, seatApi, true);
+                MapInfoSingleton.getInstance().addToArray(seatApi.getPublic_id());
+                seatApi.setSelected(true);
             } else {
-                getViewState().setSeatSelected(ivSeat, seat, false);
-                while (MapInfoSingleton.getInstance().getPidArray().remove(seat.getPublic_id())) {
+                getViewState().setSeatSelected(ivSeat, seatApi, false);
+                while (MapInfoSingleton.getInstance().getPidArray().remove(seatApi.getPublic_id())) {
                 }
-                seat.setSelected(false);
+                seatApi.setSelected(false);
             }
         }*/
     }

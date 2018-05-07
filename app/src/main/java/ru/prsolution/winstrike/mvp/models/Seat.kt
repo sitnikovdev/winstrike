@@ -3,7 +3,7 @@ package ru.prsolution.winstrike.mvp.models
 import ru.prsolution.winstrike.mvp.apimodels.Coors
 
 //
-//  Seat.swift
+//  SeatApi.swift
 //  winstrike
 //
 //  Created by PRS on 28/02/2018.

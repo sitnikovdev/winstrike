@@ -48,7 +48,7 @@ public class PaidDetailFragment extends Fragment {
             public boolean onTabSelected(int position, boolean wasSelected) {
                 switch (position) {
                     case 0:
-                        intent.putExtra("fragment", "seat");
+                        intent.putExtra("fragment", "seatApi");
                         startActivity(intent);
                         break;
                     case 1:

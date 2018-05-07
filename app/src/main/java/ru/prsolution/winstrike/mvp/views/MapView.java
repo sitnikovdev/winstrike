@@ -10,9 +10,10 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
 
-import ru.prsolution.winstrike.mvp.apimodels.Label;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
-import ru.prsolution.winstrike.mvp.apimodels.Seat;
+import ru.prsolution.winstrike.mvp.apimodels.SeatApi;
+import ru.prsolution.winstrike.mvp.models.LabelRoom;
+import ru.prsolution.winstrike.mvp.models.Seat;
 
 /**
  * Created by terrakok 26.11.16
@@ -21,12 +22,10 @@ import ru.prsolution.winstrike.mvp.apimodels.Seat;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface MapView extends MvpView {
 
-    void showLabel(List<Label> labels);
+    void showLabel(List<LabelRoom> labels);
 
     void showSeat(List<Seat> seats);
 
-    @StateStrategyType(SkipStrategy.class)
-    void setSeatSelected(ImageView ivSeat, Seat seat, boolean isSelected);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void onSnackBarShow();

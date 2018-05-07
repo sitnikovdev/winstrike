@@ -27,15 +27,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.mvp.apimodels.Label;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
-import ru.prsolution.winstrike.mvp.apimodels.Seat;
+import ru.prsolution.winstrike.mvp.apimodels.SeatApi;
+import ru.prsolution.winstrike.mvp.models.LabelRoom;
+import ru.prsolution.winstrike.mvp.models.Seat;
 import ru.prsolution.winstrike.mvp.models.SeatType;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.common.BackButtonListener;
-import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
 import ru.prsolution.winstrike.ui.common.RouterProvider;
 import timber.log.Timber;
 
@@ -120,11 +120,11 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     }
 
     @Override
-    public void showLabel(List<Label> labels) {
-        for (Label label : labels) {
+    public void showLabel(List<LabelRoom> labels) {
+        for (LabelRoom label : labels) {
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
-            tvParams.leftMargin = label.getX() * xFactor;
-            tvParams.topMargin = (label.getY() * xFactor) + 15;
+            tvParams.leftMargin = label.getDx() * xFactor;
+            tvParams.topMargin = (label.getDy() * xFactor) + 15;
             TextView tvLabel = new TextView(getContext());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -138,6 +138,30 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             mapLayout.addView(tvLabel);
         }
     }
+
+    @Override
+    public void showSeat(List<Seat> seats) {
+        for (Seat seat : seats) {
+            ImageView ivSeat = new ImageView(getContext());
+
+            SeatType seatStatus = SeatType.Companion.get(seat.getType().toString().toLowerCase());
+            ivSeat.setBackgroundResource(seatStatus.getImage());
+
+            seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
+            seatParams.leftMargin = (int) (seat.getDx() * xFactor);
+            seatParams.topMargin = (int) (seat.getDy() * xFactor);
+
+            rotateSeat(seat, ivSeat);
+            ivSeat.setLayoutParams(seatParams);
+
+            ivSeat.setOnClickListener(
+                    v -> onSeatClicked(seat, ivSeat)
+            );
+            mapLayout.addView(ivSeat);
+        }
+    }
+
+
 
     public static int getResourseId(Context context, String pVariableName, String pResourcename, String pPackageName) throws RuntimeException {
         try {
@@ -155,9 +179,8 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
      * @param isSelected
      */
 
-    @Override
     public void setSeatSelected(ImageView ivSeat, Seat seat, boolean isSelected) {
-        String seatStatus = seat.getSeatStatus();
+        String seatStatus = seat.getType().toString();
         SeatType status = SeatType.Companion.get(seatStatus);
 
         if (isSelected) {
@@ -187,28 +210,6 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         }
     }
 
-    @Override
-    public void showSeat(List<Seat> seats) {
-        for (Seat seat : seats) {
-            ImageView ivSeat = new ImageView(getContext());
-
-            SeatType seatStatus = SeatType.Companion.get(seat.getSeatStatus());
-            ivSeat.setBackgroundResource(seatStatus.getImage());
-
-            seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
-            seatParams.leftMargin = seat.getSeatXLeft() * xFactor;
-            seatParams.topMargin = seat.getSeatYTop() * xFactor;
-
-            rotateSeat(seat, ivSeat);
-            ivSeat.setLayoutParams(seatParams);
-
-            ivSeat.setOnClickListener(
-                    v -> onSeatClicked(seat, ivSeat)
-            );
-            mapLayout.addView(ivSeat);
-        }
-    }
-
     private void onSeatClicked(Seat seat, ImageView ivSeat) {
 /*        String publicId = seat.getPublic_id();
         List<String> savedPublicIds = MapInfoSingleton.getInstance().getPidArray();
@@ -219,7 +220,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             }
         }
         */
-        setSeatSelected(ivSeat, seat, seat.isSelected());
+/*        setSeatSelected(ivSeat, seat, seat.isSelected());
 //        if (seat.getSeatType() == 0 || seat.getSeatType() == 1) {
             if (!seat.isSelected()) {
                 seat.setSelected(true);
@@ -228,13 +229,13 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
                 seat.setSelected(false);
                 MapInfoSingleton.getInstance().getPidArray().remove(seat.getPublic_id());
             }
-            setSeatSelected(ivSeat, seat, seat.isSelected());
+            setSeatSelected(ivSeat, seat, seat.isSelected());*/
 //        }
 
     }
 
     private void rotateSeat(Seat seat, ImageView ivSeat) {
-        if (Math.signum(seat.getSeatAngle()) == 1.0) {
+        if (Math.signum(seat.getAngle()) == 1.0) {
             ivSeat.setRotation(180);
         }
     }
