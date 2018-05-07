@@ -6,6 +6,10 @@ import ru.prsolution.winstrike.mvp.models.SeatType
 import java.util.Collections.rotate
 import android.R.attr.y
 import android.R.attr.x
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
+import android.view.SurfaceView
 import android.widget.ImageView
 import ru.prsolution.winstrike.mvp.models.Seat
 
@@ -14,7 +18,7 @@ import ru.prsolution.winstrike.mvp.models.Seat
     func seatPicked(id: String, unselect: Bool, publicPid: String)
 }*/
 
-class UISeatsView {
+class UISeatsView(context: Context) : SurfaceView(context) {
 //    weak var delegate: UISeatsViewDelegate?
 
     lateinit var gameRoom: GameRoom

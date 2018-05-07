@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,7 +29,6 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
-import ru.prsolution.winstrike.mvp.apimodels.SeatApi;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
 import ru.prsolution.winstrike.mvp.models.Seat;
 import ru.prsolution.winstrike.mvp.models.SeatType;
@@ -45,7 +45,7 @@ import timber.log.Timber;
  */
 public class MapScreenFragment extends MvpAppCompatFragment implements MapView, BackButtonListener {
     @BindView(R.id.rootMap)
-    RelativeLayout mapLayout;
+    RelativeLayout rootLayout;
     private Snackbar snackbar;
 
     private static final String EXTRA_NAME = "extra_name";
@@ -53,7 +53,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
     private final int RLW = RelativeLayout.LayoutParams.WRAP_CONTENT;
     private RelativeLayout.LayoutParams tvParams;
-    private RelativeLayout.LayoutParams seatParams;
+    private RelativeLayout.LayoutParams rootLayoutParams;
 
     int xFactor = 3;
 
@@ -94,7 +94,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     }
 
     private void initSnackBar() {
-        snackbar = Snackbar.make(mapLayout, "", Snackbar.LENGTH_INDEFINITE);
+        snackbar = Snackbar.make(rootLayout, "", Snackbar.LENGTH_INDEFINITE);
         snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
         snackbar.getView().setBackgroundResource(R.drawable.btn_bukking);
         LayoutInflater layoutInflater = this.getLayoutInflater();
@@ -110,6 +110,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     public void onScreenInit() {
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        rootLayoutParams = new RelativeLayout.LayoutParams(RLW, RLW);
 
         if (dpHeight > 700) {
             xFactor = 4;
@@ -135,30 +136,36 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             tvLabel.setText(label.getText());
             tvLabel.setLayoutParams(tvParams);
 
-            mapLayout.addView(tvLabel);
+            rootLayout.addView(tvLabel);
         }
     }
 
     @Override
     public void showSeat(List<Seat> seats) {
         for (Seat seat : seats) {
+            rootLayoutParams.leftMargin = (int) (seat.getDx() * xFactor);
+            rootLayoutParams.topMargin = (int) (seat.getDy() * xFactor);
+
             ImageView ivSeat = new ImageView(getContext());
 
             SeatType seatStatus = SeatType.Companion.get(seat.getType().toString().toLowerCase());
             ivSeat.setBackgroundResource(seatStatus.getImage());
 
-            seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
-            seatParams.leftMargin = (int) (seat.getDx() * xFactor);
-            seatParams.topMargin = (int) (seat.getDy() * xFactor);
 
             rotateSeat(seat, ivSeat);
-            ivSeat.setLayoutParams(seatParams);
+            ivSeat.setLayoutParams(rootLayoutParams);
 
+/*
             ivSeat.setOnClickListener(
                     v -> onSeatClicked(seat, ivSeat)
             );
-            mapLayout.addView(ivSeat);
+*/
+            //rootLayout.addView(ivSeat);
+
+
         }
+        View uiSeatView = new UISeatsView(getContext());
+        rootLayout.addView(uiSeatView);
     }
 
 
