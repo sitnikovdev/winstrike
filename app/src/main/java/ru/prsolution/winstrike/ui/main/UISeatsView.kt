@@ -8,17 +8,48 @@ import android.R.attr.y
 import android.R.attr.x
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.view.SurfaceView
 import android.widget.ImageView
 import ru.prsolution.winstrike.mvp.models.Seat
+import android.view.SurfaceHolder
+import android.graphics.Paint.ANTI_ALIAS_FLAG
+
+
 
 
 /*protocol UISeatsViewDelegate: class {
     func seatPicked(id: String, unselect: Bool, publicPid: String)
 }*/
 
-class UISeatsView(context: Context) : SurfaceView(context) {
+class BubbleSurfaceView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
+    private val sh: SurfaceHolder
+    private val paint = Paint(ANTI_ALIAS_FLAG)
+
+    init {
+        sh = holder
+        sh.addCallback(this)
+        paint.setColor(Color.BLUE)
+        paint.setStyle(Paint.Style.FILL)
+    }
+
+    override fun surfaceCreated(holder: SurfaceHolder) {
+        val canvas = sh.lockCanvas()
+        canvas.drawColor(Color.BLACK)
+        canvas.drawCircle(100f, 200f, 50f, paint)
+        sh.unlockCanvasAndPost(canvas)
+    }
+
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int,
+                                height: Int) {
+    }
+
+    override fun surfaceDestroyed(holder: SurfaceHolder) {}
+}
+
+class UISeatsView {
 //    weak var delegate: UISeatsViewDelegate?
 
     lateinit var gameRoom: GameRoom
