@@ -51,6 +51,8 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
 
         mScreenSize = Point()
         mScreenSize = calculateScreenSize(seatSize)
+        this.setMinimumWidth(mScreenSize.x)
+        this.setMinimumHeight(mScreenSize.y)
     }
     /**вычисляет расстояние от начала координат до начальной точки картинки через гипотенузу*/
     fun getDist(coord: Point): Double {
@@ -58,9 +60,9 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         return d
     }
 
-    fun calculateScreenSize(seatSize: Point):Point{
-        val farthestSeat = mSeats.maxWith(object: Comparator<Seat> {
-            override fun compare(p1: Seat, p2: Seat): Int = when {
+    private fun calculateScreenSize(seatSize: Point):Point{
+        val farthestSeat = mSeats.maxWith(Comparator<Seat> { p1, p2 ->
+            when {
                 getDist(Point(p1.dx.toInt(),p1.dy.toInt())) > getDist(Point(p2.dx.toInt(),p2.dy.toInt())) -> 1
                 getDist(Point(p1.dx.toInt(),p1.dy.toInt())) == getDist(Point(p2.dx.toInt(),p2.dy.toInt())) -> 0
                 else -> -1
@@ -71,8 +73,8 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         point = Point()
         point.x = farthestSeat?.dx?.toInt() ?: 0
         point.y = farthestSeat?.dy?.toInt() ?: 0
-        point.x = (point.x * mXScaleFactor).toInt() + mSeatBitmap.width
-        point.y = (point.y * mYScaleFactor/1.5).toInt() + mSeatBitmap.height
+        point.x = (point.x * mXScaleFactor).toInt() + mSeatBitmap.width * 2
+        point.y = (point.y * mYScaleFactor/1.5).toInt() + mSeatBitmap.height * 2
         return point
     }
 

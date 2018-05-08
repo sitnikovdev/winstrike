@@ -112,11 +112,11 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         rootLayoutParams = new RelativeLayout.LayoutParams(RLW, RLW);
 
-        if (dpHeight > 700) {
+/*        if (dpHeight > 700) {
             xFactor = 4;
         } else {
             xFactor = 3;
-        }
+        }*/
         initSnackBar();
     }
 
@@ -143,17 +143,16 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     @Override
     public void showSeat(GameRoom room) {
         for (Seat seat : room.getSeats()) {
-            rootLayoutParams.leftMargin = (int) (seat.getDx() * xFactor);
-            rootLayoutParams.topMargin = (int) (seat.getDy() * xFactor);
+/*            rootLayoutParams.leftMargin = (int) (seat.getDx() * xFactor);
+            rootLayoutParams.topMargin = (int) (seat.getDy() * xFactor);*/
 
             ImageView ivSeat = new ImageView(getContext());
 
             SeatType seatStatus = SeatType.Companion.get(seat.getType().toString().toLowerCase());
             ivSeat.setBackgroundResource(seatStatus.getImage());
 
-
-            rotateSeat(seat, ivSeat);
-            ivSeat.setLayoutParams(rootLayoutParams);
+/*            rotateSeat(seat, ivSeat);
+            ivSeat.setLayoutParams(rootLayoutParams);*/
 
 /*
             ivSeat.setOnClickListener(
@@ -166,6 +165,10 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         }
     //    View seatView = new UISeatsView(getContext());
         View drawView = new DrawView(getContext(),room);
+        ViewGroup.LayoutParams params = rootLayout.getLayoutParams();
+        params.height = drawView.getMinimumHeight();
+        params.width = drawView.getMinimumWidth();
+        rootLayout.setLayoutParams(params);
         rootLayout.addView(drawView);
     }
 
