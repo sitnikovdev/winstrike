@@ -164,7 +164,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
 
         }
-//        View seatView = new UISeatsView(getContext(),room);
+    //    View seatView = new UISeatsView(getContext());
         View drawView = new DrawView(getContext(),room);
         rootLayout.addView(drawView);
     }
