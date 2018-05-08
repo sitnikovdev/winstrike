@@ -17,134 +17,161 @@ import timber.log.Timber
 /*protocol UISeatsViewDelegate: class {
     func seatPicked(id: String, unselect: Bool, publicPid: String)
 }*/
-public class DrawView(context: Context, room: GameRoom) : View(context) {
+class DrawView(context: Context, room: GameRoom) : View(context) {
 
-    val seats: List<Seat> = room.seats
-    var p: Paint
-    var rectWall: Rect
-    var bitmap: Bitmap
-    var dx = 0f
-    var dy = 0f
-    var dxx = 0f
-    var dyy = 0f
-    var angle : Double
-    var xScaleFactor: Float
-    var yScaleFactor: Float
+    private val mSeats: List<Seat> = room.seats
+    private val mPaint: Paint = Paint()
+    lateinit var mRectWall: Rect
+    private val mWall: Wall
+    private var mSeatBitmap: Bitmap
+    private var mScreenSize: Point;
+    var mXScaleFactor: Float
+    private val mYScaleFactor: Float
+    private val mLabels = room.labels
 
-
-    // Ряд
-    var raw: Int
 
     init {
-        raw = 1
-        p = Paint()
-        // настройка кисти
-        // красный цвет
-        p.color = Color.WHITE
-        p.style = Paint.Style.STROKE
-        // толщина линии = 10
-        p.setStrokeWidth(10f)
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.seat_darkgrey);
+        mPaint.color = Color.WHITE
+        mPaint.style = Paint.Style.STROKE
+        mPaint.strokeWidth = 10f
+
+        mSeatBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.seat_darkgrey);
 
         val height = WinstrikeApp.getInstance().displayHeightPx
-        val widht =  WinstrikeApp.getInstance().displayWidhtPx
-        val wall:Wall
-        wall = room.walls[0]
+        val width = WinstrikeApp.getInstance().displayWidhtPx
+        mWall = room.walls[0]
 
-        xScaleFactor = (widht / wall.end.x)
-        yScaleFactor = (height/ wall.end.y)
+        mXScaleFactor = (width / mWall.end.x)
+        mYScaleFactor = (height / mWall.end.y)
 
-        angle = 0.0
-        val leftXTop = wall.start.x * xScaleFactor.toInt()
-        val leftYTop = wall.start.x * (yScaleFactor/1.5).toInt()
-        val bottomXRight = wall.end.x * xScaleFactor.toInt() + bitmap.width
-        val bottomYRight = wall.end.y * (yScaleFactor).toInt()
+        val seatSize: Point
+        seatSize = Point()
+        seatSize.x = mSeatBitmap.width.toInt()
+        seatSize.y = mSeatBitmap.height.toInt()
 
-        rectWall = Rect(leftXTop,leftYTop,bottomXRight,bottomYRight)
+        mScreenSize = Point()
+        mScreenSize = calculateScreenSize(seatSize)
+    }
+    /**вычисляет расстояние от начала координат до начальной точки картинки через гипотенузу*/
+    fun getDist(coord: Point): Double {
+        val d = Math.sqrt(Math.pow(coord.x.toDouble(), 2.0) + Math.pow(coord.y.toDouble(), 2.0))
+        return d
     }
 
+    fun calculateScreenSize(seatSize: Point):Point{
+        val farthestSeat = mSeats.maxWith(object: Comparator<Seat> {
+            override fun compare(p1: Seat, p2: Seat): Int = when {
+                getDist(Point(p1.dx.toInt(),p1.dy.toInt())) > getDist(Point(p2.dx.toInt(),p2.dy.toInt())) -> 1
+                getDist(Point(p1.dx.toInt(),p1.dy.toInt())) == getDist(Point(p2.dx.toInt(),p2.dy.toInt())) -> 0
+                else -> -1
+            }
+        })
+        Timber.d("farthestSeat: %s", farthestSeat?.pcname)
+        val point:Point
+        point = Point()
+        point.x = farthestSeat?.dx?.toInt() ?: 0
+        point.y = farthestSeat?.dy?.toInt() ?: 0
+        point.x = (point.x * mXScaleFactor).toInt() + mSeatBitmap.width
+        point.y = (point.y * mYScaleFactor/1.5).toInt() + mSeatBitmap.height
+        return point
+    }
+
+
     override fun onDraw(canvas: Canvas) {
-        // заливка канвы цветом
-        //canvas.drawARGB(80, 102, 204, 255)
         canvas.drawColor(Color.BLACK)
-        p.color = Color.RED
-        canvas.drawRect(rectWall,p)
 
-        var prevSeatDx = seats[0].dx.toFloat()
-        var prevSeatDy = seats[0].dy.toFloat()
+        drawSeats(canvas)
+        drawLabels(canvas)
+        drawWalls(canvas, mWall)
 
+    }
 
-        seats.forEachIndexed { index, seat ->
+    private fun drawLabels(canvas: Canvas) {
+        mPaint.color = Color.WHITE
+        mPaint.strokeWidth = 3f
+        mPaint.textSize = 48f
 
-            dx = seat.dx.toFloat() * xScaleFactor
-            dy = seat.dy.toFloat() * yScaleFactor/1.5f
-            angle = Math.toDegrees(seat.angle)
+        for (label in mLabels) {
+            val text = label.text
+            val dx = label.dx * mXScaleFactor
+            val dy = label.dy * (mYScaleFactor / 1.5).toFloat()
+            canvas.drawText(text, dx, dy, mPaint)
+        }
+    }
 
-            Timber.d("xScaleFactor: %s",xScaleFactor)
-            Timber.d("yScaleFactor: %s",yScaleFactor)
+    private fun drawWalls(canvas: Canvas, wall: Wall) {
+        mPaint.color = Color.RED
+        val leftXTop = wall.start.x * mXScaleFactor.toInt()
+        val leftYTop = wall.start.x * (mYScaleFactor / 1.5).toInt()
+        val bottomXRight = (wall.end.x * mXScaleFactor.toInt()) + (mSeatBitmap.width / 1.3).toInt()
+        val bottomYRight = (wall.end.y * (mYScaleFactor).toInt()) - mSeatBitmap.height
+        mRectWall = Rect(leftXTop, leftYTop, bottomXRight, bottomYRight)
+        canvas.drawRect(mRectWall, mPaint)
+    }
 
-            Timber.d("index[%s] - raw: %s",index, raw)
+    private fun drawSeats(canvas: Canvas) {
+        mSeats.forEachIndexed { index, seat ->
+
+            val dx = seat.dx.toFloat() * mXScaleFactor
+            val dy = seat.dy.toFloat() * mYScaleFactor / 1.5f
+            val angle = Math.toDegrees(seat.angle)
+
+            Timber.d("mXScaleFactor: %s", mXScaleFactor)
+            Timber.d("mYScaleFactor: %s", mYScaleFactor)
+
             Timber.d("index[%s] - dx: %s, dy: %s", index, seat.dx, seat.dy)
             canvas.save()
-//            canvas.drawPoint(dx, dy, p)
             canvas.translate(dx, dy)
-            canvas.rotate(angle.toFloat(),bitmap.width /2f, bitmap.height/2f)
-            canvas.drawBitmap(bitmap, 0f, 0f, p)
+            canvas.rotate(angle.toFloat(), mSeatBitmap.width / 2f, mSeatBitmap.height / 2f)
+            canvas.drawBitmap(mSeatBitmap, 0f, 0f, mPaint)
             canvas.restore()
-
-            prevSeatDx = seat.dx.toFloat()
-            prevSeatDy = seat.dy.toFloat()
-
         }
+    }
 
-        class UISeatsView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
-            //    weak var delegate: UISeatsViewDelegate?
-            private val sh: SurfaceHolder = holder
-            private val paint = Paint(ANTI_ALIAS_FLAG)
-            private val rect = Rect(50, 50, 100, 100)
+}
 
-            init {
-                sh.addCallback(this)
-                paint.color = Color.BLUE
-                paint.style = Paint.Style.FILL
-            }
+class UISeatsView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
+    //    weak var delegate: UISeatsViewDelegate?
+    private val sh: SurfaceHolder = holder
+    private val paint = Paint(ANTI_ALIAS_FLAG)
+    private val rect = Rect(50, 50, 100, 100)
 
-            override fun surfaceCreated(holder: SurfaceHolder) {
-                val canvas = sh.lockCanvas()
-                canvas.drawColor(Color.BLACK)
-                canvas.drawRect(rect, paint)
-                sh.unlockCanvasAndPost(canvas)
-            }
+    init {
+        sh.addCallback(this)
+        paint.color = Color.BLUE
+        paint.style = Paint.Style.FILL
+    }
 
-            override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int,
-                                        height: Int) {
-            }
+    override fun surfaceCreated(holder: SurfaceHolder) {
+        val canvas = sh.lockCanvas()
+        canvas.drawColor(Color.BLACK)
+        canvas.drawRect(rect, paint)
+        sh.unlockCanvasAndPost(canvas)
+    }
 
-            override fun surfaceDestroyed(holder: SurfaceHolder) {}
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int,
+                                height: Int) {
+    }
 
-            lateinit var gameRoom: GameRoom
+    override fun surfaceDestroyed(holder: SurfaceHolder) {}
 
-            var pickedSeats = mutableSetOf<Int>()
+    lateinit var gameRoom: GameRoom
 
-            fun setData(gameRoom: GameRoom) {
-                this.gameRoom = gameRoom
-                this.drawRoom()
-            }
+    var pickedSeats = mutableSetOf<Int>()
 
-            /**вычисляет расстояние от начала координат до начальной точки картинки через гипотенузу*/
-            fun getDist(coord: Point): Double {
-                val d = Math.sqrt(Math.pow(coord.x.toDouble(), 2.0) + Math.pow(coord.y.toDouble(), 2.0))
-                return d
-            }
+    fun setData(gameRoom: GameRoom) {
+        this.gameRoom = gameRoom
+        this.drawRoom()
+    }
 
 
-            private fun drawRoom() {
+    private fun drawRoom() {
 //        var mainGroup = Group()
-                //добавляем кресла
-                gameRoom.seats.forEachIndexed { index, seat ->
-                    //            var seatView = createMImage(seatApi)
-                }
-            }
+        //добавляем кресла
+        gameRoom.seats.forEachIndexed { index, seat ->
+            //            var seatView = createMImage(seatApi)
+        }
+    }
 
 /*    private fun createMImage(seatApi: SeatApi): ImageView {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -162,6 +189,4 @@ public class DrawView(context: Context, room: GameRoom) : View(context) {
         seatView.place = seatTransform
         return seatView
     }*/
-        }
-    }
 }

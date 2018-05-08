@@ -1,9 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/height_edit_56dp"
-    android:background="@android:color/background_dark">
+    android:background="@android:color/background_dark">-->
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/height_edit_56dp"
+    android:background="@android:color/background_dark"
+    android:fillViewport="true">
 
     <ru.prsolution.winstrike.ui.common.ZoomLayout
         android:layout_width="wrap_content"
@@ -16,8 +23,8 @@
             android:background="@android:color/black">
 
         </RelativeLayout>
-
     </ru.prsolution.winstrike.ui.common.ZoomLayout>
+</ScrollView>
 
-</RelativeLayout>
+    <!--</RelativeLayout>-->
 
