@@ -90,6 +90,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
 
     private fun drawLabels(canvas: Canvas) {
         mPaint.color = Color.WHITE
+        mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = 3f
         mPaint.textSize = 48f
 
@@ -103,6 +104,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
 
     private fun drawWalls(canvas: Canvas, wall: Wall) {
         mPaint.color = Color.RED
+        mPaint.style = Paint.Style.STROKE
         val leftXTop = wall.start.x * mXScaleFactor.toInt()
         val leftYTop = wall.start.x * (mYScaleFactor / 1.5).toInt()
         val bottomXRight = (wall.end.x * mXScaleFactor.toInt()) + (mSeatBitmap.width / 1.3).toInt()

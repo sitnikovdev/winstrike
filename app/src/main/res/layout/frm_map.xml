@@ -12,6 +12,10 @@
     android:background="@android:color/background_dark"
     android:fillViewport="true">
 
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
     <ru.prsolution.winstrike.ui.common.ZoomLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
@@ -24,6 +28,7 @@
 
         </RelativeLayout>
     </ru.prsolution.winstrike.ui.common.ZoomLayout>
+    </HorizontalScrollView>
 </ScrollView>
 
     <!--</RelativeLayout>-->
