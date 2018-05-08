@@ -264,8 +264,8 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     private void showMap() {
 
         // TODO: 07/05/2018 REMOVE IT BLOCK AFTER TEST!!!
-        String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-07T17:07:00");
-        String timeToData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-07T18:07:00");
+        String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-08T18:07:00");
+        String timeToData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-08T17:07:00");
 
         timeFromUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeFromData));
         timeToUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeToData));

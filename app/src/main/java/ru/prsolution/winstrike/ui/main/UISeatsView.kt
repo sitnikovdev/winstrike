@@ -21,15 +21,15 @@ public class DrawView(context: Context, room: GameRoom) : View(context) {
 
     val seats: List<Seat> = room.seats
     var p: Paint
-    var rect: Rect
+    var rectWall: Rect
     var bitmap: Bitmap
     var dx = 0f
     var dy = 0f
     var dxx = 0f
     var dyy = 0f
     var angle : Double
-    var xScaleFactor: Double
-    var yScaleFactor: Double
+    var xScaleFactor: Float
+    var yScaleFactor: Float
 
 
     // Ряд
@@ -44,7 +44,6 @@ public class DrawView(context: Context, room: GameRoom) : View(context) {
         p.style = Paint.Style.STROKE
         // толщина линии = 10
         p.setStrokeWidth(10f)
-        rect = Rect()
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.seat_darkgrey);
 
         val height = WinstrikeApp.getInstance().displayHeightPx
@@ -52,67 +51,45 @@ public class DrawView(context: Context, room: GameRoom) : View(context) {
         val wall:Wall
         wall = room.walls[0]
 
-        xScaleFactor = (widht / wall.end.x).toDouble()
-        yScaleFactor = (height/ wall.end.y).toDouble()
-        Timber.d("xScaleFactor: %s",xScaleFactor)
-        Timber.d("yScaleFactor: %s",yScaleFactor)
+        xScaleFactor = (widht / wall.end.x)
+        yScaleFactor = (height/ wall.end.y)
 
         angle = 0.0
+        val leftXTop = wall.start.x * xScaleFactor.toInt()
+        val leftYTop = wall.start.x * (yScaleFactor/1.5).toInt()
+        val bottomXRight = wall.end.x * xScaleFactor.toInt() + bitmap.width
+        val bottomYRight = wall.end.y * (yScaleFactor).toInt()
+
+        rectWall = Rect(leftXTop,leftYTop,bottomXRight,bottomYRight)
     }
 
     override fun onDraw(canvas: Canvas) {
         // заливка канвы цветом
         //canvas.drawARGB(80, 102, 204, 255)
         canvas.drawColor(Color.BLACK)
+        p.color = Color.RED
+        canvas.drawRect(rectWall,p)
 
         var prevSeatDx = seats[0].dx.toFloat()
         var prevSeatDy = seats[0].dy.toFloat()
 
 
-        seats.subList(0, 31).forEachIndexed { index, seat ->
+        seats.forEachIndexed { index, seat ->
 
-            /*
-                Если текущий элемент не первый, определяем смещение по X как разность между предыщим элементом и текущим
-             */
-/*            if (index > 0) {
-                dxx = Math.abs(seats[index].dx.toFloat() - seats[index - 1].dx.toFloat()) + bitmap.width
-                dx += dxx
-            } else {
-                dx = seat.dx.toFloat()
-            }*/
-
-            /*
-              Если координата X текущего элемнта меньше чем предудущего, произошел переход на следущую строку.
-             */
-/*            if (prevSeatDx > seat.dx) {
-                Timber.d("New row!")
-                raw += 1
-                dx =  seat.dx.toFloat()
-            }*/
-
-            /*
-              Если ряд первый определяем смещение по Y
-             */
-/*            if (raw == 1) {
-                dy = seat.dy.toFloat()
-            } else {
-                dy = seat.dy.toFloat() + 32f
-            }*/
-            dy = seat.dy.toFloat() + bitmap.height + 32f
-            if (raw == 3) {
-                Timber.d("index[%s] - 3 raw: %s",index, raw)
-            }
-
+            dx = seat.dx.toFloat() * xScaleFactor
+            dy = seat.dy.toFloat() * yScaleFactor/1.5f
             angle = Math.toDegrees(seat.angle)
 
+            Timber.d("xScaleFactor: %s",xScaleFactor)
+            Timber.d("yScaleFactor: %s",yScaleFactor)
+
             Timber.d("index[%s] - raw: %s",index, raw)
-            Timber.d("index[%s] - x: %s, y: %s", index, seat.dx, seat.dy)
-            Timber.d("index[%s] - dx: %s, dy: %s", index, dx, dy)
+            Timber.d("index[%s] - dx: %s, dy: %s", index, seat.dx, seat.dy)
             canvas.save()
-            //canvas.rotate(angle.toFloat(),bitmap.width /2f, bitmap.height/2f)
+//            canvas.drawPoint(dx, dy, p)
             canvas.translate(dx, dy)
+            canvas.rotate(angle.toFloat(),bitmap.width /2f, bitmap.height/2f)
             canvas.drawBitmap(bitmap, 0f, 0f, p)
-            canvas.drawPoint(dx, dy, p)
             canvas.restore()
 
             prevSeatDx = seat.dx.toFloat()
