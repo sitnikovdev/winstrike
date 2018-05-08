@@ -14,9 +14,6 @@ import ru.prsolution.winstrike.mvp.models.Wall
 import timber.log.Timber
 
 
-/*protocol UISeatsViewDelegate: class {
-    func seatPicked(id: String, unselect: Bool, publicPid: String)
-}*/
 class DrawView(context: Context, room: GameRoom) : View(context) {
 
     private val mSeats: List<Seat> = room.seats
@@ -54,27 +51,28 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         this.setMinimumWidth(mScreenSize.x)
         this.setMinimumHeight(mScreenSize.y)
     }
+
     /**вычисляет расстояние от начала координат до начальной точки картинки через гипотенузу*/
     fun getDist(coord: Point): Double {
         val d = Math.sqrt(Math.pow(coord.x.toDouble(), 2.0) + Math.pow(coord.y.toDouble(), 2.0))
         return d
     }
 
-    private fun calculateScreenSize(seatSize: Point):Point{
+    private fun calculateScreenSize(seatSize: Point): Point {
         val farthestSeat = mSeats.maxWith(Comparator<Seat> { p1, p2 ->
             when {
-                getDist(Point(p1.dx.toInt(),p1.dy.toInt())) > getDist(Point(p2.dx.toInt(),p2.dy.toInt())) -> 1
-                getDist(Point(p1.dx.toInt(),p1.dy.toInt())) == getDist(Point(p2.dx.toInt(),p2.dy.toInt())) -> 0
+                getDist(Point(p1.dx.toInt(), p1.dy.toInt())) > getDist(Point(p2.dx.toInt(), p2.dy.toInt())) -> 1
+                getDist(Point(p1.dx.toInt(), p1.dy.toInt())) == getDist(Point(p2.dx.toInt(), p2.dy.toInt())) -> 0
                 else -> -1
             }
         })
         Timber.d("farthestSeat: %s", farthestSeat?.pcname)
-        val point:Point
+        val point: Point
         point = Point()
         point.x = farthestSeat?.dx?.toInt() ?: 0
         point.y = farthestSeat?.dy?.toInt() ?: 0
         point.x = (point.x * mXScaleFactor).toInt() + mSeatBitmap.width * 2
-        point.y = (point.y * mYScaleFactor/1.5).toInt() + mSeatBitmap.height * 2
+        point.y = (point.y * mYScaleFactor / 1.5).toInt() + mSeatBitmap.height * 4
         return point
     }
 
@@ -97,7 +95,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         for (label in mLabels) {
             val text = label.text
             val dx = label.dx * mXScaleFactor
-            val dy = label.dy * (mYScaleFactor / 1.5).toFloat()
+            val dy = (label.dy * (mYScaleFactor / 1.5).toFloat())+mSeatBitmap.height
             canvas.drawText(text, dx, dy, mPaint)
         }
     }
@@ -135,7 +133,6 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
 }
 
 class UISeatsView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
-    //    weak var delegate: UISeatsViewDelegate?
     private val sh: SurfaceHolder = holder
     private val paint = Paint(ANTI_ALIAS_FLAG)
     private val rect = Rect(50, 50, 100, 100)
@@ -159,38 +156,5 @@ class UISeatsView(context: Context) : SurfaceView(context), SurfaceHolder.Callba
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {}
 
-    lateinit var gameRoom: GameRoom
-
-    var pickedSeats = mutableSetOf<Int>()
-
-    fun setData(gameRoom: GameRoom) {
-        this.gameRoom = gameRoom
-        this.drawRoom()
-    }
-
-
-    private fun drawRoom() {
-//        var mainGroup = Group()
-        //добавляем кресла
-        gameRoom.seats.forEachIndexed { index, seat ->
-            //            var seatView = createMImage(seatApi)
-        }
-    }
-
-/*    private fun createMImage(seatApi: SeatApi): ImageView {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        var image = SeatType.getImage(seatApi.type)
-//        var seatView = MImage(image: image, opaque: false)
-
-//        var animation = seatView.srcVar.value = "ChooseSeat/seatGrey.png";
-        var seatTransform = Transform
-                .move(dx: seatApi.dx, dy: seatApi.dy)
-                .rotate(
-                        angle: seatApi.angle,
-                        x: Double(image.size.width) / 2,
-                        y: Double(image.size.height) / 2
-        )
-        seatView.place = seatTransform
-        return seatView
-    }*/
 }
+
