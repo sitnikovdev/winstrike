@@ -5,32 +5,23 @@ import android.widget.ImageView;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-import ru.prsolution.winstrike.mvp.apimodels.Coors;
-import ru.prsolution.winstrike.mvp.apimodels.End;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentModel;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
-import ru.prsolution.winstrike.mvp.apimodels.Place;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.SeatApi;
-import ru.prsolution.winstrike.mvp.apimodels.Start;
-import ru.prsolution.winstrike.mvp.apimodels.Wall;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
 import ru.prsolution.winstrike.mvp.models.Seat;
-import ru.prsolution.winstrike.ui.Screens;
+import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
+import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
-import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.terrakok.cicerone.Router;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
-import timber.log.Timber;
 
 /**
  * Created by terrakok 26.11.16
@@ -79,8 +70,8 @@ public class MapPresenter extends MvpPresenter<MapView> {
         seats = room.getSeats();
         labels = room.getLabels();
 
-        getViewState().showLabel(labels);
-        getViewState().showSeat(seats);
+//        getViewState().showLabel(labels);
+        getViewState().showSeat(room);
 
     }
 

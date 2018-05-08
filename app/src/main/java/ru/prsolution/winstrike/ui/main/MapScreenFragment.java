@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
+import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
 import ru.prsolution.winstrike.mvp.models.Seat;
 import ru.prsolution.winstrike.mvp.models.SeatType;
@@ -140,8 +141,8 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     }
 
     @Override
-    public void showSeat(List<Seat> seats) {
-        for (Seat seat : seats) {
+    public void showSeat(GameRoom room) {
+        for (Seat seat : room.getSeats()) {
             rootLayoutParams.leftMargin = (int) (seat.getDx() * xFactor);
             rootLayoutParams.topMargin = (int) (seat.getDy() * xFactor);
 
@@ -163,8 +164,9 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
 
         }
-        View seatView = new UISeatsView(getContext());
-        rootLayout.addView(seatView);
+//        View seatView = new UISeatsView(getContext(),room);
+        View drawView = new DrawView(getContext(),room);
+        rootLayout.addView(drawView);
     }
 
 
