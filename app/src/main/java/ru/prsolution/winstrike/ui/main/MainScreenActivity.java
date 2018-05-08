@@ -265,8 +265,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     private void initCarouselSeat(int currentItem) {
 
-        dpWidth = WinstrikeApp.getInstance().getDisplayWidht();
-        dpHeight = WinstrikeApp.getInstance().getDisplayHeight();
+        dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
+        dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
 
         Timber.d("heigth: %s", dpHeight);
         Timber.d("width: %s", dpWidth);
@@ -303,6 +303,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         // Hide profile interface element
         setProfileScreenInterfaceVisibility(false);
+
+        // TODO: 08/05/2018 REMOVE AFTER TESTS!!!
+       // presenter.onChooseScreenClick();
     }
 
     private void initBottomNavigationBar() {

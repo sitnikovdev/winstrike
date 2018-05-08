@@ -1,20 +1,16 @@
 package ru.prsolution.winstrike.ui.main
 
-import ru.prsolution.winstrike.mvp.models.GameRoom
-import ru.prsolution.winstrike.mvp.models.SeatType
-import java.util.Collections.rotate
-import android.R.attr.y
-import android.R.attr.x
 import android.content.Context
 import android.graphics.*
-import android.graphics.drawable.Drawable
-import android.view.SurfaceView
-import android.widget.ImageView
-import ru.prsolution.winstrike.mvp.models.Seat
-import android.view.SurfaceHolder
 import android.graphics.Paint.ANTI_ALIAS_FLAG
+import android.view.SurfaceHolder
+import android.view.SurfaceView
 import android.view.View
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.WinstrikeApp
+import ru.prsolution.winstrike.mvp.models.GameRoom
+import ru.prsolution.winstrike.mvp.models.Seat
+import ru.prsolution.winstrike.mvp.models.Wall
 import timber.log.Timber
 
 
@@ -32,6 +28,9 @@ public class DrawView(context: Context, room: GameRoom) : View(context) {
     var dxx = 0f
     var dyy = 0f
     var angle : Double
+    var xScaleFactor: Double
+    var yScaleFactor: Double
+
 
     // Ряд
     var raw: Int
@@ -47,6 +46,16 @@ public class DrawView(context: Context, room: GameRoom) : View(context) {
         p.setStrokeWidth(10f)
         rect = Rect()
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.seat_darkgrey);
+
+        val height = WinstrikeApp.getInstance().displayHeightPx
+        val widht =  WinstrikeApp.getInstance().displayWidhtPx
+        val wall:Wall
+        wall = room.walls[0]
+
+        xScaleFactor = (widht / wall.end.x).toDouble()
+        yScaleFactor = (height/ wall.end.y).toDouble()
+        Timber.d("xScaleFactor: %s",xScaleFactor)
+        Timber.d("yScaleFactor: %s",yScaleFactor)
 
         angle = 0.0
     }
@@ -65,30 +74,31 @@ public class DrawView(context: Context, room: GameRoom) : View(context) {
             /*
                 Если текущий элемент не первый, определяем смещение по X как разность между предыщим элементом и текущим
              */
-            if (index > 0) {
+/*            if (index > 0) {
                 dxx = Math.abs(seats[index].dx.toFloat() - seats[index - 1].dx.toFloat()) + bitmap.width
                 dx += dxx
             } else {
                 dx = seat.dx.toFloat()
-            }
+            }*/
 
             /*
               Если координата X текущего элемнта меньше чем предудущего, произошел переход на следущую строку.
              */
-            if (prevSeatDx > seat.dx) {
+/*            if (prevSeatDx > seat.dx) {
                 Timber.d("New row!")
                 raw += 1
                 dx =  seat.dx.toFloat()
-            }
+            }*/
 
             /*
               Если ряд первый определяем смещение по Y
              */
-            if (raw == 1) {
+/*            if (raw == 1) {
                 dy = seat.dy.toFloat()
             } else {
                 dy = seat.dy.toFloat() + 32f
-            }
+            }*/
+            dy = seat.dy.toFloat() + bitmap.height + 32f
             if (raw == 3) {
                 Timber.d("index[%s] - 3 raw: %s",index, raw)
             }
@@ -99,10 +109,10 @@ public class DrawView(context: Context, room: GameRoom) : View(context) {
             Timber.d("index[%s] - x: %s, y: %s", index, seat.dx, seat.dy)
             Timber.d("index[%s] - dx: %s, dy: %s", index, dx, dy)
             canvas.save()
-            canvas.drawPoint(dx, dy, p)
+            //canvas.rotate(angle.toFloat(),bitmap.width /2f, bitmap.height/2f)
             canvas.translate(dx, dy)
-            canvas.rotate(angle.toFloat(),bitmap.width /2f, bitmap.height/2f)
             canvas.drawBitmap(bitmap, 0f, 0f, p)
+            canvas.drawPoint(dx, dy, p)
             canvas.restore()
 
             prevSeatDx = seat.dx.toFloat()
@@ -149,6 +159,7 @@ public class DrawView(context: Context, room: GameRoom) : View(context) {
                 val d = Math.sqrt(Math.pow(coord.x.toDouble(), 2.0) + Math.pow(coord.y.toDouble(), 2.0))
                 return d
             }
+
 
             private fun drawRoom() {
 //        var mainGroup = Group()

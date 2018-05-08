@@ -34,8 +34,8 @@ public class CarouselAdapter extends FragmentPagerAdapter implements ViewPager.P
         super(context.getSupportFragmentManager());
         this.context = context;
 
-        dpHeight = WinstrikeApp.getInstance().getDisplayHeight();
-        dpWidth = WinstrikeApp.getInstance().getDisplayWidht();
+        dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
+        dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
 
         if (dpWidth <= 360.0) {
             BIG_SCALE = 0.9f;

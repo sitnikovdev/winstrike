@@ -10,19 +10,17 @@ enum class VipOrSimple(type: String) {
 
 class GameRoom(room: RoomLayout) {
 
-    var walls: MutableList<Wall> = mutableListOf()
+    var walls:MutableList<Wall> = mutableListOf()
     var labels: MutableList<LabelRoom> = mutableListOf()
     var seats: MutableList<Seat> = mutableListOf()
     var seatTypes: MutableList<SeatType> = mutableListOf()
 
     init {
         var seats = room.places;
-        var walls = room.walls;
         var labels = room.labels;
 
-        for (wallData in walls) {
-            var wall = Wall(wallData)
-            this.walls.add(wall)
+        for (wallData in room.walls) {
+            this.walls.add( Wall(wallData))
         }
 
         for (seatData in seats) {

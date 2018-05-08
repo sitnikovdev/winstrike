@@ -184,7 +184,8 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         Timber.tag("map").d("DpHeight: %s", dpHeight);
 
 
-        if (seat.getType().contains("VIP")) {
+
+        if (seat != null && seat.getType().contains("VIP")) {
             ivSeatImg.setImageResource(R.drawable.vip);
             seat_title.setText("Вы выбрали: VIP место");
 

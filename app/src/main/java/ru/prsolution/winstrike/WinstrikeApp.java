@@ -46,16 +46,28 @@ public class WinstrikeApp extends Application {
     }
 
 
-    public float getDisplayWidht() {
+    public float getDisplayWidhtDp() {
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         return dpWidth;
     }
 
-    public float getDisplayHeight() {
+    public float getDisplayHeightDp() {
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         return dpHeight;
+    }
+
+    public float getDisplayHeightPx() {
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels;
+        return dpHeight;
+    }
+
+    public float getDisplayWidhtPx() {
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels;
+        return dpWidth;
     }
 
 }
