@@ -153,7 +153,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
             if (text.equals("HP STAGE 1")) {
                 val colorOld = mPaint.color
                 mPaint.color = Color.GRAY
-                canvas.drawLine(dx,dy-seatSize.y*2,mScreenSize.x.toFloat()-seatSize.x,dy-seatSize.y*2,mPaint);
+                canvas.drawLine(dx,dy-seatSize.y*2.5f,mScreenSize.x.toFloat()-seatSize.x,dy-seatSize.y*2.5f,mPaint);
                 mPaint.color = colorOld
             }
         }
