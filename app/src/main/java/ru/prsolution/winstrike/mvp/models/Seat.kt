@@ -21,6 +21,7 @@ class Seat(json: Coors, publicPid: String, seatType: String, pcname: String, pcs
     var pcname: String
     var pcstatus: Boolean = false
 
+
     init  {
 
             var x = json.x

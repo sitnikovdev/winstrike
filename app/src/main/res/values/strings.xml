@@ -191,5 +191,6 @@
     <string name="preference_file_key">ru.prsolution.winstrike.PREFERENCE_FILE_KEY</string>
     <string name="saved_time_from">saved_date_time</string>
     <string name="saved_time_to">saved_time_to</string>
+    <string name="saved_date">saved_date</string>
 
 </resources>

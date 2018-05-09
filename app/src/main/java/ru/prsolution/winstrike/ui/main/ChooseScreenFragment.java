@@ -264,8 +264,11 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     private void showMap() {
 
         // TODO: 07/05/2018 REMOVE IT BLOCK AFTER TEST!!!
-        String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-08T18:07:00");
-        String timeToData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-08T17:07:00");
+        String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T18:07:00");
+        String timeToData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T17:07:00");
+        String  selectedDate = sharedPref.getString(getString(R.string.saved_date),"");
+/*        String timeFromData = "2018-05-09T17:07:00";
+        String timeToData = "2018-05-09T18:07:00";*/
 
         timeFromUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeFromData));
         timeToUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeToData));
@@ -347,6 +350,8 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString(getString(R.string.saved_time_from), String.valueOf(timeFromData));
             editor.putString(getString(R.string.saved_time_to), String.valueOf(timeToData));
+            editor.putString(getString(R.string.saved_date), String.valueOf(selectedDate));
+
             editor.commit();
 
 
@@ -413,6 +418,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             tinyDB.putString("date", selectedDate);*/
 
             MapInfoSingleton.getInstance().setSelectedDate(selectedDate);
+            sharedPref.edit().putString(String.valueOf(R.string.saved_date), MapInfoSingleton.getInstance().getSelectedDate());
 
             tv_date.setText(selectedDate);
         };

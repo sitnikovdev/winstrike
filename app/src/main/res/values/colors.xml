@@ -33,4 +33,16 @@
     <color name="greensea">#16a085</color>
     <color name="nephritis">#27ae60</color>
     <color name="belizehole">#2980b9</color>
+
+    <color name="seat_red">#db486e</color>
+
+    <color name="seat_yellow">#F8C742</color>
+
+    <color name="seat_gray">#939598</color>
+
+    <color name="seat_darkgray">#424242</color>
+
+    <color name="seat_blue">#6768E2</color>
+
+
 </resources>
