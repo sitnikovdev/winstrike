@@ -1,8 +1,15 @@
 package ru.prsolution.winstrike.ui.main
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import android.graphics.Paint.ANTI_ALIAS_FLAG
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.VectorDrawable
+import android.support.annotation.StyleRes
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
+import android.support.v7.view.ContextThemeWrapper
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
@@ -32,7 +39,12 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth = 10f
 
-        mSeatBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.seat_darkgrey);
+
+        val theme = resources.newTheme()
+
+        theme.applyStyle(R.style.SeatGray, false)
+
+        mSeatBitmap = getBitmap(context,R.drawable.ic_seat,theme)
 
         val height = WinstrikeApp.getInstance().displayHeightPx
         val width = WinstrikeApp.getInstance().displayWidhtPx
@@ -41,22 +53,46 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         mXScaleFactor = (width / mWall.end.x)
         mYScaleFactor = (height / mWall.end.y)
 
-        val seatSize: Point
-        seatSize = Point()
-        seatSize.x = mSeatBitmap.width.toInt()
-        seatSize.y = mSeatBitmap.height.toInt()
+        val seatSize = Point()
+        seatSize.x = mSeatBitmap.width
+        seatSize.y = mSeatBitmap.height
 
         mScreenSize = Point()
         mScreenSize = calculateScreenSize(seatSize)
-        this.setMinimumWidth(mScreenSize.x)
-        this.setMinimumHeight(mScreenSize.y)
+        this.minimumWidth = mScreenSize.x
+        this.minimumHeight = mScreenSize.y
     }
+
 
     /**вычисляет расстояние от начала координат до начальной точки картинки через гипотенузу*/
     fun getDist(coord: Point): Double {
         val d = Math.sqrt(Math.pow(coord.x.toDouble(), 2.0) + Math.pow(coord.y.toDouble(), 2.0))
         return d
     }
+
+
+    private fun getBitmap(vectorDrawable: VectorDrawable): Bitmap {
+        val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth,
+                vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+        vectorDrawable.draw(canvas)
+        Timber.d("getBitmap: 1")
+        return bitmap
+    }
+
+    private fun getBitmap(context: Context, drawableId: Int, @StyleRes theme: Resources.Theme): Bitmap {
+        Timber.d("getBitmap: 2")
+        val drawable = ResourcesCompat.getDrawable(context.resources, drawableId,theme)
+        return if (drawable is BitmapDrawable) {
+            BitmapFactory.decodeResource(context.resources, drawableId)
+        } else if (drawable is VectorDrawable) {
+            getBitmap((drawable as VectorDrawable?)!!)
+        } else {
+            throw IllegalArgumentException("unsupported drawable type")
+        }
+    }
+
 
     private fun calculateScreenSize(seatSize: Point): Point {
         val farthestSeat = mSeats.maxWith(Comparator<Seat> { p1, p2 ->
@@ -95,13 +131,13 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         for (label in mLabels) {
             val text = label.text
             val dx = label.dx * mXScaleFactor
-            val dy = (label.dy * (mYScaleFactor / 1.5).toFloat())+mSeatBitmap.height
+            val dy = (label.dy * (mYScaleFactor / 1.5).toFloat()) + mSeatBitmap.height
             canvas.drawText(text, dx, dy, mPaint)
         }
     }
 
     private fun drawWalls(canvas: Canvas, wall: Wall) {
-        mPaint.color = Color.RED
+        mPaint.color = 0xffffff
         mPaint.style = Paint.Style.STROKE
         val leftXTop = wall.start.x * mXScaleFactor.toInt()
         val leftYTop = wall.start.x * (mYScaleFactor / 1.5).toInt()

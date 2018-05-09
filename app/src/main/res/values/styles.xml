@@ -336,4 +336,25 @@
         <item name="android:textColor">@color/color_black</item>
     </style>
 
+    <style name="SeatRed">
+        <item name="seat_color">#db486e</item>
+    </style>
+
+    <style name="SeatYellow">
+        <item name="seat_color">#F8C742</item>
+    </style>
+
+    <style name="SeatGray">
+        <item name="seat_color">#939598</item>
+    </style>
+
+    <style name="SeatDarkGray">
+        <item name="seat_color">#424242</item>
+    </style>
+
+    <style name="SeatBlue">
+        <item name="seat_color">#424242</item>
+    </style>
+
+
 </resources>
