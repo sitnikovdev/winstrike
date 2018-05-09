@@ -9,6 +9,7 @@ import android.graphics.drawable.VectorDrawable
 import android.support.annotation.StyleRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
@@ -28,7 +29,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
     lateinit var mRectWall: Rect
     private val mWall: Wall
     private var mScreenSize: Point;
-    var mXScaleFactor: Float
+    private var mXScaleFactor: Float
     private val mYScaleFactor: Float
     private val mLabels = room.labels
     private var mSeatFreeBtm: Bitmap
@@ -86,6 +87,8 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
 
         return point
     }
+
+
 
 
     override fun onDraw(canvas: Canvas) {
@@ -174,17 +177,6 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         return bitmap
     }
 
-    private fun getBitmap(context: Context, drawableId: Int, @StyleRes theme: Resources.Theme): Bitmap {
-        Timber.d("getBitmap: 2")
-        val drawable = ResourcesCompat.getDrawable(context.resources, drawableId, theme)
-        return if (drawable is BitmapDrawable) {
-            BitmapFactory.decodeResource(context.resources, drawableId)
-        } else if (drawable is VectorDrawable) {
-            getBitmap((drawable as VectorDrawable?)!!)
-        } else {
-            throw IllegalArgumentException("unsupported drawable type")
-        }
-    }
     private fun getBitmap(context: Context, drawableId: Int): Bitmap {
         Timber.d("getBitmap: 2")
         val drawable = ContextCompat.getDrawable(context, drawableId)

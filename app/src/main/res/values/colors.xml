@@ -44,5 +44,7 @@
 
     <color name="seat_blue">#6768E2</color>
 
+    <color name="seat_picked">@color/color_white</color>
+
 
 </resources>

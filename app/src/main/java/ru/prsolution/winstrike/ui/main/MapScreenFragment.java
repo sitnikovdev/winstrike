@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.ui.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -140,6 +142,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void showSeat(GameRoom room) {
         for (Seat seat : room.getSeats()) {
@@ -165,12 +168,49 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         }
     //    View seatView = new UISeatsView(getContext());
         View drawView = new DrawView(getContext(),room);
+
+
+//        drawView.setOnTouchListener(new onDrawTouchListener());
+
+
+
         ViewGroup.LayoutParams params = rootLayout.getLayoutParams();
         params.height = drawView.getMinimumHeight();
         params.width = drawView.getMinimumWidth();
         rootLayout.setLayoutParams(params);
         rootLayout.addView(drawView);
     }
+ class onDrawTouchListener implements View.OnTouchListener {
+            float x;
+            float y;
+            String sDown;
+            String sMove;
+            String sUp;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                x = event.getX();
+                y = event.getY();
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: // нажатие
+                        sDown = "Down: " + x + "," + y;
+                        sMove = ""; sUp = "";
+                        break;
+                    case MotionEvent.ACTION_MOVE: // движение
+                        sMove = "Move: " + x + "," + y;
+                        break;
+                    case MotionEvent.ACTION_UP: // отпускание
+                    case MotionEvent.ACTION_CANCEL:
+                        sMove = "";
+                        sUp = "Up: " + x + "," + y;
+                        break;
+                }
+                Timber.d(sDown + "\n" + sMove + "\n" + sUp);
+                return true;
+            }
+        }
+
 
 
 
