@@ -112,6 +112,14 @@ public class TouchImageView extends View {
         });
     }
 
+    private void setScaleType(ImageView.ScaleType matrix) {
+        // TODO: 10/05/2018  Not Implemented yet.
+    }
+
+    private void setImageMatrix(Matrix matrix) {
+        // TODO: 10/05/2018 Implement this method
+    }
+
     public void setMaxZoom(float x) {
         maxScale = x;
     }
@@ -237,6 +245,11 @@ public class TouchImageView extends View {
         }
         fixTrans();
     }
+
+    private Drawable getDrawable() {
+        // TODO: 10/05/2018 Implement this method
+        return null;
+    }
 }
 /*
     then in .xml write below code to load image
@@ -251,6 +264,6 @@ public class TouchImageView extends View {
         in your activity create ref and you can load image to imageView  -
 
         TouchImageView imageView = (TouchImageView) findViewById(R.id.image);
-
+*/
 
 

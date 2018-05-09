@@ -150,6 +150,12 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
             val dx = label.dx * mXScaleFactor
             val dy = (label.dy * (mYScaleFactor / 1.5).toFloat()) + seatSize.y
             canvas.drawText(text, dx, dy, mPaint)
+            if (text.equals("HP STAGE 1")) {
+                val colorOld = mPaint.color
+                mPaint.color = Color.GRAY
+                canvas.drawLine(dx,dy-seatSize.y*2,mScreenSize.x.toFloat()-seatSize.x,dy-seatSize.y*2,mPaint);
+                mPaint.color = colorOld
+            }
         }
     }
 
