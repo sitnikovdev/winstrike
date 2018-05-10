@@ -178,8 +178,19 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
         seatSize.set(seatBitmap.getWidth(), seatBitmap.getHeight());
 
+        Point mScreenSize = MapViewUtils.Companion.calculateScreenSize(seatSize,room.getSeats(),mXScaleFactor,mYScaleFactor);
+
+
+        ViewGroup.LayoutParams params = rootLayout.getLayoutParams();
+        params.width = mScreenSize.x;
+        params.height = mScreenSize.y;
+        rootLayout.setLayoutParams(params);
+
+
         for (Seat seat : room.getSeats()) {
             Double angle =  Math.toDegrees(seat.getAngle());
+            Float pivotX = seatBitmap.getWidth()/2f;
+            Float pivotY = seatBitmap.getHeight()/2f;
 
             ImageView ivSeat = new ImageView(getContext());
             ivSeat.setBackgroundResource(R.drawable.ic_seat_gray);
@@ -187,10 +198,6 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
             seatParams.leftMargin = (int) (seat.getDx() * mXScaleFactor);
             seatParams.topMargin = (int) (seat.getDy() * mYScaleFactor);
-
-//            .rotate(angle.toFloat(), seatBitmap.width / 2f, seatBitmap.height / 2f);
-            Float pivotX = seatBitmap.getWidth()/2f;
-            Float pivotY = seatBitmap.getHeight()/2f;
 
             ivSeat.setPivotX(pivotX);
             ivSeat.setPivotY(pivotY);
