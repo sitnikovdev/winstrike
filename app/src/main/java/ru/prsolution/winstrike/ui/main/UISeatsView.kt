@@ -49,7 +49,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         mWall = room.walls[0]
 
         mXScaleFactor = (width / mWall.end.x)
-        mYScaleFactor = (height / mWall.end.y)
+        mYScaleFactor = (height / mWall.end.y)  + 1
 
 
         seatSize.x = mSeatFreeBtm.width
