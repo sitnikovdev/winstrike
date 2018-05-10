@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.ui.main
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
@@ -43,7 +44,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth = 10f
 
-        mSeatFreeBtm = getBitmap(context, R.drawable.ic_seat)
+        mSeatFreeBtm = getBitmap(context, R.drawable.ic_seat_gray)
 
 
         val height = WinstrikeApp.getInstance().displayHeightPx
@@ -51,7 +52,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         mWall = room.walls[0]
 
         mXScaleFactor = (width / mWall.end.x)
-        mYScaleFactor = (height / mWall.end.y)  + 1
+        mYScaleFactor = (height / mWall.end.y) + 1
 
 
         seatSize.x = mSeatFreeBtm.width
@@ -63,7 +64,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         this.minimumWidth = mScreenSize.x
         this.minimumHeight = mScreenSize.y
         //fill bitmaps
-        var seatBitmap:Bitmap
+        var seatBitmap: Bitmap
         for (seat in mSeats) {
             when (seat.type) {
                 SeatType.FREE -> {
@@ -82,9 +83,11 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
                     seatBitmap = getBitmap(context, R.drawable.ic_seat_yellow)
                 }
             }
-            hmap.put(seat.type,seatBitmap)
+            hmap.put(seat.type, seatBitmap)
         }
+
     }
+
 
 
     /**вычисляет расстояние от начала координат до начальной точки картинки через гипотенузу*/
@@ -111,8 +114,6 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
 
         return point
     }
-
-
 
 
     override fun onDraw(canvas: Canvas) {
@@ -178,7 +179,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
             if (text.equals("HP STAGE 1")) {
                 val colorOld = mPaint.color
                 mPaint.color = Color.GRAY
-                canvas.drawLine(dx,dy-seatSize.y*2.5f,mScreenSize.x.toFloat()-seatSize.x,dy-seatSize.y*2.5f,mPaint);
+                canvas.drawLine(dx, dy - seatSize.y * 2.5f, mScreenSize.x.toFloat() - seatSize.x, dy - seatSize.y * 2.5f, mPaint);
                 mPaint.color = colorOld
             }
         }

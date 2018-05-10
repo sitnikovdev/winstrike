@@ -56,6 +56,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     private final int RLW = RelativeLayout.LayoutParams.WRAP_CONTENT;
     private RelativeLayout.LayoutParams tvParams;
     private RelativeLayout.LayoutParams rootLayoutParams;
+    View drawView;
 
     int xFactor = 3;
 
@@ -146,13 +147,14 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     @Override
     public void showSeat(GameRoom room) {
         for (Seat seat : room.getSeats()) {
-/*            rootLayoutParams.leftMargin = (int) (seat.getDx() * xFactor);
+/*           rootLayoutParams.leftMargin = (int) (seat.getDx() * xFactor);
             rootLayoutParams.topMargin = (int) (seat.getDy() * xFactor);*/
 
-            ImageView ivSeat = new ImageView(getContext());
+/*            ImageView ivSeat = new ImageView(getContext());
+            ivSeat.setBackgroundResource(R.drawable.ic_seat_red);*/
 
-            SeatType seatStatus = SeatType.Companion.get(seat.getType().toString().toLowerCase());
-            ivSeat.setBackgroundResource(seatStatus.getImage());
+/*           SeatType seatStatus = SeatType.Companion.get(seat.getType().toString().toLowerCase());
+            ivSeat.setBackgroundResource(seatStatus.getImage());*/
 
 /*            rotateSeat(seat, ivSeat);
             ivSeat.setLayoutParams(rootLayoutParams);*/
@@ -162,17 +164,13 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
                     v -> onSeatClicked(seat, ivSeat)
             );
 */
-            //rootLayout.addView(ivSeat);
+//            rootLayout.addView(ivSeat);
 
 
         }
-    //    View seatView = new UISeatsView(getContext());
-        View drawView = new DrawView(getContext(),room);
-
-
-        drawView.setOnTouchListener(new onDrawTouchListener());
-
-
+        //    View seatView = new UISeatsView(getContext());
+        drawView = new DrawView(getContext(), room);
+        //drawView.setOnTouchListener(new onDrawTouchListener());
 
         ViewGroup.LayoutParams params = rootLayout.getLayoutParams();
         params.height = drawView.getMinimumHeight();
@@ -180,116 +178,18 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         rootLayout.setLayoutParams(params);
         rootLayout.addView(drawView);
     }
- class onDrawTouchListener implements View.OnTouchListener {
-            float x;
-            float y;
-            String sDown;
-            String sMove;
-            String sUp;
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                x = event.getX();
-                y = event.getY();
 
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN: // нажатие
-                        sDown = "Down: " + x + "," + y;
-                        sMove = ""; sUp = "";
-                        break;
-                    case MotionEvent.ACTION_MOVE: // движение
-                        sMove = "Move: " + x + "," + y;
-                        break;
-                    case MotionEvent.ACTION_UP: // отпускание
-                    case MotionEvent.ACTION_CANCEL:
-                        sMove = "";
-                        sUp = "Up: " + x + "," + y;
-                        break;
-                }
-                Timber.d(sDown + "\n" + sMove + "\n" + sUp);
-                return true;
-            }
+    class onDrawTouchListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+           drawView.onTouchEvent(event);
+            return true;
         }
-
-
-
-
-    public static int getResourseId(Context context, String pVariableName, String pResourcename, String pPackageName) throws RuntimeException {
-        try {
-            return context.getResources().getIdentifier(pVariableName, pResourcename, pPackageName);
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting Resource ID.", e);
-        }
-    }
-
-    /**
-     * Set image selected on click. When selected - draw it white. Else, restore old image resource.
-     *
-     * @param ivSeat
-     * @param seat
-     * @param isSelected
-     */
-
-    public void setSeatSelected(ImageView ivSeat, Seat seat, boolean isSelected) {
-        String seatStatus = seat.getType().toString();
-        SeatType status = SeatType.Companion.get(seatStatus);
-
-        if (isSelected) {
-            ivSeat.setBackgroundResource(R.drawable.seat_white);
-            presenter.showSnackBar();
-        } else {
-
-            if (status == SeatType.FREE) {
-                ivSeat.setImageResource(R.drawable.seat_grey);
-            }
-            if (status == SeatType.BOOKING) {
-                ivSeat.setImageResource(R.drawable.seat_red);
-            }
-            if (status == SeatType.SELF_BOOKING) {
-                ivSeat.setImageResource(R.drawable.seat_blue);
-            }
-            if (status == SeatType.VIP) {
-                ivSeat.setImageResource(R.drawable.seat_yellow);
-            }
-            if (status == SeatType.HIDDEN) {
-                ivSeat.setImageResource(R.drawable.seat_darkgrey);
-            }
-
-            rotateSeat(seat, ivSeat);
-
-            presenter.hideSnackBar();
-        }
-    }
-
-    private void onSeatClicked(Seat seat, ImageView ivSeat) {
-/*        String publicId = seat.getPublic_id();
-        List<String> savedPublicIds = MapInfoSingleton.getInstance().getPidArray();
-        for (String pid : savedPublicIds){
-            if (publicId.equals(pid)) {
-                seat.setSelected(false);
-                MapInfoSingleton.getInstance().getPidArray().remove(publicId);
-            }
-        }
-        */
-/*        setSeatSelected(ivSeat, seat, seat.isSelected());
-//        if (seat.getSeatType() == 0 || seat.getSeatType() == 1) {
-            if (!seat.isSelected()) {
-                seat.setSelected(true);
-                MapInfoSingleton.getInstance().addToArray(seat.getPublic_id());
-            } else {
-                seat.setSelected(false);
-                MapInfoSingleton.getInstance().getPidArray().remove(seat.getPublic_id());
-            }
-            setSeatSelected(ivSeat, seat, seat.isSelected());*/
-//        }
 
     }
 
-    private void rotateSeat(Seat seat, ImageView ivSeat) {
-        if (Math.signum(seat.getAngle()) == 1.0) {
-            ivSeat.setRotation(180);
-        }
-    }
 
 
     @Override
