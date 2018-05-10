@@ -2,14 +2,21 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -33,7 +40,7 @@ import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
 import ru.prsolution.winstrike.mvp.models.Seat;
-import ru.prsolution.winstrike.mvp.models.SeatType;
+import ru.prsolution.winstrike.mvp.models.Wall;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.Service;
@@ -147,7 +154,8 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void showSeat(GameRoom room) {
-            drawSeat(room.getSeats());
+        //drawSeat(room.getSeats());
+        drawSeat(room);
 
 /*        drawView = new DrawView(getContext(), room);
         ViewGroup.LayoutParams params = rootLayout.getLayoutParams();
@@ -157,8 +165,44 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         rootLayout.addView(drawView);*/
     }
 
+    void drawSeat(GameRoom room) {
+        Wall mWall = room.getWalls().get(0);
+        Float height = WinstrikeApp.getInstance().getDisplayHeightPx();
+        Float width = WinstrikeApp.getInstance().getDisplayWidhtPx();
+        Float mXScaleFactor = (width / mWall.end.x);
+        Float mYScaleFactor = (height / mWall.end.y);
+        Point seatSize = new Point();
 
-    public void drawSeat(List<Seat> seats) {
+
+        Bitmap seatBitmap = getBitmap(getContext(), R.drawable.ic_seat_gray);
+
+        seatSize.set(seatBitmap.getWidth(), seatBitmap.getHeight());
+
+        for (Seat seat : room.getSeats()) {
+            Double angle =  Math.toDegrees(seat.getAngle());
+
+            ImageView ivSeat = new ImageView(getContext());
+            ivSeat.setBackgroundResource(R.drawable.ic_seat_gray);
+
+            seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
+            seatParams.leftMargin = (int) (seat.getDx() * mXScaleFactor);
+            seatParams.topMargin = (int) (seat.getDy() * mYScaleFactor);
+
+//            .rotate(angle.toFloat(), seatBitmap.width / 2f, seatBitmap.height / 2f);
+            Float pivotX = seatBitmap.getWidth()/2f;
+            Float pivotY = seatBitmap.getHeight()/2f;
+
+            ivSeat.setPivotX(pivotX);
+            ivSeat.setPivotY(pivotY);
+            ivSeat.setRotation(new Float(angle));
+
+            ivSeat.setLayoutParams(seatParams);
+
+            rootLayout.addView(ivSeat);
+        }
+    }
+
+/*    public void drawSeat(List<Seat> seats) {
         for (Seat seat : seats) {
             ImageView ivSeat = new ImageView(getContext());
 
@@ -178,7 +222,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 //            );
             rootLayout.addView(ivSeat);
         }
-    }
+    }*/
 
 
     @Override
@@ -257,4 +301,31 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     protected void toast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
+
+    private Bitmap getBitmap(VectorDrawable vectorDrawable) {
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        vectorDrawable.draw(canvas);
+        Timber.d("getBitmap: 1");
+        return bitmap;
+    }
+
+    private Bitmap getBitmap(Context context, Integer drawableId) {
+        Timber.d("getBitmap: 2");
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        Bitmap bitmap;
+
+        if (drawable instanceof BitmapDrawable) {
+            return BitmapFactory.decodeResource(context.getResources(), drawableId);
+        } else if (drawable instanceof VectorDrawable) {
+           bitmap =  getBitmap((VectorDrawable) drawable);
+        } else {
+            throw new IllegalArgumentException("unsupported drawable type");
+        }
+        return bitmap;
+    }
+
+
 }
