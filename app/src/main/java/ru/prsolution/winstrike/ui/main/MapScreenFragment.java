@@ -170,7 +170,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         View drawView = new DrawView(getContext(),room);
 
 
-//        drawView.setOnTouchListener(new onDrawTouchListener());
+        drawView.setOnTouchListener(new onDrawTouchListener());
 
 
 

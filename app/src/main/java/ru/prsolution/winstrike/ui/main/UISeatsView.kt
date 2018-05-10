@@ -6,6 +6,7 @@ import android.graphics.*
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.VectorDrawable
+import android.provider.MediaStore.Images.Media.getBitmap
 import android.support.annotation.StyleRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
@@ -34,6 +35,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
     private val mLabels = room.labels
     private var mSeatFreeBtm: Bitmap
     val seatSize = Point()
+    var hmap = HashMap<SeatType, Bitmap>()
 
 
     init {
@@ -60,6 +62,28 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
         mScreenSize = calculateScreenSize(seatSize)
         this.minimumWidth = mScreenSize.x
         this.minimumHeight = mScreenSize.y
+        //fill bitmaps
+        var seatBitmap:Bitmap
+        for (seat in mSeats) {
+            when (seat.type) {
+                SeatType.FREE -> {
+                    seatBitmap = getBitmap(context, R.drawable.ic_seat_gray)
+                }
+                SeatType.HIDDEN -> {
+                    seatBitmap = getBitmap(context, R.drawable.ic_seat_darkgray)
+                }
+                SeatType.SELF_BOOKING -> {
+                    seatBitmap = getBitmap(context, R.drawable.ic_seat_blue)
+                }
+                SeatType.BOOKING -> {
+                    seatBitmap = getBitmap(context, R.drawable.ic_seat_red)
+                }
+                SeatType.VIP -> {
+                    seatBitmap = getBitmap(context, R.drawable.ic_seat_yellow)
+                }
+            }
+            hmap.put(seat.type,seatBitmap)
+        }
     }
 
 
@@ -106,19 +130,19 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
             val seatBitmap: Bitmap;
             when (seat.type) {
                 SeatType.FREE -> {
-                    seatBitmap = getBitmap(context, R.drawable.ic_seat_gray)
+                    seatBitmap = hmap[seat.type]!!
                 }
                 SeatType.HIDDEN -> {
-                    seatBitmap = getBitmap(context, R.drawable.ic_seat_darkgray)
+                    seatBitmap = hmap[seat.type]!!
                 }
                 SeatType.SELF_BOOKING -> {
-                    seatBitmap = getBitmap(context, R.drawable.ic_seat_blue)
+                    seatBitmap = hmap[seat.type]!!
                 }
                 SeatType.BOOKING -> {
-                    seatBitmap = getBitmap(context, R.drawable.ic_seat_red)
+                    seatBitmap = hmap[seat.type]!!
                 }
                 SeatType.VIP -> {
-                    seatBitmap = getBitmap(context, R.drawable.ic_seat_yellow)
+                    seatBitmap = hmap[seat.type]!!
                 }
             }
 
