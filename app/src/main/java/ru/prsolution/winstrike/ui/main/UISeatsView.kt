@@ -150,6 +150,7 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
             val dx = label.dx * mXScaleFactor
             val dy = (label.dy * (mYScaleFactor / 1.5).toFloat()) + seatSize.y
             canvas.drawText(text, dx, dy, mPaint)
+            // Draw horizontal line after end main hall section
             if (text.equals("HP STAGE 1")) {
                 val colorOld = mPaint.color
                 mPaint.color = Color.GRAY
