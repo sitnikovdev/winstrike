@@ -206,7 +206,12 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             ivSeat.setRotation(new Float(angle));
 
             ivSeat.setLayoutParams(seatParams);
-            Timber.d("seat.type: %s", seat.getType());
+            ivSeat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Timber.d("seat.type: %s", seat.getType());
+                }
+            });
             rootLayout.addView(ivSeat);
         }
 
@@ -232,7 +237,6 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
                 view.setBackgroundResource(R.drawable.hall_line);
                 view.setLayoutParams(tvParams);
                 rootLayout.addView(view);
-
             }
 
             rootLayout.addView(textView);
