@@ -37,7 +37,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.mvp.apimodels.Label;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
@@ -211,6 +210,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             rootLayout.addView(ivSeat);
         }
 
+        // Add labels
         for (LabelRoom label : room.getLabels()) {
             String text = label.getText();
             Integer dx = (int) (label.getDx() * mXScaleFactor);
@@ -223,29 +223,21 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             textView.setTextColor(Color.WHITE);
             textView.setTextSize(14);
             textView.setLayoutParams(tvParams);
+            // Add horizontal line
+            if (text.equals("HP STAGE 1")) {
+                tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
+                tvParams.leftMargin = dx;
+                tvParams.topMargin = (int) (dy - (seatSize.y * 20));
+                View view = new View(getContext());
+                view.setBackgroundResource(R.drawable.hall_line);
+                view.setLayoutParams(tvParams);
+                rootLayout.addView(view);
+
+            }
 
             rootLayout.addView(textView);
-//            canvas.drawText(text, dx, dy, mPaint)
-            // Draw horizontal line after end main hall section
         }
 
-    }
-
-    private void  drawLabels(List<Label> labels,Float mXScaleFactor, Float mYScaleFactor, Point mScreenSize, Point seatSize) {
-
-        for (Label label : labels) {
-            String text = label.getText();
-            Float dx = label.getX() * mXScaleFactor;
-            Float dy = (float) (label.getY() * (mYScaleFactor / 1.5)) + seatSize.y;
-//            canvas.drawText(text, dx, dy, mPaint)
-            // Draw horizontal line after end main hall section
-            if (text.equals("HP STAGE 1")) {
-/*                val colorOld = mPaint.color
-                mPaint.color = Color.GRAY
-                canvas.drawLine(dx, dy - seatSize.y * 2.5f, mScreenSize.x.toFloat() - seatSize.x, dy - seatSize.y * 2.5f, mPaint);
-                mPaint.color = colorOld*/
-            }
-        }
     }
 
 
