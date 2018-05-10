@@ -89,7 +89,6 @@ class DrawView(context: Context, room: GameRoom) : View(context) {
     }
 
 
-
     /**вычисляет расстояние от начала координат до начальной точки картинки через гипотенузу*/
     private fun getDist(coord: Point): Double {
         val d = Math.sqrt(Math.pow(coord.x.toDouble(), 2.0) + Math.pow(coord.y.toDouble(), 2.0))

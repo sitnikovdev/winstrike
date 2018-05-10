@@ -267,8 +267,8 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T18:07:00");
         String timeToData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T17:07:00");
         String  selectedDate = sharedPref.getString(getString(R.string.saved_date),"");
-/*        String timeFromData = "2018-05-09T17:07:00";
-        String timeToData = "2018-05-09T18:07:00";*/
+//        String timeFromData = "2018-05-09T17:07:00";
+//        String timeToData = "2018-05-09T18:07:00";
 
         timeFromUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeFromData));
         timeToUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeToData));

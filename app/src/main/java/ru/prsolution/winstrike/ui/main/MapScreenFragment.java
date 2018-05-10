@@ -19,6 +19,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.mvp.apimodels.Label;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
@@ -173,27 +175,28 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         Float mYScaleFactor = (height / mWall.end.y);
         Point seatSize = new Point();
 
-
         Bitmap seatBitmap = getBitmap(getContext(), R.drawable.ic_seat_gray);
 
         seatSize.set(seatBitmap.getWidth(), seatBitmap.getHeight());
+        Point mScreenSize = MapViewUtils.Companion.calculateScreenSize(seatSize, room.getSeats(), mXScaleFactor, mYScaleFactor);
 
-        Point mScreenSize = MapViewUtils.Companion.calculateScreenSize(seatSize,room.getSeats(),mXScaleFactor,mYScaleFactor);
 
-
-        ViewGroup.LayoutParams params = rootLayout.getLayoutParams();
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rootLayout.getLayoutParams();
+        params.setMargins(0, 0, 100, 200);
         params.width = mScreenSize.x;
-        params.height = mScreenSize.y;
+        params.height = mScreenSize.y + (seatSize.y * 15);
+        rootLayout.setLayoutParams(params);
+
         rootLayout.setLayoutParams(params);
 
 
         for (Seat seat : room.getSeats()) {
-            Double angle =  Math.toDegrees(seat.getAngle());
-            Float pivotX = seatBitmap.getWidth()/2f;
-            Float pivotY = seatBitmap.getHeight()/2f;
+            Double angle = Math.toDegrees(seat.getAngle());
+            Float pivotX = seatBitmap.getWidth() / 2f;
+            Float pivotY = seatBitmap.getHeight() / 2f;
 
             ImageView ivSeat = new ImageView(getContext());
-            ivSeat.setBackgroundResource(R.drawable.ic_seat_gray);
+            setImage(ivSeat, seat);
 
             seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
             seatParams.leftMargin = (int) (seat.getDx() * mXScaleFactor);
@@ -204,32 +207,72 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             ivSeat.setRotation(new Float(angle));
 
             ivSeat.setLayoutParams(seatParams);
-
+            Timber.d("seat.type: %s", seat.getType());
             rootLayout.addView(ivSeat);
+        }
+
+        for (LabelRoom label : room.getLabels()) {
+            String text = label.getText();
+            Integer dx = (int) (label.getDx() * mXScaleFactor);
+            Integer dy = (int) (label.getDy() * (mYScaleFactor)) + seatSize.y/2;
+            tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
+            tvParams.leftMargin = dx;
+            tvParams.topMargin =  dy;
+            TextView textView = new TextView(getContext());
+            textView.setText(text);
+            textView.setTextColor(Color.WHITE);
+            textView.setTextSize(14);
+            textView.setLayoutParams(tvParams);
+
+            rootLayout.addView(textView);
+//            canvas.drawText(text, dx, dy, mPaint)
+            // Draw horizontal line after end main hall section
+        }
+
+    }
+
+    private void  drawLabels(List<Label> labels,Float mXScaleFactor, Float mYScaleFactor, Point mScreenSize, Point seatSize) {
+
+        for (Label label : labels) {
+            String text = label.getText();
+            Float dx = label.getX() * mXScaleFactor;
+            Float dy = (float) (label.getY() * (mYScaleFactor / 1.5)) + seatSize.y;
+//            canvas.drawText(text, dx, dy, mPaint)
+            // Draw horizontal line after end main hall section
+            if (text.equals("HP STAGE 1")) {
+/*                val colorOld = mPaint.color
+                mPaint.color = Color.GRAY
+                canvas.drawLine(dx, dy - seatSize.y * 2.5f, mScreenSize.x.toFloat() - seatSize.x, dy - seatSize.y * 2.5f, mPaint);
+                mPaint.color = colorOld*/
+            }
         }
     }
 
-/*    public void drawSeat(List<Seat> seats) {
-        for (Seat seat : seats) {
-            ImageView ivSeat = new ImageView(getContext());
 
-//            SeatType seatStatus = SeatType.Companion.get(seat.getSeatStatus());
-//            ivSeat.setBackgroundResource(seatStatus.getImage());
-            ivSeat.setBackgroundResource(R.drawable.ic_seat_gray);
-
-            seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
-            seatParams.leftMargin = (int) seat.getDx() * xFactor;
-            seatParams.topMargin = (int) seat.getDy() * xFactor;
-
-//            rotateSeat(seat, ivSeat);
-            ivSeat.setLayoutParams(seatParams);
-
-//            ivSeat.setOnClickListener(
-//                    v -> onSeatClicked(seat, ivSeat)
-//            );
-            rootLayout.addView(ivSeat);
+    private void setImage(ImageView seatImg, Seat seat) {
+        switch (seat.getType()) {
+            case FREE: {
+                seatImg.setBackgroundResource(R.drawable.ic_seat_gray);
+                break;
+            }
+            case HIDDEN: {
+                seatImg.setBackgroundResource(R.drawable.ic_seat_darkgray);
+                break;
+            }
+            case SELF_BOOKING: {
+                seatImg.setBackgroundResource(R.drawable.ic_seat_blue);
+                break;
+            }
+            case BOOKING: {
+                seatImg.setBackgroundResource(R.drawable.ic_seat_red);
+                break;
+            }
+            case VIP: {
+                seatImg.setBackgroundResource(R.drawable.ic_seat_yellow);
+                break;
+            }
         }
-    }*/
+    }
 
 
     @Override
@@ -327,7 +370,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         if (drawable instanceof BitmapDrawable) {
             return BitmapFactory.decodeResource(context.getResources(), drawableId);
         } else if (drawable instanceof VectorDrawable) {
-           bitmap =  getBitmap((VectorDrawable) drawable);
+            bitmap = getBitmap((VectorDrawable) drawable);
         } else {
             throw new IllegalArgumentException("unsupported drawable type");
         }
