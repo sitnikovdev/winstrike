@@ -55,6 +55,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
     private final int RLW = RelativeLayout.LayoutParams.WRAP_CONTENT;
     private RelativeLayout.LayoutParams tvParams;
+    private RelativeLayout.LayoutParams seatParams;
     private RelativeLayout.LayoutParams rootLayoutParams;
     View drawView;
 
@@ -146,50 +147,38 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void showSeat(GameRoom room) {
-        for (Seat seat : room.getSeats()) {
-/*           rootLayoutParams.leftMargin = (int) (seat.getDx() * xFactor);
-            rootLayoutParams.topMargin = (int) (seat.getDy() * xFactor);*/
+            drawSeat(room.getSeats());
 
-/*            ImageView ivSeat = new ImageView(getContext());
-            ivSeat.setBackgroundResource(R.drawable.ic_seat_red);*/
-
-/*           SeatType seatStatus = SeatType.Companion.get(seat.getType().toString().toLowerCase());
-            ivSeat.setBackgroundResource(seatStatus.getImage());*/
-
-/*            rotateSeat(seat, ivSeat);
-            ivSeat.setLayoutParams(rootLayoutParams);*/
-
-/*
-            ivSeat.setOnClickListener(
-                    v -> onSeatClicked(seat, ivSeat)
-            );
-*/
-//            rootLayout.addView(ivSeat);
-
-
-        }
-        //    View seatView = new UISeatsView(getContext());
-        drawView = new DrawView(getContext(), room);
-        //drawView.setOnTouchListener(new onDrawTouchListener());
-
+/*        drawView = new DrawView(getContext(), room);
         ViewGroup.LayoutParams params = rootLayout.getLayoutParams();
         params.height = drawView.getMinimumHeight();
         params.width = drawView.getMinimumWidth();
         rootLayout.setLayoutParams(params);
-        rootLayout.addView(drawView);
+        rootLayout.addView(drawView);*/
     }
 
 
-    class onDrawTouchListener implements View.OnTouchListener {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
+    public void drawSeat(List<Seat> seats) {
+        for (Seat seat : seats) {
+            ImageView ivSeat = new ImageView(getContext());
 
-           drawView.onTouchEvent(event);
-            return true;
+//            SeatType seatStatus = SeatType.Companion.get(seat.getSeatStatus());
+//            ivSeat.setBackgroundResource(seatStatus.getImage());
+            ivSeat.setBackgroundResource(R.drawable.ic_seat_gray);
+
+            seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
+            seatParams.leftMargin = (int) seat.getDx() * xFactor;
+            seatParams.topMargin = (int) seat.getDy() * xFactor;
+
+//            rotateSeat(seat, ivSeat);
+            ivSeat.setLayoutParams(seatParams);
+
+//            ivSeat.setOnClickListener(
+//                    v -> onSeatClicked(seat, ivSeat)
+//            );
+            rootLayout.addView(ivSeat);
         }
-
     }
-
 
 
     @Override
