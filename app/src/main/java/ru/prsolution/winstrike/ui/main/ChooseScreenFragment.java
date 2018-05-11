@@ -42,6 +42,7 @@ import ru.prsolution.winstrike.common.entity.SeatModel;
 import ru.prsolution.winstrike.common.utils.TinyDB;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
+import ru.prsolution.winstrike.mvp.models.PaymentDataModel;
 import ru.prsolution.winstrike.mvp.presenters.ChoosePresenter;
 import ru.prsolution.winstrike.mvp.views.ChooseView;
 import ru.prsolution.winstrike.networking.Service;
@@ -264,7 +265,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     private void showMap() {
 
         // TODO: 07/05/2018 REMOVE IT BLOCK AFTER TEST!!!
-        String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T18:07:00");
+/*        String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T18:07:00");
         String timeToData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T17:07:00");
         String  selectedDate = sharedPref.getString(getString(R.string.saved_date),"");
 //        String timeFromData = "2018-05-09T17:07:00";
@@ -277,7 +278,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         MapInfoSingleton.getInstance().setDateTo(timeToUTC);
         // TODO: 27/04/2018 Call getActivePid api mService
 
-        presenter.getActivePid();
+        presenter.getActivePid();*/
         // TODO: 07/05/2018 END BLOCK
 
         RxView.clicks(next_button).subscribe(
@@ -343,10 +344,6 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             String time = timeFromData + " - " + timeToData;
             tinyDB.putString("time", time);
 
-/*
-            tinyDB.putString("timeFrom", String.valueOf(timeFromData));
-            tinyDB.putString("timeTo", String.valueOf(timeToData));
-*/
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString(getString(R.string.saved_time_from), String.valueOf(timeFromData));
             editor.putString(getString(R.string.saved_time_to), String.valueOf(timeToData));
@@ -360,6 +357,8 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
 
             MapInfoSingleton.getInstance().setDateFromShort(getFormattedDateShortToUTCString(selectedDate, String.valueOf(timeFromData)));
             MapInfoSingleton.getInstance().setDateToShort(getFormattedDateShortToUTCString(selectedDate, String.valueOf(timeToData)));
+
+
 
 
             tinyDB.putString("timeFrom", MapInfoSingleton.getInstance().getDateFromShort());
@@ -420,6 +419,10 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             MapInfoSingleton.getInstance().setSelectedDate(selectedDate);
             sharedPref.edit().putString(String.valueOf(R.string.saved_date), MapInfoSingleton.getInstance().getSelectedDate());
 
+            /**
+             *  Save selected date from calendar
+             */
+            PaymentDataModel.INSTANCE.setDate(calendar.get(0).getTime());
             tv_date.setText(selectedDate);
         };
 

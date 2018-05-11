@@ -45,6 +45,7 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.db.PidViewModel;
 import ru.prsolution.winstrike.db.entity.PidEntity;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
+import ru.prsolution.winstrike.mvp.common.MapViewUtils;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
 import ru.prsolution.winstrike.mvp.models.Seat;
@@ -169,7 +170,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rootLayout.getLayoutParams();
         params.setMargins(0, 0, 100, 200);
         params.width = mScreenSize.x;
-        params.height = mScreenSize.y + (seatSize.y * 15);
+        params.height = mScreenSize.y + (seatSize.y * 25);
         rootLayout.setLayoutParams(params);
 
         rootLayout.setLayoutParams(params);

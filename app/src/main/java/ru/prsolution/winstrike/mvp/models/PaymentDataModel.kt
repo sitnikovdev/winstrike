@@ -1,76 +1,73 @@
 package ru.prsolution.winstrike.mvp.models
 
-class PaymentDataModel {
+import ru.prsolution.winstrike.mvp.transform.DateTransform
+import timber.log.Timber
+import java.util.*
+import kotlin.collections.HashSet
+import kotlin.properties.ObservableProperty
+import kotlin.reflect.KProperty
 
-    //static let sharedInstance = PidTimeDate()
-
-     init { }
+object PaymentDataModel {
 
     var pid: String = ""
     var pids: Set<String> = HashSet()
-    var date: String  = "" {
-        didSet {
-            isDatesValid = false
-        }
+    var date: String  by observing("",didSet = {isDateValid()})
+
+    var startAt: String  by observing("",didSet = {
+          DateTransform.transformFromJSON(startAt)
+    })
+
+    var endAt:String  by observing("",didSet = {
+        DateTransform.transformFromJSON(endAt)
+    })
+
+    fun setDate(datetime: Date){
+         date =  DateTransform.transformToJSON(datetime)
     }
 
-    var startAt: String  = "" {
-        didSet {
-            if let t = DateTransform().transformFromJSON(startAt) {
-                startDate = t
-                UDManager.save(time: t)
-            }
-        }
+    var startDate: Date by observing(Date(),didSet= {
+        isDateValid()
+    })
+
+    var endDate: Date by observing(Date(),didSet= {
+        isDateValid()
+    })
+
+
+    private fun isDateValid():Boolean {
+        if (startDate != null && endDate != null){
+            val current = Date()
+             dateValid = startDate < endDate && startDate >= current
+            return true
+        } else
+           return false
     }
 
-    var endAt: String = "" {
-        didSet {
-            if let t = DateTransform().transformFromJSON(endAt) {
-                endDate = t
-            }
-        }
-    }
+    var dateValid:Boolean by observing(false,{
+        Timber.d("dates: valid ${dateValid}, startAt: ${startAt}, endAt: ${endAt}")
+    })
 
-    func setDate(datetime: Date) {
-        if let d = DateTransform().transformToJSON(datetime) {
-            date = d
-        }
-    }
-
-    var startDate: Date? {
-        didSet {
-            isDateValid()
-        }
-    }
-
-    var endDate: Date? {
-        didSet {
-            isDateValid()
-        }
-    }
-
-    var isDatesValid: Bool = false {
-        didSet {
-            print( "dates: valid \(isDatesValid), startAt: \(startAt), endAt: \(endAt)" )
-        }
-    }
-
-    private func isDateValid() {
-        if let start = startDate, let end = endDate {
-            let current = Date()
-            isDatesValid = start < end && start >= current
-        }
-    }
-
-    // MARK: callers is seatpickerpresenter, paidplacesvc and chooseatvc
-    func clear() {
-        pids = []
+    fun clear() {
+        pids = HashSet()
         date = ""
         startAt = ""
         endAt = ""
-        endDate = nil
-        startDate = nil
-        isDatesValid = false
+        endDate = Date()
+        startDate = Date()
+        dateValid = false
     }
+
+
+
+    fun <T> observing(initialValue: T,
+                      willSet: () -> Unit = { },
+                      didSet: () -> Unit = { }
+    ) = object : ObservableProperty<T>(initialValue) {
+        override fun beforeChange(property: KProperty<*>, oldValue: T, newValue: T): Boolean =
+                true.apply { willSet() }
+
+        override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) = didSet()
+    }
+
 }
 

@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.main
+package ru.prsolution.winstrike.mvp.common
 
 import android.graphics.Point
 import ru.prsolution.winstrike.mvp.models.Seat
@@ -37,5 +37,6 @@ class MapViewUtils() {
         inline fun <T> T.guard(block: T.() -> Unit): T {
             if (this == null) block(); return this
         }
+
     }
 }
