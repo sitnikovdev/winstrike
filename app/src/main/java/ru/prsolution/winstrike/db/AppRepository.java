@@ -29,7 +29,7 @@ public class AppRepository {
         return mUser;
     }
 
-    public LiveData<List<PidEntity>> getmPids() {
+    public LiveData<List<PidEntity>> getPids() {
         return mPids;
     }
 

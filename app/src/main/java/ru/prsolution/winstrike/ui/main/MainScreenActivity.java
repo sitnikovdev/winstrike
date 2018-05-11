@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -35,12 +36,16 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
+import ru.prsolution.winstrike.db.PidViewModel;
+import ru.prsolution.winstrike.db.entity.PidEntity;
+import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
@@ -74,7 +79,8 @@ import timber.log.Timber;
  */
 public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, ProfileFragment.OnProfileButtonsClickListener,
         AppFragment.OnAppButtonsClickListener, CarouselSeatFragment.OnChoosePlaceButtonsClickListener
-        , OnItemPayClickListener, ChooseScreenFragment.onMapShowClicked {
+        , OnItemPayClickListener, ChooseScreenFragment.onMapShowClicked, MapScreenFragment.OnSeatSelectedListener {
+    private PidViewModel mPidViewModel;
 
     @BindView(R.id.toolbar_text)
     TextView tvToolbarTitle;
@@ -258,6 +264,24 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         if (savedInstanceState == null) {
             presenter.onCreate();
         }
+
+        /**
+         * Get ViewModel for pids
+         */
+        mPidViewModel = ViewModelProviders.of(this).get(PidViewModel.class);
+
+        /**
+         * Check for activity when pid of selected seat is save or remove from db.
+         */
+        mPidViewModel.getPids().observe(this, pidEntities -> {
+            if (pidEntities != null) {
+                if (!pidEntities.isEmpty()) {
+                    Timber.d("Pid: %s", pidEntities);
+                }
+            }
+        });
+
+
         // TODO: 29/04/2018 REMOVE AFTER TEST!!!
         String token = "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI2MGNjNDQxYy05ZGVmLTQxZmQtOGMzMS1mYTkzN2E4MDg1OGEiLCJleHAiOjE1MjYyMjI5ODh9.uGiKrE6P7Gvq6YK-tXNMkdt4scZH_mNQuBiUuiVTegU";
         presenter.getOrders(token);
@@ -305,7 +329,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         setProfileScreenInterfaceVisibility(false);
 
         // TODO: 08/05/2018 REMOVE AFTER TESTS!!!
-       // presenter.onChooseScreenClick();
+        // presenter.onChooseScreenClick();
     }
 
     private void initBottomNavigationBar() {
@@ -714,12 +738,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         }
     }
 
-/*     private class   View.OnClickListener mMainOnClickListener() {
-        @Override
-        public void onClick(View view) {
-            initMainToolbar(HIDE_MENU,"Winstrike Arena",HIDE_ICON);
-            presenter.onBackPressed();
+    @Override
+    public void onPickedSeatsChanged(Set<String> mPickedSeatsIds) {
+        Timber.d("selected pids: %s", mPickedSeatsIds.toString());
+        for (String pid : mPickedSeatsIds) {
+            PidEntity pidEntity = new PidEntity();
+            pidEntity.setPublickId(pid);
+            mPidViewModel.insert(pidEntity);
         }
-    }*/
+    }
 
 }

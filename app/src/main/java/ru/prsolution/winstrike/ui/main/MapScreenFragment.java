@@ -89,6 +89,24 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         );
     }
 
+   public interface OnSeatSelectedListener {
+       void onPickedSeatsChanged(Set<String> mPickedSeatsIds);
+    }
+
+
+    OnSeatSelectedListener listener;
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnSeatSelectedListener) {
+            listener = (OnSeatSelectedListener) context;
+        } else {
+            throw new ClassCastException(context.toString() + " must implements OnSeatSelectedListener");
+        }
+    }
+
     public static MapScreenFragment getNewInstance(String name, int number) {
         MapScreenFragment fragment = new MapScreenFragment();
         Bundle arguments = new Bundle();
@@ -240,7 +258,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             mPickedSeats.remove(Integer.parseInt(id));
             mPickedSeatsIds.remove(publicPid);
         }
-//            onPickedSeatsChanged();
+            listener.onPickedSeatsChanged(mPickedSeatsIds);
     }
 
     private void animateView(ImageView seatView) {
