@@ -1,7 +1,7 @@
 package ru.prsolution.winstrike.ui.main;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,9 +12,11 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +32,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -68,9 +69,9 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     private RelativeLayout.LayoutParams seatParams;
     private RelativeLayout.LayoutParams rootLayoutParams;
     private Set<Integer> mPickedSeats = new HashSet<>();
-    private Integer index;
+    private Float mXScaleFactor;
+    private Float mYScaleFactor;
 
-    int xFactor = 3;
 
     @Inject
     Service service;
@@ -135,46 +136,18 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         initSnackBar();
     }
 
-    @Override
-    public void showLabel(List<LabelRoom> labels) {
-        for (LabelRoom label : labels) {
-            tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
-            tvParams.leftMargin = label.getDx() * xFactor;
-            tvParams.topMargin = (label.getDy() * xFactor) + 15;
-            TextView tvLabel = new TextView(getContext());
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                tvLabel.setTextAppearance(R.style.StemMedium17Primary);
-            } else {
-                tvLabel.setTextAppearance(getContext(), R.style.StemMedium17Primary);
-            }
-            tvLabel.setText(label.getText());
-            tvLabel.setLayoutParams(tvParams);
-
-            rootLayout.addView(tvLabel);
-        }
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void showSeat(GameRoom room) {
-        //drawSeat(room.getSeats());
         drawSeat(room);
-
-/*        drawView = new DrawView(getContext(), room);
-        ViewGroup.LayoutParams params = rootLayout.getLayoutParams();
-        params.height = drawView.getMinimumHeight();
-        params.width = drawView.getMinimumWidth();
-        rootLayout.setLayoutParams(params);
-        rootLayout.addView(drawView);*/
     }
 
     void drawSeat(GameRoom room) {
         Wall mWall = room.getWalls().get(0);
         Float height = WinstrikeApp.getInstance().getDisplayHeightPx();
         Float width = WinstrikeApp.getInstance().getDisplayWidhtPx();
-        Float mXScaleFactor = (width / mWall.end.x);
-        Float mYScaleFactor = (height / mWall.end.y);
+        mXScaleFactor = (width / mWall.end.x);
+        mYScaleFactor = (height / mWall.end.y);
         Point seatSize = new Point();
 
         Bitmap seatBitmap = getBitmap(getContext(), R.drawable.ic_seat_gray);
@@ -191,35 +164,27 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
         rootLayout.setLayoutParams(params);
 
-        index = 0;
         for (Seat seat : room.getSeats()) {
-            index ++;
-            Double angle = Math.toDegrees(seat.getAngle());
-            Float pivotX = seatBitmap.getWidth() / 2f;
-            Float pivotY = seatBitmap.getHeight() / 2f;
 
             ImageView ivSeat = new ImageView(getContext());
             setImage(ivSeat, seat);
 
-            seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
-            seatParams.leftMargin = (int) (seat.getDx() * mXScaleFactor);
-            seatParams.topMargin = (int) (seat.getDy() * mYScaleFactor);
-
-            ivSeat.setPivotX(pivotX);
-            ivSeat.setPivotY(pivotY);
-            ivSeat.setRotation(new Float(angle));
+            rotateSeat(seatBitmap, seat, ivSeat);
 
             ivSeat.setLayoutParams(seatParams);
             ivSeat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Timber.d("seat.type: %s", seat.getType());
-                    if (!mPickedSeats.contains(index)) {
-                        mPickedSeats.add(index);
+                    if (!mPickedSeats.contains(Integer.parseInt(seat.getId()))) {
+                        mPickedSeats.add(Integer.parseInt(seat.getId()));
                         ivSeat.setBackgroundResource(R.drawable.ic_seat_picked);
                     } else {
-                        mPickedSeats.remove(index);
-                        ivSeat.setBackgroundResource(seat.getType().getImage());
+                        mPickedSeats.remove(Integer.parseInt(seat.getId()));
+                        rootLayout.removeView(ivSeat);
+                        setImage(ivSeat, seat);
+                        rotateSeat(seatBitmap, seat, ivSeat);
+                        rootLayout.addView(ivSeat);
                     }
                 }
             });
@@ -236,8 +201,15 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             tvParams.topMargin =  dy;
             TextView textView = new TextView(getContext());
             textView.setText(text);
-            textView.setTextColor(Color.WHITE);
-            textView.setTextSize(14);
+//            textView.setTextColor(Color.WHITE);
+            //textView.setTextSize(14);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                textView.setTextAppearance(R.style.StemMedium17Primary);
+            } else {
+                textView.setTextAppearance(getContext(), R.style.StemMedium17Primary);
+            }
+
             textView.setLayoutParams(tvParams);
             // Add horizontal line
             if (text.equals("HP STAGE 1")) {
@@ -253,6 +225,24 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             rootLayout.addView(textView);
         }
 
+    }
+
+    private void rotateSeat(Bitmap seatBitmap, Seat seat, ImageView ivSeat) {
+        seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
+        seatParams.leftMargin = (int) (seat.getDx() * mXScaleFactor);
+        seatParams.topMargin = (int) (seat.getDy() * mYScaleFactor);
+
+        Float angle = radianToDegrees(seat);
+        Float pivotX = seatBitmap.getWidth() / 2f;
+        Float pivotY = seatBitmap.getHeight() / 2f;
+        ivSeat.setPivotX(pivotX);
+        ivSeat.setPivotY(pivotY);
+        ivSeat.setRotation(angle);
+    }
+
+    @NonNull
+    private Float radianToDegrees(Seat seat) {
+        return new Float(Math.toDegrees(seat.getAngle()));
     }
 
 
@@ -384,5 +374,9 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         return bitmap;
     }
 
+    private void changeTheme(final Resources.Theme theme, ImageView imageView) {
+        final Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_seat_exp, theme);
+        imageView.setImageDrawable(drawable);
+    }
 
 }
