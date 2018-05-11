@@ -21,6 +21,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -44,6 +45,7 @@ import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
 import ru.prsolution.winstrike.mvp.models.Seat;
+import ru.prsolution.winstrike.mvp.models.SeatType;
 import ru.prsolution.winstrike.mvp.models.Wall;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
@@ -175,16 +177,20 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             ivSeat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Timber.d("seat.type: %s", seat.getType());
-                    if (!mPickedSeats.contains(Integer.parseInt(seat.getId()))) {
-                        mPickedSeats.add(Integer.parseInt(seat.getId()));
-                        ivSeat.setBackgroundResource(R.drawable.ic_seat_picked);
-                    } else {
-                        mPickedSeats.remove(Integer.parseInt(seat.getId()));
-                        rootLayout.removeView(ivSeat);
-                        setImage(ivSeat, seat);
-                        rotateSeat(seatBitmap, seat, ivSeat);
-                        rootLayout.addView(ivSeat);
+                    if (seat.getType() == SeatType.FREE || seat.getType() == SeatType.VIP) {
+                        Timber.d("seat.type: %s", seat.getType());
+                        if (!mPickedSeats.contains(Integer.parseInt(seat.getId()))) {
+                            mPickedSeats.add(Integer.parseInt(seat.getId()));
+                            ivSeat.setBackgroundResource(R.drawable.ic_seat_picked);
+                        } else {
+                            mPickedSeats.remove(Integer.parseInt(seat.getId()));
+                            rootLayout.removeView(ivSeat);
+                            setImage(ivSeat, seat);
+                            rotateSeat(seatBitmap, seat, ivSeat);
+                            rootLayout.addView(ivSeat);
+                        }
+                    }else {
+                        animateView(ivSeat);
                     }
                 }
             });
@@ -225,6 +231,14 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             rootLayout.addView(textView);
         }
 
+    }
+
+    private void animateView(ImageView seatView) {
+        AlphaAnimation animation1 = new AlphaAnimation(0.5f, 1.0f);
+        animation1.setDuration(100);
+        animation1.setStartOffset(300);
+        animation1.setFillAfter(true);
+        seatView.startAnimation(animation1);
     }
 
     private void rotateSeat(Bitmap seatBitmap, Seat seat, ImageView ivSeat) {
