@@ -79,8 +79,7 @@ import timber.log.Timber;
  */
 public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, ProfileFragment.OnProfileButtonsClickListener,
         AppFragment.OnAppButtonsClickListener, CarouselSeatFragment.OnChoosePlaceButtonsClickListener
-        , OnItemPayClickListener, ChooseScreenFragment.onMapShowClicked, MapScreenFragment.OnSeatSelectedListener {
-    private PidViewModel mPidViewModel;
+        , OnItemPayClickListener, ChooseScreenFragment.onMapShowClicked {
 
     @BindView(R.id.toolbar_text)
     TextView tvToolbarTitle;
@@ -265,21 +264,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             presenter.onCreate();
         }
 
-        /**
-         * Get ViewModel for pids
-         */
-        mPidViewModel = ViewModelProviders.of(this).get(PidViewModel.class);
-
-        /**
-         * Check for activity when pid of selected seat is save or remove from db.
-         */
-        mPidViewModel.getPids().observe(this, pidEntities -> {
-            if (pidEntities != null) {
-                if (!pidEntities.isEmpty()) {
-                    Timber.d("Pid: %s", pidEntities);
-                }
-            }
-        });
 
 
         // TODO: 29/04/2018 REMOVE AFTER TEST!!!
@@ -738,14 +722,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         }
     }
 
-    @Override
-    public void onPickedSeatsChanged(Set<String> mPickedSeatsIds) {
-        Timber.d("selected pids: %s", mPickedSeatsIds.toString());
-        for (String pid : mPickedSeatsIds) {
-            PidEntity pidEntity = new PidEntity();
-            pidEntity.setPublickId(pid);
-            mPidViewModel.insert(pidEntity);
-        }
-    }
+
 
 }

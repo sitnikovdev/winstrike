@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.ui.main;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -41,6 +42,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.db.PidViewModel;
+import ru.prsolution.winstrike.db.entity.PidEntity;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
@@ -62,6 +65,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     @BindView(R.id.rootMap)
     RelativeLayout rootLayout;
     private Snackbar snackbar;
+    private PidViewModel mPidViewModel;
 
     private static final String EXTRA_NAME = "extra_name";
     private static final String EXTRA_NUMBER = "extra_number";
@@ -89,23 +93,8 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         );
     }
 
-   public interface OnSeatSelectedListener {
-       void onPickedSeatsChanged(Set<String> mPickedSeatsIds);
-    }
 
 
-    OnSeatSelectedListener listener;
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnSeatSelectedListener) {
-            listener = (OnSeatSelectedListener) context;
-        } else {
-            throw new ClassCastException(context.toString() + " must implements OnSeatSelectedListener");
-        }
-    }
 
     public static MapScreenFragment getNewInstance(String name, int number) {
         MapScreenFragment fragment = new MapScreenFragment();
@@ -199,14 +188,14 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
                     if (seat.getType() == SeatType.FREE || seat.getType() == SeatType.VIP) {
                         if (!mPickedSeats.contains(Integer.parseInt(seat.getId()))) {
                             ivSeat.setBackgroundResource(R.drawable.ic_seat_picked);
-                            seatPicked(seat.getId(), false, seat.getPublicPid());
+                            onSeatPicked(seat.getId(), false, seat.getPublicPid());
                             Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
                         } else {
                             rootLayout.removeView(ivSeat);
                             setImage(ivSeat, seat);
                             rotateSeat(seatBitmap, seat, ivSeat);
                             rootLayout.addView(ivSeat);
-                            seatPicked(seat.getId(), true, seat.getPublicPid());
+                            onSeatPicked(seat.getId(), true, seat.getPublicPid());
                         }
                     } else {
                         Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
@@ -250,7 +239,15 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
     }
 
-    private void seatPicked(String id, boolean unselect, String publicPid) {
+    /**
+     * Save selected seat's pids in db. For offline mode compatibility.
+     *
+     * @param id - seat id
+     * @param unselect - is seat selected
+     * @param publicPid - pid of selected seat
+     */
+
+    private void onSeatPicked(String id, boolean unselect, String publicPid) {
         if (!unselect) {
             mPickedSeats.add(Integer.parseInt(id));
             mPickedSeatsIds.add(publicPid);
@@ -258,7 +255,14 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             mPickedSeats.remove(Integer.parseInt(id));
             mPickedSeatsIds.remove(publicPid);
         }
-            listener.onPickedSeatsChanged(mPickedSeatsIds);
+
+        Timber.d("selected pids: %s", mPickedSeatsIds.toString());
+        for (String pid : mPickedSeatsIds) {
+            PidEntity pidEntity = new PidEntity();
+            pidEntity.setPublickId(pid);
+            mPidViewModel.insert(pidEntity);
+        }
+        snackbar.show();
     }
 
     private void animateView(ImageView seatView) {
@@ -325,6 +329,22 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     public void onCreate(Bundle savedInstanceState) {
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
+
+        /**
+         * Get ViewModel for pids
+         */
+        mPidViewModel = ViewModelProviders.of(this).get(PidViewModel.class);
+
+        /**
+         * Check for activity when pid of selected seat is save or remove from db.
+         */
+        mPidViewModel.getPids().observe(this, pidEntities -> {
+            if (pidEntities != null) {
+                if (!pidEntities.isEmpty()) {
+                    Timber.d("Pid: %s", pidEntities);
+                }
+            }
+        });
     }
 
     @Override
