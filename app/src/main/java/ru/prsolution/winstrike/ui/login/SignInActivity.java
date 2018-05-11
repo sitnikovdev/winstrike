@@ -122,7 +122,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         mUserViewModel.getUser().observe(this, (usersEntity ->{
             if (usersEntity != null) {
                 if (!usersEntity.isEmpty()) {
-//                    mUserViewModel.delete();
+//                    mUserViewModel.deleteUser();
                     Timber.d("User load successfully: %s", usersEntity);
                     if (usersEntity.get(0).getConfirmed()) {
 //                    toast("Пользователь авторизован");

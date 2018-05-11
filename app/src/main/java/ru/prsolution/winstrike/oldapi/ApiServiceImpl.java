@@ -81,7 +81,7 @@ public class ApiServiceImpl {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(message -> {
                     Timber.tag("OkHttp").d("deleteUser: %s", message.message());
-                    tinyDB.putString("operation", "delete");
+                    tinyDB.putString("operation", "deleteUser");
                     tinyDB.putString("public_id", "");
                     tinyDB.putString("token", "");
                     tinyDB.putBoolean("confirmed", false);

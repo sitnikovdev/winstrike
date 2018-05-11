@@ -6,6 +6,7 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import ru.prsolution.winstrike.db.PidViewModel;
 import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.di.module.AppRepositoryModule;
 import ru.prsolution.winstrike.di.module.ContextModule;
@@ -52,4 +53,6 @@ public interface AppComponent {
     void inject(ProfileScreenFragment fragment);
 
     void inject(UserViewModel userViewModel);
+
+    void inject(PidViewModel userViewModel);
 }

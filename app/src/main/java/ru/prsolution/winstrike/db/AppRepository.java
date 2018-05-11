@@ -5,35 +5,83 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
+import ru.prsolution.winstrike.db.dao.PidDao;
 import ru.prsolution.winstrike.db.dao.UserDao;
+import ru.prsolution.winstrike.db.entity.PidEntity;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 
 public class AppRepository {
     private UserDao mUserDao;
     private LiveData<List<UserEntity>> mUser;
 
+    private PidDao mPidDao;
+    private LiveData<List<PidEntity>> mPids;
+
     public AppRepository(AppDatabase db) {
-//        AppDatabase db = AppDatabase.getInstance(application);
         mUserDao = db.userDao();
         mUser = mUserDao.loadAllUsers();
+
+        mPidDao = db.pidDao();
+        mPids = mPidDao.loadAllPids();
     }
 
     public LiveData<List<UserEntity>> getUsersList() {
         return mUser;
     }
 
-    public void insert(UserEntity user) {
-        new insertAsyncTask(mUserDao).execute(user);
+    public LiveData<List<PidEntity>> getmPids() {
+        return mPids;
     }
 
-    public void delete() {
-        new deleteAsyncTask(mUserDao).execute();
+    public void insertPid(PidEntity pid) {
+        new insertPidAsyncTask(mPidDao).execute(pid);
     }
 
-    private static class insertAsyncTask extends android.os.AsyncTask<UserEntity, Void, Void> {
+    private static class insertPidAsyncTask extends android.os.AsyncTask<PidEntity, Void, Void> {
+        private PidDao mAsyncTaskDao;
+
+        public insertPidAsyncTask(PidDao mAsyncTaskDao) {
+            this.mAsyncTaskDao = mAsyncTaskDao;
+        }
+
+        @Override
+        protected Void doInBackground(PidEntity... pidEntities) {
+            mAsyncTaskDao.insertPid(pidEntities[0]);
+            return null;
+        }
+    }
+
+    public void deletePid() {
+        new deletePidAsyncTask(mPidDao).execute();
+    }
+
+    private static class deleteUserAsyncTask extends AsyncTask<UserEntity, Void, Void> {
         private UserDao mAsyncTaskDao;
 
-        public insertAsyncTask(UserDao mAsyncTaskDao) {
+        public deleteUserAsyncTask(UserDao mAsyncTaskDao) {
+            this.mAsyncTaskDao = mAsyncTaskDao;
+        }
+
+        @Override
+        protected Void doInBackground(final UserEntity... userEntities) {
+            mAsyncTaskDao.deleteAllUsers();
+            return null;
+        }
+    }
+
+
+    public void insertUser(UserEntity user) {
+        new insertUserAsyncTask(mUserDao).execute(user);
+    }
+
+    public void deleteUser() {
+        new deleteUserAsyncTask(mUserDao).execute();
+    }
+
+    private static class insertUserAsyncTask extends android.os.AsyncTask<UserEntity, Void, Void> {
+        private UserDao mAsyncTaskDao;
+
+        public insertUserAsyncTask(UserDao mAsyncTaskDao) {
             this.mAsyncTaskDao = mAsyncTaskDao;
         }
 
@@ -44,16 +92,16 @@ public class AppRepository {
         }
     }
 
-    private static class deleteAsyncTask extends AsyncTask<UserEntity, Void, Void> {
-        private UserDao mAsyncTaskDao;
+    private static class deletePidAsyncTask extends AsyncTask<PidEntity, Void, Void> {
+        private PidDao mAsyncTaskDao;
 
-        public deleteAsyncTask(UserDao mAsyncTaskDao) {
+        public deletePidAsyncTask(PidDao mAsyncTaskDao) {
             this.mAsyncTaskDao = mAsyncTaskDao;
         }
 
         @Override
-        protected Void doInBackground(final UserEntity... userEntities) {
-            mAsyncTaskDao.deleteAllUsers();
+        protected Void doInBackground(final PidEntity... userEntities) {
+            mAsyncTaskDao.deleteAllPids();
             return null;
         }
     }

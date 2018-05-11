@@ -71,6 +71,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     private RelativeLayout.LayoutParams seatParams;
     private RelativeLayout.LayoutParams rootLayoutParams;
     private Set<Integer> mPickedSeats = new HashSet<>();
+    private Set<String> mPickedSeatsIds = new HashSet<>();
     private Float mXScaleFactor;
     private Float mYScaleFactor;
 
@@ -178,18 +179,19 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
                 @Override
                 public void onClick(View v) {
                     if (seat.getType() == SeatType.FREE || seat.getType() == SeatType.VIP) {
-                        Timber.d("seat.type: %s", seat.getType());
                         if (!mPickedSeats.contains(Integer.parseInt(seat.getId()))) {
-                            mPickedSeats.add(Integer.parseInt(seat.getId()));
                             ivSeat.setBackgroundResource(R.drawable.ic_seat_picked);
+                            seatPicked(seat.getId(), false, seat.getPublicPid());
+                            Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
                         } else {
-                            mPickedSeats.remove(Integer.parseInt(seat.getId()));
                             rootLayout.removeView(ivSeat);
                             setImage(ivSeat, seat);
                             rotateSeat(seatBitmap, seat, ivSeat);
                             rootLayout.addView(ivSeat);
+                            seatPicked(seat.getId(), true, seat.getPublicPid());
                         }
-                    }else {
+                    } else {
+                        Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
                         animateView(ivSeat);
                     }
                 }
@@ -201,15 +203,12 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         for (LabelRoom label : room.getLabels()) {
             String text = label.getText();
             Integer dx = (int) (label.getDx() * mXScaleFactor);
-            Integer dy = (int) (label.getDy() * (mYScaleFactor)) + seatSize.y/2;
+            Integer dy = (int) (label.getDy() * (mYScaleFactor)) + seatSize.y / 2;
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
             tvParams.leftMargin = dx;
-            tvParams.topMargin =  dy;
+            tvParams.topMargin = dy;
             TextView textView = new TextView(getContext());
             textView.setText(text);
-//            textView.setTextColor(Color.WHITE);
-            //textView.setTextSize(14);
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 textView.setTextAppearance(R.style.StemMedium17Primary);
             } else {
@@ -231,6 +230,17 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
             rootLayout.addView(textView);
         }
 
+    }
+
+    private void seatPicked(String id, boolean unselect, String publicPid) {
+        if (!unselect) {
+            mPickedSeats.add(Integer.parseInt(id));
+            mPickedSeatsIds.add(publicPid);
+        } else {
+            mPickedSeats.remove(Integer.parseInt(id));
+            mPickedSeatsIds.remove(publicPid);
+        }
+//            onPickedSeatsChanged();
     }
 
     private void animateView(ImageView seatView) {

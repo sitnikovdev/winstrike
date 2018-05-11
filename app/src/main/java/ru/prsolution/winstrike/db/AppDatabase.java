@@ -17,20 +17,24 @@
 package ru.prsolution.winstrike.db;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.support.annotation.VisibleForTesting;
 
 import ru.prsolution.winstrike.db.converter.DateConverter;
+import ru.prsolution.winstrike.db.dao.PidDao;
 import ru.prsolution.winstrike.db.dao.TokenDao;
 import ru.prsolution.winstrike.db.dao.UserDao;
+import ru.prsolution.winstrike.db.entity.PidEntity;
 import ru.prsolution.winstrike.db.entity.TokenEntity;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 
-@Database(entities = {UserEntity.class, TokenEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {UserEntity.class, PidEntity.class, TokenEntity.class}, version = 2, exportSchema = false)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -43,6 +47,16 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
 
+    public abstract PidDao pidDao();
+
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `pid` (`id` INTEGER NOT NULL, "
+                    + "`publickId` TEXT, PRIMARY KEY(`id`))");
+        }
+    };
+
 
 
     public static AppDatabase getInstance(final Context context) {
@@ -51,6 +65,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (sInstance == null) {
                     sInstance = Room.databaseBuilder(context,
                             AppDatabase.class, DATABASE_NAME)
+                            .addMigrations(MIGRATION_1_2)
                             .allowMainThreadQueries()
                             .build();
                 }

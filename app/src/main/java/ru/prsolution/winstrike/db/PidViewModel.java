@@ -12,13 +12,13 @@ import javax.inject.Inject;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 
-public class UserViewModel extends AndroidViewModel {
+public class PidViewModel extends AndroidViewModel {
     private LiveData<List<UserEntity>> mUsers;
 
     @Inject
     AppRepository mRepository;
 
-    public UserViewModel(@NonNull Application application) {
+    public PidViewModel(@NonNull Application application) {
         super(application);
         WinstrikeApp.getInstance().getAppComponent().inject(this);
         mUsers = mRepository.getUsersList();
