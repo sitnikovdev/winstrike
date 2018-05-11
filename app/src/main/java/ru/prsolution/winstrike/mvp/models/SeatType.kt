@@ -60,13 +60,13 @@ enum class SeatType private constructor(val type: String) {
         // TODO Get image resources for seatApi status
        fun getImage(status: SeatType): Int? {
             when (status) {
-                SeatType.FREE -> return 0
-                SeatType.BOOKING -> return 1
-                SeatType.SELF_BOOKING -> return 2
-                SeatType.HIDDEN -> return 3
-                SeatType.VIP -> return 3
+                SeatType.FREE -> return R.drawable.ic_seat_gray
+                SeatType.BOOKING -> return R.drawable.ic_seat_red
+                SeatType.SELF_BOOKING -> return R.drawable.ic_seat_blue
+                SeatType.HIDDEN -> return R.drawable.ic_seat_darkgray
+                SeatType.VIP -> return R.drawable.ic_seat_yellow
                 else -> {
-                    return 0
+                    return R.drawable.ic_seat_gray
                 }
             }
 

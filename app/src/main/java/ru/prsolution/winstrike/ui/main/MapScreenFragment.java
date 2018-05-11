@@ -29,7 +29,9 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -65,7 +67,8 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     private RelativeLayout.LayoutParams tvParams;
     private RelativeLayout.LayoutParams seatParams;
     private RelativeLayout.LayoutParams rootLayoutParams;
-    View drawView;
+    private Set<Integer> mPickedSeats = new HashSet<>();
+    private Integer index;
 
     int xFactor = 3;
 
@@ -188,8 +191,9 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
         rootLayout.setLayoutParams(params);
 
-
+        index = 0;
         for (Seat seat : room.getSeats()) {
+            index ++;
             Double angle = Math.toDegrees(seat.getAngle());
             Float pivotX = seatBitmap.getWidth() / 2f;
             Float pivotY = seatBitmap.getHeight() / 2f;
@@ -210,6 +214,13 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
                 @Override
                 public void onClick(View v) {
                     Timber.d("seat.type: %s", seat.getType());
+                    if (!mPickedSeats.contains(index)) {
+                        mPickedSeats.add(index);
+                        ivSeat.setBackgroundResource(R.drawable.ic_seat_picked);
+                    } else {
+                        mPickedSeats.remove(index);
+                        ivSeat.setBackgroundResource(seat.getType().getImage());
+                    }
                 }
             });
             rootLayout.addView(ivSeat);
