@@ -42,7 +42,7 @@ import ru.prsolution.winstrike.common.entity.SeatModel;
 import ru.prsolution.winstrike.common.utils.TinyDB;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
-import ru.prsolution.winstrike.mvp.models.PaymentDataModel;
+import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.presenters.ChoosePresenter;
 import ru.prsolution.winstrike.mvp.views.ChooseView;
 import ru.prsolution.winstrike.networking.Service;
@@ -265,17 +265,11 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     private void showMap() {
 
         // TODO: 07/05/2018 REMOVE IT BLOCK AFTER TEST!!!
-/*        String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T18:07:00");
+/*       String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T18:07:00");
         String timeToData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T17:07:00");
         String  selectedDate = sharedPref.getString(getString(R.string.saved_date),"");
-//        String timeFromData = "2018-05-09T17:07:00";
-//        String timeToData = "2018-05-09T18:07:00";
 
-        timeFromUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeFromData));
-        timeToUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeToData));
 
-        MapInfoSingleton.getInstance().setDateFrom(timeFromUTC);
-        MapInfoSingleton.getInstance().setDateTo(timeToUTC);
         // TODO: 27/04/2018 Call getActivePid api mService
 
         presenter.getActivePid();*/
@@ -283,23 +277,12 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
 
         RxView.clicks(next_button).subscribe(
                 it -> {
-                    if (timeFromUTC != null) {
-                        isDateValid = (timeFromUTC.compareTo(timeToUTC) < 0) &&
-                                (timeToUTC.compareTo(new Date()) >= 0);
-
-                        if (isDateValid) {
-
-                            MapInfoSingleton.getInstance().setDateFrom(timeFromUTC);
-                            MapInfoSingleton.getInstance().setDateTo(timeToUTC);
-                            // TODO: 27/04/2018 Call getActivePid api mService
-
-
+                        if (TimeDataModel.INSTANCE.isDateValid()) {
                             presenter.getActivePid();
 //                            listener.onMapShowClick();
                         } else {
                             Toast.makeText(getActivity(), "Не правильно выбрана дата", Toast.LENGTH_SHORT).show();
                         }
-                    }
                 }
         );
     }
@@ -348,21 +331,34 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             editor.putString(getString(R.string.saved_time_from), String.valueOf(timeFromData));
             editor.putString(getString(R.string.saved_time_to), String.valueOf(timeToData));
             editor.putString(getString(R.string.saved_date), String.valueOf(selectedDate));
-
             editor.commit();
 
 
-            timeFromUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeFromData));
-            timeToUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeToData));
+//            timeFromUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeFromData));
+//            timeToUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeToData));
 
-            MapInfoSingleton.getInstance().setDateFromShort(getFormattedDateShortToUTCString(selectedDate, String.valueOf(timeFromData)));
-            MapInfoSingleton.getInstance().setDateToShort(getFormattedDateShortToUTCString(selectedDate, String.valueOf(timeToData)));
+/*            MapInfoSingleton.getInstance().setDateFromShort(getFormattedDateShortToUTCString(selectedDate, String.valueOf(timeFromData)));
+            MapInfoSingleton.getInstance().setDateToShort(getFormattedDateShortToUTCString(selectedDate, String.valueOf(timeToData)));*/
+
+            /**
+             *  Save date from timepicker (start and end) in String format
+             */
+            TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFromData));
+            TimeDataModel.INSTANCE.setEndAt(String.valueOf(timeToData));
+
+            Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
+            Timber.d("endAt: %s", TimeDataModel.INSTANCE.getEnd());
+
+            Timber.d("dateStart: %s", TimeDataModel.INSTANCE.getStartDate());
+            Timber.d("dateEnd: %s", TimeDataModel.INSTANCE.getEndDate());
+
+            Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
 
 
 
 
-            tinyDB.putString("timeFrom", MapInfoSingleton.getInstance().getDateFromShort());
-            tinyDB.putString("timeTo", MapInfoSingleton.getInstance().getDateToShort());
+            tinyDB.putString("timeFrom", TimeDataModel.INSTANCE.getStart());
+            tinyDB.putString("timeTo", TimeDataModel.INSTANCE.getEnd());
 
             int bntTextSize = 20;
             int viewTextSize = 50;
@@ -413,16 +409,12 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             selectedDate = getFormattedDate(calendar.get(0).getTime());
             cal.setTime(calendar.get(0).getTime());
 
-/*            tinyDB.putString("rawDate", String.valueOf(calendar.get(0).getTime()));
-            tinyDB.putString("date", selectedDate);*/
-
-            MapInfoSingleton.getInstance().setSelectedDate(selectedDate);
-            sharedPref.edit().putString(String.valueOf(R.string.saved_date), MapInfoSingleton.getInstance().getSelectedDate());
+            //sharedPref.edit().putString(String.valueOf(R.string.saved_date), MapInfoSingleton.getInstance().getSelectedDate());
 
             /**
              *  Save selected date from calendar
              */
-            PaymentDataModel.INSTANCE.setDate(calendar.get(0).getTime());
+            TimeDataModel.INSTANCE.setShortFormatDate(selectedDate);
             tv_date.setText(selectedDate);
         };
 
@@ -497,8 +489,11 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         // TODO: 27/04/2018 Get room_layouts by active_layout_pid
         String activePid = roomsResponse.getRoom().getActiveLayoutPid();
         Map<String, String> time = new HashMap<>();
-        String timeFrom = tinyDB.getString("timeFrom");
-        String timeTo = tinyDB.getString("timeTo");
+/*        String timeFrom = tinyDB.getString("timeFrom");
+        String timeTo = tinyDB.getString("timeTo");*/
+
+        String timeFrom = TimeDataModel.INSTANCE.getStart();
+        String timeTo = TimeDataModel.INSTANCE.getEnd();
 
         // TODO: 06/05/2018 REMOVE AFTE TEST!!!
 /*        timeFrom = "2018-05-07T14:48:00";

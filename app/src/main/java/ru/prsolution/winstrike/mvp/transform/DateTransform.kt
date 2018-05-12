@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.mvp.transform
 
+import ru.prsolution.winstrike.mvp.models.TimeDataModel.date
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,6 +14,39 @@ class DateTransform {
 
         init {
         }
+
+         fun getFormattedDateWithTime(time: String): String {
+            var dateInStr = date
+            var fmtDate = Date()
+            val date: String
+
+            dateInStr += 'T'.toString() + time + ":00"
+            val formatter = SimpleDateFormat("dd MMM yyyy'T'HH:mm:ss")
+            try {
+                fmtDate = formatter.parse(dateInStr)
+
+            } catch (e: java.text.ParseException) {
+                e.printStackTrace()
+            }
+
+            date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(fmtDate)
+            return date
+        }
+
+
+         fun getDateInUTC(time: String): Date {
+            var fmtDate = Date()
+            val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            try {
+                fmtDate = formatter.parse(time)
+
+            } catch (e: java.text.ParseException) {
+                e.printStackTrace()
+            }
+
+            return fmtDate
+        }
+
 
         fun transformFromJSON(value: String): Date? {
             return dateFormatter.parse(value).takeIf { value is String }
