@@ -21,12 +21,11 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import ru.prsolution.winstrike.model.PidDb;
-import ru.prsolution.winstrike.model.UserDb;
 
 
 @Entity(tableName = "pid")
 public class PidEntity implements PidDb {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String publickId;
 

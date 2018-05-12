@@ -264,15 +264,9 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
 
     private void showMap() {
 
-        // TODO: 07/05/2018 REMOVE IT BLOCK AFTER TEST!!!
-/*       String timeFromData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T18:07:00");
-        String timeToData = sharedPref.getString(getString(R.string.saved_time_from),"2018-05-09T17:07:00");
-        String  selectedDate = sharedPref.getString(getString(R.string.saved_date),"");
-
 
         // TODO: 27/04/2018 Call getActivePid api mService
-
-        presenter.getActivePid();*/
+        presenter.getActivePid();
         // TODO: 07/05/2018 END BLOCK
 
         RxView.clicks(next_button).subscribe(
@@ -327,21 +321,9 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             String time = timeFromData + " - " + timeToData;
             tinyDB.putString("time", time);
 
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString(getString(R.string.saved_time_from), String.valueOf(timeFromData));
-            editor.putString(getString(R.string.saved_time_to), String.valueOf(timeToData));
-            editor.putString(getString(R.string.saved_date), String.valueOf(selectedDate));
-            editor.commit();
-
-
-//            timeFromUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeFromData));
-//            timeToUTC = getFormattedDateToUTCString(selectedDate, String.valueOf(timeToData));
-
-/*            MapInfoSingleton.getInstance().setDateFromShort(getFormattedDateShortToUTCString(selectedDate, String.valueOf(timeFromData)));
-            MapInfoSingleton.getInstance().setDateToShort(getFormattedDateShortToUTCString(selectedDate, String.valueOf(timeToData)));*/
 
             /**
-             *  Save date from timepicker (start and end) in String format
+             *  Save date data from timepicker (start and end).
              */
             TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFromData));
             TimeDataModel.INSTANCE.setEndAt(String.valueOf(timeToData));
@@ -355,8 +337,9 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
 
 
-
-
+            /**
+             * save in time data in db (for test).
+             */
             tinyDB.putString("timeFrom", TimeDataModel.INSTANCE.getStart());
             tinyDB.putString("timeTo", TimeDataModel.INSTANCE.getEnd());
 
@@ -488,18 +471,15 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         Timber.d("Success get map data from server: %s", roomsResponse);
         // TODO: 27/04/2018 Get room_layouts by active_layout_pid
         String activePid = roomsResponse.getRoom().getActiveLayoutPid();
-        Map<String, String> time = new HashMap<>();
-/*        String timeFrom = tinyDB.getString("timeFrom");
-        String timeTo = tinyDB.getString("timeTo");*/
 
-        String timeFrom = TimeDataModel.INSTANCE.getStart();
-        String timeTo = TimeDataModel.INSTANCE.getEnd();
+/*      String timeFrom = TimeDataModel.INSTANCE.getStart();
+        String timeTo = TimeDataModel.INSTANCE.getEnd();*/
 
         // TODO: 06/05/2018 REMOVE AFTE TEST!!!
-/*        timeFrom = "2018-05-07T14:48:00";
-        timeTo = "2018-05-07T16:48:00";*/
+        String timeFrom = tinyDB.getString("timeFrom");
+        String timeTo = tinyDB.getString("timeTo");
 
-
+        Map<String, String> time = new HashMap<>();
         time.put("start_at", timeFrom);
         time.put("end_at", timeTo);
 //        presenter.getArena(activePid);

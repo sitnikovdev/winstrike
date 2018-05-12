@@ -51,7 +51,7 @@ public class AppRepository {
         }
     }
 
-    public void deletePid() {
+    public void deletePid(int pidEntity) {
         new deletePidAsyncTask(mPidDao).execute();
     }
 
@@ -92,7 +92,7 @@ public class AppRepository {
         }
     }
 
-    private static class deletePidAsyncTask extends AsyncTask<PidEntity, Void, Void> {
+    private static class deletePidAsyncTask extends AsyncTask<Integer, Void, Void> {
         private PidDao mAsyncTaskDao;
 
         public deletePidAsyncTask(PidDao mAsyncTaskDao) {
@@ -100,9 +100,10 @@ public class AppRepository {
         }
 
         @Override
-        protected Void doInBackground(final PidEntity... userEntities) {
-            mAsyncTaskDao.deleteAllPids();
+        protected Void doInBackground(Integer... pids) {
+            mAsyncTaskDao.deletePid(pids[0]);
             return null;
         }
+
     }
 }

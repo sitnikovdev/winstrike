@@ -11,7 +11,6 @@ import javax.inject.Inject;
 
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.db.entity.PidEntity;
-import ru.prsolution.winstrike.db.entity.UserEntity;
 
 public class PidViewModel extends AndroidViewModel {
     private LiveData<List<PidEntity>> mPids;
@@ -33,5 +32,5 @@ public class PidViewModel extends AndroidViewModel {
         mRepository.insertPid(pidEntity);
     }
 
-    public void delete(){mRepository.deletePid();}
+    public void delete(int pidEntity){mRepository.deletePid(pidEntity);}
 }

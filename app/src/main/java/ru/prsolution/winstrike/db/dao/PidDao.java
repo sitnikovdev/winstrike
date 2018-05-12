@@ -38,7 +38,7 @@ public interface PidDao {
     @Query("select * from pid where id = :pidId")
     LiveData<PidEntity> loadAllPids(int pidId);
 
-    @Query("DELETE FROM pid")
-    void deleteAllPids();
+    @Query("DELETE FROM pid where id= :pidEntity")
+    void deletePid(Integer pidEntity);
 
 }

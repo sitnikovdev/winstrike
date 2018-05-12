@@ -33,8 +33,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -75,8 +74,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     private RelativeLayout.LayoutParams tvParams;
     private RelativeLayout.LayoutParams seatParams;
     private RelativeLayout.LayoutParams rootLayoutParams;
-    private Set<Integer> mPickedSeats = new HashSet<>();
-    private Set<String> mPickedSeatsIds = new HashSet<>();
+    private HashMap<Integer, String> mPickedSeatsIds = new HashMap<>();
     private Float mXScaleFactor;
     private Float mYScaleFactor;
 
@@ -93,8 +91,6 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
                 ((RouterProvider) getParentFragment()).getRouter()
         );
     }
-
-
 
 
     public static MapScreenFragment getNewInstance(String name, int number) {
@@ -187,16 +183,16 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
                 @Override
                 public void onClick(View v) {
                     if (seat.getType() == SeatType.FREE || seat.getType() == SeatType.VIP) {
-                        if (!mPickedSeats.contains(Integer.parseInt(seat.getId()))) {
+                        if (!mPickedSeatsIds.containsKey(Integer.parseInt(seat.getId()))) {
                             ivSeat.setBackgroundResource(R.drawable.ic_seat_picked);
-                            onSeatPicked(seat.getId(), false, seat.getPublicPid());
+                            onSelectSeat(seat.getId(), false, seat.getPublicPid());
                             Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
                         } else {
                             rootLayout.removeView(ivSeat);
                             setImage(ivSeat, seat);
                             rotateSeat(seatBitmap, seat, ivSeat);
                             rootLayout.addView(ivSeat);
-                            onSeatPicked(seat.getId(), true, seat.getPublicPid());
+                            onSelectSeat(seat.getId(), true, seat.getPublicPid());
                         }
                     } else {
                         Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
@@ -243,27 +239,37 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     /**
      * Save selected seat's pids in db. For offline mode compatibility.
      *
-     * @param id - seat id
-     * @param unselect - is seat selected
+     * @param id        - seat id
+     * @param unselect  - is seat selected
      * @param publicPid - pid of selected seat
      */
 
-    private void onSeatPicked(String id, boolean unselect, String publicPid) {
+    private void onSelectSeat(String id, boolean unselect, String publicPid) {
+        PidEntity pidEntity = new PidEntity();
         if (!unselect) {
-            mPickedSeats.add(Integer.parseInt(id));
-            mPickedSeatsIds.add(publicPid);
+            //  mPickedSeats.add(Integer.parseInt(id));
+            mPickedSeatsIds.put(Integer.parseInt(id), publicPid);
+            pidEntity.setId(Integer.parseInt(id));
+            pidEntity.setPublickId(publicPid);
+            //mPidViewModel.insert(pidEntity);
         } else {
-            mPickedSeats.remove(Integer.parseInt(id));
-            mPickedSeatsIds.remove(publicPid);
+            //   mPickedSeats.remove(Integer.parseInt(id));
+            mPickedSeatsIds.remove(Integer.parseInt(id));
+            //mPidViewModel.delete(Integer.parseInt(id));
         }
 
-        Timber.d("selected pids: %s", mPickedSeatsIds.toString());
-        for (String pid : mPickedSeatsIds) {
-            PidEntity pidEntity = new PidEntity();
-            pidEntity.setPublickId(pid);
-            mPidViewModel.insert(pidEntity);
+//        for (Map.Entry<Integer, String> pid : mPickedSeatsIds.entrySet()) {
+//        }
+
+        onPickedSeatChanged();
+    }
+
+    private void onPickedSeatChanged() {
+        if (!mPickedSeatsIds.isEmpty()) {
+            snackbar.show();
+        } else {
+            snackbar.dismiss();
         }
-        snackbar.show();
     }
 
     private void animateView(ImageView seatView) {
@@ -342,7 +348,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         mPidViewModel.getPids().observe(this, pidEntities -> {
             if (pidEntities != null) {
                 if (!pidEntities.isEmpty()) {
-                    Timber.d("Pid: %s", pidEntities);
+                    Timber.d("pid: %s", pidEntities);
                 }
             }
         });

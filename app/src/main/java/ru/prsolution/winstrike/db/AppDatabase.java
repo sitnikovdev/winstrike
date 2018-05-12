@@ -16,7 +16,6 @@
 
 package ru.prsolution.winstrike.db;
 
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
@@ -34,7 +33,7 @@ import ru.prsolution.winstrike.db.entity.PidEntity;
 import ru.prsolution.winstrike.db.entity.TokenEntity;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 
-@Database(entities = {UserEntity.class, PidEntity.class, TokenEntity.class}, version = 2, exportSchema = false)
+@Database(entities = {UserEntity.class, PidEntity.class, TokenEntity.class}, version = 4, exportSchema = false)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -57,6 +56,21 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE `pid`");
+        }
+    };
+
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `pid` (`id` INTEGER NOT NULL, "
+                    + "`publickId` TEXT, PRIMARY KEY(`id`))");
+        }
+    };
+
 
 
     public static AppDatabase getInstance(final Context context) {
@@ -65,7 +79,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (sInstance == null) {
                     sInstance = Room.databaseBuilder(context,
                             AppDatabase.class, DATABASE_NAME)
-                            .addMigrations(MIGRATION_1_2)
+                            .addMigrations(MIGRATION_3_4)
                             .allowMainThreadQueries()
                             .build();
                 }
