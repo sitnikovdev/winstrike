@@ -49,6 +49,7 @@ import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.ui.common.ScreenType;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
@@ -143,6 +144,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Inject
     NavigatorHolder navigatorHolder;
+    private ScreenType mScreenType;
 
     public Service getService() {
         return service;
@@ -150,18 +152,25 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
-        if (mState == HIDE_MENU) {
-            for (int i = 0; i < menu.size(); i++)
-                menu.getItem(i).setVisible(false);
+        if (this.mScreenType == ScreenType.MAIN) {
+            getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
+        }
+        if (this.mScreenType == ScreenType.PROFILE) {
+            getMenuInflater().inflate(R.menu.prof_toolbar_menu, menu);
+        }
+        if (this.mScreenType == ScreenType.MAP) {
+            getMenuInflater().inflate(R.menu.map_toolbar_menu, menu);
         }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.isVisible()) {
+        if (this.mScreenType == ScreenType.PROFILE) {
             dlgSingOut();
+        }
+        if (this.mScreenType == ScreenType.MAP) {
+            dlgLegend();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -204,6 +213,36 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         dialog.show();
 
     }
+
+    private void dlgLegend() {
+        Dialog dialog = new Dialog(this, android.R.style.Theme_Dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dlg_legend);
+        TextView tvSee = dialog.findViewById(R.id.tv_see);
+
+        tvSee.setOnClickListener(
+                it -> dialog.dismiss()
+        );
+
+
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.TOP;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        wlp.y = 200;
+        window.setAttributes(wlp);
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        dialog.show();
+
+    }
+
+
 
     @Override
     protected void onDestroy() {
@@ -286,7 +325,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
     private void initViews() {
-        initMainToolbar(HIDE_MENU, "Winstrike Arena", HIDE_ICON);
+        initMainToolbar(HIDE_MENU, "Winstrike Arena", HIDE_ICON, ScreenType.MAIN);
         initBottomNavigationBar();
 
         // Hide profile interface element
@@ -328,11 +367,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
 
-    public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon) {
+    public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon, ScreenType screenType) {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(mMainOnClickListener);
 
         mState = hide_menu; // setting state
+        mScreenType = screenType;
+       // getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
         invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
         toolbar.setNavigationIcon(R.drawable.back_arrow);
         tvToolbarTitle.setText(title);
@@ -488,7 +529,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                         break;
                     case Screens.CHOOSE_SCREEN:
                         toolbar.setNavigationOnClickListener(mMainOnClickListener);
-                        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON);
+                        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAIN);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)
@@ -501,7 +542,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                         break;
                     case Screens.MAP_SCREEN:
                         toolbar.setNavigationOnClickListener(mMapOnClickListener);
-                        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON);
+                        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)
@@ -615,7 +656,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     public void onChooseSeatClick(SeatModel seat) {
         showFragmentHolderContainer(true);
 
-        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON);
+        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAIN);
         MapInfoSingleton.getInstance().setSeat(seat);
         presenter.onChooseScreenClick();
     }
@@ -669,20 +710,20 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                     showFragmentHolderContainer(false);
                     setHomeScreenStateVisibily(true);
                     setProfileScreenInterfaceVisibility(false);
-                    initMainToolbar(HIDE_MENU, "Winstrike Arena", HIDE_ICON);
+                    initMainToolbar(HIDE_MENU, "Winstrike Arena", HIDE_ICON, ScreenType.MAIN);
                     presenter.onTabHomeClick();
                     break;
                 case PLACE_TAB_POSITION:
                     showFragmentHolderContainer(true);
                     setProfileScreenInterfaceVisibility(false);
-                    initMainToolbar(HIDE_MENU, "Оплаченные места", SHOW_ICON);
+                    initMainToolbar(HIDE_MENU, "Оплаченные места", SHOW_ICON, ScreenType.MAIN);
                     presenter.onTabPlaceClick(mPayList);
                     break;
                 case USER_TAB_POSITION:
                     showFragmentHolderContainer(false);
                     setProfileScreenInterfaceVisibility(true);
                     toolbar.setNavigationIcon(null);
-                    initMainToolbar(SHOW_MENU, "Настройки", SHOW_ICON);
+                    initMainToolbar(SHOW_MENU, "Настройки", SHOW_ICON, ScreenType.PROFILE);
                     presenter.onTabUserClick();
                     break;
             }
@@ -693,7 +734,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     private class MainOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            initMainToolbar(HIDE_MENU, "Winstrike Arena", HIDE_ICON);
+            initMainToolbar(HIDE_MENU, "Winstrike Arena", HIDE_ICON, ScreenType.MAIN);
             presenter.onBackPressed();
         }
     }
@@ -701,7 +742,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     private class MapOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON);
+            initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAIN);
             router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
         }
     }

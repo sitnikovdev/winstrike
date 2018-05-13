@@ -1,10 +1,5 @@
 package ru.prsolution.winstrike.ui;
 
-/**
- * Created by Konstantin Tckhovrebov (aka @terrakok)
- * on 11.10.16
- */
-
 public class Screens {
 
     public static final String START_SCREEN = "main screen";
