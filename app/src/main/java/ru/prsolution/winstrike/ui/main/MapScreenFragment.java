@@ -386,16 +386,11 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
         String url = payResponse.getRedirectUrl();
         presenter.onPaySuccess(url);
-/*
-        Intent browserIntent = new Intent(getContext(), YandexWebView.class);
-        browserIntent.putExtra("url", url);
-        startActivity(browserIntent);
-*/
     }
 
     /**
-     * Something goes wrong.  We can't bye seat from Winstrike PC club.
-     * show user toast with description this situation.
+     * Something goes wrong, and we can't bye seat from Winstrike PC club.
+     * show user toast with description this fucking situation.
      *
      * @param appErrorMessage
      */

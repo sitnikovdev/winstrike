@@ -34,17 +34,12 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
-import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
-import ru.prsolution.winstrike.mvp.views.MainScreenView;
-import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.entity.SeatModel;
 import ru.prsolution.winstrike.common.fragment.AppFragment;
@@ -53,7 +48,11 @@ import ru.prsolution.winstrike.common.fragment.ProfileFragment;
 import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
+import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
+import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
+import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.ui.common.BackButtonListener;
 import ru.prsolution.winstrike.ui.common.CarouselAdapter;
 import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
@@ -69,12 +68,33 @@ import ru.terrakok.cicerone.commands.SystemMessage;
 import timber.log.Timber;
 
 
-/**
- * Created by terrakok 25.11.16
- */
 public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, ProfileFragment.OnProfileButtonsClickListener,
         AppFragment.OnAppButtonsClickListener, CarouselSeatFragment.OnChoosePlaceButtonsClickListener
         , OnItemPayClickListener, ChooseScreenFragment.onMapShowProcess {
+
+    private ProgressDialog progressDialog;
+    private AHBottomNavigation bottomNavigationBar;
+    private BaseViewPagerAdapter pagerAdapter;
+    private MainContainerFragment homeTabFragment;
+    private MainContainerFragment placesTabFragment;
+    private MainContainerFragment userTabFragment;
+    private MainContainerFragment chooseTabFragment;
+    private MainContainerFragment mapTabFragment;
+    private MainContainerFragment payTabFragment;
+    private ViewPager viewPagerSeat;
+    private CarouselAdapter adapter;
+    private Boolean mState;
+    private BottomNavigationListener bottomNavigationListener;
+    float dpHeight, dpWidth;
+    private ArrayList<OrderModel> mPayList = new ArrayList<>();
+    private final Boolean HIDE_MENU = true;
+    private final Boolean SHOW_MENU = false;
+    private final Boolean HIDE_ICON = true;
+    private final Boolean SHOW_ICON = false;
+    private Dialog dialog;
+    private MainOnClickListener mMainOnClickListener;
+    private MapOnClickListener mMapOnClickListener;
+
 
     @BindView(R.id.toolbar_text)
     TextView tvToolbarTitle;
@@ -113,39 +133,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @BindView(R.id.viewpager)
     AHBottomNavigationViewPager viewPager;
 
-    private ProgressDialog progressDialog;
-    private AHBottomNavigation bottomNavigationBar;
-    private BaseViewPagerAdapter pagerAdapter;
-
-    private MainContainerFragment homeTabFragment;
-    private MainContainerFragment placesTabFragment;
-    private MainContainerFragment userTabFragment;
-    private MainContainerFragment chooseTabFragment;
-    private MainContainerFragment mapTabFragment;
-    private MainContainerFragment payTabFragment;
-
-    private ViewPager viewPagerSeat;
-    private CarouselAdapter adapter;
-
-    private SeatModel seat;
-    private Boolean mState;
-
-    private BottomNavigationListener bottomNavigationListener;
-
-    float dpHeight, dpWidth;
-
-
-    private ArrayList<OrderModel> mPayList = new ArrayList<>();
-
-    private final Boolean HIDE_MENU = true;
-    private final Boolean HIDE_ICON = true;
-    private final Boolean SHOW_ICON = false;
-    private final Boolean SHOW_MENU = false;
-
-    private Dialog dialog;
-
-    private MainOnClickListener mMainOnClickListener;
-    private MapOnClickListener mMapOnClickListener;
 
 
     @Inject
@@ -156,7 +143,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Inject
     NavigatorHolder navigatorHolder;
-    private List<OrderModel> orders;
 
     public Service getService() {
         return service;
@@ -253,7 +239,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         initViews();
         initContainers();
 
-        toolbar.setNavigationOnClickListener(mMainOnClickListener);
 
         if (savedInstanceState == null) {
             presenter.onCreate();
@@ -344,6 +329,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
 
     public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon) {
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(mMainOnClickListener);
+
         mState = hide_menu; // setting state
         invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
         toolbar.setNavigationIcon(R.drawable.back_arrow);
@@ -355,6 +343,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             toolbar.setNavigationIcon(R.drawable.back_arrow);
             toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStartWithNavigation());
         }
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     private void setHomeScreenStateVisibily(Boolean isVisible) {
@@ -625,7 +614,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     public void onChooseSeatClick(SeatModel seat) {
         showFragmentHolderContainer(true);
-        this.seat = seat;
 
         initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON);
         MapInfoSingleton.getInstance().setSeat(seat);
@@ -687,14 +675,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 case PLACE_TAB_POSITION:
                     showFragmentHolderContainer(true);
                     setProfileScreenInterfaceVisibility(false);
-                    initMainToolbar(HIDE_MENU, "Оплаченные места", HIDE_ICON);
+                    initMainToolbar(HIDE_MENU, "Оплаченные места", SHOW_ICON);
                     presenter.onTabPlaceClick(mPayList);
                     break;
                 case USER_TAB_POSITION:
                     showFragmentHolderContainer(false);
                     setProfileScreenInterfaceVisibility(true);
                     toolbar.setNavigationIcon(null);
-                    initMainToolbar(HIDE_MENU, "Настройки", HIDE_ICON);
+                    initMainToolbar(SHOW_MENU, "Настройки", SHOW_ICON);
                     presenter.onTabUserClick();
                     break;
             }
@@ -717,7 +705,5 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
         }
     }
-
-
 
 }
