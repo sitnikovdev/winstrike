@@ -14,13 +14,6 @@ import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface ChooseView extends MvpView {
-    void setChainText(String chainText);
-
-    void onDateSelect();
-
-    void onTimeSelect();
-
-    void onNextButtonClick();
 
     void showWait();
 
@@ -30,10 +23,6 @@ public interface ChooseView extends MvpView {
 
     void onGetAcitivePidFailure(String appErrorMessage);
 
-
-    void onGetArenaResponseSuccess(RoomLayoutFactory authResponse);
-
-    void onGetArenaFailure(String appErrorMessage);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void onGetArenaByTimeResponseSuccess(RoomLayoutFactory authResponse);

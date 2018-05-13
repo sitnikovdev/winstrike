@@ -2,11 +2,9 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +27,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.inject.Inject;
 
@@ -52,22 +49,20 @@ import ru.prsolution.winstrike.ui.common.RouterProvider;
 import timber.log.Timber;
 
 
-/**
- * Created by terrakok 26.11.16
- */
 public class ChooseScreenFragment extends MvpAppCompatFragment implements ChooseView, BackButtonListener {
 
+    private boolean isDebug = false;
     private static final String EXTRA_NAME = "extra_name";
     private static final String EXTRA_NUMBER = "extra_number";
-    private SharedPreferences sharedPref;
+    private float dpHeight;
 
+    public ProgressDialog mProgressDialog;
+    private TinyDB tinyDB;
+    private Boolean isDataSelected;
+    private String selectedDate;
 
-    public interface onMapShowClicked {
-        void onMapShowClick();
-    }
+    private onMapShowClicked listener;
 
-
-    onMapShowClicked listener;
 
     @BindView(R.id.seat_title)
     TextView seat_title;
@@ -85,7 +80,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     View vTimeTap;
 
     @BindView(R.id.next_button)
-    View next_button;
+    View showMapButton;
 
     @BindView(R.id.tv_time_left)
     TextView tv_time;
@@ -108,19 +103,6 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     @BindView(R.id.monitor)
     TextView tvMonitor;
 
-    public ProgressDialog mProgressDialog;
-    private TinyDB tinyDB;
-    private Calendar cal;
-    private Boolean isDataSelected;
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
-
-
-    private String selectedDate;
-    private Boolean isDateValid;
-
-    private Date timeFromUTC;
-    private Date timeToUTC;
-
 
     @InjectPresenter
     public ChoosePresenter presenter;
@@ -135,6 +117,25 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         );
     }
 
+
+    /**
+     * route show map to main presenter in MainScreenActivity
+     */
+    public interface onMapShowClicked {
+        void onMapShowClick();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof onMapShowClicked) {
+            listener = (onMapShowClicked) context;
+        } else {
+            throw new ClassCastException(context.toString() + " must implements onMapShowClicked");
+        }
+    }
+
+
     public static ChooseScreenFragment getNewInstance(String name, int number) {
         ChooseScreenFragment fragment = new ChooseScreenFragment();
         Bundle arguments = new Bundle();
@@ -144,30 +145,10 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         return fragment;
     }
 
-    public void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this.getActivity());
-            mProgressDialog.setMessage("Загрузка мест...");
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
-    }
-
-    private float dpHeight;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-        sharedPref = getActivity().getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
     }
 
     @Nullable
@@ -177,15 +158,11 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         ButterKnife.bind(this, view);
 
         SeatModel seat = MapInfoSingleton.getInstance().getSeat();
-
-
-        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
-        dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-
+        dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
         Timber.tag("map").d("DpHeight: %s", dpHeight);
 
 
-
+        // TODO: 13/05/2018 Make model for that cases:
         if (seat != null && seat.getType().contains("VIP")) {
             ivSeatImg.setImageResource(R.drawable.vip);
             seat_title.setText("Вы выбрали: VIP место");
@@ -207,50 +184,13 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         return view;
     }
 
-    private String getFormattedDate(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-        return simpleDateFormat.format(date);
-    }
-
-
-    private Date getFormattedDateToUTCString(String dateInStr, String time) {
-        Date fmtDate = new Date();
-
-        dateInStr += 'T' + time + ":00.000000+0300";
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy'T'HH:mm:ss.SSSSSSZ");
-        try {
-            fmtDate = formatter.parse(dateInStr);
-
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-        }
-        return fmtDate;
-    }
-
-    private String getFormattedDateShortToUTCString(String dateInStr, String time) {
-        Date fmtDate = new Date();
-        String date;
-
-        dateInStr += 'T' + time + ":00";
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy'T'HH:mm:ss");
-        try {
-            fmtDate = formatter.parse(dateInStr);
-
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-        }
-        date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(fmtDate);
-        return date;
-    }
-
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         tinyDB = new TinyDB(getContext());
         isDataSelected = false;
-        setBtnEnable(next_button, false);
+        setBtnEnable(showMapButton, false);
 
         dateSelect();
 
@@ -262,143 +202,125 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
 
 
 
+
+
+    /**
+     * Format for selected start date map show
+     *
+     * @param date
+     * @return
+     */
+    private String getFormattedDate(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+        return simpleDateFormat.format(date);
+    }
+
+
+
     private void showMap() {
 
-
         // TODO: 27/04/2018 Call getActivePid api mService
-        presenter.getActivePid();
+   //     presenter.getActivePid();
         // TODO: 07/05/2018 END BLOCK
 
-        RxView.clicks(next_button).subscribe(
+        RxView.clicks(showMapButton).subscribe(
                 it -> {
-                        if (TimeDataModel.INSTANCE.isDateValid()) {
-                            presenter.getActivePid();
-//                            listener.onMapShowClick();
-                        } else {
-                            Toast.makeText(getActivity(), "Не правильно выбрана дата", Toast.LENGTH_SHORT).show();
-                        }
-                }
-        );
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof onMapShowClicked) {
-            listener = (onMapShowClicked) context;
-        } else {
-            throw new ClassCastException(context.toString() + " must implements onMapShowClicked");
-        }
-    }
-
-    private void setBtnEnable(View v, Boolean isEnable) {
-        if (isEnable) {
-            v.setAlpha(1f);
-            v.setClickable(true);
-        } else {
-            v.setAlpha(.5f);
-            v.setClickable(false);
-        }
-    }
-
-
-    private void timeSelect() {
-        RxView.clicks(vTimeTap).subscribe(
-                it -> {
-                    if (isDataSelected) {
-                        openTimePickerDialog();
+                    if (TimeDataModel.INSTANCE.isDateValid()) {
+                        presenter.getActivePid();
                     } else {
-                        Toast.makeText(getActivity(), "Сначала выберите дату!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Не правильно выбрана дата", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
     }
 
-    // TODO: 10/04/2018  Time and date value in dialogs must be saved.
-    private void openTimePickerDialog() {
-        TimePickerPopWin pickerPopWin = new TimePickerPopWin.Builder(getActivity(), (hour, min, timeDesc, timeFromData, timeToData) -> {
+    /**
+     * First get active pid for room
+     *
+     * @param roomsResponse
+     */
+    @Override
+    public void onGetActivePidResponseSuccess(Rooms roomsResponse) {
+        Timber.d("Success get map data from server: %s", roomsResponse);
+        /**
+         *  data for active room pid successfully get from server.
+         *  save pid and get map for selected time period
+         */
+        String activePid = roomsResponse.getRoom().getActiveLayoutPid();
 
-            String time = timeFromData + " - " + timeToData;
-            tinyDB.putString("time", time);
+        String timeFrom, timeTo;
+        if (isDebug == true) {
+            timeFrom = tinyDB.getString("timeFrom");
+            timeTo = tinyDB.getString("timeTo");
+        } else {
+            timeFrom = TimeDataModel.INSTANCE.getStart();
+            timeTo = TimeDataModel.INSTANCE.getEnd();
+        }
 
 
-            /**
-             *  Save date data from timepicker (start and end).
-             */
-            TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFromData));
-            TimeDataModel.INSTANCE.setEndAt(String.valueOf(timeToData));
+        Map<String, String> time = new HashMap<>();
+        time.put("start_at", timeFrom);
+        time.put("end_at", timeTo);
+        presenter.getArenaByTimeRange(activePid, time);
+    }
 
-            Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
-            Timber.d("endAt: %s", TimeDataModel.INSTANCE.getEnd());
+    /**
+     * Active pid success get, so now we  get map for seats
+     *
+     * @param roomLayoutFactory
+     */
+    @Override
+    public void onGetArenaByTimeResponseSuccess(RoomLayoutFactory roomLayoutFactory) {
+        Timber.d("Success get layout data from server: %s", roomLayoutFactory);
+        /**
+         * data for seat mapping successfully get from sever.
+         * save map data in singleton and call MapScreenFragment from main presenter
+         */
+        MapInfoSingleton.getInstance().setRoomLayout(roomLayoutFactory.getRoomLayout());
+        if (MapInfoSingleton.getInstance().getRoomLayout() != null) {
+            listener.onMapShowClick();
+        }
+    }
 
-            Timber.d("dateStart: %s", TimeDataModel.INSTANCE.getStartDate());
-            Timber.d("dateEnd: %s", TimeDataModel.INSTANCE.getEndDate());
+    /**
+     * Something go wrong with map pid request
+     *
+     * @param appErrorMessage
+     */
+    @Override
+    public void onGetAcitivePidFailure(String appErrorMessage) {
+        Timber.d("Failure get map from server: %s", appErrorMessage);
+    }
 
-            Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
-
-
-            /**
-             * save in time data in db (for test).
-             */
-            tinyDB.putString("timeFrom", TimeDataModel.INSTANCE.getStart());
-            tinyDB.putString("timeTo", TimeDataModel.INSTANCE.getEnd());
-
-            int bntTextSize = 20;
-            int viewTextSize = 50;
-
-            if (dpHeight > 700) {
-                bntTextSize = 20;
-                viewTextSize = 50;
-            }
-            if (dpHeight < 700) {
-                bntTextSize = 10;
-                viewTextSize = 30;
-            }
-
-            tv_time.setText(time);
-            Timber.tag("time").w("Time from: %s", timeFromData);
-            Timber.tag("time").w("Time to: %s", timeToData);
-        }).textConfirm("Продолжить") //text of confirm button
-                .textCancel("CANCEL") //text of cancel button
-                .btnTextSize(20) // button text size
-                .viewTextSize(50) // pick view text size
-                .colorCancel(Color.parseColor("#999999")) //color of cancel button
-                .colorConfirm(Color.parseColor("#ffffffff"))//color of confirm button
-                .build();
-
-        setBtnEnable(next_button, true);
-
-        pickerPopWin.showPopWin(getActivity());
+    /**
+     * Something go wrong with map request
+     *
+     * @param appErrorMessage
+     */
+    @Override
+    public void onGetArenaByTimeFailure(String appErrorMessage) {
+        Timber.d("Failure get layout from server: %s", appErrorMessage);
+        if (appErrorMessage.contains("416")) toast("Выбран не рабочий диапазон времени");
     }
 
 
+    /**
+     * Select date
+     */
     private void dateSelect() {
         String date = "Выберите дату";
         String time = "00:00 - 00:00";
-
-        if (!date.isEmpty()) {
-            tv_date.setText(date);
-        }
-        if (!time.isEmpty()) {
-            tv_time.setText(time);
-        }
-
-        TimeZone timeZone = TimeZone.getTimeZone("UTC");
-        cal = Calendar.getInstance(timeZone);
-        simpleDateFormat.setTimeZone(timeZone);
+        tv_date.setText(date);
+        tv_time.setText(time);
 
 
         OnSelectDateListener listener = calendar -> {
             selectedDate = getFormattedDate(calendar.get(0).getTime());
-            cal.setTime(calendar.get(0).getTime());
-
-            //sharedPref.edit().putString(String.valueOf(R.string.saved_date), MapInfoSingleton.getInstance().getSelectedDate());
-
+            tv_date.setText(selectedDate);
             /**
              *  Save selected date from calendar
              */
             TimeDataModel.INSTANCE.setShortFormatDate(selectedDate);
-            tv_date.setText(selectedDate);
         };
 
 
@@ -422,39 +344,115 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         );
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+
+    /**
+     *  Check before time select that date is already selected.
+     */
+    private void timeSelect() {
+        RxView.clicks(vTimeTap).subscribe(
+                it -> {
+                    if (isDataSelected) {
+                        openTimePickerDialog();
+                    } else {
+                        Toast.makeText(getActivity(), "Сначала выберите дату!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+    }
+
+    /**
+     * Show time picker dialog.
+     */
+
+    private void openTimePickerDialog() {
+        TimePickerPopWin pickerPopWin = new TimePickerPopWin.Builder(getActivity(), (hour, min, timeDesc, timeFromData, timeToData) -> {
+
+            String time = timeFromData + " - " + timeToData;
+            tv_time.setText(time);
+            tinyDB.putString("time", time);
+
+
+            /**
+             *  Save date data from timepicker (start and end).
+             */
+            TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFromData));
+            TimeDataModel.INSTANCE.setEndAt(String.valueOf(timeToData));
+            /**
+             * save in time data in tinydb (for test).
+             */
+            tinyDB.putString("timeFrom", TimeDataModel.INSTANCE.getStart());
+            tinyDB.putString("timeTo", TimeDataModel.INSTANCE.getEnd());
+
+            Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
+            Timber.d("endAt: %s", TimeDataModel.INSTANCE.getEnd());
+
+            Timber.d("dateStart: %s", TimeDataModel.INSTANCE.getStartDate());
+            Timber.d("dateEnd: %s", TimeDataModel.INSTANCE.getEndDate());
+
+            Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
+
+
+            /**
+             * Fix time dialog for difrent screen size
+             */
+            int bntTextSize = 20;
+            int viewTextSize = 50;
+
+            if (dpHeight > 700) {
+                bntTextSize = 20;
+                viewTextSize = 50;
+            }
+            if (dpHeight < 700) {
+                bntTextSize = 10;
+                viewTextSize = 30;
+            }
+
+        }).textConfirm("Продолжить") //text of confirm button
+                .textCancel("CANCEL") //text of cancel button
+                .btnTextSize(20) // button text size
+                .viewTextSize(50) // pick view text size
+                .colorCancel(Color.parseColor("#999999")) //color of cancel button
+                .colorConfirm(Color.parseColor("#ffffffff"))//color of confirm button
+                .build();
+
+        setBtnEnable(showMapButton, true);
+
+        pickerPopWin.showPopWin(getActivity());
     }
 
 
-    @Override
-    public boolean onBackPressed() {
-        presenter.onBackPressed();
-       // startActivity(new Intent(getActivity(), MainScreenActivity.class));
-        return true;
+    protected void toast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-
-    @Override
-    public void setChainText(String chainText) {
-
+    private void setBtnEnable(View v, Boolean isEnable) {
+        if (isEnable) {
+            v.setAlpha(1f);
+            v.setClickable(true);
+        } else {
+            v.setAlpha(.5f);
+            v.setClickable(false);
+        }
     }
 
-    @Override
-    public void onDateSelect() {
+    /**
+     * show progress on seats loading
+     */
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this.getActivity());
+            mProgressDialog.setMessage("Загрузка мест...");
+            mProgressDialog.setIndeterminate(true);
+        }
 
+        mProgressDialog.show();
     }
 
-    @Override
-    public void onTimeSelect() {
-
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
-
-    @Override
-    public void onNextButtonClick() {
-    }
-
 
     @Override
     public void showWait() {
@@ -466,55 +464,13 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         hideProgressDialog();
     }
 
+    // TODO: 13/05/2018 Fix BAG with that function!!!
     @Override
-    public void onGetActivePidResponseSuccess(Rooms roomsResponse) {
-        Timber.d("Success get map data from server: %s", roomsResponse);
-        // TODO: 27/04/2018 Get room_layouts by active_layout_pid
-        String activePid = roomsResponse.getRoom().getActiveLayoutPid();
-
-/*      String timeFrom = TimeDataModel.INSTANCE.getStart();
-        String timeTo = TimeDataModel.INSTANCE.getEnd();*/
-
-        // TODO: 06/05/2018 REMOVE AFTE TEST!!!
-        String timeFrom = tinyDB.getString("timeFrom");
-        String timeTo = tinyDB.getString("timeTo");
-
-        Map<String, String> time = new HashMap<>();
-        time.put("start_at", timeFrom);
-        time.put("end_at", timeTo);
-//        presenter.getArena(activePid);
-        presenter.getArenaByTimeRange(activePid, time);
+    public boolean onBackPressed() {
+        presenter.onBackPressed();
+        return true;
     }
 
-    @Override
-    public void onGetAcitivePidFailure(String appErrorMessage) {
-        Timber.d("Failure get map from server: %s", appErrorMessage);
-    }
-
-    @Override
-    public void onGetArenaResponseSuccess(RoomLayoutFactory roomLayoutFactory) {
-        Timber.d("Success get layout data from server: %s", roomLayoutFactory);
-    }
-
-    @Override
-    public void onGetArenaFailure(String appErrorMessage) {
-        Timber.d("Failure get layout from server: %s", appErrorMessage);
-    }
-
-    @Override
-    public void onGetArenaByTimeResponseSuccess(RoomLayoutFactory roomLayoutFactory) {
-        Timber.d("Success get layout data from server: %s", roomLayoutFactory);
-        MapInfoSingleton.getInstance().setRoomLayout(roomLayoutFactory.getRoomLayout());
-        if (MapInfoSingleton.getInstance().getRoomLayout() != null) {
-            listener.onMapShowClick();
-        }
-    }
-
-    @Override
-    public void onGetArenaByTimeFailure(String appErrorMessage) {
-        Timber.d("Failure get layout from server: %s", appErrorMessage);
-        if (appErrorMessage.contains("416")) toast("Выбран не рабочий диапазон времени");
-    }
 
     @Override
     public void onStop() {
@@ -522,7 +478,5 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         presenter.onStop();
     }
 
-    protected void toast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-    }
+
 }

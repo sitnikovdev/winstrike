@@ -94,10 +94,14 @@ public class MapPresenter extends MvpPresenter<MapView> {
         getViewState().onSnackBarShow();
     }
 
+    /**
+     *  go to yandex casa and by some selected seats.
+     */
     public void onBookingClick() {
         PaymentModel payModel;
         payModel = new PaymentModel();
 
+        // TODO: 12/05/2018 Replace with TimeDataModel.
         payModel.setStartAt(MapInfoSingleton.getInstance().getDateFromShort());
         payModel.setEnd_at(MapInfoSingleton.getInstance().getDateToShort());
         payModel.setPlacesPid(MapInfoSingleton.getInstance().getPidArray());

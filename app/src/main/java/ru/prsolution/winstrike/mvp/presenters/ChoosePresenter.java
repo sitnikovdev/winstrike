@@ -32,8 +32,6 @@ public class ChoosePresenter extends MvpPresenter<ChooseView> {
         this.service = service;
         this.router = router;
 
-        getViewState().setChainText(createChain(number));
-
         // Date time
     }
 
@@ -65,27 +63,6 @@ public class ChoosePresenter extends MvpPresenter<ChooseView> {
     }
 
 
-    public void getArena(String activeLayoutPid) {
-        getViewState().showWait();
-
-        Subscription subscription = service.getArena(new Service.RoomLayoutCallback() {
-            @Override
-            public void onSuccess(RoomLayoutFactory authResponse) {
-                getViewState().removeWait();
-                getViewState().onGetArenaResponseSuccess(authResponse);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                getViewState().removeWait();
-                getViewState().onGetArenaFailure(networkError.getAppErrorMessage());
-            }
-
-        },activeLayoutPid);
-
-        subscriptions.add(subscription);
-    }
-
 
     public void getArenaByTimeRange(String activeLayoutPid, Map<String,String> time) {
         getViewState().showWait();
@@ -108,18 +85,6 @@ public class ChoosePresenter extends MvpPresenter<ChooseView> {
         subscriptions.add(subscription);
     }
 
-
-
-
-    private String createChain(int number) {
-        String chain = "[0]";
-
-        for (int i = 0; i < number; i++) {
-            chain += "➔" + (i + 1);
-        }
-
-        return chain;
-    }
 
     public void onForwardPressed() {
         router.navigateTo(Screens.FORWARD_SCREEN, number + 1);
