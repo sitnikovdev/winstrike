@@ -95,8 +95,8 @@
     <string name="seatdetail_time">Укажите диапазон времени</string>
     <string name="seatdetail_btn">Выбрать места</string>
     <string name="seatdetail_category">Категории мест</string>
-    <string name="timedlg_title">Установить время</string>
-    <string name="timedlg_detail">Выберите продолжительность времени в клубе</string>
+    <string name="timedlg_title">Установите время</string>
+    <string name="timedlg_detail">Выберите количество часов в клубе</string>
     <string name="timedlg_from">c</string>
     <string name="timedlg_fromhour">9</string>
     <string name="timedlg_sephour">:</string>

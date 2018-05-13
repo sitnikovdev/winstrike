@@ -337,7 +337,27 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
      * Show time picker dialog.
      */
 
+    /**
+     * ala iOS theme time picker dialog
+     */
     private void openTimePickerDialog() {
+        /**
+         * So, try to fix this fucking "awesome" iOS time picked dialog for numerous android devices. It's not easy ).
+         */
+        int bntTextSize = 20;
+        int viewTextSize = 50;
+        if (dpHeight > 700) {
+            bntTextSize = 20;
+            viewTextSize = 50;
+        }
+        if (dpHeight < 700) {
+            bntTextSize = 20;
+            viewTextSize = 30;
+        }
+        Timber.d("dpHeight: %s",dpHeight);
+        Timber.d("btnTextSize: %s",bntTextSize);
+        Timber.d("viewTextSize: %s",viewTextSize);
+
         TimePickerPopWin pickerPopWin = new TimePickerPopWin.Builder(getActivity(), (hour, min, timeDesc, timeFromData, timeToData) -> {
 
             String time = timeFromData + " - " + timeToData;
@@ -365,25 +385,12 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
 
 
-            /**
-             * Fix time dialog for difrent screen size
-             */
-            int bntTextSize = 20;
-            int viewTextSize = 50;
 
-            if (dpHeight > 700) {
-                bntTextSize = 20;
-                viewTextSize = 50;
-            }
-            if (dpHeight < 700) {
-                bntTextSize = 10;
-                viewTextSize = 30;
-            }
 
         }).textConfirm("Продолжить") //text of confirm button
                 .textCancel("CANCEL") //text of cancel button
-                .btnTextSize(20) // button text size
-                .viewTextSize(50) // pick view text size
+                .btnTextSize(bntTextSize) // button text size
+                .viewTextSize(viewTextSize) // pick view text size
                 .colorCancel(Color.parseColor("#999999")) //color of cancel button
                 .colorConfirm(Color.parseColor("#ffffffff"))//color of confirm button
                 .build();

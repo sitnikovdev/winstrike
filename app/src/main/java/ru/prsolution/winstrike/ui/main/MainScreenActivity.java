@@ -665,7 +665,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Override
     public void onGetOrdersFailure(String appErrorMessage) {
-
+        // TODO: 13/05/2018 Write here error catch logic.
     }
 
     public ArrayList<OrderModel> getOrders() {

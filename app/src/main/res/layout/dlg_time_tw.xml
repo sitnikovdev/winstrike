@@ -55,6 +55,7 @@
                 android:background="@android:color/transparent"
                 android:visibility="gone" />
 
+            <!--Установите время-->
             <TextView
                 android:id="@+id/tv_title"
                 style="@style/StemMedium17Primary"
@@ -68,6 +69,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!--Выберите количество часов в клубе-->
             <TextView
                 android:id="@+id/tv_detail"
                 style="@style/StemRegular15Gray06"
@@ -83,7 +85,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_title" />
 
-
+            <!--c-->
             <TextView
                 android:id="@+id/tv_from_text"
                 style="@style/StemRegular19Withe06"
@@ -97,6 +99,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
 
+            <!--tap from -->
             <View
                 android:id="@+id/v_tap_from"
                 android:layout_width="100dp"
@@ -105,6 +108,7 @@
                 app:layout_constraintStart_toStartOf="@id/tv_hour_from"
                 app:layout_constraintTop_toTopOf="@id/tv_hour_from" />
 
+            <!-- hour from -->
             <TextView
                 android:id="@+id/tv_hour_from"
                 style="@style/StemRegular35White"
@@ -116,6 +120,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_from_text"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
 
+            <!--:-->
             <TextView
                 android:id="@+id/tv_from_sep"
                 style="@style/StemRegular35White"
@@ -129,6 +134,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_hour_from"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
 
+            <!--min from-->
             <TextView
                 android:id="@+id/tv_min_from"
                 style="@style/StemRegular35White"
@@ -140,6 +146,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_from_sep"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
 
+            <!--до-->
             <TextView
                 android:id="@+id/tv_to_text"
                 style="@style/StemRegular19Withe06"
@@ -153,6 +160,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_min_from"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
 
+            <!--tap to -->
             <View
                 android:id="@+id/v_tap_to"
                 android:layout_width="100dp"
@@ -161,7 +169,7 @@
                 app:layout_constraintStart_toStartOf="@id/tv_hour_to"
                 app:layout_constraintTop_toTopOf="@id/tv_hour_to" />
 
-
+            <!--hour to -->
             <TextView
                 android:id="@+id/tv_hour_to"
                 style="@style/StemRegular35White"
@@ -173,6 +181,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_to_text"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
 
+            <!--: to time separator-->
             <TextView
                 android:id="@+id/tv_to_sep"
                 style="@style/StemRegular35White"
@@ -186,6 +195,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_hour_to"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
 
+            <!--min to-->
             <TextView
                 android:id="@+id/tv_min_to"
                 style="@style/StemRegular35White"
@@ -197,6 +207,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_to_sep"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
 
+            <!--Продолжительность игры-->
             <TextView
                 android:id="@+id/tv_number"
                 style="@style/StemMedium17Primary"
@@ -210,6 +221,47 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_hour_to" />
 
 
+            <!--hour loop view-->
+            <ru.prsolution.winstrike.common.datetimeweels.datetimepicker.DateTimeWheel.TimeWheel.LoopView
+                android:id="@+id/picker_hour"
+                android:layout_width="85dp"
+                android:layout_height="@dimen/space_loop_hour"
+                android:layout_marginTop="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/picker_min"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail"
+                app:layout_constraintVertical_bias="0.473" />
+
+            <!-- min loop view-->
+            <ru.prsolution.winstrike.common.datetimeweels.datetimepicker.DateTimeWheel.TimeWheel.LoopView
+                android:id="@+id/picker_min"
+                android:layout_width="85dp"
+                android:layout_height="@dimen/space_loop_min"
+                android:layout_marginTop="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/picker_hour"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail"
+                app:layout_constraintVertical_bias="0.473" />
+
+            <!-- number looop view-->
+            <ru.prsolution.winstrike.common.datetimeweels.datetimepicker.DateTimeWheel.TimeWheel.LoopView
+                android:id="@+id/picker_number"
+                android:layout_width="85dp"
+                android:layout_height="@dimen/number_height"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/btn_confirm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_number"
+                app:layout_constraintVertical_bias="0.473" />
+
+            <!--Продолжить-->
             <TextView
                 android:id="@+id/btn_confirm"
                 style="@style/StemMedium17Primary"
@@ -224,43 +276,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-
-            <ru.prsolution.winstrike.common.datetimeweels.datetimepicker.DateTimeWheel.TimeWheel.LoopView
-                android:id="@+id/picker_hour"
-                android:layout_width="85dp"
-                android:layout_height="@dimen/space_loop_hour"
-                android:layout_marginTop="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/picker_min"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_detail"
-                app:layout_constraintVertical_bias="0.473" />
-
-            <ru.prsolution.winstrike.common.datetimeweels.datetimepicker.DateTimeWheel.TimeWheel.LoopView
-                android:id="@+id/picker_min"
-                android:layout_width="85dp"
-                android:layout_height="@dimen/space_loop_min"
-                android:layout_marginTop="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/picker_hour"
-                app:layout_constraintTop_toBottomOf="@id/tv_detail"
-                app:layout_constraintVertical_bias="0.473" />
-
-            <ru.prsolution.winstrike.common.datetimeweels.datetimepicker.DateTimeWheel.TimeWheel.LoopView
-                android:id="@+id/picker_number"
-                android:layout_width="85dp"
-                android:layout_height="@dimen/number_height"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@id/btn_confirm"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_number"
-                app:layout_constraintVertical_bias="0.473" />
 
         </android.support.constraint.ConstraintLayout>
 
