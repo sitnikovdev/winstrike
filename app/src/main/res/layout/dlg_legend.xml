@@ -18,7 +18,7 @@
         style="@style/StemMedium17Black"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Легенда:"
+        android:text="Статус мест:"
         android:layout_marginStart="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,9 +29,10 @@
         />
     <ImageView
         android:id="@+id/iv_vip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/seat_vip"
+        android:layout_width="25dp"
+        android:layout_height="24dp"
+        android:rotation="90"
+        android:background="@drawable/ic_seat_darkgray"
         android:layout_marginTop="20dp"
         android:layout_marginStart="14dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +40,7 @@
         />
     <TextView
         android:id="@+id/tv_vip"
-        android:text="Vip"
+        android:text="Недоступно"
         style="@style/StemRegular15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,9 +51,10 @@
         />
     <ImageView
         android:id="@+id/iv_lockyou"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/seat_lockyou"
+        android:layout_width="25dp"
+        android:layout_height="24dp"
+        android:rotation="90"
+        android:background="@drawable/ic_seat_gray"
         android:layout_marginTop="20dp"
         android:layout_marginStart="14dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +62,7 @@
         />
     <TextView
         android:id="@+id/tv_lockyou"
-        android:text="Забронировано вами"
+        android:text="Свободно"
         style="@style/StemRegular15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,9 +73,10 @@
         />
     <ImageView
         android:id="@+id/iv_locked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/seat_locked"
+        android:layout_width="25dp"
+        android:layout_height="24dp"
+        android:rotation="90"
+        android:background="@drawable/ic_seat_yellow"
         android:layout_marginTop="20dp"
         android:layout_marginStart="14dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +84,7 @@
         />
     <TextView
         android:id="@+id/tv_locked"
-        android:text="Забронировано"
+        android:text="VIP"
         style="@style/StemRegular15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,9 +95,10 @@
         />
     <ImageView
         android:id="@+id/iv_free"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/seat_free"
+        android:layout_width="24dp"
+        android:layout_height="25dp"
+        android:rotation="90"
+        android:background="@drawable/ic_seat_red"
         android:layout_marginTop="20dp"
         android:layout_marginStart="14dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +106,7 @@
         />
     <TextView
         android:id="@+id/tv_free"
-        android:text="Свободно"
+        android:text="Забронировано"
         style="@style/StemRegular15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -118,7 +122,7 @@
         style="@style/StemMedium17Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_free"

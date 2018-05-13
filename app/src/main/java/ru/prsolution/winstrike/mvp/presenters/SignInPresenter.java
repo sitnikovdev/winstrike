@@ -11,14 +11,10 @@ import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.views.SignInView;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
 import ru.terrakok.cicerone.Router;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-/**
- * Created by ennur on 6/25/16.
- */
 @InjectViewState
 public class SignInPresenter extends MvpPresenter<SignInView> {
     private final Service service;
@@ -39,7 +35,6 @@ public class SignInPresenter extends MvpPresenter<SignInView> {
             public void onSuccess(AuthResponse authResponse) {
                 getViewState().removeWait();
                 getViewState().onAuthResponseSuccess(authResponse);
-               // onSignSuccess(authResponse);
             }
 
             @Override
@@ -53,12 +48,6 @@ public class SignInPresenter extends MvpPresenter<SignInView> {
         subscriptions.add(subscription);
     }
 
-    private void onSignSuccess(AuthResponse authResponse) {
-        MapInfoSingleton.getInstance().setToken(authResponse.getToken());
-        MapInfoSingleton.getInstance().setUser(authResponse.getUser());
-
-
-    }
 
     public void sendSms(ConfirmSmsModel smsModel) {
         getViewState().showWait();

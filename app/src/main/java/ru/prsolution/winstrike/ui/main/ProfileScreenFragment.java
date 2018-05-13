@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.ui.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,17 +15,16 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.BackButtonListener;
-import ru.prsolution.winstrike.ui.common.RouterProvider;
 import ru.prsolution.winstrike.mvp.presenters.ProfilePresenter;
 import ru.prsolution.winstrike.mvp.views.ProfileView;
+import ru.prsolution.winstrike.networking.Service;
+import ru.prsolution.winstrike.ui.common.RouterProvider;
 
 
 /**
  * Created by terrakok 26.11.16
  */
-public class ProfileScreenFragment extends MvpAppCompatFragment implements ProfileView, BackButtonListener {
+public class ProfileScreenFragment extends MvpAppCompatFragment implements ProfileView {
     private static final String EXTRA_NAME = "extra_name";
     private static final String EXTRA_NUMBER = "extra_number";
 
@@ -67,11 +65,11 @@ public class ProfileScreenFragment extends MvpAppCompatFragment implements Profi
         return view;
     }
 
-    @Override
+/*    @Override
     public boolean onBackPressed() {
-//        presenter.onBackPressed();
-        startActivity(new Intent(getActivity(), MainScreenActivity.class));
+        presenter.onBackPressed();
+//        startActivity(new Intent(getActivity(), MainScreenActivity.class));
         return true;
-    }
+    }*/
 
 }

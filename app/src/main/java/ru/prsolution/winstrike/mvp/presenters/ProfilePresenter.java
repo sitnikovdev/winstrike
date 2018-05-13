@@ -36,7 +36,8 @@ public class ProfilePresenter extends MvpPresenter<ProfileView> {
     }
 
     public void onBackPressed() {
-        router.exit();
+        //router.exit();
+        router.replaceScreen(Screens.START_SCREEN,0);
     }
 
     public void onStop() {

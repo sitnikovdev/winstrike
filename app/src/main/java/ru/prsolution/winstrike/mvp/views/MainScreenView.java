@@ -33,4 +33,6 @@ public interface MainScreenView extends MvpView {
     void onGetOrdersFailure(String appErrorMessage);
 
     void showBottomTab();
+
+    void setProfileScreenInterfaceVisibility(Boolean isVisible);
 }

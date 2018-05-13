@@ -259,13 +259,14 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     }
 
     /**
-     * Something go wrong with map pid request
+     * Something go wrong with map request, show user message in toast
      *
      * @param appErrorMessage
      */
     @Override
     public void onGetAcitivePidFailure(String appErrorMessage) {
         Timber.d("Failure get map from server: %s", appErrorMessage);
+        toast(appErrorMessage);
     }
 
     /**

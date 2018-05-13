@@ -49,7 +49,6 @@ import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
-import ru.prsolution.winstrike.ui.common.ScreenType;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
@@ -58,6 +57,7 @@ import ru.prsolution.winstrike.ui.common.BackButtonListener;
 import ru.prsolution.winstrike.ui.common.CarouselAdapter;
 import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
 import ru.prsolution.winstrike.ui.common.RouterProvider;
+import ru.prsolution.winstrike.ui.common.ScreenType;
 import ru.prsolution.winstrike.ui.start.SplashActivity;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -84,7 +84,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     private MainContainerFragment payTabFragment;
     private ViewPager viewPagerSeat;
     private CarouselAdapter adapter;
-    private Boolean mState;
     private BottomNavigationListener bottomNavigationListener;
     float dpHeight, dpWidth;
     private ArrayList<OrderModel> mPayList = new ArrayList<>();
@@ -92,9 +91,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     private final Boolean SHOW_MENU = false;
     private final Boolean HIDE_ICON = true;
     private final Boolean SHOW_ICON = false;
-    private Dialog dialog;
+    private Dialog mDlgSingOut;
     private MainOnClickListener mMainOnClickListener;
     private MapOnClickListener mMapOnClickListener;
+    private ScreenType mScreenType;
+    private Dialog mDlgMapLegend;
 
 
     @BindView(R.id.toolbar_text)
@@ -144,7 +145,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Inject
     NavigatorHolder navigatorHolder;
-    private ScreenType mScreenType;
 
     public Service getService() {
         return service;
@@ -167,10 +167,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (this.mScreenType == ScreenType.PROFILE) {
-            dlgSingOut();
+            mDlgSingOut.show();
         }
         if (this.mScreenType == ScreenType.MAP) {
-            dlgLegend();
+            mDlgMapLegend.show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -182,53 +182,52 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
 
     private void dlgSingOut() {
-        dialog = new Dialog(this, android.R.style.Theme_Dialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dlg_logout);
+        mDlgSingOut = new Dialog(this, android.R.style.Theme_Dialog);
+        mDlgSingOut.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDlgSingOut.setContentView(R.layout.dlg_logout);
 
-        TextView cvBtnOk = dialog.findViewById(R.id.btn_ok);
-        TextView cvCancel = dialog.findViewById(R.id.btn_cancel);
+        TextView cvBtnOk = mDlgSingOut.findViewById(R.id.btn_ok);
+        TextView cvCancel = mDlgSingOut.findViewById(R.id.btn_cancel);
 
         cvCancel.setOnClickListener(
-                it -> dialog.dismiss()
+                it -> mDlgSingOut.dismiss()
         );
 
         cvBtnOk.setOnClickListener(
                 it -> startActivity(new Intent(MainScreenActivity.this, SplashActivity.class))
         );
 
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        Window window = dialog.getWindow();
+        mDlgSingOut.setCanceledOnTouchOutside(true);
+        mDlgSingOut.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDlgSingOut.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Window window = mDlgSingOut.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
         wlp.gravity = Gravity.CENTER;
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-//        wlp.y = 200;
         window.setAttributes(wlp);
 
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        dialog.show();
+        mDlgSingOut.setCanceledOnTouchOutside(false);
+        mDlgSingOut.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        mDlgSingOut.dismiss();
 
     }
 
     private void dlgLegend() {
-        Dialog dialog = new Dialog(this, android.R.style.Theme_Dialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dlg_legend);
-        TextView tvSee = dialog.findViewById(R.id.tv_see);
+        mDlgMapLegend = new Dialog(this, android.R.style.Theme_Dialog);
+        mDlgMapLegend.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDlgMapLegend.setContentView(R.layout.dlg_legend);
+        TextView tvSee = mDlgMapLegend.findViewById(R.id.tv_see);
 
         tvSee.setOnClickListener(
-                it -> dialog.dismiss()
+                it -> mDlgMapLegend.dismiss()
         );
 
 
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        Window window = dialog.getWindow();
+        mDlgMapLegend.setCanceledOnTouchOutside(true);
+        mDlgMapLegend.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDlgMapLegend.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Window window = mDlgMapLegend.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
         wlp.gravity = Gravity.TOP;
@@ -236,9 +235,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         wlp.y = 200;
         window.setAttributes(wlp);
 
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        dialog.show();
+        mDlgMapLegend.setCanceledOnTouchOutside(false);
+        mDlgMapLegend.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        mDlgMapLegend.dismiss();
 
     }
 
@@ -247,8 +246,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialog != null) {
-            dialog.dismiss();
+        if (mDlgSingOut != null) {
+            mDlgSingOut.dismiss();
         }
         if (progressDialog != null) {
             progressDialog.dismiss();
@@ -324,6 +323,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         viewPager.setAdapter(pagerAdapter);
     }
 
+
     private void initViews() {
         initMainToolbar(HIDE_MENU, "Winstrike Arena", HIDE_ICON, ScreenType.MAIN);
         initBottomNavigationBar();
@@ -333,6 +333,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         // TODO: 08/05/2018 REMOVE AFTER TESTS!!!
         // presenter.onChooseScreenClick();
+        dlgLegend();
     }
 
     private void initBottomNavigationBar() {
@@ -354,7 +355,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
 
-    private void setProfileScreenInterfaceVisibility(Boolean isVisible) {
+    @Override
+    public void setProfileScreenInterfaceVisibility(Boolean isVisible) {
         if (isVisible) {
             tabLayout.setVisibility(View.VISIBLE);
             viewPager.setVisibility(View.VISIBLE);
@@ -371,7 +373,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(mMainOnClickListener);
 
-        mState = hide_menu; // setting state
         mScreenType = screenType;
        // getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
         invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
@@ -747,4 +748,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.onStop();
+    }
 }

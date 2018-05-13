@@ -69,6 +69,7 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
     public void onBackPressed() {
 //        router.exit(); // used Back command
         getViewState().showBottomTab();
+        getViewState().setProfileScreenInterfaceVisibility(false);
         router.replaceScreen(Screens.START_SCREEN);
     }
 
@@ -113,4 +114,7 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
         subscriptions.add(subscription);
     }
 
+    public void onStop() {
+        subscriptions.unsubscribe();
+    }
 }
