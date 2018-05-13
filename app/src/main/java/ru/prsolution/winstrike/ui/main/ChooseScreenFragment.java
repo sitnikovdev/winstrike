@@ -21,11 +21,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.jakewharton.rxbinding.view.RxView;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -61,7 +58,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     private Boolean isDataSelected;
     private String selectedDate;
 
-    private onMapShowClicked listener;
+    private onMapShowProcess listener;
 
 
     @BindView(R.id.seat_title)
@@ -121,17 +118,17 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     /**
      * route show map to main presenter in MainScreenActivity
      */
-    public interface onMapShowClicked {
-        void onMapShowClick();
+    public interface onMapShowProcess {
+        void onMapShow();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof onMapShowClicked) {
-            listener = (onMapShowClicked) context;
+        if (context instanceof onMapShowProcess) {
+            listener = (onMapShowProcess) context;
         } else {
-            throw new ClassCastException(context.toString() + " must implements onMapShowClicked");
+            throw new ClassCastException(context.toString() + " must implements onMapShowProcess");
         }
     }
 
@@ -190,38 +187,17 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
 
         tinyDB = new TinyDB(getContext());
         isDataSelected = false;
-        setBtnEnable(showMapButton, false);
+        initMapShowButton();
 
-        dateSelect();
+        initDateSelectDialog();
 
-        timeSelect();
-
-        showMap();
-
+        initTimeSelectDialog();
     }
 
 
 
-
-
-    /**
-     * Format for selected start date map show
-     *
-     * @param date
-     * @return
-     */
-    private String getFormattedDate(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-        return simpleDateFormat.format(date);
-    }
-
-
-
-    private void showMap() {
-
-        // TODO: 27/04/2018 Call getActivePid api mService
-   //     presenter.getActivePid();
-        // TODO: 07/05/2018 END BLOCK
+    private void initMapShowButton() {
+        setShowMapBtnEnable(showMapButton, false);
 
         RxView.clicks(showMapButton).subscribe(
                 it -> {
@@ -278,7 +254,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
          */
         MapInfoSingleton.getInstance().setRoomLayout(roomLayoutFactory.getRoomLayout());
         if (MapInfoSingleton.getInstance().getRoomLayout() != null) {
-            listener.onMapShowClick();
+            listener.onMapShow();
         }
     }
 
@@ -307,7 +283,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     /**
      * Select date
      */
-    private void dateSelect() {
+    private void initDateSelectDialog() {
         String date = "Выберите дату";
         String time = "00:00 - 00:00";
         tv_date.setText(date);
@@ -315,12 +291,9 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
 
 
         OnSelectDateListener listener = calendar -> {
-            selectedDate = getFormattedDate(calendar.get(0).getTime());
+            TimeDataModel.INSTANCE.setSelectDate(calendar.get(0).getTime());
+            selectedDate = TimeDataModel.INSTANCE.getSelectDate();
             tv_date.setText(selectedDate);
-            /**
-             *  Save selected date from calendar
-             */
-            TimeDataModel.INSTANCE.setShortFormatDate(selectedDate);
         };
 
 
@@ -348,7 +321,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     /**
      *  Check before time select that date is already selected.
      */
-    private void timeSelect() {
+    private void initTimeSelectDialog() {
         RxView.clicks(vTimeTap).subscribe(
                 it -> {
                     if (isDataSelected) {
@@ -415,7 +388,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
                 .colorConfirm(Color.parseColor("#ffffffff"))//color of confirm button
                 .build();
 
-        setBtnEnable(showMapButton, true);
+        setShowMapBtnEnable(showMapButton, true);
 
         pickerPopWin.showPopWin(getActivity());
     }
@@ -425,7 +398,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private void setBtnEnable(View v, Boolean isEnable) {
+    private void setShowMapBtnEnable(View v, Boolean isEnable) {
         if (isEnable) {
             v.setAlpha(1f);
             v.setClickable(true);

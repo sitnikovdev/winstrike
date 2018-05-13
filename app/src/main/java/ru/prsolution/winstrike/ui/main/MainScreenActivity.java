@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -36,16 +35,12 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.db.PidViewModel;
-import ru.prsolution.winstrike.db.entity.PidEntity;
-import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
@@ -79,7 +74,7 @@ import timber.log.Timber;
  */
 public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, ProfileFragment.OnProfileButtonsClickListener,
         AppFragment.OnAppButtonsClickListener, CarouselSeatFragment.OnChoosePlaceButtonsClickListener
-        , OnItemPayClickListener, ChooseScreenFragment.onMapShowClicked {
+        , OnItemPayClickListener, ChooseScreenFragment.onMapShowProcess {
 
     @BindView(R.id.toolbar_text)
     TextView tvToolbarTitle;
@@ -659,7 +654,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
     @Override
-    public void onMapShowClick() {
+    public void onMapShow() {
         presenter.onMapShowClick();
     }
 

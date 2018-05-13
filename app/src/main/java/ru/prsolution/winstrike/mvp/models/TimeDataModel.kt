@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.mvp.models
 
 import ru.prsolution.winstrike.mvp.transform.DateTransform
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashSet
 import kotlin.properties.ObservableProperty
@@ -14,6 +13,7 @@ object TimeDataModel {
     var pids: Set<String> = HashSet()
     //var date: String  by observing("", didSet = { valideateDate() })
     var date: String = ""
+    var selectDate: String = ""
     var start: String = ""
     var end: String = ""
 
@@ -27,8 +27,9 @@ object TimeDataModel {
         endDate = DateTransform.getDateInUTC(end)
     }
 
-    fun setDate(datetime: Date) {
-        date = DateTransform.transformToJSON(datetime)
+    fun setSelectDate(datetime: Date) {
+        selectDate = DateTransform.getSimpleDateFromCalendar(datetime)
+        date = selectDate
     }
 
     fun setShortFormatDate(datetime: String) {
@@ -63,24 +64,6 @@ object TimeDataModel {
         date = ""
         start = ""
         end = ""
-    }
-
-    private fun getFormattedDateShortToUTCString(time: String): String {
-        var dateInStr = date
-        var fmtDate = Date()
-        val date: String
-
-        dateInStr += 'T'.toString() + time + ":00"
-        val formatter = SimpleDateFormat("dd MMM yyyy'T'HH:mm:ss")
-        try {
-            fmtDate = formatter.parse(dateInStr)
-
-        } catch (e: java.text.ParseException) {
-            e.printStackTrace()
-        }
-
-        date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(fmtDate)
-        return date
     }
 
 

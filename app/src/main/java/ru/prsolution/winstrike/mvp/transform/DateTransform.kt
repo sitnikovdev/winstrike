@@ -15,6 +15,12 @@ class DateTransform {
         init {
         }
 
+         fun getSimpleDateFromCalendar(date: Date): String {
+            val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            return simpleDateFormat.format(date)
+        }
+
+
          fun getFormattedDateWithTime(time: String): String {
             var dateInStr = date
             var fmtDate = Date()
