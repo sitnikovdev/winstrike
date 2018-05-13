@@ -18,7 +18,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import javax.inject.Inject;
 
@@ -49,6 +48,7 @@ import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
 import ru.prsolution.winstrike.mvp.models.Seat;
 import ru.prsolution.winstrike.mvp.models.SeatType;
+import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.models.Wall;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
@@ -74,7 +74,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     private RelativeLayout.LayoutParams tvParams;
     private RelativeLayout.LayoutParams seatParams;
     private RelativeLayout.LayoutParams rootLayoutParams;
-    private HashMap<Integer, String> mPickedSeatsIds = new HashMap<>();
+    private LinkedHashMap<Integer, String> mPickedSeatsIds = new LinkedHashMap<>();
     private Float mXScaleFactor;
     private Float mYScaleFactor;
 
@@ -131,15 +131,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 
     @Override
     public void onScreenInit() {
-        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         rootLayoutParams = new RelativeLayout.LayoutParams(RLW, RLW);
-
-/*        if (dpHeight > 700) {
-            xFactor = 4;
-        } else {
-            xFactor = 3;
-        }*/
         initSnackBar();
     }
 
@@ -247,20 +239,16 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
     private void onSelectSeat(String id, boolean unselect, String publicPid) {
         PidEntity pidEntity = new PidEntity();
         if (!unselect) {
-            //  mPickedSeats.add(Integer.parseInt(id));
             mPickedSeatsIds.put(Integer.parseInt(id), publicPid);
             pidEntity.setId(Integer.parseInt(id));
             pidEntity.setPublickId(publicPid);
             //mPidViewModel.insert(pidEntity);
         } else {
-            //   mPickedSeats.remove(Integer.parseInt(id));
             mPickedSeatsIds.remove(Integer.parseInt(id));
             //mPidViewModel.delete(Integer.parseInt(id));
         }
 
-//        for (Map.Entry<Integer, String> pid : mPickedSeatsIds.entrySet()) {
-//        }
-
+        TimeDataModel.INSTANCE.setPids(mPickedSeatsIds);
         onPickedSeatChanged();
     }
 
@@ -405,12 +393,19 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
 */
     }
 
+    /**
+     * Something goes wrong.  We can't bye seat from Winstrike PC club.
+     * show user toast with description this situation.
+     *
+     * @param appErrorMessage
+     */
     @Override
     public void onGetPaymentFailure(String appErrorMessage) {
         Timber.tag("common").w("Failure on pay: %s", appErrorMessage);
         if (appErrorMessage.contains("500")) toast("Внутренняя ошибка сервера: %s");
         if (appErrorMessage.contains("400")) toast("Нет данных: %s");
         if (appErrorMessage.contains("401")) toast("Пользователь не авторизован");
+        if (appErrorMessage.contains("403")) toast("Ошибка авторизации пользователя");
         if (appErrorMessage.contains("404")) toast("В базе нет мест с таким public_id: %s");
     }
 

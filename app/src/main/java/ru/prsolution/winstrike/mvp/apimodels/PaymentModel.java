@@ -7,7 +7,14 @@ package ru.prsolution.winstrike.mvp.apimodels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import timber.log.Timber;
 
 public class PaymentModel {
 
@@ -42,8 +49,18 @@ public class PaymentModel {
         return placesPid;
     }
 
-    public void setPlacesPid(List<String> placesPid) {
-        this.placesPid = placesPid;
+    public void setPlacesPid(LinkedHashMap<Integer,String> placesPid) {
+        // TODO: 13/05/2018   convert to List<String>
+        List<String> pids = new ArrayList();
+        Timber.d("pids than need to converted: %s",placesPid);
+        Set<Map.Entry<Integer, String>> entrySet = placesPid.entrySet();
+        Iterator<Map.Entry<Integer,String>> iterator = entrySet.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Integer,String> entry = iterator.next();
+            String value = entry.getValue();
+            pids.add(value);
+        }
+        this.placesPid = pids;
     }
 
     @Override

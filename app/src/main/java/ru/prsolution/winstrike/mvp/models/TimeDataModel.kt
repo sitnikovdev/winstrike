@@ -3,14 +3,14 @@ package ru.prsolution.winstrike.mvp.models
 import ru.prsolution.winstrike.mvp.transform.DateTransform
 import timber.log.Timber
 import java.util.*
-import kotlin.collections.HashSet
+import kotlin.collections.LinkedHashMap
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
 
 object TimeDataModel {
 
     var pid: String = ""
-    var pids: Set<String> = HashSet()
+    var pids: LinkedHashMap<Int,String> = LinkedHashMap()
     //var date: String  by observing("", didSet = { valideateDate() })
     var date: String = ""
     var selectDate: String = ""
@@ -60,7 +60,7 @@ object TimeDataModel {
     })
 
     fun clear() {
-        pids = HashSet()
+        pids = LinkedHashMap()
         date = ""
         start = ""
         end = ""

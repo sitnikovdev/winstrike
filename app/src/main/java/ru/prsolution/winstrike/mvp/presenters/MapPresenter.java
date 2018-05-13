@@ -11,9 +11,11 @@ import ru.prsolution.winstrike.mvp.apimodels.PaymentModel;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.SeatApi;
+import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
 import ru.prsolution.winstrike.mvp.models.Seat;
+import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
@@ -95,21 +97,20 @@ public class MapPresenter extends MvpPresenter<MapView> {
     }
 
     /**
-     *  go to yandex casa and by some selected seats.
+     *  Yo, now we can go to yandex casa and bye some cool seats in Winstrike PC club!
      */
     public void onBookingClick() {
         PaymentModel payModel;
         payModel = new PaymentModel();
 
         // TODO: 12/05/2018 Replace with TimeDataModel.
-        payModel.setStartAt(MapInfoSingleton.getInstance().getDateFromShort());
-        payModel.setEnd_at(MapInfoSingleton.getInstance().getDateToShort());
-        payModel.setPlacesPid(MapInfoSingleton.getInstance().getPidArray());
+        payModel.setStartAt(TimeDataModel.INSTANCE.getStart());
+        payModel.setEnd_at(TimeDataModel.INSTANCE.getEnd());
+        payModel.setPlacesPid(TimeDataModel.INSTANCE.getPids());
 
         // TODO: 29/04/2018 REMOVE AFTER TEST!!!
-        //String token = "Bearer " + MapInfoSingleton.getInstance().getToken();
-        String token = "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI2MGNjNDQxYy05ZGVmLTQxZmQtOGMzMS1mYTkzN2E4MDg1OGEiLCJleHAiOjE1MjYyMjI5ODh9.uGiKrE6P7Gvq6YK-tXNMkdt4scZH_mNQuBiUuiVTegU";
-        MapInfoSingleton.getInstance().setToken(token);
+        // TODO: 13/05/2018 Save token in SharedPreferences !!!
+        String token = "Bearer " + AuthUtils.INSTANCE.getToken();
         getPayment(token, payModel);
         getViewState().onSnackBarHide();
     }

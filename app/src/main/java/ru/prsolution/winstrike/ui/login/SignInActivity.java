@@ -31,6 +31,7 @@ import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
+import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.SignInPresenter;
 import ru.prsolution.winstrike.mvp.views.SignInView;
 import ru.prsolution.winstrike.networking.Service;
@@ -55,8 +56,12 @@ import static ru.prsolution.winstrike.common.utils.Utils.setBtnEnable;
 /*
  * Created by oleg on 31.01.2018.
  */
-
+// TODO: 13/05/2018 Reorder method call in this activity.
 public class SignInActivity extends MvpAppCompatActivity implements SignInView {
+    private SignInModel signInModel;
+    private ProgressDialog mProgressDialog;
+    private UserViewModel mUserViewModel;
+
     @BindView(R.id.et_phone)
     EditText mPhoneView;
     @BindView(R.id.et_password)
@@ -83,17 +88,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
     public Service mService;
 
 
-    private SignInModel signInModel;
-    private ProgressDialog mProgressDialog;
-    private UserViewModel mUserViewModel;
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        hideProgressDialog();
-        mSignInPresenter.onStop();
-    }
 
     @InjectPresenter
     SignInPresenter mSignInPresenter;
@@ -125,6 +120,8 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
 //                    mUserViewModel.deleteUser();
                     Timber.d("User load successfully: %s", usersEntity);
                     if (usersEntity.get(0).getConfirmed()) {
+                        // update user token
+                        AuthUtils.INSTANCE.setToken(usersEntity.get(0).getToken());
 //                    toast("Пользователь авторизован");
                         router.replaceScreen(Screens.START_SCREEN);
                         Timber.d("Success signIn");
@@ -209,11 +206,14 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         if (appErrorMessage.contains("422")) toast("Не указан номер телефона");
     }
 
+    /**
+     *  Success auth user. Save token
+     * @param authResponse - (token,isConfirmed)
+     */
     @Override
     public void onAuthResponseSuccess(AuthResponse authResponse) {
         Boolean confirmed = authResponse.getUser().getConfirmed();
         UserEntity userEntity = new UserEntity();
-
 
         // TODO: 05/05/2018 Replace list of users by one user.
         // Save user in db
@@ -222,6 +222,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         userEntity.setToken(authResponse.getToken());
         userEntity.setConfirmed(confirmed);
         mUserViewModel.insert(userEntity);
+        AuthUtils.INSTANCE.setToken(authResponse.getToken());
     }
 
     @Override
@@ -337,6 +338,13 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
             finish();
         }
     };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        hideProgressDialog();
+        mSignInPresenter.onStop();
+    }
 
 
 }

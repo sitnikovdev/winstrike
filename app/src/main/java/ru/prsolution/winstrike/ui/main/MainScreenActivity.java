@@ -647,6 +647,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Override
     public void showWait() {
+        // TODO: 13/05/2018 Show progress for some loading dialogs
     }
 
     @Override
@@ -665,7 +666,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Override
     public void onGetOrdersFailure(String appErrorMessage) {
-        // TODO: 13/05/2018 Write here error catch logic.
+        // TODO: 13/05/2018 !!! Write here error catch logic.
     }
 
     public ArrayList<OrderModel> getOrders() {
