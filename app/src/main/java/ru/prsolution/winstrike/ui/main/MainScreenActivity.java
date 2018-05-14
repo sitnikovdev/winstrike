@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -48,6 +49,7 @@ import ru.prsolution.winstrike.common.fragment.ProfileFragment;
 import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
+import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
@@ -137,7 +139,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     AHBottomNavigationViewPager viewPager;
 
 
-
     @Inject
     public Service service;
 
@@ -146,6 +147,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Inject
     NavigatorHolder navigatorHolder;
+    private UserViewModel mUserViewModel;
 
     public Service getService() {
         return service;
@@ -195,7 +197,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         );
 
         cvBtnOk.setOnClickListener(
-                it -> startActivity(new Intent(MainScreenActivity.this, SplashActivity.class))
+                it -> {
+                    mUserViewModel.delete();
+                    startActivity(new Intent(MainScreenActivity.this, SplashActivity.class));
+                }
         );
 
         mDlgSingOut.setCanceledOnTouchOutside(true);
@@ -243,7 +248,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -283,12 +287,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             presenter.onCreate();
         }
 
-
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         // TODO: 29/04/2018 REMOVE AFTER TEST!!!
 
         String token = "Bearer " + AuthUtils.INSTANCE.getToken();
         presenter.getOrders(token);
+
+
     }
 
     private void initCarouselSeat(int currentItem) {
@@ -377,7 +383,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         toolbar.setNavigationOnClickListener(mMainOnClickListener);
 
         mScreenType = screenType;
-       // getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
+        // getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
         invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
         toolbar.setNavigationIcon(R.drawable.back_arrow);
         tvToolbarTitle.setText(title);
@@ -669,6 +675,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         showFragmentHolderContainer(true);
 
         initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAIN);
+
         MapInfoSingleton.getInstance().setSeat(seat);
         presenter.onChooseScreenClick();
     }
@@ -708,7 +715,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     public void onGetOrdersFailure(String appErrorMessage) {
         // TODO: 13/05/2018 !!! Write here error catch logic.
-        Timber.d("Can't get orders: %s",appErrorMessage);
+        Timber.d("Can't get orders: %s", appErrorMessage);
     }
 
     public ArrayList<OrderModel> getOrders() {
