@@ -57,7 +57,7 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
     }
 
     public void onMapShowClick() {
-        router.replaceScreen(Screens.MAP_SCREEN);
+        router.replaceScreen(Screens.MAP_SCREEN,0);
     }
 
     public void onChooseScreenClick() {
@@ -70,7 +70,7 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
 //        router.exit(); // used Back command
         getViewState().showBottomTab();
         getViewState().setProfileScreenInterfaceVisibility(false);
-        router.replaceScreen(Screens.START_SCREEN);
+        router.replaceScreen(Screens.START_SCREEN,0);
     }
 
 

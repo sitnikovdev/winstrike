@@ -52,10 +52,10 @@ public class MapPresenter extends MvpPresenter<MapView> {
         router.navigateTo(Screens.GITHUB_SCREEN);
     }
 
-    public void onBackPressed() {
+/*    public void onBackPressed() {
 //        router.exit();
         router.replaceScreen(Screens.CHOOSE_SCREEN,0);
-    }
+    }*/
 
     public void readMap() {
         List<Seat> seats;

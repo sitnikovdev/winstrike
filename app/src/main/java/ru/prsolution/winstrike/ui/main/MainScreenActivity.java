@@ -49,6 +49,7 @@ import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
@@ -285,7 +286,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
 
         // TODO: 29/04/2018 REMOVE AFTER TEST!!!
-        String token = "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI2MGNjNDQxYy05ZGVmLTQxZmQtOGMzMS1mYTkzN2E4MDg1OGEiLCJleHAiOjE1MjYyMjI5ODh9.uGiKrE6P7Gvq6YK-tXNMkdt4scZH_mNQuBiUuiVTegU";
+
+        String token = "Bearer " + AuthUtils.INSTANCE.getToken();
         presenter.getOrders(token);
     }
 
@@ -334,6 +336,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         // TODO: 08/05/2018 REMOVE AFTER TESTS!!!
         // presenter.onChooseScreenClick();
         dlgLegend();
+        dlgSingOut();
     }
 
     private void initBottomNavigationBar() {
@@ -412,6 +415,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.beginTransaction()
                     .add(R.id.ab_container, homeTabFragment, "MAIN")
                     .detach(homeTabFragment).commitNow();
+            fm.executePendingTransactions();
         }
 
         placesTabFragment = (MainContainerFragment) fm.findFragmentByTag("PLACES");
@@ -420,6 +424,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.beginTransaction()
                     .add(R.id.ab_container, placesTabFragment, "PLACES")
                     .detach(placesTabFragment).commitNow();
+            fm.executePendingTransactions();
         }
 
         userTabFragment = (MainContainerFragment) fm.findFragmentByTag("USER");
@@ -428,6 +433,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.beginTransaction()
                     .add(R.id.ab_container, userTabFragment, "USER")
                     .detach(userTabFragment).commitNow();
+            fm.executePendingTransactions();
         }
 
         chooseTabFragment = (MainContainerFragment) fm.findFragmentByTag("CHOOSE");
@@ -436,6 +442,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.beginTransaction()
                     .add(R.id.ab_container, chooseTabFragment, "CHOOSE")
                     .detach(chooseTabFragment).commitNow();
+            fm.executePendingTransactions();
         }
 
         mapTabFragment = (MainContainerFragment) fm.findFragmentByTag("MAP");
@@ -444,6 +451,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.beginTransaction()
                     .add(R.id.ab_container, mapTabFragment, "MAP")
                     .detach(mapTabFragment).commitNow();
+            fm.executePendingTransactions();
         }
 
         payTabFragment = (MainContainerFragment) fm.findFragmentByTag("PAY");
@@ -452,6 +460,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.beginTransaction()
                     .add(R.id.ab_container, payTabFragment, "PAY")
                     .detach(payTabFragment).commitNow();
+            fm.executePendingTransactions();
         }
 
     }
@@ -539,7 +548,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                                 .detach(mapTabFragment)
                                 .detach(payTabFragment)
                                 .attach(chooseTabFragment)
-                                .commitNow();
+                                .commit();
+                        fm.executePendingTransactions();
                         break;
                     case Screens.MAP_SCREEN:
                         toolbar.setNavigationOnClickListener(mMapOnClickListener);
@@ -552,7 +562,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                                 .detach(chooseTabFragment)
                                 .detach(payTabFragment)
                                 .attach(mapTabFragment)
-                                .commitNow();
+                                .commit();
+                        fm.executePendingTransactions();
                         break;
                     case Screens.PAY_SCREEN:
                         setHomeScreenStateVisibily(false);
@@ -697,6 +708,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     public void onGetOrdersFailure(String appErrorMessage) {
         // TODO: 13/05/2018 !!! Write here error catch logic.
+        Timber.d("Can't get orders: %s",appErrorMessage);
     }
 
     public ArrayList<OrderModel> getOrders() {

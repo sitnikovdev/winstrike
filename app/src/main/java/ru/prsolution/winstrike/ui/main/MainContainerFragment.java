@@ -16,11 +16,13 @@ import javax.inject.Inject;
 
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.subnavigation.LocalCiceroneHolder;
 import ru.prsolution.winstrike.ui.common.BackButtonListener;
 import ru.prsolution.winstrike.ui.common.RouterProvider;
+import ru.prsolution.winstrike.ui.common.ScreenType;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
@@ -169,7 +171,14 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
                 && ((BackButtonListener) fragment).onBackPressed()) {
             return true;
         } else {
-            ((RouterProvider) getActivity()).getRouter().exit();
+//            ((RouterProvider) getActivity()).getRouter().finishChain();
+            ((RouterProvider) getActivity()).getRouter().replaceScreen(Screens.START_SCREEN,0);
+            MainScreenActivity activity = (MainScreenActivity) getActivity();
+            activity.initMainToolbar(true,"Winstrike Arena",true,ScreenType.MAIN);
+            activity.showBottomTab();
+            activity.highlightTab(MainScreenView.HOME_TAB_POSITION);
+            activity.setProfileScreenInterfaceVisibility(false);
+
             return true;
         }
     }

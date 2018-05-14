@@ -94,10 +94,9 @@ public class ChoosePresenter extends MvpPresenter<ChooseView> {
         router.navigateTo(Screens.GITHUB_SCREEN);
     }
 
-    public void onBackPressed() {
-//        router.exit();
-        router.replaceScreen(Screens.START_SCREEN);
-    }
+/*    public void onBackPressed() {
+        router.replaceScreen(Screens.START_SCREEN,0);
+    }*/
 
     public void onNextButtonClick() {
        router.navigateTo(Screens.MAP_SCREEN,number+1);

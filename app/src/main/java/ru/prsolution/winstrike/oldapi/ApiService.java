@@ -51,9 +51,6 @@ public interface ApiService {
     @POST("payments")
     Single <Response<List>> createPayment(@Body PaymentModel paymentModel);
 
-    // Get Payments list (список оплаченных мест)
-    @GET("rooms")
-    Observable<Response<JSONObject>> getPayments();
 
     // Список мест
     @GET("rooms")

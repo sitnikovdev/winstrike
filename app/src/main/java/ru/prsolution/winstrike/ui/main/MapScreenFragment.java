@@ -61,7 +61,7 @@ import timber.log.Timber;
 /**
  * Created by terrakok 26.11.16
  */
-public class MapScreenFragment extends MvpAppCompatFragment implements MapView, BackButtonListener {
+public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
     @BindView(R.id.rootMap)
     RelativeLayout rootLayout;
     private Snackbar snackbar;
@@ -342,11 +342,13 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView, 
         });
     }
 
+/*
     @Override
     public boolean onBackPressed() {
         presenter.onBackPressed();
         return true;
     }
+*/
 
 
     private class BookingBtnListener implements View.OnClickListener {

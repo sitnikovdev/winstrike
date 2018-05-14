@@ -46,7 +46,7 @@ import ru.prsolution.winstrike.ui.common.RouterProvider;
 import timber.log.Timber;
 
 
-public class ChooseScreenFragment extends MvpAppCompatFragment implements ChooseView, BackButtonListener {
+public class ChooseScreenFragment extends MvpAppCompatFragment implements ChooseView {
 
     private boolean isDebug = false;
     private static final String EXTRA_NAME = "extra_name";
@@ -446,11 +446,11 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     }
 
     // TODO: 13/05/2018 Fix BAG with that function!!!
-    @Override
+/*    @Override
     public boolean onBackPressed() {
         presenter.onBackPressed();
         return true;
-    }
+    }*/
 
 
     @Override
