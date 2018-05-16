@@ -53,7 +53,6 @@ import ru.prsolution.winstrike.mvp.models.Wall;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.BackButtonListener;
 import ru.prsolution.winstrike.ui.common.RouterProvider;
 import timber.log.Timber;
 
@@ -66,6 +65,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
     RelativeLayout rootLayout;
     private Snackbar snackbar;
     private PidViewModel mPidViewModel;
+    private Snackbar.SnackbarLayout snackLayout;
 
     private static final String EXTRA_NAME = "extra_name";
     private static final String EXTRA_NUMBER = "extra_number";
@@ -84,6 +84,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
 
     @InjectPresenter
     MapPresenter presenter;
+    private GameRoom mRoom;
 
     @ProvidePresenter
     MapPresenter provideMainScreenPresenter() {
@@ -122,7 +123,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
         snackbar.getView().setBackgroundResource(R.drawable.btn_bukking);
         LayoutInflater layoutInflater = this.getLayoutInflater();
         View snackView = layoutInflater.inflate(R.layout.my_snackbar, null);
-        Snackbar.SnackbarLayout snackLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+        snackLayout = (Snackbar.SnackbarLayout) snackbar.getView();
         snackLayout.addView(snackView);
         snackLayout.setOnClickListener(new BookingBtnListener());
         snackbar.dismiss();
@@ -138,7 +139,8 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
 
     @Override
     public void showSeat(GameRoom room) {
-        drawSeat(room);
+        this.mRoom = room;
+        drawSeat(mRoom);
     }
 
     void drawSeat(GameRoom room) {
@@ -163,37 +165,20 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
 
         rootLayout.setLayoutParams(params);
 
-        for (Seat seat : room.getSeats()) {
 
+        for (Seat seat : room.getSeats()) {
             ImageView ivSeat = new ImageView(getContext());
             setImage(ivSeat, seat);
 
             rotateSeat(seatBitmap, seat, ivSeat);
 
             ivSeat.setLayoutParams(seatParams);
-            ivSeat.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (seat.getType() == SeatType.FREE || seat.getType() == SeatType.VIP) {
-                        if (!mPickedSeatsIds.containsKey(Integer.parseInt(seat.getId()))) {
-                            ivSeat.setBackgroundResource(R.drawable.ic_seat_picked);
-                            onSelectSeat(seat.getId(), false, seat.getPublicPid());
-                            Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
-                        } else {
-                            rootLayout.removeView(ivSeat);
-                            setImage(ivSeat, seat);
-                            rotateSeat(seatBitmap, seat, ivSeat);
-                            rootLayout.addView(ivSeat);
-                            onSelectSeat(seat.getId(), true, seat.getPublicPid());
-                        }
-                    } else {
-                        Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
-                        animateView(ivSeat);
-                    }
-                }
-            });
+
+            View.OnClickListener mSeatViewOnClickListener = new mSeatViewOnClickListener(seat, ivSeat, seatBitmap, mPickedSeatsIds);
+            ivSeat.setOnClickListener(mSeatViewOnClickListener);
             rootLayout.addView(ivSeat);
         }
+
 
         // Add labels
         for (LabelRoom label : room.getLabels()) {
@@ -226,6 +211,21 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
             rootLayout.addView(textView);
         }
 
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+/*        *//**//*
+        for (int i = 0; i < rootLayout.getChildCount(); i++) {
+            View v = rootLayout.getChildAt(i);
+            if (v instanceof ImageView) {
+//                Timber.d(v.getClass().getSimpleName());
+                ImageView ivSeat = (ImageView) v;
+                ivSeat.setOnClickListener(null);
+            }
+        }*/
     }
 
     /**
@@ -372,6 +372,15 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
     public void onStop() {
         super.onStop();
         snackbar.dismiss();
+        snackLayout.setOnClickListener(null);
+        for (int i = 0; i < rootLayout.getChildCount(); i++) {
+            View v = rootLayout.getChildAt(i);
+            if (v instanceof ImageView) {
+                ImageView ivSeat = (ImageView) v;
+                ivSeat.setOnClickListener(null);
+            }
+        }
+
     }
 
     @Override
@@ -438,6 +447,41 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
     private void changeTheme(final Resources.Theme theme, ImageView imageView) {
         final Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_seat_exp, theme);
         imageView.setImageDrawable(drawable);
+    }
+
+    private class mSeatViewOnClickListener implements View.OnClickListener {
+
+        private final ImageView ivSeat;
+        private Seat seat;
+        private Bitmap seatBitmap;
+        private LinkedHashMap mPickedSeatsIds;
+
+        public mSeatViewOnClickListener(Seat seat, ImageView ivSeat, Bitmap seatBitmap, LinkedHashMap mPickedSeatsIds) {
+            this.seat = seat;
+            this.ivSeat = ivSeat;
+            this.seatBitmap = seatBitmap;
+            this.mPickedSeatsIds = mPickedSeatsIds;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (seat.getType() == SeatType.FREE || seat.getType() == SeatType.VIP) {
+                if (!mPickedSeatsIds.containsKey(Integer.parseInt(seat.getId()))) {
+                    ivSeat.setBackgroundResource(R.drawable.ic_seat_picked);
+                    onSelectSeat(seat.getId(), false, seat.getPublicPid());
+                    Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
+                } else {
+                    rootLayout.removeView(ivSeat);
+                    setImage(ivSeat, seat);
+                    rotateSeat(seatBitmap, seat, ivSeat);
+                    rootLayout.addView(ivSeat);
+                    onSelectSeat(seat.getId(), true, seat.getPublicPid());
+                }
+            } else {
+                Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
+                animateView(ivSeat);
+            }
+        }
     }
 
 }

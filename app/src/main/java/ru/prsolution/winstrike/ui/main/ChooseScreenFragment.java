@@ -40,7 +40,6 @@ import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.presenters.ChoosePresenter;
 import ru.prsolution.winstrike.mvp.views.ChooseView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.BackButtonListener;
 import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
 import ru.prsolution.winstrike.ui.common.RouterProvider;
 import timber.log.Timber;
@@ -154,6 +153,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         View view = inflater.inflate(R.layout.frm_choose, container, false);
         ButterKnife.bind(this, view);
 
+        // TODO: 16/05/2018 REMOVE IT!!!
         SeatModel seat = MapInfoSingleton.getInstance().getSeat();
         dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
         Timber.tag("map").d("DpHeight: %s", dpHeight);
