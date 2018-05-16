@@ -15,7 +15,7 @@ import ru.prsolution.winstrike.di.AppComponent;
 import ru.prsolution.winstrike.di.DaggerAppComponent;
 import ru.prsolution.winstrike.di.module.AppRepositoryModule;
 import ru.prsolution.winstrike.di.module.ContextModule;
-import ru.prsolution.winstrike.networking.NetworkModule;
+import ru.prsolution.winstrike.di.module.NetworkModule;
 import timber.log.Timber;
 
 

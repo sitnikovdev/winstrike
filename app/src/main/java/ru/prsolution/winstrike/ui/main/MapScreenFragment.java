@@ -379,6 +379,14 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
                 ImageView ivSeat = (ImageView) v;
                 ivSeat.setOnClickListener(null);
             }
+
+        }
+        if (this.presenter != null) {
+            presenter.onStop();
+            presenter = null;
+        }
+        if (this.service != null) {
+            this.service = null;
         }
 
     }

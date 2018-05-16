@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,11 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
-import com.arellomobile.mvp.MvpAppCompatFragment;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -37,15 +36,14 @@ import ru.prsolution.winstrike.common.utils.TinyDB;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 import ru.prsolution.winstrike.mvp.models.TimeDataModel;
-import ru.prsolution.winstrike.mvp.presenters.ChoosePresenter;
+import ru.prsolution.winstrike.mvp.presenters.ChooseScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.ChooseView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
-import ru.prsolution.winstrike.ui.common.RouterProvider;
 import timber.log.Timber;
 
 
-public class ChooseScreenFragment extends MvpAppCompatFragment implements ChooseView {
+public class ChooseScreenFragment extends Fragment implements ChooseView {
 
     private boolean isDebug = false;
     private static final String EXTRA_NAME = "extra_name";
@@ -56,9 +54,10 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     private TinyDB tinyDB;
     private Boolean isDataSelected;
     private String selectedDate;
-
     private onMapShowProcess listener;
 
+    private  DataPicker dataPicker;
+    private  DateListener dateListener;
 
     @BindView(R.id.seat_title)
     TextView seat_title;
@@ -100,18 +99,16 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     TextView tvMonitor;
 
 
-    @InjectPresenter
-    public ChoosePresenter presenter;
+    //    @Inject
+    public ChooseScreenPresenter presenter;
 
     @Inject
     public Service service;
 
-    @ProvidePresenter
-    ChoosePresenter provideMainScreenPresenter() {
-        return new ChoosePresenter(service,
-                ((RouterProvider) getParentFragment()).getRouter()
-        );
-    }
+/*    @ProvidePresenter
+    ChooseScreenPresenter provideMainScreenPresenter() {
+        return new ChooseScreenPresenter(service);
+    }*/
 
 
     /**
@@ -120,6 +117,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     public interface onMapShowProcess {
         void onMapShow();
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -145,6 +143,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     public void onCreate(Bundle savedInstanceState) {
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
+        this.presenter = new ChooseScreenPresenter(service, this);
     }
 
     @Nullable
@@ -193,7 +192,6 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
 
         initTimeSelectDialog();
     }
-
 
 
     private void initMapShowButton() {
@@ -291,14 +289,11 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         tv_time.setText(time);
 
 
-        OnSelectDateListener listener = calendar -> {
-            TimeDataModel.INSTANCE.setSelectDate(calendar.get(0).getTime());
-            selectedDate = TimeDataModel.INSTANCE.getSelectDate();
-            tv_date.setText(selectedDate);
-        };
+        dateListener = new  DateListener(selectedDate,tv_date);
+        dataPicker = new DataPicker(getActivity(),dateListener);
 
 
-        DatePickerBuilder builder = new DatePickerBuilder(getActivity(), listener)
+         dataPicker
                 .pickerType(CalendarView.ONE_DAY_PICKER)
                 .headerColor(R.color.color_black)
                 .pagesColor(R.color.color_black)
@@ -308,7 +303,7 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
                 .date(Calendar.getInstance())
                 .todayLabelColor(R.color.color_accent);
 
-        DatePicker datePicker = builder.build();
+        DatePicker datePicker = dataPicker.build();
 
         RxView.clicks(vDateTap).subscribe(
                 it -> {
@@ -318,9 +313,36 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
         );
     }
 
+   private  class DateListener implements OnSelectDateListener {
+        String selectedDate;
+        TextView tv_date;
+
+       public DateListener(String selectedDate, TextView tv_date) {
+           this.selectedDate = selectedDate;
+           this.tv_date = tv_date;
+       }
+
+       @Override
+        public void onSelect(List<Calendar> calendar) {
+            TimeDataModel.INSTANCE.setSelectDate(calendar.get(0).getTime());
+            selectedDate = TimeDataModel.INSTANCE.getSelectDate();
+            tv_date.setText(selectedDate);
+        }
+    };
+
+
+
+
+    private  class DataPicker  extends DatePickerBuilder{
+
+        public DataPicker(Context context, OnSelectDateListener onSelectDateListener) {
+            super(context, onSelectDateListener);
+
+        }
+    };
 
     /**
-     *  Check before time select that date is already selected.
+     * Check before time select that date is already selected.
      */
     private void initTimeSelectDialog() {
         RxView.clicks(vTimeTap).subscribe(
@@ -355,9 +377,9 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             bntTextSize = 20;
             viewTextSize = 30;
         }
-        Timber.d("dpHeight: %s",dpHeight);
-        Timber.d("btnTextSize: %s",bntTextSize);
-        Timber.d("viewTextSize: %s",viewTextSize);
+        Timber.d("dpHeight: %s", dpHeight);
+        Timber.d("btnTextSize: %s", bntTextSize);
+        Timber.d("viewTextSize: %s", viewTextSize);
 
         TimePickerPopWin pickerPopWin = new TimePickerPopWin.Builder(getActivity(), (hour, min, timeDesc, timeFromData, timeToData) -> {
 
@@ -384,8 +406,6 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
             Timber.d("dateEnd: %s", TimeDataModel.INSTANCE.getEndDate());
 
             Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
-
-
 
 
         }).textConfirm("Продолжить") //text of confirm button
@@ -456,7 +476,22 @@ public class ChooseScreenFragment extends MvpAppCompatFragment implements Choose
     @Override
     public void onStop() {
         super.onStop();
-        presenter.onStop();
+        if (presenter != null) {
+            presenter.onStop();
+            presenter = null;
+        }
+        if (this.listener != null) {
+            this.listener = null;
+        }
+        if (this.service != null) {
+            this.service = null;
+        }
+        if (this.dataPicker != null) {
+            this.dataPicker = null;
+        }
+        if (this.dateListener != null) {
+            this.dateListener = null;
+        }
     }
 
 

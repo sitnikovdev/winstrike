@@ -148,4 +148,9 @@ public class MapPresenter extends MvpPresenter<MapView> {
     public void hideSnackBar() {
         getViewState().onSnackBarHide();
     }
+
+    public void onStop() {
+        this.subscriptions.unsubscribe();
+    }
+
 }

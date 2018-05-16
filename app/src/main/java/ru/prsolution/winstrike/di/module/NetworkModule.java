@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.networking;
+package ru.prsolution.winstrike.di.module;
 
 
 import java.io.File;
@@ -17,6 +17,8 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import ru.prsolution.winstrike.BuildConfig;
+import ru.prsolution.winstrike.networking.NetworkService;
+import ru.prsolution.winstrike.networking.Service;
 
 
 /**
@@ -79,14 +81,12 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    @SuppressWarnings("unused")
     public NetworkService providesNetworkService(
              Retrofit retrofit) {
         return retrofit.create(NetworkService.class);
     }
     @Provides
     @Singleton
-    @SuppressWarnings("unused")
     public Service providesService(
             NetworkService networkService) {
         return new Service(networkService);
