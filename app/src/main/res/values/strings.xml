@@ -43,6 +43,7 @@
     <string name="login_entersocial">Войти через</string>
     <string name="help_title">Помощь при входе</string>
     <string name="help_menu_title">Восстановить пароль</string>
+    <string name="help_menu_sms">Отправить SMS</string>
     <string name="help_sms_title">Отправить эл.письмо</string>
     <string name="help_center_title">Справочный центр</string>
     <string name="help_winstrike_title">Справочный центр Win Strike</string>

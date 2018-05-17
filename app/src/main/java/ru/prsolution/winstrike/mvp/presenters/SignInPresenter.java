@@ -52,7 +52,7 @@ public class SignInPresenter extends MvpPresenter<SignInView> {
     public void sendSms(ConfirmSmsModel smsModel) {
         getViewState().showWait();
 
-        Subscription subscription = service.sendSms(new Service.SmsCallback() {
+        Subscription subscription = service.sendSmsByUserRequest(new Service.SmsCallback() {
             @Override
             public void onSuccess(MessageResponse authResponse) {
                 getViewState().removeWait();

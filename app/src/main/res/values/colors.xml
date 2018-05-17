@@ -46,5 +46,7 @@
 
     <color name="seat_picked">@color/color_white</color>
 
+    <color name="ios_ok">#0A5FFF</color>
+
 
 </resources>

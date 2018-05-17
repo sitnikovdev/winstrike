@@ -1,5 +1,7 @@
 package ru.prsolution.winstrike.ui.login;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -112,7 +114,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
 
         /**
          *  Check if user is confirmed, if true - go to MainScreenActivity
-         *  no - go to sendSms.
+         *  no - go to sendSmsByUserRequest.
          */
         mUserViewModel.getUser().observe(this, (usersEntity ->{
             if (usersEntity != null) {
@@ -346,5 +348,15 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         mSignInPresenter.onStop();
     }
 
-
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        ActivityManager am = (ActivityManager) getSystemService(Activity.ACTIVITY_SERVICE);
+        am.killBackgroundProcesses("ru.prsolution.winstrike");
+        finish();
+    }
 }

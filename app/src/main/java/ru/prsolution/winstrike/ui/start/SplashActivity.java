@@ -1,5 +1,7 @@
 package ru.prsolution.winstrike.ui.start;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,14 +11,20 @@ import android.view.WindowManager;
 
 import com.airbnb.lottie.LottieAnimationView;
 
+import java.util.List;
+
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.common.utils.TinyDB;
+import ru.prsolution.winstrike.db.UserViewModel;
+import ru.prsolution.winstrike.db.entity.UserEntity;
+import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.guides.GuideActivity;
 
 public class SplashActivity extends AppCompatActivity {
     private TinyDB tinyDB;
     private Intent mainIntent;
+    private UserViewModel mUserViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.ac_splash);
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);
         animationView.setAnimation("data.json");
@@ -38,11 +47,10 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-                if (!tinyDB.getBoolean("activity_executed")) {
+
+              if (AuthUtils.INSTANCE.getToken().isEmpty()) {
                      mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
-                     tinyDB.putBoolean("activity_executed",true);
                 } else {
-//                    mainIntent = new Intent(SplashActivity.this, LocationActivity.class);
                     mainIntent = new Intent(SplashActivity.this, SignInActivity.class);
                 }
                 startActivity(mainIntent);

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,21 +20,24 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import retrofit2.HttpException;
-import retrofit2.Response;
 import ru.prsolution.winstrike.R;
+import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.mvp.common.AuthUtils;
+import ru.prsolution.winstrike.networking.NetworkError;
+import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.oldapi.ApiService;
-import ru.prsolution.winstrike.oldapi.ApiServiceImpl;
 import ru.prsolution.winstrike.oldapi.ServiceGenerator;
-import ru.prsolution.winstrike.common.logging.ConfirmModel;
 import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.common.utils.TinyDB;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
-import ru.prsolution.winstrike.ui.main.MainScreenActivity;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 import static ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot1Color;
@@ -49,6 +51,10 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
     private TinyDB tinyDB;
     private ApiService apiService;
     private Dialog dialog;
+    private CompositeSubscription subscriptions;
+
+    @Inject
+    Service service;
 
     @BindView(R.id.et_phone)
     EditText etPhone;
@@ -83,6 +89,7 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_smshelp);
         ButterKnife.bind(this);
@@ -94,50 +101,40 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
                 it -> startActivity(new Intent(this, HelpActivity.class))
         );
 
-        tvToolbarTitle.setText(R.string.help_menu_title);
+        tvToolbarTitle.setText(R.string.help_menu_sms);
 
         tinyDB = new TinyDB(this);
-        apiService = ApiServiceImpl.getNewInstance(this).getApi();
+        this.subscriptions = new CompositeSubscription();
+//        apiService = ApiServiceImpl.getNewInstance(this).getApi();
 
         setConfirmVisible(false);
 
-        setBtnEnable(nextButtonPhone,false);
-        setBtnEnable(nextButtonConfirm,false);
+        setBtnEnable(nextButtonPhone, false);
+        setBtnEnable(nextButtonConfirm, false);
 
-        Timber.tag("OkHttp").d("UserEntity created");
-        Timber.tag("OkHttp").d("UserEntity phone: %s",tinyDB.getString("phone"));
-        Timber.tag("OkHttp").d("UserEntity token: %s", tinyDB.getString("token"));
-        Timber.tag("OkHttp").d("UserEntity public_id: %s", tinyDB.getString(("public_id")));
 
+        // Высылаем код
         nextButtonPhone.setOnClickListener(
                 view -> {
                     // Запрос кода подтверждения повторно
-                    String phone = String.valueOf(etPhone.getText());
-                    Timber.tag("OkHttp").e("Second request for code by phone: %s", phone);
-                    Timber.tag("OkHttp").e("UserEntity confirmed: %s", tinyDB.getBoolean("confirmed"));
-                    Timber.tag("OkHttp").e("UserEntity token: %s", tinyDB.getString("token"));
-                    String token = tinyDB.getString("token");
-                    if (!TextUtils.isEmpty(token)) {
-                        if (ApiServiceImpl.isNetworkAvailable(this)) {
-                            ConfirmSmsModel auth = new ConfirmSmsModel();
-                            auth.setUsername(tinyDB.getString("phone"));
-                            sendCode(auth);
-                        } else {
-                            Toast.makeText(this, "Интернет подключение не доступно.", Toast.LENGTH_SHORT).show();
-                        }
+                    if (!AuthUtils.INSTANCE.getToken().isEmpty()) {
+                        ConfirmSmsModel auth = new ConfirmSmsModel();
+                        String phone = TextFormat.formatPhone(String.valueOf(etPhone.getText()));
+                        auth.setUsername(phone);
+                        // sendSms(auth);
+                        dlgSendSMS();
                     }
                 }
         );
 
 
-        // Высылаем код и показываем  диалог смены пароля
+        // Пользователь вводит код и нажимае кнопку "Подтвердить"
         nextButtonConfirm.setOnClickListener(
                 it -> {
                     String smsCode = String.valueOf(etCode.getText());
                     Timber.tag("OkHttp").e("sms_code: %s", smsCode);
 //                    confirmUser(smsCode);
 //                    startActivity(new Intent(this, HelpPasswordActivity.class));
-                    dlgSingOut();
                 }
         );
 
@@ -149,9 +146,9 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
                     Boolean fieldOk = etCode.getText().length() >= 6;
                     Boolean phoneOk = etPhone.getText().length() == 15;
                     if (fieldOk && phoneOk) {
-                        setBtnEnable(nextButtonConfirm,true);
+                        setBtnEnable(nextButtonConfirm, true);
                     } else {
-                        setBtnEnable(nextButtonConfirm,false);
+                        setBtnEnable(nextButtonConfirm, false);
                     }
                 }
         );
@@ -159,15 +156,15 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
                 it -> {
                     Boolean phoneOk = etPhone.getText().length() == 15;
                     if (phoneOk) {
-                        setBtnEnable(nextButtonPhone,true);
+                        setBtnEnable(nextButtonPhone, true);
                     } else {
-                        setBtnEnable(nextButtonPhone,false);
+                        setBtnEnable(nextButtonPhone, false);
                     }
                 }
         );
 
 
-        setTextFoot1Color(textFooter, "Уже есть аккаунт?",  "#9b9b9b" );
+        setTextFoot1Color(textFooter, "Уже есть аккаунт?", "#9b9b9b");
         setTextFoot2Color(textFooter2, "Войдите", "#c9186c");
 
 
@@ -179,7 +176,7 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
     private void setConfirmVisible(Boolean isEnabled) {
 
         runOnUiThread(
-                ()->{
+                () -> {
                     if (isEnabled) {
                         nextButtonConfirm.setVisibility(View.VISIBLE);
                         tvConfirmText.setVisibility(View.VISIBLE);
@@ -199,7 +196,7 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
 
     private void setBtnEnable(View v, Boolean isEnable) {
         runOnUiThread(
-                ()->{
+                () -> {
                     if (isEnable) {
                         v.setAlpha(1f);
                         v.setClickable(true);
@@ -209,92 +206,6 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
                     }
                 }
         );
-    }
-
-    public void sendCode(ConfirmSmsModel auth) {
-        tinyDB.putString("operation","sendsms");
-        apiService.sendConfirmCode(auth)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(message -> {
-                            Timber.tag("OkHttp").d("confirm code: %s", message.code());
-                            if (message.isSuccessful()) {
-                                tinyDB.putBoolean("confirmed", true);
-                                Timber.tag("OkHttp").d("confirm code: %s", message.code());
-                                toast("Код выслан");
-                                setBtnEnable(nextButtonPhone,false);
-                                setConfirmVisible(true);
-//                                startActivity(new Intent(this, ChooseSeatActivity.class));
-                            } else {
-                                switch (message.code()) {
-                                    case 409:
-                                        Timber.tag("OkHttp").d("Не верный код");
-                                        toast("Не верный код");
-                                        break;
-                                    case 403:
-                                        Timber.tag("OkHttp").d("Пользователь уже поддвержден");
-                                        toast("Пользователь уже поддвержден");
-                                        setBtnEnable(nextButtonPhone,false);
-                                        break;
-                                    case 400:
-                                        Timber.tag("OkHttp").d("Пользователь не найден");
-                                        toast("Пользователь с таким номером не найден");
-                                        break;
-                                    case 404:
-                                        Timber.tag("OkHttp").d("Пользователь уже поддвержден");
-                                        toast("404 Not Found");
-                                        break;
-                                    default:
-                                        Timber.tag("OkHttp").d("confirm code: %s", message.code());
-                                        toast("Пользователь не подтвержден");
-                                        break;
-                                }
-                            }
-                        }, error -> {
-                    if (error instanceof HttpException) {
-                        Response response = ((HttpException) error).response();
-                        Timber.tag("OkHttp").e("Error code: %s", response.code());
-                    } else {
-                        error.printStackTrace();
-                    }
-                        }
-                );
-    }
-
-
-    public void confirmUser(String sms_code) {
-        ConfirmModel confirmModel = new ConfirmModel();
-        confirmModel.setPhone(tinyDB.getString("phone"));
-        apiService.confirm(sms_code, confirmModel)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(message -> {
-                            if (message.isSuccessful()) {
-                                tinyDB.putBoolean("confirmed", true);
-                                Timber.tag("OkHttp").d("confirm code: %s", message.code());
-                                toast("Пользователь подтвержден");
-                                setBtnEnable(nextButtonConfirm,false);
-                                startActivity(new Intent(this, MainScreenActivity.class));
-                            } else {
-                                switch (message.code()) {
-                                    case 409:
-                                        Timber.tag("OkHttp").d("Не верный код");
-                                        toast("Не верный код");
-                                        break;
-                                    case 403:
-                                        Timber.tag("OkHttp").d("Пользователь уже поддвержден");
-                                        toast("Пользователь уже поддвержден");
-                                        break;
-                                    case 404:
-                                        Timber.tag("OkHttp").d("Пользователь уже поддвержден");
-                                        toast("404 Not Found");
-                                        break;
-                                    default:
-                                        Timber.tag("OkHttp").d("confirm code: %s", message.code());
-                                        toast("Пользователь не подтвержден");
-                                        break;
-                                }
-                            }
-                        }, Throwable::printStackTrace
-                );
     }
 
 
@@ -307,21 +218,17 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         Timber.tag("OkHttp").e("On Connection Time Out in HelpSmsActivity class");
     }
 
-    private void dlgSingOut() {
+    private void dlgSendSMS() {
         dialog = new Dialog(this, android.R.style.Theme_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dlg_logout);
+        dialog.setContentView(R.layout.dlg_send_sms);
 
         TextView cvBtnOk = dialog.findViewById(R.id.btn_ok);
-        TextView cvCancel = dialog.findViewById(R.id.btn_cancel);
 
-        cvCancel.setOnClickListener(
+        cvBtnOk.setOnClickListener(
                 it -> dialog.dismiss()
         );
 
-/*        cvBtnOk.setOnClickListener(
-                it -> signOut(NODELETE)
-        );*/
 
         dialog.setCanceledOnTouchOutside(true);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -329,8 +236,12 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
+        wlp.dimAmount = 0.0f;
+
         wlp.gravity = Gravity.CENTER;
-        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.getWindow().setDimAmount(0.5f);
+       // wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
 //        wlp.y = 200;
         window.setAttributes(wlp);
 
@@ -340,6 +251,63 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
 
     }
 
+    public void sendSms(ConfirmSmsModel smsModel) {
+//        getViewState().showWait();
 
+        Subscription subscription = service.sendSmsByUserRequest(new Service.SmsCallback() {
+            @Override
+            public void onSuccess(MessageResponse authResponse) {
+//                getViewState().removeWait();
+                onSendSmsSuccess(authResponse);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+//                getViewState().removeWait();
+                onAuthFailure(networkError.getAppErrorMessage());
+            }
+
+        }, smsModel);
+
+        subscriptions.add(subscription);
+    }
+
+    private void onAuthFailure(String appErrorMessage) {
+        switch (appErrorMessage) {
+            case "409":
+                Timber.tag("OkHttp").d("Не верный код");
+                toast("Не верный код");
+                break;
+            case "403":
+                Timber.tag("OkHttp").d("Пользователь уже поддвержден");
+                toast("Пользователь уже поддвержден");
+                setBtnEnable(nextButtonPhone, false);
+                break;
+            case "400":
+                Timber.tag("OkHttp").d("Пользователь не найден");
+                toast("Пользователь с таким номером не найден");
+                break;
+            case "404":
+                Timber.tag("OkHttp").d("Пользователь уже поддвержден");
+                toast("Пользователь уже поддвержден");
+                break;
+            default:
+                Timber.tag("OkHttp").d("confirm code: %s", appErrorMessage);
+                toast("Пользователь не подтвержден");
+                break;
+        }
+    }
+
+    private void onSendSmsSuccess(MessageResponse authResponse) {
+        Timber.d("SMS код выслан");
+        // Show dialog, that sms succesfully send
+        dlgSendSMS();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.subscriptions.unsubscribe();
+    }
 }
 

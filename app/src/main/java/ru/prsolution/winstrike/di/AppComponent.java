@@ -6,6 +6,7 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import ru.prsolution.winstrike.common.HelpSmsActivity;
 import ru.prsolution.winstrike.db.PidViewModel;
 import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.di.module.AppRepositoryModule;
@@ -56,4 +57,6 @@ public interface AppComponent {
     void inject(UserViewModel userViewModel);
 
     void inject(PidViewModel userViewModel);
+
+    void inject(HelpSmsActivity activity);
 }

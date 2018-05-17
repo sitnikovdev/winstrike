@@ -113,6 +113,13 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/color_primary_dark</item>
     </style>
+
+    <style name="StemMediumBlue17">
+        <item name="android:fontFamily">@font/stem_medium</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/ios_ok</item>
+    </style>
+
     <style name="StemRegular15Bold">
         <item name="android:fontFamily">@font/stem_bold</item>
         <item name="android:textSize">15sp</item>

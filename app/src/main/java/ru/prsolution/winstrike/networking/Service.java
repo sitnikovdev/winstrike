@@ -69,9 +69,9 @@ public class Service {
     }
 
 
-    public Subscription sendSms(final SmsCallback callback, ConfirmSmsModel confirmModel) {
+    public Subscription sendSmsByUserRequest(final SmsCallback callback, ConfirmSmsModel confirmModel) {
 
-        return networkService.sendSms(confirmModel)
+        return networkService.sendSmsByUserRequest(confirmModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends MessageResponse>>() {

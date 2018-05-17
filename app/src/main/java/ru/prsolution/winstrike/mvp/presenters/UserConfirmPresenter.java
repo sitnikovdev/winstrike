@@ -48,7 +48,7 @@ public class UserConfirmPresenter {
     public void sendSms(ConfirmSmsModel smsModel) {
         view.showWait();
 
-        Subscription subscription = service.sendSms(new Service.SmsCallback() {
+        Subscription subscription = service.sendSmsByUserRequest(new Service.SmsCallback() {
             @Override
             public void onSuccess(MessageResponse authResponse) {
                 view.removeWait();

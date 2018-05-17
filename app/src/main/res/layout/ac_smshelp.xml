@@ -150,7 +150,8 @@
         app:layout_constraintBottom_toBottomOf="@id/next_button_phone"
         app:layout_constraintEnd_toEndOf="@id/next_button_phone"
         app:layout_constraintStart_toStartOf="@id/next_button_phone"
-        app:layout_constraintTop_toTopOf="@id/next_button_phone" />
+        app:layout_constraintTop_toTopOf="@id/next_button_phone"
+        />
 
     <TextView
         android:id="@+id/tv_hint_code"
@@ -161,7 +162,10 @@
         android:text="@string/helpsms_hintsend"
         app:layout_constraintEnd_toEndOf="@id/next_button_phone"
         app:layout_constraintStart_toStartOf="@id/next_button_phone"
-        app:layout_constraintTop_toBottomOf="@id/next_button_phone" />
+        app:layout_constraintTop_toBottomOf="@id/next_button_phone"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        />
 
 
     <TextView

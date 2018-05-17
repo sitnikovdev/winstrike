@@ -109,7 +109,7 @@ public class StartActivity extends AppCompatActivity {
 //        mAuth = FirebaseAuth.getInstance();
 
 //        WinstrikeApp.getInstance().dbCopy("winstrike-db");
-        startActivity(loginActivity);
+        startActivity(splashActivity);
     }
 
 

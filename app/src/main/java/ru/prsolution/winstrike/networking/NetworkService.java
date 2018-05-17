@@ -33,7 +33,7 @@ public interface NetworkService {
 
     // Отправка смс c кодом подтверждения
     @POST("confirm_codes")
-    Observable<MessageResponse> sendSms(@Body ConfirmSmsModel confirmModel);
+    Observable<MessageResponse> sendSmsByUserRequest(@Body ConfirmSmsModel confirmModel);
 
     // Создание пользователя
     @POST("users")
