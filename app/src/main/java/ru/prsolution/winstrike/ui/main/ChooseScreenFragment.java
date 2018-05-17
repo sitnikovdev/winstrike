@@ -13,9 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.DatePicker;
-import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.jakewharton.rxbinding.view.RxView;
 
@@ -55,8 +52,8 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     private Boolean isDataSelected;
     private onMapShowProcess listener;
 
-    private  DataPicker dataPicker;
-    private  DateListener dateListener;
+    private DataPicker dataPicker;
+    private DateListener dateListener;
 
     @BindView(R.id.seat_title)
     TextView seat_title;
@@ -288,26 +285,18 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         tv_time.setText(time);
 
 
-        dateListener = new DateListener(tv_date);
+        if (this.dataPicker == null) {
 
-        dataPicker = new DataPicker(getActivity(), dateListener);
+            dateListener = new DateListener(tv_date);
 
-        dataPicker
-                .pickerType(CalendarView.ONE_DAY_PICKER)
-                .headerColor(R.color.color_black)
-                .pagesColor(R.color.color_black)
-                .abbreviationsBarColor(R.color.color_black)
-                .daysLabelsColor(R.color.color_primary)
-                .abbreviationsLabelsColor(R.color.color_grey)
-                .date(Calendar.getInstance())
-                .todayLabelColor(R.color.color_accent);
+            dataPicker = new DataPicker(getActivity(), dateListener);
+        }
 
-        DatePicker datePicker = dataPicker.build();
 
         RxView.clicks(vDateTap).subscribe(
                 it -> {
                     isDataSelected = true;
-                    datePicker.show();
+                    dataPicker.build().show();
                 }
         );
     }
@@ -328,14 +317,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
 
     ;
 
-
-    private static class DataPicker extends DatePickerBuilder {
-
-        public DataPicker(Context context, OnSelectDateListener onSelectDateListener) {
-            super(context, onSelectDateListener);
-        }
-
-    }
 
     /**
      * Check before time select that date is already selected.

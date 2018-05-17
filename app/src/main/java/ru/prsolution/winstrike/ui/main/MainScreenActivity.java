@@ -771,5 +771,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     protected void onStop() {
         super.onStop();
         presenter.onStop();
+        this.mMainOnClickListener = null;
+        this.mMapOnClickListener = null;
+        this.mUserViewModel.delete();
     }
 }
