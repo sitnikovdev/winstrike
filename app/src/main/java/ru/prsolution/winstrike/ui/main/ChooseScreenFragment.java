@@ -53,11 +53,10 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     public ProgressDialog mProgressDialog;
     private TinyDB tinyDB;
     private Boolean isDataSelected;
-    private String selectedDate;
     private onMapShowProcess listener;
 
-    private  DataPicker dataPicker;
-    private  DateListener dateListener;
+    private static DataPicker dataPicker;
+    private static DateListener dateListener;
 
     @BindView(R.id.seat_title)
     TextView seat_title;
@@ -289,11 +288,11 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         tv_time.setText(time);
 
 
-        dateListener = new  DateListener(selectedDate,tv_date);
-        dataPicker = new DataPicker(getActivity(),dateListener);
+        dateListener = new DateListener(tv_date);
 
+        dataPicker = new DataPicker(getActivity(), dateListener);
 
-         dataPicker
+        dataPicker
                 .pickerType(CalendarView.ONE_DAY_PICKER)
                 .headerColor(R.color.color_black)
                 .pagesColor(R.color.color_black)
@@ -313,33 +312,30 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         );
     }
 
-   private  class DateListener implements OnSelectDateListener {
-        String selectedDate;
+    private static class DateListener implements OnSelectDateListener {
         TextView tv_date;
 
-       public DateListener(String selectedDate, TextView tv_date) {
-           this.selectedDate = selectedDate;
-           this.tv_date = tv_date;
-       }
+        public DateListener(TextView tv_date) {
+            this.tv_date = tv_date;
+        }
 
-       @Override
+        @Override
         public void onSelect(List<Calendar> calendar) {
             TimeDataModel.INSTANCE.setSelectDate(calendar.get(0).getTime());
-            selectedDate = TimeDataModel.INSTANCE.getSelectDate();
-            tv_date.setText(selectedDate);
+            tv_date.setText(TimeDataModel.INSTANCE.getSelectDate());
         }
-    };
+    }
+
+    ;
 
 
-
-
-    private  class DataPicker  extends DatePickerBuilder{
+    private static class DataPicker extends DatePickerBuilder {
 
         public DataPicker(Context context, OnSelectDateListener onSelectDateListener) {
             super(context, onSelectDateListener);
-
         }
-    };
+
+    }
 
     /**
      * Check before time select that date is already selected.
