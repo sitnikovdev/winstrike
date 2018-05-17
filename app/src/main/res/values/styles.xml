@@ -88,6 +88,7 @@
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/color_primary_dark</item>
     </style>
+
     <style name="StemRegular17Black">
         <item name="android:fontFamily">@font/stem_regular</item>
         <item name="android:textSize">17sp</item>
