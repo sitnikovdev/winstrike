@@ -123,7 +123,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
                         // update user token
                         AuthUtils.INSTANCE.setToken(usersEntity.get(0).getToken());
 //                    toast("Пользователь авторизован");
-                        router.replaceScreen(Screens.START_SCREEN);
+//                        router.replaceScreen(Screens.START_SCREEN);
                         Timber.d("Success signIn");
                     } else {
                         toast("Пользователь не подтвержден");

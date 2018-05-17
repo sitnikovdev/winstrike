@@ -42,11 +42,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/help_account_title"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/line_head"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:visibility="visible"
         />
 
@@ -56,7 +56,7 @@
             android:src="@drawable/ic_mobile"
             app:layout_constraintStart_toStartOf="@id/line_start"
             app:layout_constraintTop_toTopOf="@id/tv_sms"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:visibility="visible"
             />
 
@@ -72,7 +72,7 @@
             android:layout_marginStart="42dp"
             app:layout_constraintStart_toStartOf="@id/line_start"
             app:layout_constraintTop_toBottomOf="@id/tv_access"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:visibility="visible"
             />
 

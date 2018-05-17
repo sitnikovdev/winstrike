@@ -28,9 +28,6 @@ import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 
-/**
- * Created by terrakok 25.11.16
- */
 public class MainContainerFragment extends Fragment implements RouterProvider, BackButtonListener {
     private static final String EXTRA_NAME = "tcf_extra_name";
 
