@@ -55,8 +55,8 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     private Boolean isDataSelected;
     private onMapShowProcess listener;
 
-    private static DataPicker dataPicker;
-    private static DateListener dateListener;
+    private  DataPicker dataPicker;
+    private  DateListener dateListener;
 
     @BindView(R.id.seat_title)
     TextView seat_title;
