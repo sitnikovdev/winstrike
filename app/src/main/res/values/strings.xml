@@ -20,7 +20,7 @@
     <string name="all_selectcity">Выберите город</string>
     <string name="all_logfooter">Уже есть аккаунт? Войдите</string>
     <string name="all_entercode">Введите код подтверждения</string>
-    <string name="all_hintcode">958376</string>
+    <string name="all_hintcode">Введите код подтверждения</string>
     <string name="all_toolbartitle">Москва</string>
     <string name="all_phonemaskru">RU +7</string>
     <string name="all_phonemask">(987) 654-32-10</string>

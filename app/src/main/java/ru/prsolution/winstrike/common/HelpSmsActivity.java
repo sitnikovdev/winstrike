@@ -121,8 +121,8 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
                     // Запрос кода подтверждения повторно
                     if (AuthUtils.INSTANCE.isRegistered()) {
                         ConfirmSmsModel auth = getConfirmSmsModel();
-                        sendSms(auth);
-                        //dlgSendSMS();
+                        //sendSms(auth);
+                        dlgRefreshPassword();
                     } else {
                         toast("Пользователь не зарегистрирован!");
                     }
@@ -261,6 +261,36 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         dialog.show();
 
     }
+
+    private void dlgRefreshPassword() {
+        dialog = new Dialog(this, android.R.style.Theme_Dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dlg_refresh_passw);
+
+        View cvBtnOk = dialog.findViewById(R.id.v_button);
+
+        cvBtnOk.setOnClickListener(
+                it -> dialog.dismiss()
+        );
+
+
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.CENTER;
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.getWindow().setDimAmount(0.5f);
+        window.setAttributes(wlp);
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        dialog.show();
+
+    }
+
 
     public void sendSms(ConfirmSmsModel smsModel) {
 //        getViewState().showWait();

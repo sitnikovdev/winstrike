@@ -194,20 +194,20 @@
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
         android:id="@+id/et_code"
         style="@style/StemRegular15Base"
+        android:layout_width="235dp"
+        android:layout_height="19dp"
+        android:background="@null"
+        android:hint="@string/all_hintcode"
         android:inputType="number"
         android:textColorHint="@color/color_grey"
         app:additionalTouchTargetSize="80dp"
         app:drawable_hide="@mipmap/ic_hide_eye"
         app:drawable_show="@mipmap/ic_show_eye"
-        app:tint_color="@color/color_accent"
-        android:layout_width="235dp"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="@string/all_hintcode"
         app:layout_constraintBottom_toBottomOf="@id/v_pass"
         app:layout_constraintEnd_toEndOf="@id/v_pass"
         app:layout_constraintStart_toStartOf="@id/v_pass"
-        app:layout_constraintTop_toTopOf="@id/v_pass" />
+        app:layout_constraintTop_toTopOf="@id/v_pass"
+        app:tint_color="@color/color_accent" />
 
 
     <View
