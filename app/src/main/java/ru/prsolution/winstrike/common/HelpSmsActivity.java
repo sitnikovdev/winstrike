@@ -121,8 +121,10 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
                         ConfirmSmsModel auth = new ConfirmSmsModel();
                         String phone = TextFormat.formatPhone(String.valueOf(etPhone.getText()));
                         auth.setUsername(phone);
-                        // sendSms(auth);
-                        dlgSendSMS();
+                        sendSms(auth);
+                        //dlgSendSMS();
+                    }else {
+                        toast("Пользователь не зарегистрирован!");
                     }
                 }
         );
