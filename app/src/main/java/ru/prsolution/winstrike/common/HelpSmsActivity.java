@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.mvp.apimodels.NewPasswordModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
@@ -117,13 +119,11 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         nextButtonPhone.setOnClickListener(
                 view -> {
                     // Запрос кода подтверждения повторно
-                    if (AuthUtils.INSTANCE.isRegistered()){
-                        ConfirmSmsModel auth = new ConfirmSmsModel();
-                        String phone = TextFormat.formatPhone(String.valueOf(etPhone.getText()));
-                        auth.setUsername(phone);
+                    if (AuthUtils.INSTANCE.isRegistered()) {
+                        ConfirmSmsModel auth = getConfirmSmsModel();
                         sendSms(auth);
                         //dlgSendSMS();
-                    }else {
+                    } else {
                         toast("Пользователь не зарегистрирован!");
                     }
                 }
@@ -133,9 +133,15 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         // Пользователь вводит код и нажимае кнопку "Подтвердить"
         nextButtonConfirm.setOnClickListener(
                 it -> {
+                    NewPasswordModel auth = new NewPasswordModel();
+                    String phone = TextFormat.formatPhone(String.valueOf(etPhone.getText()));
                     String smsCode = String.valueOf(etCode.getText());
+                    auth.setNew_password("111444");
+                    auth.setUsername(phone);
                     Timber.tag("OkHttp").e("sms_code: %s", smsCode);
+                    refreshPassword(auth,smsCode);
 //                    confirmUser(smsCode);
+                    // Показываем диалог для смены пароля:
 //                    startActivity(new Intent(this, HelpPasswordActivity.class));
                 }
         );
@@ -175,25 +181,28 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         );
     }
 
-    private void setConfirmVisible(Boolean isEnabled) {
+    @NonNull
+    private ConfirmSmsModel getConfirmSmsModel() {
+        ConfirmSmsModel auth = new ConfirmSmsModel();
+        String phone = TextFormat.formatPhone(String.valueOf(etPhone.getText()));
+        auth.setUsername(phone);
+        return auth;
+    }
 
-        runOnUiThread(
-                () -> {
-                    if (isEnabled) {
-                        nextButtonConfirm.setVisibility(View.VISIBLE);
-                        tvConfirmText.setVisibility(View.VISIBLE);
-                        etCode.setVisibility(View.VISIBLE);
-                        tvCode.setVisibility(View.VISIBLE);
-                        vPass.setVisibility(View.VISIBLE);
-                    } else {
-                        nextButtonConfirm.setVisibility(View.GONE);
-                        tvConfirmText.setVisibility(View.GONE);
-                        etCode.setVisibility(View.GONE);
-                        tvCode.setVisibility(View.GONE);
-                        vPass.setVisibility(View.GONE);
-                    }
-                }
-        );
+    private void setConfirmVisible(Boolean isEnabled) {
+        if (isEnabled) {
+            nextButtonConfirm.setVisibility(View.VISIBLE);
+            tvConfirmText.setVisibility(View.VISIBLE);
+            etCode.setVisibility(View.VISIBLE);
+            tvCode.setVisibility(View.VISIBLE);
+            vPass.setVisibility(View.VISIBLE);
+        } else {
+            nextButtonConfirm.setVisibility(View.GONE);
+            tvConfirmText.setVisibility(View.GONE);
+            etCode.setVisibility(View.GONE);
+            tvCode.setVisibility(View.GONE);
+            vPass.setVisibility(View.GONE);
+        }
     }
 
     private void setBtnEnable(View v, Boolean isEnable) {
@@ -243,7 +252,7 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         wlp.gravity = Gravity.CENTER;
         dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         dialog.getWindow().setDimAmount(0.5f);
-       // wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        // wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
 //        wlp.y = 200;
         window.setAttributes(wlp);
 
@@ -304,6 +313,60 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         Timber.d("SMS код выслан");
         // Show dialog, that sms succesfully send
         dlgSendSMS();
+        setConfirmVisible(true);
+    }
+
+
+    public void refreshPassword(NewPasswordModel smsModel, String smsCode) {
+//        getViewState().showWait();
+
+        Subscription subscription = service.refreshPassword(new Service.RefressPasswordCallback() {
+            @Override
+            public void onSuccess(MessageResponse authResponse) {
+                onRefreshPasswordSuccess(authResponse);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                onRefressPasswordFailure(networkError.getAppErrorMessage());
+            }
+
+        }, smsModel,smsCode);
+
+        subscriptions.add(subscription);
+    }
+
+    private void onRefressPasswordFailure(String appErrorMessage) {
+        switch (appErrorMessage) {
+            case "409":
+                Timber.tag("OkHttp").d("Не верный код");
+                toast("Не верный код");
+                break;
+            case "403":
+                Timber.tag("OkHttp").d("Пользователь уже поддвержден");
+                toast("Пользователь уже поддвержден");
+                setBtnEnable(nextButtonPhone, false);
+                break;
+            case "400":
+                Timber.tag("OkHttp").d("Пользователь не найден");
+                toast("Пользователь с таким номером не найден");
+                break;
+            case "404":
+                Timber.tag("OkHttp").d("Пользователь уже поддвержден");
+                toast("Пользователь уже поддвержден");
+                break;
+            default:
+                Timber.tag("OkHttp").d("confirm code: %s", appErrorMessage);
+                toast("Пользователь не подтвержден");
+                break;
+        }
+    }
+
+    private void onRefreshPasswordSuccess(MessageResponse authResponse) {
+        Timber.d("SMS код выслан");
+        // Show dialog, that sms succesfully send
+        dlgSendSMS();
+        setConfirmVisible(true);
     }
 
     @Override

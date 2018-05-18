@@ -7,6 +7,7 @@ import ru.prsolution.winstrike.common.logging.ConfirmModel;
 import ru.prsolution.winstrike.common.logging.LoginModel;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
+import ru.prsolution.winstrike.mvp.apimodels.NewPasswordModel;
 import ru.prsolution.winstrike.mvp.apimodels.Orders;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentModel;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
@@ -105,6 +106,45 @@ public class Service {
 
         void onError(NetworkError networkError);
     }
+
+    public Subscription refreshPassword(final RefressPasswordCallback callback, NewPasswordModel confirmModel, String smsCode) {
+
+        return networkService.refreshPassword(confirmModel,smsCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends MessageResponse>>() {
+                    @Override
+                    public Observable<? extends MessageResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<MessageResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(MessageResponse messageResponse) {
+                        callback.onSuccess(messageResponse);
+
+                    }
+                });
+    }
+
+    public interface RefressPasswordCallback {
+        void onSuccess(MessageResponse messageResponse);
+
+        void onError(NetworkError networkError);
+    }
+
+
 
     public Subscription createUser(final RegisterCallback callback, LoginModel loginModel) {
 

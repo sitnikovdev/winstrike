@@ -235,8 +235,6 @@
         tools:visibility="visible"
         />
 
-
-
     <TextView
         android:id="@+id/text_footer"
         style="@style/StemRegular15Base"

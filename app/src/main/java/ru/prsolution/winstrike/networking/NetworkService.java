@@ -14,6 +14,7 @@ import ru.prsolution.winstrike.common.logging.ConfirmModel;
 import ru.prsolution.winstrike.common.logging.LoginModel;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
+import ru.prsolution.winstrike.mvp.apimodels.NewPasswordModel;
 import ru.prsolution.winstrike.mvp.apimodels.Orders;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentModel;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
@@ -34,6 +35,10 @@ public interface NetworkService {
     // Отправка смс c кодом подтверждения
     @POST("confirm_codes")
     Observable<MessageResponse> sendSmsByUserRequest(@Body ConfirmSmsModel confirmModel);
+
+    // Повторная отправка пароля:
+    @POST("refresh_password/{confirm_code}")
+    Observable<MessageResponse> refreshPassword(@Body NewPasswordModel confirmModel, @Path("confirm_code") String confirm_code);
 
     // Создание пользователя
     @POST("users")
