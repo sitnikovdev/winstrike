@@ -26,8 +26,8 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.HelpActivity;
-import ru.prsolution.winstrike.common.logging.SignInModel;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.common.logging.SignInModel;
 import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.db.entity.UserEntity;
@@ -90,8 +90,6 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
     public Service mService;
 
 
-
-
     @InjectPresenter
     SignInPresenter mSignInPresenter;
 
@@ -116,26 +114,8 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
          *  Check if user is confirmed, if true - go to MainScreenActivity
          *  no - go to sendSmsByUserRequest.
          */
-        mUserViewModel.getUser().observe(this, (usersEntity ->{
-            if (usersEntity != null) {
-                if (!usersEntity.isEmpty()) {
-//                    mUserViewModel.deleteUser();
-                    Timber.d("User load successfully: %s", usersEntity);
-                    if (usersEntity.get(0).getConfirmed()) {
-                        // update user token
-                        AuthUtils.INSTANCE.setToken(usersEntity.get(0).getToken());
-//                    toast("Пользователь авторизован");
-                        router.replaceScreen(Screens.START_SCREEN);
-                        Timber.d("Success signIn");
-                    } else {
-                        toast("Пользователь не подтвержден");
-                        ConfirmSmsModel smsModel = new ConfirmSmsModel();
-                        smsModel.setUsername(usersEntity.get(0).getPhone());
-                        mSignInPresenter.sendSms(smsModel);
-                    }
-                }
-            }
-        }));
+/*        mUserViewModel.getUser().observe(this, (usersEntity -> {
+        }));*/
 
     }
 
@@ -209,8 +189,9 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
     }
 
     /**
-     *  Success auth user. Save token
-     * @param authResponse - (token,isConfirmed)
+     * Success auth user. Save token
+     *
+     * @param authResponse - (token,isRegistered)
      */
     @Override
     public void onAuthResponseSuccess(AuthResponse authResponse) {
@@ -225,6 +206,17 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         userEntity.setConfirmed(confirmed);
         mUserViewModel.insert(userEntity);
         AuthUtils.INSTANCE.setToken(authResponse.getToken());
+        AuthUtils.INSTANCE.setRegistered(true);
+        if (userEntity.getConfirmed()) {
+            AuthUtils.INSTANCE.setLogout(false);
+            router.replaceScreen(Screens.START_SCREEN);
+            Timber.d("Success signIn");
+        } else {
+            toast("Пользователь не подтвержден");
+            ConfirmSmsModel smsModel = new ConfirmSmsModel();
+            smsModel.setUsername(userEntity.getPhone());
+            mSignInPresenter.sendSms(smsModel);
+        }
     }
 
     @Override

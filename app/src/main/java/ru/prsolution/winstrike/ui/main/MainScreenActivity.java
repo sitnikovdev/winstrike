@@ -199,6 +199,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         cvBtnOk.setOnClickListener(
                 it -> {
                     mUserViewModel.delete();
+                    AuthUtils.INSTANCE.setToken("");
+                    AuthUtils.INSTANCE.setLogout(true);
                     startActivity(new Intent(MainScreenActivity.this, SplashActivity.class));
                 }
         );
@@ -206,12 +208,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         mDlgSingOut.setCanceledOnTouchOutside(true);
         mDlgSingOut.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDlgSingOut.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
         Window window = mDlgSingOut.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
 
         wlp.gravity = Gravity.CENTER;
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         window.setAttributes(wlp);
+
+        mDlgSingOut.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        mDlgSingOut.getWindow().setDimAmount(0.5f);
 
         mDlgSingOut.setCanceledOnTouchOutside(false);
         mDlgSingOut.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

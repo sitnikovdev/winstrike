@@ -117,7 +117,7 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         nextButtonPhone.setOnClickListener(
                 view -> {
                     // Запрос кода подтверждения повторно
-                    if (!AuthUtils.INSTANCE.getToken().isEmpty()) {
+                    if (AuthUtils.INSTANCE.isRegistered()){
                         ConfirmSmsModel auth = new ConfirmSmsModel();
                         String phone = TextFormat.formatPhone(String.valueOf(etPhone.getText()));
                         auth.setUsername(phone);

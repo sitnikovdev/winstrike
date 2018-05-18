@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.ui.start;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,15 +10,12 @@ import android.view.WindowManager;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-import java.util.List;
-
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.common.utils.TinyDB;
 import ru.prsolution.winstrike.db.UserViewModel;
-import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
-import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.guides.GuideActivity;
+import ru.prsolution.winstrike.ui.login.SignInActivity;
 
 public class SplashActivity extends AppCompatActivity {
     private TinyDB tinyDB;
@@ -33,7 +29,6 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
         setContentView(R.layout.ac_splash);
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
@@ -42,14 +37,14 @@ public class SplashActivity extends AppCompatActivity {
         animationView.loop(true);
         animationView.playAnimation();
 
-
         tinyDB = new TinyDB(this);
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
-              if (AuthUtils.INSTANCE.getToken().isEmpty()) {
-                     mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
+                if (AuthUtils.INSTANCE.isFirstLogin()) {
+                    mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
+                    AuthUtils.INSTANCE.setFirstLogin(false);
                 } else {
                     mainIntent = new Intent(SplashActivity.this, SignInActivity.class);
                 }
@@ -58,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, 4000L);
 
-}
+    }
 
 }
 

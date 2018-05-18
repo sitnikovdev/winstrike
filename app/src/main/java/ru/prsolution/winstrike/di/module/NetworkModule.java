@@ -63,7 +63,6 @@ public class NetworkModule {
                     }
                 })
                 .cache(cache)
-
                 .build();
 
 
@@ -73,9 +72,7 @@ public class NetworkModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-
                 .build();
-
 
     }
 

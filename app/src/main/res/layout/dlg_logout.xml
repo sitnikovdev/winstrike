@@ -12,7 +12,7 @@
 
     <TextView
         android:id="@+id/title"
-        style="@style/StemRegular15Bold"
+        style="@style/StemBold17Black"
         android:layout_width="141dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
 
         android:gravity="center_horizontal"
@@ -46,19 +46,20 @@
 
     <TextView
         android:id="@+id/btn_ok"
-        style="@style/StemRegular15Base"
+        style="@style/StemMediumBlue17"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.7"
         android:text="Уверен" />
 
 
     <TextView
         android:id="@+id/btn_cancel"
-        style="@style/StemRegular15Base"
+        style="@style/StemMediumBlue17"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -66,6 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.7"
         android:text="Останусь" />
 
 
