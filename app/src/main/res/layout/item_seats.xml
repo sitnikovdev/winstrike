@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/content"
-                android:layout_width="180dp"
-                android:layout_height="127dp"
+                android:layout_width="204dp"
+                android:layout_height="140dp"
                 android:foreground="?selectableItemBackgroundBorderless"
                 android:src="@drawable/img_club"
                 android:clickable="true"

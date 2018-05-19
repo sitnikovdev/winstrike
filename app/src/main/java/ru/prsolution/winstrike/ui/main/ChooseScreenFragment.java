@@ -165,7 +165,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
             tvMonitor.setText("Монитор: LG 32GK850G");
 
         } else {
-            ivSeatImg.setImageResource(R.drawable.simple);
+            ivSeatImg.setImageResource(R.drawable.event);
             seat_title.setText("Вы выбрали: Обычное место");
 
             tvCpu.setText("CPU: intel i5-8400k");

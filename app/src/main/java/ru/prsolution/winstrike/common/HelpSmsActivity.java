@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,8 +122,7 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
                     // Запрос кода подтверждения повторно
                     if (AuthUtils.INSTANCE.isRegistered()) {
                         ConfirmSmsModel auth = getConfirmSmsModel();
-                        //sendSms(auth);
-                        dlgRefreshPassword();
+                        sendSms(auth);
                     } else {
                         toast("Пользователь не зарегистрирован!");
                     }
@@ -130,19 +130,19 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         );
 
 
-        // Пользователь вводит код и нажимае кнопку "Подтвердить"
+        /*
+         * Пользователь вводит код и нажимает кнопку "Подтвердить"
+         *
+         */
+
         nextButtonConfirm.setOnClickListener(
                 it -> {
-                    NewPasswordModel auth = new NewPasswordModel();
+                    NewPasswordModel passw = new NewPasswordModel();
                     String phone = TextFormat.formatPhone(String.valueOf(etPhone.getText()));
                     String smsCode = String.valueOf(etCode.getText());
-                    auth.setNew_password("111444");
-                    auth.setUsername(phone);
-                    Timber.tag("OkHttp").e("sms_code: %s", smsCode);
-                    refreshPassword(auth,smsCode);
-//                    confirmUser(smsCode);
+                    passw.setUsername(phone);
                     // Показываем диалог для смены пароля:
-//                    startActivity(new Intent(this, HelpPasswordActivity.class));
+                    dlgRefreshPassword(passw, smsCode);
                 }
         );
 
@@ -262,15 +262,36 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
 
     }
 
-    private void dlgRefreshPassword() {
+    private void dlgRefreshPassword(NewPasswordModel passw, String smsCode) {
         dialog = new Dialog(this, android.R.style.Theme_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dlg_refresh_passw);
 
         View cvBtnOk = dialog.findViewById(R.id.v_button);
+        EditText passOne = dialog.findViewById(R.id.et_password_first);
+        EditText passTwo = dialog.findViewById(R.id.et_password_second);
+
 
         cvBtnOk.setOnClickListener(
-                it -> dialog.dismiss()
+                it -> {
+                    String passTexOne = String.valueOf(passOne.getText());
+                    String passTexTwo = String.valueOf(passTwo.getText());
+                    // check for password correctness
+                    if (!TextUtils.isEmpty(passTexOne) && !TextUtils.isEmpty(passTexTwo)) {
+                        if ((passOne.getText().length() < 6) || (passTwo.getText().length() < 6)) {
+                            toast("Длина пароля должна быть не менее 6 символов");
+                        }
+                        if (passTexOne.equals(passTexTwo)) {
+                            passw.setNew_password(passTexOne);
+                            refreshPassword(passw, smsCode);
+                            dialog.dismiss();
+                        } else {
+                            toast("Пароли не совпадают");
+                        }
+                    } else {
+                        toast("Длина пароля должна быть не менее 6 символов");
+                    }
+                }
         );
 
 
@@ -361,7 +382,7 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
                 onRefressPasswordFailure(networkError.getAppErrorMessage());
             }
 
-        }, smsModel,smsCode);
+        }, smsModel, smsCode);
 
         subscriptions.add(subscription);
     }
@@ -393,10 +414,8 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
     }
 
     private void onRefreshPasswordSuccess(MessageResponse authResponse) {
-        Timber.d("SMS код выслан");
-        // Show dialog, that sms succesfully send
-        dlgSendSMS();
-        setConfirmVisible(true);
+        toast("Новый пароль успешно сохранен");
+        startActivity(new Intent(this,SignInActivity.class));
     }
 
     @Override

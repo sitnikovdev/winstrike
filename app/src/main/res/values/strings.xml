@@ -108,6 +108,7 @@
     <string name="timedlg_btnclose">Продолжить</string>
     <string name="paiddetail_title">Оплаченые места</string>
     <string name="club_name">Компьютерный клуб «Winstrike Arena»</string>
+    <string name="club_full_name">Многофункциональный киберспортивный комплекс\n Winstrike Arena</string>
     <string name="paiddetail_date">15 декабря 2017 года</string>
     <string name="paid_time">10:00-11:00</string>
     <string name="profileapp_estimate">Оцените приложение</string>

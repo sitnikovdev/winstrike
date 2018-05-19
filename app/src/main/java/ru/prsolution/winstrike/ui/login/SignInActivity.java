@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -116,6 +117,17 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
          */
 /*        mUserViewModel.getUser().observe(this, (usersEntity -> {
         }));*/
+        if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getToken())) {
+            AuthUtils.INSTANCE.setLogout(false);
+            router.replaceScreen(Screens.START_SCREEN);
+            Timber.d("Success signIn");
+        }
+/*        else {
+            //toast("Пользователь не подтвержден");
+*//*            ConfirmSmsModel smsModel = new ConfirmSmsModel();
+            smsModel.setUsername(userEntity.getPhone());
+            mSignInPresenter.sendSms(smsModel);*//*
+        }*/
 
     }
 
