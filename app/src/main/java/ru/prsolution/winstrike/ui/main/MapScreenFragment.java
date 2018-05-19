@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.ui.main;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -28,10 +27,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-
 import java.util.LinkedHashMap;
 
 import javax.inject.Inject;
@@ -53,14 +48,13 @@ import ru.prsolution.winstrike.mvp.models.Wall;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.RouterProvider;
 import timber.log.Timber;
 
 
 /**
  * Created by terrakok 26.11.16
  */
-public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
+public class MapScreenFragment extends android.support.v4.app.Fragment implements MapView {
     @BindView(R.id.rootMap)
     RelativeLayout rootLayout;
     private Snackbar snackbar;
@@ -82,16 +76,17 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
     @Inject
     Service service;
 
-    @InjectPresenter
+    //    @Inject
     MapPresenter presenter;
+
     private GameRoom mRoom;
 
-    @ProvidePresenter
+/*    @ProvidePresenter
     MapPresenter provideMainScreenPresenter() {
         return new MapPresenter(service,
                 ((RouterProvider) getParentFragment()).getRouter()
         );
-    }
+    }*/
 
 
     public static MapScreenFragment getNewInstance(String name, int number) {
@@ -217,15 +212,6 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-/*        *//**//*
-        for (int i = 0; i < rootLayout.getChildCount(); i++) {
-            View v = rootLayout.getChildAt(i);
-            if (v instanceof ImageView) {
-//                Timber.d(v.getClass().getSimpleName());
-                ImageView ivSeat = (ImageView) v;
-                ivSeat.setOnClickListener(null);
-            }
-        }*/
     }
 
     /**
@@ -316,6 +302,7 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.presenter = new MapPresenter(service, this);
         presenter.initScreen();
         presenter.readMap();
     }
@@ -328,18 +315,18 @@ public class MapScreenFragment extends MvpAppCompatFragment implements MapView {
         /**
          * Get ViewModel for pids
          */
-        mPidViewModel = ViewModelProviders.of(this).get(PidViewModel.class);
+//        mPidViewModel = ViewModelProviders.of(this).get(PidViewModel.class);
 
         /**
          * Check for activity when pid of selected seat is save or remove from db.
          */
-        mPidViewModel.getPids().observe(this, pidEntities -> {
+/*        mPidViewModel.getPids().observe(this, pidEntities -> {
             if (pidEntities != null) {
                 if (!pidEntities.isEmpty()) {
                     Timber.d("pid: %s", pidEntities);
                 }
             }
-        });
+        });*/
     }
 
 /*

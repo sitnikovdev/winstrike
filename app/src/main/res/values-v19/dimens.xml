@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="start_head">16dp</dimen>
+    <dimen name="space_head">50dp</dimen>
+    <dimen name="space_text">-30dp</dimen>
+</resources>

@@ -19,7 +19,7 @@
         android:src="@drawable/vip"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/space_head"
         />
 
     <TextView
@@ -29,11 +29,9 @@
         android:layout_height="wrap_content"
         android:text="@string/seatdetail_title"
         android:layout_alignStart="@id/head_image"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/start_head"
         android:layout_alignTop="@id/head_image"
-        android:layout_marginTop="-20dp"
-
-        />
+        android:layout_marginTop="@dimen/space_text" />
 
     <TextView
         android:id="@+id/gear"
@@ -41,11 +39,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/seatdetail_gear"
-        android:layout_alignParentStart="true"
-        android:layout_alignBaseline="@id/head_image"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignStart="@+id/head_image"
         android:layout_alignBottom="@id/head_image"
         android:layout_marginBottom="-40dp"
-        android:layout_marginStart="40dp"
         />
 
     <TextView
@@ -54,11 +51,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignStart="@+id/head_image"
         android:text="@string/seatdetail_cpu"
         android:layout_alignBottom="@id/gear"
         android:layout_marginBottom="-30dp"
-        android:layout_marginStart="40dp"
-
         />
 
     <TextView
@@ -67,9 +64,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/seatdetail_ram"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignStart="@+id/head_image"
         android:layout_alignBottom="@id/cpu"
         android:layout_marginBottom="-25dp"
-        android:layout_marginStart="40dp"
         />
 
     <TextView
@@ -78,9 +76,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/seatdetail_gpu"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignStart="@+id/head_image"
         android:layout_alignBottom="@id/ram"
         android:layout_marginBottom="-25dp"
-        android:layout_marginStart="40dp"
         />
 
     <TextView
@@ -89,9 +88,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/seatdetail_monitor"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignStart="@+id/head_image"
         android:layout_alignBottom="@id/gpu"
         android:layout_marginBottom="-25dp"
-        android:layout_marginStart="40dp"
         />
 
 
@@ -101,9 +101,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/seatdetail_date"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignStart="@+id/head_image"
         android:layout_alignBottom="@id/monitor"
         android:layout_marginBottom="-40dp"
-        android:layout_marginStart="40dp"
         />
 
 
@@ -137,10 +138,11 @@
         android:background="@drawable/ripple_effect_title_click"
         android:clickable="true"
         android:text="@string/seatdetail_time"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignStart="@+id/head_image"
         android:focusable="true"
         android:layout_alignTop="@id/tv_date_news"
         android:layout_marginTop="40dp"
-        android:layout_marginStart="40dp"
         />
 
 
@@ -171,7 +173,7 @@
         android:layout_height="@dimen/height_button"
         android:background="@drawable/button_bgr_24dp"
         android:layout_alignTop="@id/tv_time_left"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="55dp"
         android:layout_centerHorizontal="true"
         />
 
@@ -183,8 +185,8 @@
         android:text="@string/seatdetail_btn"
         android:textAlignment="center"
         android:layout_alignBaseline="@id/next_button"
-        android:layout_alignTop="@id/next_button"
-        android:layout_marginTop="16dp"
+        android:layout_alignBottom="@id/next_button"
+        android:layout_marginBottom="15dp"
         android:layout_centerHorizontal="true"
         />
 

@@ -64,6 +64,9 @@ object TimeDataModel {
         date = ""
         start = ""
         end = ""
+        startDate = Date()
+        endDate = Date()
+        selectDate = ""
     }
 
 

@@ -4,8 +4,6 @@ import android.app.Application;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 
-import com.squareup.leakcanary.LeakCanary;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,10 +17,6 @@ import ru.prsolution.winstrike.di.module.NetworkModule;
 import timber.log.Timber;
 
 
-/**
- * Created by Konstantin Tckhovrebov (aka @terrakok)
- * on 11.10.16
- */
 
 public class WinstrikeApp extends Application {
     public static final boolean DEBUG = true;
@@ -32,12 +26,6 @@ public class WinstrikeApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        LeakCanary.install(this);
         INSTANCE = this;
     }
 

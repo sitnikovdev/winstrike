@@ -72,4 +72,8 @@
     <dimen name="space_left_seat">30dp</dimen>
     <dimen name="space_right_seat">113dp</dimen>
     <dimen name="number_height">250dp</dimen>
+    <dimen name="top_slider">0dp</dimen>
+    <dimen name="start_head">16dp</dimen>
+    <dimen name="space_head">50dp</dimen>
+    <dimen name="space_text">-30dp</dimen>
 </resources>

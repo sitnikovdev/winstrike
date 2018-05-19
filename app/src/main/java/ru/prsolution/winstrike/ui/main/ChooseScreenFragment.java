@@ -191,7 +191,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
 
 
     private void initMapShowButton() {
-        setShowMapBtnEnable(showMapButton, false);
+        setShowMapBtnEnable(showMapButton, true);
 
         RxView.clicks(showMapButton).subscribe(
                 it -> {
@@ -260,7 +260,12 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     @Override
     public void onGetAcitivePidFailure(String appErrorMessage) {
         Timber.d("Failure get map from server: %s", appErrorMessage);
-        toast(appErrorMessage);
+        if (appErrorMessage.contains("502")) {
+            toast("Невозможно получить места. Внутренняя ошибка сервера");
+        }else {
+            toast(appErrorMessage);
+        }
+        setShowMapBtnEnable(showMapButton, false);
     }
 
     /**
@@ -280,7 +285,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
      */
     private void initDateSelectDialog() {
         String date = "Выберите дату";
-        String time = "00:00 - 00:00";
+        String time = "Укажите диапазон времени";
         tv_date.setText(date);
         tv_time.setText(time);
 
@@ -469,6 +474,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         if (this.dateListener != null) {
             this.dateListener = null;
         }
+        TimeDataModel.INSTANCE.clear();
     }
 
 

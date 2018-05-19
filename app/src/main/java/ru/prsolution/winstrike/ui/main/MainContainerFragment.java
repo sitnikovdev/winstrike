@@ -88,6 +88,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
         }
 
         if (getFragmentManager().findFragmentById(R.id.ab_container).getTag().equals("MAP")) {
+//              MapScreenFragment.getNewInstance(getContainerName(), 0);
             getCicerone().getRouter().replaceScreen(Screens.MAP_SCREEN, 0);
         }
 
