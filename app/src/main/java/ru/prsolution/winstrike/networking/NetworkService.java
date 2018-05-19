@@ -7,8 +7,10 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
+import ru.prsolution.winstrike.common.logging.ProfileModel;
 import ru.prsolution.winstrike.common.logging.SignInModel;
 import ru.prsolution.winstrike.common.logging.ConfirmModel;
 import ru.prsolution.winstrike.common.logging.LoginModel;
@@ -43,6 +45,11 @@ public interface NetworkService {
     // Создание пользователя
     @POST("users")
     Observable<AuthResponse> createUser(@Body LoginModel loginModel);
+
+    // Update user profile
+    @PUT("users/{public_id}")
+    Observable<MessageResponse> updateUser(@Header("authorization") String token,  @Body ProfileModel loginModel, @Path("public_id") String public_id);
+
 
 
     // Подтверждение пользоватея по sms коду

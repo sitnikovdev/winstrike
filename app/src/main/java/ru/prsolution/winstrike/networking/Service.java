@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.networking;
 
 import java.util.Map;
 
+import ru.prsolution.winstrike.common.logging.ProfileModel;
 import ru.prsolution.winstrike.common.logging.SignInModel;
 import ru.prsolution.winstrike.common.logging.ConfirmModel;
 import ru.prsolution.winstrike.common.logging.LoginModel;
@@ -220,6 +221,45 @@ public class Service {
 
         void onError(NetworkError networkError);
     }
+
+    public Subscription updateUser(final ProfileCallback callback, String token, ProfileModel profileModel, String publicId) {
+
+        return networkService.updateUser(token,profileModel,publicId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends MessageResponse>>() {
+                    @Override
+                    public Observable<? extends MessageResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<MessageResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(MessageResponse messageResponse) {
+                        callback.onSuccess(messageResponse);
+
+                    }
+                });
+    }
+
+    public interface ProfileCallback {
+        void onSuccess(MessageResponse messageResponse);
+
+        void onError(NetworkError networkError);
+    }
+
+
 
 
     public Subscription getActivePid(final RoomsCallback callback) {

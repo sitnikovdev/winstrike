@@ -46,6 +46,8 @@ import ru.prsolution.winstrike.common.entity.SeatModel;
 import ru.prsolution.winstrike.common.fragment.AppFragment;
 import ru.prsolution.winstrike.common.fragment.CarouselSeatFragment;
 import ru.prsolution.winstrike.common.fragment.ProfileFragment;
+import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.common.logging.ProfileModel;
 import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
@@ -54,6 +56,7 @@ import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
+import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.ui.common.BackButtonListener;
@@ -69,6 +72,8 @@ import ru.terrakok.cicerone.commands.Back;
 import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Replace;
 import ru.terrakok.cicerone.commands.SystemMessage;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 
@@ -148,6 +153,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Inject
     NavigatorHolder navigatorHolder;
     private UserViewModel mUserViewModel;
+    private CompositeSubscription subscriptions;
 
     public Service getService() {
         return service;
@@ -164,6 +170,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         if (this.mScreenType == ScreenType.MAP) {
             getMenuInflater().inflate(R.menu.map_toolbar_menu, menu);
         }
+
+        this.subscriptions = new CompositeSubscription();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -621,8 +629,71 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
 
     @Override
-    public void onSaveButtonClick() {
+    public void onSaveButtonClick(String name, String passw) {
+        Timber.d("Update user profile..");
+        // call api for update profile here ...
+        ProfileModel profile = new ProfileModel();
+        profile.setName(name);
+        profile.setPassword(passw);
+        // TODO: 19/05/2018 Pass real public id here
+        String publicId = "60cc441c-9def-41fd-8c31-fa937a80858a";
+        String token = "Bearer " + AuthUtils.INSTANCE.getToken();
+        updateProfile(token, profile,publicId);
     }
+
+    public void updateProfile(String token, ProfileModel profile, String publicId) {
+
+        Subscription subscription = service.updateUser(new Service.ProfileCallback() {
+            @Override
+            public void onSuccess(MessageResponse authResponse) {
+                onProfileUpdateSuccessfully(authResponse);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                onFailtureUpdateProfile(networkError.getAppErrorMessage());
+            }
+
+        },token, profile, publicId);
+
+        subscriptions.add(subscription);
+    }
+
+    private void onFailtureUpdateProfile(String appErrorMessage) {
+        Timber.d("Wrong update profile");
+/*        switch (appErrorMessage) {
+            case "409":
+                Timber.tag("OkHttp").d("Не верный код");
+                toast("Не верный код");
+                break;
+            case "403":
+                Timber.tag("OkHttp").d("Пользователь уже поддвержден");
+                toast("Пользователь уже поддвержден");
+                setBtnEnable(nextButtonPhone, false);
+                break;
+            case "400":
+                Timber.tag("OkHttp").d("Пользователь не найден");
+                toast("Пользователь с таким номером не найден");
+                break;
+            case "404":
+                Timber.tag("OkHttp").d("Пользователь уже поддвержден");
+                toast("Пользователь уже поддвержден");
+                break;
+            default:
+                Timber.tag("OkHttp").d("confirm code: %s", appErrorMessage);
+                toast("Пользователь не подтвержден");
+                break;
+        }*/
+    }
+
+    private void onProfileUpdateSuccessfully(MessageResponse authResponse) {
+        Timber.d("Falure update profile");
+/*        toast("Новый пароль успешно сохранен");
+        startActivity(new Intent(this,SignInActivity.class));*/
+    }
+
+
+
 
 
     @Override

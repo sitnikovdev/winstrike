@@ -36,7 +36,8 @@ public class ProfileFragment extends Fragment {
     OnProfileButtonsClickListener listener;
 
     public interface OnProfileButtonsClickListener {
-        void onSaveButtonClick();
+        // Update user profile data (name and password)
+        void onSaveButtonClick(String name, String passw);
     }
 
     @Override
@@ -64,8 +65,10 @@ public class ProfileFragment extends Fragment {
         ButterKnife.bind(this, v);
         saveButton.setOnClickListener(
                 it -> {
+                    String name = String.valueOf(etFio.getText());
+                    String passw = String.valueOf(etPassword.getText());
                     setBtnEnable(saveButton, false);
-                    listener.onSaveButtonClick();
+                    listener.onSaveButtonClick(name,passw);
                 }
         );
 
