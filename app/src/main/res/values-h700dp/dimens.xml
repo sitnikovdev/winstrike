@@ -68,4 +68,5 @@
     <dimen name="start_head">16dp</dimen>
     <dimen name="space_head">50dp</dimen>
     <dimen name="space_text">-30dp</dimen>
+    <dimen name="hall_line_lengh">200dp</dimen>
 </resources>

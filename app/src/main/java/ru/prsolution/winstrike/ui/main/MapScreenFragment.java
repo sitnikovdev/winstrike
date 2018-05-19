@@ -71,6 +71,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     private LinkedHashMap<Integer, String> mPickedSeatsIds = new LinkedHashMap<>();
     private Float mXScaleFactor;
     private Float mYScaleFactor;
+    private Float heightDp, widthDp;
 
 
     @Inject
@@ -127,6 +128,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
     @Override
     public void onScreenInit() {
+        heightDp = WinstrikeApp.getInstance().getDisplayHeightDp();
+        widthDp = WinstrikeApp.getInstance().getDisplayWidhtDp();
         rootLayoutParams = new RelativeLayout.LayoutParams(RLW, RLW);
         initSnackBar();
     }
@@ -142,8 +145,15 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         Wall mWall = room.getWalls().get(0);
         Float height = WinstrikeApp.getInstance().getDisplayHeightPx();
         Float width = WinstrikeApp.getInstance().getDisplayWidhtPx();
-        mXScaleFactor = (width / mWall.end.x);
-        mYScaleFactor = (height / mWall.end.y);
+
+
+        if (heightDp > 700) {
+            mXScaleFactor = (width / mWall.end.x) - 0.3f;
+            mYScaleFactor = (height / mWall.end.y) - 2.3f;
+        } else {
+            mXScaleFactor = (width / mWall.end.x) - 0.3f;
+            mYScaleFactor = (height / mWall.end.y) - 2.3f;
+        }
         Point seatSize = new Point();
 
         Bitmap seatBitmap = getBitmap(getContext(), R.drawable.ic_seat_gray);
@@ -154,8 +164,15 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rootLayout.getLayoutParams();
         params.setMargins(0, 0, 100, 200);
-        params.width = mScreenSize.x;
-        params.height = mScreenSize.y + (seatSize.y * 25);
+
+        // Height of screen
+        if (heightDp > 700) {
+            params.width = mScreenSize.x;
+            params.height = mScreenSize.y + 500;
+        } else {
+            params.width = mScreenSize.x;
+            params.height = mScreenSize.y + 500;
+        }
         rootLayout.setLayoutParams(params);
 
         rootLayout.setLayoutParams(params);
@@ -178,8 +195,17 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         // Add labels
         for (LabelRoom label : room.getLabels()) {
             String text = label.getText();
-            Integer dx = (int) (label.getDx() * mXScaleFactor);
-            Integer dy = (int) (label.getDy() * (mYScaleFactor)) + seatSize.y / 2;
+            Integer dx = 0;
+            Integer dy = 0;
+
+            if (heightDp > 700) {
+                dx = (int) (label.getDx() * mXScaleFactor) - 1;
+                dy = (int) (label.getDy() * (mYScaleFactor));
+            } else {
+                dx = (int) (label.getDx() * mXScaleFactor) - 1;
+                dy = (int) (label.getDy() * (mYScaleFactor)) - 10;
+            }
+
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
             tvParams.leftMargin = dx;
             tvParams.topMargin = dy;
@@ -195,8 +221,13 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             // Add horizontal line
             if (text.equals("HP STAGE 1")) {
                 tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
-                tvParams.leftMargin = dx;
-                tvParams.topMargin = (int) (dy - (seatSize.y * 20));
+                if (heightDp > 700) {
+                    tvParams.leftMargin = dx;
+                    tvParams.topMargin = dy - 600;
+                } else {
+                    tvParams.leftMargin = dx;
+                    tvParams.topMargin = dy - 650;
+                }
                 View view = new View(getContext());
                 view.setBackgroundResource(R.drawable.hall_line);
                 view.setLayoutParams(tvParams);
@@ -312,30 +343,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
 
-        /**
-         * Get ViewModel for pids
-         */
-//        mPidViewModel = ViewModelProviders.of(this).get(PidViewModel.class);
-
-        /**
-         * Check for activity when pid of selected seat is save or remove from db.
-         */
-/*        mPidViewModel.getPids().observe(this, pidEntities -> {
-            if (pidEntities != null) {
-                if (!pidEntities.isEmpty()) {
-                    Timber.d("pid: %s", pidEntities);
-                }
-            }
-        });*/
     }
-
-/*
-    @Override
-    public boolean onBackPressed() {
-        presenter.onBackPressed();
-        return true;
-    }
-*/
 
 
     private class BookingBtnListener implements View.OnClickListener {
