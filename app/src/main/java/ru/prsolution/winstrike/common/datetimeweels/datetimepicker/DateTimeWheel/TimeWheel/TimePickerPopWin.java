@@ -45,7 +45,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
     private static final int DEFAULT_MIN_HOUR = 1;
     private static final int DEFAULT_MIN_MIN = 0;
     private static final int DEFAULT_MIN_SEC = 0;
-    private static final int DEFAULT_MAX_HOUR = 24;
+    private static final int DEFAULT_MAX_HOUR = 23;
     private static final int DEFAULT_MAX_MIN = 59;
     private static final int DEFAULT_MAX_SEC = 59;
 
@@ -287,6 +287,19 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
             if (isFromTimeSelect) {
                 tv_h_from.setText(format2LenStr(item + 1));
                 timeFromData.hour = format2LenStr(item + 1);
+
+                Integer hour =Integer.parseInt(tv_h_from.getText().toString()) ;
+                Integer min =Integer.parseInt(tv_m_from.getText().toString()) ;
+
+                if (hour < 23) {
+                    tv_h_to.setText(String.valueOf(format2LenStr(hour + 1)));
+                    tv_m_to.setText(String.valueOf(format2LenStr(min)));
+                } else if (hour == 23){
+                    tv_h_to.setText(String.valueOf(format2LenStr(00)));
+                    tv_m_to.setText(String.valueOf(format2LenStr(min)));
+                }
+
+
             } else if (isToTimeSelect) {
                 tv_h_to.setText(format2LenStr(item + 1));
                 timeToData.hour = format2LenStr(item + 1);
@@ -368,6 +381,9 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
 
         isFromTimeSelect = true;
         isToTimeSelect = false;
+
+
+
     }
 
     private void setToSelected() {
