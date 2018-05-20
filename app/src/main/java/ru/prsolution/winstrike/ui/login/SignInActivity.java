@@ -3,7 +3,6 @@ package ru.prsolution.winstrike.ui.login;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -64,6 +63,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
     private SignInModel signInModel;
     private ProgressDialog mProgressDialog;
     private UserViewModel mUserViewModel;
+    private UserEntity userEntity;
 
     @BindView(R.id.et_phone)
     EditText mPhoneView;
@@ -109,14 +109,12 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         init();
 
 
-        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+//        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         /**
          *  Check if user is confirmed, if true - go to MainScreenActivity
          *  no - go to sendSmsByUserRequest.
          */
-/*        mUserViewModel.getUser().observe(this, (usersEntity -> {
-        }));*/
         if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getToken())) {
             AuthUtils.INSTANCE.setLogout(false);
             router.replaceScreen(Screens.START_SCREEN);
@@ -208,14 +206,16 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
     @Override
     public void onAuthResponseSuccess(AuthResponse authResponse) {
         Boolean confirmed = authResponse.getUser().getConfirmed();
-        UserEntity userEntity = new UserEntity();
+        userEntity = new UserEntity();
 
         // TODO: 05/05/2018 Replace list of users by one user.
         // Save user in db
         userEntity.setPublickId(authResponse.getUser().getPublicId());
         userEntity.setPhone(authResponse.getUser().getPhone());
+        userEntity.setName(authResponse.getUser().getName());
         userEntity.setToken(authResponse.getToken());
         userEntity.setConfirmed(confirmed);
+//        WinstrikeApp.getInstance().saveUser(userEntity);
         mUserViewModel.insert(userEntity);
         AuthUtils.INSTANCE.setToken(authResponse.getToken());
         AuthUtils.INSTANCE.setRegistered(true);

@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.Space;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -302,6 +303,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         }
 
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
+        mUserViewModel.getUser().observe(this, (usersEntity -> {
+            if (usersEntity != null) {
+                if (!usersEntity.isEmpty()) {
+                    Timber.d("User load successfully: %s", usersEntity);
+                    WinstrikeApp.getInstance().saveUser(usersEntity.get(0));
+                }
+            }
+        }));
+
 
         // TODO: 29/04/2018 REMOVE AFTER TEST!!!
 
@@ -820,7 +831,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                     showFragmentHolderContainer(false);
                     setProfileScreenInterfaceVisibility(true);
                     toolbar.setNavigationIcon(null);
-                    initMainToolbar(SHOW_MENU, "Настройки", SHOW_ICON, ScreenType.PROFILE);
+                    String title = "Настройки";
+                    if (WinstrikeApp.getInstance().getUser() != null) {
+                        if (!TextUtils.isEmpty(WinstrikeApp.getInstance().getUser().getName())) {
+                            title = WinstrikeApp.getInstance().getUser().getName();
+                        }
+                    }
+                    initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE);
+
                     presenter.onTabUserClick();
                     break;
             }

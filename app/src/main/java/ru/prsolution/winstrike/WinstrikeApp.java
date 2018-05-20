@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
+import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.di.AppComponent;
 import ru.prsolution.winstrike.di.DaggerAppComponent;
 import ru.prsolution.winstrike.di.module.AppRepositoryModule;
@@ -22,6 +23,7 @@ public class WinstrikeApp extends Application {
     public static final boolean DEBUG = true;
     public static WinstrikeApp INSTANCE;
     private AppComponent sAppComponent;
+    private UserEntity user;
 
     @Override
     public void onCreate() {
@@ -95,5 +97,13 @@ public class WinstrikeApp extends Application {
         } catch (Exception e) {
             Timber.d("Can't write db  %s to sd card. Cause: %s", dbname, e.getCause());
         }
+    }
+
+    public void saveUser(UserEntity userEntity) {
+        this.user = userEntity;
+    }
+
+    public UserEntity getUser() {
+        return this.user;
     }
 }
