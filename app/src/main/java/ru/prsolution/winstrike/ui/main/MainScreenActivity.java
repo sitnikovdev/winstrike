@@ -687,7 +687,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
     private void onProfileUpdateSuccessfully(MessageResponse authResponse) {
-        Timber.d("Falure update profile");
+        Timber.d("Profile is updated");
 /*        toast("Новый пароль успешно сохранен");
         startActivity(new Intent(this,SignInActivity.class));*/
     }
