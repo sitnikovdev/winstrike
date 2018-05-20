@@ -32,6 +32,7 @@ import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
+import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.SignInPresenter;
 import ru.prsolution.winstrike.mvp.views.SignInView;
@@ -133,20 +134,17 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
                     WinstrikeApp.getInstance().saveUser(users.get(0));
                     AuthUtils.INSTANCE.setToken(users.get(0).getToken());
                     AuthUtils.INSTANCE.setPublicid(users.get(0).getPublickId());
-                    AuthUtils.INSTANCE.setRegistered(true);
-                    router.replaceScreen(Screens.START_SCREEN);
-                    Timber.d("Success signIn");
+                    if (users.get(0).getConfirmed()) {
+                        router.replaceScreen(Screens.START_SCREEN);
+                        Timber.d("Success signIn");
+                    } else {
+                        ConfirmSmsModel smsModel = new ConfirmSmsModel();
+                        smsModel.setUsername(userEntity.getPhone());
+                        mSignInPresenter.sendSms(smsModel);
+                    }
                 }
             }
         }));
-
-
-/*        else {
-            //toast("Пользователь не подтвержден");
-*//*            ConfirmSmsModel smsModel = new ConfirmSmsModel();
-            smsModel.setUsername(userEntity.getPhone());
-            mSignInPresenter.sendSms(smsModel);*//*
-        }*/
 
     }
 
@@ -237,20 +235,8 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         userEntity.setName(authResponse.getUser().getName());
         userEntity.setToken(authResponse.getToken());
         userEntity.setConfirmed(confirmed);
-//        repository.insertUser(userEntity);
-
         mUserViewModel.insert(userEntity);
 
-/*        if (userEntity.getConfirmed()) {
-            AuthUtils.INSTANCE.setLogout(false);
-            router.replaceScreen(Screens.START_SCREEN);
-            Timber.d("Success signIn");
-        } else {
-            toast("Пользователь не подтвержден");
-            ConfirmSmsModel smsModel = new ConfirmSmsModel();
-            smsModel.setUsername(userEntity.getPhone());
-            mSignInPresenter.sendSms(smsModel);
-        }*/
     }
 
     @Override

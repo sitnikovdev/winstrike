@@ -3,6 +3,7 @@ package ru.prsolution.winstrike.ui.main;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -51,10 +52,13 @@ import ru.prsolution.winstrike.common.logging.ProfileModel;
 import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
+import ru.prsolution.winstrike.databinding.AcMainscreenBinding;
 import ru.prsolution.winstrike.db.AppDatabase;
 import ru.prsolution.winstrike.db.AppRepository;
+import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
+import ru.prsolution.winstrike.mvp.models.UserProfileObservable;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
@@ -151,6 +155,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Inject
     NavigatorHolder navigatorHolder;
     private AppRepository repository;
+    private UserViewModel mUserViewModel;
+    private UserProfileObservable user;
 
     public Service getService() {
         return service;
@@ -202,9 +208,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         cvBtnOk.setOnClickListener(
                 it -> {
-                    // TODO: 20/05/2018  Replace with repository method
                     AuthUtils.INSTANCE.setLogout(true);
-//                    startActivity(new Intent(this,SignInActivity.class));
                     repository.deleteUser();
                     startActivity(new Intent(MainScreenActivity.this, SplashActivity.class));
                 }
@@ -278,7 +282,17 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         repository = new AppRepository(AppDatabase.getInstance(getApplicationContext()));
 
-        setContentView(R.layout.ac_mainscreen);
+//        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+//         user = ViewModelProviders.of(this).get(ProfileObservableFieldsViewModel.class);
+        user = new UserProfileObservable();
+
+        AcMainscreenBinding binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
+
+        binding.setUser(user);
+
+        user.setName("Winstrike Arena");
+
+//        setContentView(R.layout.ac_mainscreen);
         ButterKnife.bind(this);
 
         viewPagerSeat = findViewById(R.id.view_pager_seat);
@@ -632,9 +646,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             Toast.makeText(this, "Введите текущий пароль", Toast.LENGTH_LONG).show();
         }
         if (name.isEmpty()) {
-            Toast.makeText(this,"Введите имя пользователя",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Введите имя пользователя", Toast.LENGTH_LONG).show();
         }
-        if(!TextUtils.isEmpty(passw) && !TextUtils.isEmpty(name)){
+        if (!TextUtils.isEmpty(passw) && !TextUtils.isEmpty(name)) {
             Timber.d("Update user profile..");
             // call api for update profile here ...
             ProfileModel profile = new ProfileModel();
@@ -644,32 +658,31 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             String publicId = AuthUtils.INSTANCE.getPublicid();
             String token = "Bearer " + AuthUtils.INSTANCE.getToken();
             presenter.updateProfile(token, profile, publicId);
-
+            WinstrikeApp.getInstance().getUser().setName(name);
             String title = "Настройки";
             if (WinstrikeApp.getInstance().getUser() != null) {
                 if (!TextUtils.isEmpty(WinstrikeApp.getInstance().getUser().getName())) {
                     title = WinstrikeApp.getInstance().getUser().getName();
                 }
             }
-            initMainToolbar(SHOW_MENU,title , SHOW_ICON, ScreenType.PROFILE);
+            user.setName(name);
+            initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE);
         }
     }
 
 
     public void onFailtureUpdateProfile(String appErrorMessage) {
         Timber.d("Wrong update profile");
-        Toast.makeText(this,"Не удалось обновить профиль",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Не удалось обновить профиль", Toast.LENGTH_LONG).show();
     }
 
     public void onProfileUpdateSuccessfully(MessageResponse authResponse) {
         Timber.d("Profile is updated");
-        Toast.makeText(this,"Профиль успешно обновлен",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
 /*        toast("Новый пароль успешно сохранен");
 
         startActivity(new Intent(this,SignInActivity.class));*/
     }
-
-
 
 
     @Override
@@ -796,7 +809,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                     showFragmentHolderContainer(false);
                     setProfileScreenInterfaceVisibility(true);
                     toolbar.setNavigationIcon(null);
-                    String title = "Настройки";
+                    user.setName(WinstrikeApp.getInstance().getUser().getName());
+                    String title = user.getName();
                     if (WinstrikeApp.getInstance().getUser() != null) {
                         if (!TextUtils.isEmpty(WinstrikeApp.getInstance().getUser().getName())) {
                             title = WinstrikeApp.getInstance().getUser().getName();
