@@ -6,6 +6,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.ArrayList;
 
+import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 
 
@@ -35,4 +36,8 @@ public interface MainScreenView extends MvpView {
     void showBottomTab();
 
     void setProfileScreenInterfaceVisibility(Boolean isVisible);
+
+    void onProfileUpdateSuccessfully(MessageResponse authResponse);
+
+    void onFailtureUpdateProfile(String appErrorMessage);
 }

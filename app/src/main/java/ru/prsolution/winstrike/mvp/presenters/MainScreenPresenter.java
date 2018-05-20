@@ -7,14 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.prsolution.winstrike.R;
+import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.common.logging.ProfileModel;
+import ru.prsolution.winstrike.common.utils.Utils;
 import ru.prsolution.winstrike.mvp.apimodels.Order;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.apimodels.Orders;
-import ru.prsolution.winstrike.ui.Screens;
-import ru.prsolution.winstrike.common.utils.Utils;
+import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.mvp.views.MainScreenView;
+import ru.prsolution.winstrike.ui.Screens;
 import ru.terrakok.cicerone.Router;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -113,6 +115,26 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
 
         subscriptions.add(subscription);
     }
+
+    public void updateProfile(String token, ProfileModel profile, String publicId) {
+
+        Subscription subscription = service.updateUser(new Service.ProfileCallback() {
+            @Override
+            public void onSuccess(MessageResponse authResponse) {
+               getViewState().onProfileUpdateSuccessfully(authResponse);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                getViewState().onFailtureUpdateProfile(networkError.getAppErrorMessage());
+            }
+
+        },token, profile, publicId);
+
+        subscriptions.add(subscription);
+    }
+
+
 
     public void onStop() {
         subscriptions.unsubscribe();

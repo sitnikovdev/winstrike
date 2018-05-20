@@ -34,7 +34,7 @@
 
     <EditText
         android:id="@+id/fio"
-        style="@style/StemMedium13Black04"
+        style="@style/StemMedium15Black04"
         android:layout_width="@dimen/width_editext_255dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/start_edit_25dp"
@@ -58,7 +58,7 @@
 
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
         android:id="@+id/et_password"
-        style="@style/StemMedium13Black04"
+        style="@style/StemMedium15Black04"
         android:layout_width="@dimen/width_editext_255dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/start_edit_25dp"

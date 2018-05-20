@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -29,6 +28,8 @@ import ru.prsolution.winstrike.common.HelpActivity;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.logging.SignInModel;
 import ru.prsolution.winstrike.common.utils.TextFormat;
+import ru.prsolution.winstrike.db.AppDatabase;
+import ru.prsolution.winstrike.db.AppRepository;
 import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
@@ -64,6 +65,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
     private ProgressDialog mProgressDialog;
     private UserViewModel mUserViewModel;
     private UserEntity userEntity;
+    private  AppRepository repository;
 
     @BindView(R.id.et_phone)
     EditText mPhoneView;
@@ -110,16 +112,17 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
 
 
 //        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        repository = new AppRepository(AppDatabase.getInstance(getApplicationContext()));
 
         /**
          *  Check if user is confirmed, if true - go to MainScreenActivity
          *  no - go to sendSmsByUserRequest.
          */
-        if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getToken())) {
+/*        if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getToken())) {
             AuthUtils.INSTANCE.setLogout(false);
             router.replaceScreen(Screens.START_SCREEN);
             Timber.d("Success signIn");
-        }
+        }*/
 /*        else {
             //toast("Пользователь не подтвержден");
 *//*            ConfirmSmsModel smsModel = new ConfirmSmsModel();
@@ -215,8 +218,8 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         userEntity.setName(authResponse.getUser().getName());
         userEntity.setToken(authResponse.getToken());
         userEntity.setConfirmed(confirmed);
-//        WinstrikeApp.getInstance().saveUser(userEntity);
-        mUserViewModel.insert(userEntity);
+        repository.insertUser(userEntity);
+
         AuthUtils.INSTANCE.setToken(authResponse.getToken());
         AuthUtils.INSTANCE.setRegistered(true);
         if (userEntity.getConfirmed()) {

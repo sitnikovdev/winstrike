@@ -72,7 +72,7 @@ public class ProfileFragment extends Fragment {
                 it -> {
                     String name = String.valueOf(etFio.getText());
                     String passw = String.valueOf(etPassword.getText());
-                    setBtnEnable(saveButton, false);
+//                    setBtnEnable(saveButton, false);
                     listener.onSaveButtonClick(name, passw);
                 }
         );

@@ -57,7 +57,6 @@ import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
-import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.ui.common.BackButtonListener;
@@ -65,6 +64,7 @@ import ru.prsolution.winstrike.ui.common.CarouselAdapter;
 import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
 import ru.prsolution.winstrike.ui.common.RouterProvider;
 import ru.prsolution.winstrike.ui.common.ScreenType;
+import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.start.SplashActivity;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -73,7 +73,6 @@ import ru.terrakok.cicerone.commands.Back;
 import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Replace;
 import ru.terrakok.cicerone.commands.SystemMessage;
-import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
@@ -310,6 +309,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                     Timber.d("User load successfully: %s", usersEntity);
                     WinstrikeApp.getInstance().saveUser(usersEntity.get(0));
                 }
+            } else {
+                AuthUtils.INSTANCE.setLogout(false);
+                startActivity(new Intent(this,SignInActivity.class));
             }
         }));
 
@@ -641,68 +643,36 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Override
     public void onSaveButtonClick(String name, String passw) {
-        Timber.d("Update user profile..");
-        // call api for update profile here ...
-        ProfileModel profile = new ProfileModel();
-        profile.setName(name);
-        profile.setPassword(passw);
-        // TODO: 19/05/2018 Pass real public id here
-        String publicId = "60cc441c-9def-41fd-8c31-fa937a80858a";
-        String token = "Bearer " + AuthUtils.INSTANCE.getToken();
-        updateProfile(token, profile,publicId);
+        if (passw.isEmpty()) {
+            Toast.makeText(this, "Введите текущий пароль", Toast.LENGTH_LONG).show();
+        }
+        if (name.isEmpty()) {
+            Toast.makeText(this,"Введите имя пользователя",Toast.LENGTH_LONG).show();
+        }
+        if(!TextUtils.isEmpty(passw) && !TextUtils.isEmpty(name)){
+            Timber.d("Update user profile..");
+            // call api for update profile here ...
+            ProfileModel profile = new ProfileModel();
+            profile.setName(name);
+            profile.setPassword(passw);
+            // TODO: 19/05/2018 Pass real public id here
+            String publicId = "60cc441c-9def-41fd-8c31-fa937a80858a";
+            String token = "Bearer " + AuthUtils.INSTANCE.getToken();
+            presenter.updateProfile(token, profile, publicId);
+        }
     }
 
-    public void updateProfile(String token, ProfileModel profile, String publicId) {
 
-        Subscription subscription = service.updateUser(new Service.ProfileCallback() {
-            @Override
-            public void onSuccess(MessageResponse authResponse) {
-                onProfileUpdateSuccessfully(authResponse);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                onFailtureUpdateProfile(networkError.getAppErrorMessage());
-            }
-
-        },token, profile, publicId);
-
-        subscriptions.add(subscription);
-    }
-
-    private void onFailtureUpdateProfile(String appErrorMessage) {
+    public void onFailtureUpdateProfile(String appErrorMessage) {
         Timber.d("Wrong update profile");
-/*        switch (appErrorMessage) {
-            case "409":
-                Timber.tag("OkHttp").d("Не верный код");
-                toast("Не верный код");
-                break;
-            case "403":
-                Timber.tag("OkHttp").d("Пользователь уже поддвержден");
-                toast("Пользователь уже поддвержден");
-                setBtnEnable(nextButtonPhone, false);
-                break;
-            case "400":
-                Timber.tag("OkHttp").d("Пользователь не найден");
-                toast("Пользователь с таким номером не найден");
-                break;
-            case "404":
-                Timber.tag("OkHttp").d("Пользователь уже поддвержден");
-                toast("Пользователь уже поддвержден");
-                break;
-            default:
-                Timber.tag("OkHttp").d("confirm code: %s", appErrorMessage);
-                toast("Пользователь не подтвержден");
-                break;
-        }*/
     }
 
-    private void onProfileUpdateSuccessfully(MessageResponse authResponse) {
+    public void onProfileUpdateSuccessfully(MessageResponse authResponse) {
         Timber.d("Profile is updated");
 /*        toast("Новый пароль успешно сохранен");
+
         startActivity(new Intent(this,SignInActivity.class));*/
     }
-
 
 
 
