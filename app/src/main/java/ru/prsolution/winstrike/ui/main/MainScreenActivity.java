@@ -667,6 +667,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             }
             user.setName(name);
             initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE);
+            repository.deleteUser();
+            repository.insertUser(WinstrikeApp.getInstance().getUser());
         }
     }
 
