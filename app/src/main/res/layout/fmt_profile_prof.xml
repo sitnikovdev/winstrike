@@ -26,20 +26,22 @@
         android:id="@+id/fio_bgr"
         android:layout_width="@dimen/width_edit_295dp"
         android:layout_height="@dimen/height_edit_48dp"
-        android:layout_marginTop="93dp"
-        android:background="@drawable/etittext_bgr_28dp"
+        android:background="@drawable/edit_text_shape"
+        android:layout_marginTop="@dimen/height_guide_bottomlayer_90dp"
         app:layout_constraintEnd_toEndOf="@id/line_end"
         app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <EditText
         android:id="@+id/fio"
         style="@style/StemMedium15Black04"
         android:layout_width="@dimen/width_editext_255dp"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:layout_marginStart="@dimen/start_edit_25dp"
         android:hint="@string/all_fio"
-        android:paddingBottom="7dp"
+        android:paddingBottom="5dp"
         android:textColorHint="@color/color_primary_dark"
         app:layout_constraintBottom_toBottomOf="@id/fio_bgr"
         app:layout_constraintStart_toStartOf="@id/fio_bgr"
@@ -51,10 +53,11 @@
         android:layout_width="@dimen/width_edit_295dp"
         android:layout_height="@dimen/height_edit_48dp"
         android:layout_marginTop="@dimen/margingtop_profileetex_16dp"
-        android:background="@drawable/etittext_bgr_28dp"
+        android:background="@drawable/edit_text_shape"
         app:layout_constraintEnd_toEndOf="@id/line_end"
         app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toBottomOf="@id/fio_bgr" />
+        app:layout_constraintTop_toBottomOf="@id/fio_bgr"
+        />
 
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
         android:id="@+id/et_password"
@@ -64,8 +67,9 @@
         android:layout_marginStart="@dimen/start_edit_25dp"
         android:hint="@string/all_password_old"
         android:inputType="textPassword"
-        android:paddingBottom="7dp"
+        android:paddingBottom="5dp"
         android:textColorHint="@color/color_primary_dark"
+        android:background="@android:color/transparent"
         app:additionalTouchTargetSize="80dp"
         app:drawable_hide="@mipmap/ic_hide_eye"
         app:drawable_show="@mipmap/ic_show_eye"
@@ -79,8 +83,8 @@
         android:id="@+id/next_button"
         android:layout_width="@dimen/width_button"
         android:layout_height="@dimen/height_button"
-        android:layout_marginTop="@dimen/margingtop_button_32dp"
-        android:background="@drawable/button_bgr_16dp"
+        android:layout_marginTop="@dimen/height_footer_66dp"
+        android:background="@drawable/button_bgr_24dp"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="@id/line_end"
         app:layout_constraintStart_toStartOf="@id/line_start"

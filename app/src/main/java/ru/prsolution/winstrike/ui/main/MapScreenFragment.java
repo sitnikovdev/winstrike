@@ -168,7 +168,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         // Height of screen
         if (heightDp > 700) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 500;
+            params.height = mScreenSize.y + 700;
         } else {
             params.width = mScreenSize.x;
             params.height = mScreenSize.y + 500;
@@ -223,7 +223,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
                 tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
                 if (heightDp > 700) {
                     tvParams.leftMargin = dx;
-                    tvParams.topMargin = dy - 600;
+                    tvParams.topMargin = dy - 800;
                 } else {
                     tvParams.leftMargin = dx;
                     tvParams.topMargin = dy - 650;

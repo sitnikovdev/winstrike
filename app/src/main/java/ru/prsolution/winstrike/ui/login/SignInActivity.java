@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -118,11 +119,11 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
          *  Check if user is confirmed, if true - go to MainScreenActivity
          *  no - go to sendSmsByUserRequest.
          */
-/*        if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getToken())) {
+        if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getToken())) {
             AuthUtils.INSTANCE.setLogout(false);
             router.replaceScreen(Screens.START_SCREEN);
             Timber.d("Success signIn");
-        }*/
+        }
 /*        else {
             //toast("Пользователь не подтвержден");
 *//*            ConfirmSmsModel smsModel = new ConfirmSmsModel();
@@ -221,6 +222,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         repository.insertUser(userEntity);
 
         AuthUtils.INSTANCE.setToken(authResponse.getToken());
+        AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
         AuthUtils.INSTANCE.setRegistered(true);
         if (userEntity.getConfirmed()) {
             AuthUtils.INSTANCE.setLogout(false);

@@ -642,7 +642,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
 
     @Override
-    public void onSaveButtonClick(String name, String passw) {
+    public void onProfileUpdate(String name, String passw) {
         if (passw.isEmpty()) {
             Toast.makeText(this, "Введите текущий пароль", Toast.LENGTH_LONG).show();
         }
@@ -656,19 +656,29 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             profile.setName(name);
             profile.setPassword(passw);
             // TODO: 19/05/2018 Pass real public id here
-            String publicId = "60cc441c-9def-41fd-8c31-fa937a80858a";
+            String publicId = AuthUtils.INSTANCE.getPublicid();
             String token = "Bearer " + AuthUtils.INSTANCE.getToken();
             presenter.updateProfile(token, profile, publicId);
+
+            String title = "Настройки";
+            if (WinstrikeApp.getInstance().getUser() != null) {
+                if (!TextUtils.isEmpty(WinstrikeApp.getInstance().getUser().getName())) {
+                    title = WinstrikeApp.getInstance().getUser().getName();
+                }
+            }
+            initMainToolbar(SHOW_MENU,title , SHOW_ICON, ScreenType.PROFILE);
         }
     }
 
 
     public void onFailtureUpdateProfile(String appErrorMessage) {
         Timber.d("Wrong update profile");
+        Toast.makeText(this,"Не удалось обновить профиль",Toast.LENGTH_LONG).show();
     }
 
     public void onProfileUpdateSuccessfully(MessageResponse authResponse) {
         Timber.d("Profile is updated");
+        Toast.makeText(this,"Профиль успешно обновлен",Toast.LENGTH_LONG).show();
 /*        toast("Новый пароль успешно сохранен");
 
         startActivity(new Intent(this,SignInActivity.class));*/

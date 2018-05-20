@@ -41,7 +41,7 @@ public class ProfileFragment extends Fragment {
 
     public interface OnProfileButtonsClickListener {
         // Update user profile data (name and password)
-        void onSaveButtonClick(String name, String passw);
+        void onProfileUpdate(String name, String passw);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
                     String name = String.valueOf(etFio.getText());
                     String passw = String.valueOf(etPassword.getText());
 //                    setBtnEnable(saveButton, false);
-                    listener.onSaveButtonClick(name, passw);
+                    listener.onProfileUpdate(name, passw);
                 }
         );
 
