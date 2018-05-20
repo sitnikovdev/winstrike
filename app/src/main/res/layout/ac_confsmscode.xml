@@ -5,7 +5,7 @@
     android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.prsolution.winstrike.ui.login.UserConfirmActivity"
+    tools:activity="ru.prsolution.winstrike.ui.login.UserConfirmActivity"
     android:orientation="vertical">
 
     <android.support.constraint.Guideline

@@ -4,7 +4,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.prsolution.winstrike.common.fragment.ChatListFragment">
+    tools:activity="ru.prsolution.winstrike.common.fragment.ChatListFragment">
 
     <!--By default, height of Toolbar and Bottom Navigation are equal-->
     <android.support.v7.widget.RecyclerView

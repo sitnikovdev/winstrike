@@ -5,7 +5,7 @@
     android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.prsolution.winstrike.common.HelpUnlockActivity"
+    tools:activity="ru.prsolution.winstrike.common.HelpUnlockActivity"
     android:orientation="vertical">
 
     <android.support.constraint.Guideline

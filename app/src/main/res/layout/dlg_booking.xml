@@ -9,7 +9,7 @@
     android:layout_marginStart="22dp"
     android:background="@color/color_white"
     android:paddingBottom="32dp"
-    tools:context=".common.FavPushDialogActivity">
+    tools:activity=".common.FavPushDialogActivity">
 
 
     <TextView

@@ -8,7 +8,7 @@
     android:layout_marginStart="87dp"
     android:layout_marginEnd="87dp"
     android:background="@drawable/dialog_background"
-    tools:context=".common.FavPushDialogActivity">
+    tools:activity=".common.FavPushDialogActivity">
 
     <TextView
         android:id="@+id/title"

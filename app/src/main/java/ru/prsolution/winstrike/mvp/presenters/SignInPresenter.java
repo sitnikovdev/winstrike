@@ -1,46 +1,41 @@
 package ru.prsolution.winstrike.mvp.presenters;
 
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.logging.SignInModel;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
-import ru.prsolution.winstrike.mvp.views.SignInView;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
-import ru.terrakok.cicerone.Router;
+import ru.prsolution.winstrike.ui.login.SignInActivity;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-@InjectViewState
-public class SignInPresenter extends MvpPresenter<SignInView> {
+public class SignInPresenter {
     private final Service service;
-    private Router router;
+    private final SignInActivity activity;
     private CompositeSubscription subscriptions;
 
-    public SignInPresenter(Service service, Router router) {
+    public SignInPresenter(Service service, SignInActivity activity) {
         this.subscriptions = new CompositeSubscription();
         this.service = service;
-        this.router = router;
+        this.activity = activity;
     }
 
     public void signIn(SignInModel user) {
-        getViewState().showWait();
+        activity.showWait();
 
         Subscription subscription = service.authUser(new Service.AuthCallback() {
             @Override
             public void onSuccess(AuthResponse authResponse) {
-                getViewState().removeWait();
-                getViewState().onAuthResponseSuccess(authResponse);
+                activity.removeWait();
+                activity.onAuthResponseSuccess(authResponse);
             }
 
             @Override
             public void onError(NetworkError networkError) {
-                getViewState().removeWait();
-                getViewState().onAuthFailure(networkError.getAppErrorMessage());
+                activity.removeWait();
+                activity.onAuthFailure(networkError.getAppErrorMessage());
             }
 
         }, user);
@@ -50,19 +45,19 @@ public class SignInPresenter extends MvpPresenter<SignInView> {
 
 
     public void sendSms(ConfirmSmsModel smsModel) {
-        getViewState().showWait();
+        activity.showWait();
 
         Subscription subscription = service.sendSmsByUserRequest(new Service.SmsCallback() {
             @Override
             public void onSuccess(MessageResponse authResponse) {
-                getViewState().removeWait();
-                getViewState().onSendSmsSuccess(authResponse);
+                activity.removeWait();
+                activity.onSendSmsSuccess(authResponse);
             }
 
             @Override
             public void onError(NetworkError networkError) {
-                getViewState().removeWait();
-                getViewState().onAuthFailure(networkError.getAppErrorMessage());
+                activity.removeWait();
+                activity.onAuthFailure(networkError.getAppErrorMessage());
             }
 
         }, smsModel);

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ru.prsolution.winstrike.common.RegistrationLastActivity">
+    tools:activity="ru.prsolution.winstrike.common.RegistrationLastActivity">
 
     <android.support.constraint.Guideline
         android:id="@+id/line_start"

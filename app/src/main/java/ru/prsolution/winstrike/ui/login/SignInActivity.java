@@ -7,15 +7,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 
@@ -40,8 +38,6 @@ import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.ui.main.MainScreenActivity;
 import ru.terrakok.cicerone.Navigator;
-import ru.terrakok.cicerone.NavigatorHolder;
-import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.commands.Back;
 import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Forward;
@@ -59,7 +55,7 @@ import static ru.prsolution.winstrike.common.utils.Utils.setBtnEnable;
  * Created by oleg on 31.01.2018.
  */
 // TODO: 13/05/2018 Reorder method call in this activity.
-public class SignInActivity extends MvpAppCompatActivity implements SignInView {
+public class SignInActivity extends AppCompatActivity implements SignInView {
     private SignInModel signInModel;
     private ProgressDialog mProgressDialog;
     private UserViewModel mUserViewModel;
@@ -81,22 +77,22 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
     TextView mFooterSingUpView;
 
 
-    @Inject
-    Router router;
+//    @Inject
+//    Router router;
 
-    @Inject
-    NavigatorHolder navigatorHolder;
+//    @Inject
+//    NavigatorHolder navigatorHolder;
 
     @Inject
     public Service mService;
 
 
-    @InjectPresenter
+//    @InjectPresenter
     SignInPresenter mSignInPresenter;
 
-    @ProvidePresenter
+//    @ProvidePresenter
     public SignInPresenter createSignInPresenter() {
-        return new SignInPresenter(mService, router);
+        return new SignInPresenter(mService, this);
     }
 
     @Override
@@ -104,6 +100,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         WinstrikeApp.getInstance().getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
 
+        mSignInPresenter = createSignInPresenter();
 
         renderView();
         init();
@@ -135,7 +132,8 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
                     AuthUtils.INSTANCE.setToken(users.get(0).getToken());
                     AuthUtils.INSTANCE.setPublicid(users.get(0).getPublickId());
                     if (users.get(0).getConfirmed()) {
-                        router.replaceScreen(Screens.START_SCREEN);
+//                        router.replaceScreen(Screens.START_SCREEN);
+                        startActivity(new Intent(this, MainScreenActivity.class));
                         Timber.d("Success signIn");
                     } else {
                         ConfirmSmsModel smsModel = new ConfirmSmsModel();
@@ -253,12 +251,15 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
     @Override
     protected void onResume() {
         super.onResume();
-        navigatorHolder.setNavigator(navigator);
+        if (mSignInPresenter == null) {
+            mSignInPresenter = createSignInPresenter();
+        }
+//        navigatorHolder.setNavigator(navigator);
     }
 
     @Override
     protected void onPause() {
-        navigatorHolder.removeNavigator();
+//        navigatorHolder.removeNavigator();
         super.onPause();
     }
 
@@ -358,6 +359,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         super.onStop();
         hideProgressDialog();
         mSignInPresenter.onStop();
+        mSignInPresenter = null;
     }
 
     @Override

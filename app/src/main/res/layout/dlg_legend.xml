@@ -10,7 +10,7 @@
     android:paddingTop="24dp"
     android:paddingBottom="32dp"
     android:background="@drawable/legend_bg"
-    tools:context=".common.FavPushDialogActivity">
+    tools:activity=".common.FavPushDialogActivity">
 
 
     <TextView
