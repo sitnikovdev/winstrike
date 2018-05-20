@@ -3,10 +3,10 @@ package ru.prsolution.winstrike.ui.login;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -29,12 +29,9 @@ import ru.prsolution.winstrike.common.HelpActivity;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.logging.SignInModel;
 import ru.prsolution.winstrike.common.utils.TextFormat;
-import ru.prsolution.winstrike.db.AppDatabase;
-import ru.prsolution.winstrike.db.AppRepository;
 import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
-import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.SignInPresenter;
 import ru.prsolution.winstrike.mvp.views.SignInView;
@@ -66,7 +63,6 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
     private ProgressDialog mProgressDialog;
     private UserViewModel mUserViewModel;
     private UserEntity userEntity;
-    private  AppRepository repository;
 
     @BindView(R.id.et_phone)
     EditText mPhoneView;
@@ -113,17 +109,38 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
 
 
 //        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        repository = new AppRepository(AppDatabase.getInstance(getApplicationContext()));
 
         /**
          *  Check if user is confirmed, if true - go to MainScreenActivity
          *  no - go to sendSmsByUserRequest.
          */
-        if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getToken())) {
+/*        if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getToken())) {
             AuthUtils.INSTANCE.setLogout(false);
             router.replaceScreen(Screens.START_SCREEN);
             Timber.d("Success signIn");
-        }
+        }*/
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
+
+        mUserViewModel.getUser().observe(this, (users -> {
+            /**
+             * Pass LiveData observer logic when user is logout. (If don't do it we again load on Main screen after logout).
+             * This is future of LiveData observer, his fire on every data change in db. F.e. if we delete user it fire before delete and get not deleting user.
+             */
+            if (users != null && !AuthUtils.INSTANCE.isLogout()) {
+                if (!users.isEmpty()) {
+                    Timber.d("User load successfully: %s", users);
+                    WinstrikeApp.getInstance().saveUser(users.get(0));
+                    AuthUtils.INSTANCE.setToken(users.get(0).getToken());
+                    AuthUtils.INSTANCE.setPublicid(users.get(0).getPublickId());
+                    AuthUtils.INSTANCE.setRegistered(true);
+                    router.replaceScreen(Screens.START_SCREEN);
+                    Timber.d("Success signIn");
+                }
+            }
+        }));
+
+
 /*        else {
             //toast("Пользователь не подтвержден");
 *//*            ConfirmSmsModel smsModel = new ConfirmSmsModel();
@@ -209,6 +226,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
      */
     @Override
     public void onAuthResponseSuccess(AuthResponse authResponse) {
+        AuthUtils.INSTANCE.setLogout(false);
         Boolean confirmed = authResponse.getUser().getConfirmed();
         userEntity = new UserEntity();
 
@@ -219,12 +237,11 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
         userEntity.setName(authResponse.getUser().getName());
         userEntity.setToken(authResponse.getToken());
         userEntity.setConfirmed(confirmed);
-        repository.insertUser(userEntity);
+//        repository.insertUser(userEntity);
 
-        AuthUtils.INSTANCE.setToken(authResponse.getToken());
-        AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
-        AuthUtils.INSTANCE.setRegistered(true);
-        if (userEntity.getConfirmed()) {
+        mUserViewModel.insert(userEntity);
+
+/*        if (userEntity.getConfirmed()) {
             AuthUtils.INSTANCE.setLogout(false);
             router.replaceScreen(Screens.START_SCREEN);
             Timber.d("Success signIn");
@@ -233,7 +250,7 @@ public class SignInActivity extends MvpAppCompatActivity implements SignInView {
             ConfirmSmsModel smsModel = new ConfirmSmsModel();
             smsModel.setUsername(userEntity.getPhone());
             mSignInPresenter.sendSms(smsModel);
-        }
+        }*/
     }
 
     @Override

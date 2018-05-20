@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -52,7 +51,8 @@ import ru.prsolution.winstrike.common.logging.ProfileModel;
 import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
-import ru.prsolution.winstrike.db.UserViewModel;
+import ru.prsolution.winstrike.db.AppDatabase;
+import ru.prsolution.winstrike.db.AppRepository;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
@@ -64,7 +64,6 @@ import ru.prsolution.winstrike.ui.common.CarouselAdapter;
 import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
 import ru.prsolution.winstrike.ui.common.RouterProvider;
 import ru.prsolution.winstrike.ui.common.ScreenType;
-import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.start.SplashActivity;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -73,7 +72,6 @@ import ru.terrakok.cicerone.commands.Back;
 import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Replace;
 import ru.terrakok.cicerone.commands.SystemMessage;
-import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 
@@ -152,8 +150,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Inject
     NavigatorHolder navigatorHolder;
-    private UserViewModel mUserViewModel;
-    private CompositeSubscription subscriptions;
+    private AppRepository repository;
 
     public Service getService() {
         return service;
@@ -171,7 +168,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             getMenuInflater().inflate(R.menu.map_toolbar_menu, menu);
         }
 
-        this.subscriptions = new CompositeSubscription();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -206,9 +202,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         cvBtnOk.setOnClickListener(
                 it -> {
-                    mUserViewModel.delete();
-                    AuthUtils.INSTANCE.setToken("");
+                    // TODO: 20/05/2018  Replace with repository method
                     AuthUtils.INSTANCE.setLogout(true);
+//                    startActivity(new Intent(this,SignInActivity.class));
+                    repository.deleteUser();
                     startActivity(new Intent(MainScreenActivity.this, SplashActivity.class));
                 }
         );
@@ -279,6 +276,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
 
+        repository = new AppRepository(AppDatabase.getInstance(getApplicationContext()));
+
         setContentView(R.layout.ac_mainscreen);
         ButterKnife.bind(this);
 
@@ -300,20 +299,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         if (savedInstanceState == null) {
             presenter.onCreate();
         }
-
-        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-
-        mUserViewModel.getUser().observe(this, (usersEntity -> {
-            if (usersEntity != null) {
-                if (!usersEntity.isEmpty()) {
-                    Timber.d("User load successfully: %s", usersEntity);
-                    WinstrikeApp.getInstance().saveUser(usersEntity.get(0));
-                }
-            } else {
-                AuthUtils.INSTANCE.setLogout(false);
-                startActivity(new Intent(this,SignInActivity.class));
-            }
-        }));
 
 
         // TODO: 29/04/2018 REMOVE AFTER TEST!!!
@@ -848,6 +833,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         presenter.onStop();
         this.mMainOnClickListener = null;
         this.mMapOnClickListener = null;
-        this.mUserViewModel.delete();
+        //this.mUserViewModel.delete();
     }
 }
