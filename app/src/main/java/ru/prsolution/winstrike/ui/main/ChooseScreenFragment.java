@@ -219,13 +219,16 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         String activePid = roomsResponse.getRoom().getActiveLayoutPid();
 
         String timeFrom, timeTo;
-        if (isDebug == true) {
+/*        if (isDebug == true) {
             timeFrom = tinyDB.getString("timeFrom");
             timeTo = tinyDB.getString("timeTo");
         } else {
             timeFrom = TimeDataModel.INSTANCE.getStart();
             timeTo = TimeDataModel.INSTANCE.getEnd();
-        }
+        }*/
+
+        timeFrom = TimeDataModel.INSTANCE.getStart();
+        timeTo = TimeDataModel.INSTANCE.getEnd();
 
 
         Map<String, String> time = new HashMap<>();
@@ -474,7 +477,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         if (this.dateListener != null) {
             this.dateListener = null;
         }
-        TimeDataModel.INSTANCE.clear();
     }
 
 

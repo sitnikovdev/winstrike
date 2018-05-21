@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,6 +49,7 @@ import ru.prsolution.winstrike.mvp.models.Wall;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.Service;
+import ru.prsolution.winstrike.ui.common.YandexWebView;
 import timber.log.Timber;
 
 
@@ -266,6 +268,15 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         }
 
         TimeDataModel.INSTANCE.setPids(mPickedSeatsIds);
+
+        Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
+        Timber.d("endAt: %s", TimeDataModel.INSTANCE.getEnd());
+
+        Timber.d("dateStart: %s", TimeDataModel.INSTANCE.getStartDate());
+        Timber.d("dateEnd: %s", TimeDataModel.INSTANCE.getEndDate());
+
+        Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
+
         onPickedSeatChanged();
     }
 
@@ -349,7 +360,18 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     private class BookingBtnListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            presenter.onBookingClick();
+            if (TimeDataModel.INSTANCE.isDateValid()) {
+                presenter.onBookingClick();
+            } else {
+                toast("Дата не валидна");
+                Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
+                Timber.d("endAt: %s", TimeDataModel.INSTANCE.getEnd());
+
+                Timber.d("dateStart: %s", TimeDataModel.INSTANCE.getStartDate());
+                Timber.d("dateEnd: %s", TimeDataModel.INSTANCE.getEndDate());
+
+                Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
+            }
         }
     }
 
@@ -383,6 +405,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         if (this.service != null) {
             this.service = null;
         }
+        //TimeDataModel.INSTANCE.clear();
 
     }
 
@@ -399,7 +422,11 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         Timber.tag("common").d("Pay successfully: %s", payResponse);
 
         String url = payResponse.getRedirectUrl();
-        presenter.onPaySuccess(url);
+//        presenter.onPaySuccess(url);
+        // router.replaceScreen(Screens.PAY_SCREEN,redirectUrl);
+        Intent intent = new Intent(this.getContext(),YandexWebView.class);
+        intent.putExtra("url", url);
+        startActivity(intent);
     }
 
     /**

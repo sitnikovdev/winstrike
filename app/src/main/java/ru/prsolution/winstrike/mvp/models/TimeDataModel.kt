@@ -37,7 +37,8 @@ object TimeDataModel {
     }
 
 
-    var startDate: Date by observing(Date(), didSet = {
+    var startDate: Date by observing(Date()
+            , didSet = {
         valideateDate()
     })
 
