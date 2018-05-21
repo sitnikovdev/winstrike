@@ -1,8 +1,10 @@
 package ru.prsolution.winstrike.mvp.presenters;
 
 
+import java.io.File;
 import java.util.Map;
 
+import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 import ru.prsolution.winstrike.networking.NetworkError;
@@ -11,9 +13,6 @@ import ru.prsolution.winstrike.ui.main.ChooseScreenFragment;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-/**
- * Created by terrakok 26.11.16
- */
 
 public class ChooseScreenPresenter {
     private CompositeSubscription subscriptions;
@@ -23,7 +22,11 @@ public class ChooseScreenPresenter {
 
     public ChooseScreenPresenter(Service service, ChooseScreenFragment fragment) {
         this.subscriptions = new CompositeSubscription();
-        this.service = service;
+        if (service == null) {
+            this.service = WinstrikeApp.getInstance().getService();
+        } else {
+            this.service = service;
+        }
         this.fragment = fragment;
     }
 
@@ -51,8 +54,7 @@ public class ChooseScreenPresenter {
     }
 
 
-
-    public void getArenaByTimeRange(String activeLayoutPid, Map<String,String> time) {
+    public void getArenaByTimeRange(String activeLayoutPid, Map<String, String> time) {
         fragment.showWait();
 
         Subscription subscription = service.getArenaByTimeRange(new Service.RoomLayoutByTimeCallback() {
@@ -68,7 +70,7 @@ public class ChooseScreenPresenter {
                 fragment.onGetArenaByTimeFailure(networkError.getAppErrorMessage());
             }
 
-        },activeLayoutPid,time);
+        }, activeLayoutPid, time);
 
         subscriptions.add(subscription);
     }
