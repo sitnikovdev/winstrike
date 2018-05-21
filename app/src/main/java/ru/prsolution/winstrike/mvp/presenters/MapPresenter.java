@@ -56,8 +56,6 @@ public class MapPresenter {
         payModel.setEnd_at(TimeDataModel.INSTANCE.getEnd());
         payModel.setPlacesPid(TimeDataModel.INSTANCE.getPids());
 
-        // TODO: 29/04/2018 REMOVE AFTER TEST!!!
-        // TODO: 13/05/2018 Save token in SharedPreferences !!!
         String token = "Bearer " + AuthUtils.INSTANCE.getToken();
         getPayment(token, payModel);
         fragment.onSnackBarHide();
