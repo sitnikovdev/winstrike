@@ -422,8 +422,6 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         Timber.tag("common").d("Pay successfully: %s", payResponse);
 
         String url = payResponse.getRedirectUrl();
-//        presenter.onPaySuccess(url);
-        // router.replaceScreen(Screens.PAY_SCREEN,redirectUrl);
         Intent intent = new Intent(this.getContext(),YandexWebView.class);
         intent.putExtra("url", url);
         startActivity(intent);
