@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.common;
+package ru.prsolution.winstrike.ui.login;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -28,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.common.HelpActivity;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.NewPasswordModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
@@ -120,12 +121,8 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         nextButtonPhone.setOnClickListener(
                 view -> {
                     // Запрос кода подтверждения повторно
-                    if (AuthUtils.INSTANCE.isRegistered()) {
                         ConfirmSmsModel auth = getConfirmSmsModel();
                         sendSms(auth);
-                    } else {
-                        toast("Пользователь не зарегистрирован!");
-                    }
                 }
         );
 

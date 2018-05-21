@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 
@@ -21,7 +23,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ru.prsolution.winstrike.BaseApp;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.logging.ConfirmModel;
@@ -41,29 +42,38 @@ import static ru.prsolution.winstrike.common.utils.Utils.setBtnEnable;
  * Created by designer on 15/03/2018.
  */
 
-public class UserConfirmActivity extends BaseApp implements UserConfirmView {
-    @BindView(R.id.et_code)
-    EditText etCode;
+public class UserConfirmActivity extends AppCompatActivity implements UserConfirmView {
 
     @BindView(R.id.tv_hint)
-    TextView tv_hint;
-
-    @BindView(R.id.next_button)
-    View next_button;
+    TextView codeSentLabel;
 
     @BindView(R.id.v_code)
-    View vCode;
+    View codeTextFieldBackGround;
 
-    @BindView(R.id.tv_name)
-    TextView tvName;
+    @BindView(R.id.et_code)
+    EditText codeTextField;
+
+    @BindView(R.id.confirm_button)
+    View confirmCodeButton;
+
     @BindView(R.id.et_name)
-    EditText etName;
-    @BindView(R.id.v_nextbtn)
-    View vNameBtn;
-    @BindView(R.id.tv_btn)
-    TextView tvNameBnt;
+    EditText nameTextField;
+
     @BindView(R.id.v_name)
-    View vName;
+    View nameTextFieldBackGround;
+
+    @BindView(R.id.v_nextbtn)
+    View nextButton;
+
+    @BindView(R.id.tv_nextbtn_label)
+    TextView nextButtonLabel;
+
+    @BindView(R.id.v_send_code_again)
+    View sendCodeAgain;
+
+    @BindView((R.id.tv_send_code_again))
+    TextView sendCodeAgainLabel;
+
 
     @BindView(R.id.text_footer2)
     TextView text_footer2;
@@ -109,35 +119,38 @@ public class UserConfirmActivity extends BaseApp implements UserConfirmView {
     private void init() {
 
         phone = getIntent().getStringExtra("phone");
+        if (phone == null) {
+            phone = "+79520757099";
+        }
 
-        setNameVisibility(false);
+        confirmSuccess();
 
-        setBtnEnable(vNameBtn, false);
+        setBtnEnable(nextButton, false);
 
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
 
         // Меняем видимость кнопки  корректном вводе кода из смс
-        RxTextView.textChanges(etCode).subscribe(
+        RxTextView.textChanges(codeTextField).subscribe(
                 it -> {
-                    Boolean fieldOk = etCode.getText().length() >= 6;
+                    Boolean fieldOk = codeTextField.getText().length() >= 6;
                     if (fieldOk) {
-                        setBtnEnable(next_button, true);
+                        setBtnEnable(confirmCodeButton, true);
                     } else {
-                        setBtnEnable(next_button, false);
+                        setBtnEnable(confirmCodeButton, false);
                     }
                 }
         );
 
         // Подтверждаем пользователя
-        next_button.setOnClickListener(
+        confirmCodeButton.setOnClickListener(
                 it -> {
-                    String sms_code = String.valueOf(etCode.getText());
+                    String sms_code = String.valueOf(codeTextField.getText());
                     Timber.d("sms_code: %s", sms_code);
 
                     if (dpHeight < 600) {
-                        vCode.setVisibility(View.GONE);
-                        etCode.setVisibility(View.GONE);
+                        codeTextFieldBackGround.setVisibility(View.GONE);
+                        codeTextField.setVisibility(View.GONE);
                     }
 
                     View view = this.getCurrentFocus();
@@ -153,25 +166,25 @@ public class UserConfirmActivity extends BaseApp implements UserConfirmView {
         );
 
         // Вводим имя пользователя и переходим на главный экран
-        RxTextView.textChanges(etName).subscribe(
+        RxTextView.textChanges(nameTextField).subscribe(
                 it -> {
-                    Boolean fieldOk = etName.getText().length() >= 4;
+                    Boolean fieldOk = nameTextField.getText().length() >= 4;
                     if (fieldOk) {
-                        saveUserName(etName.getText().toString());
-                        setBtnEnable(vNameBtn, true);
-                        tvNameBnt.setText("Поехали!");
-                        vNameBtn.setOnClickListener(
+//                        saveUserName(nameTextField.getText().toString());
+                        setBtnEnable(nextButton, true);
+                        nextButtonLabel.setText("Поехали!");
+                        nextButton.setOnClickListener(
                                 v -> startActivity(new Intent(this, SignInActivity.class))
                         );
                     } else {
-                        setBtnEnable(next_button, false);
-                        setBtnEnable(vNameBtn, false);
+                        setBtnEnable(confirmCodeButton, false);
+                        setBtnEnable(nextButton, false);
                     }
                 }
         );
 
 
-        setTextColor(tv_hint, "Введите 6-значный код, который был\n" +
+        setTextColor(codeSentLabel, "Введите 6-значный код, который был\n" +
                 "отправлен на номер", simplePhoneFormat(phone), "#9b9b9b", "#000000");
 
         setFooter();
@@ -209,25 +222,27 @@ public class UserConfirmActivity extends BaseApp implements UserConfirmView {
     }
 
 
-    private void setNameVisibility(Boolean isVisible) {
-        runOnUiThread(
-                () -> {
-                    if (isVisible) {
-                        vName.setVisibility(View.VISIBLE);
-                        tvName.setVisibility(View.VISIBLE);
-                        etName.setVisibility(View.VISIBLE);
-                        vNameBtn.setVisibility(View.VISIBLE);
-                        tvNameBnt.setVisibility(View.VISIBLE);
+    private void confirmSuccess() {
+/*                    if (isVisible) {
+                        nameTextFieldBackGround.setVisibility(View.VISIBLE);
+                        nameTextField.setVisibility(View.VISIBLE);
+                        nextButton.setVisibility(View.VISIBLE);
+                        nextButtonLabel.setVisibility(View.VISIBLE);
                     } else {
-                        vName.setVisibility(View.GONE);
-                        tvName.setVisibility(View.GONE);
-                        etName.setVisibility(View.GONE);
-                        vNameBtn.setVisibility(View.GONE);
-                        tvNameBnt.setVisibility(View.GONE);
-                    }
-                }
-        );
+                        nameTextFieldBackGround.setVisibility(View.INVISIBLE);
+                        nameTextField.setVisibility(View.INVISIBLE);
+                        nextButton.setVisibility(View.INVISIBLE);
+                        nextButtonLabel.setVisibility(View.INVISIBLE);
+                    }*/
+        confirmCodeButton.setVisibility(View.INVISIBLE);
+        nameTextField.setVisibility(View.VISIBLE);
+        nextButton.setVisibility(View.VISIBLE);
+
+        sendCodeAgain.setVisibility(View.INVISIBLE);
     }
+
+
+
 
     @Override
     public void showWait() {
@@ -253,8 +268,8 @@ public class UserConfirmActivity extends BaseApp implements UserConfirmView {
     public void onUserConfirmSuccess(MessageResponse confirmModel) {
         Timber.d("UserEntity confirm successfully: %s", confirmModel.getMessage());
         toast("Пользователь подтвержден");
-        setBtnEnable(next_button, false);
-        setNameVisibility(true);
+        setBtnEnable(confirmCodeButton, false);
+        confirmSuccess();
     }
 
 
@@ -304,6 +319,4 @@ public class UserConfirmActivity extends BaseApp implements UserConfirmView {
     protected void toast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
-
 }

@@ -68,4 +68,5 @@
     <dimen name="space_head">50dp</dimen>
     <dimen name="space_text">-30dp</dimen>
     <dimen name="hall_line_lengh">430dp</dimen>
+    <dimen name="button_space">32dp</dimen>
 </resources>

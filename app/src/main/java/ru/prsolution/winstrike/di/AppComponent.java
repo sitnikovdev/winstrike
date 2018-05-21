@@ -6,7 +6,7 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import ru.prsolution.winstrike.common.HelpSmsActivity;
+import ru.prsolution.winstrike.ui.login.HelpSmsActivity;
 import ru.prsolution.winstrike.db.PidViewModel;
 import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.di.module.AppRepositoryModule;
