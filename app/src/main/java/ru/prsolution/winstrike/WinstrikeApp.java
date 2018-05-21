@@ -9,12 +9,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
+import retrofit2.Retrofit;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.di.AppComponent;
 import ru.prsolution.winstrike.di.DaggerAppComponent;
 import ru.prsolution.winstrike.di.module.AppRepositoryModule;
 import ru.prsolution.winstrike.di.module.ContextModule;
 import ru.prsolution.winstrike.di.module.NetworkModule;
+import ru.prsolution.winstrike.networking.Service;
 import timber.log.Timber;
 
 
@@ -47,6 +49,13 @@ public class WinstrikeApp extends Application {
         }
         return sAppComponent;
     }
+
+   public Service getService() {
+       File cacheFile = new File(getCacheDir(), "responses");
+       NetworkModule networkModule = new NetworkModule(cacheFile);
+       Retrofit retrofit =  networkModule.provideCall();
+       return new Service(networkModule.providesNetworkService(retrofit));
+   }
 
 
     public float getDisplayWidhtDp() {

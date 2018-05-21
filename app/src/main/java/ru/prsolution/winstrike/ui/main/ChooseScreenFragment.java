@@ -189,6 +189,13 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         initTimeSelectDialog();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (this.presenter == null) {
+            this.presenter = new ChooseScreenPresenter(service, this);
+        }
+    }
 
     private void initMapShowButton() {
         setShowMapBtnEnable(showMapButton, true);
