@@ -158,7 +158,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
                         codeTextField.setVisibility(View.GONE);
                     }*/
 
-                // Hide keyboard
+                    // Hide keyboard
                     View view = this.getCurrentFocus();
                     if (view != null) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -177,16 +177,13 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
                     Boolean fieldOk = nameTextField.getText().length() >= 4;
                     if (fieldOk) {
                         // Update user profile - set name.
-//                        String publicId = AuthUtils.INSTANCE.getPublicid();
-//                        String token = "Bearer " + AuthUtils.INSTANCE.getToken();
+                        String publicId = AuthUtils.INSTANCE.getPublicid();
+                        String token = "Bearer " + AuthUtils.INSTANCE.getToken();
                         // TODO: 22/05/2018 For test only!!!
-                        String publicId = "60cc441c-9def-41fd-8c31-fa937a80858a";
-                        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI2MGNjNDQxYy05ZGVmLTQxZmQtOGMzMS1mYTkzN2E4MDg1OGEiLCJleHAiOjE1MjgxOTgwODl9.cSskPWZKB1x1I36KpZRppZAiMOklUBKX1nWNJaxHaYg";
+//                        String publicId = "60cc441c-9def-41fd-8c31-fa937a80858a";
+//                        String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI2MGNjNDQxYy05ZGVmLTQxZmQtOGMzMS1mYTkzN2E4MDg1OGEiLCJleHAiOjE1MjgxOTgwODl9.cSskPWZKB1x1I36KpZRppZAiMOklUBKX1nWNJaxHaYg";
                         ProfileModel profile = new ProfileModel();
                         profile.setName(String.valueOf(nameTextField.getText()));
-//                        profile.setPhone(String.valueOf(phone));
-                        profile.setPassword("123456");
-//                        profile.setPassword(passw);
                         setBtnEnable(nextButton, true);
                         nextButtonLabel.setText("Поехали!");
                         nextButton.setOnClickListener(

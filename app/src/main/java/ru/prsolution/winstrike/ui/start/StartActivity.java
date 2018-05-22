@@ -98,7 +98,7 @@ public class StartActivity extends AppCompatActivity {
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
 
-        startActivity(registerActivity);
+        startActivity(splashActivity);
     }
 
 }

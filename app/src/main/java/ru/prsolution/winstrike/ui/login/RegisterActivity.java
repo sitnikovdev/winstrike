@@ -24,6 +24,7 @@ import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
+import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.RegisterPresenter;
 import ru.prsolution.winstrike.networking.Service;
 import rx.Observable;
@@ -87,8 +88,8 @@ public class RegisterActivity extends BaseApp implements RegisterView {
                     presenter.createUser(user);
 
                     // TODO: 22/05/2018 For test (Send sms already confirmed user):
-                    ConfirmSmsModel auth = getConfirmSmsModel(user.getPhone());
-                    presenter.sendSms(auth);
+/*                    ConfirmSmsModel auth = getConfirmSmsModel(user.getPhone());
+                    presenter.sendSms(auth);*/
                 }
         );
 
@@ -158,6 +159,10 @@ public class RegisterActivity extends BaseApp implements RegisterView {
 //        setConfirmed(false);
 
         //saveUser(authResponse);
+        AuthUtils.INSTANCE.setToken(authResponse.getToken());
+        AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
+        AuthUtils.INSTANCE.setRegistered(true);
+
         Timber.d("Sms send successfully: %s", authResponse.getMessage());
         Intent intent =new Intent(RegisterActivity.this, UserConfirmActivity.class);
         intent.putExtra("phone", user.getPhone());
