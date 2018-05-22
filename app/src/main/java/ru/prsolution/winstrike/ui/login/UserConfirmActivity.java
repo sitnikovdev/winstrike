@@ -15,9 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.jakewharton.rxbinding.widget.RxTextView;
-import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 
 import javax.inject.Inject;
 
@@ -31,7 +29,6 @@ import ru.prsolution.winstrike.mvp.presenters.UserConfirmPresenter;
 import ru.prsolution.winstrike.mvp.views.UserConfirmView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.common.YandexWebView;
-import rx.Observable;
 import timber.log.Timber;
 
 import static ru.prsolution.winstrike.common.utils.TextFormat.setTextColor;
@@ -74,12 +71,15 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     @BindView((R.id.tv_send_code_again))
     TextView sendCodeAgainLabel;
 
+    @BindView(R.id.tv_send_code_again_timer)
+    TextView sendCodeAgainTimer;
+
 
     @BindView(R.id.text_footer2)
-    TextView text_footer2;
+    TextView conditionsButton;
 
     @BindView(R.id.text_footer4)
-    TextView text_footer4;
+    TextView privacyButton;
 
 
     @Inject
@@ -94,7 +94,6 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     @Override
     protected void onStop() {
         super.onStop();
-        hideProgressDialog();
         presenter.onStop();
     }
 
@@ -103,7 +102,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       WinstrikeApp.getInstance().getAppComponent().inject(this);
+        WinstrikeApp.getInstance().getAppComponent().inject(this);
 
         renderView();
         init();
@@ -123,7 +122,8 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
             phone = "+79520757099";
         }
 
-        confirmSuccess();
+//        confirmSuccess();
+        confirmFalse();
 
         setBtnEnable(nextButton, false);
 
@@ -142,17 +142,18 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
                 }
         );
 
-        // Подтверждаем пользователя
+        // Подтверждаем пользователя (отправляем серверу запрос с кодом введеным пользователем)
         confirmCodeButton.setOnClickListener(
                 it -> {
                     String sms_code = String.valueOf(codeTextField.getText());
                     Timber.d("sms_code: %s", sms_code);
 
-                    if (dpHeight < 600) {
+/*                    if (dpHeight < 600) {
                         codeTextFieldBackGround.setVisibility(View.GONE);
                         codeTextField.setVisibility(View.GONE);
-                    }
+                    }*/
 
+                // Hide keyboard
                     View view = this.getCurrentFocus();
                     if (view != null) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -191,13 +192,15 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
 
     }
 
+
     private void setFooter() {
         String mystring = new String("Условиями");
         SpannableString content = new SpannableString(mystring);
         content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
-        text_footer2.setText(content);
+        conditionsButton.setText(content);
 
-        text_footer2.setOnClickListener(
+
+        conditionsButton.setOnClickListener(
                 it -> {
                     Intent browserIntent = new Intent(this, YandexWebView.class);
                     String url = "file:///android_asset/rules.html";
@@ -206,7 +209,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
                 }
         );
 
-        text_footer4.setOnClickListener(
+        privacyButton.setOnClickListener(
                 it -> {
                     Intent browserIntent = new Intent(this, YandexWebView.class);
                     String url = "file:///android_asset/politika.html";
@@ -218,31 +221,8 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         String textFooter = new String("Политикой конфиденциальности");
         SpannableString content4 = new SpannableString(textFooter);
         content4.setSpan(new UnderlineSpan(), 0, textFooter.length(), 0);
-        text_footer4.setText(content4);
+        privacyButton.setText(content4);
     }
-
-
-    private void confirmSuccess() {
-/*                    if (isVisible) {
-                        nameTextFieldBackGround.setVisibility(View.VISIBLE);
-                        nameTextField.setVisibility(View.VISIBLE);
-                        nextButton.setVisibility(View.VISIBLE);
-                        nextButtonLabel.setVisibility(View.VISIBLE);
-                    } else {
-                        nameTextFieldBackGround.setVisibility(View.INVISIBLE);
-                        nameTextField.setVisibility(View.INVISIBLE);
-                        nextButton.setVisibility(View.INVISIBLE);
-                        nextButtonLabel.setVisibility(View.INVISIBLE);
-                    }*/
-        confirmCodeButton.setVisibility(View.INVISIBLE);
-        nameTextField.setVisibility(View.VISIBLE);
-        nextButton.setVisibility(View.VISIBLE);
-
-        sendCodeAgain.setVisibility(View.INVISIBLE);
-    }
-
-
-
 
     @Override
     public void showWait() {
@@ -284,39 +264,33 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         Timber.d("Sms send failure: %s", appErrorMessage);
     }
 
-    public void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Авторизация...");
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    protected void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
-    }
-
-    protected void checkFieldEnabled(EditText et_phone, EditText et_pass, View button) {
-        Observable<TextViewTextChangeEvent> phoneObservable = RxTextView.textChangeEvents(et_phone);
-        Observable<TextViewTextChangeEvent> passwordObservable = RxTextView.textChangeEvents(et_pass);
-        Observable.combineLatest(phoneObservable, passwordObservable, (phoneSelected, passwordSelected) -> {
-            boolean phoneCheck = phoneSelected.text().length() >= 14;
-            boolean passwordCheck = passwordSelected.text().length() >= 4;
-            return phoneCheck && passwordCheck;
-        }).subscribe(aBoolean -> {
-            if (aBoolean) {
-                setBtnEnable(button, true);
-            } else {
-                setBtnEnable(button, false);
-            }
-        });
-    }
 
     protected void toast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    private void confirmSuccess() {
+        confirmCodeButton.setVisibility(View.GONE);
+
+        nameTextField.setVisibility(View.VISIBLE);
+        nextButton.setVisibility(View.VISIBLE);
+
+        sendCodeAgain.setVisibility(View.INVISIBLE);
+        sendCodeAgainTimer.setVisibility(View.INVISIBLE);
+    }
+
+    private void confirmFalse() {
+
+        nameTextField.setVisibility(View.INVISIBLE);
+        nameTextFieldBackGround.setVisibility(View.INVISIBLE);
+
+        nextButton.setVisibility(View.INVISIBLE);
+        nextButtonLabel.setVisibility(View.INVISIBLE);
+
+        sendCodeAgain.setVisibility(View.VISIBLE);
+        sendCodeAgainTimer.setVisibility(View.VISIBLE);
+        sendCodeAgainTimer.setVisibility(View.INVISIBLE);
+
+    }
+
 }

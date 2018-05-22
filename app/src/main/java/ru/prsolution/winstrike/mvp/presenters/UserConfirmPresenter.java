@@ -25,18 +25,18 @@ public class UserConfirmPresenter {
     }
 
     public void confirmUser(String sms_code, ConfirmModel confirmPhone) {
-        view.showWait();
+//        view.showWait();
 
         Subscription subscription = service.confirmUser(new Service.ConfirmCallback() {
             @Override
             public void onSuccess(MessageResponse authResponse) {
-                view.removeWait();
+//                view.removeWait();
                 view.onUserConfirmSuccess(authResponse);
             }
 
             @Override
             public void onError(NetworkError networkError) {
-                view.removeWait();
+//                view.removeWait();
                 view.onUserConfirmFailure(networkError.getAppErrorMessage());
             }
 
@@ -45,6 +45,10 @@ public class UserConfirmPresenter {
         subscriptions.add(subscription);
     }
 
+    /**
+     *  Send code by tap on "Again button send"
+     * @param smsModel
+     */
     public void sendSms(ConfirmSmsModel smsModel) {
         view.showWait();
 

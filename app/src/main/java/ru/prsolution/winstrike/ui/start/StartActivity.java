@@ -83,33 +83,20 @@ public class StartActivity extends AppCompatActivity {
         Intent loginActivity = new Intent(this, SignInActivity.class);
         Intent registerActivity = new Intent(this, RegisterActivity.class);
 //        Intent smsCodeActivity = new Intent(this, __SmsCodeActivity.class);
-        Intent smsCodeActivity = new Intent(this, UserConfirmActivity.class);
         Intent guideActivity = new Intent(this, GuideActivity.class);
         Intent favPushDialog = new Intent(this, FavPushDialogActivity.class);
         Intent helpActivity = new Intent(this, HelpActivity.class);
         Intent mainScreen = new Intent(this, MainScreenActivity.class);
-
         Intent testWebView = new Intent(this, YandexWebView.class);
-
-
-//        mainScreenActivity.putExtra("fragment", "bonus");
-//        Intent favGameActivity = new Intent(this, FavoriteGamesActivity.class);
-
-
-//        startActivity(smsCodeActivity);
         Intent webViewTest = new Intent(this, HtmlViewer.class);
-//        startActivity(webViewTest);
+        Intent smsCodeActivity = new Intent(this, UserConfirmActivity.class);
 
         // ATTENTION: This was auto-generated to handle app links.
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
 
-
-//        mAuth = FirebaseAuth.getInstance();
-
-//        WinstrikeApp.getInstance().dbCopy("winstrike-db");
-        startActivity(splashActivity);
+        startActivity(smsCodeActivity);
     }
 
 

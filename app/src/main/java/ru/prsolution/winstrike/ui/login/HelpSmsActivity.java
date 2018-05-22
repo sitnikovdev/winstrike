@@ -31,7 +31,6 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.HelpActivity;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.NewPasswordModel;
-import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.oldapi.ApiService;
@@ -39,7 +38,6 @@ import ru.prsolution.winstrike.oldapi.ServiceGenerator;
 import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.common.utils.TinyDB;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
-import ru.prsolution.winstrike.ui.login.SignInActivity;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
@@ -61,7 +59,7 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
     Service service;
 
     @BindView(R.id.et_phone)
-    EditText etPhone;
+    EditText phoneNumber;
 
     @BindView(R.id.next_button_phone)
     View nextButtonPhone;
@@ -135,7 +133,7 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         nextButtonConfirm.setOnClickListener(
                 it -> {
                     NewPasswordModel passw = new NewPasswordModel();
-                    String phone = TextFormat.formatPhone(String.valueOf(etPhone.getText()));
+                    String phone = TextFormat.formatPhone(String.valueOf(phoneNumber.getText()));
                     String smsCode = String.valueOf(etCode.getText());
                     passw.setUsername(phone);
                     // Показываем диалог для смены пароля:
@@ -143,13 +141,13 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
                 }
         );
 
-        TextFormat.formatText(etPhone, "(___) ___-__-__");
+        TextFormat.formatText(phoneNumber, "(___) ___-__-__");
 
         // Меняем видимость кнопки вводе кода
         RxTextView.textChanges(etCode).subscribe(
                 it -> {
                     Boolean fieldOk = etCode.getText().length() >= 6;
-                    Boolean phoneOk = etPhone.getText().length() == 15;
+                    Boolean phoneOk = phoneNumber.getText().length() == 15;
                     if (fieldOk && phoneOk) {
                         setBtnEnable(nextButtonConfirm, true);
                     } else {
@@ -157,9 +155,9 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
                     }
                 }
         );
-        RxTextView.textChanges(etPhone).subscribe(
+        RxTextView.textChanges(phoneNumber).subscribe(
                 it -> {
-                    Boolean phoneOk = etPhone.getText().length() == 15;
+                    Boolean phoneOk = phoneNumber.getText().length() == 15;
                     if (phoneOk) {
                         setBtnEnable(nextButtonPhone, true);
                     } else {
@@ -181,7 +179,7 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
     @NonNull
     private ConfirmSmsModel getConfirmSmsModel() {
         ConfirmSmsModel auth = new ConfirmSmsModel();
-        String phone = TextFormat.formatPhone(String.valueOf(etPhone.getText()));
+        String phone = TextFormat.formatPhone(String.valueOf(phoneNumber.getText()));
         auth.setUsername(phone);
         return auth;
     }
