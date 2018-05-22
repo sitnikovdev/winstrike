@@ -22,6 +22,9 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.logging.LoginModel;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.utils.TextFormat;
+import ru.prsolution.winstrike.db.AppDatabase;
+import ru.prsolution.winstrike.db.AppRepository;
+import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
@@ -59,6 +62,7 @@ public class RegisterActivity extends BaseApp implements RegisterView {
 
     private RegisterPresenter presenter;
     private LoginModel user;
+    private AppRepository repository;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +74,7 @@ public class RegisterActivity extends BaseApp implements RegisterView {
 
         init();
 
+        repository = new AppRepository(AppDatabase.getInstance(getApplicationContext()));
         presenter = new RegisterPresenter(service, this);
 
     }
@@ -162,6 +167,16 @@ public class RegisterActivity extends BaseApp implements RegisterView {
         AuthUtils.INSTANCE.setToken(authResponse.getToken());
         AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
         AuthUtils.INSTANCE.setRegistered(true);
+        AuthUtils.INSTANCE.setPhone(user.getPhone());
+
+        UserEntity userDb = new UserEntity();
+        userDb.setConfirmed(false);
+        userDb.setPhone(user.getPhone());
+        userDb.setPublickId(authResponse.getUser().getPublicId());
+        userDb.setToken(authResponse.getToken());
+        userDb.setName("NoName");
+
+        repository.insertUser(userDb);
 
         Timber.d("Sms send successfully: %s", authResponse.getMessage());
         Intent intent =new Intent(RegisterActivity.this, UserConfirmActivity.class);

@@ -27,7 +27,11 @@ import ru.prsolution.winstrike.common.logging.ConfirmModel;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.logging.ProfileModel;
 import ru.prsolution.winstrike.common.utils.TextFormat;
+import ru.prsolution.winstrike.db.AppDatabase;
+import ru.prsolution.winstrike.db.AppRepository;
+import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
+import ru.prsolution.winstrike.mvp.apimodels.User;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.UserConfirmPresenter;
 import ru.prsolution.winstrike.mvp.views.UserConfirmView;
@@ -95,6 +99,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     private UserConfirmPresenter presenter;
     private ConfirmModel user;
     private String phone;
+    private AppRepository repository;
 
 
     @Override
@@ -110,6 +115,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
 
         WinstrikeApp.getInstance().getAppComponent().inject(this);
         presenter = new UserConfirmPresenter(service, this);
+        repository = new AppRepository(AppDatabase.getInstance(getApplicationContext()));
 
         renderView();
         init();
@@ -188,6 +194,18 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
                         nextButtonLabel.setText("Поехали!");
                         nextButton.setOnClickListener(
                                 v -> {
+
+                                    repository.deleteUser();
+
+                                    UserEntity userDb = new UserEntity();
+                                    userDb.setConfirmed(true);
+                                    userDb.setPhone(user.getPhone());
+                                    userDb.setPublickId(AuthUtils.INSTANCE.getPublicid());
+                                    userDb.setToken(AuthUtils.INSTANCE.getToken());
+                                    userDb.setName(profile.getName());
+
+                                    repository.insertUser(userDb);
+
                                     presenter.updateProfile(token, profile, publicId);
                                     startActivity(new Intent(this, SignInActivity.class));
                                 }

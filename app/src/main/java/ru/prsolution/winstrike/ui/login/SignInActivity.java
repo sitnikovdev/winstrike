@@ -137,8 +137,12 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
                         Timber.d("Success signIn");
                     } else {
                         ConfirmSmsModel smsModel = new ConfirmSmsModel();
-                        smsModel.setUsername(userEntity.getPhone());
+                        smsModel.setUsername(users.get(0).getPhone());
                         mSignInPresenter.sendSms(smsModel);
+
+                        Intent intent =new Intent(this, UserConfirmActivity.class);
+                        intent.putExtra("phone", smsModel.getUsername());
+                        startActivity(intent);
                     }
                 }
             }
@@ -201,9 +205,9 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     public void onSendSmsSuccess(MessageResponse confirmModel) {
         Timber.tag("common").d("Sms send success: %s", confirmModel.getMessage());
         toast("Код выслан повторно");
-        Intent intent = new Intent(SignInActivity.this, UserConfirmActivity.class);
+/*        Intent intent = new Intent(SignInActivity.this, UserConfirmActivity.class);
         intent.putExtra("phone", formatPhone(String.valueOf(mPhoneView.getText())));
-        startActivity(new Intent(SignInActivity.this, UserConfirmActivity.class));
+        startActivity(new Intent(SignInActivity.this, UserConfirmActivity.class));*/
     }
 
     @Override

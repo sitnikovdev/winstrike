@@ -32,7 +32,7 @@ public class PayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public PayAdapter(Context context, List<OrderModel> payList, OnItemPayClickListener itemPayClickListener) {
         this.context = context;
         this.payList = payList;
-        IS_PAY = !payList.isEmpty();
+        IS_PAY = !payList.isEmpty() && payList.size() != 0 ;
         this.itemPayClickListener = itemPayClickListener;
     }
 
@@ -78,12 +78,6 @@ public class PayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.pc.setText(pay.getPcName());
         holder.pcCode.setText(pay.getAccessCode());
 
-/*        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Glide.get(context).clearDiskCache();
-            }
-        }).start();*/
 
         Glide.with(context)
                 .load(pay.getThumbnail())
