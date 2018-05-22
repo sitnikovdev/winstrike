@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if (AuthUtils.INSTANCE.isFirstLogin()) {
+                if (!AuthUtils.INSTANCE.isFirstLogin()) {
                     mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
                     AuthUtils.INSTANCE.setFirstLogin(false);
                 } else {
