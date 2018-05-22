@@ -243,7 +243,8 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         if (appErrorMessage.contains("406")) toast("Код просрочен");
 //        confirmFalse();
         // TODO: 22/05/2018 Changed for test:
-        confirmSuccess();
+//        confirmSuccess();
+        confirmFalse();
     }
 
 
@@ -324,14 +325,10 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     }
 
     @Override
-    public void showWait() {
-
-    }
+    public void showWait() { }
 
     @Override
-    public void removeWait() {
-
-    }
+    public void removeWait() { }
 
     @Override
     public void onProfileUpdateSuccessfully(MessageResponse authResponse) {

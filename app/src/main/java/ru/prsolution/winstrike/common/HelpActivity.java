@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.common;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
+import ru.prsolution.winstrike.ui.common.YandexWebView;
 import ru.prsolution.winstrike.ui.login.HelpSmsActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
 
@@ -26,8 +28,12 @@ public class HelpActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
     @BindView(R.id.toolbar_title)
     TextView tvToolbarTitle;
+
+    @BindView(R.id.tv_help_centr)
+    TextView helpCeter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,12 +52,18 @@ public class HelpActivity extends AppCompatActivity {
         tvToolbarTitle.setText(R.string.help_title);
 
 
-        cv_sms.setOnClickListener (
-             it -> startActivity(new Intent(this,HelpSmsActivity.class))
+        cv_sms.setOnClickListener(
+                it -> startActivity(new Intent(this, HelpSmsActivity.class))
         );
 
-//        cv_help.setOnClickListener (
-//           it -> startActivity(new Intent(this,HelpPasswordActivity.class))
-//        );
+        helpCeter.setOnClickListener(
+                it -> {
+                    String url = "https://winstrike.gg";
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(browserIntent);
+
+                    //startActivity(new Intent(this, HelpPasswordActivity.class));
+                }
+        );
     }
 }

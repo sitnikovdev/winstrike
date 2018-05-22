@@ -38,7 +38,6 @@ public class ChooseScreenPresenter {
             @Override
             public void onSuccess(Rooms authResponse) {
                 fragment.removeWait();
-
                 fragment.onGetActivePidResponseSuccess(authResponse);
             }
 
