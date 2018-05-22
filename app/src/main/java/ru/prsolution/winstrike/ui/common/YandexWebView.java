@@ -54,6 +54,8 @@ public class YandexWebView extends AppCompatActivity {
 //                presenter.onBackPressed();
                 if (url.contains("politika.html") || url.contains("rules.html")) {
                     startActivity(new Intent(getApplicationContext(), UserConfirmActivity.class));
+                } else {
+                    startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
                 }
             }
         });

@@ -235,10 +235,10 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
 
 
-        tv_h_from.setText(String.valueOf(format2LenStr(hourPos+1)));
+        tv_h_from.setText(String.valueOf(format2LenStr(hourPos + 1)));
         tv_m_from.setText(String.valueOf(format2LenStr(minPos)));
 
-        tv_h_to.setText(String.valueOf(format2LenStr(hourPos+2)));
+        tv_h_to.setText(String.valueOf(format2LenStr(hourPos + 2)));
         tv_m_to.setText(String.valueOf(format2LenStr(minPos)));
 
         isFromTimeSelect = true;
@@ -288,13 +288,13 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
                 tv_h_from.setText(format2LenStr(item + 1));
                 timeFromData.hour = format2LenStr(item + 1);
 
-                Integer hour =Integer.parseInt(tv_h_from.getText().toString()) ;
-                Integer min =Integer.parseInt(tv_m_from.getText().toString()) ;
+                Integer hour = Integer.parseInt(tv_h_from.getText().toString());
+                Integer min = Integer.parseInt(tv_m_from.getText().toString());
 
                 if (hour < 23) {
                     tv_h_to.setText(String.valueOf(format2LenStr(hour + 1)));
                     tv_m_to.setText(String.valueOf(format2LenStr(min)));
-                } else if (hour == 23){
+                } else if (hour >= 23) {
                     tv_h_to.setText(String.valueOf(format2LenStr(00)));
                     tv_m_to.setText(String.valueOf(format2LenStr(min)));
                 }
@@ -303,6 +303,13 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
             } else if (isToTimeSelect) {
                 tv_h_to.setText(format2LenStr(item + 1));
                 timeToData.hour = format2LenStr(item + 1);
+/*
+                Integer hour = Integer.parseInt(tv_h_from.getText().toString());
+                Integer min = Integer.parseInt(tv_m_from.getText().toString());
+
+                tv_h_from.setText(String.valueOf(format2LenStr(hour - 1)));
+                tv_m_from.setText(String.valueOf(format2LenStr(min)));*/
+
             }
         });
 
@@ -311,7 +318,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
             int hourFrom = Integer.parseInt(tv_h_from.getText().toString());
             int minFrom = Integer.parseInt(tv_m_from.getText().toString());
             int hourInc = item + 1;
-            Date timeFrom  = MapInfoSingleton.getInstance().getDateFrom();
+            Date timeFrom = MapInfoSingleton.getInstance().getDateFrom();
             Calendar cal = Calendar.getInstance();
             cal.setTime(timeFrom);
             cal.set(Calendar.HOUR_OF_DAY, hourFrom);
@@ -333,6 +340,15 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
             if (isFromTimeSelect) {
                 tv_m_from.setText(format2LenStr(item));
                 timeFromData.min = format2LenStr(item);
+
+//                Integer hour = Integer.parseInt(tv_h_from.getText().toString());
+                Integer min = Integer.parseInt(tv_m_from.getText().toString());
+
+//                tv_h_from.setText(String.valueOf(format2LenStr(hour - 1)));
+                tv_m_to.setText(String.valueOf(format2LenStr(min)));
+
+
+
             } else if (isToTimeSelect) {
                 tv_m_to.setText(format2LenStr(item));
                 timeToData.min = format2LenStr(item);
@@ -381,7 +397,6 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
 
         isFromTimeSelect = true;
         isToTimeSelect = false;
-
 
 
     }

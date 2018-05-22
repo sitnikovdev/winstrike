@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Winstrike Arena</string>
+    <string name="app_name">Winstrike</string>
     <string name="all_nextbtn">Далее</string>
     <string name="all_seabtn">Смотреть</string>
     <string name="all_cancelbtn">Отменить</string>
@@ -24,7 +24,7 @@
     <string name="all_toolbartitle">Москва</string>
     <string name="all_phonemaskru">RU +7</string>
     <string name="all_phonemask">(987) 654-32-10</string>
-    <string name="arena_name">Winstrike Arena</string>
+    <string name="arena_name">Winstrike</string>
     <string name="pres1_title">Выбирайте компьютер</string>
     <string name="pres1_detail2">в вашем городе</string>
     <string name="pres1_detail1">Выбирайте компьютер в игровом клубе</string>
@@ -83,7 +83,7 @@
     <string name="settings_title">Настройки</string>
     <string name="sharedlg_title">Поделись приложением с друзьями</string>
     <string name="sharedlg_titlebonus">и получи бонус!</string>
-    <string name="seatdetail_titlethumb">Winstrike Arena</string>
+    <string name="seatdetail_titlethumb">Winstrike</string>
     <string name="seatdetail_description">Winstrike Arena - это 1000 кв.м. киберспорта в самом центре Москвы. 125 компьютеров, VIP-комнаты с приставками PS4, бар для просмотра турниров и уникальная стримерская студия</string>
     <string name="seatdetail_catseat">Категории мест</string>
     <string name="seatdetail_title">Вы выбрали: Обычное место</string>
@@ -107,7 +107,7 @@
     <string name="timedlg_tomin">00</string>
     <string name="timedlg_btnclose">Продолжить</string>
     <string name="paiddetail_title">Оплаченые места</string>
-    <string name="club_name">Компьютерный клуб «Winstrike Arena»</string>
+    <string name="club_name">Компьютерный клуб «Winstrike»</string>
     <string name="club_full_name">Многофункциональный киберспортивный комплекс\n Winstrike Arena</string>
     <string name="paiddetail_date">15 декабря 2017 года</string>
     <string name="paid_time">10:00-11:00</string>

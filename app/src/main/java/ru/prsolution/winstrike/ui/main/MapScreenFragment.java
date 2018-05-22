@@ -441,7 +441,13 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         if (appErrorMessage.contains("401")) toast("Пользователь не авторизован");
         if (appErrorMessage.contains("403")) toast("Ошибка авторизации пользователя");
         if (appErrorMessage.contains("404")) toast("В базе нет мест с таким public_id: %s");
+        if (appErrorMessage.contains("405")) toast("Ошибка авторизации пользователя. Выйдите из приложение и зайдите снова.");
         if (appErrorMessage.contains("424")) toast("Не правильно выбрана дата");
+        if (appErrorMessage.contains("416")) {
+            toast("Не удается забронировать место на указанный интервал времени.");
+        } else {
+            toast("Не удается забронировать место.");
+        }
     }
 
     protected void toast(String message) {
