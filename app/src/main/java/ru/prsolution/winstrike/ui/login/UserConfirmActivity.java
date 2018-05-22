@@ -210,7 +210,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     @Override
     public void onUserConfirmSuccess(MessageResponse confirmModel) {
         Timber.d("UserEntity confirm successfully: %s", confirmModel.getMessage());
-        toast("Пользователь подтвержден");
+//        toast("Пользователь подтвержден");
 //        setBtnEnable(confirmCodeButton, false);
         confirmSuccess();
     }

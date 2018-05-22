@@ -154,7 +154,7 @@ public class RegisterActivity extends BaseApp implements RegisterView {
      */
     public void onRegisterSuccess(AuthResponse authResponse) {
         Timber.d("Register success: %s", authResponse);
-        toast("Пользователь создан");
+//        toast("Пользователь создан");
 //        setOperation();
 //        setConfirmed(false);
 
