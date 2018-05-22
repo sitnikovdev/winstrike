@@ -3,6 +3,7 @@ package ru.prsolution.winstrike.mvp.presenters;
 
 import ru.prsolution.winstrike.common.logging.ConfirmModel;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.common.logging.ProfileModel;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
@@ -50,18 +51,15 @@ public class UserConfirmPresenter {
      * @param smsModel
      */
     public void sendSms(ConfirmSmsModel smsModel) {
-        view.showWait();
 
         Subscription subscription = service.sendSmsByUserRequest(new Service.SmsCallback() {
             @Override
             public void onSuccess(MessageResponse authResponse) {
-                view.removeWait();
                 view.onSendSmsSuccess(authResponse);
             }
 
             @Override
             public void onError(NetworkError networkError) {
-                view.removeWait();
                 view.onSmsSendFailure(networkError.getAppErrorMessage());
             }
 
@@ -69,6 +67,33 @@ public class UserConfirmPresenter {
 
         subscriptions.add(subscription);
     }
+
+
+    /**
+     *  Update user profile after successfully confirmed. Set user name.
+     *
+     * @param token  saved token
+     * @param profile  profile user data
+     * @param publicId  user public id
+     */
+    public void updateProfile(String token, ProfileModel profile, String publicId) {
+
+        Subscription subscription = service.updateUser(new Service.ProfileCallback() {
+            @Override
+            public void onSuccess(MessageResponse authResponse) {
+                view.onProfileUpdateSuccessfully(authResponse);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                view.onFailtureUpdateProfile(networkError.getAppErrorMessage());
+            }
+
+        },token, profile, publicId);
+
+        subscriptions.add(subscription);
+    }
+
 
 
     public void onStop() {

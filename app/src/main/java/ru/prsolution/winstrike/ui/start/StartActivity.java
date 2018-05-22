@@ -9,6 +9,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 
+import javax.inject.Inject;
+
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.ui.guides.GuideActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
@@ -96,8 +98,7 @@ public class StartActivity extends AppCompatActivity {
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
 
-        startActivity(smsCodeActivity);
+        startActivity(registerActivity);
     }
-
 
 }

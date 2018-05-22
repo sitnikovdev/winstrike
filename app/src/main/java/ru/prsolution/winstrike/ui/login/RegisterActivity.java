@@ -20,8 +20,10 @@ import ru.prsolution.winstrike.BaseApp;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.logging.LoginModel;
+import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
+import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.presenters.RegisterPresenter;
 import ru.prsolution.winstrike.networking.Service;
 import rx.Observable;
@@ -38,17 +40,17 @@ import ru.prsolution.winstrike.mvp.views.RegisterView;
 
 public class RegisterActivity extends BaseApp implements RegisterView {
     @BindView(R.id.et_phone)
-    EditText et_phone;
+    EditText phoneNumber;
     @BindView(R.id.et_password)
-    EditText et_pass;
+    EditText password;
 
     @BindView(R.id.next_button_phone)
-    View next_button_phone;
+    View nextButton;
 
     @BindView(R.id.text_footer)
-    TextView text_footer;
+    TextView footerText;
     @BindView(R.id.text_footer2)
-    TextView text_footer2;
+    TextView enterLabel;
 
 
     @Inject
@@ -56,7 +58,6 @@ public class RegisterActivity extends BaseApp implements RegisterView {
 
     private RegisterPresenter presenter;
     private LoginModel user;
-    private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,33 +74,59 @@ public class RegisterActivity extends BaseApp implements RegisterView {
     }
 
     void init() {
-        setBtnEnable(next_button_phone, false);
+        setBtnEnable(nextButton, false);
 
-        next_button_phone.setOnClickListener(
+        nextButton.setOnClickListener(
                 view -> {
                     // Создание пользователя и переход на страницу подтверждения пароля
                     user = new LoginModel();
-                    user.setPhone(formatPhone(String.valueOf(et_phone.getText())));
-                    user.setPassword(String.valueOf(et_pass.getText()));
+                    user.setPhone(formatPhone(String.valueOf(phoneNumber.getText())));
+                    user.setPassword(String.valueOf(password.getText()));
                     Timber.tag("common").d("Create new user...");
 
-                    clearUser();
                     presenter.createUser(user);
+
+                    // TODO: 22/05/2018 For test (Send sms already confirmed user):
+                    ConfirmSmsModel auth = getConfirmSmsModel(user.getPhone());
+                    presenter.sendSms(auth);
                 }
         );
 
-        checkFieldEnabled(et_phone, et_pass, next_button_phone);
+        checkFieldEnabled(phoneNumber, password, nextButton);
 
-        TextFormat.formatText(et_phone, "(___) ___-__-__");
+        TextFormat.formatText(phoneNumber, "(___) ___-__-__");
 
         setFooter();
     }
 
-    private void setFooter() {
-        setTextFoot1Color(text_footer, "Уже есть аккаунт?", "#9b9b9b");
-        setTextFoot2Color(text_footer2, "Войдите", "#c9186c");
+    @Override
+    public void onSendSmsSuccess(MessageResponse authResponse) {
+        Timber.d("Sms send successfully: %s", authResponse.getMessage());
+        toast("Код выслан");
+        Intent intent =new Intent(RegisterActivity.this, UserConfirmActivity.class);
+        intent.putExtra("phone", user.getPhone());
+        startActivity(intent);
+    }
 
-        text_footer2.setOnClickListener(
+    @Override
+    public void onSmsSendFailure(String appErrorMessage) {
+        Timber.d("Sms send failure: %s", appErrorMessage);
+    }
+
+
+    private ConfirmSmsModel getConfirmSmsModel(String phone) {
+        ConfirmSmsModel auth = new ConfirmSmsModel();
+        auth.setUsername(phone);
+        return auth;
+    }
+
+
+
+    private void setFooter() {
+        setTextFoot1Color(footerText, "Уже есть аккаунт?", "#9b9b9b");
+        setTextFoot2Color(enterLabel, "Войдите", "#c9186c");
+
+        enterLabel.setOnClickListener(
                 it -> startActivity(new Intent(this, SignInActivity.class))
         );
     }
@@ -119,6 +146,24 @@ public class RegisterActivity extends BaseApp implements RegisterView {
     public void removeWait() {
     }
 
+
+    @Override
+    /**
+     *  Register new user and send him sms with confirm code.
+     */
+    public void onRegisterSuccess(AuthResponse authResponse) {
+        Timber.d("Register success: %s", authResponse);
+        toast("Пользователь создан");
+//        setOperation();
+//        setConfirmed(false);
+
+        //saveUser(authResponse);
+        Timber.d("Sms send successfully: %s", authResponse.getMessage());
+        Intent intent =new Intent(RegisterActivity.this, UserConfirmActivity.class);
+        intent.putExtra("phone", user.getPhone());
+        startActivity(intent);
+    }
+
     @Override
     public void onRegisterFailure(String appErrorMessage) {
         Timber.d("Register failure: %s", appErrorMessage);
@@ -132,40 +177,11 @@ public class RegisterActivity extends BaseApp implements RegisterView {
 
 
     @Override
-    public void onRegisterSuccess(AuthResponse authResponse) {
-        Timber.d("Register success: %s", authResponse);
-        toast("Пользователь создан");
-        setOperation();
-        setConfirmed(false);
-
-        //saveUser(authResponse);
-        Timber.d("Sms send successfully: %s", authResponse.getMessage());
-        Intent intent =new Intent(RegisterActivity.this, UserConfirmActivity.class);
-        intent.putExtra("phone", user.getPhone());
-        startActivity(intent);
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         presenter.onStop();
     }
 
-    public void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Авторизация...");
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    protected void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
-    }
 
     protected void checkFieldEnabled(EditText et_phone, EditText et_pass, View button) {
         Observable<TextViewTextChangeEvent> phoneObservable = RxTextView.textChangeEvents(et_phone);

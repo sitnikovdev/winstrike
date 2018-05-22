@@ -59,7 +59,7 @@
         android:id="@+id/v_code"
         android:layout_width="@dimen/width_edit_294dp"
         android:layout_height="@dimen/height_edit_48dp"
-        android:background="@drawable/etittext_bgr_28dp"
+        android:background="@drawable/edit_text_shape"
         android:layout_marginTop="@dimen/padding_standart_16dp"
         app:layout_constraintStart_toStartOf="@id/line_start"
         app:layout_constraintEnd_toEndOf="@id/line_end"

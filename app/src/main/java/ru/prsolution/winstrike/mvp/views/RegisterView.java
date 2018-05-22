@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.mvp.views;
 
 
+import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 
 public interface RegisterView {
@@ -12,4 +13,7 @@ public interface RegisterView {
 
     void onRegisterSuccess(AuthResponse authResponse);
 
+    void onSendSmsSuccess(MessageResponse authResponse);
+
+    void onSmsSendFailure(String appErrorMessage);
 }

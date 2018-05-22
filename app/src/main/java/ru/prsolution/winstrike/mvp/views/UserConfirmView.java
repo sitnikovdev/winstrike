@@ -19,4 +19,7 @@ public interface UserConfirmView {
 
     void onSmsSendFailure(String appErrorMessage);
 
+    void onProfileUpdateSuccessfully(MessageResponse authResponse);
+
+    void onFailtureUpdateProfile(String appErrorMessage);
 }

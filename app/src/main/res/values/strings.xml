@@ -66,7 +66,7 @@
     <string name="reg_emailtab">Эл. адрес</string>
     <string name="reg_emailtitle">Введите свой email</string>
     <string name="reg_emailhint">Введите эл. адрес</string>
-    <string name="reg_phonetitle">Реальный номер телефона</string>
+    <string name="reg_phonetitle">Введите номер своего телефона</string>
     <string name="reg_password">Введите пароль</string>
     <string name="reg_codehint">*Сюда будет выслан код подтверждения</string>
     <string name="registerlast_title">Последний шаг регистрации</string>

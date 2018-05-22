@@ -49,9 +49,7 @@ import static ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot2Color;
  * Created by designer on 15/03/2018.
  */
 
-public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerator.OnConnectionTimeoutListener {
-    private TinyDB tinyDB;
-    private ApiService apiService;
+public class HelpSmsActivity extends AppCompatActivity  {
     private Dialog dialog;
     private CompositeSubscription subscriptions;
 
@@ -105,7 +103,6 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
 
         tvToolbarTitle.setText(R.string.help_menu_sms);
 
-        tinyDB = new TinyDB(this);
         this.subscriptions = new CompositeSubscription();
 //        apiService = ApiServiceImpl.getNewInstance(this).getApi();
 
@@ -219,10 +216,6 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
         runOnUiThread(() -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show());
     }
 
-    @Override
-    public void onConnectionTimeout() {
-        Timber.tag("OkHttp").e("On Connection Time Out in HelpSmsActivity class");
-    }
 
     private void dlgSendSMS() {
         dialog = new Dialog(this, android.R.style.Theme_Dialog);
@@ -309,18 +302,15 @@ public class HelpSmsActivity extends AppCompatActivity implements ServiceGenerat
 
 
     public void sendSms(ConfirmSmsModel smsModel) {
-//        getViewState().showWait();
 
         Subscription subscription = service.sendSmsByUserRequest(new Service.SmsCallback() {
             @Override
             public void onSuccess(MessageResponse authResponse) {
-//                getViewState().removeWait();
                 onSendSmsSuccess(authResponse);
             }
 
             @Override
             public void onError(NetworkError networkError) {
-//                getViewState().removeWait();
                 onAuthFailure(networkError.getAppErrorMessage());
             }
 

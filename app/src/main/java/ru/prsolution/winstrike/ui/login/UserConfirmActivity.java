@@ -25,6 +25,10 @@ import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.logging.ConfirmModel;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.common.logging.ProfileModel;
+import ru.prsolution.winstrike.common.utils.TextFormat;
+import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
+import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.UserConfirmPresenter;
 import ru.prsolution.winstrike.mvp.views.UserConfirmView;
 import ru.prsolution.winstrike.networking.Service;
@@ -52,6 +56,9 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
 
     @BindView(R.id.confirm_button)
     View confirmCodeButton;
+
+    @BindView(R.id.tv_confirm_btn)
+    TextView confirmCodeButtonLabel;
 
     @BindView(R.id.et_name)
     EditText nameTextField;
@@ -88,7 +95,6 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     private UserConfirmPresenter presenter;
     private ConfirmModel user;
     private String phone;
-    private ProgressDialog mProgressDialog;
 
 
     @Override
@@ -103,11 +109,11 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         super.onCreate(savedInstanceState);
 
         WinstrikeApp.getInstance().getAppComponent().inject(this);
+        presenter = new UserConfirmPresenter(service, this);
 
         renderView();
         init();
 
-        presenter = new UserConfirmPresenter(service, this);
     }
 
     private void renderView() {
@@ -119,16 +125,15 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
 
         phone = getIntent().getStringExtra("phone");
         if (phone == null) {
-            phone = "+79520757099";
+            phone = "9520757099";
         }
+
 
 //        confirmSuccess();
         confirmFalse();
 
         setBtnEnable(nextButton, false);
 
-        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
 
         // Меняем видимость кнопки  корректном вводе кода из смс
         RxTextView.textChanges(codeTextField).subscribe(
@@ -171,11 +176,24 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
                 it -> {
                     Boolean fieldOk = nameTextField.getText().length() >= 4;
                     if (fieldOk) {
-//                        saveUserName(nameTextField.getText().toString());
+                        // Update user profile - set name.
+//                        String publicId = AuthUtils.INSTANCE.getPublicid();
+//                        String token = "Bearer " + AuthUtils.INSTANCE.getToken();
+                        // TODO: 22/05/2018 For test only!!!
+                        String publicId = "60cc441c-9def-41fd-8c31-fa937a80858a";
+                        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI2MGNjNDQxYy05ZGVmLTQxZmQtOGMzMS1mYTkzN2E4MDg1OGEiLCJleHAiOjE1MjgxOTgwODl9.cSskPWZKB1x1I36KpZRppZAiMOklUBKX1nWNJaxHaYg";
+                        ProfileModel profile = new ProfileModel();
+                        profile.setName(String.valueOf(nameTextField.getText()));
+//                        profile.setPhone(String.valueOf(phone));
+                        profile.setPassword("123456");
+//                        profile.setPassword(passw);
                         setBtnEnable(nextButton, true);
                         nextButtonLabel.setText("Поехали!");
                         nextButton.setOnClickListener(
-                                v -> startActivity(new Intent(this, SignInActivity.class))
+                                v -> {
+                                    presenter.updateProfile(token, profile, publicId);
+                                    startActivity(new Intent(this, SignInActivity.class));
+                                }
                         );
                     } else {
                         setBtnEnable(confirmCodeButton, false);
@@ -192,6 +210,72 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
 
     }
 
+    @Override
+    public void onUserConfirmSuccess(MessageResponse confirmModel) {
+        Timber.d("UserEntity confirm successfully: %s", confirmModel.getMessage());
+        toast("Пользователь подтвержден");
+//        setBtnEnable(confirmCodeButton, false);
+        confirmSuccess();
+    }
+
+    @Override
+    public void onUserConfirmFailure(String appErrorMessage) {
+        Timber.w("UserEntity confirm failure: %s", appErrorMessage);
+        if (appErrorMessage.contains("409")) toast("Не верный код");
+        if (appErrorMessage.contains("403")) toast("Пользователь уже поддвержден");
+        if (appErrorMessage.contains("404"))
+            toast("Ошибка регистрации! Возможно код неверен или пользователь уже существует");
+        if (appErrorMessage.contains("406")) toast("Код просрочен");
+//        confirmFalse();
+        // TODO: 22/05/2018 Changed for test:
+        confirmSuccess();
+    }
+
+
+    @Override
+    public void onSendSmsSuccess(MessageResponse authResponse) {
+        Timber.d("Sms send successfully: %s", authResponse.getMessage());
+        toast("Код выслан повторно");
+    }
+
+    @Override
+    public void onSmsSendFailure(String appErrorMessage) {
+        Timber.d("Sms send failure: %s", appErrorMessage);
+    }
+
+
+    protected void toast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void confirmSuccess() {
+        confirmCodeButton.setVisibility(View.GONE);
+        confirmCodeButtonLabel.setVisibility(View.INVISIBLE);
+
+        nameTextField.setVisibility(View.VISIBLE);
+        nameTextFieldBackGround.setVisibility(View.VISIBLE);
+        nextButton.setVisibility(View.VISIBLE);
+        nextButtonLabel.setVisibility(View.VISIBLE);
+
+        sendCodeAgain.setVisibility(View.INVISIBLE);
+        sendCodeAgainTimer.setVisibility(View.INVISIBLE);
+    }
+
+    private void confirmFalse() {
+        confirmCodeButton.setVisibility(View.VISIBLE);
+        confirmCodeButtonLabel.setVisibility(View.VISIBLE);
+
+        nameTextField.setVisibility(View.INVISIBLE);
+        nameTextFieldBackGround.setVisibility(View.INVISIBLE);
+
+        nextButton.setVisibility(View.INVISIBLE);
+        nextButtonLabel.setVisibility(View.INVISIBLE);
+
+        sendCodeAgain.setVisibility(View.VISIBLE);
+        sendCodeAgainTimer.setVisibility(View.VISIBLE);
+        sendCodeAgainTimer.setVisibility(View.INVISIBLE);
+
+    }
 
     private void setFooter() {
         String mystring = new String("Условиями");
@@ -235,62 +319,14 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     }
 
     @Override
-    public void onUserConfirmFailure(String appErrorMessage) {
-        Timber.w("UserEntity confirm failure: %s", appErrorMessage);
-        if (appErrorMessage.contains("409")) toast("Не верный код");
-        if (appErrorMessage.contains("403")) toast("Пользователь уже поддвержден");
-        if (appErrorMessage.contains("404"))
-            toast("Ошибка регистрации! Возможно код неверен или пользователь уже существует");
-        if (appErrorMessage.contains("406")) toast("Код просрочен");
+    public void onProfileUpdateSuccessfully(MessageResponse authResponse) {
+        Timber.d("Profile is updated");
+        Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onUserConfirmSuccess(MessageResponse confirmModel) {
-        Timber.d("UserEntity confirm successfully: %s", confirmModel.getMessage());
-        toast("Пользователь подтвержден");
-        setBtnEnable(confirmCodeButton, false);
-        confirmSuccess();
+    public void onFailtureUpdateProfile(String appErrorMessage) {
+        Timber.d("Wrong update profile");
+        Toast.makeText(this, "Не удалось обновить профиль", Toast.LENGTH_LONG).show();
     }
-
-
-    @Override
-    public void onSendSmsSuccess(MessageResponse authResponse) {
-        Timber.d("Sms send successfully: %s", authResponse.getMessage());
-        toast("Код выслан повторно");
-    }
-
-    @Override
-    public void onSmsSendFailure(String appErrorMessage) {
-        Timber.d("Sms send failure: %s", appErrorMessage);
-    }
-
-
-    protected void toast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void confirmSuccess() {
-        confirmCodeButton.setVisibility(View.GONE);
-
-        nameTextField.setVisibility(View.VISIBLE);
-        nextButton.setVisibility(View.VISIBLE);
-
-        sendCodeAgain.setVisibility(View.INVISIBLE);
-        sendCodeAgainTimer.setVisibility(View.INVISIBLE);
-    }
-
-    private void confirmFalse() {
-
-        nameTextField.setVisibility(View.INVISIBLE);
-        nameTextFieldBackGround.setVisibility(View.INVISIBLE);
-
-        nextButton.setVisibility(View.INVISIBLE);
-        nextButtonLabel.setVisibility(View.INVISIBLE);
-
-        sendCodeAgain.setVisibility(View.VISIBLE);
-        sendCodeAgainTimer.setVisibility(View.VISIBLE);
-        sendCodeAgainTimer.setVisibility(View.INVISIBLE);
-
-    }
-
 }
