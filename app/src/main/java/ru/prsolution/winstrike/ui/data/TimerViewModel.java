@@ -27,8 +27,15 @@ import ru.prsolution.winstrike.ui.util.ObservableViewModel;
 public class TimerViewModel extends ObservableViewModel {
     final Integer INITIAL_SECONDS_PER_WORK_SET = 30; // Seconds
 
+    public interface TimeFinishListener {
+        void onTimeFinish();
+    }
+
+   TimeFinishListener listener;
+
     DefaultTimer timer;
     Boolean timerRunning;
+
 
     ObservableInt workTimeLeft = new ObservableInt(INITIAL_SECONDS_PER_WORK_SET * 10); // tenths
     ObservableInt timePerWorkSet = new ObservableInt(INITIAL_SECONDS_PER_WORK_SET * 10); // tenths
@@ -44,6 +51,15 @@ public class TimerViewModel extends ObservableViewModel {
         return timerRunning;
     }
 
+    public void setListener(TimeFinishListener listener) {
+        this.listener = listener;
+    }
+
+    public TimerViewModel() {
+        this.timer = DefaultTimer.INSTANCE;
+    }
+
+
     public void setTimerRunning(Boolean timerRunning) {
         this.timerRunning = timerRunning;
     }
@@ -54,7 +70,6 @@ public class TimerViewModel extends ObservableViewModel {
      */
     public void stopButtonClicked() {
 //        resetTimers();
-//        numberOfSetsElapsed = 0
         state = TimerStates.STOPPED;
         timer.reset();
 
@@ -121,13 +136,11 @@ public class TimerViewModel extends ObservableViewModel {
     }
 
     private void workoutFinished() {
+        this.listener.onTimeFinish();
+//        state = TimerStates.STOPPED;
         timer.resetStartTime();
 //        stage = StartedStages.RESTING
 //        notifyPropertyChanged(BR.inWorkingStage)
-    }
-
-    public TimerViewModel() {
-        this.timer = DefaultTimer.INSTANCE;
     }
 
     enum TimerStates {STOPPED, STARTED, PAUSED}

@@ -50,7 +50,7 @@ import static ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot2Color;
  * Created by designer on 15/03/2018.
  */
 
-public class HelpSmsActivity extends AppCompatActivity  {
+public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel.TimeFinishListener {
     private Dialog dialog;
     private CompositeSubscription subscriptions;
 
@@ -87,9 +87,13 @@ public class HelpSmsActivity extends AppCompatActivity  {
 
     @BindView(R.id.toolbar_title)
     TextView tvToolbarTitle;
+    private TimerViewModel timer;
 
 
-
+    @Override
+    public void onTimeFinish() {
+       setBtnEnable(nextButtonConfirm,true);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,12 +101,14 @@ public class HelpSmsActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.ac_smshelp);
 
-       TimerViewModel viewmodel = ViewModelProviders.of(this).get(TimerViewModel.class);
+        timer = ViewModelProviders.of(this).get(TimerViewModel.class);
+        timer.setListener(this);
+
 
         AcSmshelpBinding binding = DataBindingUtil.setContentView(this, R.layout.ac_smshelp);
         ButterKnife.bind(this);
 
-        binding.setViewmodel(viewmodel);
+        binding.setViewmodel(timer);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -128,8 +134,11 @@ public class HelpSmsActivity extends AppCompatActivity  {
                     // Запрос кода подтверждения повторно
                         ConfirmSmsModel auth = getConfirmSmsModel();
                         sendSms(auth);
+                        timer.startButtonClicked();
+                        setBtnEnable(nextButtonConfirm,false);
                 }
         );
+
 
 
         /*
