@@ -1,10 +1,11 @@
 package ru.prsolution.winstrike.ui.start;
 
+import android.animation.Animator;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -33,15 +34,20 @@ public class SplashActivity extends AppCompatActivity {
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);
+        animationView.setImageAssetsFolder("images/hdpi");
         animationView.setAnimation("data.json");
-        animationView.loop(true);
-        animationView.playAnimation();
+        animationView.loop(false);
+        animationView.setScale(1f);
 
-        tinyDB = new TinyDB(this);
-        new Handler().postDelayed(new Runnable() {
+        animationView.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void run() {
+            public void onAnimationStart(Animator animation) {
+                Log.e("Animation:", "start");
+            }
 
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                Log.e("Animation:","end");
                 if (AuthUtils.INSTANCE.isFirstLogin()) {
                     mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
                     AuthUtils.INSTANCE.setFirstLogin(false);
@@ -51,9 +57,19 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(mainIntent);
                 finish();
             }
-        }, 4000L);
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                Log.e("Animation:", "cancel");
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                Log.e("Animation:", "repeat");
+            }
+        });
+        animationView.playAnimation();
 
     }
-
 }
 
