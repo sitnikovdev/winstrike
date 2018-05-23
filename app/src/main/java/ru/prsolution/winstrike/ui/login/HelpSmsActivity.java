@@ -1,7 +1,9 @@
 package ru.prsolution.winstrike.ui.login;
 
 import android.app.Dialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,14 +32,13 @@ import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.HelpActivity;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.common.utils.TextFormat;
+import ru.prsolution.winstrike.databinding.AcSmshelpBinding;
+import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.apimodels.NewPasswordModel;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.oldapi.ApiService;
-import ru.prsolution.winstrike.oldapi.ServiceGenerator;
-import ru.prsolution.winstrike.common.utils.TextFormat;
-import ru.prsolution.winstrike.common.utils.TinyDB;
-import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
+import ru.prsolution.winstrike.ui.data.TimerViewModel;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
@@ -87,12 +88,21 @@ public class HelpSmsActivity extends AppCompatActivity  {
     @BindView(R.id.toolbar_title)
     TextView tvToolbarTitle;
 
+
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ac_smshelp);
+//        setContentView(R.layout.ac_smshelp);
+
+       TimerViewModel viewmodel = ViewModelProviders.of(this).get(TimerViewModel.class);
+
+        AcSmshelpBinding binding = DataBindingUtil.setContentView(this, R.layout.ac_smshelp);
         ButterKnife.bind(this);
+
+        binding.setViewmodel(viewmodel);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

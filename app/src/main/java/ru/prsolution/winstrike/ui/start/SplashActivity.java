@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);
-        animationView.setImageAssetsFolder("images/hdpi");
+        animationView.setImageAssetsFolder("images/mdpi");
         animationView.setAnimation("data.json");
         animationView.loop(false);
         animationView.setScale(1f);

@@ -195,4 +195,9 @@
     <string name="saved_time_to">saved_time_to</string>
     <string name="saved_date">saved_date</string>
 
+
+    <string name="pause">Pause</string>
+    <string name="start">Start</string>
+    <string name="stop">Reset</string>
+
 </resources>
