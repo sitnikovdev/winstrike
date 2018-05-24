@@ -53,9 +53,6 @@ import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.databinding.AcMainscreenBinding;
-import ru.prsolution.winstrike.db.AppDatabase;
-import ru.prsolution.winstrike.db.AppRepository;
-import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.models.UserProfileObservable;
@@ -154,8 +151,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Inject
     NavigatorHolder navigatorHolder;
-    private AppRepository repository;
-    private UserViewModel mUserViewModel;
     private UserProfileObservable user;
 
     public Service getService() {
@@ -208,8 +203,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         cvBtnOk.setOnClickListener(
                 it -> {
-                    AuthUtils.INSTANCE.setLogout(true);
-                    repository.deleteUser();
+                    AuthUtils.INSTANCE.setToken("");
                     startActivity(new Intent(MainScreenActivity.this, SplashActivity.class));
                 }
         );
@@ -282,7 +276,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
 
-        repository = new AppRepository(AppDatabase.getInstance(getApplicationContext()));
 
 //        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 //         user = ViewModelProviders.of(this).get(ProfileObservableFieldsViewModel.class);
@@ -573,7 +566,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                         break;
                     case Screens.CHOOSE_SCREEN:
                         toolbar.setNavigationOnClickListener(mMainOnClickListener);
-                        initMainToolbar(HIDE_MENU,getResources().getString(R.string.app_name), SHOW_ICON, ScreenType.MAIN);
+                        initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_name), SHOW_ICON, ScreenType.MAIN);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)
@@ -660,17 +653,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             String publicId = AuthUtils.INSTANCE.getPublicid();
             String token = "Bearer " + AuthUtils.INSTANCE.getToken();
             presenter.updateProfile(token, profile, publicId);
-            WinstrikeApp.getInstance().getUser().setName(name);
+            AuthUtils.INSTANCE.setName(name);
+//            WinstrikeApp.getInstance().getUser().setName(name);
             String title = "Настройки";
-            if (WinstrikeApp.getInstance().getUser() != null) {
-                if (!TextUtils.isEmpty(WinstrikeApp.getInstance().getUser().getName())) {
-                    title = WinstrikeApp.getInstance().getUser().getName();
+            if (AuthUtils.INSTANCE.getName() != null) {
+                if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getName())) {
+                    title = AuthUtils.INSTANCE.getName();
                 }
             }
             user.setName(name);
             initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE);
-            repository.deleteUser();
-            repository.insertUser(WinstrikeApp.getInstance().getUser());
         }
     }
 
@@ -813,11 +805,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                     showFragmentHolderContainer(false);
                     setProfileScreenInterfaceVisibility(true);
                     toolbar.setNavigationIcon(null);
-                    user.setName(WinstrikeApp.getInstance().getUser().getName());
+                    user.setName(AuthUtils.INSTANCE.getName());
                     String title = user.getName();
-                    if (WinstrikeApp.getInstance().getUser() != null) {
-                        if (!TextUtils.isEmpty(WinstrikeApp.getInstance().getUser().getName())) {
-                            title = WinstrikeApp.getInstance().getUser().getName();
+                    if (AuthUtils.INSTANCE.getName() != null) {
+                        if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getName())) {
+                            title = AuthUtils.INSTANCE.getName();
                         }
                     }
                     initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE);

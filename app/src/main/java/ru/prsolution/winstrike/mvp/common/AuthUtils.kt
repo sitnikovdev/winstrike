@@ -7,6 +7,8 @@ object AuthUtils {
     private val ISREGISTERED = "isconfirmed"
     private val ISLOGOUT = "islogout"
     private val PHONE = "phone"
+    private val NAME = "name"
+    private val PASSWORD = "password"
 
     var token: String
         get() = PrefUtils.prefs.getString(TOKEN, "")
@@ -34,14 +36,26 @@ object AuthUtils {
 
     var isLogout: Boolean
         get() = PrefUtils.prefs.getBoolean(ISLOGOUT, false)
-        set(isConfirmed) {
-            PrefUtils.editor.putBoolean(ISLOGOUT, isConfirmed).commit()
+        set(isLogout) {
+            PrefUtils.editor.putBoolean(ISLOGOUT, isLogout).commit()
         }
 
     var phone: String
         get() = PrefUtils.prefs.getString(PHONE, "")
         set(phone) {
             PrefUtils.editor.putString(PHONE, phone).commit()
+        }
+
+    var name: String
+        get() = PrefUtils.prefs.getString(NAME, "")
+        set(name) {
+            PrefUtils.editor.putString(NAME, name).commit()
+        }
+
+    var password: String
+        get() = PrefUtils.prefs.getString(PASSWORD, "")
+        set(password) {
+            PrefUtils.editor.putString(PASSWORD, password).commit()
         }
 
 

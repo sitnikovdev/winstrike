@@ -38,6 +38,10 @@ public interface UserDao {
     @Query("select * from user where id = :userId")
     LiveData<UserEntity> loadAllUsers(int userId);
 
+
+    @Query("select * from user")
+    List<UserEntity> loadUsers();
+
     @Query("DELETE FROM user")
     void deleteAllUsers();
 

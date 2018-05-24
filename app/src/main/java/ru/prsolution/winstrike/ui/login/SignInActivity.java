@@ -3,7 +3,6 @@ package ru.prsolution.winstrike.ui.login;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -87,10 +86,10 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     public Service mService;
 
 
-//    @InjectPresenter
+    //    @InjectPresenter
     SignInPresenter mSignInPresenter;
 
-//    @ProvidePresenter
+    //    @ProvidePresenter
     public SignInPresenter createSignInPresenter() {
         return new SignInPresenter(mService, this);
     }
@@ -105,48 +104,15 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
         renderView();
         init();
 
+        if (!AuthUtils.INSTANCE.getToken().isEmpty()) {
+            startActivity(new Intent(this, MainScreenActivity.class));
+        }
 
-//        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-
-        /**
-         *  Check if user is confirmed, if true - go to MainScreenActivity
-         *  no - go to sendSmsByUserRequest.
-         */
-/*        if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getToken())) {
-            AuthUtils.INSTANCE.setLogout(false);
-            router.replaceScreen(Screens.START_SCREEN);
-            Timber.d("Success signIn");
-        }*/
-        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-
-
-        mUserViewModel.getUser().observe(this, (users -> {
-            /**
-             * Pass LiveData observer logic when user is logout. (If don't do it we again load on Main screen after logout).
-             * This is future of LiveData observer, his fire on every data change in db. F.e. if we delete user it fire before delete and get not deleting user.
-             */
-            if (users != null && !AuthUtils.INSTANCE.isLogout()) {
-                if (!users.isEmpty()) {
-                    Timber.d("User load successfully: %s", users);
-                    WinstrikeApp.getInstance().saveUser(users.get(0));
-                    AuthUtils.INSTANCE.setToken(users.get(0).getToken());
-                    AuthUtils.INSTANCE.setPublicid(users.get(0).getPublickId());
-                    if (users.get(0).getConfirmed()) {
-//                        router.replaceScreen(Screens.START_SCREEN);
-                        startActivity(new Intent(this, MainScreenActivity.class));
-                        Timber.d("Success signIn");
-                    } else {
-                        ConfirmSmsModel smsModel = new ConfirmSmsModel();
-                        smsModel.setUsername(users.get(0).getPhone());
-                        mSignInPresenter.sendSms(smsModel);
-
-                        Intent intent =new Intent(this, UserConfirmActivity.class);
-                        intent.putExtra("phone", smsModel.getUsername());
-                        startActivity(intent);
-                    }
-                }
-            }
-        }));
+/*        //  Check if user exist on server!!! If not delete user from db.
+        signInModel = new SignInModel();
+        signInModel.setUsername(AuthUtils.INSTANCE.getPhone());
+        signInModel.setPassword(AuthUtils.INSTANCE.getPassword());
+        mSignInPresenter.signIn(signInModel);*/
 
     }
 
@@ -160,6 +126,8 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
                     signInModel = new SignInModel();
                     signInModel.setUsername(formatPhone(String.valueOf(mPhoneView.getText())));
                     signInModel.setPassword(String.valueOf(mPasswordView.getText()));
+                    AuthUtils.INSTANCE.setPhone(signInModel.getUsername());
+                    AuthUtils.INSTANCE.setPassword(signInModel.getPassword());
 
                     mSignInPresenter.signIn(signInModel);
                 }
@@ -226,8 +194,39 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
      */
     @Override
     public void onAuthResponseSuccess(AuthResponse authResponse) {
-        AuthUtils.INSTANCE.setLogout(false);
+//        AuthUtils.INSTANCE.setLogout(false);
         Boolean confirmed = authResponse.getUser().getConfirmed();
+        UserEntity user = new UserEntity();
+        user.setName(authResponse.getUser().getName());
+        user.setConfirmed(authResponse.getUser().getConfirmed());
+        user.setPublickId(authResponse.getUser().getPublicId());
+        user.setToken(authResponse.getToken());
+        user.setPhone(authResponse.getUser().getPhone());
+    //    WinstrikeApp.getInstance().saveUser(user);
+        AuthUtils.INSTANCE.setName(authResponse.getUser().getName());
+        AuthUtils.INSTANCE.setToken(authResponse.getToken());
+        AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
+
+        if (confirmed ) {
+//                        router.replaceScreen(Screens.START_SCREEN);
+            startActivity(new Intent(this, MainScreenActivity.class));
+            Timber.d("Success signIn");
+        } else if (!confirmed) {
+            ConfirmSmsModel smsModel = new ConfirmSmsModel();
+            smsModel.setUsername(authResponse.getUser().getPhone());
+            mSignInPresenter.sendSms(smsModel);
+
+            Intent intent = new Intent(this, UserConfirmActivity.class);
+            intent.putExtra("phone", smsModel.getUsername());
+            startActivity(intent);
+        }
+
+
+/*        mUserViewModel.getUser();
+        List<UserEntity> users = mUserViewModel.loadUsers();
+        if (!users.isEmpty()) {
+            mUserViewModel.delete();
+        }
         userEntity = new UserEntity();
 
         // TODO: 05/05/2018 Replace list of users by one user.
@@ -237,7 +236,7 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
         userEntity.setName(authResponse.getUser().getName());
         userEntity.setToken(authResponse.getToken());
         userEntity.setConfirmed(confirmed);
-        mUserViewModel.insert(userEntity);
+        mUserViewModel.insert(userEntity);*/
 
     }
 
@@ -245,7 +244,14 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     public void onAuthFailure(String appErrorMessage) {
         Timber.e("Error on auth: %s", appErrorMessage);
         if (appErrorMessage.contains("403")) toast("Неправильный пароль");
-        if (appErrorMessage.contains("404")) toast("Пользователь не найден");
+        if (appErrorMessage.contains("404")) {
+            toast("Пользователь не найден");
+            // If user exist in db - delete him.
+/*            List<UserEntity> users = mUserViewModel.loadUsers();
+            if (!users.isEmpty()) {
+                mUserViewModel.delete();
+            }*/
+        }
         if (appErrorMessage.contains("502")) toast("Ошибка сервера");
         if (appErrorMessage.contains("No Internet Connection!"))
             toast("Интернет подключение не доступно!");

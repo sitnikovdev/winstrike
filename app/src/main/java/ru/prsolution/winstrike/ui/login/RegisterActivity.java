@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.ui.login;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,13 +21,12 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.logging.LoginModel;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.utils.TextFormat;
-import ru.prsolution.winstrike.db.AppDatabase;
-import ru.prsolution.winstrike.db.AppRepository;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.RegisterPresenter;
+import ru.prsolution.winstrike.mvp.views.RegisterView;
 import ru.prsolution.winstrike.networking.Service;
 import rx.Observable;
 import timber.log.Timber;
@@ -37,7 +35,6 @@ import static ru.prsolution.winstrike.common.utils.TextFormat.formatPhone;
 import static ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot1Color;
 import static ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot2Color;
 import static ru.prsolution.winstrike.common.utils.Utils.setBtnEnable;
-import ru.prsolution.winstrike.mvp.views.RegisterView;
 /*
  * Created by oleg on 31.01.2018.
  */
@@ -62,7 +59,6 @@ public class RegisterActivity extends BaseApp implements RegisterView {
 
     private RegisterPresenter presenter;
     private LoginModel user;
-    private AppRepository repository;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +70,6 @@ public class RegisterActivity extends BaseApp implements RegisterView {
 
         init();
 
-        repository = new AppRepository(AppDatabase.getInstance(getApplicationContext()));
         presenter = new RegisterPresenter(service, this);
 
     }
@@ -168,6 +163,7 @@ public class RegisterActivity extends BaseApp implements RegisterView {
         AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
         AuthUtils.INSTANCE.setRegistered(true);
         AuthUtils.INSTANCE.setPhone(user.getPhone());
+        AuthUtils.INSTANCE.setName("NoName");
 
         UserEntity userDb = new UserEntity();
         userDb.setConfirmed(false);
@@ -176,7 +172,6 @@ public class RegisterActivity extends BaseApp implements RegisterView {
         userDb.setToken(authResponse.getToken());
         userDb.setName("NoName");
 
-        repository.insertUser(userDb);
 
         Timber.d("Sms send successfully: %s", authResponse.getMessage());
         Intent intent =new Intent(RegisterActivity.this, UserConfirmActivity.class);

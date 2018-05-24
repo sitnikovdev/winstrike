@@ -13,6 +13,7 @@ import ru.prsolution.winstrike.db.entity.UserEntity;
 public class AppRepository {
     private UserDao mUserDao;
     private LiveData<List<UserEntity>> mUser;
+    private List<UserEntity> mUsers;
 
     private PidDao mPidDao;
     private LiveData<List<PidEntity>> mPids;
@@ -20,6 +21,7 @@ public class AppRepository {
     public AppRepository(AppDatabase db) {
         mUserDao = db.userDao();
         mUser = mUserDao.loadAllUsers();
+        mUsers = mUserDao.loadUsers();
 
         mPidDao = db.pidDao();
         mPids = mPidDao.loadAllPids();
@@ -27,6 +29,10 @@ public class AppRepository {
 
     public LiveData<List<UserEntity>> getUsersList() {
         return mUser;
+    }
+
+    public  List<UserEntity> getUsers() {
+        return this.mUsers;
     }
 
     public LiveData<List<PidEntity>> getPids() {

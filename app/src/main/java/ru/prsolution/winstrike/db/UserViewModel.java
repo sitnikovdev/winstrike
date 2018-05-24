@@ -13,6 +13,7 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 
 public class UserViewModel extends AndroidViewModel {
+    private final List<UserEntity> mUsersList;
     private LiveData<List<UserEntity>> mUsers;
 
     @Inject
@@ -22,15 +23,22 @@ public class UserViewModel extends AndroidViewModel {
         super(application);
         WinstrikeApp.getInstance().getAppComponent().inject(this);
         mUsers = mRepository.getUsersList();
+        mUsersList = mRepository.getUsers();
     }
 
     public LiveData<List<UserEntity>> getUser() {
         return mUsers;
     }
 
+    public List<UserEntity> loadUsers() {
+        return this.mUsersList;
+    }
+
     public void insert(UserEntity UserEntity) {
         mRepository.insertUser(UserEntity);
     }
 
-    public void delete(){mRepository.deleteUser();}
+    public void delete() {
+        mRepository.deleteUser();
+    }
 }

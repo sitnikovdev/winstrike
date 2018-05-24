@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.ui.login;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -26,12 +24,7 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.logging.ConfirmModel;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.logging.ProfileModel;
-import ru.prsolution.winstrike.common.utils.TextFormat;
-import ru.prsolution.winstrike.db.AppDatabase;
-import ru.prsolution.winstrike.db.AppRepository;
 import ru.prsolution.winstrike.db.entity.UserEntity;
-import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
-import ru.prsolution.winstrike.mvp.apimodels.User;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.UserConfirmPresenter;
 import ru.prsolution.winstrike.mvp.views.UserConfirmView;
@@ -99,7 +92,6 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     private UserConfirmPresenter presenter;
     private ConfirmModel user;
     private String phone;
-    private AppRepository repository;
 
 
     @Override
@@ -115,7 +107,6 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
 
         WinstrikeApp.getInstance().getAppComponent().inject(this);
         presenter = new UserConfirmPresenter(service, this);
-        repository = new AppRepository(AppDatabase.getInstance(getApplicationContext()));
 
         renderView();
         init();
@@ -185,9 +176,6 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
                         // Update user profile - set name.
                         String publicId = AuthUtils.INSTANCE.getPublicid();
                         String token = "Bearer " + AuthUtils.INSTANCE.getToken();
-                        // TODO: 22/05/2018 For test only!!!
-//                        String publicId = "60cc441c-9def-41fd-8c31-fa937a80858a";
-//                        String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI2MGNjNDQxYy05ZGVmLTQxZmQtOGMzMS1mYTkzN2E4MDg1OGEiLCJleHAiOjE1MjgxOTgwODl9.cSskPWZKB1x1I36KpZRppZAiMOklUBKX1nWNJaxHaYg";
                         ProfileModel profile = new ProfileModel();
                         profile.setName(String.valueOf(nameTextField.getText()));
                         setBtnEnable(nextButton, true);
@@ -195,16 +183,15 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
                         nextButton.setOnClickListener(
                                 v -> {
 
-                                    repository.deleteUser();
-
                                     UserEntity userDb = new UserEntity();
                                     userDb.setConfirmed(true);
                                     userDb.setPhone(user.getPhone());
                                     userDb.setPublickId(AuthUtils.INSTANCE.getPublicid());
                                     userDb.setToken(AuthUtils.INSTANCE.getToken());
                                     userDb.setName(profile.getName());
+                                    AuthUtils.INSTANCE.setName(userDb.getName());
 
-                                    repository.insertUser(userDb);
+//                                    repository.insertUser(userDb);
 
                                     presenter.updateProfile(token, profile, publicId);
                                     startActivity(new Intent(this, SignInActivity.class));
@@ -230,6 +217,8 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         Timber.d("UserEntity confirm successfully: %s", confirmModel.getMessage());
 //        toast("Пользователь подтвержден");
 //        setBtnEnable(confirmCodeButton, false);
+        // Restore token if user in logout state now
+
         confirmSuccess();
     }
 
@@ -333,7 +322,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     @Override
     public void onProfileUpdateSuccessfully(MessageResponse authResponse) {
         Timber.d("Profile is updated");
-        Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
     }
 
     @Override

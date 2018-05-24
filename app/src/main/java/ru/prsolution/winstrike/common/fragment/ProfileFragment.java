@@ -16,8 +16,8 @@ import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.db.entity.UserEntity;
+import ru.prsolution.winstrike.mvp.common.AuthUtils;
 
 /*
  * Created by oleg on 03.02.2018.
@@ -68,6 +68,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fmt_profile_prof, container, false);
         ButterKnife.bind(this, v);
+        this.user = new UserEntity();
         saveButton.setOnClickListener(
                 it -> {
                     String name = String.valueOf(etFio.getText());
@@ -77,8 +78,8 @@ public class ProfileFragment extends Fragment {
                 }
         );
 
-        if (WinstrikeApp.getInstance().getUser() != null) {
-            this.user = WinstrikeApp.getInstance().getUser();
+        if (AuthUtils.INSTANCE.getName() != null) {
+            this.user.setName(AuthUtils.INSTANCE.getName());
             if (!TextUtils.isEmpty(user.getName())) {
                 etFio.setText(user.getName());
             }
