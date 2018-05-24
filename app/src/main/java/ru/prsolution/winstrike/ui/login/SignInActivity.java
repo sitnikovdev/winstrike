@@ -26,8 +26,6 @@ import ru.prsolution.winstrike.common.HelpActivity;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.logging.SignInModel;
 import ru.prsolution.winstrike.common.utils.TextFormat;
-import ru.prsolution.winstrike.db.UserViewModel;
-import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
@@ -57,8 +55,6 @@ import static ru.prsolution.winstrike.common.utils.Utils.setBtnEnable;
 public class SignInActivity extends AppCompatActivity implements SignInView {
     private SignInModel signInModel;
     private ProgressDialog mProgressDialog;
-    private UserViewModel mUserViewModel;
-    private UserEntity userEntity;
 
     @BindView(R.id.et_phone)
     EditText mPhoneView;
@@ -66,6 +62,11 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     EditText mPasswordView;
     @BindView(R.id.v_button)
     View mSignInButton;
+
+    @BindView(R.id.text_button_title)
+    TextView mSignInButtonLabel;
+
+
     @BindView(R.id.text_help_link)
     TextView mHelpLinkView;
 
@@ -240,6 +241,8 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage("Авторизация...");
             mProgressDialog.setIndeterminate(true);
+            mSignInButton.setVisibility(View.INVISIBLE);
+            mSignInButtonLabel.setVisibility(View.INVISIBLE);
         }
 
         mProgressDialog.show();
@@ -248,6 +251,8 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     protected void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
+            mSignInButton.setVisibility(View.VISIBLE);
+            mSignInButtonLabel.setVisibility(View.VISIBLE);
         }
     }
 
