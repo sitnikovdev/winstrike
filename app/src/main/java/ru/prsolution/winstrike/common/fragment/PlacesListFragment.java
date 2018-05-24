@@ -57,8 +57,8 @@ public class PlacesListFragment extends Fragment {
 
         return rootView;
 /*        rv_pay.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        PayAdapter.EMPTY_PAY = 0;
-        PayAdapter adapter = new PayAdapter(getContext(), mPayList, (OnItemPayClickListener) getActivity());
+        PlacesAdapter.EMPTY_PAY = 0;
+        PlacesAdapter adapter = new PlacesAdapter(getContext(), mPayList, (OnItemPayClickListener) getActivity());
         rv_pay.setAdapter(adapter);
 
         return rootView;*/

@@ -21,7 +21,7 @@ import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 
-public class PayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private OnItemPayClickListener itemPayClickListener;
 
     public static Integer SELECTED_ITEM = 0;
@@ -29,7 +29,7 @@ public class PayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<OrderModel> payList;
     public Boolean IS_PAY;
 
-    public PayAdapter(Context context, List<OrderModel> payList, OnItemPayClickListener itemPayClickListener) {
+    public PlacesAdapter(Context context, List<OrderModel> payList, OnItemPayClickListener itemPayClickListener) {
         this.context = context;
         this.payList = payList;
         IS_PAY = !payList.isEmpty() && payList.size() != 0 ;

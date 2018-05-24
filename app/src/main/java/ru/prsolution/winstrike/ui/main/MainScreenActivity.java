@@ -49,7 +49,7 @@ import ru.prsolution.winstrike.common.fragment.CarouselSeatFragment;
 import ru.prsolution.winstrike.common.fragment.ProfileFragment;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.logging.ProfileModel;
-import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
+import ru.prsolution.winstrike.common.rvadapter.PlacesAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.databinding.AcMainscreenBinding;
@@ -764,7 +764,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
     @Override
-    public void onItemPayClick(PayAdapter.PayViewHolder view, Integer position) {
+    public void onItemPayClick(PlacesAdapter.PayViewHolder view, Integer position) {
         Timber.tag("common").d("onItemPayClick: %s", view.itemView.getClass().getSimpleName());
     }
 

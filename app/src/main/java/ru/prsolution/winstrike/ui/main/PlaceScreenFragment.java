@@ -23,15 +23,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.common.rvadapter.PayAdapter;
+import ru.prsolution.winstrike.common.rvadapter.PlacesAdapter;
 import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.mvp.presenters.PlacesPresenter;
+import ru.prsolution.winstrike.mvp.views.PlacesView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.common.BackButtonListener;
 import ru.prsolution.winstrike.ui.common.BottomDecoratorHelper;
 import ru.prsolution.winstrike.ui.common.RouterProvider;
-import ru.prsolution.winstrike.mvp.presenters.PlacesPresenter;
-import ru.prsolution.winstrike.mvp.views.PlacesView;
 import timber.log.Timber;
 
 
@@ -41,7 +41,7 @@ import timber.log.Timber;
 public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesView, BackButtonListener {
     private static final String EXTRA_NAME = "extra_name";
     private static final String ORDERS = "extra_number";
-    private PayAdapter adapter;
+    private PlacesAdapter adapter;
     private List<OrderModel> mPayList = new ArrayList<>();
 
 
@@ -54,7 +54,6 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
 
     @InjectPresenter
     PlacesPresenter presenter;
-
 
 
     @ProvidePresenter
@@ -74,11 +73,11 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
     public void onCreate(Bundle savedInstanceState) {
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-         mPayList = presenter.getOrders();
-         Timber.d("UserEntity order list size: %s", mPayList.size());
+        mPayList = presenter.getOrders();
+        Timber.d("UserEntity order list size: %s", mPayList.size());
     }
 
-    public static PlaceScreenFragment getNewInstance(String name, ArrayList<OrderModel>  orders) {
+    public static PlaceScreenFragment getNewInstance(String name, ArrayList<OrderModel> orders) {
         PlaceScreenFragment fragment = new PlaceScreenFragment();
         Bundle arguments = new Bundle();
         arguments.putString(EXTRA_NAME, name);
@@ -90,9 +89,15 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fmt_paid, container, false);
-        ButterKnife.bind(this, view);
-        initRView();
+        View view;
+        if (!mPayList.isEmpty()) {
+            view = inflater.inflate(R.layout.fmt_paid, container, false);
+            ButterKnife.bind(this, view);
+            initRView();
+        } else {
+            view = inflater.inflate(R.layout.fmt_nopaid, container, false);
+            ButterKnife.bind(this, view);
+        }
 
         return view;
     }
@@ -101,7 +106,7 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
         rv_pay.addItemDecoration(new BottomDecoratorHelper(350));
         rv_pay.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        adapter = new PayAdapter(getContext(), mPayList, (OnItemPayClickListener) getActivity());
+        adapter = new PlacesAdapter(getContext(), mPayList, (OnItemPayClickListener) getActivity());
         rv_pay.setAdapter(adapter);
     }
 
@@ -117,7 +122,7 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
     @Override
     public void onGetOrdersSuccess(List<OrderModel> orders) {
 /*        Timber.d("Success get layout data from server: %s", orders);
-        adapter = new PayAdapter(getContext(), orders, (OnItemPayClickListener) getActivity());
+        adapter = new PlacesAdapter(getContext(), orders, (OnItemPayClickListener) getActivity());
         rv_pay.setAdapter(adapter);*/
     }
 
@@ -134,10 +139,12 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
     }
 
     @Override
-    public void showWait() { }
+    public void showWait() {
+    }
 
     @Override
-    public void removeWait() { }
+    public void removeWait() {
+    }
 
 
     protected void toast(String message) {
