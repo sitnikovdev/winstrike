@@ -16,6 +16,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
+import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
 import ru.prsolution.winstrike.ui.main.MainScreenActivity;
 import timber.log.Timber;
@@ -29,12 +30,20 @@ public class YandexWebView extends AppCompatActivity {
 
     @BindView(R.id.toolbar_text)
     TextView tvToolbarTitle;
+    private Intent confirmScreen;
+    private Intent mainScreen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_yandexpay);
         ButterKnife.bind(this);
+
+        confirmScreen = new Intent(this, UserConfirmActivity.class);
+        mainScreen = new Intent(this, MainScreenActivity.class);
+
+        confirmScreen.putExtra("phone",AuthUtils.INSTANCE.getPhone());
+        mainScreen.putExtra("phone",AuthUtils.INSTANCE.getPhone());
 
         url = getIntent().getStringExtra("url");
 
@@ -46,14 +55,15 @@ public class YandexWebView extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Оплата");
         if (url.contains("politika.html")) {
-            toolbar.setTitle(R.string.politica);
+//            toolbar.setTitle(R.string.politica);
+            initMainToolbar(true, getResources().getString(R.string.politica));
+        } else if (url.contains("rules")) {
+            initMainToolbar(true, "Условия использования приложения Winstrike");
         } else {
-            toolbar.setTitle("Оплата");
+            initMainToolbar(true, "Оплата");
         }
 
-        initMainToolbar(true, "Оплата");
 
 /*
         toolbar.setTitleMargin(250, 0, 0, 0);
@@ -64,11 +74,10 @@ public class YandexWebView extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                presenter.onBackPressed();
                 if (url.contains("politika.html") || url.contains("rules.html")) {
-                    startActivity(new Intent(getApplicationContext(), UserConfirmActivity.class));
+                    startActivity(confirmScreen);
                 } else {
-                    startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+                    startActivity(mainScreen);
                 }
             }
         });

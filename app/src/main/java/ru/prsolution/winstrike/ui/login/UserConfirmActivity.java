@@ -119,6 +119,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         phone = getIntent().getStringExtra("phone");
         if (phone == null) {
             phone = "9520757099";
+            AuthUtils.INSTANCE.setPhone(phone);
         }
 
 

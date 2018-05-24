@@ -332,8 +332,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         }
     }
 
-    ;
-
 
     /**
      * Check before time select that date is already selected.
