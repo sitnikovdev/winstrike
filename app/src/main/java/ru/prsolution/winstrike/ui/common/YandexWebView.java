@@ -11,7 +11,10 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
 import ru.prsolution.winstrike.ui.main.MainScreenActivity;
@@ -22,11 +25,16 @@ public class YandexWebView extends AppCompatActivity {
     private WebView mWebView;
     private String url;
     private ProgressBar progressBar;
+    private Toolbar toolbar;
+
+    @BindView(R.id.toolbar_text)
+    TextView tvToolbarTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_yandexpay);
+        ButterKnife.bind(this);
 
         url = getIntent().getStringExtra("url");
 
@@ -35,18 +43,23 @@ public class YandexWebView extends AppCompatActivity {
         }
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("Оплата");
         if (url.contains("politika.html")) {
             toolbar.setTitle(R.string.politica);
         } else {
-            toolbar.setTitle(R.string.arena_name);
+            toolbar.setTitle("Оплата");
         }
 
+        initMainToolbar(true, "Оплата");
+
+/*
         toolbar.setTitleMargin(250, 0, 0, 0);
         toolbar.setTitleTextColor(getResources().getColor(R.color.color_primary));
         toolbar.setNavigationIcon(R.drawable.back_arrow);
+*/
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +72,7 @@ public class YandexWebView extends AppCompatActivity {
                 }
             }
         });
+
 
         mWebView = (WebView) findViewById(R.id.webView);
         mWebView.setWebViewClient(new MyWebViewClient());
@@ -92,22 +106,36 @@ public class YandexWebView extends AppCompatActivity {
         @Override
         public void onLoadResource(WebView view, String url) {
             super.onLoadResource(view, url);
-            Timber.d("Load link: %s",url);
+            Timber.d("Load link: %s", url);
             if (url.equals("https://dev.winstrike.ru/api/v1/orders")) {
                 Intent intent = new Intent();
                 intent.putExtra("payments", true);
-                startActivity(new Intent(YandexWebView.this,MainScreenActivity.class));
+                startActivity(new Intent(YandexWebView.this, MainScreenActivity.class));
             }
         }
     }
 
     @Override
     public void onBackPressed() {
-        if(mWebView.canGoBack()) {
+        if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void initMainToolbar(Boolean hide_menu, String title) {
+        setSupportActionBar(toolbar);
+//        toolbar.setNavigationOnClickListener(mMainOnClickListener);
+
+//        mScreenType = screenType;
+        // getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
+        invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
+        toolbar.setNavigationIcon(R.drawable.back_arrow);
+        tvToolbarTitle.setText(title);
+        toolbar.setNavigationIcon(R.drawable.back_arrow);
+        toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStartWithNavigation());
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
 

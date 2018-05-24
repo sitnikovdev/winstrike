@@ -586,7 +586,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                         break;
                     case Screens.MAP_SCREEN:
                         toolbar.setNavigationOnClickListener(mMapOnClickListener);
-                        initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_name), SHOW_ICON, ScreenType.MAP);
+                        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)
@@ -599,6 +599,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                         fm.executePendingTransactions();
                         break;
                     case Screens.PAY_SCREEN:
+                        initMainToolbar(HIDE_MENU, "Оплата", SHOW_ICON, ScreenType.MAP);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)

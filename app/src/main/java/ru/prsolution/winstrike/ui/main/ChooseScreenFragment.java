@@ -157,7 +157,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         // TODO: 13/05/2018 Make model for that cases:
         if (seat != null && seat.getType().contains("VIP")) {
             ivSeatImg.setImageResource(R.drawable.vip);
-            seat_title.setText("Вы выбрали: VIP место");
+            seat_title.setText("Вы выбрали: VIP room");
 
             tvCpu.setText("CPU: intel i7-8700k");
             tvRam.setText("RAM: 64GB, SSD HDD 500gb");
@@ -166,7 +166,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
 
         } else {
             ivSeatImg.setImageResource(R.drawable.event);
-            seat_title.setText("Вы выбрали: Обычное место");
+            seat_title.setText("Вы выбрали: Основной зал");
 
             tvCpu.setText("CPU: intel i5-8400k");
             tvRam.setText("RAM: 64GB, SSD HDD 500gb");
