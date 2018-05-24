@@ -22,9 +22,8 @@ import android.databinding.ObservableInt;
 import java.util.TimerTask;
 
 import ru.prsolution.winstrike.ui.util.DefaultTimer;
-import ru.prsolution.winstrike.ui.util.ObservableViewModel;
 
-public class TimerViewModel extends ObservableViewModel {
+public class TimerViewModel  {
     final Integer INITIAL_SECONDS_PER_WORK_SET = 30; // Seconds
 
     public interface TimeFinishListener {
@@ -47,9 +46,6 @@ public class TimerViewModel extends ObservableViewModel {
         return workTimeLeft;
     }
 
-    public Boolean getTimerRunning() {
-        return timerRunning;
-    }
 
     public void setListener(TimeFinishListener listener) {
         this.listener = listener;
@@ -59,11 +55,21 @@ public class TimerViewModel extends ObservableViewModel {
         this.timer = DefaultTimer.INSTANCE;
     }
 
+    public Boolean getTimerRunning() {
+        return  state == TimerStates.STARTED;
+    }
+
+    public TimerStates getState() {
+        return state;
+    }
+
+    public void setState(TimerStates state) {
+        this.state = state;
+    }
 
     public void setTimerRunning(Boolean timerRunning) {
         this.timerRunning = timerRunning;
     }
-
 
     /**
      * Resets timers and state. Called from the UI.

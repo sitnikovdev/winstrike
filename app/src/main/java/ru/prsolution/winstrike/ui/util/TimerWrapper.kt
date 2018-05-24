@@ -64,10 +64,14 @@ object DefaultTimer : Timer {
     private var timer = java.util.Timer()
 
     override fun reset() {
-        timer.cancel()
+        startTime = System.currentTimeMillis()
+        pauseTime = System.currentTimeMillis()
+//        timer.cancel()
     }
 
     override fun start(task: TimerTask) {
+        startTime = System.currentTimeMillis()
+        pauseTime = System.currentTimeMillis()
         timer = java.util.Timer()
         timer.scheduleAtFixedRate(task, 0, TIMER_PERIOD_MS)
     }

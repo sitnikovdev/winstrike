@@ -137,7 +137,7 @@
             android:id="@+id/next_button_phone"
             android:layout_width="160dp"
             android:layout_height="48dp"
-            android:layout_marginTop="@dimen/margingtop_button_32dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/button_bgr_24dp"
             app:layout_constraintEnd_toEndOf="@id/line_end"
             app:layout_constraintStart_toStartOf="@id/line_start"
@@ -253,35 +253,6 @@
             app:layout_constraintEnd_toEndOf="@+id/next_button_confirm"
             app:layout_constraintStart_toStartOf="@+id/next_button_confirm"
             app:layout_constraintTop_toTopOf="@+id/next_button_confirm"/>
-
-
-        <ToggleButton
-            android:id="@+id/startPause"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:checked="@={viewmodel.timerRunning}"
-            android:focusable="true"
-            android:onClick="@{() -> viewmodel.startButtonClicked()}"
-            android:textOff="@string/start"
-            android:textOn="@string/pause"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toEndOf="@+id/stop"
-            tools:layout_editor_absoluteY="543dp" />
-
-        <Button
-            android:id="@+id/stop"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:layout_marginStart="8dp"
-            android:onClick="@{() -> viewmodel.stopButtonClicked()}"
-            android:text="@string/stop"
-            app:layout_constraintEnd_toStartOf="@+id/startPause"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="543dp" />
-
 
 
 
