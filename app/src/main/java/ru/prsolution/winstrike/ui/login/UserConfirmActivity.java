@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
@@ -30,6 +31,7 @@ import ru.prsolution.winstrike.mvp.presenters.UserConfirmPresenter;
 import ru.prsolution.winstrike.mvp.views.UserConfirmView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.common.YandexWebView;
+import ru.prsolution.winstrike.ui.data.TimerViewModel;
 import timber.log.Timber;
 
 import static ru.prsolution.winstrike.common.utils.TextFormat.setTextColor;
@@ -40,7 +42,7 @@ import static ru.prsolution.winstrike.common.utils.Utils.setBtnEnable;
  * Created by designer on 15/03/2018.
  */
 
-public class UserConfirmActivity extends AppCompatActivity implements UserConfirmView {
+public class UserConfirmActivity extends AppCompatActivity implements UserConfirmView, TimerViewModel.TimeFinishListener {
 
     @BindView(R.id.tv_hint)
     TextView codeSentLabel;
@@ -69,7 +71,11 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     @BindView(R.id.tv_nextbtn_label)
     TextView nextButtonLabel;
 
+    @BindView(R.id.v_send_code_again)
+    View sendCodeAgain;
 
+    @BindView((R.id.tv_send_code_again))
+    TextView sendCodeAgainLabel;
 
     @BindView(R.id.tv_send_code_again_timer)
     TextView sendCodeAgainTimer;
@@ -81,6 +87,8 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     @BindView(R.id.text_footer4)
     TextView privacyButton;
 
+    @BindView(R.id.displayWorkTimeLeft)
+    AppCompatTextView displayWorkTimeLeft;
 
     @Inject
     public Service service;
@@ -88,7 +96,16 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     private UserConfirmPresenter presenter;
     private ConfirmModel user;
     private String phone;
+    private TimerViewModel timer;
 
+    @Override
+    public void onTimeFinish() {
+//        setBtnEnable(sendCodeAgain,true);
+        timer.stopButtonClicked();
+        displayWorkTimeLeft.setVisibility(View.INVISIBLE);
+        sendCodeAgain.setVisibility(View.VISIBLE);
+        sendCodeAgainLabel.setVisibility(View.VISIBLE);
+    }
 
     @Override
     protected void onStop() {
@@ -107,6 +124,8 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         renderView();
         init();
 
+        timer = new TimerViewModel();
+        timer.setListener(this);
     }
 
     private void renderView() {
@@ -122,12 +141,11 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
             AuthUtils.INSTANCE.setPhone(phone);
         }
 
-
-//        confirmSuccess();
         confirmFalse();
 
         setBtnEnable(nextButton, false);
 
+        displayWorkTimeLeft.setVisibility(View.INVISIBLE);
 
         // Меняем видимость кнопки  корректном вводе кода из смс
         RxTextView.textChanges(codeTextField).subscribe(
@@ -144,6 +162,8 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         // Подтверждаем пользователя (отправляем серверу запрос с кодом введеным пользователем)
         confirmCodeButton.setOnClickListener(
                 it -> {
+                    displayWorkTimeLeft.setVisibility(View.VISIBLE);
+                    timer.startButtonClicked();
                     String sms_code = String.valueOf(codeTextField.getText());
                     Timber.d("sms_code: %s", sms_code);
 
@@ -238,6 +258,9 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     public void onSendSmsSuccess(MessageResponse authResponse) {
         Timber.d("Sms send successfully: %s", authResponse.getMessage());
         toast("Код выслан повторно");
+
+        displayWorkTimeLeft.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -259,7 +282,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         nextButton.setVisibility(View.VISIBLE);
         nextButtonLabel.setVisibility(View.VISIBLE);
 
-//        sendCodeAgain.setVisibility(View.INVISIBLE);
+        sendCodeAgain.setVisibility(View.INVISIBLE);
         sendCodeAgainTimer.setVisibility(View.INVISIBLE);
     }
 
@@ -273,7 +296,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         nextButton.setVisibility(View.INVISIBLE);
         nextButtonLabel.setVisibility(View.INVISIBLE);
 
-//        sendCodeAgain.setVisibility(View.VISIBLE);
+        sendCodeAgain.setVisibility(View.VISIBLE);
         sendCodeAgainTimer.setVisibility(View.VISIBLE);
         sendCodeAgainTimer.setVisibility(View.INVISIBLE);
 
@@ -311,10 +334,12 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     }
 
     @Override
-    public void showWait() { }
+    public void showWait() {
+    }
 
     @Override
-    public void removeWait() { }
+    public void removeWait() {
+    }
 
     @Override
     public void onProfileUpdateSuccessfully(MessageResponse authResponse) {

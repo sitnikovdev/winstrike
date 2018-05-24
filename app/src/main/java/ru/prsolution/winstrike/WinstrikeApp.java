@@ -4,6 +4,8 @@ import android.app.Application;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,6 +32,7 @@ public class WinstrikeApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         INSTANCE = this;
     }
 

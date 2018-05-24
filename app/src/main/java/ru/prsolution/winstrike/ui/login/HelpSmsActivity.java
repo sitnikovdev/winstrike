@@ -103,9 +103,7 @@ public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.ac_smshelp);
 
-//        timer = ViewModelProviders.of(this).get(TimerViewModel.class);
         timer = new TimerViewModel();
         timer.setListener(this);
 
