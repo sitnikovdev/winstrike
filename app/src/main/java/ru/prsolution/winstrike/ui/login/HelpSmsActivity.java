@@ -95,8 +95,8 @@ public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel
 
     @Override
     public void onTimeFinish() {
-       setBtnEnable(nextButtonPhone,true);
-       timer.stopButtonClicked();
+        setBtnEnable(nextButtonPhone, true);
+        timer.stopButtonClicked();
     }
 
     @Override
@@ -135,10 +135,10 @@ public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel
         nextButtonPhone.setOnClickListener(
                 view -> {
                     // Запрос кода подтверждения повторно
-                        ConfirmSmsModel auth = getConfirmSmsModel();
-                        sendSms(auth);
-                        timer.startButtonClicked();
-                        setBtnEnable(nextButtonPhone,false);
+                    ConfirmSmsModel auth = getConfirmSmsModel();
+                    sendSms(auth);
+                    timer.startButtonClicked();
+                    setBtnEnable(nextButtonPhone, false);
                 }
         );
 
@@ -424,7 +424,7 @@ public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel
 
     private void onRefreshPasswordSuccess(MessageResponse authResponse) {
         toast("Новый пароль успешно сохранен");
-        startActivity(new Intent(this,SignInActivity.class));
+        startActivity(new Intent(this, SignInActivity.class));
     }
 
     @Override

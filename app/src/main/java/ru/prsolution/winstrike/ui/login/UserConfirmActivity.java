@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +26,9 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.logging.ConfirmModel;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
 import ru.prsolution.winstrike.common.logging.ProfileModel;
+import ru.prsolution.winstrike.databinding.AcConfsmscodeBinding;
 import ru.prsolution.winstrike.db.entity.UserEntity;
+import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.UserConfirmPresenter;
 import ru.prsolution.winstrike.mvp.views.UserConfirmView;
@@ -102,9 +105,15 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     public void onTimeFinish() {
 //        setBtnEnable(sendCodeAgain,true);
         timer.stopButtonClicked();
-        displayWorkTimeLeft.setVisibility(View.INVISIBLE);
-        sendCodeAgain.setVisibility(View.VISIBLE);
-        sendCodeAgainLabel.setVisibility(View.VISIBLE);
+
+        runOnUiThread(
+                () -> {
+                    displayWorkTimeLeft.setVisibility(View.INVISIBLE);
+
+                    sendCodeAgain.setVisibility(View.VISIBLE);
+                    sendCodeAgainLabel.setVisibility(View.VISIBLE);
+                }
+        );
     }
 
     @Override
@@ -121,16 +130,21 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         WinstrikeApp.getInstance().getAppComponent().inject(this);
         presenter = new UserConfirmPresenter(service, this);
 
+
         renderView();
         init();
 
-        timer = new TimerViewModel();
-        timer.setListener(this);
     }
 
     private void renderView() {
-        setContentView(R.layout.ac_confsmscode);
+//        setContentView(R.layout.ac_confsmscode);
+        timer = new TimerViewModel();
+        timer.setListener(this);
+
+        AcConfsmscodeBinding binding = DataBindingUtil.setContentView(this, R.layout.ac_confsmscode);
         ButterKnife.bind(this);
+
+        binding.setViewmodel(timer);
     }
 
     private void init() {
@@ -145,7 +159,20 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
 
         setBtnEnable(nextButton, false);
 
-        displayWorkTimeLeft.setVisibility(View.INVISIBLE);
+        sendCodeAgain.setOnClickListener(
+                it -> {
+                    ConfirmSmsModel smsModel = new ConfirmSmsModel();
+                    smsModel.setUsername(AuthUtils.INSTANCE.getPhone());
+                    presenter.sendSms(smsModel);
+                }
+        );
+
+        sendCodeAgainLabel.setVisibility(View.INVISIBLE);
+        sendCodeAgain.setVisibility(View.INVISIBLE);
+
+        displayWorkTimeLeft.setVisibility(View.VISIBLE);
+        timer.startButtonClicked();
+
 
         // Меняем видимость кнопки  корректном вводе кода из смс
         RxTextView.textChanges(codeTextField).subscribe(
@@ -162,8 +189,6 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         // Подтверждаем пользователя (отправляем серверу запрос с кодом введеным пользователем)
         confirmCodeButton.setOnClickListener(
                 it -> {
-                    displayWorkTimeLeft.setVisibility(View.VISIBLE);
-                    timer.startButtonClicked();
                     String sms_code = String.valueOf(codeTextField.getText());
                     Timber.d("sms_code: %s", sms_code);
 
@@ -259,7 +284,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         Timber.d("Sms send successfully: %s", authResponse.getMessage());
         toast("Код выслан повторно");
 
-        displayWorkTimeLeft.setVisibility(View.VISIBLE);
+//        displayWorkTimeLeft.setVisibility(View.VISIBLE);
 
     }
 
