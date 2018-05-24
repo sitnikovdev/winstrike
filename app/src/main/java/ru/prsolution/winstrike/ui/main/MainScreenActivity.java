@@ -203,7 +203,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         cvBtnOk.setOnClickListener(
                 it -> {
-                    AuthUtils.INSTANCE.setToken("");
+//                    AuthUtils.INSTANCE.setToken("");
+                    AuthUtils.INSTANCE.setLogout(true);
                     startActivity(new Intent(MainScreenActivity.this, SplashActivity.class));
                 }
         );
@@ -270,6 +271,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         this.mMapOnClickListener = null;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AuthUtils.INSTANCE.setLogout(false);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

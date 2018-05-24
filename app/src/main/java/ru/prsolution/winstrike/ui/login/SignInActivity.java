@@ -85,6 +85,20 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     @Inject
     public Service mService;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mSignInPresenter = createSignInPresenter();
+        if (AuthUtils.INSTANCE.isLogout()) {
+            AuthUtils.INSTANCE.setLogout(false);
+        } else {
+            //  Check if user exist on server!!!
+            signInModel = new SignInModel();
+            signInModel.setUsername(AuthUtils.INSTANCE.getPhone());
+            signInModel.setPassword(AuthUtils.INSTANCE.getPassword());
+            mSignInPresenter.signIn(signInModel);
+        }
+    }
 
     //    @InjectPresenter
     SignInPresenter mSignInPresenter;
@@ -99,20 +113,9 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
         WinstrikeApp.getInstance().getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
 
-        mSignInPresenter = createSignInPresenter();
-
         renderView();
         init();
 
-        if (!AuthUtils.INSTANCE.getToken().isEmpty()) {
-            startActivity(new Intent(this, MainScreenActivity.class));
-        }
-
-/*        //  Check if user exist on server!!! If not delete user from db.
-        signInModel = new SignInModel();
-        signInModel.setUsername(AuthUtils.INSTANCE.getPhone());
-        signInModel.setPassword(AuthUtils.INSTANCE.getPassword());
-        mSignInPresenter.signIn(signInModel);*/
 
     }
 
@@ -172,10 +175,7 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     @Override
     public void onSendSmsSuccess(MessageResponse confirmModel) {
         Timber.tag("common").d("Sms send success: %s", confirmModel.getMessage());
-        toast("Код выслан повторно");
-/*        Intent intent = new Intent(SignInActivity.this, UserConfirmActivity.class);
-        intent.putExtra("phone", formatPhone(String.valueOf(mPhoneView.getText())));
-        startActivity(new Intent(SignInActivity.this, UserConfirmActivity.class));*/
+//        toast("Код выслан повторно");
     }
 
     @Override
@@ -190,24 +190,18 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     /**
      * Success auth user. Save token
      *
-     * @param authResponse - (token,isRegistered)
+     * @param authResponse - (token,isConfirmed)
      */
     @Override
     public void onAuthResponseSuccess(AuthResponse authResponse) {
-//        AuthUtils.INSTANCE.setLogout(false);
         Boolean confirmed = authResponse.getUser().getConfirmed();
-        UserEntity user = new UserEntity();
-        user.setName(authResponse.getUser().getName());
-        user.setConfirmed(authResponse.getUser().getConfirmed());
-        user.setPublickId(authResponse.getUser().getPublicId());
-        user.setToken(authResponse.getToken());
-        user.setPhone(authResponse.getUser().getPhone());
-    //    WinstrikeApp.getInstance().saveUser(user);
         AuthUtils.INSTANCE.setName(authResponse.getUser().getName());
         AuthUtils.INSTANCE.setToken(authResponse.getToken());
+        AuthUtils.INSTANCE.setPhone(authResponse.getUser().getPhone());
+        AuthUtils.INSTANCE.setConfirmed(authResponse.getUser().getConfirmed());
         AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
 
-        if (confirmed ) {
+        if (confirmed && AuthUtils.INSTANCE.isLogout()!=true) {
 //                        router.replaceScreen(Screens.START_SCREEN);
             startActivity(new Intent(this, MainScreenActivity.class));
             Timber.d("Success signIn");
@@ -221,23 +215,6 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
             startActivity(intent);
         }
 
-
-/*        mUserViewModel.getUser();
-        List<UserEntity> users = mUserViewModel.loadUsers();
-        if (!users.isEmpty()) {
-            mUserViewModel.delete();
-        }
-        userEntity = new UserEntity();
-
-        // TODO: 05/05/2018 Replace list of users by one user.
-        // Save user in db
-        userEntity.setPublickId(authResponse.getUser().getPublicId());
-        userEntity.setPhone(authResponse.getUser().getPhone());
-        userEntity.setName(authResponse.getUser().getName());
-        userEntity.setToken(authResponse.getToken());
-        userEntity.setConfirmed(confirmed);
-        mUserViewModel.insert(userEntity);*/
-
     }
 
     @Override
@@ -246,11 +223,6 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
         if (appErrorMessage.contains("403")) toast("Неправильный пароль");
         if (appErrorMessage.contains("404")) {
             toast("Пользователь не найден");
-            // If user exist in db - delete him.
-/*            List<UserEntity> users = mUserViewModel.loadUsers();
-            if (!users.isEmpty()) {
-                mUserViewModel.delete();
-            }*/
         }
         if (appErrorMessage.contains("502")) toast("Ошибка сервера");
         if (appErrorMessage.contains("No Internet Connection!"))

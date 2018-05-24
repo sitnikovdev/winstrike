@@ -69,11 +69,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     @BindView(R.id.tv_nextbtn_label)
     TextView nextButtonLabel;
 
-    @BindView(R.id.v_send_code_again)
-    View sendCodeAgain;
 
-    @BindView((R.id.tv_send_code_again))
-    TextView sendCodeAgainLabel;
 
     @BindView(R.id.tv_send_code_again_timer)
     TextView sendCodeAgainTimer;
@@ -262,7 +258,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         nextButton.setVisibility(View.VISIBLE);
         nextButtonLabel.setVisibility(View.VISIBLE);
 
-        sendCodeAgain.setVisibility(View.INVISIBLE);
+//        sendCodeAgain.setVisibility(View.INVISIBLE);
         sendCodeAgainTimer.setVisibility(View.INVISIBLE);
     }
 
@@ -276,7 +272,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         nextButton.setVisibility(View.INVISIBLE);
         nextButtonLabel.setVisibility(View.INVISIBLE);
 
-        sendCodeAgain.setVisibility(View.VISIBLE);
+//        sendCodeAgain.setVisibility(View.VISIBLE);
         sendCodeAgainTimer.setVisibility(View.VISIBLE);
         sendCodeAgainTimer.setVisibility(View.INVISIBLE);
 

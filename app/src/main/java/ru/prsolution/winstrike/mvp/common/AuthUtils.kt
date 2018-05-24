@@ -4,7 +4,7 @@ object AuthUtils {
     private val TOKEN = "token"
     private val PUBLICID = "publicid"
     private val ISFIRSTENTER = "firstLogin"
-    private val ISREGISTERED = "isconfirmed"
+    private val ISCONFIRMED = "isconfirmed"
     private val ISLOGOUT = "islogout"
     private val PHONE = "phone"
     private val NAME = "name"
@@ -28,10 +28,10 @@ object AuthUtils {
             PrefUtils.editor.putBoolean(ISFIRSTENTER, isFirstLogin).commit()
         }
 
-    var isRegistered: Boolean
-        get() = PrefUtils.prefs.getBoolean(ISREGISTERED, false)
+    var isConfirmed: Boolean
+        get() = PrefUtils.prefs.getBoolean(ISCONFIRMED, false)
         set(isConfirmed) {
-            PrefUtils.editor.putBoolean(ISREGISTERED, isConfirmed).commit()
+            PrefUtils.editor.putBoolean(ISCONFIRMED, isConfirmed).commit()
         }
 
     var isLogout: Boolean

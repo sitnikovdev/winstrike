@@ -161,7 +161,7 @@ public class RegisterActivity extends BaseApp implements RegisterView {
         //saveUser(authResponse);
         AuthUtils.INSTANCE.setToken(authResponse.getToken());
         AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
-        AuthUtils.INSTANCE.setRegistered(true);
+        AuthUtils.INSTANCE.setConfirmed(false);
         AuthUtils.INSTANCE.setPhone(user.getPhone());
         AuthUtils.INSTANCE.setName("NoName");
 
