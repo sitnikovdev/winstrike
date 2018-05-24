@@ -345,6 +345,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         if (dpWidth <= 360) {
             viewPagerSeat.setPageMargin(-500);
+        } else if (dpWidth <= 500) {
+            viewPagerSeat.setPageMargin(-500);
         } else {
             viewPagerSeat.setPageMargin(-600);
         }
