@@ -98,8 +98,10 @@
     <TextView
         android:id="@+id/tv_date_news"
         style="@style/StemMedium15Black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@drawable/ripple_effect_title_click"
+        android:clickable="true"
         android:text="@string/seatdetail_date"
         android:layout_marginStart="@dimen/start_head"
         android:layout_alignStart="@+id/head_image"
@@ -133,8 +135,8 @@
     <TextView
         android:id="@+id/tv_time_left"
         style="@style/StemMedium15Black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
         android:background="@drawable/ripple_effect_title_click"
         android:clickable="true"
         android:text="@string/seatdetail_time"

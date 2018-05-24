@@ -266,7 +266,7 @@
                 android:id="@+id/btn_confirm"
                 style="@style/StemMedium17Primary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="3dp"
                 android:layout_marginBottom="36dp"
@@ -276,6 +276,20 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <View
+                android:id="@+id/v_button_tap"
+                android:layout_width="150dp"
+                android:layout_height="@dimen/spacing_50dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_confirm"
+                app:layout_constraintEnd_toEndOf="@+id/btn_confirm"
+                app:layout_constraintHorizontal_bias="0.339"
+                app:layout_constraintStart_toStartOf="@+id/btn_confirm"
+                app:layout_constraintTop_toTopOf="@+id/btn_confirm"
+                app:layout_constraintVertical_bias="0.5" />
+
+
 
         </android.support.constraint.ConstraintLayout>
 

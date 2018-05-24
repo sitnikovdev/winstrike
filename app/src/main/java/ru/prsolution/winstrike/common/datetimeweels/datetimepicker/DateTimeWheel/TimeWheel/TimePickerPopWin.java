@@ -101,6 +101,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
 
     private boolean isFromTimeSelect = false;
     private boolean isToTimeSelect = false;
+    private View confirmBtnTap;
 
     public static class Builder {
 
@@ -247,6 +248,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
         pickerContainerV = contentView.findViewById(R.id.container_picker);
         cancelBtn = (Button) contentView.findViewById(R.id.btn_cancel);
         confirmBtn = (TextView) contentView.findViewById(R.id.btn_confirm);
+        confirmBtnTap = (View) contentView.findViewById(R.id.v_button_tap);
 
         hourLoopView = (LoopView) contentView.findViewById(R.id.picker_hour);
         minLoopView = (LoopView) contentView.findViewById(R.id.picker_min);
@@ -356,7 +358,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
         });
 
         cancelBtn.setOnClickListener(this);
-        confirmBtn.setOnClickListener(this);
+        confirmBtnTap.setOnClickListener(this);
         contentView.setOnClickListener(this);
 
     }
@@ -539,7 +541,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
         if (v == contentView || v == cancelBtn) {
 
 //            dismissPopWin();
-        } else if (v == confirmBtn) {
+        } else if (v == confirmBtnTap) {
 
             if (null != mListener) {
 

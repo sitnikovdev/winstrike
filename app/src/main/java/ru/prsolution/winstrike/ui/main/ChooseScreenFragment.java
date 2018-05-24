@@ -62,7 +62,10 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     ImageView ivSeatImg;
 
     @BindView(R.id.tv_date_news)
-    TextView tv_date;
+    TextView dateTextTap;
+
+    @BindView(R.id.tv_time_left)
+    TextView timeTextTap;
 
     @BindView(R.id.v_date_tap)
     View vDateTap;
@@ -73,8 +76,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     @BindView(R.id.next_button)
     View showMapButton;
 
-    @BindView(R.id.tv_time_left)
-    TextView tv_time;
 
     @BindView(R.id.iv_arr_time)
     ImageView iv_arr_time;
@@ -297,19 +298,19 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     private void initDateSelectDialog() {
         String date = "Выберите дату";
         String time = "Укажите диапазон времени";
-        tv_date.setText(date);
-        tv_time.setText(time);
+        dateTextTap.setText(date);
+        timeTextTap.setText(time);
 
 
         if (this.dataPicker == null) {
 
-            dateListener = new DateListener(tv_date);
+            dateListener = new DateListener(dateTextTap);
 
             dataPicker = new DataPicker(getActivity(), dateListener);
         }
 
 
-        RxView.clicks(vDateTap).subscribe(
+        RxView.clicks(dateTextTap).subscribe(
                 it -> {
                     isDataSelected = true;
                     dataPicker.build().show();
@@ -338,7 +339,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
      * Check before time select that date is already selected.
      */
     private void initTimeSelectDialog() {
-        RxView.clicks(vTimeTap).subscribe(
+        RxView.clicks(timeTextTap).subscribe(
                 it -> {
                     if (isDataSelected) {
                         openTimePickerDialog();
@@ -377,7 +378,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         TimePickerPopWin pickerPopWin = new TimePickerPopWin.Builder(getActivity(), (hour, min, timeDesc, timeFromData, timeToData) -> {
 
             String time = timeFromData + " - " + timeToData;
-            tv_time.setText(time);
+            timeTextTap.setText(time);
             tinyDB.putString("time", time);
 
 
