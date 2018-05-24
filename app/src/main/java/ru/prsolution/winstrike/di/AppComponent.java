@@ -24,6 +24,7 @@ import ru.prsolution.winstrike.ui.main.MapScreenFragment;
 import ru.prsolution.winstrike.ui.main.PayScreenFragment;
 import ru.prsolution.winstrike.ui.main.PlaceScreenFragment;
 import ru.prsolution.winstrike.ui.main.ProfileScreenFragment;
+import ru.prsolution.winstrike.ui.start.SplashActivity;
 
 /**
  * Created by ennur on 6/28/16.
@@ -59,4 +60,6 @@ public interface AppComponent {
     void inject(PidViewModel userViewModel);
 
     void inject(HelpSmsActivity activity);
+
+    void inject(SplashActivity activity);
 }

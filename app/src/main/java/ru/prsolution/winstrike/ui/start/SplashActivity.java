@@ -8,23 +8,44 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 
+import javax.inject.Inject;
+
 import ru.prsolution.winstrike.R;
+import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.common.logging.SignInModel;
 import ru.prsolution.winstrike.common.utils.TinyDB;
 import ru.prsolution.winstrike.db.UserViewModel;
+import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
+import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
+import ru.prsolution.winstrike.mvp.presenters.SplashPresenter;
+import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.guides.GuideActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
+import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
+import ru.prsolution.winstrike.ui.main.MainScreenActivity;
+import timber.log.Timber;
+
 
 public class SplashActivity extends AppCompatActivity {
     private TinyDB tinyDB;
     private Intent mainIntent;
     private UserViewModel mUserViewModel;
+    SplashPresenter mSignInPresenter;
+    private SignInModel signInModel;
+
+    @Inject
+    public Service mService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        WinstrikeApp.getInstance().getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -47,14 +68,15 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                Log.e("Animation:","end");
+                Log.e("Animation:", "end");
                 if (AuthUtils.INSTANCE.isFirstLogin()) {
-                    mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
                     AuthUtils.INSTANCE.setFirstLogin(false);
+                    mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
+                    startActivity(mainIntent);
                 } else {
-                    mainIntent = new Intent(SplashActivity.this, SignInActivity.class);
+//                    mainIntent = new Intent(SplashActivity.this, SignInActivity.class);
+                    isCheckLogin();
                 }
-                startActivity(mainIntent);
                 finish();
             }
 
@@ -70,6 +92,75 @@ public class SplashActivity extends AppCompatActivity {
         });
         animationView.playAnimation();
 
+    }
+
+    public SplashPresenter createSplashPresenter() {
+        return new SplashPresenter(mService, this);
+    }
+
+
+    private void isCheckLogin() {
+        mSignInPresenter = createSplashPresenter();
+        // If user is signOut from App:  go to SingIn screen. Else: check if user is exist on server and if Ok -- go to Main screen.
+        if (AuthUtils.INSTANCE.isLogout()) {
+            startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+        } else {
+            //  Check if user exist on server!!!
+            //Updated 24/05/2018:  Don't checking auth, until user is logout.
+/*          signInModel = new SignInModel();
+            signInModel.setUsername(AuthUtils.INSTANCE.getPhone());
+            signInModel.setPassword(AuthUtils.INSTANCE.getPassword());
+            mSignInPresenter.signIn(signInModel);*/
+            startActivity(new Intent(this,MainScreenActivity.class));
+        }
+    }
+
+    public void onAuthResponseSuccess(AuthResponse authResponse) {
+        Timber.d("On auth success");
+        // Go to main screen
+        Boolean confirmed = authResponse.getUser().getConfirmed();
+        AuthUtils.INSTANCE.setName(authResponse.getUser().getName());
+        AuthUtils.INSTANCE.setToken(authResponse.getToken());
+        AuthUtils.INSTANCE.setPhone(authResponse.getUser().getPhone());
+        AuthUtils.INSTANCE.setConfirmed(authResponse.getUser().getConfirmed());
+        AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
+
+        if (confirmed && AuthUtils.INSTANCE.isLogout() != true) {
+//                        router.replaceScreen(Screens.START_SCREEN);
+            startActivity(new Intent(this, MainScreenActivity.class));
+            Timber.d("Success signIn");
+        } else if (!confirmed) {
+            // If user not confirmed: send him sms, and go to UserConfirmActivity
+            ConfirmSmsModel smsModel = new ConfirmSmsModel();
+            smsModel.setUsername(authResponse.getUser().getPhone());
+            mSignInPresenter.sendSms(smsModel);
+
+            Intent intent = new Intent(this, UserConfirmActivity.class);
+            intent.putExtra("phone", smsModel.getUsername());
+            startActivity(intent);
+        }
+    }
+
+    public void onAuthFailure(String appErrorMessage) {
+        // Show failure
+        Timber.e("Error on auth: %s", appErrorMessage);
+        if (appErrorMessage.contains("403")) toast("Неправильный пароль");
+        if (appErrorMessage.contains("404")) {
+            toast("Пользователь не найден");
+        }
+        if (appErrorMessage.contains("502")) toast("Ошибка сервера");
+        if (appErrorMessage.contains("No Internet Connection!"))
+            toast("Интернет подключение не доступно!");
+    }
+
+    public void onSendSmsSuccess(MessageResponse authResponse) {
+    }
+
+    public void onSendSmsFailure(String appErrorMessage) {
+    }
+
+    protected void toast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
 

@@ -85,21 +85,6 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     @Inject
     public Service mService;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mSignInPresenter = createSignInPresenter();
-        if (AuthUtils.INSTANCE.isLogout()) {
-            AuthUtils.INSTANCE.setLogout(false);
-        } else {
-            //  Check if user exist on server!!!
-            signInModel = new SignInModel();
-            signInModel.setUsername(AuthUtils.INSTANCE.getPhone());
-            signInModel.setPassword(AuthUtils.INSTANCE.getPassword());
-            mSignInPresenter.signIn(signInModel);
-        }
-    }
-
     //    @InjectPresenter
     SignInPresenter mSignInPresenter;
 
@@ -115,7 +100,6 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
 
         renderView();
         init();
-
 
     }
 
@@ -195,17 +179,14 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     @Override
     public void onAuthResponseSuccess(AuthResponse authResponse) {
         Boolean confirmed = authResponse.getUser().getConfirmed();
-        AuthUtils.INSTANCE.setName(authResponse.getUser().getName());
-        AuthUtils.INSTANCE.setToken(authResponse.getToken());
-        AuthUtils.INSTANCE.setPhone(authResponse.getUser().getPhone());
-        AuthUtils.INSTANCE.setConfirmed(authResponse.getUser().getConfirmed());
-        AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
 
-        if (confirmed && AuthUtils.INSTANCE.isLogout()!=true) {
+        updateUser(authResponse);
+
+        if (confirmed) {
 //                        router.replaceScreen(Screens.START_SCREEN);
             startActivity(new Intent(this, MainScreenActivity.class));
             Timber.d("Success signIn");
-        } else if (!confirmed) {
+        } else {
             ConfirmSmsModel smsModel = new ConfirmSmsModel();
             smsModel.setUsername(authResponse.getUser().getPhone());
             mSignInPresenter.sendSms(smsModel);
@@ -215,6 +196,14 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
             startActivity(intent);
         }
 
+    }
+
+    private void updateUser(AuthResponse authResponse) {
+        AuthUtils.INSTANCE.setName(authResponse.getUser().getName());
+        AuthUtils.INSTANCE.setToken(authResponse.getToken());
+        AuthUtils.INSTANCE.setPhone(authResponse.getUser().getPhone());
+        AuthUtils.INSTANCE.setConfirmed(authResponse.getUser().getConfirmed());
+        AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
     }
 
     @Override
