@@ -191,6 +191,11 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
                 it -> {
                     String sms_code = String.valueOf(codeTextField.getText());
                     Timber.d("sms_code: %s", sms_code);
+                    sendCodeAgainLabel.setVisibility(View.GONE);
+                    sendCodeAgain.setVisibility(View.GONE);
+
+                    displayWorkTimeLeft.setVisibility(View.GONE);
+                    timer.stopButtonClicked();
 
 /*                    if (dpHeight < 600) {
                         codeTextFieldBackGround.setVisibility(View.GONE);
