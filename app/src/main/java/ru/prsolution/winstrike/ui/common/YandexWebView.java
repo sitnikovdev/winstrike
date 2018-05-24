@@ -138,5 +138,4 @@ public class YandexWebView extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-
 }

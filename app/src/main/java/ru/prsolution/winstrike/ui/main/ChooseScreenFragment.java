@@ -202,6 +202,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
 
         RxView.clicks(showMapButton).subscribe(
                 it -> {
+                    // If pids not empty - clear data.
                     if (TimeDataModel.INSTANCE.isDateValid()) {
                         presenter.getActivePid();
                     } else {
@@ -383,6 +384,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
             /**
              *  Save date data from timepicker (start and end).
              */
+//            TimeDataModel.INSTANCE.clear();
             TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFromData));
             TimeDataModel.INSTANCE.setEndAt(String.valueOf(timeToData));
             /**

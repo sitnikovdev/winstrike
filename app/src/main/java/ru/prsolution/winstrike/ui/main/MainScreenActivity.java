@@ -55,6 +55,7 @@ import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.databinding.AcMainscreenBinding;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
+import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.models.UserProfileObservable;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
@@ -741,6 +742,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Override
     public void onChooseSeatClick(SeatModel seat) {
+
+        TimeDataModel.INSTANCE.clear();
+
         showFragmentHolderContainer(true);
 
         initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_name), SHOW_ICON, ScreenType.MAIN);
