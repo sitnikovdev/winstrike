@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.ui.start;
 
 import android.animation.Animator;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +16,6 @@ import javax.inject.Inject;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.logging.MessageResponse;
-import ru.prsolution.winstrike.common.logging.SignInModel;
-import ru.prsolution.winstrike.common.utils.TinyDB;
-import ru.prsolution.winstrike.db.UserViewModel;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;
@@ -33,11 +29,8 @@ import timber.log.Timber;
 
 
 public class SplashActivity extends AppCompatActivity {
-    private TinyDB tinyDB;
     private Intent mainIntent;
-    private UserViewModel mUserViewModel;
     SplashPresenter mSignInPresenter;
-    private SignInModel signInModel;
 
     @Inject
     public Service mService;
@@ -52,12 +45,11 @@ public class SplashActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.ac_splash);
-        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);
         animationView.setImageAssetsFolder("images/mdpi");
         animationView.setAnimation("data.json");
-        animationView.loop(true);
+        animationView.loop(false);
         animationView.setScale(1f);
 
         animationView.addAnimatorListener(new Animator.AnimatorListener() {
