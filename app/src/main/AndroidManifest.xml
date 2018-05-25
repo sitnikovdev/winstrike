@@ -51,11 +51,6 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".common.HtmlViewer"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
             android:name=".ui.main.MainScreenActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />

@@ -3,17 +3,11 @@ package ru.prsolution.winstrike.mvp.models
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayout
 
 
-enum class VipOrSimple(type: String) {
-    simple("simple"),
-    vip("vip")
-}
-
 class GameRoom(room: RoomLayout) {
 
     var walls:MutableList<Wall> = mutableListOf()
     var labels: MutableList<LabelRoom> = mutableListOf()
     var seats: MutableList<Seat> = mutableListOf()
-    var seatTypes: MutableList<SeatType> = mutableListOf()
 
     init {
         var seats = room.places;

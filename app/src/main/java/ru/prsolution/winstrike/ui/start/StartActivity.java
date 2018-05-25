@@ -9,13 +9,12 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.ui.main.HelpActivity;
-import ru.prsolution.winstrike.common.HtmlViewer;
 import ru.prsolution.winstrike.common.YandexWebView;
 import ru.prsolution.winstrike.ui.guides.GuideActivity;
 import ru.prsolution.winstrike.ui.login.RegisterActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
+import ru.prsolution.winstrike.ui.main.HelpActivity;
 import ru.prsolution.winstrike.ui.main.MainScreenActivity;
 import timber.log.Timber;
 
@@ -83,7 +82,6 @@ public class StartActivity extends AppCompatActivity {
         Intent helpActivity = new Intent(this, HelpActivity.class);
         Intent mainScreen = new Intent(this, MainScreenActivity.class);
         Intent testWebView = new Intent(this, YandexWebView.class);
-        Intent webViewTest = new Intent(this, HtmlViewer.class);
         Intent smsCodeActivity = new Intent(this, UserConfirmActivity.class);
 
         // ATTENTION: This was auto-generated to handle app links.
