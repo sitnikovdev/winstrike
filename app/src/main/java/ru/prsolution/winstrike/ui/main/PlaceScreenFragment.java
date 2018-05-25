@@ -23,8 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.common.rvadapter.PlacesAdapter;
-import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
+import ru.prsolution.winstrike.ui.common.PlacesAdapter;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.presenters.PlacesPresenter;
 import ru.prsolution.winstrike.mvp.views.PlacesView;
@@ -106,7 +105,7 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
         rv_pay.addItemDecoration(new BottomDecoratorHelper(350));
         rv_pay.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        adapter = new PlacesAdapter(getContext(), mPayList, (OnItemPayClickListener) getActivity());
+        adapter = new PlacesAdapter(getContext(), mPayList);
         rv_pay.setAdapter(adapter);
     }
 

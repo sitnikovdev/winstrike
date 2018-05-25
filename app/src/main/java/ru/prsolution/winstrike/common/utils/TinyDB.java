@@ -43,7 +43,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import ru.prsolution.winstrike.common.entity.GameModel;
 
 
 public class TinyDB {
@@ -335,19 +334,6 @@ public class TinyDB {
     }
 
 
-    public ArrayList<GameModel> getListGames(String key, Class<GameModel> mClass){
-    	Gson gson = new Gson();
-
-    	ArrayList<String> objStrings = getListString(key);
-    	ArrayList<GameModel> objects =  new ArrayList<GameModel>();
-
-    	for(String jObjString : objStrings){
-    		GameModel value  = gson.fromJson(jObjString,  mClass);
-    		objects.add(value);
-    	}
-    	return objects;
-    }
-
     public ArrayList<Object> getListObject(String key, Class<?> mClass){
         Gson gson = new Gson();
 
@@ -511,15 +497,6 @@ public class TinyDB {
     	putString(key, gson.toJson(obj));
     }
 
-    public void putListGames(String key, List<GameModel> objArray){
-        checkForNullKey(key);
-        Gson gson = new Gson();
-        ArrayList<String> objStrings = new ArrayList<String>();
-        for(Object obj : objArray){
-            objStrings.add(gson.toJson(obj));
-        }
-        putListString(key, objStrings);
-    }
 
     public void putListObject(String key, List<Object> objArray){
     	checkForNullKey(key);

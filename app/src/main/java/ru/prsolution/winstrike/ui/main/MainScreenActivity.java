@@ -43,14 +43,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.common.entity.SeatModel;
-import ru.prsolution.winstrike.common.fragment.AppFragment;
-import ru.prsolution.winstrike.common.fragment.CarouselSeatFragment;
-import ru.prsolution.winstrike.common.fragment.ProfileFragment;
-import ru.prsolution.winstrike.common.logging.MessageResponse;
-import ru.prsolution.winstrike.common.logging.ProfileModel;
-import ru.prsolution.winstrike.common.rvadapter.PlacesAdapter;
-import ru.prsolution.winstrike.common.rvlistener.OnItemPayClickListener;
+import ru.prsolution.winstrike.ui.login.model.MessageResponse;
+import ru.prsolution.winstrike.ui.login.model.ProfileModel;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.databinding.AcMainscreenBinding;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
@@ -63,9 +57,9 @@ import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.ui.common.BackButtonListener;
 import ru.prsolution.winstrike.ui.common.CarouselAdapter;
-import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
 import ru.prsolution.winstrike.ui.common.RouterProvider;
 import ru.prsolution.winstrike.ui.common.ScreenType;
+import ru.prsolution.winstrike.ui.data.SeatModel;
 import ru.prsolution.winstrike.ui.start.SplashActivity;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -79,7 +73,7 @@ import timber.log.Timber;
 
 public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, ProfileFragment.OnProfileButtonsClickListener,
         AppFragment.OnAppButtonsClickListener, CarouselSeatFragment.OnChoosePlaceButtonsClickListener
-        , OnItemPayClickListener, ChooseScreenFragment.onMapShowProcess {
+        ,  ChooseScreenFragment.onMapShowProcess {
 
     private ProgressDialog progressDialog;
     private AHBottomNavigation bottomNavigationBar;
@@ -743,6 +737,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         startActivity(browserIntent);
     }
 
+
+
     @Override
     public void onChooseSeatClick(SeatModel seat) {
 
@@ -752,7 +748,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_name), SHOW_ICON, ScreenType.MAIN);
 
-        MapInfoSingleton.getInstance().setSeat(seat);
+//        MapInfoSingleton.getInstance().setSeat(seat);
+        WinstrikeApp.getInstance().setSeat(seat);
         presenter.onChooseScreenClick();
     }
 
@@ -764,10 +761,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         }
     }
 
-    @Override
-    public void onItemPayClick(PlacesAdapter.PayViewHolder view, Integer position) {
-        Timber.tag("common").d("onItemPayClick: %s", view.itemView.getClass().getSimpleName());
-    }
 
     @Override
     public void showWait() {

@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.common.logging.MessageResponse;
-import ru.prsolution.winstrike.common.logging.ProfileModel;
+import ru.prsolution.winstrike.ui.login.model.MessageResponse;
+import ru.prsolution.winstrike.ui.login.model.ProfileModel;
 import ru.prsolution.winstrike.common.utils.Utils;
 import ru.prsolution.winstrike.mvp.apimodels.Order;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;

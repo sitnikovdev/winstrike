@@ -6,7 +6,6 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
 import ru.prsolution.winstrike.mvp.views.PayView;
 import ru.terrakok.cicerone.Router;
 import rx.subscriptions.CompositeSubscription;
@@ -59,11 +58,6 @@ public class PayPresenter extends MvpPresenter<PayView> {
     }
 
     public void onBackPressed() {
-        clearPidList();
         router.replaceScreen(Screens.MAP_SCREEN, 0);
-    }
-
-    private void clearPidList() {
-        MapInfoSingleton.getInstance().getPidArray().clear();
     }
 }

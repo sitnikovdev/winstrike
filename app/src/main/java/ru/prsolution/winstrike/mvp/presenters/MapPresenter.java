@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.mvp.presenters;
 
+import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentModel;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
@@ -8,7 +9,6 @@ import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
 import ru.prsolution.winstrike.ui.main.MapScreenFragment;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -34,7 +34,7 @@ public class MapPresenter {
         RoomLayoutFactory roomLayoutFactory;
 
         roomLayoutFactory = new RoomLayoutFactory();
-        roomLayoutFactory.setRoomLayout(MapInfoSingleton.getInstance().getRoomLayout());
+        roomLayoutFactory.setRoomLayout(WinstrikeApp.getInstance().getRoomLayout());
 
         // Init models:
         GameRoom room = new GameRoom(roomLayoutFactory.getRoomLayout());

@@ -28,7 +28,6 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.datetimeweels.datetimepicker.DateTimeWheel.TimeWheel.TimePickerPopWin;
-import ru.prsolution.winstrike.common.entity.SeatModel;
 import ru.prsolution.winstrike.common.utils.TinyDB;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
@@ -36,7 +35,7 @@ import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.presenters.ChooseScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.ChooseView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
+import ru.prsolution.winstrike.ui.data.SeatModel;
 import timber.log.Timber;
 
 
@@ -150,7 +149,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         ButterKnife.bind(this, view);
 
         // TODO: 16/05/2018 REMOVE IT!!!
-        SeatModel seat = MapInfoSingleton.getInstance().getSeat();
+        SeatModel seat = WinstrikeApp.getInstance().getSeat();
         dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
         Timber.tag("map").d("DpHeight: %s", dpHeight);
 
@@ -258,8 +257,8 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
          * data for seat mapping successfully get from sever.
          * save map data in singleton and call MapScreenFragment from main presenter
          */
-        MapInfoSingleton.getInstance().setRoomLayout(roomLayoutFactory.getRoomLayout());
-        if (MapInfoSingleton.getInstance().getRoomLayout() != null) {
+        WinstrikeApp.getInstance().setRoomLayout(roomLayoutFactory.getRoomLayout());
+        if (WinstrikeApp.getInstance().getRoomLayout() != null) {
             listener.onMapShow();
         }
     }

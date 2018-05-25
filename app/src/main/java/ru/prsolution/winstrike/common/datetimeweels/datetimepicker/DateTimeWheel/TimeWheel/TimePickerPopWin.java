@@ -33,7 +33,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
+import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import timber.log.Timber;
 
 
@@ -320,7 +320,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
             int hourFrom = Integer.parseInt(tv_h_from.getText().toString());
             int minFrom = Integer.parseInt(tv_m_from.getText().toString());
             int hourInc = item + 1;
-            Date timeFrom = MapInfoSingleton.getInstance().getDateFrom();
+            Date timeFrom = TimeDataModel.INSTANCE.getStartDate();
             Calendar cal = Calendar.getInstance();
             cal.setTime(timeFrom);
             cal.set(Calendar.HOUR_OF_DAY, hourFrom);

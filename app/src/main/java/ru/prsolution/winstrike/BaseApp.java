@@ -10,8 +10,6 @@ import java.io.File;
 import ru.prsolution.winstrike.common.utils.TinyDB;
 import ru.prsolution.winstrike.di.AppComponent;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
-import ru.prsolution.winstrike.mvp.apimodels.User;
-import ru.prsolution.winstrike.ui.common.MapInfoSingleton;
 
 /**
  * Created by ennur on 6/28/16.
@@ -61,13 +59,6 @@ public class BaseApp extends AppCompatActivity {
     }
 
 
-    protected void saveUserName(String name) {
-        if (MapInfoSingleton.getInstance().getUser() == null) {
-            User user = new User();
-            MapInfoSingleton.getInstance().setUser(user);
-            MapInfoSingleton.getInstance().getUser().setName(name);
-        }
-    }
 
 
     public void clearApplicationData() {

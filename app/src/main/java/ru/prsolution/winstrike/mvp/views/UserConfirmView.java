@@ -1,7 +1,7 @@
 package ru.prsolution.winstrike.mvp.views;
 
 
-import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.ui.login.model.MessageResponse;
 
 /**
  * Created by ennur on 6/25/16.

@@ -8,20 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-
-import javax.inject.Inject;
-
 import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.ui.main.HelpActivity;
+import ru.prsolution.winstrike.ui.common.HtmlViewer;
+import ru.prsolution.winstrike.ui.common.YandexWebView;
 import ru.prsolution.winstrike.ui.guides.GuideActivity;
+import ru.prsolution.winstrike.ui.login.RegisterActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
-import ru.prsolution.winstrike.common.FavPushDialogActivity;
-import ru.prsolution.winstrike.common.HelpActivity;
-import ru.prsolution.winstrike.ui.common.HtmlViewer;
-import ru.prsolution.winstrike.common.LocationActivity;
 import ru.prsolution.winstrike.ui.main.MainScreenActivity;
-import ru.prsolution.winstrike.ui.login.RegisterActivity;
-import ru.prsolution.winstrike.ui.common.YandexWebView;
 import timber.log.Timber;
 
 /*
@@ -81,12 +76,10 @@ public class StartActivity extends AppCompatActivity {
         Timber.e("StartActivity: AppConfig.DEBUG: %s", WinstrikeApp.DEBUG);
 
         Intent splashActivity = new Intent(this, SplashActivity.class);
-        Intent locationActivity = new Intent(this, LocationActivity.class);
         Intent loginActivity = new Intent(this, SignInActivity.class);
         Intent registerActivity = new Intent(this, RegisterActivity.class);
 //        Intent smsCodeActivity = new Intent(this, __SmsCodeActivity.class);
         Intent guideActivity = new Intent(this, GuideActivity.class);
-        Intent favPushDialog = new Intent(this, FavPushDialogActivity.class);
         Intent helpActivity = new Intent(this, HelpActivity.class);
         Intent mainScreen = new Intent(this, MainScreenActivity.class);
         Intent testWebView = new Intent(this, YandexWebView.class);

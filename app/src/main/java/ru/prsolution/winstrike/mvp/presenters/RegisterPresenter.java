@@ -1,7 +1,7 @@
 package ru.prsolution.winstrike.mvp.presenters;
 
-import ru.prsolution.winstrike.common.logging.LoginModel;
-import ru.prsolution.winstrike.common.logging.MessageResponse;
+import ru.prsolution.winstrike.ui.login.model.LoginModel;
+import ru.prsolution.winstrike.ui.login.model.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.views.RegisterView;

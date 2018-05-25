@@ -5,12 +5,13 @@ import android.os.Environment;
 import android.util.DisplayMetrics;
 
 import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
+import io.fabric.sdk.android.Fabric;
 import retrofit2.Retrofit;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.di.AppComponent;
@@ -18,7 +19,9 @@ import ru.prsolution.winstrike.di.DaggerAppComponent;
 import ru.prsolution.winstrike.di.module.AppRepositoryModule;
 import ru.prsolution.winstrike.di.module.ContextModule;
 import ru.prsolution.winstrike.di.module.NetworkModule;
+import ru.prsolution.winstrike.mvp.apimodels.RoomLayout;
 import ru.prsolution.winstrike.networking.Service;
+import ru.prsolution.winstrike.ui.data.SeatModel;
 import timber.log.Timber;
 
 
@@ -28,6 +31,8 @@ public class WinstrikeApp extends Application {
     public static WinstrikeApp INSTANCE;
     private AppComponent sAppComponent;
     private UserEntity user;
+    private SeatModel seat;
+    private RoomLayout roomLayout;
 
     @Override
     public void onCreate() {
@@ -117,5 +122,21 @@ public class WinstrikeApp extends Application {
 
     public UserEntity getUser() {
         return this.user;
+    }
+
+    public void setSeat(SeatModel seat) {
+        this.seat = seat;
+    }
+
+    public SeatModel getSeat() {
+        return seat;
+    }
+
+    public RoomLayout getRoomLayout() {
+        return this.roomLayout;
+    }
+
+    public void setRoomLayout(RoomLayout roomLayout) {
+        this.roomLayout = roomLayout;
     }
 }
