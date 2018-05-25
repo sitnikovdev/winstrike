@@ -15,7 +15,7 @@ import javax.inject.Inject;
 
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.ui.login.model.MessageResponse;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.common.AuthUtils;

@@ -20,7 +20,7 @@ import ru.prsolution.winstrike.di.module.ContextModule;
 import ru.prsolution.winstrike.di.module.NetworkModule;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayout;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.data.SeatModel;
+import ru.prsolution.winstrike.mvp.models.SeatModel;
 import timber.log.Timber;
 
 

@@ -28,14 +28,13 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.datetimeweels.datetimepicker.DateTimeWheel.TimeWheel.TimePickerPopWin;
-import ru.prsolution.winstrike.common.utils.TinyDB;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
+import ru.prsolution.winstrike.mvp.models.SeatModel;
 import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.presenters.ChooseScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.ChooseView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.data.SeatModel;
 import timber.log.Timber;
 
 
@@ -47,7 +46,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     private float dpHeight;
 
     public ProgressDialog mProgressDialog;
-    private TinyDB tinyDB;
     private Boolean isDataSelected;
     private onMapShowProcess listener;
 
@@ -180,7 +178,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tinyDB = new TinyDB(getContext());
         isDataSelected = false;
         initMapShowButton();
 
@@ -376,7 +373,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
 
             String time = timeFromData + " - " + timeToData;
             timeTextTap.setText(time);
-            tinyDB.putString("time", time);
 
 
             /**
@@ -388,8 +384,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
             /**
              * save in time data in tinydb (for test).
              */
-            tinyDB.putString("timeFrom", TimeDataModel.INSTANCE.getStart());
-            tinyDB.putString("timeTo", TimeDataModel.INSTANCE.getEnd());
 
             Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
             Timber.d("endAt: %s", TimeDataModel.INSTANCE.getEnd());

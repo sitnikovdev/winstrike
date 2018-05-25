@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:activity="ru.prsolution.winstrike.ui.guides.GuideActivity">
-    <ru.prsolution.winstrike.ui.common.ViewPagerCustomDuration
+    <ru.prsolution.winstrike.common.ViewPagerCustomDuration
         android:id="@+id/vp_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </ru.prsolution.winstrike.ui.common.ViewPagerCustomDuration>
+    </ru.prsolution.winstrike.common.ViewPagerCustomDuration>
 </RelativeLayout>

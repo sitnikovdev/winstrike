@@ -16,15 +16,11 @@
 
 package ru.prsolution.winstrike.db.entity
 
-import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 
-import ru.prsolution.winstrike.model.UserDb
 
-
-@Entity(tableName = "user")
-class UserEntity : UserDb {
+class UserEntity {
     @PrimaryKey
     private var id: Int = 0
     private var name: String? = null
@@ -33,7 +29,7 @@ class UserEntity : UserDb {
     private var token: String? = null
     private var confirmed: Boolean? = null
 
-    override fun getId(): Int {
+    fun getId(): Int {
         return id
     }
 
@@ -41,7 +37,7 @@ class UserEntity : UserDb {
         this.id = id
     }
 
-    override fun getPublickId(): String? {
+    fun getPublickId(): String? {
         return publickId
     }
 
@@ -49,7 +45,7 @@ class UserEntity : UserDb {
         this.publickId = publickId
     }
 
-    override fun getName(): String? {
+    fun getName(): String? {
         return name
     }
 
@@ -58,7 +54,7 @@ class UserEntity : UserDb {
     }
 
 
-    override fun getPhone(): String? {
+    fun getPhone(): String? {
         return phone
     }
 
@@ -66,7 +62,7 @@ class UserEntity : UserDb {
         this.phone = phone
     }
 
-    override fun getConfirmed(): Boolean? {
+    fun getConfirmed(): Boolean? {
         return this.confirmed
     }
 
@@ -75,7 +71,7 @@ class UserEntity : UserDb {
     }
 
 
-    override fun getToken(): String? {
+    fun getToken(): String? {
         return token
     }
 

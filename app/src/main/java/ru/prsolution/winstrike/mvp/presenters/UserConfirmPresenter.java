@@ -1,9 +1,9 @@
 package ru.prsolution.winstrike.mvp.presenters;
 
 
-import ru.prsolution.winstrike.ui.login.model.ConfirmModel;
-import ru.prsolution.winstrike.ui.login.model.MessageResponse;
-import ru.prsolution.winstrike.ui.login.model.ProfileModel;
+import ru.prsolution.winstrike.mvp.models.ConfirmModel;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
+import ru.prsolution.winstrike.mvp.models.ProfileModel;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;

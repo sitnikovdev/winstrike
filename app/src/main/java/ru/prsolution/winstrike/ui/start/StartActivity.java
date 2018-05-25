@@ -10,8 +10,8 @@ import android.util.Log;
 
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.ui.main.HelpActivity;
-import ru.prsolution.winstrike.ui.common.HtmlViewer;
-import ru.prsolution.winstrike.ui.common.YandexWebView;
+import ru.prsolution.winstrike.common.HtmlViewer;
+import ru.prsolution.winstrike.common.YandexWebView;
 import ru.prsolution.winstrike.ui.guides.GuideActivity;
 import ru.prsolution.winstrike.ui.login.RegisterActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;

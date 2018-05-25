@@ -47,7 +47,7 @@ import ru.prsolution.winstrike.mvp.models.Wall;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.YandexWebView;
+import ru.prsolution.winstrike.common.YandexWebView;
 import timber.log.Timber;
 
 

@@ -5,7 +5,7 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
-import ru.prsolution.winstrike.ui.login.model.MessageResponse;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 
 /**

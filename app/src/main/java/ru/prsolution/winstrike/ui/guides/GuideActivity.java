@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.ui.common.ViewPagerCustomDuration;
+import ru.prsolution.winstrike.common.ViewPagerCustomDuration;
 
 /*
  * Created by oleg on 31.01.2018.

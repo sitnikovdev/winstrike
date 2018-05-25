@@ -2,11 +2,11 @@ package ru.prsolution.winstrike.networking;
 
 import java.util.Map;
 
-import ru.prsolution.winstrike.ui.login.model.ProfileModel;
-import ru.prsolution.winstrike.ui.login.model.SignInModel;
-import ru.prsolution.winstrike.ui.login.model.ConfirmModel;
-import ru.prsolution.winstrike.ui.login.model.LoginModel;
-import ru.prsolution.winstrike.ui.login.model.MessageResponse;
+import ru.prsolution.winstrike.mvp.models.ProfileModel;
+import ru.prsolution.winstrike.mvp.models.SignInModel;
+import ru.prsolution.winstrike.mvp.models.ConfirmModel;
+import ru.prsolution.winstrike.mvp.models.LoginModel;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.NewPasswordModel;
 import ru.prsolution.winstrike.mvp.apimodels.Orders;

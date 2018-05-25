@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.ui.common.ChooseSeatLinearLayout;
-import ru.prsolution.winstrike.ui.data.SeatModel;
+import ru.prsolution.winstrike.common.ChooseSeatLinearLayout;
+import ru.prsolution.winstrike.mvp.models.SeatModel;
 
 public class CarouselSeatFragment extends Fragment {
 

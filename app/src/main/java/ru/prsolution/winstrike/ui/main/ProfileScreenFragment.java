@@ -18,7 +18,7 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.mvp.presenters.ProfilePresenter;
 import ru.prsolution.winstrike.mvp.views.ProfileView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.RouterProvider;
+import ru.prsolution.winstrike.common.RouterProvider;
 
 
 /**

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <ru.prsolution.winstrike.ui.common.ChooseSeatLinearLayout
+    <ru.prsolution.winstrike.common.ChooseSeatLinearLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,5 +45,5 @@
                 app:layout_constraintBottom_toBottomOf="@id/content"
                 />
         </android.support.constraint.ConstraintLayout>
-    </ru.prsolution.winstrike.ui.common.ChooseSeatLinearLayout>
+    </ru.prsolution.winstrike.common.ChooseSeatLinearLayout>
 </LinearLayout>

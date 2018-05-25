@@ -1,8 +1,8 @@
 package ru.prsolution.winstrike.mvp.presenters;
 
 
-import ru.prsolution.winstrike.ui.login.model.MessageResponse;
-import ru.prsolution.winstrike.ui.login.model.SignInModel;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
+import ru.prsolution.winstrike.mvp.models.SignInModel;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.networking.NetworkError;

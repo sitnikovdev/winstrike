@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="ru.prsolution.winstrike.ui.util.Converter" />
+        <import type="ru.prsolution.winstrike.common.utils.Converter" />
 
         <variable
             name="viewmodel"
-            type="ru.prsolution.winstrike.ui.data.TimerViewModel" />
+            type="ru.prsolution.winstrike.mvp.models.TimerViewModel" />
     </data>
 
 

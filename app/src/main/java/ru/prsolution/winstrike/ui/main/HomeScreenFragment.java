@@ -15,8 +15,8 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.mvp.presenters.HomePresenter;
 import ru.prsolution.winstrike.mvp.views.HomeView;
-import ru.prsolution.winstrike.ui.common.BackButtonListener;
-import ru.prsolution.winstrike.ui.common.RouterProvider;
+import ru.prsolution.winstrike.common.BackButtonListener;
+import ru.prsolution.winstrike.common.RouterProvider;
 
 
 /**

@@ -23,14 +23,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.ui.common.PlacesAdapter;
+import ru.prsolution.winstrike.common.PlacesAdapter;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.presenters.PlacesPresenter;
 import ru.prsolution.winstrike.mvp.views.PlacesView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.common.BackButtonListener;
-import ru.prsolution.winstrike.ui.common.BottomDecoratorHelper;
-import ru.prsolution.winstrike.ui.common.RouterProvider;
+import ru.prsolution.winstrike.common.BackButtonListener;
+import ru.prsolution.winstrike.common.BottomDecoratorHelper;
+import ru.prsolution.winstrike.common.RouterProvider;
 import timber.log.Timber;
 
 

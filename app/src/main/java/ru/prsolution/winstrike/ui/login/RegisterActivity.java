@@ -26,8 +26,8 @@ import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.RegisterPresenter;
 import ru.prsolution.winstrike.mvp.views.RegisterView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.login.model.LoginModel;
-import ru.prsolution.winstrike.ui.login.model.MessageResponse;
+import ru.prsolution.winstrike.mvp.models.LoginModel;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import rx.Observable;
 import timber.log.Timber;
 

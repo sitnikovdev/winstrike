@@ -11,7 +11,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.ui.common.YandexWebView;
 import ru.prsolution.winstrike.ui.login.HelpSmsActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
 
