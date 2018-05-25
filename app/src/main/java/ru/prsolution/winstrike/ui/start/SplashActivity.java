@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
         LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);
         animationView.setImageAssetsFolder("images/mdpi");
         animationView.setAnimation("data.json");
-        animationView.loop(false);
+        animationView.loop(true);
         animationView.setScale(1f);
 
         animationView.addAnimatorListener(new Animator.AnimatorListener() {
@@ -74,7 +74,7 @@ public class SplashActivity extends AppCompatActivity {
                     mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
                     startActivity(mainIntent);
                 } else {
-//                    isCheckLogin();
+                    isCheckLogin();
                 }
                 finish();
             }
