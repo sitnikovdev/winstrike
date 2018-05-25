@@ -119,11 +119,16 @@ public class YandexWebView extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mWebView.canGoBack()) {
+        if (url.contains("politika.html") || url.contains("rules.html")) {
+            startActivity(confirmScreen);
+        } else {
+            startActivity(mainScreen);
+        }
+/*        if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
             super.onBackPressed();
-        }
+        }*/
     }
 
     public void initMainToolbar(Boolean hide_menu, String title) {
