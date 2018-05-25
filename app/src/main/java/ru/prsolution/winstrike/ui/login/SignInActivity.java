@@ -148,12 +148,12 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
 
     @Override
     public void showWait() {
-        showProgressDialog();
+//        showProgressDialog();
     }
 
     @Override
     public void removeWait() {
-        hideProgressDialog();
+//        hideProgressDialog();
     }
 
 
@@ -241,8 +241,8 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage("Авторизация...");
             mProgressDialog.setIndeterminate(true);
-            mSignInButton.setVisibility(View.INVISIBLE);
-            mSignInButtonLabel.setVisibility(View.INVISIBLE);
+/*            mSignInButton.setVisibility(View.INVISIBLE);
+            mSignInButtonLabel.setVisibility(View.INVISIBLE);*/
         }
 
         mProgressDialog.show();
@@ -251,8 +251,8 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     protected void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
-            mSignInButton.setVisibility(View.VISIBLE);
-            mSignInButtonLabel.setVisibility(View.VISIBLE);
+/*            mSignInButton.setVisibility(View.VISIBLE);
+            mSignInButtonLabel.setVisibility(View.VISIBLE);*/
         }
     }
 

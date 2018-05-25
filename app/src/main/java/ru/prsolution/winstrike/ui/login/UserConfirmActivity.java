@@ -287,7 +287,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
     @Override
     public void onSendSmsSuccess(MessageResponse authResponse) {
         Timber.d("Sms send successfully: %s", authResponse.getMessage());
-        toast("Код выслан повторно");
+        toast("Код выслан");
 
 //        displayWorkTimeLeft.setVisibility(View.VISIBLE);
 

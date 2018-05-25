@@ -74,8 +74,7 @@ public class SplashActivity extends AppCompatActivity {
                     mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
                     startActivity(mainIntent);
                 } else {
-//                    mainIntent = new Intent(SplashActivity.this, SignInActivity.class);
-                    isCheckLogin();
+//                    isCheckLogin();
                 }
                 finish();
             }
@@ -102,16 +101,18 @@ public class SplashActivity extends AppCompatActivity {
     private void isCheckLogin() {
         mSignInPresenter = createSplashPresenter();
         // If user is signOut from App:  go to SingIn screen. Else: check if user is exist on server and if Ok -- go to Main screen.
-        if (AuthUtils.INSTANCE.isLogout()) {
+        if (AuthUtils.INSTANCE.isLogout() ) {
             startActivity(new Intent(SplashActivity.this, SignInActivity.class));
-        } else {
+        } else if (!AuthUtils.INSTANCE.getToken().isEmpty()) {
             //  Check if user exist on server!!!
             //Updated 24/05/2018:  Don't checking auth, until user is logout.
 /*          signInModel = new SignInModel();
             signInModel.setUsername(AuthUtils.INSTANCE.getPhone());
             signInModel.setPassword(AuthUtils.INSTANCE.getPassword());
             mSignInPresenter.signIn(signInModel);*/
-            startActivity(new Intent(this,MainScreenActivity.class));
+            startActivity(new Intent(this, MainScreenActivity.class));
+        } else {
+            startActivity(new Intent(SplashActivity.this, SignInActivity.class));
         }
     }
 

@@ -206,6 +206,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 it -> {
 //                    AuthUtils.INSTANCE.setToken("");
                     AuthUtils.INSTANCE.setLogout(true);
+                    AuthUtils.INSTANCE.setToken("");
                     startActivity(new Intent(MainScreenActivity.this, SplashActivity.class));
                 }
         );

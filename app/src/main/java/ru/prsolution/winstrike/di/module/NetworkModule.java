@@ -53,7 +53,7 @@ public class NetworkModule {
                                 .header("Content-Type", "application/json")
                                 .header("host", "winstrike.ru")
                                 .removeHeader("Pragma")
-                                .header("Cache-Control", String.format("max-age=%d", BuildConfig.CACHETIME))
+//                                .header("Cache-Control", String.format("max-age=%d", BuildConfig.CACHETIME))
                                 .build();
 
                         okhttp3.Response response = chain.proceed(request);
