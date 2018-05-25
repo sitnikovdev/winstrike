@@ -36,8 +36,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.db.PidViewModel;
-import ru.prsolution.winstrike.db.entity.PidEntity;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.common.MapViewUtils;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
@@ -60,7 +58,6 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     @BindView(R.id.rootMap)
     RelativeLayout rootLayout;
     private Snackbar snackbar;
-    private PidViewModel mPidViewModel;
     private Snackbar.SnackbarLayout snackLayout;
 
     private static final String EXTRA_NAME = "extra_name";
@@ -256,15 +253,11 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
      */
 
     private void onSelectSeat(String id, boolean unselect, String publicPid) {
-        PidEntity pidEntity = new PidEntity();
+
         if (!unselect) {
             mPickedSeatsIds.put(Integer.parseInt(id), publicPid);
-            pidEntity.setId(Integer.parseInt(id));
-            pidEntity.setPublickId(publicPid);
-            //mPidViewModel.insert(pidEntity);
         } else {
             mPickedSeatsIds.remove(Integer.parseInt(id));
-            //mPidViewModel.delete(Integer.parseInt(id));
         }
 
         TimeDataModel.INSTANCE.setPids(mPickedSeatsIds);

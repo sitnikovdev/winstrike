@@ -47,7 +47,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.ac_splash);
 
         LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);
-        animationView.setImageAssetsFolder("images/mdpi");
+        animationView.setImageAssetsFolder("images");
         animationView.setAnimation("data.json");
         animationView.setRepeatCount(0);
         animationView.setScale(1f);

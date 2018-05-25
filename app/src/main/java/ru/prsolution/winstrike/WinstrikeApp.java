@@ -16,7 +16,6 @@ import retrofit2.Retrofit;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.di.AppComponent;
 import ru.prsolution.winstrike.di.DaggerAppComponent;
-import ru.prsolution.winstrike.di.module.AppRepositoryModule;
 import ru.prsolution.winstrike.di.module.ContextModule;
 import ru.prsolution.winstrike.di.module.NetworkModule;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayout;
@@ -51,7 +50,6 @@ public class WinstrikeApp extends Application {
             File cacheFile = new File(getCacheDir(), "responses");
             sAppComponent = DaggerAppComponent.builder()
                     .contextModule(new ContextModule(this))
-                    .appRepositoryModule(new AppRepositoryModule(this))
                     .networkModule(new NetworkModule(cacheFile))
                     .build();
         }

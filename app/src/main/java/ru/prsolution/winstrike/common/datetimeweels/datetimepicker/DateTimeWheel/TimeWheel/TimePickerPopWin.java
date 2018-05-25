@@ -305,13 +305,6 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
             } else if (isToTimeSelect) {
                 tv_h_to.setText(format2LenStr(item + 1));
                 timeToData.hour = format2LenStr(item + 1);
-/*
-                Integer hour = Integer.parseInt(tv_h_from.getText().toString());
-                Integer min = Integer.parseInt(tv_m_from.getText().toString());
-
-                tv_h_from.setText(String.valueOf(format2LenStr(hour - 1)));
-                tv_m_from.setText(String.valueOf(format2LenStr(min)));*/
-
             }
         });
 

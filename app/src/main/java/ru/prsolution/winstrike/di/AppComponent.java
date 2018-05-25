@@ -6,14 +6,11 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import ru.prsolution.winstrike.ui.login.HelpSmsActivity;
-import ru.prsolution.winstrike.db.PidViewModel;
-import ru.prsolution.winstrike.db.UserViewModel;
-import ru.prsolution.winstrike.di.module.AppRepositoryModule;
 import ru.prsolution.winstrike.di.module.ContextModule;
 import ru.prsolution.winstrike.di.module.LocalNavigationModule;
 import ru.prsolution.winstrike.di.module.NavigationModule;
 import ru.prsolution.winstrike.di.module.NetworkModule;
+import ru.prsolution.winstrike.ui.login.HelpSmsActivity;
 import ru.prsolution.winstrike.ui.login.RegisterActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
@@ -30,7 +27,7 @@ import ru.prsolution.winstrike.ui.start.SplashActivity;
  * Created by ennur on 6/28/16.
  */
 @Singleton
-@Component(modules = {ContextModule.class, AppRepositoryModule.class, NetworkModule.class,
+@Component(modules = {ContextModule.class, NetworkModule.class,
         NavigationModule.class, LocalNavigationModule.class })
 public interface AppComponent {
     Context getContext();
@@ -54,10 +51,6 @@ public interface AppComponent {
     void inject(PlaceScreenFragment fragment);
 
     void inject(ProfileScreenFragment fragment);
-
-    void inject(UserViewModel userViewModel);
-
-    void inject(PidViewModel userViewModel);
 
     void inject(HelpSmsActivity activity);
 

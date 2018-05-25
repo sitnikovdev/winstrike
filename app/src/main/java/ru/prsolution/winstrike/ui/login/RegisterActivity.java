@@ -3,6 +3,7 @@ package ru.prsolution.winstrike.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,11 +16,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ru.prsolution.winstrike.BaseApp;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.ui.login.model.LoginModel;
-import ru.prsolution.winstrike.ui.login.model.MessageResponse;
 import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
@@ -28,6 +26,8 @@ import ru.prsolution.winstrike.mvp.common.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.RegisterPresenter;
 import ru.prsolution.winstrike.mvp.views.RegisterView;
 import ru.prsolution.winstrike.networking.Service;
+import ru.prsolution.winstrike.ui.login.model.LoginModel;
+import ru.prsolution.winstrike.ui.login.model.MessageResponse;
 import rx.Observable;
 import timber.log.Timber;
 
@@ -39,7 +39,7 @@ import static ru.prsolution.winstrike.common.utils.Utils.setBtnEnable;
  * Created by oleg on 31.01.2018.
  */
 
-public class RegisterActivity extends BaseApp implements RegisterView {
+public class RegisterActivity extends AppCompatActivity implements RegisterView {
     @BindView(R.id.et_phone)
     EditText phoneNumber;
     @BindView(R.id.et_password)
