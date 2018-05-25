@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
-import ru.prsolution.winstrike.mvp.common.MapViewUtils;
+import ru.prsolution.winstrike.common.utils.MapViewUtils;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
 import ru.prsolution.winstrike.mvp.models.Seat;
@@ -147,11 +147,11 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
 
         if (heightDp > 700) {
-            mXScaleFactor = (width / mWall.end.x) - 0.3f;
-            mYScaleFactor = (height / mWall.end.y) - 2.3f;
+            mXScaleFactor = (width / mWall.getEnd().x) - 0.3f;
+            mYScaleFactor = (height / mWall.getEnd().y) - 2.3f;
         } else {
-            mXScaleFactor = (width / mWall.end.x) - 0.3f;
-            mYScaleFactor = (height / mWall.end.y) - 2.3f;
+            mXScaleFactor = (width / mWall.getEnd().x) - 0.3f;
+            mYScaleFactor = (height / mWall.getEnd().y) - 2.3f;
         }
         Point seatSize = new Point();
 

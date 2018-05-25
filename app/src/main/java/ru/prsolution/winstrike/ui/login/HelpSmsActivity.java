@@ -30,7 +30,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.ui.main.HelpActivity;
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.databinding.AcSmshelpBinding;

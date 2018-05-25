@@ -23,6 +23,7 @@ import ru.prsolution.winstrike.subnavigation.LocalCiceroneHolder;
 import ru.prsolution.winstrike.common.BackButtonListener;
 import ru.prsolution.winstrike.common.RouterProvider;
 import ru.prsolution.winstrike.common.ScreenType;
+import ru.prsolution.winstrike.ui.login.HomeScreenFragment;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;

@@ -1,27 +1,23 @@
 package ru.prsolution.winstrike.mvp.transform
 
 import ru.prsolution.winstrike.mvp.models.TimeDataModel.date
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DateTransform {
 
     companion object {
-        val dateFormatter: DateFormat by lazy {
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
-        }
 
         init {
         }
 
-         fun getSimpleDateFromCalendar(date: Date): String {
+        fun getSimpleDateFromCalendar(date: Date): String {
             val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
             return simpleDateFormat.format(date)
         }
 
 
-         fun getFormattedDateWithTime(time: String): String {
+        fun getFormattedDateWithTime(time: String): String {
             var dateInStr = date
             var fmtDate = Date()
             val date: String
@@ -40,7 +36,7 @@ class DateTransform {
         }
 
 
-         fun getDateInUTC(time: String): Date {
+        fun getDateInUTC(time: String): Date {
             var fmtDate = Date()
             val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             try {
@@ -51,34 +47,6 @@ class DateTransform {
             }
 
             return fmtDate
-        }
-
-
-        fun transformFromJSON(value: String): Date? {
-            return dateFormatter.parse(value).takeIf { value is String }
-                    ?: return null
-
-        }
-
-        fun transformFromJSONwithoutMS(value: String): Date? {
-            val formater = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.getDefault())
-            return formater.parse(value).takeIf { value is String }
-                    ?: return null
-        }
-
-        fun transformToJSON(value: Date):String{
-            val date = value?.let { dateFormatter.format(it) }
-            return date
-        }
-
-        fun transformFromHourSec(value: String?):Date{
-            val formater = SimpleDateFormat("HH:mm", Locale.getDefault())
-            return formater.parse(value)
-        }
-
-        fun transformFromHourSecString(value: Date):String{
-            val formater = SimpleDateFormat("HH:mm", Locale.getDefault())
-            return formater.format(value)
         }
 
     }

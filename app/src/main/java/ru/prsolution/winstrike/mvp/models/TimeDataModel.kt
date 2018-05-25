@@ -10,7 +10,7 @@ import kotlin.reflect.KProperty
 object TimeDataModel {
 
     var pid: String = ""
-    var pids: LinkedHashMap<Int,String> = LinkedHashMap()
+    var pids: LinkedHashMap<Int, String> = LinkedHashMap()
     //var date: String  by observing("", didSet = { valideateDate() })
     var date: String = ""
     var selectDate: String = ""
@@ -48,12 +48,9 @@ object TimeDataModel {
 
 
     fun valideateDate(): Boolean {
-        if (startDate != null && endDate != null) {
-            val current = Date()
-            isDateValid = startDate < endDate && startDate >= current
-            return true
-        } else
-            return false
+        val current = Date()
+        isDateValid = startDate < endDate && startDate >= current
+        return true
     }
 
     var isDateValid: Boolean by observing(false, {

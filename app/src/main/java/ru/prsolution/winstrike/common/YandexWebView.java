@@ -16,7 +16,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.mvp.common.AuthUtils;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
 import ru.prsolution.winstrike.ui.main.MainScreenActivity;
 import timber.log.Timber;
@@ -56,7 +56,6 @@ public class YandexWebView extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (url.contains("politika.html")) {
-//            toolbar.setTitle(R.string.politica);
             initMainToolbar(true, getResources().getString(R.string.politica));
         } else if (url.contains("rules")) {
             initMainToolbar(true, "Условия использования приложения Winstrike");
@@ -64,12 +63,6 @@ public class YandexWebView extends AppCompatActivity {
             initMainToolbar(true, "Оплата");
         }
 
-
-/*
-        toolbar.setTitleMargin(250, 0, 0, 0);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.color_primary));
-        toolbar.setNavigationIcon(R.drawable.back_arrow);
-*/
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,16 +128,23 @@ public class YandexWebView extends AppCompatActivity {
 
     public void initMainToolbar(Boolean hide_menu, String title) {
         setSupportActionBar(toolbar);
-//        toolbar.setNavigationOnClickListener(mMainOnClickListener);
-
-//        mScreenType = screenType;
-        // getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
         invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
         toolbar.setNavigationIcon(R.drawable.back_arrow);
         tvToolbarTitle.setText(title);
         toolbar.setNavigationIcon(R.drawable.back_arrow);
         toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStartWithNavigation());
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            mWebView.destroy();
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        super.onDestroy();
     }
 
 }

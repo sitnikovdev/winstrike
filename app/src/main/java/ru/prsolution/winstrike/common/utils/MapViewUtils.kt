@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.mvp.common
+package ru.prsolution.winstrike.common.utils
 
 import android.graphics.Point
 import ru.prsolution.winstrike.mvp.models.Seat

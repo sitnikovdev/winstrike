@@ -50,30 +50,4 @@ public class TextFormat {
     }
 
 
-    public static void setTextColorFour(TextView textView,
-                                        String firstString,
-                                        String secondString,
-                                        String thirdString,
-                                        String forthString,
-
-                                        String firstStringColor,
-                                        String secondStringColor,
-                                        String thirdStringColor,
-                                        String forthStringColor
-    ) {
-
-        String text = "<font color="
-                + firstStringColor + ">"
-                + firstString + "</font> <font color="
-                + secondStringColor + ">"
-                + secondString + "</font> <font color="
-                + thirdStringColor + ">"
-                + thirdString + "</font> <font color="
-                + forthStringColor + ">"
-                + forthString + "</font>";
-
-
-        textView.setText(Html.fromHtml(text));
-    }
-
 }

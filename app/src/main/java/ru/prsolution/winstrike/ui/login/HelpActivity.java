@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.main;
+package ru.prsolution.winstrike.ui.login;
 
 import android.content.Intent;
 import android.net.Uri;

@@ -4,7 +4,7 @@ import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentModel;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
-import ru.prsolution.winstrike.mvp.common.AuthUtils;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.networking.NetworkError;

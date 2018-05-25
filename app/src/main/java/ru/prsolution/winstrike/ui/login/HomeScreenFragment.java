@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.main;
+package ru.prsolution.winstrike.ui.login;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +17,7 @@ import ru.prsolution.winstrike.mvp.presenters.HomePresenter;
 import ru.prsolution.winstrike.mvp.views.HomeView;
 import ru.prsolution.winstrike.common.BackButtonListener;
 import ru.prsolution.winstrike.common.RouterProvider;
+import ru.prsolution.winstrike.ui.main.MainScreenActivity;
 
 
 /**

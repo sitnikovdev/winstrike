@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.db.entity.UserEntity;
-import ru.prsolution.winstrike.mvp.common.AuthUtils;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 
 /*
  * Created by oleg on 03.02.2018.

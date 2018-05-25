@@ -22,7 +22,7 @@ import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
-import ru.prsolution.winstrike.mvp.common.AuthUtils;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.RegisterPresenter;
 import ru.prsolution.winstrike.mvp.views.RegisterView;
 import ru.prsolution.winstrike.networking.Service;

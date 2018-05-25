@@ -48,7 +48,7 @@ import ru.prsolution.winstrike.mvp.models.ProfileModel;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.databinding.AcMainscreenBinding;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
-import ru.prsolution.winstrike.mvp.common.AuthUtils;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.models.UserProfileObservable;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;

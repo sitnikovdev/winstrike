@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.main;
+package ru.prsolution.winstrike.common.datetimeweels.TimeWheel;
 
 import android.content.Context;
 

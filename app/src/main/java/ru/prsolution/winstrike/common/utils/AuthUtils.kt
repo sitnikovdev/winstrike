@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.mvp.common
+package ru.prsolution.winstrike.common.utils
 
 object AuthUtils {
     private val TOKEN = "token"
