@@ -87,5 +87,19 @@
         <item>Декабрь</item>
     </array>
 
+    <!--Calendar date of week-->
+    <string name="material_calendar_monday">Пн</string>
+    <string name="material_calendar_tuesday">Вт</string>
+    <string name="material_calendar_wednesday">Ср</string>
+    <string name="material_calendar_thursday">Чт</string>
+    <string name="material_calendar_friday">Пт</string>
+    <string name="material_calendar_saturday">Сб</string>
+    <string name="material_calendar_sunday">Вс</string>
+
+    <!--Calendar buttons-->
+    <string name="material_calendar_today_button" />
+    <string name="material_calendar_positive_button">Выбрать</string>
+    <string name="material_calendar_negative_button" />
+
 
 </resources>
