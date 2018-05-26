@@ -59,10 +59,10 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     @BindView(R.id.head_image)
     ImageView ivSeatImg;
 
-    @BindView(R.id.tv_date_news)
+    @BindView(R.id.tv_date)
     TextView dateTextTap;
 
-    @BindView(R.id.tv_time_left)
+    @BindView(R.id.tv_time)
     TextView timeTextTap;
 
     @BindView(R.id.v_date_tap)
@@ -313,6 +313,14 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
                     dataPicker.build().show();
                 }
         );
+
+        RxView.clicks(vDateTap).subscribe(
+                it -> {
+                    isDataSelected = true;
+                    dataPicker.build().show();
+                }
+        );
+
     }
 
     private static class DateListener implements OnSelectDateListener {
@@ -335,6 +343,15 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
      */
     private void initTimeSelectDialog() {
         RxView.clicks(timeTextTap).subscribe(
+                it -> {
+                    if (isDataSelected) {
+                        openTimePickerDialog();
+                    } else {
+                        Toast.makeText(getActivity(), "Сначала выберите дату!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+        RxView.clicks(vTimeTap).subscribe(
                 it -> {
                     if (isDataSelected) {
                         openTimePickerDialog();

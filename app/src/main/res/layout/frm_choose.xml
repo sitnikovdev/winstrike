@@ -96,10 +96,10 @@
 
 
     <TextView
-        android:id="@+id/tv_date_news"
+        android:id="@+id/tv_date"
         style="@style/StemMedium15Black"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
         android:background="@drawable/ripple_effect_title_click"
         android:clickable="true"
         android:text="@string/seatdetail_date"
@@ -129,21 +129,21 @@
         android:layout_marginEnd="-20dp"
         android:layout_marginTop="5dp"
         android:layout_alignEnd="@id/head_image"
-        android:layout_alignTop="@id/tv_date_news"
+        android:layout_alignTop="@id/tv_date"
         />
 
     <TextView
-        android:id="@+id/tv_time_left"
+        android:id="@+id/tv_time"
         style="@style/StemMedium15Black"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
         android:background="@drawable/ripple_effect_title_click"
         android:clickable="true"
         android:text="@string/seatdetail_time"
         android:layout_marginStart="@dimen/start_head"
         android:layout_alignStart="@+id/head_image"
         android:focusable="true"
-        android:layout_alignTop="@id/tv_date_news"
+        android:layout_alignTop="@id/tv_date"
         android:layout_marginTop="40dp"
         />
 
@@ -166,7 +166,7 @@
         android:layout_alignEnd="@id/head_image"
         android:layout_marginEnd="-20dp"
         android:layout_marginTop="5dp"
-        android:layout_alignTop="@id/tv_time_left"
+        android:layout_alignTop="@id/tv_time"
         />
 
     <View
@@ -174,7 +174,7 @@
         android:layout_width="@dimen/width_button"
         android:layout_height="@dimen/height_button"
         android:background="@drawable/button_bgr_24dp"
-        android:layout_alignTop="@id/tv_time_left"
+        android:layout_alignTop="@id/tv_time"
         android:layout_marginTop="55dp"
         android:layout_centerHorizontal="true"
         />
