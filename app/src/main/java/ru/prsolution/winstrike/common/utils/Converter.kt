@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 @file:JvmName("Converter")
+
 package ru.prsolution.winstrike.common.utils
 
 import kotlin.math.round
 
-fun fromTenthsToSeconds(tenths: Int) : String {
+fun fromTenthsToSeconds(tenths: Int): String {
     return if (tenths < 600) {
-        String.format("*Отправить код повторно через"+" %d " + "сек", tenths / 10)
+        String.format("*Отправить код повторно через" + " %d " + "сек", tenths / 10)
     } else {
         val minutes = (tenths / 10) / 60
         val seconds = (tenths / 10) % 60

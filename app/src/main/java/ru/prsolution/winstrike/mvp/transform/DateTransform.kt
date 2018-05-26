@@ -12,7 +12,7 @@ class DateTransform {
         }
 
         fun getSimpleDateFromCalendar(date: Date): String {
-            val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("RU"))
             return simpleDateFormat.format(date)
         }
 

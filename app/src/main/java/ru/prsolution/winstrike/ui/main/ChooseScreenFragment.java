@@ -147,13 +147,12 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         View view = inflater.inflate(R.layout.frm_choose, container, false);
         ButterKnife.bind(this, view);
 
-        // TODO: 16/05/2018 REMOVE IT!!!
+        // TODO: 16/05/2018  Replace it by parcebale object
         SeatModel seat = WinstrikeApp.getInstance().getSeat();
         dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
         Timber.tag("map").d("DpHeight: %s", dpHeight);
 
 
-        // TODO: 13/05/2018 Make model for that cases:
         if (seat != null && seat.getType().contains("VIP")) {
             ivSeatImg.setImageResource(R.drawable.vip);
             seat_title.setText("Вы выбрали: VIP room");
@@ -271,7 +270,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         Timber.d("Failure get map from server: %s", appErrorMessage);
         if (appErrorMessage.contains("502")) {
             toast("Невозможно получить места. Внутренняя ошибка сервера");
-        }else {
+        } else {
             toast(appErrorMessage);
         }
         setShowMapBtnEnable(showMapButton, false);
