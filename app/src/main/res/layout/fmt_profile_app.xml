@@ -64,7 +64,7 @@
 
         <TextView
             android:id="@+id/bonus_activity"
-            style="@style/LatoSemibold15Black"
+            style="@style/StemMedium15Black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
@@ -97,7 +97,7 @@
 
         <TextView
             android:id="@+id/fav_activity"
-            style="@style/LatoSemibold15Black"
+            style="@style/StemMedium15Black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
