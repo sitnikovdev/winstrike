@@ -114,7 +114,7 @@ public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.back_arrow);
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
         toolbar.setNavigationOnClickListener(
                 it -> startActivity(new Intent(this, HelpActivity.class))
         );

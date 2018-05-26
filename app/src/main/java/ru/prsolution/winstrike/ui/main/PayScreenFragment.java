@@ -81,7 +81,7 @@ public class PayScreenFragment extends MvpAppCompatFragment implements PayView, 
         View view = inflater.inflate(R.layout.fmt_pay, container, false);
         ButterKnife.bind(this, view);
         tvToolbarTitle.setText("Оплата");
-        initToolbar("Оплата",R.drawable.back_arrow);
+        initToolbar("Оплата",R.drawable.ic_back_arrow);
         initWebView();
         presenter.loadUrl();
         return view;

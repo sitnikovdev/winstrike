@@ -11,8 +11,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.ui.login.HelpSmsActivity;
-import ru.prsolution.winstrike.ui.login.SignInActivity;
 
 /*
  * Created by oleg on 01.02.2018.
@@ -42,7 +40,7 @@ public class HelpActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.back_arrow);
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
         toolbar.setNavigationOnClickListener(
                 it -> startActivity(new Intent(this, SignInActivity.class))
         );

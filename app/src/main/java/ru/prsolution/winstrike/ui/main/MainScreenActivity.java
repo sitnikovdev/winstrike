@@ -410,13 +410,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         mScreenType = screenType;
         // getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
         invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
-        toolbar.setNavigationIcon(R.drawable.back_arrow);
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
         tvToolbarTitle.setText(title);
         if (hideNavIcon) {
             toolbar.setNavigationIcon(null);
             toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStart());
         } else {
-            toolbar.setNavigationIcon(R.drawable.back_arrow);
+            toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
             toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStartWithNavigation());
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);

@@ -134,9 +134,9 @@ public class YandexWebView extends AppCompatActivity {
     public void initMainToolbar(Boolean hide_menu, String title) {
         setSupportActionBar(toolbar);
         invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
-        toolbar.setNavigationIcon(R.drawable.back_arrow);
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
         tvToolbarTitle.setText(title);
-        toolbar.setNavigationIcon(R.drawable.back_arrow);
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
         toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStartWithNavigation());
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }

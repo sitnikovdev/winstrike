@@ -24,7 +24,7 @@
                 android:layout_width="204dp"
                 android:layout_height="140dp"
                 android:foreground="?selectableItemBackgroundBorderless"
-                android:src="@drawable/img_club"
+                android:src="@drawable/event"
                 android:clickable="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
