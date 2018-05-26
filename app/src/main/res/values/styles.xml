@@ -148,6 +148,13 @@
         <item name="android:textColor">@color/color_primary</item>
     </style>
 
+    <style name="StemRegular17Gray">
+        <item name="android:fontFamily">@font/stem_regular</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/wnsLightGrey</item>
+    </style>
+
+
     <style name="StemMedium15Primary">
         <item name="android:fontFamily">@font/stem_medium</item>
         <item name="android:textSize">15sp</item>

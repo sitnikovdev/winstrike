@@ -88,21 +88,23 @@
             <TextView
                 android:id="@+id/tv_from_text"
                 style="@style/StemRegular19Withe06"
-                android:layout_width="wrap_content"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/timedlg_from"
+                android:textAlignment="center"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_hour_from"
                 app:layout_constraintEnd_toStartOf="@id/tv_hour_from"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_hour_from" />
+                app:layout_constraintTop_toTopOf="@+id/tv_hour_from"
+                app:layout_constraintVertical_bias="0.466" />
 
             <!--tap from -->
             <View
                 android:id="@+id/v_tap_from"
-                android:layout_width="100dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
                 app:layout_constraintEnd_toEndOf="@id/tv_min_from"
                 app:layout_constraintStart_toStartOf="@id/tv_hour_from"
@@ -153,21 +155,23 @@
             <TextView
                 android:id="@+id/tv_to_text"
                 style="@style/StemRegular19Withe06"
-                android:layout_width="wrap_content"
+                android:layout_width="26dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/timedlg_to"
+                android:textAlignment="center"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_hour_to"
                 app:layout_constraintEnd_toStartOf="@id/tv_hour_to"
                 app:layout_constraintStart_toEndOf="@id/tv_min_from"
-                app:layout_constraintTop_toTopOf="@+id/tv_hour_to" />
+                app:layout_constraintTop_toTopOf="@+id/tv_hour_to"
+                app:layout_constraintVertical_bias="0.466" />
 
             <!--tap to -->
             <View
                 android:id="@+id/v_tap_to"
-                android:layout_width="100dp"
+                android:layout_width="99dp"
                 android:layout_height="50dp"
                 app:layout_constraintEnd_toEndOf="@id/tv_min_to"
                 app:layout_constraintStart_toStartOf="@id/tv_hour_to"
@@ -205,7 +209,7 @@
             <TextView
                 android:id="@+id/tv_min_to"
                 style="@style/StemRegular35White"
-                android:layout_width="wrap_content"
+                android:layout_width="59dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
                 android:text="@string/timedlg_tomin"
@@ -217,12 +221,12 @@
             <!--Продолжительность игры-->
             <TextView
                 android:id="@+id/tv_number"
-                style="@style/StemMedium17Primary"
+                style="@style/StemMedium15LightGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 android:text="Продолжительность игры"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_hour_to" />
@@ -271,7 +275,7 @@
             <!--Продолжить-->
             <TextView
                 android:id="@+id/btn_confirm"
-                style="@style/StemMedium17Primary"
+                style="@style/StemRegular17Gray"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_marginTop="16dp"

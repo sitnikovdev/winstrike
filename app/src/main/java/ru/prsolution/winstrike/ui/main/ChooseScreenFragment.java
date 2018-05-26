@@ -373,14 +373,14 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
          * So, try to fix this fucking "awesome" iOS time picked dialog for numerous android devices. It's not easy ).
          */
         int bntTextSize = 20;
-        int viewTextSize = 50;
+        int viewTextSize = 25;
         if (dpHeight > 700) {
             bntTextSize = 20;
-            viewTextSize = 50;
+            viewTextSize = 25;
         }
         if (dpHeight < 700) {
             bntTextSize = 20;
-            viewTextSize = 30;
+            viewTextSize = 25;
         }
         Timber.d("dpHeight: %s", dpHeight);
         Timber.d("btnTextSize: %s", bntTextSize);
@@ -416,7 +416,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
                 .btnTextSize(bntTextSize) // button text size
                 .viewTextSize(viewTextSize) // pick view text size
                 .colorCancel(Color.parseColor("#999999")) //color of cancel button
-                .colorConfirm(Color.parseColor("#ffffffff"))//color of confirm button
+                .colorConfirm(Color.parseColor("#A9A9A9"))//color of confirm button
                 .build();
 
         setShowMapBtnEnable(showMapButton, true);
