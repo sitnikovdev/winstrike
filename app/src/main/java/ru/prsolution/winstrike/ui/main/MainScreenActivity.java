@@ -374,7 +374,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         bottomNavigationListener = new BottomNavigationListener();
         // Create items
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(null, R.drawable.ic_home);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(null, R.drawable.ic_place);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(null, R.drawable.ic_money);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(null, R.drawable.ic_user);
 
         // Add items

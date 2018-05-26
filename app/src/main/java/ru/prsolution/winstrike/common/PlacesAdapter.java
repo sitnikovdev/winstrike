@@ -25,12 +25,10 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public static Integer SELECTED_ITEM = 0;
     private Context context;
     List<OrderModel> payList;
-    public Boolean IS_PAY;
 
     public PlacesAdapter(Context context, List<OrderModel> payList) {
         this.context = context;
         this.payList = payList;
-        IS_PAY = !payList.isEmpty() && payList.size() != 0 ;
     }
 
 
@@ -39,13 +37,8 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         View view;
         RecyclerView.ViewHolder rvHolder;
 
-        if (IS_PAY) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_paid, parent, false);
-            rvHolder = new PayViewHolder(view);
-        } else {
-            view = LayoutInflater.from(context).inflate(R.layout.item_nopaid, parent, false);
-            rvHolder = new PayEmptyViewHolder(view);
-        }
+        view = LayoutInflater.from(context).inflate(R.layout.item_paid, parent, false);
+        rvHolder = new PayViewHolder(view);
 
         return rvHolder;
     }
@@ -53,17 +46,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        if (IS_PAY) {
-            initPayFill(position, (PayViewHolder) holder);
-        } else {
-            initPayEmpty(position, (PayEmptyViewHolder) holder);
-        }
-
-
-    }
-
-    private void initPayEmpty(int position, PayEmptyViewHolder holder) {
-
+        initPayFill(position, (PayViewHolder) holder);
     }
 
     private void initPayFill(int position, PayViewHolder holder) {
