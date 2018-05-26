@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -491,6 +492,22 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
                     0, 0);
             trans.setDuration(400);
             trans.setInterpolator(new AccelerateDecelerateInterpolator());
+
+//            View container = (View) getContentView().getParent().getParent();
+            View container;
+
+            if (android.os.Build.VERSION.SDK_INT > 22) {
+                container = (View) getContentView().getParent().getParent();
+            }else{
+                container = (View) getContentView().getParent();
+            }
+
+            WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+            WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
+// add flag
+            p.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+            p.dimAmount = 0.7f;
+            wm.updateViewLayout(container, p);
 
             pickerContainerV.startAnimation(trans);
         }
