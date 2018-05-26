@@ -4,32 +4,19 @@
     <string name="all_savebtn">Сохранить</string>
     <string name="all_enterbtn">Войти</string>
     <string name="all_social">Мы в соц.сетях</string>
-    <string name="all_selectarena">Выберите арену</string>
     <string name="all_fio">Имя Фамилия</string>
-    <string name="all_email">E-mail</string>
     <string name="all_password_old">Пароль</string>
-    <string name="all_password_new">Новый пароль</string>
-    <string name="all_selectlang">Выберите язык</string>
-    <string name="all_selectcity">Выберите город</string>
-    <string name="all_logfooter">Уже есть аккаунт? Войдите</string>
     <string name="all_entercode">Введите код подтверждения</string>
     <string name="all_hintcode">Введите код подтверждения</string>
     <string name="all_toolbartitle">Москва</string>
     <string name="all_phonemaskru">RU +7</string>
-    <string name="all_phonemask">(987) 654-32-10</string>
-    <string name="arena_name">Winstrike</string>
     <string name="pres1_title">Выбирайте компьютер</string>
-    <string name="pres1_detail2"></string>
     <string name="pres1_detail1">Выбирайте компьютер в игровом клубе\n в вашем городе</string>
     <string name="pres2_title">Забукируйте компьютер</string>
     <string name="pres2_detail">Забукируйте игровой компьютер\n в игровом клубе в вашем городе на\n любое удобное для вас время </string>
-    <string name="pres3_detail_text3">по Online играм</string>
     <string name="pres3_title">Следите за новостями и\n участвуйте в турнирах </string>
     <string name="pres3_detail">Следите за новостями, чтобы быть в\n курсе событий. Принимайте участие в\n турнирах по Online играм</string>
-    <string name="pres3_title2"></string>
     <string name="login_password_hint">Пароль</string>
-    <string name="login_footer_info">Еще нет аккаунта? Зарегистрируйтесь</string>
-    <string name="login_phonemail">Номер телефона или эл.адрес</string>
     <string name="login_enterbtn">Вход</string>
     <string name="login_hint">Забыли данные для входа?</string>
     <string name="login_helplink">Помощь со входом в систему</string>
@@ -37,43 +24,15 @@
     <string name="help_title">Помощь при входе</string>
     <string name="help_menu_title">Восстановить пароль</string>
     <string name="help_menu_sms">Отправить SMS</string>
-    <string name="help_sms_title">Отправить эл.письмо</string>
     <string name="help_center_title">Справочный центр</string>
     <string name="help_winstrike_title">Справочный центр Win Strike</string>
     <string name="help_account_title">Доступ к вашему аккаунту</string>
-    <string name="helpemail_title">Отправить e-mail</string>
-    <string name="helpemail_title2">Введите свой e-mail</string>
-    <string name="helpemail_hint">Введите эл.адрес</string>
-    <string name="helpemail_hintbottom">*На данный адрес будет выслана ссылка для смена пароля</string>
-    <string name="helpcenter_toolbartitle">Смена пароля</string>
-    <string name="helpemail_titlecontex">Введите пароль, для авторизации по номеру +7 (987) 654-32-10.</string>
-    <string name="helpemail_titleedit">Введите новый пароль</string>
-    <string name="helpemail_toolbartitle">Отправить SMS</string>
-    <string name="helpsms_title">Реальный номер телефона</string>
-    <string name="helpsms_hint">*Сюда будет выслан код подтверждения</string>
-    <string name="helpsms_btncode">Отправить код</string>
     <string name="helpsms_hintsend">*Отправить код повторно через 30 сек</string>
     <string name="helpunlock_description">Введите 6-значный код, который был отправлен на номер +7 (987) 654-32-10.</string>
     <string name="helpunlock_title">Вам был отправлен код</string>
-    <string name="reg_phonetab">Телефон</string>
-    <string name="reg_emailtab">Эл. адрес</string>
-    <string name="reg_emailtitle">Введите свой email</string>
-    <string name="reg_emailhint">Введите эл. адрес</string>
     <string name="reg_phonetitle">Введите номер своего телефона</string>
     <string name="reg_password">Введите пароль</string>
     <string name="reg_codehint">*Сюда будет выслан код подтверждения</string>
-    <string name="registerlast_title">Последний шаг регистрации</string>
-    <string name="registerlast_fio">Имя и фамилия</string>
-    <string name="registerlast_btntitle">Поехали!</string>
-    <string name="registerlast_footer">Регистрируясь, вы соглашаетесь с нашими Условиями и Политикой конфиденциальности</string>
-    <string name="pushdlg_title">Хотите получать push-уведомления?</string>
-    <string name="favdlg_addbtn">Добавить игры</string>
-    <string name="favdlg_title">Выберите ваши любимые игры:</string>
-    <string name="favdlg_cs">CS:GO</string>
-    <string name="favdlg_dota">Dota 2</string>
-    <string name="settings_push">Push-уведомления</string>
-    <string name="settings_ready">Готово</string>
-    <string name="settings_title">Настройки</string>
     <string name="sharedlg_title">Поделись приложением с друзьями</string>
     <string name="sharedlg_titlebonus">и получи бонус!</string>
     <string name="seatdetail_titlethumb">Winstrike</string>
@@ -99,57 +58,18 @@
     <string name="timedlg_septo">:</string>
     <string name="timedlg_tomin">00</string>
     <string name="timedlg_btnclose">Продолжить</string>
-    <string name="paiddetail_title">Оплаченые места</string>
     <string name="club_name">Компьютерный клуб «Winstrike»</string>
     <string name="club_full_name">Многофункциональный киберспортивный комплекс\n Winstrike Arena</string>
-    <string name="paiddetail_date">15 декабря 2017 года</string>
-    <string name="paid_time">10:00-11:00</string>
     <string name="profileapp_estimate">Оцените приложение</string>
     <string name="profileapp_share">Рекомендовать другу</string>
-    <string name="proftoolbar_title">Алексей Сальников</string>
-    <string name="profilepro_bonus">Бонусы</string>
-    <string name="profilepro_favgames">Любимые игры</string>
-    <string name="newdetail_date">27 октября</string>
-    <string name="newdetail_count">288</string>
-    <string name="newdetail_description">Прямая трансляция по второму туру ESL ONE начнется сегодня в 21:30 по Мск. Вы можете посмотреть ее в нашем приложении «WinStrike» ниже:</string>
-    <string name="chat_title">Чат</string>
-    <string name="itemchat_left_name">Игорь</string>
-    <string name="itemchat_left_message">Отлично поиграли</string>
-    <string name="itemchat_left_time">1:57PM</string>
-    <string name="itemchat_right_name">Васян</string>
-    <string name="itemchat_right_message">Кто будет в Москве в арене Win Strike?</string>
-    <string name="itemchat_right_time">1:58 PM</string>
-    <string name="itembonus_title">Компьютерный клуб «Master»</string>
-    <string name="itembonus_time">В клубе: 7 часов</string>
-    <string name="bonus_money">Бонус: 70 рублей</string>
-    <string name="itmeclub_title">Компьютерный клуб «Master»</string>
-    <string name="itmeclub_price">Обычное: 400р</string>
-    <string name="itmeclub_vip">VIP: 1200р</string>
-    <string name="itmeclub_event">VIP: 1200р</string>
-    <string name="itemgame_name">Call of Duty</string>
-    <string name="itemnews_date">27 октября</string>
-    <string name="itemnews_views">14 k</string>
-    <string name="itemnews_title">Поиграть на 10 млн $</string>
-    <string name="itemnews_read">Читать далее...</string>
-    <string name="itempaid_title">Компьютерный клуб «Master»</string>
     <string name="itempaid_date">Дата</string>
     <string name="itempaid_dateval">15 декабря 2017 г</string>
     <string name="itempaid_time">Время</string>
     <string name="itempaid_timeval">10:00-11:00</string>
     <string name="itempaid_pc">Игровой компьютер</string>
-    <string name="itempaid_seat">1 ряд, 9 место</string>
     <string name="itempaid_pccode">Код для компьютера</string>
     <string name="itempaid_pccodeval">XFG124JK</string>
-
-
-    <!--Calendar date of week-->
-    <string name="material_calendar_monday">Пн</string>
-    <string name="material_calendar_tuesday">Вт</string>
-    <string name="material_calendar_wednesday">Ср</string>
-    <string name="material_calendar_thursday">Чт</string>
-    <string name="material_calendar_friday">Пт</string>
-    <string name="material_calendar_saturday">Сб</string>
-    <string name="material_calendar_sunday">Вс</string>
+    <string name="politica">Политика конфиденциальности</string>
 
     <!--Calendar month-->
     <array name="material_calendar_months_array">
@@ -167,28 +87,5 @@
         <item>Декабрь</item>
     </array>
 
-    <!--Calendar buttons-->
-    <string name="material_calendar_today_button" />
-    <string name="material_calendar_positive_button">Выбрать</string>
-    <string name="material_calendar_negative_button" />
-
-    <!-- TODO: Bottom navigation menu text title below icons -->
-    <string name="bottombar_titlechat">Чат</string>
-    <string name="bottombar_titleplaces">Места</string>
-    <string name="bottombar_titlenews">Новости</string>
-
-    <string name="tab_places">Места</string>
-    <string name="tab_user">Профиль</string>
-    <string name="tab_home">Домой</string>
-    <string name="politica">Политика конфиденциальности</string>
-    <string name="preference_file_key">ru.prsolution.winstrike.PREFERENCE_FILE_KEY</string>
-    <string name="saved_time_from">saved_date_time</string>
-    <string name="saved_time_to">saved_time_to</string>
-    <string name="saved_date">saved_date</string>
-
-
-    <string name="pause">Pause</string>
-    <string name="start">Start</string>
-    <string name="stop">Reset</string>
 
 </resources>
