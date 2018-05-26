@@ -61,29 +61,28 @@
                 style="@style/StemMedium17Primary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/timedlg_title"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="@id/tv_detail"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!--Выберите количество часов в клубе-->
             <TextView
                 android:id="@+id/tv_detail"
-                style="@style/StemRegular15Gray06"
+                style="@style/StemMedium15LightGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="58dp"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="58dp"
-                android:layout_marginBottom="24dp"
                 android:text="@string/timedlg_detail"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_title" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
             <!--c-->
             <TextView
@@ -91,13 +90,14 @@
                 style="@style/StemRegular19Withe06"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="75dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/timedlg_from"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_hour_from"
                 app:layout_constraintEnd_toStartOf="@id/tv_hour_from"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_detail" />
+                app:layout_constraintTop_toTopOf="@+id/tv_hour_from" />
 
             <!--tap from -->
             <View
@@ -116,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
                 android:text="@string/timedlg_fromhour"
+                android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_from_sep"
                 app:layout_constraintStart_toEndOf="@id/tv_from_text"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
@@ -130,6 +131,7 @@
                 android:layout_marginTop="58dp"
                 android:layout_marginEnd="3dp"
                 android:text="@string/timedlg_sephour"
+                android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_min_from"
                 app:layout_constraintStart_toEndOf="@id/tv_hour_from"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
@@ -142,6 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
                 android:text="@string/timedlg_tomin"
+                android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_to_text"
                 app:layout_constraintStart_toEndOf="@id/tv_from_sep"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
@@ -153,12 +156,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="75dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/timedlg_to"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_hour_to"
                 app:layout_constraintEnd_toStartOf="@id/tv_hour_to"
                 app:layout_constraintStart_toEndOf="@id/tv_min_from"
-                app:layout_constraintTop_toTopOf="@id/tv_detail" />
+                app:layout_constraintTop_toTopOf="@+id/tv_hour_to" />
 
             <!--tap to -->
             <View
@@ -177,6 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
                 android:text="@string/timedlg_tohour"
+                android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_to_sep"
                 app:layout_constraintStart_toEndOf="@id/tv_to_text"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
@@ -191,6 +196,7 @@
                 android:layout_marginTop="58dp"
                 android:layout_marginEnd="3dp"
                 android:text="@string/timedlg_septo"
+                android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_min_to"
                 app:layout_constraintStart_toEndOf="@id/tv_hour_to"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />
@@ -203,6 +209,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
                 android:text="@string/timedlg_tomin"
+                android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_to_sep"
                 app:layout_constraintTop_toTopOf="@id/tv_detail" />

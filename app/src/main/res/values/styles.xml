@@ -113,6 +113,12 @@
         <item name="android:textColor">@color/color_white</item>
     </style>
 
+    <style name="StemMedium15LightGrey">
+        <item name="android:fontFamily">@font/stem_medium</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/wnsLightGrey</item>
+    </style>
+
 
     <style name="StemRegular14Black">
         <item name="android:fontFamily">@font/stem_regular</item>

@@ -493,7 +493,6 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
             trans.setDuration(400);
             trans.setInterpolator(new AccelerateDecelerateInterpolator());
 
-//            View container = (View) getContentView().getParent().getParent();
             View container;
 
             if (android.os.Build.VERSION.SDK_INT > 22) {
@@ -563,10 +562,6 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
                 sb.append(format2LenStr(hour));
                 sb.append(":");
                 sb.append(format2LenStr(min));
-//                sb.append(":");
-//                sb.append(format2LenStr(sec));
-//                sb.append(" ");
-//                sb.append(merediumText);
                 timeFromData.hour = tv_h_from.getText().toString();
                 timeFromData.min = tv_m_from.getText().toString();
                 timeToData.hour = tv_h_to.getText().toString();
