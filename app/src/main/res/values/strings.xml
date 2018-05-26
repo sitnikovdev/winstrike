@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">Winstrike</string>
     <string name="all_nextbtn">Далее</string>
-    <string name="all_seabtn">Смотреть</string>
-    <string name="all_cancelbtn">Отменить</string>
-    <string name="all_dismisbtn">Пропустить</string>
-    <string name="all_applaybtn">Применить</string>
-    <string name="all_confirmbtn">Принять</string>
     <string name="all_savebtn">Сохранить</string>
-    <string name="all_checkstatusbtn">Проверить статус</string>
-    <string name="all_okbtn">Oк</string>
     <string name="all_enterbtn">Войти</string>
     <string name="all_social">Мы в соц.сетях</string>
     <string name="all_selectarena">Выберите арену</string>
