@@ -50,6 +50,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
     private static final int DEFAULT_MAX_MIN = 59;
     private static final int DEFAULT_MAX_SEC = 59;
 
+    Boolean storeHoursWasTapped = false;
 
     @BindView(R.id.tv_hour_from)
     public TextView tv_h_from;
@@ -344,7 +345,6 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
                 tv_m_to.setText(String.valueOf(format2LenStr(min)));
 
 
-
             } else if (isToTimeSelect) {
                 tv_m_to.setText(format2LenStr(item));
                 timeToData.min = format2LenStr(item);
@@ -398,6 +398,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
     }
 
     private void setToSelected() {
+        storeHoursWasTapped = true;
         tv_h_to.setTextColor(Color.parseColor("#ffc9186c"));
         tv_m_to.setTextColor(Color.parseColor("#ffc9186c"));
         tv_h_from.setTextColor(Color.parseColor("#ffffffff"));
@@ -497,7 +498,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
 
             if (android.os.Build.VERSION.SDK_INT > 22) {
                 container = (View) getContentView().getParent().getParent();
-            }else{
+            } else {
                 container = (View) getContentView().getParent();
             }
 
@@ -546,10 +547,8 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-
         if (v == contentView || v == cancelBtn) {
 
-//            dismissPopWin();
         } else if (v == confirmBtnTap) {
 
             if (null != mListener) {
@@ -572,7 +571,12 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
                 mListener.onTimePickCompleted(hour, min, sb.toString(), timeFromData, timeToData);
             }
 
-            dismissPopWin();
+            if (storeHoursWasTapped) {
+                dismissPopWin();
+            } else {
+                setToSelected();
+            }
+
         }
     }
 

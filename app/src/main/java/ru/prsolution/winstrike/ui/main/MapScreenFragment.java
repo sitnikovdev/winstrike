@@ -428,6 +428,11 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
      */
     @Override
     public void onGetPaymentFailure(String appErrorMessage) {
+        String timeFrom = TimeDataModel.INSTANCE.getStart();
+        String timeTo = TimeDataModel.INSTANCE.getEnd();
+        Timber.d("timeFrom: %s", timeFrom);
+        Timber.d("timeTo: %s", timeTo);
+
         Timber.tag("common").w("Failure on pay: %s", appErrorMessage);
         if (appErrorMessage.contains("500")) toast("Внутренняя ошибка сервера: %s");
         if (appErrorMessage.contains("400")) toast("Нет данных: %s");
