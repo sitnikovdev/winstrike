@@ -23,7 +23,7 @@ class DateTransform {
             val date: String
 
             dateInStr += 'T'.toString() + time + ":00"
-            val formatter = SimpleDateFormat("dd MMM yyyy'T'HH:mm:ss")
+            val formatter = SimpleDateFormat("dd MMM yyyy'T'HH:mm:ss",Locale("RU"))
             try {
                 fmtDate = formatter.parse(dateInStr)
 

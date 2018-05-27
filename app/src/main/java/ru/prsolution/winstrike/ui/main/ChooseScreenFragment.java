@@ -199,6 +199,10 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
 
         RxView.clicks(showMapButton).subscribe(
                 it -> {
+                    String timeFrom = TimeDataModel.INSTANCE.getStart();
+                    String timeTo = TimeDataModel.INSTANCE.getEnd();
+                    Timber.d("timeFrom: %s", timeFrom);
+                    Timber.d("timeTo: %s", timeTo);
                     // If pids not empty - clear data.
                     if (TimeDataModel.INSTANCE.isDateValid()) {
                         presenter.getActivePid();
