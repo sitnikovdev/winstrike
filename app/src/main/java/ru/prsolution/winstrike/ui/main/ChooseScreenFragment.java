@@ -207,7 +207,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
                     if (TimeDataModel.INSTANCE.isDateValid()) {
                         presenter.getActivePid();
                     } else {
-                        Toast.makeText(getActivity(), "Не правильно выбрана дата", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_wrong_range), Toast.LENGTH_LONG).show();
                     }
                 }
         );

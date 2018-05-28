@@ -3,7 +3,7 @@
     <string name="all_nextbtn">Далее</string>
     <string name="all_savebtn">Сохранить</string>
     <string name="all_enterbtn">Войти</string>
-    <string name="all_social">Мы в соц.сетях</string>
+    <string name="all_social">Мы в соц. сетях</string>
     <string name="all_fio">Имя Фамилия</string>
     <string name="all_password_old">Пароль</string>
     <string name="all_entercode">Введите код подтверждения</string>
@@ -15,7 +15,7 @@
     <string name="pres2_title">Забукируйте компьютер</string>
     <string name="pres2_detail">Забукируйте игровой компьютер\n в игровом клубе в вашем городе на\n любое удобное для вас время </string>
     <string name="pres3_title">Следите за новостями и\n участвуйте в турнирах </string>
-    <string name="pres3_detail">Следите за новостями, чтобы быть в\n курсе событий. Принимайте участие в\n турнирах по Online играм</string>
+    <string name="pres3_detail">Следите за новостями, чтобы быть в\n курсе событий. Принимайте участие в\n турнирах по online-играм</string>
     <string name="login_password_hint">Пароль</string>
     <string name="login_enterbtn">Вход</string>
     <string name="login_hint">Забыли данные для входа?</string>
@@ -100,6 +100,7 @@
     <string name="material_calendar_today_button" />
     <string name="material_calendar_positive_button">Выбрать</string>
     <string name="material_calendar_negative_button" />
+    <string name="toast_wrong_range">Выбранное время выходит за рамки рабочего времени арены</string>
 
 
 </resources>
