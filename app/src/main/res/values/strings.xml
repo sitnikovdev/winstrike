@@ -25,7 +25,7 @@
     <string name="help_menu_title">Восстановить пароль</string>
     <string name="help_menu_sms">Отправить SMS</string>
     <string name="help_center_title">Справочный центр</string>
-    <string name="help_winstrike_title">Справочный центр Win Strike</string>
+    <string name="help_winstrike_title">Справочный центр Winstrike</string>
     <string name="help_account_title">Доступ к вашему аккаунту</string>
     <string name="helpsms_hintsend">*Отправить код повторно через 30 сек</string>
     <string name="helpunlock_description">Введите 6-значный код, который был отправлен на номер +7 (987) 654-32-10.</string>
