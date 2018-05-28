@@ -155,21 +155,21 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
 
         if (seat != null && seat.getType().contains("VIP")) {
             ivSeatImg.setImageResource(R.drawable.vip);
-            seat_title.setText("Вы выбрали: VIP room");
+            seat_title.setText(R.string.vip_room_select);
 
-            tvCpu.setText("CPU: intel i7-8700k");
-            tvRam.setText("RAM: 64GB, SSD HDD 500gb");
-            tvGpu.setText("GPU: Geforce GTX 1080ti 11GB");
-            tvMonitor.setText("Монитор: LG 32GK850G");
+            tvCpu.setText(R.string.cpu_vip);
+            tvRam.setText(R.string.ram_vip);
+            tvGpu.setText(R.string.gpu_vip);
+            tvMonitor.setText(R.string.monitor_vip);
 
         } else {
             ivSeatImg.setImageResource(R.drawable.event);
-            seat_title.setText("Вы выбрали: Основной зал");
+            seat_title.setText(R.string.event_select);
 
-            tvCpu.setText("CPU: intel i5-8400k");
-            tvRam.setText("RAM: 64GB, SSD HDD 500gb");
-            tvGpu.setText("GPU: Geforce GTX 1070ti 8GB");
-            tvMonitor.setText("Монитор: LG 24GM79G");
+            tvCpu.setText(R.string.cpu_event);
+            tvRam.setText(R.string.ram_event);
+            tvGpu.setText(R.string.gpu_event);
+            tvMonitor.setText(R.string.monitor_event);
         }
         return view;
     }

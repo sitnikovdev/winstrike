@@ -33,23 +33,12 @@
             android:text="@string/seatdetail_title" />
 
         <TextView
-            android:id="@+id/gear"
-            style="@style/StemMedium15Black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/head_image"
-            android:layout_alignBottom="@id/head_image"
-            android:layout_marginStart="@dimen/start_head"
-            android:layout_marginBottom="-40dp"
-            android:text="@string/seatdetail_gear" />
-
-        <TextView
             android:id="@+id/cpu"
             style="@style/StemRegular15Base"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/head_image"
-            android:layout_alignBottom="@id/gear"
+            android:layout_alignBottom="@id/head_image"
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="-30dp"

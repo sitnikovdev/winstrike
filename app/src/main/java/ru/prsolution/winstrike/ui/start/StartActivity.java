@@ -20,7 +20,7 @@ import timber.log.Timber;
 public class StartActivity extends AppCompatActivity {
 
 
-    private class CrashlyticsTree extends Timber.Tree {
+/*    private class CrashlyticsTree extends Timber.Tree {
         private static final String CRASHLYTICS_KEY_PRIORITY = "priority";
         private static final String CRASHLYTICS_KEY_TAG = "tag";
         private static final String CRASHLYTICS_KEY_MESSAGE = "message";
@@ -42,7 +42,7 @@ public class StartActivity extends AppCompatActivity {
                 Crashlytics.logException(t);
             }
         }
-    }
+    }*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class StartActivity extends AppCompatActivity {
         CrashlyticsCore core = new CrashlyticsCore.Builder()
                 .disabled(WinstrikeApp.DEBUG)
                 .build();
-        Fabric.with(this, new Crashlytics.Builder().core(core).build());
+        Fabric.with(this, new Crashlytics.Builder().core(core).build(), new Crashlytics());
 
         if (WinstrikeApp.DEBUG) {
             Timber.plant(new Timber.DebugTree());
