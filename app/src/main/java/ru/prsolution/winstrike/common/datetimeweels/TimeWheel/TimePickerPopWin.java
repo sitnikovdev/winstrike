@@ -238,11 +238,11 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
 
 
-        tv_h_from.setText(String.valueOf(format2LenStr(hourPos + 1)));
-        tv_m_from.setText(String.valueOf(format2LenStr(minPos)));
+        tv_h_from.setText(String.valueOf(format2LenStr(hourPos)));
+        tv_m_from.setText(String.valueOf(format2LenStr(minPos + 5)));
 
-        tv_h_to.setText(String.valueOf(format2LenStr(hourPos + 2)));
-        tv_m_to.setText(String.valueOf(format2LenStr(minPos)));
+        tv_h_to.setText(String.valueOf(format2LenStr(hourPos + 1)));
+        tv_m_to.setText(String.valueOf(format2LenStr(minPos+5)));
 
         isFromTimeSelect = true;
 
