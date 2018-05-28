@@ -18,4 +18,5 @@ app/build.gradle
 app/libs
 app/build.gradle
 app/proguard-rules.pro
+app/release/*
 
