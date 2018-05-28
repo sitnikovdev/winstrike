@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -58,9 +57,11 @@ public class StartActivity extends AppCompatActivity {
 
         if (WinstrikeApp.DEBUG) {
             Timber.plant(new Timber.DebugTree());
-        } else {
-            Timber.plant(new CrashlyticsTree());
         }
+
+/*        else {
+            Timber.plant(new CrashlyticsTree());
+        }*/
 
         Timber.e("StartActivity: AppConfig.DEBUG: %s", WinstrikeApp.DEBUG);
 
