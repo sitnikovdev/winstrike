@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/tv_snackText"
         style="@style/StemMedium17Primary"
-        android:text="Забукировать"
+        android:text="Забронировать"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical"
