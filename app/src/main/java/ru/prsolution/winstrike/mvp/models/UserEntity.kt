@@ -16,12 +16,7 @@
 
 package ru.prsolution.winstrike.db.entity
 
-import android.arch.persistence.room.Ignore
-import android.arch.persistence.room.PrimaryKey
-
-
 class UserEntity {
-    @PrimaryKey
     private var id: Int = 0
     private var name: String? = null
     private var phone: String? = null
@@ -82,13 +77,11 @@ class UserEntity {
 
     constructor() {}
 
-    @Ignore
     constructor(id: Int, name: String) {
         this.id = id
         this.name = name
     }
 
-    @Ignore
     constructor(user: UserEntity) {
         this.id = user.getId()
         this.name = user.getName()

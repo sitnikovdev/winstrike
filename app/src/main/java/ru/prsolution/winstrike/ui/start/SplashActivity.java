@@ -98,7 +98,7 @@ public class SplashActivity extends AppCompatActivity {
         } else if (!AuthUtils.INSTANCE.getToken().isEmpty()) {
             //  Check if user exist on server!!!
             //Updated 24/05/2018:  Don't checking auth, until user is logout.
-/*          signInModel = new SignInModel();
+/*          signInModel = new LoginViewModel();
             signInModel.setUsername(AuthUtils.INSTANCE.getPhone());
             signInModel.setPassword(AuthUtils.INSTANCE.getPassword());
             mSignInPresenter.signIn(signInModel);*/

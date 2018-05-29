@@ -43,6 +43,12 @@ public class StartActivity extends AppCompatActivity {
         }
     }*/
 
+    public class NotLoggingTree extends Timber.Tree {
+        @Override
+        protected void log(final int priority, final String tag, final String message, final Throwable throwable) {
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +64,9 @@ public class StartActivity extends AppCompatActivity {
         if (WinstrikeApp.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
-
+        else {
+            Timber.plant(new NotLoggingTree());
+        }
 /*        else {
             Timber.plant(new CrashlyticsTree());
         }*/

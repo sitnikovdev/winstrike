@@ -21,7 +21,6 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding.view.RxView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -242,7 +241,7 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
         tv_m_from.setText(String.valueOf(format2LenStr(minPos + 5)));
 
         tv_h_to.setText(String.valueOf(format2LenStr(hourPos + 1)));
-        tv_m_to.setText(String.valueOf(format2LenStr(minPos+5)));
+        tv_m_to.setText(String.valueOf(format2LenStr(minPos + 5)));
 
         isFromTimeSelect = true;
 
@@ -276,13 +275,14 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
 /*        //From time is selected
         setFromSelected();*/
 
-        RxView.clicks(vTapFrom).subscribe(
+        vTapFrom.setOnClickListener(
                 it -> timeFromSetOnSelect()
         );
 
-        RxView.clicks(vTapTo).subscribe(
+        vTapTo.setOnClickListener(
                 it -> timeToSetOnSelect()
         );
+
 
         //set checked listen
         hourLoopView.setListener(item -> {

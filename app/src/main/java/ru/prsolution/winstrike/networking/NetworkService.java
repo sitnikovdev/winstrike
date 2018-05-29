@@ -11,7 +11,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import ru.prsolution.winstrike.mvp.models.ProfileModel;
-import ru.prsolution.winstrike.mvp.models.SignInModel;
+import ru.prsolution.winstrike.mvp.models.LoginViewModel;
 import ru.prsolution.winstrike.mvp.models.ConfirmModel;
 import ru.prsolution.winstrike.mvp.models.LoginModel;
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
@@ -32,7 +32,7 @@ public interface NetworkService {
 
     // Авторизация пользователя
     @POST("login")
-    Observable<AuthResponse> authUser(@Body SignInModel signInModel);
+    Observable<AuthResponse> authUser(@Body LoginViewModel loginViewModel);
 
     // Отправка смс c кодом подтверждения
     @POST("confirm_codes")

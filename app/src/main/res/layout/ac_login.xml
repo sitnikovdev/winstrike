@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    <data>
+        <variable
+            name="loginModel"
+            type="ru.prsolution.winstrike.mvp.models.LoginViewModel" />
+        <variable
+            name="signActivity"
+            type="ru.prsolution.winstrike.ui.login.SignInActivity"/>
+    </data>
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -89,6 +98,7 @@
     <EditText
         android:id="@+id/et_phone"
         style="@style/StemRegular15Base"
+        android:text="@={loginModel.username}"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:inputType="phone"
@@ -126,6 +136,7 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:hint="@string/login_password_hint"
+        android:text="@={loginModel.password}"
         app:layout_constraintBottom_toBottomOf="@id/end_at"
         app:layout_constraintEnd_toEndOf="@id/end_at"
         app:layout_constraintStart_toStartOf="@id/end_at"
@@ -331,3 +342,4 @@
         app:layout_constraintGuide_end="64dp" />
 
 </android.support.constraint.ConstraintLayout>
+</layout>

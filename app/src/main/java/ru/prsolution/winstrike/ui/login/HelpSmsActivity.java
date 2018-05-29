@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jakewharton.rxbinding.widget.RxTextView;
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
 import javax.inject.Inject;
@@ -126,18 +125,22 @@ public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel
 
         setConfirmVisible(false);
 
-        setBtnEnable(nextButtonPhone, false);
-        setBtnEnable(nextButtonConfirm, false);
+        setBtnEnable(nextButtonPhone, true);
+        setBtnEnable(nextButtonConfirm, true);
 
 
         // Высылаем код
         nextButtonPhone.setOnClickListener(
                 view -> {
-                    // Запрос кода подтверждения повторно
-                    ConfirmSmsModel auth = getConfirmSmsModel();
-                    sendSms(auth);
-                    timer.startButtonClicked();
-                    setBtnEnable(nextButtonPhone, false);
+                    if (!TextUtils.isEmpty(phoneNumber.getText()) && phoneNumber.getText().length() >=14) {
+                        // Запрос кода подтверждения повторно
+                        ConfirmSmsModel auth = getConfirmSmsModel();
+                        sendSms(auth);
+                        timer.startButtonClicked();
+                        setBtnEnable(nextButtonPhone, false);
+                    } else {
+                        toast("Введите номер телефона!");
+                    }
                 }
         );
 
@@ -150,19 +153,28 @@ public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel
 
         nextButtonConfirm.setOnClickListener(
                 it -> {
-                    NewPasswordModel passw = new NewPasswordModel();
-                    String phone = TextFormat.formatPhone(String.valueOf(phoneNumber.getText()));
-                    String smsCode = String.valueOf(etCode.getText());
-                    passw.setUsername(phone);
-                    // Показываем диалог для смены пароля:
-                    dlgRefreshPassword(passw, smsCode);
+                    if (!TextUtils.isEmpty(etCode.getText()) && etCode.getText().length() >= 4) {
+                        NewPasswordModel passw = new NewPasswordModel();
+                        String phone = TextFormat.formatPhone(String.valueOf(phoneNumber.getText()));
+                        String smsCode = String.valueOf(etCode.getText());
+                        passw.setUsername(phone);
+                        // Показываем диалог для смены пароля:
+                        dlgRefreshPassword(passw, smsCode);
+
+                    } else {
+                        toast("Введите код подтверждения!");
+                    }
                 }
         );
 
         TextFormat.formatText(phoneNumber, "(___) ___-__-__");
 
         // Меняем видимость кнопки вводе кода
-        RxTextView.textChanges(etCode).subscribe(
+
+
+
+
+/*        RxTextView.textChanges(etCode).subscribe(
                 it -> {
                     Boolean fieldOk = etCode.getText().length() >= 6;
                     Boolean phoneOk = phoneNumber.getText().length() == 15;
@@ -172,8 +184,8 @@ public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel
                         setBtnEnable(nextButtonConfirm, false);
                     }
                 }
-        );
-        RxTextView.textChanges(phoneNumber).subscribe(
+        );*/
+/*        RxTextView.textChanges(phoneNumber).subscribe(
                 it -> {
                     Boolean phoneOk = phoneNumber.getText().length() == 15;
                     if (phoneOk) {
@@ -182,7 +194,7 @@ public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel
                         setBtnEnable(nextButtonPhone, false);
                     }
                 }
-        );
+        );*/
 
 
         setTextFoot1Color(textFooter, "Уже есть аккаунт?", "#9b9b9b");

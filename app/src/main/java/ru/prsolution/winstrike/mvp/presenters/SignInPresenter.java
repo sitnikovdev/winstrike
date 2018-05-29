@@ -2,7 +2,7 @@ package ru.prsolution.winstrike.mvp.presenters;
 
 
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
-import ru.prsolution.winstrike.mvp.models.SignInModel;
+import ru.prsolution.winstrike.mvp.models.LoginViewModel;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.networking.NetworkError;
@@ -22,7 +22,7 @@ public class SignInPresenter {
         this.activity = activity;
     }
 
-    public void signIn(SignInModel user) {
+    public void signIn(LoginViewModel user) {
         activity.showWait();
 
         Subscription subscription = service.authUser(new Service.AuthCallback() {

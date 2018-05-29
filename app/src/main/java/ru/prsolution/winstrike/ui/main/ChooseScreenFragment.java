@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
-import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -197,7 +196,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     private void initMapShowButton() {
         setShowMapBtnEnable(showMapButton, true);
 
-        RxView.clicks(showMapButton).subscribe(
+        showMapButton.setOnClickListener(
                 it -> {
                     String timeFrom = TimeDataModel.INSTANCE.getStart();
                     String timeTo = TimeDataModel.INSTANCE.getEnd();
@@ -211,6 +210,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
                     }
                 }
         );
+
     }
 
     /**
@@ -309,15 +309,14 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
             dataPicker = new DataPicker(getActivity(), dateListener);
         }
 
-
-        RxView.clicks(dateTextTap).subscribe(
+        dateTextTap.setOnClickListener(
                 it -> {
                     isDataSelected = true;
                     dataPicker.build().show();
                 }
         );
 
-        RxView.clicks(vDateTap).subscribe(
+        vDateTap.setOnClickListener(
                 it -> {
                     isDataSelected = true;
                     dataPicker.build().show();
@@ -345,7 +344,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
      * Check before time select that date is already selected.
      */
     private void initTimeSelectDialog() {
-        RxView.clicks(timeTextTap).subscribe(
+        timeTextTap.setOnClickListener(
                 it -> {
                     if (isDataSelected) {
                         openTimePickerDialog();
@@ -354,7 +353,8 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
                     }
                 }
         );
-        RxView.clicks(vTimeTap).subscribe(
+
+        vTimeTap.setOnClickListener(
                 it -> {
                     if (isDataSelected) {
                         openTimePickerDialog();
@@ -363,6 +363,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
                     }
                 }
         );
+
     }
 
     /**

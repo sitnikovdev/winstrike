@@ -4,17 +4,16 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.jakewharton.rxbinding.widget.RxTextView;
-import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 
 import javax.inject.Inject;
 
@@ -22,12 +21,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.mvp.models.MessageResponse;
-import ru.prsolution.winstrike.mvp.models.SignInModel;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.common.utils.TextFormat;
+import ru.prsolution.winstrike.databinding.AcLoginBinding;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
-import ru.prsolution.winstrike.common.utils.AuthUtils;
+import ru.prsolution.winstrike.mvp.models.LoginViewModel;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.presenters.SignInPresenter;
 import ru.prsolution.winstrike.mvp.views.SignInView;
 import ru.prsolution.winstrike.networking.Service;
@@ -39,7 +39,6 @@ import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Forward;
 import ru.terrakok.cicerone.commands.Replace;
 import ru.terrakok.cicerone.commands.SystemMessage;
-import rx.Observable;
 import timber.log.Timber;
 
 import static ru.prsolution.winstrike.common.utils.TextFormat.formatPhone;
@@ -52,7 +51,7 @@ import static ru.prsolution.winstrike.common.utils.Utils.setBtnEnable;
  */
 // TODO: 13/05/2018 Reorder method call in this activity.
 public class SignInActivity extends AppCompatActivity implements SignInView {
-    private SignInModel signInModel;
+    private LoginViewModel loginViewModel;
     private ProgressDialog mProgressDialog;
 
     @BindView(R.id.et_phone)
@@ -106,21 +105,31 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     public void init() {
         TextFormat.formatText(mPhoneView, "(___) ___-__-__");
 
-        setBtnEnable(mSignInButton, false);
+        setBtnEnable(mSignInButton, true);
 
         mSignInButton.setOnClickListener(
                 it -> {
-                    signInModel = new SignInModel();
-                    signInModel.setUsername(formatPhone(String.valueOf(mPhoneView.getText())));
-                    signInModel.setPassword(String.valueOf(mPasswordView.getText()));
-                    AuthUtils.INSTANCE.setPhone(signInModel.getUsername());
-                    AuthUtils.INSTANCE.setPassword(signInModel.getPassword());
+                    if (mPhoneView.getText().length() >= 14 && mPasswordView.getText().length() >=6) {
+                        loginViewModel.setUsername(formatPhone(String.valueOf(mPhoneView.getText())));
+                        loginViewModel.setPassword(String.valueOf(mPasswordView.getText()));
+                        AuthUtils.INSTANCE.setPhone(loginViewModel.getUsername());
+                        AuthUtils.INSTANCE.setPassword(loginViewModel.getPassword());
 
-                    mSignInPresenter.signIn(signInModel);
+                        mSignInPresenter.signIn(loginViewModel);
+
+                    } else if (TextUtils.isEmpty(mPhoneView.getText())){
+                        toast("Введите номер телефона");
+                    } else if (TextUtils.isEmpty(mPasswordView.getText())) {
+                        toast("Пароль не должен быть пустым");
+                    } else if (mPhoneView.getText().length() < 14) {
+                        toast("Номер телефона не верный");
+                    } else if (mPasswordView.getText().length() < 6) {
+                        toast("Длина пароля должна не менее 6 символов");
+                    }
                 }
         );
 
-        checkFieldEnabled(mPhoneView, mPasswordView, mSignInButton);
+//        checkFieldEnabled(mPhoneView, mPasswordView, mSignInButton);
 
         mHelpLinkView.setOnClickListener(
                 it -> startActivity(new Intent(this, HelpActivity.class))
@@ -140,8 +149,14 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
 
 
     public void renderView() {
-        setContentView(R.layout.ac_login);
+        //  setContentView(R.layout.ac_login);
+
+        loginViewModel = new LoginViewModel();
+
+        AcLoginBinding binding = DataBindingUtil.setContentView(this, R.layout.ac_login);
         ButterKnife.bind(this);
+
+        binding.setLoginModel(loginViewModel);
 
     }
 
@@ -230,7 +245,6 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
 
     @Override
     protected void onPause() {
-//        navigatorHolder.removeNavigator();
         super.onPause();
     }
 
@@ -240,8 +254,6 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage("Авторизация...");
             mProgressDialog.setIndeterminate(true);
-/*            mSignInButton.setVisibility(View.INVISIBLE);
-            mSignInButtonLabel.setVisibility(View.INVISIBLE);*/
         }
 
         mProgressDialog.show();
@@ -250,11 +262,12 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
     protected void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
-/*            mSignInButton.setVisibility(View.VISIBLE);
-            mSignInButtonLabel.setVisibility(View.VISIBLE);*/
         }
     }
 
+
+
+/*
     protected void checkFieldEnabled(EditText et_phone, EditText et_pass, View button) {
         Observable<TextViewTextChangeEvent> phoneObservable = RxTextView.textChangeEvents(et_phone);
         Observable<TextViewTextChangeEvent> passwordObservable = RxTextView.textChangeEvents(et_pass);
@@ -270,6 +283,7 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
             }
         });
     }
+*/
 
     protected void toast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
@@ -348,4 +362,26 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
         am.killBackgroundProcesses("ru.prsolution.winstrike");
         finish();
     }
+
+    public void onLogin(View view) {
+        Timber.d("View on click fire");
+    }
+
+    /*    public class LoginHandler {
+
+     *//*        public LoginHandler(LoginPresenter presenter) {
+            this.presenter = presenter;
+        }*//*
+
+        public View.OnClickListener onLogin(final LoginViewModel viewModel) {
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    presenter.login(viewModel);
+                    Timber.d("View on click fire");
+                }
+            };
+        }
+
+    }*/
 }

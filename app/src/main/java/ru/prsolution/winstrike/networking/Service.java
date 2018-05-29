@@ -2,8 +2,8 @@ package ru.prsolution.winstrike.networking;
 
 import java.util.Map;
 
+import ru.prsolution.winstrike.mvp.models.LoginViewModel;
 import ru.prsolution.winstrike.mvp.models.ProfileModel;
-import ru.prsolution.winstrike.mvp.models.SignInModel;
 import ru.prsolution.winstrike.mvp.models.ConfirmModel;
 import ru.prsolution.winstrike.mvp.models.LoginModel;
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
@@ -33,7 +33,7 @@ public class Service {
     }
 
 
-    public Subscription authUser(final AuthCallback callback, SignInModel user) {
+    public Subscription authUser(final AuthCallback callback, LoginViewModel user) {
 
         return networkService.authUser(user)
                 .subscribeOn(Schedulers.io())

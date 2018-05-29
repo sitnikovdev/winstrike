@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.Editable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -15,7 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jakewharton.rxbinding.widget.RxTextView;
 
 import javax.inject.Inject;
 
@@ -175,6 +176,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
 
 
         // Меняем видимость кнопки  корректном вводе кода из смс
+/*
         RxTextView.textChanges(codeTextField).subscribe(
                 it -> {
                     Boolean fieldOk = codeTextField.getText().length() >= 6;
@@ -185,6 +187,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
                     }
                 }
         );
+*/
 
         // Подтверждаем пользователя (отправляем серверу запрос с кодом введеным пользователем)
         confirmCodeButton.setOnClickListener(
@@ -216,40 +219,57 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         );
 
         // Вводим имя пользователя и переходим на главный экран
-        RxTextView.textChanges(nameTextField).subscribe(
+/*        RxTextView.textChanges(nameTextField).subscribe(
                 it -> {
-                    Boolean fieldOk = nameTextField.getText().length() >= 4;
-                    if (fieldOk) {
-                        // Update user profile - set name.
-                        String publicId = AuthUtils.INSTANCE.getPublicid();
-                        String token = "Bearer " + AuthUtils.INSTANCE.getToken();
-                        ProfileModel profile = new ProfileModel();
-                        profile.setName(String.valueOf(nameTextField.getText()));
-                        setBtnEnable(nextButton, true);
-                        nextButtonLabel.setText("Поехали!");
-                        nextButton.setOnClickListener(
-                                v -> {
+                }
+        );*/
 
-                                    UserEntity userDb = new UserEntity();
-                                    userDb.setConfirmed(true);
-                                    userDb.setPhone(user.getPhone());
-                                    userDb.setPublickId(AuthUtils.INSTANCE.getPublicid());
-                                    userDb.setToken(AuthUtils.INSTANCE.getToken());
-                                    userDb.setName(profile.getName());
-                                    AuthUtils.INSTANCE.setName(userDb.getName());
+        nameTextField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Boolean fieldOk = nameTextField.getText().length() >= 4;
+                if (fieldOk) {
+                    // Update user profile - set name.
+                    String publicId = AuthUtils.INSTANCE.getPublicid();
+                    String token = "Bearer " + AuthUtils.INSTANCE.getToken();
+                    ProfileModel profile = new ProfileModel();
+                    profile.setName(String.valueOf(nameTextField.getText()));
+                    setBtnEnable(nextButton, true);
+                    nextButtonLabel.setText("Поехали!");
+                    nextButton.setOnClickListener(
+                            v -> {
+
+                                UserEntity userDb = new UserEntity();
+                                userDb.setConfirmed(true);
+                                userDb.setPhone(user.getPhone());
+                                userDb.setPublickId(AuthUtils.INSTANCE.getPublicid());
+                                userDb.setToken(AuthUtils.INSTANCE.getToken());
+                                userDb.setName(profile.getName());
+                                AuthUtils.INSTANCE.setName(userDb.getName());
 
 //                                    repository.insertUser(userDb);
 
-                                    presenter.updateProfile(token, profile, publicId);
-                                    startActivity(new Intent(this, SignInActivity.class));
-                                }
-                        );
-                    } else {
-                        setBtnEnable(confirmCodeButton, false);
-                        setBtnEnable(nextButton, false);
-                    }
+                                presenter.updateProfile(token, profile, publicId);
+                                startActivity(new Intent(getParent(), SignInActivity.class));
+                            }
+                    );
+                } else {
+                    setBtnEnable(confirmCodeButton, false);
+                    setBtnEnable(nextButton, false);
                 }
-        );
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         setTextColor(codeSentLabel, "Введите 6-значный код, который был\n" +

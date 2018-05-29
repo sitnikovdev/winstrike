@@ -9,26 +9,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jakewharton.rxbinding.widget.RxTextView;
-import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.db.entity.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
-import ru.prsolution.winstrike.common.utils.AuthUtils;
+import ru.prsolution.winstrike.mvp.models.LoginModel;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.presenters.RegisterPresenter;
 import ru.prsolution.winstrike.mvp.views.RegisterView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.mvp.models.LoginModel;
-import ru.prsolution.winstrike.mvp.models.MessageResponse;
-import rx.Observable;
 import timber.log.Timber;
 
 import static ru.prsolution.winstrike.common.utils.TextFormat.formatPhone;
@@ -93,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
                 }
         );
 
-        checkFieldEnabled(phoneNumber, password, nextButton);
+//        checkFieldEnabled(phoneNumber, password, nextButton);
 
         TextFormat.formatText(phoneNumber, "(___) ___-__-__");
 
@@ -198,7 +194,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
 
-    protected void checkFieldEnabled(EditText et_phone, EditText et_pass, View button) {
+/*    protected void checkFieldEnabled(EditText et_phone, EditText et_pass, View button) {
         Observable<TextViewTextChangeEvent> phoneObservable = RxTextView.textChangeEvents(et_phone);
         Observable<TextViewTextChangeEvent> passwordObservable = RxTextView.textChangeEvents(et_pass);
         Observable.combineLatest(phoneObservable, passwordObservable, (phoneSelected, passwordSelected) -> {
@@ -212,7 +208,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
                 setBtnEnable(button, false);
             }
         });
-    }
+    }*/
 
     protected void toast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
