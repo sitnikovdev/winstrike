@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Winstrike</string>
+    <string name="app_club">Winstrike Arena</string>
     <string name="all_nextbtn">Далее</string>
     <string name="all_savebtn">Сохранить</string>
     <string name="all_enterbtn">Войти</string>
@@ -36,7 +37,7 @@
     <string name="sharedlg_title">Поделись приложением с друзьями</string>
     <string name="sharedlg_titlebonus">и получи бонус!</string>
     <string name="seatdetail_titlethumb">Winstrike</string>
-    <string name="seatdetail_description">это 1000 кв.м. киберспорта в самом центре Москвы.
+    <string name="seatdetail_description">Winstrike Arena это 1000 кв.м. киберспорта в самом центре Москвы.
 90 компьютеров, VIP-комнаты с приставками PS4,
 бар для просмотра турниров
 и уникальная стримерская студия</string>
@@ -61,7 +62,7 @@
     <string name="timedlg_septo">:</string>
     <string name="timedlg_tomin">00</string>
     <string name="timedlg_btnclose">Продолжить</string>
-    <string name="club_name">Компьютерный клуб «Winstrike»</string>
+    <string name="club_name">Компьютерный клуб «Winstrike Arena»</string>
     <string name="club_full_name">Многофункциональный киберспортивный комплекс\n Winstrike Arena</string>
     <string name="profileapp_estimate">Оцените приложение</string>
     <string name="profileapp_share">Рекомендовать другу</string>

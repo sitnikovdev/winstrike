@@ -367,7 +367,7 @@ public class HelpSmsActivity extends AppCompatActivity implements TimerViewModel
                 break;
             case "400":
                 Timber.tag("OkHttp").d("Пользователь не найден");
-                toast("Пользователь с таким номером не найден");
+                toast("Пользователь не зарегистрирован");
                 break;
             case "404":
                 Timber.tag("OkHttp").d("Пользователь уже поддвержден");

@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/keyline_40dp" />
+                    app:layout_constraintGuide_begin="40dp" />
 
                 <android.support.constraint.Guideline
                     android:id="@+id/line_end"
@@ -71,12 +71,12 @@
 
                 <ImageView
                     android:id="@+id/head_image"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="76dp"
                     android:src="@drawable/head_img"
-                    app:layout_constraintEnd_toEndOf="@id/line_end"
-                    app:layout_constraintStart_toStartOf="@id/line_start"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
