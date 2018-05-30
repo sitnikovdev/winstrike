@@ -17,7 +17,7 @@ import ru.prsolution.winstrike.R;
 
 
 /**
- * To clear icon can be changed via
+ * To clearPids icon can be changed via
  *
  * <pre>
  * android:drawable(Right|Left)="@drawable/custom_icon"

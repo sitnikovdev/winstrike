@@ -16,6 +16,17 @@ object TimeDataModel {
     var selectDate: String = ""
     var start: String = ""
     var end: String = ""
+    var time: String = ""
+    var isDateSelect = false;
+
+    fun setIsDateSelect(isSelect: Boolean) {
+        this.isDateSelect = isSelect;
+    }
+
+    fun getIsDateSelect():Boolean {
+        return this.isDateSelect
+    }
+
 
     fun setStartAt(startAt: String) {
         start = DateTransform.getFormattedDateWithTime(startAt)
@@ -32,9 +43,6 @@ object TimeDataModel {
         date = selectDate
     }
 
-    fun setShortFormatDate(datetime: String) {
-        date = datetime;
-    }
 
 
     var startDate: Date by observing(Date()
@@ -57,9 +65,14 @@ object TimeDataModel {
         Timber.d("dates: valid ${isDateValid}, startAt: ${start}, endAt: ${end}")
     })
 
-    fun clear() {
+    fun clearPids() {
         pids = LinkedHashMap()
+    }
+
+    fun clearDateTime() {
+        isDateSelect = false
         date = ""
+        time = ""
         start = ""
         end = ""
         startDate = Date()

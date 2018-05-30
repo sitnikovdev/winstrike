@@ -36,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.common.utils.Utils;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.common.utils.MapViewUtils;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
@@ -353,17 +354,13 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     private class BookingBtnListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            if (TimeDataModel.INSTANCE.isDateValid()) {
+            String timeFrom = "", timeTo = "";
+            timeFrom = TimeDataModel.INSTANCE.getStart();
+            timeTo = TimeDataModel.INSTANCE.getEnd();
+            if (Utils.valideateDate(timeFrom,timeTo)) {
                 presenter.onBookingClick();
             } else {
-                toast("Дата не валидна");
-                Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
-                Timber.d("endAt: %s", TimeDataModel.INSTANCE.getEnd());
-
-                Timber.d("dateStart: %s", TimeDataModel.INSTANCE.getStartDate());
-                Timber.d("dateEnd: %s", TimeDataModel.INSTANCE.getEndDate());
-
-                Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
+                toast(getActivity().getResources().getString(R.string.toast_wrong_range));
             }
         }
     }
@@ -398,7 +395,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         if (this.service != null) {
             this.service = null;
         }
-        //TimeDataModel.INSTANCE.clear();
+        //TimeDataModel.INSTANCE.clearPids();
 
     }
 

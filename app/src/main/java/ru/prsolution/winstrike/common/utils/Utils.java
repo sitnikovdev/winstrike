@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import ru.prsolution.winstrike.mvp.transform.DateTransform;
+
 public class Utils {
 
     public static String getFormattedDate(String date) {
@@ -43,6 +45,18 @@ public class Utils {
             v.setClickable(false);
         }
 
+    }
+
+
+    public static boolean valideateDate(String stDate, String edDate) {
+        if (stDate.isEmpty() || edDate.isEmpty()) {
+            return false;
+        }
+        Date current = new Date();
+        Date startDate = DateTransform.Companion.getDateInUTC(stDate);
+        Date endDate = DateTransform.Companion.getDateInUTC(edDate);
+        Boolean isDateValid = startDate.before(endDate) && (startDate.after(current) || startDate.equals(current));
+        return isDateValid;
     }
 
 }

@@ -322,8 +322,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
     private void clearData() {
-        AuthUtils.INSTANCE.clearDateTime();
-        TimeDataModel.INSTANCE.clear();
+        TimeDataModel.INSTANCE.clearPids();
+        TimeDataModel.INSTANCE.clearDateTime();
     }
 
     private void initCarouselSeat(int currentItem) {
@@ -768,7 +768,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     public void onChooseSeatClick(SeatModel seat) {
 
-        TimeDataModel.INSTANCE.clear();
+        TimeDataModel.INSTANCE.clearPids();
 
         showFragmentHolderContainer(true);
 
@@ -866,10 +866,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     private class MapOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            TimeDataModel.INSTANCE.clear();
-            TimeDataModel.INSTANCE.setDate(AuthUtils.INSTANCE.getDate());
-            TimeDataModel.INSTANCE.setStartAt(AuthUtils.INSTANCE.getTimeStart());
-            TimeDataModel.INSTANCE.setEndAt(AuthUtils.INSTANCE.getTimeEnd());
+            TimeDataModel.INSTANCE.clearPids();
             initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, this);
             router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
         }

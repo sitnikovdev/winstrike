@@ -55,7 +55,7 @@ import ru.prsolution.winstrike.R
 object BindingAdapters {
 
     /**
-     * When defined in an [EditText], this [BindingAdapter] will clear the text on focus and
+     * When defined in an [EditText], this [BindingAdapter] will clearPids the text on focus and
      * set the previous value if the user doesn't enter one. When the focus leaves, it calls
      * the listener that was passed as an argument.
      *
