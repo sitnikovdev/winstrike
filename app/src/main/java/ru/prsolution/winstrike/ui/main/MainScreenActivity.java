@@ -4,10 +4,13 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -35,6 +38,10 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -712,13 +719,31 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
 
+
     @Override
     public void onRecommendButtonClick() {
-        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, "https://winstrike.gg");
+        Bitmap icon =BitmapFactory.decodeResource(getResources(),R.drawable.winstrike_share);
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        try {
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        sharingIntent.putExtra(Intent.EXTRA_TEXT, "https://winstrike.gg");
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+        startActivity(Intent.createChooser(share, "Share Image"));
+
+
+//        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         // указываем тип передаваемых данных
-        sharingIntent.setType("text/plain");
-        startActivity(sharingIntent);
+//        sharingIntent.setType("text/plain");
+//        startActivity(sharingIntent);
     }
 
     @Override
