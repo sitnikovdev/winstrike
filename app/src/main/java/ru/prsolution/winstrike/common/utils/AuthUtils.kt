@@ -9,6 +9,10 @@ object AuthUtils {
     private val PHONE = "phone"
     private val NAME = "name"
     private val PASSWORD = "password"
+    private val DATE = "date"
+    private val TIME = "time"
+    private val TIMESTART = "timeStart"
+    private val TIMEEND = "timeEnd"
 
     var token: String
         get() = PrefUtils.prefs.getString(TOKEN, "")
@@ -58,5 +62,35 @@ object AuthUtils {
             PrefUtils.editor.putString(PASSWORD, password).commit()
         }
 
+    var date: String
+        get() = PrefUtils.prefs.getString(DATE, "")
+        set(date) {
+            PrefUtils.editor.putString(DATE, date).commit()
+        }
+
+    var time: String
+        get() = PrefUtils.prefs.getString(TIME, "")
+        set(time) {
+            PrefUtils.editor.putString(TIME, time).commit()
+        }
+
+    var timeStart: String
+        get() = PrefUtils.prefs.getString(TIMESTART, "")
+        set(timeStart) {
+            PrefUtils.editor.putString(TIMESTART, timeStart).commit()
+        }
+
+    var timeEnd: String
+        get() = PrefUtils.prefs.getString(TIMEEND, "")
+        set(timeEnd) {
+            PrefUtils.editor.putString(TIMEEND, timeEnd).commit()
+        }
+
+    fun clearDateTime() {
+        this.date = ""
+        this.time = ""
+        this.timeStart = ""
+        this.timeEnd = ""
+    }
 
 }

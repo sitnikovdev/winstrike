@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
+import ru.prsolution.winstrike.ui.main.ChooseScreenFragment;
 import ru.prsolution.winstrike.ui.main.MainScreenActivity;
 import timber.log.Timber;
 
@@ -32,6 +33,7 @@ public class YandexWebView extends AppCompatActivity {
     TextView tvToolbarTitle;
     private Intent confirmScreen;
     private Intent mainScreen;
+    private Intent chooseSrceen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class YandexWebView extends AppCompatActivity {
 
         confirmScreen = new Intent(this, UserConfirmActivity.class);
         mainScreen = new Intent(this, MainScreenActivity.class);
+        chooseSrceen = new Intent(this, ChooseScreenFragment.class);
 
         confirmScreen.putExtra("phone",AuthUtils.INSTANCE.getPhone());
         mainScreen.putExtra("phone",AuthUtils.INSTANCE.getPhone());
@@ -122,7 +125,7 @@ public class YandexWebView extends AppCompatActivity {
         if (url.contains("politika.html") || url.contains("rules.html")) {
             startActivity(confirmScreen);
         } else {
-            startActivity(mainScreen);
+            startActivity(chooseSrceen);
         }
 /*        if (mWebView.canGoBack()) {
             mWebView.goBack();

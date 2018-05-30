@@ -15,14 +15,14 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
-import ru.prsolution.winstrike.mvp.views.MainScreenView;
-import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.subnavigation.LocalCiceroneHolder;
 import ru.prsolution.winstrike.common.BackButtonListener;
 import ru.prsolution.winstrike.common.RouterProvider;
 import ru.prsolution.winstrike.common.ScreenType;
+import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.mvp.views.MainScreenView;
+import ru.prsolution.winstrike.subnavigation.LocalCiceroneHolder;
+import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.ui.login.HomeScreenFragment;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;

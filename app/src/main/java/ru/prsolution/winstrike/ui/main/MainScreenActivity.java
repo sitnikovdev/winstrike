@@ -43,23 +43,23 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.mvp.models.MessageResponse;
-import ru.prsolution.winstrike.mvp.models.ProfileModel;
+import ru.prsolution.winstrike.common.BackButtonListener;
+import ru.prsolution.winstrike.common.CarouselAdapter;
+import ru.prsolution.winstrike.common.RouterProvider;
+import ru.prsolution.winstrike.common.ScreenType;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.databinding.AcMainscreenBinding;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
-import ru.prsolution.winstrike.common.utils.AuthUtils;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
+import ru.prsolution.winstrike.mvp.models.ProfileModel;
+import ru.prsolution.winstrike.mvp.models.SeatModel;
 import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.models.UserProfileObservable;
 import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
-import ru.prsolution.winstrike.common.BackButtonListener;
-import ru.prsolution.winstrike.common.CarouselAdapter;
-import ru.prsolution.winstrike.common.RouterProvider;
-import ru.prsolution.winstrike.common.ScreenType;
-import ru.prsolution.winstrike.mvp.models.SeatModel;
 import ru.prsolution.winstrike.ui.start.SplashActivity;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -277,6 +277,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     public void onCreate(Bundle savedInstanceState) {
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
+        clearData();
 
 
 //        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
@@ -320,6 +321,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     }
 
+    private void clearData() {
+        AuthUtils.INSTANCE.clearDateTime();
+        TimeDataModel.INSTANCE.clear();
+    }
+
     private void initCarouselSeat(int currentItem) {
 
         dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
@@ -358,7 +364,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
 
     private void initViews() {
-        initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN);
+        initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
         initBottomNavigationBar();
 
         // Hide profile interface element
@@ -403,7 +409,26 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
 
-    public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon, ScreenType screenType) {
+    public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon, ScreenType screenType, View.OnClickListener listener) {
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(listener);
+
+        mScreenType = screenType;
+        // getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
+        invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        tvToolbarTitle.setText(title);
+        if (hideNavIcon) {
+            toolbar.setNavigationIcon(null);
+            toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStart());
+        } else {
+            toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+            toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStartWithNavigation());
+        }
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon, ScreenType screenType ) {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(mMainOnClickListener);
 
@@ -421,6 +446,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
+
 
     private void setHomeScreenStateVisibily(Boolean isVisible) {
         if (isVisible) {
@@ -569,8 +595,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                                 .commitNow();
                         break;
                     case Screens.CHOOSE_SCREEN:
-                        toolbar.setNavigationOnClickListener(mMainOnClickListener);
-                        initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN);
+//                        toolbar.setNavigationOnClickListener(mMainOnClickListener);
+                        initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN,mMainOnClickListener);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)
@@ -583,8 +609,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                         fm.executePendingTransactions();
                         break;
                     case Screens.MAP_SCREEN:
-                        toolbar.setNavigationOnClickListener(mMapOnClickListener);
-                        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP);
+//                        toolbar.setNavigationOnClickListener(mMapOnClickListener);
+                        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP,mMapOnClickListener);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)
@@ -597,7 +623,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                         fm.executePendingTransactions();
                         break;
                     case Screens.PAY_SCREEN:
-                        initMainToolbar(HIDE_MENU, "Оплата", SHOW_ICON, ScreenType.MAP);
+                        initMainToolbar(HIDE_MENU, "Оплата", SHOW_ICON, ScreenType.MAP,mMainOnClickListener);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)
@@ -667,7 +693,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 }
             }
             user.setName(name);
-            initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE);
+            initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE,mMainOnClickListener);
         }
     }
 
@@ -746,7 +772,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         showFragmentHolderContainer(true);
 
-        initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN);
+        initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
 
 //        MapInfoSingleton.getInstance().setSeat(seat);
         WinstrikeApp.getInstance().setSeat(seat);
@@ -799,13 +825,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                     showFragmentHolderContainer(false);
                     setHomeScreenStateVisibily(true);
                     setProfileScreenInterfaceVisibility(false);
-                    initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN);
+                    initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
                     presenter.onTabHomeClick();
                     break;
                 case PLACE_TAB_POSITION:
                     showFragmentHolderContainer(true);
                     setProfileScreenInterfaceVisibility(false);
-                    initMainToolbar(HIDE_MENU, "Оплаченные места", SHOW_ICON, ScreenType.MAIN);
+                    initMainToolbar(HIDE_MENU, "Оплаченные места", SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
                     presenter.onTabPlaceClick(mPayList);
                     break;
                 case USER_TAB_POSITION:
@@ -819,7 +845,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                             title = AuthUtils.INSTANCE.getName();
                         }
                     }
-                    initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE);
+                    initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener);
 
                     presenter.onTabUserClick();
                     break;
@@ -831,7 +857,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     private class MainOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN);
+            clearData();
+            initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, this);
             presenter.onBackPressed();
         }
     }
@@ -839,7 +866,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     private class MapOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN);
+            TimeDataModel.INSTANCE.clear();
+            TimeDataModel.INSTANCE.setDate(AuthUtils.INSTANCE.getDate());
+            TimeDataModel.INSTANCE.setStartAt(AuthUtils.INSTANCE.getTimeStart());
+            TimeDataModel.INSTANCE.setEndAt(AuthUtils.INSTANCE.getTimeEnd());
+            initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, this);
             router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
         }
     }

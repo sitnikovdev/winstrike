@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +29,13 @@ import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.datetimeweels.TimeWheel.DataPicker;
 import ru.prsolution.winstrike.common.datetimeweels.TimeWheel.TimePickerPopWin;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 import ru.prsolution.winstrike.mvp.models.SeatModel;
 import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.presenters.ChooseScreenPresenter;
+import ru.prsolution.winstrike.mvp.transform.DateTransform;
 import ru.prsolution.winstrike.mvp.views.ChooseView;
 import ru.prsolution.winstrike.networking.Service;
 import timber.log.Timber;
@@ -198,12 +201,17 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
 
         showMapButton.setOnClickListener(
                 it -> {
-                    String timeFrom = TimeDataModel.INSTANCE.getStart();
-                    String timeTo = TimeDataModel.INSTANCE.getEnd();
+                    String timeFrom, timeTo;
+                    timeFrom = AuthUtils.INSTANCE.getTimeStart();
+                    timeTo =AuthUtils.INSTANCE.getTimeEnd();
+                    if (timeFrom.isEmpty() && timeTo.isEmpty()) {
+                        timeFrom = TimeDataModel.INSTANCE.getStart();
+                        timeTo = TimeDataModel.INSTANCE.getEnd();
+                    }
                     Timber.d("timeFrom: %s", timeFrom);
                     Timber.d("timeTo: %s", timeTo);
                     // If pids not empty - clear data.
-                    if (TimeDataModel.INSTANCE.isDateValid()) {
+                    if (valideateDate(timeFrom,timeTo)) {
                         presenter.getActivePid();
                     } else {
                         Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_wrong_range), Toast.LENGTH_LONG).show();
@@ -211,6 +219,17 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
                 }
         );
 
+    }
+
+    private boolean valideateDate(String stDate, String edDate) {
+        if (stDate.isEmpty() || edDate.isEmpty()) {
+            return false;
+        }
+        Date current = new Date();
+        Date startDate = DateTransform.Companion.getDateInUTC(stDate);
+        Date endDate = DateTransform.Companion.getDateInUTC(edDate);
+        Boolean isDateValid = startDate.before(endDate) && (startDate.after(current) || startDate.equals(current));
+        return isDateValid;
     }
 
     /**
@@ -298,8 +317,13 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     private void initDateSelectDialog() {
         String date = "Выберите дату";
         String time = "Укажите диапазон времени";
-        dateTextTap.setText(date);
-        timeTextTap.setText(time);
+        if (TimeDataModel.INSTANCE.getDate().isEmpty()) {
+            dateTextTap.setText(date);
+            timeTextTap.setText(time);
+        } else {
+            dateTextTap.setText(TimeDataModel.INSTANCE.getDate());
+            timeTextTap.setText(AuthUtils.INSTANCE.getTime());
+        }
 
 
         if (this.dataPicker == null) {
@@ -335,7 +359,9 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         @Override
         public void onSelect(List<Calendar> calendar) {
             TimeDataModel.INSTANCE.setSelectDate(calendar.get(0).getTime());
-            tv_date.setText(TimeDataModel.INSTANCE.getSelectDate());
+            String date = TimeDataModel.INSTANCE.getSelectDate();
+            AuthUtils.INSTANCE.setDate(date);
+            tv_date.setText(date);
         }
     }
 
@@ -369,14 +395,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     /**
      * Show time picker dialog.
      */
-
-    /**
-     * ala iOS theme time picker dialog
-     */
     private void openTimePickerDialog() {
-        /**
-         * So, try to fix this fucking "awesome" iOS time picked dialog for numerous android devices. It's not easy ).
-         */
         int bntTextSize = 20;
         int viewTextSize = 25;
         if (dpHeight > 700) {
@@ -397,15 +416,15 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
             timeTextTap.setText(time);
 
 
+            TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFromData));
+            TimeDataModel.INSTANCE.setEndAt(String.valueOf(timeToData));
+
             /**
              *  Save date data from timepicker (start and end).
              */
-//            TimeDataModel.INSTANCE.clear();
-            TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFromData));
-            TimeDataModel.INSTANCE.setEndAt(String.valueOf(timeToData));
-            /**
-             * save in time data in tinydb (for test).
-             */
+            AuthUtils.INSTANCE.setTime(time);
+            AuthUtils.INSTANCE.setTimeStart(TimeDataModel.INSTANCE.getStart());
+            AuthUtils.INSTANCE.setTimeEnd(TimeDataModel.INSTANCE.getEnd());
 
             Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
             Timber.d("endAt: %s", TimeDataModel.INSTANCE.getEnd());

@@ -50,7 +50,7 @@ object TimeDataModel {
     fun valideateDate(): Boolean {
         val current = Date()
         isDateValid = startDate < endDate && startDate >= current
-        return true
+        return isDateValid
     }
 
     var isDateValid: Boolean by observing(false, {
