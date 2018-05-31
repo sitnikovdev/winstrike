@@ -20,7 +20,7 @@ import ru.prsolution.winstrike.networking.Service;
 
 
 public class WinstrikeApp extends Application {
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public static WinstrikeApp INSTANCE;
     private AppComponent sAppComponent;
     private UserEntity user;

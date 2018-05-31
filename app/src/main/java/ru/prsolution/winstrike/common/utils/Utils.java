@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ru.prsolution.winstrike.mvp.transform.DateTransform;
 
@@ -114,6 +116,17 @@ public class Utils {
             }
         }
         return directory.getAbsolutePath();
+    }
+
+    public static String parseNumber(String seatName) {
+        String pattern="(\\D*)(\\d+)(\\D*)";
+        Pattern p=Pattern.compile(pattern);
+        Matcher m=p.matcher(seatName);
+        if (m.find()) {
+            System.out.println(m.group(2));
+            return m.group(2);
+        }
+        return "";
     }
 
 

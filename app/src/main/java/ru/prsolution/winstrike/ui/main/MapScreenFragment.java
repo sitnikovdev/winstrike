@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -17,7 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +34,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.common.YandexWebView;
+import ru.prsolution.winstrike.common.utils.MapViewUtils;
 import ru.prsolution.winstrike.common.utils.Utils;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
-import ru.prsolution.winstrike.common.utils.MapViewUtils;
 import ru.prsolution.winstrike.mvp.models.GameRoom;
 import ru.prsolution.winstrike.mvp.models.LabelRoom;
 import ru.prsolution.winstrike.mvp.models.Seat;
@@ -48,7 +47,6 @@ import ru.prsolution.winstrike.mvp.models.Wall;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.common.YandexWebView;
 import timber.log.Timber;
 
 
@@ -81,6 +79,10 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     MapPresenter presenter;
 
     private GameRoom mRoom;
+    private int seatTopMarginNow;
+    private int seatTopMarginOld;
+    private int seatTopMarginDelta;
+    private boolean isSecondRow = false;
 
 /*    @ProvidePresenter
     MapPresenter provideMainScreenPresenter() {
@@ -148,8 +150,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
 
         if (heightDp > 700) {
-            mXScaleFactor = (width / mWall.getEnd().x) - 0.3f;
-            mYScaleFactor = (height / mWall.getEnd().y) - 2.3f;
+            mXScaleFactor = (width / mWall.getEnd().x) + 0.5f;
+            mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
         } else {
             mXScaleFactor = (width / mWall.getEnd().x) - 0.3f;
             mYScaleFactor = (height / mWall.getEnd().y) - 2.3f;
@@ -179,6 +181,93 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
 
         for (Seat seat : room.getSeats()) {
+            String name = seat.getName();
+            String seatId = Utils.parseNumber(name);
+            Integer seatIdInt = Integer.parseInt(seatId.toString());
+            Integer idLenth = seatId.length();
+            Integer offsetX = 0;
+            Integer offsetSeatXX = 0;
+            Integer offsetY = 0;
+            Integer dx = 0;
+            Integer dy = 0;
+
+            if (idLenth <= 1) {
+                offsetX = 7;
+            } else if (idLenth == 2) {
+                offsetX = 14;
+            } else if (idLenth == 3) {
+                offsetX = 25;
+            }
+
+
+            // Label number offset for places (diffrent for rotated and not)
+            if (Math.round(radianToDegrees(seat))  == - 90) {
+                offsetY = -10; // for not rotated seat
+                Timber.d("Seat -90: id = %s",seatId);
+            } else {
+                offsetY = 7;
+            }
+
+
+            //Change label name top offset for second row
+            if (seatIdInt >= 11 && seatIdInt <= 20) {
+                offsetY = -15;
+            }
+
+            if (seatIdInt >= 38 && seatIdInt <= 42) {
+                offsetY = -15;
+            }
+
+            if (seatIdInt >= 66 && seatIdInt <= 70) {
+                offsetY = -15;
+            }
+
+            if (seatIdInt >= 86 && seatIdInt <= 90) {
+                offsetY = -15;
+            }
+
+            if (seatIdInt >= 81 && seatIdInt <= 85) {
+                offsetY = -15;
+            }
+
+            if (seatIdInt >= 111 && seatIdInt <= 115) {
+                offsetY = -15;
+            }
+
+
+            if (heightDp > 700) {
+                dx = (int) (seat.getDx() * mXScaleFactor) - 1;
+                dy = (int) (seat.getDy() * (mYScaleFactor)) -1;
+            } else {
+                dx = (int) (seat.getDx() * mXScaleFactor) - 1;
+                dy = (int) (seat.getDy() * (mYScaleFactor)) - 10;
+            }
+            tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
+            tvParams.leftMargin = dx+seatSize.x/2 - offsetX;
+            tvParams.topMargin = dy+seatSize.y - offsetY;
+            seatTopMarginOld = seatTopMarginNow;
+
+            seatTopMarginNow =  tvParams.topMargin;
+
+            seatTopMarginDelta = seatTopMarginNow - seatTopMarginOld;
+
+
+            Timber.d("isSecondRow: %s", isSecondRow);
+
+            Timber.d("seatTopMarginOld: %s, seatTopMarginNow: %s, seatTopMarginDelta: %s, isScondRow: %s",seatTopMarginOld,seatTopMarginNow,seatTopMarginDelta,isSecondRow);
+
+            Timber.d("Seat id: %s, tvParamsTop: %s",seatId,tvParams.topMargin);
+
+            TextView textView = new TextView(getContext());
+            textView.setText(seatId);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                textView.setTextAppearance(R.style.StemRegular12Gray);
+            } else {
+                textView.setTextAppearance(getContext(), R.style.StemRegular12Gray);
+            }
+            textView.setLayoutParams(tvParams);
+            rootLayout.addView(textView);
+
             ImageView ivSeat = new ImageView(getContext());
             setImage(ivSeat, seat);
 
@@ -296,6 +385,10 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         seatParams.topMargin = (int) (seat.getDy() * mYScaleFactor);
 
         Float angle = radianToDegrees(seat);
+        if (angle  != - 90) {
+//            seatParams.topMargin = seatParams.topMargin + 7;
+        }
+
         Float pivotX = seatBitmap.getWidth() / 2f;
         Float pivotY = seatBitmap.getHeight() / 2f;
         ivSeat.setPivotX(pivotX);
@@ -474,10 +567,6 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         return bitmap;
     }
 
-    private void changeTheme(final Resources.Theme theme, ImageView imageView) {
-        final Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_seat_exp, theme);
-        imageView.setImageDrawable(drawable);
-    }
 
     private class mSeatViewOnClickListener implements View.OnClickListener {
 
