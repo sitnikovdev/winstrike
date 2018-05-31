@@ -150,13 +150,17 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         Float width = WinstrikeApp.getInstance().getDisplayWidhtPx();
 
 
-        if (heightDp > 700) {
+        if (height <= 1920) {
             mXScaleFactor = (width / mWall.getEnd().x) + 0.5f;
             mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
-        } else {
+        } else if (height >= 2500) {
+            mXScaleFactor = (width / mWall.getEnd().x) + 0.5f;
+            mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
+        }
+/*        else {
             mXScaleFactor = (width / mWall.getEnd().x) - 0.3f;
             mYScaleFactor = (height / mWall.getEnd().y) - 2.3f;
-        }
+        }*/
         Point seatSize = new Point();
 
         Bitmap seatBitmap = getBitmap(getContext(), R.drawable.ic_seat_gray);
@@ -169,9 +173,12 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         params.setMargins(0, 0, 100, 200);
 
         // Height of screen
-        if (heightDp > 700) {
+        if (height <= 1920) {
             params.width = mScreenSize.x;
             params.height = mScreenSize.y + 700;
+        } else if (height >= 2500) {
+            params.width = mScreenSize.x;
+            params.height = mScreenSize.y + 1000;
         } else {
             params.width = mScreenSize.x;
             params.height = mScreenSize.y + 500;
@@ -202,14 +209,14 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
 
             // Label number offset for places (diffrent for rotated and not)
-            if (Math.round(radianToDegrees(seat))  == - 90) {
+            if (Math.round(radianToDegrees(seat)) == -90) {
                 offsetY = -10; // for not rotated seat
-                Timber.d("Seat -90: id = %s",seatId);
+                Timber.d("Seat -90: id = %s", seatId);
             } else {
                 offsetY = 7;
             }
 
-
+            // TODO: 31/05/2018 Replace with programm calculate rows
             //Change label name top offset for second row
             if (seatIdInt >= 11 && seatIdInt <= 20) {
                 offsetY = -15;
@@ -238,26 +245,26 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
             if (heightDp > 700) {
                 dx = (int) (seat.getDx() * mXScaleFactor) - 1;
-                dy = (int) (seat.getDy() * (mYScaleFactor)) -1;
+                dy = (int) (seat.getDy() * (mYScaleFactor)) - 1;
             } else {
                 dx = (int) (seat.getDx() * mXScaleFactor) - 1;
                 dy = (int) (seat.getDy() * (mYScaleFactor)) - 10;
             }
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
-            tvParams.leftMargin = dx+seatSize.x/2 - offsetX;
-            tvParams.topMargin = dy+seatSize.y - offsetY;
+            tvParams.leftMargin = dx + seatSize.x / 2 - offsetX;
+            tvParams.topMargin = dy + seatSize.y - offsetY;
             seatTopMarginOld = seatTopMarginNow;
 
-            seatTopMarginNow =  tvParams.topMargin;
+            seatTopMarginNow = tvParams.topMargin;
 
             seatTopMarginDelta = seatTopMarginNow - seatTopMarginOld;
 
 
             Timber.d("isSecondRow: %s", isSecondRow);
 
-            Timber.d("seatTopMarginOld: %s, seatTopMarginNow: %s, seatTopMarginDelta: %s, isScondRow: %s",seatTopMarginOld,seatTopMarginNow,seatTopMarginDelta,isSecondRow);
+            Timber.d("seatTopMarginOld: %s, seatTopMarginNow: %s, seatTopMarginDelta: %s, isScondRow: %s", seatTopMarginOld, seatTopMarginNow, seatTopMarginDelta, isSecondRow);
 
-            Timber.d("Seat id: %s, tvParamsTop: %s",seatId,tvParams.topMargin);
+            Timber.d("Seat id: %s, tvParamsTop: %s", seatId, tvParams.topMargin);
 
             TextView textView = new TextView(getContext());
             textView.setText(seatId);
@@ -311,13 +318,19 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             // Add horizontal line
             if (text.equals("HP STAGE 1")) {
                 tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
-                if (heightDp > 700) {
+                if (height <=1920) {
                     tvParams.leftMargin = dx;
                     tvParams.topMargin = dy - 800;
-                } else {
+                }
+                //Samsung S6,S7
+                else if(height >= 2560) {
+                    tvParams.leftMargin = dx;
+                    tvParams.topMargin = dy - 1000;
+                }
+/*                else if(height >= 2560) {
                     tvParams.leftMargin = dx;
                     tvParams.topMargin = dy - 650;
-                }
+                } */
                 View view = new View(getContext());
                 view.setBackgroundResource(R.drawable.hall_line);
                 view.setLayoutParams(tvParams);
@@ -386,7 +399,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         seatParams.topMargin = (int) (seat.getDy() * mYScaleFactor);
 
         Float angle = radianToDegrees(seat);
-        if (angle  != - 90) {
+        if (angle != -90) {
 //            seatParams.topMargin = seatParams.topMargin + 7;
         }
 
@@ -451,7 +464,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             String timeFrom = "", timeTo = "";
             timeFrom = TimeDataModel.INSTANCE.getStart();
             timeTo = TimeDataModel.INSTANCE.getEnd();
-            if (Utils.valideateDate(timeFrom,timeTo)) {
+            if (Utils.valideateDate(timeFrom, timeTo)) {
                 presenter.onBookingClick();
             } else {
                 toast(getActivity().getResources().getString(R.string.toast_wrong_range));
@@ -506,7 +519,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         Timber.tag("common").d("Pay successfully: %s", payResponse);
 
         String url = payResponse.getRedirectUrl();
-        Intent intent = new Intent(this.getContext(),YandexWebView.class);
+        Intent intent = new Intent(this.getContext(), YandexWebView.class);
         intent.putExtra("url", url);
         startActivity(intent);
     }
@@ -530,7 +543,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         if (appErrorMessage.contains("401")) toast("Пользователь не авторизован");
         if (appErrorMessage.contains("403")) toast("Ошибка авторизации пользователя");
         if (appErrorMessage.contains("404")) toast("В базе нет мест с таким public_id: %s");
-        if (appErrorMessage.contains("405")) toast("Ошибка авторизации пользователя. Выйдите из приложение и зайдите снова.");
+        if (appErrorMessage.contains("405"))
+            toast("Ошибка авторизации пользователя. Выйдите из приложение и зайдите снова.");
         if (appErrorMessage.contains("424")) toast("Не правильно выбрана дата");
         if (appErrorMessage.contains("416")) {
             toast("Не удается забронировать место на указанный интервал времени.");
