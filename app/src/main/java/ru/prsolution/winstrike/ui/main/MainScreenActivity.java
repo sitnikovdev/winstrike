@@ -4,17 +4,15 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.Space;
 import android.support.v7.widget.Toolbar;
@@ -38,10 +36,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -80,7 +74,7 @@ import timber.log.Timber;
 
 public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, ProfileFragment.OnProfileButtonsClickListener,
         AppFragment.OnAppButtonsClickListener, CarouselSeatFragment.OnChoosePlaceButtonsClickListener
-        ,  ChooseScreenFragment.onMapShowProcess {
+        , ChooseScreenFragment.onMapShowProcess {
 
     private ProgressDialog progressDialog;
     private AHBottomNavigation bottomNavigationBar;
@@ -435,7 +429,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-    public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon, ScreenType screenType ) {
+    public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon, ScreenType screenType) {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(mMainOnClickListener);
 
@@ -603,7 +597,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                         break;
                     case Screens.CHOOSE_SCREEN:
 //                        toolbar.setNavigationOnClickListener(mMainOnClickListener);
-                        initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN,mMainOnClickListener);
+                        initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)
@@ -617,7 +611,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                         break;
                     case Screens.MAP_SCREEN:
 //                        toolbar.setNavigationOnClickListener(mMapOnClickListener);
-                        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP,mMapOnClickListener);
+                        initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)
@@ -630,7 +624,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                         fm.executePendingTransactions();
                         break;
                     case Screens.PAY_SCREEN:
-                        initMainToolbar(HIDE_MENU, "Оплата", SHOW_ICON, ScreenType.MAP,mMainOnClickListener);
+                        initMainToolbar(HIDE_MENU, "Оплата", SHOW_ICON, ScreenType.MAP, mMainOnClickListener);
                         setHomeScreenStateVisibily(false);
                         fm.beginTransaction()
                                 .detach(homeTabFragment)
@@ -700,7 +694,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 }
             }
             user.setName(name);
-            initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE,mMainOnClickListener);
+            initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener);
         }
     }
 
@@ -718,33 +712,86 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         startActivity(new Intent(this,SignInActivity.class));*/
     }
 
+/*    private void shareImage(Uri imagePath) {
+        Bitmap bitmap = Utils.decodeUri(this,
+                imageUri, 200);
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        sharingIntent.setType("image/*");
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, imagePath);
+        startActivity(Intent.createChooser(sharingIntent, "Share Image Using"));
+    }*/
+
+    private void shareImage() {
+        Uri imageUri;
+        Intent intent;
+
+        imageUri = Uri.parse("android.resource://" + getPackageName()
+                + "/drawable/" + "winstrike_share");
+
+        intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/jpeg");
+//text
+//        intent.putExtra(Intent.EXTRA_TEXT, "Hello");
+//image
+        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+//type of things
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//sending
+        startActivity(Intent.createChooser(intent,"Hello"));
+    }
+
+    private void shareSms() {
+        Uri attached_Uri = Uri.parse("android.resource://" + getPackageName()
+                + "/drawable/" + "winstrike_share");
+        Intent mmsIntent = new Intent(Intent.ACTION_SEND);
+        mmsIntent.putExtra("sms_body", "Please see the attached image");
+        mmsIntent.putExtra(Intent.EXTRA_STREAM, attached_Uri);
+        mmsIntent.setType("image/gif");
+        startActivity(Intent.createChooser(mmsIntent,"Send"));
+    }
+
+    private void shareImg() {
+        Uri attached_Uri = Uri.parse("android.resource://" + getPackageName()
+                + "/drawable/" + "winstrike_share");
+        Intent shareIntent = ShareCompat.IntentBuilder.from(this)
+                .setType("image/jpg")
+                .setStream(attached_Uri)
+                .getIntent();
+        startActivity(Intent.createChooser(shareIntent,"Send"));
+    }
 
 
     @Override
     public void onRecommendButtonClick() {
-        Bitmap icon =BitmapFactory.decodeResource(getResources(),R.drawable.winstrike_share);
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/jpeg");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-        try {
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//        sharingIntent.putExtra(Intent.EXTRA_TEXT, "https://winstrike.gg");
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-        startActivity(Intent.createChooser(share, "Share Image"));
+//        shareImage();
+//        shareSms();
+//        shareImage2();
+        shareImg();
 
-
-//        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-        // указываем тип передаваемых данных
-//        sharingIntent.setType("text/plain");
-//        startActivity(sharingIntent);
     }
+
+    // Method to share any image.
+    private void shareImage2() {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        Uri attached_Uri = Uri.parse("android.resource://" + getPackageName()
+                + "/drawable/" + "winstrike_share");
+
+        // If you want to share a png image only, you can do:
+        // setType("image/png"); OR for jpeg: setType("image/jpeg");
+        share.setType("image/*");
+
+        // Make sure you put example png image named myImage.png in your
+        // directory
+
+//        File imageFileToShare = new File(imagePath);
+
+//        Uri uri = Uri.fromFile(imageFileToShare);
+        share.putExtra(Intent.EXTRA_STREAM, attached_Uri);
+
+        startActivity(Intent.createChooser(share, "Share Image!"));
+    }
+
 
     @Override
     public void onGooglePlayButtonClick() {
@@ -787,7 +834,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
     }
-
 
 
     @Override
