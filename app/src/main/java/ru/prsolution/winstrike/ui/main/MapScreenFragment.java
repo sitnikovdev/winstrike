@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
@@ -275,7 +276,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
             ivSeat.setLayoutParams(seatParams);
 
-            View.OnClickListener mSeatViewOnClickListener = new mSeatViewOnClickListener(seat, ivSeat, seatBitmap, mPickedSeatsIds);
+            View.OnClickListener mSeatViewOnClickListener = new mSeatViewOnClickListener(textView, seat, ivSeat, seatBitmap, mPickedSeatsIds);
             ivSeat.setOnClickListener(mSeatViewOnClickListener);
             rootLayout.addView(ivSeat);
         }
@@ -571,15 +572,17 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     private class mSeatViewOnClickListener implements View.OnClickListener {
 
         private final ImageView ivSeat;
+        private TextView seatName;
         private Seat seat;
         private Bitmap seatBitmap;
         private LinkedHashMap mPickedSeatsIds;
 
-        public mSeatViewOnClickListener(Seat seat, ImageView ivSeat, Bitmap seatBitmap, LinkedHashMap mPickedSeatsIds) {
+        public mSeatViewOnClickListener(TextView textView, Seat seat, ImageView ivSeat, Bitmap seatBitmap, LinkedHashMap mPickedSeatsIds) {
             this.seat = seat;
             this.ivSeat = ivSeat;
             this.seatBitmap = seatBitmap;
             this.mPickedSeatsIds = mPickedSeatsIds;
+            this.seatName = textView;
         }
 
         @Override
@@ -589,16 +592,20 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
                     ivSeat.setBackgroundResource(R.drawable.ic_seat_picked);
                     onSelectSeat(seat.getId(), false, seat.getPublicPid());
                     Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
+                    seatName.setTextColor(Color.WHITE);
+                    seatName.setTypeface(null, Typeface.BOLD);
                 } else {
                     rootLayout.removeView(ivSeat);
                     setImage(ivSeat, seat);
                     rotateSeat(seatBitmap, seat, ivSeat);
                     rootLayout.addView(ivSeat);
                     onSelectSeat(seat.getId(), true, seat.getPublicPid());
+                    seatName.setTextColor(ContextCompat.getColor(getActivity(), R.color.label_gray));
                 }
             } else {
                 Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.getId(), seat.getType(), seat.getPcname(), seat.getPublicPid());
                 animateView(ivSeat);
+                seatName.setTypeface(null, Typeface.NORMAL);
             }
         }
     }
