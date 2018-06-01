@@ -11,9 +11,8 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorPrimary"
         android:elevation="3dp"
-        card_view:cardCornerRadius="@dimen/card_club_radius">
+        app:cardBackgroundColor="@color/colorPrimary">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -51,93 +50,88 @@
                 android:id="@+id/thumbnail"
                 android:layout_width="@dimen/width_tumb_294dp"
                 android:layout_height="@dimen/height_tumb_140dp"
-                android:focusable="true"
-                android:scaleType="fitXY"
-                android:foreground="?selectableItemBackgroundBorderless"
-                android:src="@drawable/main_screen"
-                android:clickable="true"
                 android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?selectableItemBackgroundBorderless"
+                android:scaleType="fitXY"
+                android:src="@drawable/main_screen"
                 app:layout_constraintEnd_toEndOf="@id/line_end"
                 app:layout_constraintStart_toStartOf="@id/line_start"
-                app:layout_constraintTop_toBottomOf="@id/seat_title"/>
+                app:layout_constraintTop_toBottomOf="@id/seat_title" />
 
             <TextView
                 android:id="@+id/seat_title"
                 style="@style/StemMedium15Black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:text="@string/club_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toTopOf="@id/thumbnail"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_date_tt"
                 style="@style/StemMedium15Black"
-                android:text="@string/itempaid_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
+                android:text="@string/itempaid_date"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/thumbnail"
-                />
+                app:layout_constraintTop_toBottomOf="@id/thumbnail" />
 
             <TextView
                 android:id="@+id/tv_date"
                 style="@style/StemRegular15Black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/itempaid_dateval"
+                android:layout_marginTop="8dp"
                 android:clickable="false"
+                android:text="@string/itempaid_dateval"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/tv_date_tt"
-                />
+                app:layout_constraintTop_toBottomOf="@id/tv_date_tt" />
 
             <TextView
                 android:id="@+id/tv_time_tt"
                 style="@style/StemMedium15Black"
-                android:text="@string/itempaid_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:text="@string/itempaid_time"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/tv_date"
-                />
+                app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
             <TextView
                 android:id="@+id/tv_time"
                 style="@style/StemRegular15Black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/itempaid_timeval"
+                android:layout_marginTop="8dp"
                 android:clickable="false"
+                android:text="@string/itempaid_timeval"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
                 app:layout_constraintTop_toBottomOf="@id/tv_time_tt" />
 
             <TextView
                 android:id="@+id/tv_pc_tt"
                 style="@style/StemMedium15Black"
-                android:text="@string/itempaid_pc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:text="@string/itempaid_pc"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/tv_time"
-                />
+                app:layout_constraintTop_toBottomOf="@id/tv_time" />
 
             <TextView
                 android:id="@+id/tv_pc"
                 style="@style/StemRegular15Black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="comp name"
+                android:layout_marginTop="8dp"
                 android:clickable="false"
+                android:text="comp name"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
                 app:layout_constraintTop_toBottomOf="@id/tv_pc_tt" />
 
@@ -156,9 +150,9 @@
                 style="@style/StemRegular15Black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/itempaid_pccodeval"
+                android:layout_marginTop="16dp"
                 android:clickable="false"
+                android:text="@string/itempaid_pccodeval"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
                 app:layout_constraintTop_toBottomOf="@id/tv_pccode_tt" />
 
@@ -169,8 +163,7 @@
                 android:layout_height="10dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/main_shadow_separator"
-                app:layout_constraintTop_toBottomOf="@id/tv_pccode"
-                />
+                app:layout_constraintTop_toBottomOf="@id/tv_pccode" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
