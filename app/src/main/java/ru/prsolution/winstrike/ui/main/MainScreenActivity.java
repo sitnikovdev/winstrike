@@ -758,6 +758,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 .setType("image/jpg")
                 .setStream(attached_Uri)
                 .getIntent();
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Winstrike Arena - киберспорт в центре Москвы.\n" +
+                "Качай приложение и играй за 50 рублей/час");
         startActivity(Intent.createChooser(shareIntent,"Send"));
     }
 
