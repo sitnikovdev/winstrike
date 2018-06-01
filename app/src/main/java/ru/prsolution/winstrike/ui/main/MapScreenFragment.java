@@ -191,14 +191,22 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         for (Seat seat : room.getSeats()) {
             String name = seat.getName();
             String seatId = Utils.parseNumber(name);
-            Integer seatIdInt = Integer.parseInt(seatId.toString());
+//            Integer seatIdInt = Integer.parseInt(seatId.toString());
+            Integer seatIdInt = Integer.parseInt(seat.getId().toString()) + 1;
             Integer idLenth = seatId.length();
             Integer offsetX = 0;
-            Integer offsetSeatXX = 0;
             Integer offsetY = 0;
             Integer dx = 0;
             Integer dy = 0;
 
+
+            if (heightDp > 700) {
+                dx = (int) (seat.getDx() * mXScaleFactor) - 1;
+                dy = (int) (seat.getDy() * (mYScaleFactor)) - 1;
+            } else {
+                dx = (int) (seat.getDx() * mXScaleFactor) - 1;
+                dy = (int) (seat.getDy() * (mYScaleFactor)) - 10;
+            }
             if (idLenth <= 1) {
                 offsetX = 7;
             } else if (idLenth == 2) {
@@ -207,11 +215,18 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
                 offsetX = 25;
             }
 
+            Timber.d("Seat id: %s, idLenth: %s",seatIdInt, idLenth);
+
+
 
             // Label number offset for places (diffrent for rotated and not)
             if (Math.round(radianToDegrees(seat)) == -90) {
                 offsetY = -10; // for not rotated seat
                 Timber.d("Seat -90: id = %s", seatId);
+                seatTopMarginDelta = seatTopMarginNow - seatTopMarginOld;
+                if (seatIdInt == 1) {
+                    seatTopMarginDelta = 0;
+                }
             } else {
                 offsetY = 7;
             }
@@ -243,21 +258,14 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             }
 
 
-            if (heightDp > 700) {
-                dx = (int) (seat.getDx() * mXScaleFactor) - 1;
-                dy = (int) (seat.getDy() * (mYScaleFactor)) - 1;
-            } else {
-                dx = (int) (seat.getDx() * mXScaleFactor) - 1;
-                dy = (int) (seat.getDy() * (mYScaleFactor)) - 10;
-            }
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
             tvParams.leftMargin = dx + seatSize.x / 2 - offsetX;
             tvParams.topMargin = dy + seatSize.y - offsetY;
+
+
             seatTopMarginOld = seatTopMarginNow;
 
             seatTopMarginNow = tvParams.topMargin;
-
-            seatTopMarginDelta = seatTopMarginNow - seatTopMarginOld;
 
 
             Timber.d("isSecondRow: %s", isSecondRow);
@@ -265,6 +273,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             Timber.d("seatTopMarginOld: %s, seatTopMarginNow: %s, seatTopMarginDelta: %s, isScondRow: %s", seatTopMarginOld, seatTopMarginNow, seatTopMarginDelta, isSecondRow);
 
             Timber.d("Seat id: %s, tvParamsTop: %s", seatId, tvParams.topMargin);
+
+
 
             TextView textView = new TextView(getContext());
             textView.setText(seatId);
@@ -318,12 +328,12 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             // Add horizontal line
             if (text.equals("HP STAGE 1")) {
                 tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
-                if (height <=1920) {
+                if (height <= 1920) {
                     tvParams.leftMargin = dx;
                     tvParams.topMargin = dy - 800;
                 }
                 //Samsung S6,S7
-                else if(height >= 2560) {
+                else if (height >= 2560) {
                     tvParams.leftMargin = dx;
                     tvParams.topMargin = dy - 1000;
                 }
