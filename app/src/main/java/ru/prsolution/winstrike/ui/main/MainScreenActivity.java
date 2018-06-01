@@ -707,49 +707,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     public void onProfileUpdateSuccessfully(MessageResponse authResponse) {
         Timber.d("Profile is updated");
         Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
-/*        toast("Новый пароль успешно сохранен");
-
-        startActivity(new Intent(this,SignInActivity.class));*/
     }
 
-/*    private void shareImage(Uri imagePath) {
-        Bitmap bitmap = Utils.decodeUri(this,
-                imageUri, 200);
-        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        sharingIntent.setType("image/*");
-        sharingIntent.putExtra(Intent.EXTRA_STREAM, imagePath);
-        startActivity(Intent.createChooser(sharingIntent, "Share Image Using"));
-    }*/
-
-    private void shareImage() {
-        Uri imageUri;
-        Intent intent;
-
-        imageUri = Uri.parse("android.resource://" + getPackageName()
-                + "/drawable/" + "winstrike_share");
-
-        intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("image/jpeg");
-//text
-//        intent.putExtra(Intent.EXTRA_TEXT, "Hello");
-//image
-        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
-//type of things
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//sending
-        startActivity(Intent.createChooser(intent,"Hello"));
-    }
-
-    private void shareSms() {
-        Uri attached_Uri = Uri.parse("android.resource://" + getPackageName()
-                + "/drawable/" + "winstrike_share");
-        Intent mmsIntent = new Intent(Intent.ACTION_SEND);
-        mmsIntent.putExtra("sms_body", "Please see the attached image");
-        mmsIntent.putExtra(Intent.EXTRA_STREAM, attached_Uri);
-        mmsIntent.setType("image/gif");
-        startActivity(Intent.createChooser(mmsIntent,"Send"));
-    }
 
     private void shareImg() {
         Uri attached_Uri = Uri.parse("android.resource://" + getPackageName()
@@ -766,32 +725,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     @Override
     public void onRecommendButtonClick() {
-//        shareImage();
-//        shareSms();
-//        shareImage2();
         shareImg();
 
-    }
-
-    // Method to share any image.
-    private void shareImage2() {
-        Intent share = new Intent(Intent.ACTION_SEND);
-        Uri attached_Uri = Uri.parse("android.resource://" + getPackageName()
-                + "/drawable/" + "winstrike_share");
-
-        // If you want to share a png image only, you can do:
-        // setType("image/png"); OR for jpeg: setType("image/jpeg");
-        share.setType("image/*");
-
-        // Make sure you put example png image named myImage.png in your
-        // directory
-
-//        File imageFileToShare = new File(imagePath);
-
-//        Uri uri = Uri.fromFile(imageFileToShare);
-        share.putExtra(Intent.EXTRA_STREAM, attached_Uri);
-
-        startActivity(Intent.createChooser(share, "Share Image!"));
     }
 
 
