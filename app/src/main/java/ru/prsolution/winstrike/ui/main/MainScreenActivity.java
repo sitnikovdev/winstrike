@@ -332,6 +332,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
         dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
 
+        Float widthPx = WinstrikeApp.getInstance().getDisplayWidhtPx();
+
         Timber.d("heigth: %s", dpHeight);
         Timber.d("width: %s", dpWidth);
 
@@ -346,7 +348,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         Timber.tag("display").d("Display dpWidth: %s", dpWidth);
 
         if (dpWidth <= 360) {
-            viewPagerSeat.setPageMargin(-500);
+            viewPagerSeat.setPageMargin(-350);
+        } else if (dpWidth <= 415 && widthPx <= 720) {
+            viewPagerSeat.setPageMargin(-350);
+        } else if (dpWidth <= 420) {
+            viewPagerSeat.setPageMargin(-450);
         } else if (dpWidth <= 500) {
             viewPagerSeat.setPageMargin(-500);
         } else {
@@ -719,7 +725,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 .getIntent();
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Winstrike Arena - киберспорт в центре Москвы.\n" +
                 "Качай приложение и играй за 50 рублей/час");
-        startActivity(Intent.createChooser(shareIntent,"Send"));
+        startActivity(Intent.createChooser(shareIntent, "Send"));
     }
 
 
