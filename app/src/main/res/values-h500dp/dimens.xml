@@ -12,7 +12,7 @@
     <dimen name="space_loop_hour">150dp</dimen>
     <dimen name="space_loop_min">150dp</dimen>
     <dimen name="space_category_seat">16dp</dimen>
-    <dimen name="space_vp_seat">100dp</dimen>
+    <dimen name="space_vp_seat">200dp</dimen>
     <dimen name="space_title_pres2">24dp</dimen>
     <dimen name="space_detail_">6dp</dimen>
     <dimen name="space_title_pres3">16dp</dimen>

@@ -347,7 +347,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         Timber.tag("display").d("Display dpWidth: %s", dpWidth);
 
-        if (dpWidth <= 360) {
+        Timber.d("Height in dp: %s", dpHeight);
+
+        if (dpWidth <= 400) {
             viewPagerSeat.setPageMargin(-350);
         } else if (dpWidth <= 415 && widthPx <= 720) {
             viewPagerSeat.setPageMargin(-350);
