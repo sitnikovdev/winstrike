@@ -168,7 +168,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             params.height = mScreenSize.y + 750;
         } else if (height >= 2500) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 1050;
+            params.height = mScreenSize.y + 1100;
         } else {
             params.width = mScreenSize.x;
             params.height = mScreenSize.y + 550;
@@ -197,7 +197,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             if (idLenth <= 1) {
                 textOffsetX = 7;
             } else if (idLenth == 2) {
-                textOffsetX = 14;
+                textOffsetX = 20;
             } else if (idLenth == 3) {
                 textOffsetX = 25;
             }
