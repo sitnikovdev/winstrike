@@ -80,10 +80,6 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     MapPresenter presenter;
 
     private GameRoom mRoom;
-    private int seatTopMarginNow;
-    private int seatTopMarginOld;
-    private int seatTopMarginDelta;
-    private boolean isSecondRow = false;
 
 /*    @ProvidePresenter
     MapPresenter provideMainScreenPresenter() {
@@ -149,18 +145,12 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         Float height = WinstrikeApp.getInstance().getDisplayHeightPx();
         Float width = WinstrikeApp.getInstance().getDisplayWidhtPx();
 
+        Timber.d("Screen height in px: %s", height);
+        Timber.d("Screen height in dp: %s", heightDp);
 
-        if (height <= 1920) {
-            mXScaleFactor = (width / mWall.getEnd().x) + 0.5f;
-            mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
-        } else if (height >= 2500) {
-            mXScaleFactor = (width / mWall.getEnd().x) + 0.5f;
-            mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
-        }
-/*        else {
-            mXScaleFactor = (width / mWall.getEnd().x) - 0.3f;
-            mYScaleFactor = (height / mWall.getEnd().y) - 2.3f;
-        }*/
+        mXScaleFactor = (width / mWall.getEnd().x) + 0.5f;
+        mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
+
         Point seatSize = new Point();
 
         Bitmap seatBitmap = getBitmap(getContext(), R.drawable.ic_seat_gray);
@@ -175,13 +165,13 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         // Height of screen
         if (height <= 1920) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 700;
+            params.height = mScreenSize.y + 750;
         } else if (height >= 2500) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 1000;
+            params.height = mScreenSize.y + 1050;
         } else {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 500;
+            params.height = mScreenSize.y + 550;
         }
         rootLayout.setLayoutParams(params);
 
@@ -194,86 +184,31 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 //            Integer seatIdInt = Integer.parseInt(seatId.toString());
             Integer seatIdInt = Integer.parseInt(seat.getId().toString()) + 1;
             Integer idLenth = seatId.length();
-            Integer offsetX = 0;
-            Integer offsetY = 0;
+            Integer textOffsetX = 0;
+            Integer textOffsetY = -10;
             Integer dx = 0;
             Integer dy = 0;
 
 
-            if (heightDp > 700) {
-                dx = (int) (seat.getDx() * mXScaleFactor) - 1;
-                dy = (int) (seat.getDy() * (mYScaleFactor)) - 1;
-            } else {
-                dx = (int) (seat.getDx() * mXScaleFactor) - 1;
-                dy = (int) (seat.getDy() * (mYScaleFactor)) - 10;
-            }
+            Timber.d("Seat id: %s, idLenth: %s", seatIdInt, idLenth);
+
+
+            // Calculate offset by x for diffrent length of numbers (1, 2 and 3)
             if (idLenth <= 1) {
-                offsetX = 7;
+                textOffsetX = 7;
             } else if (idLenth == 2) {
-                offsetX = 14;
+                textOffsetX = 14;
             } else if (idLenth == 3) {
-                offsetX = 25;
+                textOffsetX = 25;
             }
 
-            Timber.d("Seat id: %s, idLenth: %s",seatIdInt, idLenth);
+            dx = (int) (seat.getDx() * mXScaleFactor);
+            dy = (int) ((seat.getDy() + MapViewUtils.Companion.calculateSubst(seat)) * mYScaleFactor);
 
-
-
-            // Label number offset for places (diffrent for rotated and not)
-            if (Math.round(radianToDegrees(seat)) == -90) {
-                offsetY = -10; // for not rotated seat
-                Timber.d("Seat -90: id = %s", seatId);
-                seatTopMarginDelta = seatTopMarginNow - seatTopMarginOld;
-                if (seatIdInt == 1) {
-                    seatTopMarginDelta = 0;
-                }
-            } else {
-                offsetY = 7;
-            }
-
-            // TODO: 31/05/2018 Replace with programm calculate rows
-            //Change label name top offset for second row
-            if (seatIdInt >= 11 && seatIdInt <= 20) {
-                offsetY = -15;
-            }
-
-            if (seatIdInt >= 38 && seatIdInt <= 42) {
-                offsetY = -15;
-            }
-
-            if (seatIdInt >= 66 && seatIdInt <= 70) {
-                offsetY = -15;
-            }
-
-            if (seatIdInt >= 86 && seatIdInt <= 90) {
-                offsetY = -15;
-            }
-
-            if (seatIdInt >= 81 && seatIdInt <= 85) {
-                offsetY = -15;
-            }
-
-            if (seatIdInt >= 111 && seatIdInt <= 115) {
-                offsetY = -15;
-            }
-
-
+            // Seats numbers:
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
-            tvParams.leftMargin = dx + seatSize.x / 2 - offsetX;
-            tvParams.topMargin = dy + seatSize.y - offsetY;
-
-
-            seatTopMarginOld = seatTopMarginNow;
-
-            seatTopMarginNow = tvParams.topMargin;
-
-
-            Timber.d("isSecondRow: %s", isSecondRow);
-
-            Timber.d("seatTopMarginOld: %s, seatTopMarginNow: %s, seatTopMarginDelta: %s, isScondRow: %s", seatTopMarginOld, seatTopMarginNow, seatTopMarginDelta, isSecondRow);
-
-            Timber.d("Seat id: %s, tvParamsTop: %s", seatId, tvParams.topMargin);
-
+            tvParams.leftMargin = dx + seatSize.x / 2 - textOffsetX;
+            tvParams.topMargin = dy + seatSize.y - textOffsetY;
 
 
             TextView textView = new TextView(getContext());
@@ -299,19 +234,14 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         }
 
 
-        // Add labels
+        // Add room labels
         for (LabelRoom label : room.getLabels()) {
             String text = label.getText();
             Integer dx = 0;
             Integer dy = 0;
 
-            if (heightDp > 700) {
-                dx = (int) (label.getDx() * mXScaleFactor) - 1;
-                dy = (int) (label.getDy() * (mYScaleFactor));
-            } else {
-                dx = (int) (label.getDx() * mXScaleFactor) - 1;
-                dy = (int) (label.getDy() * (mYScaleFactor)) - 10;
-            }
+            dx = (int) (label.getDx() * mXScaleFactor);
+            dy = (int) ((label.getDy() + MapViewUtils.Companion.getLabelOffsetY(text)) * (mYScaleFactor));
 
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
             tvParams.leftMargin = dx;
@@ -330,17 +260,13 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
                 tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
                 if (height <= 1920) {
                     tvParams.leftMargin = dx;
-                    tvParams.topMargin = dy - 800;
+                    tvParams.topMargin = dy - 650;
                 }
                 //Samsung S6,S7
                 else if (height >= 2560) {
                     tvParams.leftMargin = dx;
                     tvParams.topMargin = dy - 1000;
                 }
-/*                else if(height >= 2560) {
-                    tvParams.leftMargin = dx;
-                    tvParams.topMargin = dy - 650;
-                } */
                 View view = new View(getContext());
                 view.setBackgroundResource(R.drawable.hall_line);
                 view.setLayoutParams(tvParams);
@@ -406,12 +332,15 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     private void rotateSeat(Bitmap seatBitmap, Seat seat, ImageView ivSeat) {
         seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
         seatParams.leftMargin = (int) (seat.getDx() * mXScaleFactor);
-        seatParams.topMargin = (int) (seat.getDy() * mYScaleFactor);
+        seatParams.topMargin = (int) ((seat.getDy() + MapViewUtils.Companion.calculateSubst(seat)) * mYScaleFactor);
 
         Float angle = radianToDegrees(seat);
-        if (angle != -90) {
-//            seatParams.topMargin = seatParams.topMargin + 7;
-        }
+/*        if (angle != -90 && angle != 90) {
+        } else {
+            seatParams.topMargin = (int) ((seat.getDy() ) * mYScaleFactor);
+        }*/
+
+        Timber.d("seat: %s, angle: %s", seat.getId(), angle);
 
         Float pivotX = seatBitmap.getWidth() / 2f;
         Float pivotY = seatBitmap.getHeight() / 2f;

@@ -347,17 +347,23 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         Timber.tag("display").d("Display dpWidth: %s", dpWidth);
 
+        Timber.d("Width in px: %s", widthPx);
         Timber.d("Height in dp: %s", dpHeight);
 
         if (dpWidth <= 400) {
             viewPagerSeat.setPageMargin(-350);
+            Timber.d("dbWidth: <= 400");
         } else if (dpWidth <= 415 && widthPx <= 720) {
+            Timber.d("dbWidth: <= 415");
             viewPagerSeat.setPageMargin(-350);
-        } else if (dpWidth <= 420) {
+        } else if (dpWidth <= 420 && widthPx <= 1080) {
+            Timber.d("dbWidth: <= 420");
             viewPagerSeat.setPageMargin(-450);
-        } else if (dpWidth <= 500) {
-            viewPagerSeat.setPageMargin(-500);
+        } else if (dpWidth <= 420 && widthPx <= 1440) {
+            Timber.d("dbWidth: <= 600");
+            viewPagerSeat.setPageMargin(-600);
         } else {
+            Timber.d("dbWidth: - 600. Default");
             viewPagerSeat.setPageMargin(-600);
         }
 
