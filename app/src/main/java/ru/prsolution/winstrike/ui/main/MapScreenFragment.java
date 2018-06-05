@@ -146,7 +146,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         Float width = WinstrikeApp.getInstance().getDisplayWidhtPx();
 
         Timber.d("Screen height in px: %s", height);
-        Timber.d("Screen height in dp: %s", heightDp);
+        Timber.d("Screen width in px: %s", width);
 
         mXScaleFactor = (width / mWall.getEnd().x) + 0.5f;
         mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
@@ -163,7 +163,10 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         params.setMargins(0, 0, 100, 200);
 
         // Height of screen
-        if (height <= 1920) {
+        if (height <= 1280) {
+            params.width = mScreenSize.x;
+            params.height = mScreenSize.y + 450;
+        } else if (height <= 1920) {
             params.width = mScreenSize.x;
             params.height = mScreenSize.y + 750;
         } else if (height >= 2500) {
@@ -186,6 +189,10 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             Integer idLenth = seatId.length();
             Integer textOffsetX = 0;
             Integer textOffsetY = -10;
+            if (height <= 1280) {
+                textOffsetY = 0;
+            }
+
             Integer dx = 0;
             Integer dy = 0;
 
@@ -200,6 +207,16 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
                 textOffsetX = 20;
             } else if (idLenth == 3) {
                 textOffsetX = 25;
+            }
+
+            if (width <= 720) {
+                if (idLenth <= 1) {
+                    textOffsetX = 7;
+                } else if (idLenth == 2) {
+                    textOffsetX = 10;
+                } else if (idLenth == 3) {
+                    textOffsetX = 25;
+                }
             }
 
             dx = (int) (seat.getDx() * mXScaleFactor);
@@ -246,6 +263,9 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
             tvParams.leftMargin = dx;
             tvParams.topMargin = dy;
+            if (height <= 1280) {
+                tvParams.topMargin = dy - 5;
+            }
             TextView textView = new TextView(getContext());
             textView.setText(text);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -258,12 +278,13 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             // Add horizontal line
             if (text.equals("HP STAGE 1")) {
                 tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
-                if (height <= 1920) {
+                if (height <= 1280) {
+                    tvParams.leftMargin = dx;
+                    tvParams.topMargin = dy - 420;
+                } else if (height <= 1920) {
                     tvParams.leftMargin = dx;
                     tvParams.topMargin = dy - 650;
-                }
-                //Samsung S6,S7
-                else if (height >= 2560) {
+                } else if (height >= 2560) {
                     tvParams.leftMargin = dx;
                     tvParams.topMargin = dy - 1000;
                 }
