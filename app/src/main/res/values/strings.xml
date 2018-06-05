@@ -75,6 +75,8 @@
     <string name="itempaid_pccodeval">XFG124JK</string>
     <string name="politica">Политика конфиденциальности</string>
 
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+
     <!--Calendar month-->
     <array name="material_calendar_months_array">
         <item>Январь</item>
