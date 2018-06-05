@@ -43,9 +43,9 @@ class MapViewUtils() {
 //            val textvalue: Double = 18
             val id = seat.id
             if (arrayListOf("10", "11", "12", "13", "14", "15", "16", "17", "18", "19").contains(id)) {
-                value = 0
+                value = 8
             } else if (arrayListOf("26", "27", "28", "29", "30").contains(id)) {
-                value = 0
+                value = 22
             } else if (arrayListOf("31", "32", "33", "34", "35", "36").contains(id)) {
                 value = 13
             } else if (arrayListOf("42", "43", "44", "45", "46", "47").contains(id)) {
