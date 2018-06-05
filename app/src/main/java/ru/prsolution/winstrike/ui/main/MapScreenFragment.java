@@ -203,7 +203,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             }
 
             dx = (int) (seat.getDx() * mXScaleFactor);
-            dy = (int) ((seat.getDy() + MapViewUtils.Companion.calculateSubst(seat)) * mYScaleFactor);
+            dy = (int) ((seat.getDy() + MapViewUtils.Companion.getSeatOffsetY(seat)) * mYScaleFactor);
 
             // Seats numbers:
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
@@ -332,7 +332,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     private void rotateSeat(Bitmap seatBitmap, Seat seat, ImageView ivSeat) {
         seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
         seatParams.leftMargin = (int) (seat.getDx() * mXScaleFactor);
-        seatParams.topMargin = (int) ((seat.getDy() + MapViewUtils.Companion.calculateSubst(seat)) * mYScaleFactor);
+        seatParams.topMargin = (int) ((seat.getDy() + MapViewUtils.Companion.getSeatOffsetY(seat)) * mYScaleFactor);
 
         Float angle = radianToDegrees(seat);
 /*        if (angle != -90 && angle != 90) {

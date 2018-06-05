@@ -38,9 +38,8 @@ class MapViewUtils() {
             if (this == null) block(); return this
         }
 
-        fun calculateSubst(seat: Seat): Int {
+        fun getSeatOffsetY(seat: Seat): Int {
             var value: Int = 0
-//            val textvalue: Double = 18
             val id = seat.id
             if (arrayListOf("10", "11", "12", "13", "14", "15", "16", "17", "18", "19").contains(id)) {
                 value = 8
