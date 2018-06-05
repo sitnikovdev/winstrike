@@ -73,6 +73,45 @@ class MapViewUtils() {
             return value
         }
 
+        fun getSeatOffsetX(seat: Seat): Int {
+            var value: Int = 0
+            val id = seat.id
+            if (arrayListOf("5", "6", "7", "8", "9", "15", "16", "17", "18", "19").contains(id)) {
+                value = 20
+            } else if (arrayListOf("26", "27", "28", "29", "30").contains(id)) {
+                value = 20
+            } else if (arrayListOf("37", "38", "39", "40", "41").contains(id)) {
+                value = 20
+            } else if (arrayListOf("54", "55", "56", "57", "58").contains(id)) {
+                value = 20
+            } else if (arrayListOf("65", "66", "67", "68", "69").contains(id)) {
+                value = 20
+            } else if (arrayListOf("75", "76", "77", "78", "79").contains(id)) {
+                value = 20
+            } else if (arrayListOf("85", "86", "87", "88", "89").contains(id)) {
+                value = 20
+            } else if (arrayListOf("95", "96", "97", "98", "99").contains(id)) {
+                value = 20
+            } else if (arrayListOf("105", "106", "107", "108", "109").contains(id)) {
+                value = 20
+            } else if (arrayListOf("110", "111", "112", "113", "114").contains(id)) {
+                value = 20
+            }
+            return value
+        }
+
+
+        fun getLabelOffsetX(label: String): Int {
+            return when (label) {
+                "ЗАЛ" -> 0
+                "HP STAGE 1" -> 0
+                "HP STAGE 2" -> 18
+                "VIP ROOM" -> 0
+                "LG ROOM" -> 18
+                else -> 50
+            }
+        }
+
         fun getLabelOffsetY(label: String): Int {
             return when (label) {
                 "ЗАЛ" -> 0

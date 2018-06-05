@@ -148,7 +148,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         Timber.d("Screen height in px: %s", height);
         Timber.d("Screen width in px: %s", width);
 
-        mXScaleFactor = (width / mWall.getEnd().x) + 0.5f;
+        mXScaleFactor = (width / mWall.getEnd().x) + 0.2f;
         mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
 
         Point seatSize = new Point();
@@ -160,9 +160,9 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
 
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rootLayout.getLayoutParams();
-        params.setMargins(0, 0, 100, 200);
+        params.setMargins(-50, -50, 100, 50);
 
-        // Height of screen
+        // Width and Height of screen
         if (height <= 1280) {
             params.width = mScreenSize.x;
             params.height = mScreenSize.y + 450;
@@ -184,8 +184,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         for (Seat seat : room.getSeats()) {
             String name = seat.getName();
             String seatId = Utils.parseNumber(name);
-//            Integer seatIdInt = Integer.parseInt(seatId.toString());
             Integer seatIdInt = Integer.parseInt(seat.getId().toString()) + 1;
+//            seatId = seatIdInt.toString();
             Integer idLenth = seatId.length();
             Integer textOffsetX = 0;
             Integer textOffsetY = -10;
@@ -219,7 +219,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
                 }
             }
 
-            dx = (int) (seat.getDx() * mXScaleFactor);
+            dx = (int) ((seat.getDx() - MapViewUtils.Companion.getSeatOffsetX(seat)) * mXScaleFactor);
             dy = (int) ((seat.getDy() + MapViewUtils.Companion.getSeatOffsetY(seat)) * mYScaleFactor);
 
             // Seats numbers:
@@ -257,7 +257,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             Integer dx = 0;
             Integer dy = 0;
 
-            dx = (int) (label.getDx() * mXScaleFactor);
+            dx = (int) ((label.getDx() - MapViewUtils.Companion.getLabelOffsetX(text)) * mXScaleFactor);
             dy = (int) ((label.getDy() + MapViewUtils.Companion.getLabelOffsetY(text)) * (mYScaleFactor));
 
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
@@ -352,14 +352,10 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
     private void rotateSeat(Bitmap seatBitmap, Seat seat, ImageView ivSeat) {
         seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
-        seatParams.leftMargin = (int) (seat.getDx() * mXScaleFactor);
+        seatParams.leftMargin = (int) ((seat.getDx() - MapViewUtils.Companion.getSeatOffsetX(seat)) * mXScaleFactor);
         seatParams.topMargin = (int) ((seat.getDy() + MapViewUtils.Companion.getSeatOffsetY(seat)) * mYScaleFactor);
 
         Float angle = radianToDegrees(seat);
-/*        if (angle != -90 && angle != 90) {
-        } else {
-            seatParams.topMargin = (int) ((seat.getDy() ) * mYScaleFactor);
-        }*/
 
         Timber.d("seat: %s, angle: %s", seat.getId(), angle);
 
