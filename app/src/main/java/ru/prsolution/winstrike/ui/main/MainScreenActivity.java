@@ -52,6 +52,7 @@ import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.databinding.AcMainscreenBinding;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.mvp.models.FCMModel;
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.models.ProfileModel;
 import ru.prsolution.winstrike.mvp.models.SeatModel;
@@ -199,7 +200,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         cvBtnOk.setOnClickListener(
                 it -> {
-//                    AuthUtils.INSTANCE.setToken("");
                     AuthUtils.INSTANCE.setLogout(true);
                     AuthUtils.INSTANCE.setToken("");
                     startActivity(new Intent(MainScreenActivity.this, SplashActivity.class));
@@ -320,7 +320,18 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         presenter.getOrders(token);
 
 
+        String fcmToken = AuthUtils.INSTANCE.getFcmtoken();
+        if (!fcmToken.isEmpty()) {
+            sendRegistrationToServer(token, fcmToken);
+        }
     }
+
+    public void sendRegistrationToServer(String authToken, String refreshedToken) {
+        FCMModel fcmModel = new FCMModel();
+        fcmModel.setToken(refreshedToken);
+        presenter.sendToken(authToken, fcmModel);
+    }
+
 
     private void clearData() {
         TimeDataModel.INSTANCE.clearPids();
@@ -893,6 +904,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
         }
     }
+
+
 
     @Override
     protected void onStop() {

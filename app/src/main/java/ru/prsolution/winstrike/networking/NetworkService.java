@@ -23,6 +23,7 @@ import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
+import ru.prsolution.winstrike.mvp.models.FCMModel;
 import rx.Observable;
 
 /**
@@ -50,6 +51,9 @@ public interface NetworkService {
     @PUT("users/{public_id}")
     Observable<MessageResponse> updateUser(@Header("authorization") String token,  @Body ProfileModel loginModel, @Path("public_id") String public_id);
 
+    // Send fcm tocken to server
+    @POST("fcm_codes")
+    Observable<MessageResponse> sendTocken(@Header("authorization") String token, @Body FCMModel tokenModel);
 
 
     // Подтверждение пользоватея по sms коду

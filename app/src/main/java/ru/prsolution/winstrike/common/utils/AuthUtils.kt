@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.common.utils
 
 object AuthUtils {
     private val TOKEN = "token"
+    private val FCMTOKEN = "fcmtoken"
     private val PUBLICID = "publicid"
     private val ISFIRSTENTER = "firstLogin"
     private val ISCONFIRMED = "isconfirmed"
@@ -14,6 +15,12 @@ object AuthUtils {
         get() = PrefUtils.prefs.getString(TOKEN, "")
         set(token) {
             PrefUtils.editor.putString(TOKEN, token).commit()
+        }
+
+    var fcmtoken: String
+        get() = PrefUtils.prefs.getString(FCMTOKEN, "")
+        set(fcmtoken) {
+            PrefUtils.editor.putString(FCMTOKEN, fcmtoken).commit()
         }
 
     var publicid: String

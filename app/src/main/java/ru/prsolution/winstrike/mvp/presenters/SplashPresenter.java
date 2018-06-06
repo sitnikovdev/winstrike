@@ -1,10 +1,10 @@
 package ru.prsolution.winstrike.mvp.presenters;
 
 
-import ru.prsolution.winstrike.mvp.models.LoginViewModel;
-import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
+import ru.prsolution.winstrike.mvp.models.LoginViewModel;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.start.SplashActivity;
@@ -45,7 +45,6 @@ public class SplashPresenter {
 
 
     public void sendSms(ConfirmSmsModel smsModel) {
-//        activity.showWait();
 
         Subscription subscription = service.sendSmsByUserRequest(new Service.SmsCallback() {
             @Override
@@ -64,6 +63,7 @@ public class SplashPresenter {
 
         subscriptions.add(subscription);
     }
+
 
     public void onStop() {
         subscriptions.unsubscribe();

@@ -15,6 +15,7 @@ import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
+import ru.prsolution.winstrike.mvp.models.FCMModel;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -259,7 +260,42 @@ public class Service {
         void onError(NetworkError networkError);
     }
 
+    public Subscription sendToken(final FcmTokenCallback callback, String token, FCMModel fcmToken) {
 
+        return networkService.sendTocken(token,fcmToken)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends MessageResponse>>() {
+                    @Override
+                    public Observable<? extends MessageResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<MessageResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(new NetworkError(e));
+
+                    }
+
+                    @Override
+                    public void onNext(MessageResponse messageResponse) {
+                        callback.onSuccess(messageResponse);
+
+                    }
+                });
+    }
+
+    public interface FcmTokenCallback {
+        void onSuccess(MessageResponse messageResponse);
+
+        void onError(NetworkError networkError);
+    }
 
 
     public Subscription getActivePid(final RoomsCallback callback) {

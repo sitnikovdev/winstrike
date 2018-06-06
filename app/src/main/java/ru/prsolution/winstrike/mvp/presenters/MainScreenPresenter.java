@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.mvp.models.MessageResponse;
-import ru.prsolution.winstrike.mvp.models.ProfileModel;
 import ru.prsolution.winstrike.common.utils.Utils;
 import ru.prsolution.winstrike.mvp.apimodels.Order;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.apimodels.Orders;
+import ru.prsolution.winstrike.mvp.models.FCMModel;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
+import ru.prsolution.winstrike.mvp.models.ProfileModel;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
@@ -20,6 +21,7 @@ import ru.prsolution.winstrike.ui.Screens;
 import ru.terrakok.cicerone.Router;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
+import timber.log.Timber;
 
 import static ru.prsolution.winstrike.common.utils.Utils.formatTime;
 
@@ -132,6 +134,33 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
         },token, profile, publicId);
 
         subscriptions.add(subscription);
+    }
+
+
+    public void sendToken(String token, FCMModel fcmToken) {
+
+        Subscription subscription = service.sendToken(new Service.FcmTokenCallback() {
+            @Override
+            public void onSuccess(MessageResponse messageResponse) {
+                onTokenSendSuccessfully(messageResponse);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                onFailtureTokenSend(networkError.getAppErrorMessage());
+            }
+        }, token, fcmToken);
+
+        subscriptions.add(subscription);
+    }
+
+
+    private void onFailtureTokenSend(String appErrorMessage) {
+        Timber.d("On failure send token: %s", appErrorMessage);
+    }
+
+    private void onTokenSendSuccessfully(MessageResponse authResponse) {
+        Timber.d("Successfully send token: %s", authResponse.getMessage());
     }
 
 

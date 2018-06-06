@@ -15,10 +15,10 @@ import javax.inject.Inject;
 
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.mvp.models.MessageResponse;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
-import ru.prsolution.winstrike.common.utils.AuthUtils;
+import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.presenters.SplashPresenter;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.guides.GuideActivity;
@@ -30,7 +30,7 @@ import timber.log.Timber;
 
 public class SplashActivity extends AppCompatActivity {
     private Intent mainIntent;
-    SplashPresenter mSignInPresenter;
+    SplashPresenter splashPresenter;
 
     @Inject
     public Service mService;
@@ -91,9 +91,9 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void isCheckLogin() {
-        mSignInPresenter = createSplashPresenter();
+        splashPresenter = createSplashPresenter();
         // If user is signOut from App:  go to SingIn screen. Else: check if user is exist on server and if Ok -- go to Main screen.
-        if (AuthUtils.INSTANCE.isLogout() ) {
+        if (AuthUtils.INSTANCE.isLogout()) {
             startActivity(new Intent(SplashActivity.this, SignInActivity.class));
         } else if (!AuthUtils.INSTANCE.getToken().isEmpty()) {
             //  Check if user exist on server!!!
@@ -101,12 +101,14 @@ public class SplashActivity extends AppCompatActivity {
 /*          signInModel = new LoginViewModel();
             signInModel.setUsername(AuthUtils.INSTANCE.getPhone());
             signInModel.setPassword(AuthUtils.INSTANCE.getPassword());
-            mSignInPresenter.signIn(signInModel);*/
+            splashPresenter.signIn(signInModel);*/
             startActivity(new Intent(this, MainScreenActivity.class));
         } else {
             startActivity(new Intent(SplashActivity.this, SignInActivity.class));
         }
     }
+
+
 
     public void onAuthResponseSuccess(AuthResponse authResponse) {
         Timber.d("On auth success");
@@ -126,7 +128,7 @@ public class SplashActivity extends AppCompatActivity {
             // If user not confirmed: send him sms, and go to UserConfirmActivity
             ConfirmSmsModel smsModel = new ConfirmSmsModel();
             smsModel.setUsername(authResponse.getUser().getPhone());
-            mSignInPresenter.sendSms(smsModel);
+            splashPresenter.sendSms(smsModel);
 
             Intent intent = new Intent(this, UserConfirmActivity.class);
             intent.putExtra("phone", smsModel.getUsername());
