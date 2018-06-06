@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.DisplayMetrics;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.File;
 
@@ -17,6 +18,7 @@ import ru.prsolution.winstrike.di.module.NetworkModule;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayout;
 import ru.prsolution.winstrike.mvp.models.SeatModel;
 import ru.prsolution.winstrike.networking.Service;
+import timber.log.Timber;
 
 
 public class WinstrikeApp extends Application {
@@ -26,12 +28,15 @@ public class WinstrikeApp extends Application {
     private UserEntity user;
     private SeatModel seat;
     private RoomLayout roomLayout;
+    private String fcmTocken;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         INSTANCE = this;
+        fcmTocken = FirebaseInstanceId.getInstance().getToken();
+        Timber.d("FCM tocken: %s",fcmTocken);
     }
 
     public static WinstrikeApp getInstance() {
