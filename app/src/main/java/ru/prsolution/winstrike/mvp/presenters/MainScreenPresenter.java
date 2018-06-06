@@ -137,7 +137,7 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
     }
 
 
-    public void sendToken(String token, FCMModel fcmToken) {
+    public void sendFCMTokenToServer(String token, FCMModel fcmToken) {
 
         Subscription subscription = service.sendToken(new Service.FcmTokenCallback() {
             @Override

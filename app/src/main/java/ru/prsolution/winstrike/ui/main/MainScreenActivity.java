@@ -329,7 +329,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     public void sendRegistrationToServer(String authToken, String refreshedToken) {
         FCMModel fcmModel = new FCMModel();
         fcmModel.setToken(refreshedToken);
-        presenter.sendToken(authToken, fcmModel);
+        presenter.sendFCMTokenToServer(authToken, fcmModel);
     }
 
 
