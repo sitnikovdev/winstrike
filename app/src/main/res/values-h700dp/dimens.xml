@@ -17,7 +17,7 @@
     <dimen name="space_title_pres3">20dp</dimen>
     <dimen name="number_height">250dp</dimen>
     <!--Carousel sliders (Samsung gs7)-->
-    <dimen name="space_category_seat">34dp</dimen>
+    <dimen name="space_category_seat">16dp</dimen>
     <dimen name="top_slider">10dp</dimen>
     <dimen name="start_head">16dp</dimen>
     <dimen name="space_head">50dp</dimen>
