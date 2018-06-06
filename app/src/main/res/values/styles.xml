@@ -33,11 +33,18 @@
         <item name="android:textSize">13sp</item>
     </style>
 
+    <style name="StemRegular10Gray">
+        <item name="android:fontFamily">@font/stem_regular</item>
+        <item name="android:textColor">#bbbbbb</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="StemRegular12Gray">
         <item name="android:fontFamily">@font/stem_regular</item>
         <item name="android:textColor">#bbbbbb</item>
         <item name="android:textSize">12sp</item>
     </style>
+
 
     <style name="StemRegular12Red">
         <item name="android:fontFamily">@font/stem_regular</item>

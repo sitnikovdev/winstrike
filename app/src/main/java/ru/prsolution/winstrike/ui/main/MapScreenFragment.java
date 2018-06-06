@@ -80,6 +80,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     MapPresenter presenter;
 
     private GameRoom mRoom;
+    private RelativeLayout.LayoutParams tvDivParam;
 
 /*    @ProvidePresenter
     MapPresenter provideMainScreenPresenter() {
@@ -169,9 +170,9 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         } else if (height <= 1920) {
             params.width = mScreenSize.x;
             params.height = mScreenSize.y + 750;
-        } else if (height >= 2500) {
+        } else if (height <= 2500) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 1100;
+            params.height = mScreenSize.y + 1000;
         } else {
             params.width = mScreenSize.x;
             params.height = mScreenSize.y + 550;
@@ -230,10 +231,18 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
             TextView textView = new TextView(getContext());
             textView.setText(seatId);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                textView.setTextAppearance(R.style.StemRegular12Gray);
+            if (height <= 1184) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    textView.setTextAppearance(R.style.StemRegular10Gray);
+                } else {
+                    textView.setTextAppearance(getContext(), R.style.StemRegular10Gray);
+                }
             } else {
-                textView.setTextAppearance(getContext(), R.style.StemRegular12Gray);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    textView.setTextAppearance(R.style.StemRegular12Gray);
+                } else {
+                    textView.setTextAppearance(getContext(), R.style.StemRegular12Gray);
+                }
             }
             textView.setLayoutParams(tvParams);
             rootLayout.addView(textView);
@@ -277,21 +286,30 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             textView.setLayoutParams(tvParams);
             // Add horizontal line
             if (text.equals("HP STAGE 1")) {
-                tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
-                if (height <= 1280) {
-                    tvParams.leftMargin = dx;
-                    tvParams.topMargin = dy - 420;
+                dx = (int) ((label.getDx() - MapViewUtils.Companion.getLabelOffsetX(text)) * mXScaleFactor);
+                dy = (int) ((label.getDy() - MapViewUtils.Companion.getLabelOffsetY(text)) * (mYScaleFactor));
+                tvDivParam = new RelativeLayout.LayoutParams(RLW, RLW);
+                tvDivParam.leftMargin = dx;
+                tvDivParam.topMargin = dy;
+/*                if (height <= 1184) {
+                    tvDivParam.leftMargin = dx;
+                    tvDivParam.topMargin = dy - 320;
+                } else if (height <= 1280) {
+                    tvDivParam.leftMargin = dx;
+                    tvDivParam.topMargin = dy - 420;
                 } else if (height <= 1920) {
-                    tvParams.leftMargin = dx;
-                    tvParams.topMargin = dy - 650;
+                    tvDivParam.leftMargin = dx;
+                    tvDivParam.topMargin = dy - 650;
                 } else if (height >= 2560) {
-                    tvParams.leftMargin = dx;
-                    tvParams.topMargin = dy - 1000;
+                    tvDivParam.leftMargin = dx;
+                    tvDivParam.topMargin = dy - 1000;
+                }*/
+                if (height > 1184) {
+/*                    View view = new View(getContext());
+                    view.setBackgroundResource(R.drawable.hall_line);
+                    view.setLayoutParams(tvDivParam);
+                    rootLayout.addView(view);*/
                 }
-                View view = new View(getContext());
-                view.setBackgroundResource(R.drawable.hall_line);
-                view.setLayoutParams(tvParams);
-                rootLayout.addView(view);
             }
 
             rootLayout.addView(textView);
