@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "985917830021-rjd78cif57cpt1qnkn9h5tl0dgb7fcm1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.prsolution.winstrike",
+            "certificate_hash": "54497ac208edf93fc72bfe48c8e0356c806a3b6c"
+          }
+        },
+        {
           "client_id": "985917830021-6knilbb2rujhrhvjesh40c74ibuf5p4a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
