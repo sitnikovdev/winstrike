@@ -166,16 +166,24 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         // Width and Height of screen
         if (height <= 1280) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 450;
+            params.height = mScreenSize.y + 400;
+            mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
+            Timber.d("height: <= 1280");
         } else if (height <= 1920) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 750;
-        } else if (height <= 2500) {
+            params.height = mScreenSize.y + 300;
+            mYScaleFactor = (height / mWall.getEnd().y) - 2.3f;
+            Timber.d("height: <= 1920");
+        } else if (height <= 2560) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 1000;
+            params.height = mScreenSize.y + 350;
+            mYScaleFactor = (height / mWall.getEnd().y) - 3f;
+            Timber.d("height: <= 2500");
         } else {
             params.width = mScreenSize.x;
             params.height = mScreenSize.y + 550;
+            mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
+            Timber.d("height: default");
         }
         rootLayout.setLayoutParams(params);
 
@@ -226,10 +234,25 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             // Seats numbers:
             tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
             tvParams.leftMargin = dx + seatSize.x / 2 - textOffsetX;
-            tvParams.topMargin = dy + seatSize.y - textOffsetY;
+            tvParams.topMargin = dy + seatSize.y - textOffsetY - 10;
 
+            Float angle = radianToDegrees(seat);
+            if (height <= 1280) {
+                if (angle != -90 && angle != 90) {
+                    tvParams.topMargin = dy + seatSize.y - textOffsetY;
+                }
+            } else if (height <= 1920) {
+                Timber.d("numbers: height <= 1920");
+                if (angle != -90 && angle != 90) {
+                    tvParams.topMargin = dy + seatSize.y - textOffsetY - 10;
+                }
+
+            } else {
+                tvParams.topMargin = dy + seatSize.y - textOffsetY;
+            }
 
             TextView textView = new TextView(getContext());
+
             textView.setText(seatId);
             if (height <= 1184) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -260,8 +283,11 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         }
 
 
-        // Add room labels
-        for (LabelRoom label : room.getLabels()) {
+        // Labels of Rooms
+        for (
+                LabelRoom label : room.getLabels())
+
+        {
             String text = label.getText();
             Integer dx = 0;
             Integer dy = 0;
