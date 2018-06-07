@@ -27,4 +27,5 @@
     <dimen name="title_top">0dp</dimen>
     <dimen name="title_bottom">0dp</dimen>
     <dimen name="descr_top">0dp</dimen>
+    <dimen name="image_top">50dp</dimen>
 </resources>

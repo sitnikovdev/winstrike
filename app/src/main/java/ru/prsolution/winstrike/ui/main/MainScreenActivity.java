@@ -361,21 +361,18 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         Timber.d("Width in px: %s", widthPx);
         Timber.d("Height in dp: %s", dpHeight);
 
-        if (dpWidth <= 400) {
+        if (widthPx <= 720) {
             viewPagerSeat.setPageMargin(-350);
-            Timber.d("dbWidth: <= 400");
-        } else if (dpWidth <= 415 && widthPx <= 720) {
-            Timber.d("dbWidth: <= 415");
-            viewPagerSeat.setPageMargin(-350);
-        } else if (dpWidth <= 420 && widthPx <= 1080) {
-            Timber.d("dbWidth: <= 420");
+            Timber.d("widthPx <= 720");
+        } else if (widthPx <= 1080) {
             viewPagerSeat.setPageMargin(-450);
-        } else if (dpWidth <= 420 && widthPx <= 1440) {
-            Timber.d("dbWidth: <= 600");
+            Timber.d("widthPx <= 1080");
+        } else if (widthPx <= 1440) {
+            Timber.d("widthPx <= 1440");
             viewPagerSeat.setPageMargin(-600);
         } else {
-            Timber.d("dbWidth: - 600. Default");
-            viewPagerSeat.setPageMargin(-600);
+            Timber.d("dbWidth: - 450. Default");
+            viewPagerSeat.setPageMargin(-450);
         }
 
     }
@@ -904,7 +901,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
         }
     }
-
 
 
     @Override

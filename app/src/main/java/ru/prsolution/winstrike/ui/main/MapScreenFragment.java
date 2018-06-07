@@ -161,7 +161,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
 
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rootLayout.getLayoutParams();
-        params.setMargins(-50, -50, 100, 50);
+        params.setMargins(-50, -50, 100, 80);
 
         // Width and Height of screen
         if (height <= 1280) {
@@ -171,8 +171,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             Timber.d("height: <= 1280");
         } else if (height <= 1920) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 300;
-            mYScaleFactor = (height / mWall.getEnd().y) - 2.3f;
+            params.height = mScreenSize.y + 450;
+            mYScaleFactor = (height / mWall.getEnd().y) - 2.0f;
             Timber.d("height: <= 1920");
         } else if (height <= 2560) {
             params.width = mScreenSize.x;
@@ -187,13 +187,12 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         }
         rootLayout.setLayoutParams(params);
 
-        rootLayout.setLayoutParams(params);
-
 
         for (Seat seat : room.getSeats()) {
             String name = seat.getName();
             String seatId = Utils.parseNumber(name);
             Integer seatIdInt = Integer.parseInt(seat.getId().toString()) + 1;
+            // TODO: 07/06/2018 For test:
 //            seatId = seatIdInt.toString();
             Integer idLenth = seatId.length();
             Integer textOffsetX = 0;
@@ -206,7 +205,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             Integer dy = 0;
 
 
-            Timber.d("Seat id: %s, idLenth: %s", seatIdInt, idLenth);
+//            Timber.d("Seat id: %s, idLenth: %s", seatIdInt, idLenth);
 
 
             // Calculate offset by x for diffrent length of numbers (1, 2 and 3)
@@ -237,14 +236,29 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             tvParams.topMargin = dy + seatSize.y - textOffsetY - 10;
 
             Float angle = radianToDegrees(seat);
+            Integer angleInt = Math.round(angle);
+            Integer angleAbs = Math.abs(angleInt);
+            Timber.d("angle: %s", angleAbs);
             if (height <= 1280) {
-                if (angle != -90 && angle != 90) {
-                    tvParams.topMargin = dy + seatSize.y - textOffsetY;
+                Timber.d("numbers: height <= 1280");
+                if (angleAbs != 90) {
+                    tvParams.topMargin = dy + seatSize.y - textOffsetY - 2;
+                } else {
+                    tvParams.topMargin = dy + seatSize.y - textOffsetY + 2;
                 }
             } else if (height <= 1920) {
                 Timber.d("numbers: height <= 1920");
-                if (angle != -90 && angle != 90) {
+                if (angleAbs != 90) {
                     tvParams.topMargin = dy + seatSize.y - textOffsetY - 10;
+                } else {
+                    tvParams.topMargin = dy + seatSize.y - textOffsetY;
+                }
+            } else if (height <= 2560) {
+                Timber.d("numbers: height <= 2560");
+                if (angleAbs != 90) {
+                    tvParams.topMargin = dy + seatSize.y - textOffsetY - 10;
+                } else {
+                    tvParams.topMargin = dy + seatSize.y - textOffsetY;
                 }
 
             } else {
@@ -254,18 +268,10 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             TextView textView = new TextView(getContext());
 
             textView.setText(seatId);
-            if (height <= 1184) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    textView.setTextAppearance(R.style.StemRegular10Gray);
-                } else {
-                    textView.setTextAppearance(getContext(), R.style.StemRegular10Gray);
-                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                textView.setTextAppearance(R.style.StemRegular10Gray);
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    textView.setTextAppearance(R.style.StemRegular12Gray);
-                } else {
-                    textView.setTextAppearance(getContext(), R.style.StemRegular12Gray);
-                }
+                textView.setTextAppearance(getContext(), R.style.StemRegular10Gray);
             }
             textView.setLayoutParams(tvParams);
             rootLayout.addView(textView);
@@ -304,9 +310,9 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             TextView textView = new TextView(getContext());
             textView.setText(text);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                textView.setTextAppearance(R.style.StemMedium17Primary);
+                textView.setTextAppearance(R.style.StemMedium15Primary);
             } else {
-                textView.setTextAppearance(getContext(), R.style.StemMedium17Primary);
+                textView.setTextAppearance(getContext(), R.style.StemMedium15Primary);
             }
 
             textView.setLayoutParams(tvParams);
@@ -330,13 +336,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
                     tvDivParam.leftMargin = dx;
                     tvDivParam.topMargin = dy - 1000;
                 }*/
-                if (height > 1184) {
-/*                    View view = new View(getContext());
-                    view.setBackgroundResource(R.drawable.hall_line);
-                    view.setLayoutParams(tvDivParam);
-                    rootLayout.addView(view);*/
                 }
-            }
 
             rootLayout.addView(textView);
         }
@@ -367,13 +367,13 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
         TimeDataModel.INSTANCE.setPids(mPickedSeatsIds);
 
-        Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
+/*        Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
         Timber.d("endAt: %s", TimeDataModel.INSTANCE.getEnd());
 
         Timber.d("dateStart: %s", TimeDataModel.INSTANCE.getStartDate());
         Timber.d("dateEnd: %s", TimeDataModel.INSTANCE.getEndDate());
 
-        Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
+        Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());*/
 
         onPickedSeatChanged();
     }
@@ -401,7 +401,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
         Float angle = radianToDegrees(seat);
 
-        Timber.d("seat: %s, angle: %s", seat.getId(), angle);
+//        Timber.d("seat: %s, angle: %s", seat.getId(), angle);
 
         Float pivotX = seatBitmap.getWidth() / 2f;
         Float pivotY = seatBitmap.getHeight() / 2f;

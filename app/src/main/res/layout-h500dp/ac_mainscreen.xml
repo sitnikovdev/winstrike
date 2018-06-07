@@ -96,7 +96,7 @@
 
                 <TextView
                     android:id="@+id/description"
-                    style="@style/StemRegular14Black"
+                    style="@style/StemRegular12Black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"

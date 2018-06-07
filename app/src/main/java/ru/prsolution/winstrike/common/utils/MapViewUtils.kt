@@ -41,34 +41,60 @@ class MapViewUtils() {
         fun getSeatOffsetY(seat: Seat): Int {
             var value: Int = 0
             val id = seat.id
-            if (arrayListOf("10", "11", "12", "13", "14", "15", "16", "17", "18", "19").contains(id)) {
-                value = 8
-            } else if (arrayListOf("26", "27", "28", "29", "30").contains(id)) {
-                value = 22
+            // First two blocks (1 - 20)
+            if (arrayListOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9").contains(id)) {
+                value = -10
+            } else if (arrayListOf("10", "11", "12", "13", "14", "15", "16", "17", "18", "19").contains(id)) {
+                value = -3
+
+            // Rotated rows (21 - 65)
+            } else if (arrayListOf("20", "21", "22", "23", "24", "25").contains(id)) {
+                value = -12
             } else if (arrayListOf("31", "32", "33", "34", "35", "36").contains(id)) {
-                value = 13
+                value = -1
             } else if (arrayListOf("42", "43", "44", "45", "46", "47").contains(id)) {
-                value = 25
+                value = 10
             } else if (arrayListOf("48", "49", "50", "51", "52", "53").contains(id)) {
-                value = 39
+                value = 20
             } else if (arrayListOf("59", "60", "61", "62", "63", "64").contains(id)) {
-                value = 48
-            } else if (arrayListOf("38", "39", "40", "41", "37").contains(id)) {
+                value = 30
+
+           // 27 - 42
+            } else if (arrayListOf("26", "27", "28", "29", "30").contains(id)) {
+                value = 10
+            } else if (arrayListOf("37", "38", "39", "40", "41").contains(id)) {
+                value = 18
+
+            // 71 - 85
+            } else if (arrayListOf("70", "71", "72", "73", "74").contains(id)) {
+                value = 18
+            } else if (arrayListOf("80", "81", "82", "83", "84").contains(id)) {
                 value = 26
+
+            // 55 - 70
             } else if (arrayListOf("54", "55", "56", "57", "58").contains(id)) {
-                value = 36
+                value = 16
             } else if (arrayListOf("65", "66", "67", "68", "69").contains(id)) {
-                value = 42
-            } else if (arrayListOf("70", "71", "72", "73", "74", "75", "76", "77", "78", "79").contains(id)) {
-                value = 48
-            } else if (arrayListOf("80", "81", "82", "83", "84", "85", "86", "87", "88", "89").contains(id)) {
-                value = 54
-            } else if (arrayListOf("90", "91", "92", "93", "94", "95", "96", "97", "98", "99").contains(id)) {
-                value = 34
+                value = 25
+
+             // 76 - 90
+            } else if (arrayListOf("75", "76", "77", "78", "79").contains(id)) {
+                value = 28
+            } else if (arrayListOf("85", "86", "87", "88", "89").contains(id)) {
+                value = 36
+
+            // HP STAGE 1
+            } else if (arrayListOf("90", "91", "92", "93", "94").contains(id)) {
+                value = 10
+            // HP STAGE 2
+            } else if (arrayListOf("95", "96", "97", "98", "99").contains(id)) {
+                value = 10
+
+            // VIP ROOM && LG ROOM
             } else if (arrayListOf("100", "101", "102", "103", "104", "105", "106", "107", "108", "109").contains(id)) {
-                value = 44
+                value = 10
             } else if (arrayListOf("110", "111", "112", "113", "114").contains(id)) {
-                value = 50
+                value = 20
             }
             return value
         }
@@ -115,10 +141,10 @@ class MapViewUtils() {
         fun getLabelOffsetY(label: String): Int {
             return when (label) {
                 "ЗАЛ" -> 0
-                "HP STAGE 1" -> 35
-                "HP STAGE 2" -> 35
-                "VIP ROOM" -> 45
-                "LG ROOM" -> 45
+                "HP STAGE 1" -> 10
+                "HP STAGE 2" -> 10
+                "VIP ROOM" -> 10
+                "LG ROOM" -> 10
                 else -> 50
             }
         }
