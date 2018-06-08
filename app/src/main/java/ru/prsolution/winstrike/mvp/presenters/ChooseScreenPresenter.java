@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.mvp.presenters;
 
 
-import java.io.File;
 import java.util.Map;
 
 import ru.prsolution.winstrike.WinstrikeApp;
@@ -32,7 +31,7 @@ public class ChooseScreenPresenter {
 
 
     public void getActivePid() {
-//        fragment.showWait();
+        fragment.showWait();
 
         Subscription subscription = service.getActivePid(new Service.RoomsCallback() {
             @Override
@@ -43,7 +42,7 @@ public class ChooseScreenPresenter {
 
             @Override
             public void onError(NetworkError networkError) {
-//                fragment.removeWait();
+                fragment.removeWait();
                 fragment.onGetAcitivePidFailure(networkError.getAppErrorMessage());
             }
 
@@ -54,7 +53,7 @@ public class ChooseScreenPresenter {
 
 
     public void getArenaByTimeRange(String activeLayoutPid, Map<String, String> time) {
-        fragment.showWait();
+//        fragment.showWait();
 
         Subscription subscription = service.getArenaByTimeRange(new Service.RoomLayoutByTimeCallback() {
             @Override
