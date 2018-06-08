@@ -101,14 +101,14 @@
                     style="@style/StemRegular12Black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginStart="40dp"
                     android:layout_marginTop="4dp"
                     android:gravity="start"
                     android:lineSpacingExtra="2dp"
                     android:text="@string/seatdetail_description"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/head_image"
+                    app:layout_constraintStart_toStartOf="@id/head_image"
                     app:layout_constraintTop_toBottomOf="@id/head_image" />
 
 
@@ -117,7 +117,7 @@
                     style="@style/StemMedium15Black"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_category_seat"
+                    android:layout_marginTop="24dp"
                     android:text="@string/seatdetail_category"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"

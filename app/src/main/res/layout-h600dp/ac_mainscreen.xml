@@ -71,7 +71,7 @@
                 <ImageView
                     android:id="@+id/head_image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:src="@drawable/head_img"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -102,14 +102,14 @@
                     style="@style/StemRegular14Black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginStart="40dp"
                     android:gravity="start"
                     android:lineSpacingExtra="2dp"
                     android:text="@string/seatdetail_description"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/head_image"
+                    app:layout_constraintStart_toStartOf="@id/head_image"
                     app:layout_constraintTop_toBottomOf="@id/head_image" />
 
 
@@ -118,7 +118,7 @@
                     style="@style/StemMedium15Black"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_category_seat"
+                    android:layout_marginTop="48dp"
                     android:text="@string/seatdetail_category"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -128,6 +128,7 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/view_pager_seat"
                     android:layout_width="0dp"
+                    android:layout_marginTop="8dp"
                     android:layout_height="@dimen/space_vp_seat"
                     android:overScrollMode="never"
                     app:layout_constraintEnd_toEndOf="parent"
