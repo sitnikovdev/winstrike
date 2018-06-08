@@ -32,18 +32,18 @@ public class ChooseScreenPresenter {
 
 
     public void getActivePid() {
-        fragment.showWait();
+//        fragment.showWait();
 
         Subscription subscription = service.getActivePid(new Service.RoomsCallback() {
             @Override
             public void onSuccess(Rooms authResponse) {
-                fragment.removeWait();
+//                fragment.removeWait();
                 fragment.onGetActivePidResponseSuccess(authResponse);
             }
 
             @Override
             public void onError(NetworkError networkError) {
-                fragment.removeWait();
+//                fragment.removeWait();
                 fragment.onGetAcitivePidFailure(networkError.getAppErrorMessage());
             }
 
