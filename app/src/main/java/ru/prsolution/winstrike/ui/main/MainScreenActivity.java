@@ -344,9 +344,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
 
         Float widthPx = WinstrikeApp.getInstance().getDisplayWidhtPx();
+        Float heightPx = WinstrikeApp.getInstance().getDisplayHeightPx();
 
-        Timber.d("heigth: %s", dpHeight);
-        Timber.d("width: %s", dpWidth);
 
         adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0);
         adapter.addFragment(CarouselSeatFragment.newInstance(this, 1), 1);
@@ -356,10 +355,15 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         viewPagerSeat.setCurrentItem(currentItem);
         viewPagerSeat.setOffscreenPageLimit(2);
 
-        Timber.tag("display").d("Display dpWidth: %s", dpWidth);
+//        Timber.tag("display").d("Display dpWidth: %s", dpWidth);
 
-        Timber.d("Width in px: %s", widthPx);
-        Timber.d("Height in dp: %s", dpHeight);
+        Timber.d("PX: pxWidth: %s x pxHeight: %s px", widthPx,heightPx);
+//        Timber.d("PX: pxHeigth: %s px", heightPx);
+        Timber.d("");
+        Timber.d("DP: dpWidth: %s dp x dpHeight: %s dp", dpWidth, dpHeight);
+//        Timber.d("DP: dpHeigth: %s dp", dpHeight);
+        Timber.d("");
+
 
         if (widthPx <= 720) {
             viewPagerSeat.setPageMargin(-350);
