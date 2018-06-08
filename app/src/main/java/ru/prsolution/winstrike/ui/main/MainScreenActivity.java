@@ -358,11 +358,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 //        Timber.tag("display").d("Display dpWidth: %s", dpWidth);
 
         Timber.d("PX: pxWidth: %s x pxHeight: %s px", widthPx,heightPx);
-//        Timber.d("PX: pxHeigth: %s px", heightPx);
-        Timber.d("");
         Timber.d("DP: dpWidth: %s dp x dpHeight: %s dp", dpWidth, dpHeight);
-//        Timber.d("DP: dpHeigth: %s dp", dpHeight);
-        Timber.d("");
 
 
         if (widthPx <= 720) {

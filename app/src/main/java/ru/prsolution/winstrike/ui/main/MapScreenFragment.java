@@ -146,8 +146,9 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         Float height = WinstrikeApp.getInstance().getDisplayHeightPx();
         Float width = WinstrikeApp.getInstance().getDisplayWidhtPx();
 
-        Timber.d("Screen height in px: %s", height);
-        Timber.d("Screen width in px: %s", width);
+
+        Timber.d("PX: pxWidth: %s x pxHeight: %s px", width,height);
+//        Timber.d("DP: dpWidth: %s dp x dpHeight: %s dp", dpWidth, dpHeight);
 
         mXScaleFactor = (width / mWall.getEnd().x) + 0.2f;
         mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
@@ -161,17 +162,18 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
 
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rootLayout.getLayoutParams();
-        params.setMargins(-50, -50, 100, 80);
+        params.setMargins(-50, -80, 100, 80);
 
         // Width and Height of screen
         if (height <= 1280) {
+            params.setMargins(-50, -50, 100, 80);
             params.width = mScreenSize.x;
             params.height = mScreenSize.y + 400;
             mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
             Timber.d("height: <= 1280");
         } else if (height <= 1920) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 450;
+            params.height = mScreenSize.y + 350;
             mYScaleFactor = (height / mWall.getEnd().y) - 2.0f;
             Timber.d("height: <= 1920");
         } else if (height <= 2560) {
@@ -181,7 +183,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
             Timber.d("height: <= 2500");
         } else {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 550;
+            params.height = mScreenSize.y + 350;
             mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
             Timber.d("height: default");
         }
