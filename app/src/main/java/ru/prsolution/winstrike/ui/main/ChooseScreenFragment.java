@@ -192,6 +192,9 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         if (this.presenter == null) {
             this.presenter = new ChooseScreenPresenter(service, this);
         }
+        initMapShowButton();
+        initDateSelectDialog();
+        initTimeSelectDialog();
     }
 
     private void initMapShowButton() {
@@ -484,6 +487,16 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         return true;
     }*/
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (this.listener != null) {
+            this.listener = null;
+        }
+        if (this.service != null) {
+            this.service = null;
+        }
+    }
 
     @Override
     public void onStop() {
@@ -491,12 +504,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         if (presenter != null) {
             presenter.onStop();
             presenter = null;
-        }
-        if (this.listener != null) {
-            this.listener = null;
-        }
-        if (this.service != null) {
-            this.service = null;
         }
         if (this.dataPicker != null) {
             this.dataPicker = null;
