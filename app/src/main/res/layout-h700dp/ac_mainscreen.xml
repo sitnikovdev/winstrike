@@ -42,12 +42,12 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
-        <ScrollView
+<!--        <ScrollView
             android:id="@+id/rootScroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="56dp"
-            android:fillViewport="true">
+            android:fillViewport="true">-->
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/root"
@@ -134,7 +134,7 @@
                     app:layout_constraintTop_toBottomOf="@id/category" />
 
             </android.support.constraint.ConstraintLayout>
-        </ScrollView>
+        <!--</ScrollView>-->
 
         <RelativeLayout
             android:id="@+id/ab_container"
