@@ -168,22 +168,22 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         if (height <= 1280) {
             params.setMargins(-50, -50, 100, 80);
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 400;
+            params.height = mScreenSize.y + 250;
             mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
             Timber.d("height: <= 1280");
         } else if (height <= 1920) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 350;
+            params.height = mScreenSize.y + 250;
             mYScaleFactor = (height / mWall.getEnd().y) - 2.0f;
             Timber.d("height: <= 1920");
         } else if (height <= 2560) {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 350;
+            params.height = mScreenSize.y + 150;
             mYScaleFactor = (height / mWall.getEnd().y) - 3f;
             Timber.d("height: <= 2500");
         } else {
             params.width = mScreenSize.x;
-            params.height = mScreenSize.y + 350;
+            params.height = mScreenSize.y + 250;
             mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
             Timber.d("height: default");
         }

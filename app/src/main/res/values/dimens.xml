@@ -43,7 +43,7 @@
     <dimen name="hall_line_lengh">430dp</dimen>
     <dimen name="button_space">32dp</dimen>
     <dimen name="app_recomend">12sp</dimen>
-    <dimen name="title_top">16dp</dimen>
+    <dimen name="title_top">60dp</dimen>
     <dimen name="title_bottom">16dp</dimen>
     <dimen name="descr_top">5dp</dimen>
     <dimen name="image_top">70dp</dimen>
