@@ -17,6 +17,8 @@ object TimeDataModel {
     var start: String = ""
     var end: String = ""
     var time: String = ""
+    var timeFrom: String = ""
+    var timeTo: String = ""
     var isDateSelect = false;
 
     fun setIsDateSelect(isSelect: Boolean) {

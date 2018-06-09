@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -203,9 +204,8 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         showMapButton.setOnClickListener(
                 it -> {
                     setTime();
-                    Timber.d("timeFrom: %s", timeFrom);
-                    Timber.d("timeTo: %s", timeTo);
-                    // If pids not empty - clearPids data.
+/*                    Timber.d("timeFrom: %s", timeFrom);
+                    Timber.d("timeTo: %s", timeTo);*/
                     if (valideateDate(timeFrom, timeTo)) {
                         presenter.getActivePid();
                     } else {
@@ -216,7 +216,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
 
     }
 
-    private void setTime() {
+    public void setTime() {
         timeFrom = TimeDataModel.INSTANCE.getStart();
         timeTo = TimeDataModel.INSTANCE.getEnd();
     }
@@ -235,18 +235,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
          *  save pid and get map for selected time period
          */
         String activePid = roomsResponse.getRoom().getActiveLayoutPid();
-
-/*        if (isDebug == true) {
-            timeFrom = tinyDB.getString("timeFrom");
-            timeTo = tinyDB.getString("timeTo");
-        } else {
-            timeFrom = TimeDataModel.INSTANCE.getStart();
-            timeTo = TimeDataModel.INSTANCE.getEnd();
-        }*/
-
-/*        timeFrom = TimeDataModel.INSTANCE.getStart();
-        timeTo = TimeDataModel.INSTANCE.getEnd();*/
-
 
         Map<String, String> time = new HashMap<>();
         time.put("start_at", timeFrom);
@@ -349,9 +337,18 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         public void onSelect(List<Calendar> calendar) {
             TimeDataModel.INSTANCE.setSelectDate(calendar.get(0).getTime());
             String date = TimeDataModel.INSTANCE.getSelectDate();
-//          AuthUtils.INSTANCE.setDate(date);
             TimeDataModel.INSTANCE.setDate(date);
             tv_date.setText(date);
+            //Update time for selected date:
+            if (!TextUtils.isEmpty(TimeDataModel.INSTANCE.getStart())) {
+                String timeFrom = TimeDataModel.INSTANCE.getTimeFrom();
+                String timeTo = TimeDataModel.INSTANCE.getTimeTo();
+                TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFrom));
+                TimeDataModel.INSTANCE.setEndAt(String.valueOf(timeTo));
+                timeFrom = TimeDataModel.INSTANCE.getStart();
+                timeTo = TimeDataModel.INSTANCE.getEnd();
+                Timber.d("New date is selected: timeFrom: %s, timeTo: %s", timeFrom, timeTo);
+            }
         }
     }
 
@@ -396,14 +393,14 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
             bntTextSize = 20;
             viewTextSize = 25;
         }
-        Timber.d("dpHeight: %s", dpHeight);
-        Timber.d("btnTextSize: %s", bntTextSize);
-        Timber.d("viewTextSize: %s", viewTextSize);
-
         TimePickerPopWin pickerPopWin = new TimePickerPopWin.Builder(getActivity(), (hour, min, timeDesc, timeFromData, timeToData) -> {
 
             String time = timeFromData + " - " + timeToData;
             timeTextTap.setText(time);
+
+
+            TimeDataModel.INSTANCE.setTimeFrom(String.valueOf(timeFromData));
+            TimeDataModel.INSTANCE.setTimeTo(String.valueOf(timeToData));
 
 
             TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFromData));
@@ -413,14 +410,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
              *  Save date data from timepicker (start and end).
              */
             TimeDataModel.INSTANCE.setTime(time);
-
-            Timber.d("startAt: %s", TimeDataModel.INSTANCE.getStart());
-            Timber.d("endAt: %s", TimeDataModel.INSTANCE.getEnd());
-
-            Timber.d("dateStart: %s", TimeDataModel.INSTANCE.getStartDate());
-            Timber.d("dateEnd: %s", TimeDataModel.INSTANCE.getEndDate());
-
-            Timber.d("isDateValid: %s", TimeDataModel.INSTANCE.isDateValid());
 
 
         }).textConfirm("Продолжить") //text of confirm button
