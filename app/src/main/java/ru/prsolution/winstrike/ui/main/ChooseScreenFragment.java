@@ -113,11 +113,9 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initMapShowButton();
+        setShowMapBtnEnable(binding.nextButton, true);
 
         initDateSelectDialog();
-
-        initTimeSelectDialog();
     }
 
     @Override
@@ -126,26 +124,19 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         if (this.presenter == null) {
             this.presenter = new ChooseScreenPresenter(service, this);
         }
-        initMapShowButton();
         initDateSelectDialog();
-        initTimeSelectDialog();
     }
 
-    private void initMapShowButton() {
-        setShowMapBtnEnable(binding.nextButton, true);
 
-        binding.nextButton.setOnClickListener(
-                it -> {
-                    setTime();
-                    if (valideateDate(timeFrom, timeTo)) {
-                        presenter.getActivePid();
-                    } else {
-                        Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_wrong_range), Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-
+    public void onNextButtonClickListener(View view) {
+        setTime();
+        if (valideateDate(timeFrom, timeTo)) {
+            presenter.getActivePid();
+        } else {
+            Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_wrong_range), Toast.LENGTH_LONG).show();
+        }
     }
+
 
     public void setTime() {
         timeFrom = TimeDataModel.INSTANCE.getStart();
@@ -225,9 +216,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     private void initDateSelectDialog() {
 
         if (this.dataPicker == null) {
-
             dateListener = new DateListener(binding.tvDate);
-
             dataPicker = new DataPicker(getActivity(), dateListener);
         }
 

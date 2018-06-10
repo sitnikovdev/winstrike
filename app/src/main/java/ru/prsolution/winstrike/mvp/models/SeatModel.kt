@@ -18,7 +18,7 @@ class SeatModel(var type: String) {
     var monitor: String
 
     init {
-        if (type != null && type.contains("VIP")) {
+        if (type.contains("VIP")) {
             img = R.drawable.vip
             imgCarousel = R.drawable.vip_room
             title = "Вы выбрали: VIP room"

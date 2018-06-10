@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.mvp.models
 
+import android.databinding.ObservableField
 import ru.prsolution.winstrike.mvp.transform.DateTransform
 import timber.log.Timber
 import java.util.*

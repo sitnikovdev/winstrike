@@ -177,6 +177,7 @@
             android:layout_alignTop="@id/tv_time"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="55dp"
+            android:onClick="@{handlers::onNextButtonClickListener}"
             android:background="@drawable/button_bgr_24dp" />
 
         <TextView
