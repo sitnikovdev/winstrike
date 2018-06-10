@@ -74,8 +74,9 @@
     <string name="itempaid_pccode">Код для компьютера</string>
     <string name="itempaid_pccodeval">XFG124JK</string>
     <string name="politica">Политика конфиденциальности</string>
+    <string name="toast_wrong_range">Выбранное время выходит за рамки рабочего времени арены</string>
+    <string name="no_paid_seat">У вас нет оплаченых мест</string>
 
-    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 
     <!--Calendar month-->
     <array name="material_calendar_months_array">
@@ -106,18 +107,7 @@
     <string name="material_calendar_today_button" />
     <string name="material_calendar_positive_button">Выбрать</string>
     <string name="material_calendar_negative_button" />
-    <string name="toast_wrong_range">Выбранное время выходит за рамки рабочего времени арены</string>
-    <string name="vip_room_select">Вы выбрали: VIP room</string>
-    <string name="cpu_vip">CPU: Intel Core i5-8400</string>
-    <string name="ram_vip">RAM: 8Gb; SSD 120Gb+HDD 1Tb</string>
-    <string name="gpu_vip">GPU: Nvidia GTX 1060 3Gb</string>
-    <string name="monitor_vip">Монитор: LG 32GK850G</string>
-    <string name="event_select">Вы выбрали: Основной зал</string>
-    <string name="cpu_event">CPU: Intel Core i5-8400</string>
-    <string name="ram_event">RAM: 8Gb; SSD 120Gb+HDD 1Tb</string>
-    <string name="gpu_event">GPU: Nvidia GTX 1060 3Gb</string>
-    <string name="monitor_event">Монитор: LG 24GM79G</string>
-    <string name="no_paid_seat">У вас нет оплаченых мест</string>
 
 
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>

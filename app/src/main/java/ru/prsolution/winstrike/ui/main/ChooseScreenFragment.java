@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +23,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.datetimeweels.TimeWheel.DataPicker;
@@ -106,6 +103,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         binding = DataBindingUtil.inflate(inflater, R.layout.frm_choose, container, false);
         binding.setVm(seat);
         binding.setTd(TimeDataModel.INSTANCE);
+        binding.setHandlers(this);
         View view = binding.getRoot();
 
         return view;
@@ -233,20 +231,11 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
             dataPicker = new DataPicker(getActivity(), dateListener);
         }
 
-        binding.tvDate.setOnClickListener(
-                it -> {
-                    TimeDataModel.INSTANCE.setIsDateSelect(true);
-                    dataPicker.build().show();
-                }
-        );
+    }
 
-        binding.vDateTap.setOnClickListener(
-                it -> {
-                    TimeDataModel.INSTANCE.setIsDateSelect(true);
-                    dataPicker.build().show();
-                }
-        );
-
+    public void onDateClickListener(View v) {
+        TimeDataModel.INSTANCE.setIsDateSelect(true);
+        dataPicker.build().show();
     }
 
     private static class DateListener implements OnSelectDateListener {
@@ -279,28 +268,14 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     /**
      * Check before time select that date is already selected.
      */
-    private void initTimeSelectDialog() {
-        binding.tvTime.setOnClickListener(
-                it -> {
-                    if (TimeDataModel.INSTANCE.getIsDateSelect()) {
-                        openTimePickerDialog();
-                    } else {
-                        Toast.makeText(getActivity(), "Сначала выберите дату!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
-        binding.vTimeTap.setOnClickListener(
-                it -> {
-                    if (TimeDataModel.INSTANCE.getIsDateSelect()) {
-                        openTimePickerDialog();
-                    } else {
-                        Toast.makeText(getActivity(), "Сначала выберите дату!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
+    public void onTimeClickListener(View view) {
+        if (TimeDataModel.INSTANCE.getIsDateSelect()) {
+            openTimePickerDialog();
+        } else {
+            Toast.makeText(getActivity(), "Сначала выберите дату!", Toast.LENGTH_SHORT).show();
+        }
     }
+
 
     /**
      * Show time picker dialog.
