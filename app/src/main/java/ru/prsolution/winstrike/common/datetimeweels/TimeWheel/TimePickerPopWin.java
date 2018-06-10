@@ -238,10 +238,21 @@ public class TimePickerPopWin extends PopupWindow implements OnClickListener {
 
 
         tv_h_from.setText(String.valueOf(format2LenStr(hourPos)));
-        tv_m_from.setText(String.valueOf(format2LenStr(minPos + 5)));
-
         tv_h_to.setText(String.valueOf(format2LenStr(hourPos + 1)));
+
+        tv_m_from.setText(String.valueOf(format2LenStr(minPos + 5)));
         tv_m_to.setText(String.valueOf(format2LenStr(minPos + 5)));
+
+        if (minPos + 5 <= 59) {
+            tv_m_from.setText(String.valueOf(format2LenStr(minPos + 5)));
+            tv_m_to.setText(String.valueOf(format2LenStr(minPos + 5)));
+        } else if (minPos + 5 >= 60) {
+            tv_h_from.setText(String.valueOf(format2LenStr(hourPos + 1)));
+            tv_h_to.setText(String.valueOf(format2LenStr(hourPos + 2)));
+            tv_m_from.setText(String.valueOf(format2LenStr( 5)));
+            tv_m_to.setText(String.valueOf(format2LenStr( 5)));
+        }
+
 
         isFromTimeSelect = true;
 
