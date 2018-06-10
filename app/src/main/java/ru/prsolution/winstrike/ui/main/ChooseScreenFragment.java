@@ -45,7 +45,6 @@ import static ru.prsolution.winstrike.common.utils.Utils.valideateDate;
 
 public class ChooseScreenFragment extends Fragment implements ChooseView {
 
-    private boolean isDebug = false;
     private static final String EXTRA_NAME = "extra_name";
     private static final String EXTRA_NUMBER = "extra_number";
 
@@ -106,6 +105,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         SeatModel seat = WinstrikeApp.getInstance().getSeat();
         binding = DataBindingUtil.inflate(inflater, R.layout.frm_choose, container, false);
         binding.setVm(seat);
+        binding.setTd(TimeDataModel.INSTANCE);
         View view = binding.getRoot();
 
         return view;
@@ -225,16 +225,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
      * Select date
      */
     private void initDateSelectDialog() {
-        String date = "Выберите дату";
-        String time = "Укажите диапазон времени";
-        if (TimeDataModel.INSTANCE.getDate().isEmpty()) {
-            binding.tvDate.setText(date);
-            binding.tvTime.setText(time);
-        } else {
-            binding.tvDate.setText(TimeDataModel.INSTANCE.getDate());
-            binding.tvTime.setText(TimeDataModel.INSTANCE.getTime());
-        }
-
 
         if (this.dataPicker == null) {
 

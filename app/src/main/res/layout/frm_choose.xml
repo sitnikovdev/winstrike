@@ -4,6 +4,9 @@
         <variable
             name="vm"
             type="ru.prsolution.winstrike.mvp.models.SeatModel"/>
+        <variable
+            name="td"
+            type="ru.prsolution.winstrike.mvp.models.TimeDataModel"/>
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -99,7 +102,8 @@
             android:layout_marginBottom="-60dp"
             android:background="@drawable/ripple_effect_title_click"
             android:clickable="true"
-            android:text="@string/seatdetail_date" />
+            android:text="@{td.date}"
+            tools:text="@string/seatdetail_date" />
 
 
         <View
@@ -134,7 +138,8 @@
             android:background="@drawable/ripple_effect_title_click"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/seatdetail_time" />
+            android:text="@{td.time}"
+            tools:text="@string/seatdetail_time" />
 
 
         <View
