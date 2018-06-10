@@ -6,11 +6,19 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.prsolution.winstrike.R;
+import ru.prsolution.winstrike.common.utils.Utils;
+import ru.prsolution.winstrike.mvp.apimodels.Order;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.mvp.apimodels.Orders;
 import ru.prsolution.winstrike.mvp.views.PlacesView;
+import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
 import ru.terrakok.cicerone.Router;
+import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
+
+import static ru.prsolution.winstrike.common.utils.Utils.formatTime;
 
 /**
  * Created by terrakok 26.11.16

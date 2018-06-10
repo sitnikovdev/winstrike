@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.ui.main;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,10 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.PlacesAdapter;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
+import ru.prsolution.winstrike.common.vpadapter.OrdersViewModel;
+import ru.prsolution.winstrike.common.vpadapter.SeatAdapter;
+import ru.prsolution.winstrike.databinding.FmtPaidBinding;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.presenters.PlacesPresenter;
 import ru.prsolution.winstrike.mvp.views.PlacesView;
@@ -43,6 +48,11 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
     private PlacesAdapter adapter;
     private List<OrderModel> mPayList = new ArrayList<>();
 
+    private List<OrdersViewModel> mOrders = new ArrayList<>();
+
+
+    FmtPaidBinding binding;
+    private  SeatAdapter mSeatAdapter;
 
     @Nullable
     @BindView(R.id.rv_pay)
@@ -72,9 +82,11 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
     public void onCreate(Bundle savedInstanceState) {
         WinstrikeApp.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-        mPayList = presenter.getOrders();
-        Timber.d("UserEntity order list size: %s", mPayList.size());
+        this.mPayList = getArguments().getParcelableArrayList(ORDERS);
+        mSeatAdapter = new SeatAdapter(mPayList);
     }
+
+
 
     public static PlaceScreenFragment getNewInstance(String name, ArrayList<OrderModel> orders) {
         PlaceScreenFragment fragment = new PlaceScreenFragment();
@@ -89,9 +101,11 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view;
+
         if (!mPayList.isEmpty()) {
-            view = inflater.inflate(R.layout.fmt_paid, container, false);
-            ButterKnife.bind(this, view);
+            binding = DataBindingUtil.inflate(inflater, R.layout.fmt_paid, container, false);
+            view = binding.getRoot();
+            binding.setAdapter(mSeatAdapter);
             initRView();
         } else {
             view = inflater.inflate(R.layout.fmt_nopaid, container, false);
@@ -102,11 +116,9 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
     }
 
     private void initRView() {
-        rv_pay.addItemDecoration(new BottomDecoratorHelper(350));
-        rv_pay.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
-        adapter = new PlacesAdapter(getContext(), mPayList);
-        rv_pay.setAdapter(adapter);
+        binding.rvPay.addItemDecoration(new BottomDecoratorHelper(350));
+        binding.rvPay.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvPay.setAdapter(mSeatAdapter);
     }
 
 
@@ -117,19 +129,6 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
         return true;
     }
 
-
-    @Override
-    public void onGetOrdersSuccess(List<OrderModel> orders) {
-/*        Timber.d("Success get layout data from server: %s", orders);
-        adapter = new PlacesAdapter(getContext(), orders, (OnItemPayClickListener) getActivity());
-        rv_pay.setAdapter(adapter);*/
-    }
-
-    @Override
-    public void onGetOrdersFailure(String appErrorMessage) {
-        Timber.d("Failure get layout from server: %s", appErrorMessage);
-        if (appErrorMessage.contains("416")) toast("Выбран не рабочий диапазон времени");
-    }
 
     @Override
     public void onStop() {

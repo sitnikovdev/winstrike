@@ -78,46 +78,6 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
     }
 
 
-    public void getOrders(String token) {
-        getViewState().showWait();
-
-        Subscription subscription = service.getOrders(new Service.OrdersCallback() {
-            @Override
-            public void onSuccess(Orders orders) {
-                getViewState().removeWait();
-
-                ArrayList<OrderModel> orderModels = new ArrayList<>();
-
-                for (Order order : orders.getOrders()) {
-                    OrderModel orderModel = new OrderModel();
-                    orderModel.setCost(order.getCost());
-                    orderModel.setAccessCode(order.getAccessCode());
-                    orderModel.setStartAt(order.getStartAt());
-                    orderModel.setEndAt(order.getEndAt());
-                    orderModel.setPcName(order.getPlace().getComputer().getName());
-
-                    String date = Utils.getFormattedDate(order.getStartAt());
-                    String time = formatTime(order.getStartAt()) + "-" + formatTime(order.getEndAt());
-                    orderModel.setDate(date);
-                    orderModel.setTime(time);
-                    orderModel.setThumbnail(R.drawable.main_screen);
-                    orderModels.add(orderModel);
-                }
-
-                getViewState().onGetOrdersSuccess(orderModels);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                getViewState().removeWait();
-                getViewState().onGetOrdersFailure(networkError.getAppErrorMessage());
-            }
-
-        },token);
-
-        subscriptions.add(subscription);
-    }
-
     public void updateProfile(String token, ProfileModel profile, String publicId) {
 
         Subscription subscription = service.updateUser(new Service.ProfileCallback() {
@@ -161,6 +121,47 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
 
     private void onTokenSendSuccessfully(MessageResponse authResponse) {
         Timber.d("Successfully send token: %s", authResponse.getMessage());
+    }
+
+
+    public void getOrders(String token) {
+        getViewState().showWait();
+
+        Subscription subscription = service.getOrders(new Service.OrdersCallback() {
+            @Override
+            public void onSuccess(Orders orders) {
+                getViewState().removeWait();
+
+                ArrayList<OrderModel> orderModels = new ArrayList<>();
+
+                for (Order order : orders.getOrders()) {
+                    OrderModel orderModel = new OrderModel();
+                    orderModel.setCost(order.getCost());
+                    orderModel.setAccessCode(order.getAccessCode());
+                    orderModel.setStartAt(order.getStartAt());
+                    orderModel.setEndAt(order.getEndAt());
+                    orderModel.setPcName(order.getPlace().getComputer().getName());
+
+                    String date = Utils.getFormattedDate(order.getStartAt());
+                    String time = formatTime(order.getStartAt()) + "-" + formatTime(order.getEndAt());
+                    orderModel.setDate(date);
+                    orderModel.setTime(time);
+                    orderModel.setThumbnail(R.drawable.main_screen);
+                    orderModels.add(orderModel);
+                }
+
+                getViewState().onGetOrdersSuccess(orderModels);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                getViewState().removeWait();
+                getViewState().onGetOrdersFailure(networkError.getAppErrorMessage());
+            }
+
+        },token);
+
+        subscriptions.add(subscription);
     }
 
 

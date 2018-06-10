@@ -71,6 +71,8 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ArrayList<OrderModel> orderModels =  ((MainScreenActivity)getActivity()).getOrders();
+        // TODO: 09/06/2018 REMOVE this!!!
+//        ArrayList<OrderModel> orderModels = new ArrayList<>();
 
         if (getFragmentManager().findFragmentById(R.id.ab_container).getTag().equals("MAIN")) {
             getCicerone().getRouter().replaceScreen(Screens.START_SCREEN, 0);

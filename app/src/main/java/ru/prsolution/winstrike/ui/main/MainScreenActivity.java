@@ -314,10 +314,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         }
 
 
-        // TODO: 29/04/2018 REMOVE AFTER TEST!!!
-
         String token = "Bearer " + AuthUtils.INSTANCE.getToken();
-        presenter.getOrders(token);
+//        presenter.getOrders(token);
 
 
         String fcmToken = AuthUtils.INSTANCE.getFcmtoken();
@@ -357,7 +355,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
 //        Timber.tag("display").d("Display dpWidth: %s", dpWidth);
 
-        Timber.d("PX: pxWidth: %s x pxHeight: %s px", widthPx,heightPx);
+        Timber.d("PX: pxWidth: %s x pxHeight: %s px", widthPx, heightPx);
         Timber.d("DP: dpWidth: %s dp x dpHeight: %s dp", dpWidth, dpHeight);
 
 
@@ -832,19 +830,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         presenter.onMapShowClick();
     }
 
-    @Override
-    public void onGetOrdersSuccess(ArrayList<OrderModel> orderModels) {
-        mPayList = orderModels;
-    }
-
-    @Override
-    public void onGetOrdersFailure(String appErrorMessage) {
-        // TODO: 13/05/2018 !!! Write here error catch logic.
-        Timber.d("Can't get orders: %s", appErrorMessage);
-    }
-
     public ArrayList<OrderModel> getOrders() {
-        return mPayList;
+        return this.mPayList;
     }
 
     public class BottomNavigationListener implements AHBottomNavigation.OnTabSelectedListener {
@@ -862,7 +849,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                     showFragmentHolderContainer(true);
                     setProfileScreenInterfaceVisibility(false);
                     initMainToolbar(HIDE_MENU, "Оплаченные места", SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-                    presenter.onTabPlaceClick(mPayList);
+                    String token = "Bearer " + AuthUtils.INSTANCE.getToken();
+                    presenter.getOrders(token);
                     break;
                 case USER_TAB_POSITION:
                     showFragmentHolderContainer(false);
@@ -913,4 +901,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         //this.mUserViewModel.delete();
     }
 
+
+    @Override
+    public void onGetOrdersSuccess(ArrayList<OrderModel> orders) {
+        mPayList = orders;
+        presenter.onTabPlaceClick(mPayList);
+        Timber.d("UserEntity order list size: %s", mPayList.size());
+    }
+
+    @Override
+    public void onGetOrdersFailure(String appErrorMessage) {
+        Timber.d("Failure get layout from server: %s", appErrorMessage);
+    }
 }

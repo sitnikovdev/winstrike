@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.DisplayMetrics;
 
 import com.crashlytics.android.Crashlytics;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.io.File;
 
@@ -32,6 +33,8 @@ public class WinstrikeApp extends Application {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         INSTANCE = this;
+
+        Fresco.initialize(this);
 
     }
 

@@ -117,6 +117,7 @@
     <string name="ram_event">RAM: 8Gb; SSD 120Gb+HDD 1Tb</string>
     <string name="gpu_event">GPU: Nvidia GTX 1060 3Gb</string>
     <string name="monitor_event">Монитор: LG 24GM79G</string>
+    <string name="no_paid_seat">У вас нет оплаченых мест</string>
 
 
 </resources>

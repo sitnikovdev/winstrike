@@ -204,8 +204,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         showMapButton.setOnClickListener(
                 it -> {
                     setTime();
-/*                    Timber.d("timeFrom: %s", timeFrom);
-                    Timber.d("timeTo: %s", timeTo);*/
                     if (valideateDate(timeFrom, timeTo)) {
                         presenter.getActivePid();
                     } else {
@@ -385,14 +383,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     private void openTimePickerDialog() {
         int bntTextSize = 20;
         int viewTextSize = 25;
-        if (dpHeight > 700) {
-            bntTextSize = 20;
-            viewTextSize = 25;
-        }
-        if (dpHeight < 700) {
-            bntTextSize = 20;
-            viewTextSize = 25;
-        }
         TimePickerPopWin pickerPopWin = new TimePickerPopWin.Builder(getActivity(), (hour, min, timeDesc, timeFromData, timeToData) -> {
 
             String time = timeFromData + " - " + timeToData;
