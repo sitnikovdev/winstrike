@@ -28,7 +28,7 @@ import ru.prsolution.winstrike.mvp.models.ConfirmModel;
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.models.ProfileModel;
 import ru.prsolution.winstrike.databinding.AcConfsmscodeBinding;
-import ru.prsolution.winstrike.db.entity.UserEntity;
+import ru.prsolution.winstrike.mvp.models.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.mvp.presenters.UserConfirmPresenter;

@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,6 +30,7 @@ import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.datetimeweels.TimeWheel.DataPicker;
 import ru.prsolution.winstrike.common.datetimeweels.TimeWheel.TimePickerPopWin;
+import ru.prsolution.winstrike.databinding.FrmChooseBinding;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 import ru.prsolution.winstrike.mvp.models.SeatModel;
@@ -46,7 +48,6 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     private boolean isDebug = false;
     private static final String EXTRA_NAME = "extra_name";
     private static final String EXTRA_NUMBER = "extra_number";
-    private float dpHeight;
 
     public ProgressDialog mProgressDialog;
     private onMapShowProcess listener;
@@ -55,57 +56,13 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     private DateListener dateListener;
     String timeFrom, timeTo;
 
-    @BindView(R.id.seat_title)
-    TextView seat_title;
-
-    @BindView(R.id.head_image)
-    ImageView ivSeatImg;
-
-    @BindView(R.id.tv_date)
-    TextView dateTextTap;
-
-    @BindView(R.id.tv_time)
-    TextView timeTextTap;
-
-    @BindView(R.id.v_date_tap)
-    View vDateTap;
-
-    @BindView(R.id.v_time_tap)
-    View vTimeTap;
-
-    @BindView(R.id.next_button)
-    View showMapButton;
+    FrmChooseBinding binding;
 
 
-    @BindView(R.id.iv_arr_time)
-    ImageView iv_arr_time;
-
-    @BindView(R.id.iv_arr_date)
-    ImageView iv_arr_date;
-
-    @BindView(R.id.cpu)
-    TextView tvCpu;
-
-    @BindView(R.id.ram)
-    TextView tvRam;
-
-    @BindView(R.id.gpu)
-    TextView tvGpu;
-
-    @BindView(R.id.monitor)
-    TextView tvMonitor;
-
-
-    //    @Inject
     public ChooseScreenPresenter presenter;
 
     @Inject
     public Service service;
-
-/*    @ProvidePresenter
-    ChooseScreenPresenter provideMainScreenPresenter() {
-        return new ChooseScreenPresenter(service);
-    }*/
 
 
     /**
@@ -146,33 +103,11 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frm_choose, container, false);
-        ButterKnife.bind(this, view);
-
-        // TODO: 16/05/2018  Replace it by parcebale object
         SeatModel seat = WinstrikeApp.getInstance().getSeat();
-        dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
-        Timber.tag("map").d("DpHeight: %s", dpHeight);
+        binding = DataBindingUtil.inflate(inflater, R.layout.frm_choose, container, false);
+        binding.setVm(seat);
+        View view = binding.getRoot();
 
-
-        if (seat != null && seat.getType().contains("VIP")) {
-            ivSeatImg.setImageResource(R.drawable.vip);
-            seat_title.setText(R.string.vip_room_select);
-
-            tvCpu.setText(R.string.cpu_vip);
-            tvRam.setText(R.string.ram_vip);
-            tvGpu.setText(R.string.gpu_vip);
-            tvMonitor.setText(R.string.monitor_vip);
-
-        } else {
-            ivSeatImg.setImageResource(R.drawable.event);
-            seat_title.setText(R.string.event_select);
-
-            tvCpu.setText(R.string.cpu_event);
-            tvRam.setText(R.string.ram_event);
-            tvGpu.setText(R.string.gpu_event);
-            tvMonitor.setText(R.string.monitor_event);
-        }
         return view;
     }
 
@@ -199,9 +134,9 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     }
 
     private void initMapShowButton() {
-        setShowMapBtnEnable(showMapButton, true);
+        setShowMapBtnEnable(binding.nextButton, true);
 
-        showMapButton.setOnClickListener(
+        binding.nextButton.setOnClickListener(
                 it -> {
                     setTime();
                     if (valideateDate(timeFrom, timeTo)) {
@@ -271,7 +206,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         } else {
             toast(appErrorMessage);
         }
-        setShowMapBtnEnable(showMapButton, false);
+        setShowMapBtnEnable(binding.nextButton, false);
     }
 
     /**
@@ -293,29 +228,29 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         String date = "Выберите дату";
         String time = "Укажите диапазон времени";
         if (TimeDataModel.INSTANCE.getDate().isEmpty()) {
-            dateTextTap.setText(date);
-            timeTextTap.setText(time);
+            binding.tvDate.setText(date);
+            binding.tvTime.setText(time);
         } else {
-            dateTextTap.setText(TimeDataModel.INSTANCE.getDate());
-            timeTextTap.setText(TimeDataModel.INSTANCE.getTime());
+            binding.tvDate.setText(TimeDataModel.INSTANCE.getDate());
+            binding.tvTime.setText(TimeDataModel.INSTANCE.getTime());
         }
 
 
         if (this.dataPicker == null) {
 
-            dateListener = new DateListener(dateTextTap);
+            dateListener = new DateListener(binding.tvDate);
 
             dataPicker = new DataPicker(getActivity(), dateListener);
         }
 
-        dateTextTap.setOnClickListener(
+        binding.tvDate.setOnClickListener(
                 it -> {
                     TimeDataModel.INSTANCE.setIsDateSelect(true);
                     dataPicker.build().show();
                 }
         );
 
-        vDateTap.setOnClickListener(
+        binding.vDateTap.setOnClickListener(
                 it -> {
                     TimeDataModel.INSTANCE.setIsDateSelect(true);
                     dataPicker.build().show();
@@ -355,7 +290,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
      * Check before time select that date is already selected.
      */
     private void initTimeSelectDialog() {
-        timeTextTap.setOnClickListener(
+        binding.tvTime.setOnClickListener(
                 it -> {
                     if (TimeDataModel.INSTANCE.getIsDateSelect()) {
                         openTimePickerDialog();
@@ -365,7 +300,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
                 }
         );
 
-        vTimeTap.setOnClickListener(
+        binding.vTimeTap.setOnClickListener(
                 it -> {
                     if (TimeDataModel.INSTANCE.getIsDateSelect()) {
                         openTimePickerDialog();
@@ -386,7 +321,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         TimePickerPopWin pickerPopWin = new TimePickerPopWin.Builder(getActivity(), (hour, min, timeDesc, timeFromData, timeToData) -> {
 
             String time = timeFromData + " - " + timeToData;
-            timeTextTap.setText(time);
+            binding.tvTime.setText(time);
 
 
             TimeDataModel.INSTANCE.setTimeFrom(String.valueOf(timeFromData));
@@ -410,7 +345,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
                 .colorConfirm(Color.parseColor("#A9A9A9"))//color of confirm button
                 .build();
 
-        setShowMapBtnEnable(showMapButton, true);
+        setShowMapBtnEnable(binding.nextButton, true);
 
         pickerPopWin.showPopWin(getActivity());
     }

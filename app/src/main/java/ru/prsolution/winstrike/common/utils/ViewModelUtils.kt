@@ -17,6 +17,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.common.RotationOptions
 import com.facebook.imagepipeline.request.ImageRequestBuilder
+import ru.prsolution.winstrike.common.BottomDecoratorHelper
 import java.io.File
 
 object ViewModelUtils {
@@ -67,8 +68,9 @@ fun bindTintedImage(imageView: ImageView, @DrawableRes drawableId: Int, @ColorIn
     imageView.setImageDrawable(drawable)
 }
 
-@BindingAdapter("adapter")
+@BindingAdapter("android:adapter")
 fun bindRecyclerViewAdapter(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>) {
+    recyclerView.addItemDecoration(BottomDecoratorHelper(350))
     recyclerView.adapter = adapter
     recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
 }

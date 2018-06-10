@@ -45,10 +45,8 @@ import timber.log.Timber;
 public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesView, BackButtonListener {
     private static final String EXTRA_NAME = "extra_name";
     private static final String ORDERS = "extra_number";
-    private PlacesAdapter adapter;
     private List<OrderModel> mPayList = new ArrayList<>();
 
-    private List<OrdersViewModel> mOrders = new ArrayList<>();
 
 
     FmtPaidBinding binding;

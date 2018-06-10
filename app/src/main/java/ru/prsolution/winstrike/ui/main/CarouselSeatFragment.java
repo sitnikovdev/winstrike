@@ -57,7 +57,7 @@ public class CarouselSeatFragment extends Fragment {
         seat_title.setText(seat.getType());
         ImageView thumbnail = itemSeat.findViewById(R.id.content);
 //        Picasso.with(getContext()).load(seatApi.getThumbnail()).into(thumbnail);
-        thumbnail.setImageResource(seat.getThumbnail());
+        thumbnail.setImageResource(seat.getImgCarousel());
 
         ChooseSeatLinearLayout root = itemSeat.findViewById(R.id.root);
         Float scale = this.getArguments().getFloat("scale");
@@ -74,9 +74,9 @@ public class CarouselSeatFragment extends Fragment {
     public SeatModel setUpFragmentData(int pos) {
 
         if (pos == 0) {
-            return new SeatModel("Основной зал", R.drawable.event_room);
+            return new SeatModel("Основной зал");
         } else {
-            return new SeatModel("VIP Room", R.drawable.vip_room);
+            return new SeatModel("VIP Room");
         }
 
     }

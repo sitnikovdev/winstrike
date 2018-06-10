@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.prsolution.winstrike.db.entity
+package ru.prsolution.winstrike.mvp.models
 
 class UserEntity {
     private var id: Int = 0

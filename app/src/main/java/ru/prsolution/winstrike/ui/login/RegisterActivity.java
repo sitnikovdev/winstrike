@@ -17,7 +17,7 @@ import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.common.utils.TextFormat;
-import ru.prsolution.winstrike.db.entity.UserEntity;
+import ru.prsolution.winstrike.mvp.models.UserEntity;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.models.LoginModel;

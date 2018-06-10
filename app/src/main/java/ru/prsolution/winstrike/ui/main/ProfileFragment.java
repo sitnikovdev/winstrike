@@ -16,7 +16,7 @@ import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
-import ru.prsolution.winstrike.db.entity.UserEntity;
+import ru.prsolution.winstrike.mvp.models.UserEntity;
 import ru.prsolution.winstrike.common.utils.AuthUtils;
 
 /*

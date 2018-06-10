@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ab_container"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginTop="50dp"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="vm"
+            type="ru.prsolution.winstrike.mvp.models.SeatModel"/>
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ab_container"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp">
 
 
         <ImageView
@@ -30,7 +35,8 @@
             android:layout_alignTop="@id/head_image"
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginTop="@dimen/space_text"
-            android:text="@string/seatdetail_title" />
+            android:text="@{vm.title}"
+            tools:text="@string/seatdetail_title" />
 
         <TextView
             android:id="@+id/cpu"
@@ -42,7 +48,8 @@
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="-30dp"
-            android:text="@string/seatdetail_cpu" />
+            android:text="@{vm.cpu}"
+            tools:text="@string/seatdetail_cpu" />
 
         <TextView
             android:id="@+id/ram"
@@ -53,7 +60,8 @@
             android:layout_alignBottom="@id/cpu"
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginBottom="-25dp"
-            android:text="@string/seatdetail_ram" />
+            android:text="@{vm.ram}"
+            tools:text="@string/seatdetail_ram" />
 
         <TextView
             android:id="@+id/gpu"
@@ -64,7 +72,8 @@
             android:layout_alignBottom="@id/ram"
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginBottom="-25dp"
-            android:text="@string/seatdetail_gpu" />
+            android:text="@{vm.gpu}"
+            tools:text="@string/seatdetail_gpu" />
 
         <TextView
             android:id="@+id/monitor"
@@ -75,7 +84,8 @@
             android:layout_alignBottom="@id/gpu"
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginBottom="-25dp"
-            android:text="@string/seatdetail_monitor" />
+            android:text="@{vm.monitor}"
+            tools:text="@string/seatdetail_monitor" />
 
 
         <TextView
@@ -168,4 +178,5 @@
             android:textAlignment="center" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>
