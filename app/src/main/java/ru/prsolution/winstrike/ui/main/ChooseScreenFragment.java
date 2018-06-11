@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +29,7 @@ import ru.prsolution.winstrike.mvp.views.IChooseView;
 import ru.prsolution.winstrike.networking.Service;
 import timber.log.Timber;
 
+import static ru.prsolution.winstrike.common.utils.Utils.toast;
 import static ru.prsolution.winstrike.common.utils.Utils.valideateDate;
 
 
@@ -117,22 +117,32 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
 
     }
 
+    @Override
+    public void onDateClickListener() {
+        TimeDataModel.INSTANCE.setIsDateSelect(true);
+        dataPicker.build().show();
+    }
 
     @Override
-    public void onNextButtonClickListener() {
-        if (valideateDate(TimeDataModel.INSTANCE.getStart(),TimeDataModel.INSTANCE.getEnd() )) {
-            presenter.getActivePid();
+    public void onTimeClickListener() {
+        if (TimeDataModel.INSTANCE.getIsDateSelect()) {
+            timePickerDialog = new TimePickerDialog(getActivity());
         } else {
-            Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_wrong_range), Toast.LENGTH_LONG).show();
+            toast(getActivity(), getString(R.string.first_select_date));
         }
     }
 
 
-    /**
-     * First get active pid for room
-     *
-     * @param roomsResponse
-     */
+    @Override
+    public void onNextButtonClickListener() {
+        if (valideateDate(TimeDataModel.INSTANCE.getStart(), TimeDataModel.INSTANCE.getEnd())) {
+            presenter.getActivePid();
+        } else {
+            toast(getActivity(), getString(R.string.toast_wrong_range));
+        }
+    }
+
+
     @Override
     public void onGetActivePidResponseSuccess(Rooms roomsResponse) {
         Timber.d("Success get map data from server: %s", roomsResponse);
@@ -148,11 +158,6 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
         presenter.getArenaByTimeRange(activePid, time);
     }
 
-    /**
-     * Active pid success get, so now we  get map for seats
-     *
-     * @param roomLayoutFactory
-     */
     @Override
     public void onGetArenaByTimeResponseSuccess(RoomLayoutFactory roomLayoutFactory) {
         Timber.d("Success get layout data from server: %s", roomLayoutFactory);
@@ -175,9 +180,9 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     public void onGetAcitivePidFailure(String appErrorMessage) {
         Timber.d("Failure get map from server: %s", appErrorMessage);
         if (appErrorMessage.contains("502")) {
-            toast(getString(R.string.server_error_502));
+            toast(getActivity(), getString(R.string.server_error_502));
         } else {
-            toast(appErrorMessage);
+            toast(getActivity(), appErrorMessage);
         }
     }
 
@@ -189,31 +194,9 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     @Override
     public void onGetArenaByTimeFailure(String appErrorMessage) {
         Timber.d("Failure get layout from server: %s", appErrorMessage);
-        if (appErrorMessage.contains("416")) toast(getString(R.string.not_working_range));
+        if (appErrorMessage.contains("416")) toast(getActivity(), getString(R.string.not_working_range));
     }
 
-
-    @Override
-    public void onDateClickListener() {
-        TimeDataModel.INSTANCE.setIsDateSelect(true);
-        dataPicker.build().show();
-    }
-
-    /**
-     * Check before time select that date is already selected.
-     */
-    @Override
-    public void onTimeClickListener() {
-        if (TimeDataModel.INSTANCE.getIsDateSelect()) {
-            timePickerDialog = new TimePickerDialog(getActivity());
-        } else {
-            Toast.makeText(getActivity(), R.string.first_select_date, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    protected void toast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-    }
 
 
     /**
@@ -273,6 +256,5 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
             this.dateListener = null;
         }
     }
-
 
 }

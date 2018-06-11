@@ -1,11 +1,13 @@
 package ru.prsolution.winstrike.common.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -130,5 +132,8 @@ public class Utils {
         return "";
     }
 
+    public static void toast(Activity activity, String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+    }
 
 }
