@@ -210,7 +210,7 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     private void initDateSelectDialog() {
 
         if (this.dataPicker == null) {
-            dateListener = new DateListener(binding.tvDate);
+            dateListener = new DateListener();
             dataPicker = new DataPicker(getActivity(), dateListener);
         }
 
@@ -228,9 +228,8 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     @Override
     public void onTimeClickListener() {
         if (TimeDataModel.INSTANCE.getIsDateSelect()) {
-            timePickerDialog = new TimePickerDialog(binding.tvTime, getActivity());
-        setShowMapBtnEnable(binding.nextButton, true);
-
+            timePickerDialog = new TimePickerDialog(getActivity());
+            setShowMapBtnEnable(binding.nextButton, true);
         } else {
             Toast.makeText(getActivity(), "Сначала выберите дату!", Toast.LENGTH_SHORT).show();
         }

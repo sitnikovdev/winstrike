@@ -13,8 +13,8 @@ object TimeDataModel {
     var pid: String = ""
     var pids: LinkedHashMap<Int, String> = LinkedHashMap()
     //var date: String  by observing("", didSet = { valideateDate() })
-    var date: String = "Выберите дату"
-    var time: String = "Укажите диапазон времени"
+    var date: ObservableField<String> = ObservableField("Выберите дату")
+    var time: ObservableField<String>  = ObservableField("Укажите диапазон времени")
     var selectDate: String = ""
     var start: String = ""
     var end: String = ""
@@ -43,7 +43,7 @@ object TimeDataModel {
 
     fun setSelectDate(datetime: Date) {
         selectDate = DateTransform.getSimpleDateFromCalendar(datetime)
-        date = selectDate
+        date.set(selectDate)
     }
 
 
@@ -74,8 +74,8 @@ object TimeDataModel {
 
     fun clearDateTime() {
         isDateSelect = false
-        date = "Выберите дату"
-        time = "Укажите диапазон времени"
+        date.set("Выберите дату")
+        time.set("Укажите диапазон времени")
         start = ""
         end = ""
         startDate = Date()

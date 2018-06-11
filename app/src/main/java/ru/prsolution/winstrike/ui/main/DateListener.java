@@ -12,18 +12,12 @@ import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import timber.log.Timber;
 
  class DateListener implements OnSelectDateListener {
-    TextView tv_date;
-
-    public DateListener(TextView tv_date) {
-        this.tv_date = tv_date;
-    }
 
     @Override
     public void onSelect(List<Calendar> calendar) {
         TimeDataModel.INSTANCE.setSelectDate(calendar.get(0).getTime());
         String date = TimeDataModel.INSTANCE.getSelectDate();
-        TimeDataModel.INSTANCE.setDate(date);
-        tv_date.setText(date);
+        TimeDataModel.INSTANCE.getDate().set(date);
         //Update time for selected date:
         if (!TextUtils.isEmpty(TimeDataModel.INSTANCE.getStart())) {
             String timeFrom = TimeDataModel.INSTANCE.getTimeFrom();

@@ -18,7 +18,7 @@ class DateTransform {
 
 
         fun getFormattedDateWithTime(time: String): String {
-            var dateInStr = date
+            var dateInStr = date.get()
             var fmtDate = Date()
             val date: String
 

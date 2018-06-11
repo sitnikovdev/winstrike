@@ -14,16 +14,13 @@ import ru.prsolution.winstrike.mvp.models.TimeDataModel;
  * Show time picker dialog.
  */
 public class TimePickerDialog {
-    TextView tvTime;
 
-    public TimePickerDialog(TextView tv, Activity context) {
-        this.tvTime = tv;
+    public TimePickerDialog(Activity context) {
         int bntTextSize = 20;
         int viewTextSize = 25;
         TimePickerPopWin pickerPopWin = new TimePickerPopWin.Builder(context, (hour, min, timeDesc, timeFromData, timeToData) -> {
 
             String time = timeFromData + " - " + timeToData;
-            tvTime.setText(time);
 
 
             TimeDataModel.INSTANCE.setTimeFrom(String.valueOf(timeFromData));
@@ -36,7 +33,7 @@ public class TimePickerDialog {
             /**
              *  Save date data from timepicker (start and end).
              */
-            TimeDataModel.INSTANCE.setTime(time);
+            TimeDataModel.INSTANCE.getTime().set(time);
 
 
         }).textConfirm("Продолжить") //text of confirm button
