@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,7 +44,6 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     private DataPicker dataPicker;
     private DateListener dateListener;
     private TimePickerDialog timePickerDialog;
-    String timeFrom, timeTo;
 
     FrmChooseBinding binding;
 
@@ -102,14 +102,6 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        setShowMapBtnEnable(binding.nextButton, true);
-
-        initDateSelectDialog();
-    }
 
     @Override
     public void onResume() {
@@ -117,24 +109,22 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
         if (this.presenter == null) {
             this.presenter = new ChooseScreenPresenter(service, this);
         }
-        initDateSelectDialog();
+
+        if (this.dataPicker == null) {
+            dateListener = new DateListener();
+            dataPicker = new DataPicker(getActivity(), dateListener);
+        }
+
     }
 
 
     @Override
     public void onNextButtonClickListener() {
-        setTime();
-        if (valideateDate(timeFrom, timeTo)) {
+        if (valideateDate(TimeDataModel.INSTANCE.getStart(),TimeDataModel.INSTANCE.getEnd() )) {
             presenter.getActivePid();
         } else {
             Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.toast_wrong_range), Toast.LENGTH_LONG).show();
         }
-    }
-
-
-    public void setTime() {
-        timeFrom = TimeDataModel.INSTANCE.getStart();
-        timeTo = TimeDataModel.INSTANCE.getEnd();
     }
 
 
@@ -153,8 +143,8 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
         String activePid = roomsResponse.getRoom().getActiveLayoutPid();
 
         Map<String, String> time = new HashMap<>();
-        time.put("start_at", timeFrom);
-        time.put("end_at", timeTo);
+        time.put("start_at", TimeDataModel.INSTANCE.getStart());
+        time.put("end_at", TimeDataModel.INSTANCE.getEnd());
         presenter.getArenaByTimeRange(activePid, time);
     }
 
@@ -185,11 +175,10 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     public void onGetAcitivePidFailure(String appErrorMessage) {
         Timber.d("Failure get map from server: %s", appErrorMessage);
         if (appErrorMessage.contains("502")) {
-            toast("Невозможно получить места. Внутренняя ошибка сервера");
+            toast(getString(R.string.server_error_502));
         } else {
             toast(appErrorMessage);
         }
-        setShowMapBtnEnable(binding.nextButton, false);
     }
 
     /**
@@ -200,21 +189,9 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     @Override
     public void onGetArenaByTimeFailure(String appErrorMessage) {
         Timber.d("Failure get layout from server: %s", appErrorMessage);
-        if (appErrorMessage.contains("416")) toast("Выбран не рабочий диапазон времени");
+        if (appErrorMessage.contains("416")) toast(getString(R.string.not_working_range));
     }
 
-
-    /**
-     * Select date
-     */
-    private void initDateSelectDialog() {
-
-        if (this.dataPicker == null) {
-            dateListener = new DateListener();
-            dataPicker = new DataPicker(getActivity(), dateListener);
-        }
-
-    }
 
     @Override
     public void onDateClickListener() {
@@ -229,9 +206,8 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     public void onTimeClickListener() {
         if (TimeDataModel.INSTANCE.getIsDateSelect()) {
             timePickerDialog = new TimePickerDialog(getActivity());
-            setShowMapBtnEnable(binding.nextButton, true);
         } else {
-            Toast.makeText(getActivity(), "Сначала выберите дату!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.first_select_date, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -239,15 +215,6 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private void setShowMapBtnEnable(View v, Boolean isEnable) {
-        if (isEnable) {
-            v.setAlpha(1f);
-            v.setClickable(true);
-        } else {
-            v.setAlpha(.5f);
-            v.setClickable(false);
-        }
-    }
 
     /**
      * show progress on seats loading
@@ -255,7 +222,7 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this.getActivity());
-            mProgressDialog.setMessage("Загрузка мест...");
+            mProgressDialog.setMessage(getString(R.string.loading_seats));
             mProgressDialog.setIndeterminate(true);
         }
 
@@ -278,13 +245,6 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
         hideProgressDialog();
     }
 
-    // TODO: 13/05/2018 Fix BAG with that function!!!
-/*    @Override
-    public boolean onBackPressed() {
-        presenter.onBackPressed();
-        return true;
-    }*/
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -293,6 +253,9 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
         }
         if (this.service != null) {
             this.service = null;
+        }
+        if (this.timePickerDialog != null) {
+            this.timePickerDialog = null;
         }
     }
 

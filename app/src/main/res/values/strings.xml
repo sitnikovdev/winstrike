@@ -110,4 +110,8 @@
 
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="first_select_date">Сначала выберите дату!</string>
+    <string name="loading_seats">Загрузка мест...</string>
+    <string name="not_working_range">Выбран не рабочий диапазон времени</string>
+    <string name="server_error_502">Невозможно получить места. Внутренняя ошибка сервера</string>
 </resources>
