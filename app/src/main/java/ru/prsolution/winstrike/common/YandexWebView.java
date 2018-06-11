@@ -40,12 +40,15 @@ public class YandexWebView extends AppCompatActivity {
         setContentView(R.layout.ac_yandexpay);
         ButterKnife.bind(this);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         confirmScreen = new Intent(this, UserConfirmActivity.class);
         mainScreen = new Intent(this, MainScreenActivity.class);
-//        chooseSrceen = new Intent(this, ChooseScreenFragment.class);
 
         confirmScreen.putExtra("phone",AuthUtils.INSTANCE.getPhone());
-        //mainScreen.putExtra("phone",AuthUtils.INSTANCE.getPhone());
 
         url = getIntent().getStringExtra("url");
 
@@ -53,10 +56,6 @@ public class YandexWebView extends AppCompatActivity {
             finish();
         }
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (url.contains("politika.html")) {
             initMainToolbar(true, getResources().getString(R.string.politica));
         } else if (url.contains("rules")) {
