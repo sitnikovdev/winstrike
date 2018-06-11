@@ -3,22 +3,15 @@ package ru.prsolution.winstrike.ui.main;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
-
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -26,7 +19,6 @@ import javax.inject.Inject;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.datetimeweels.TimeWheel.DataPicker;
-import ru.prsolution.winstrike.common.datetimeweels.TimeWheel.TimePickerPopWin;
 import ru.prsolution.winstrike.databinding.FrmChooseBinding;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
@@ -50,6 +42,7 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
 
     private DataPicker dataPicker;
     private DateListener dateListener;
+    private TimePickerDialog timePickerDialog;
     String timeFrom, timeTo;
 
     FrmChooseBinding binding;
@@ -229,84 +222,19 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
         dataPicker.build().show();
     }
 
-    private static class DateListener implements OnSelectDateListener {
-        TextView tv_date;
-
-        public DateListener(TextView tv_date) {
-            this.tv_date = tv_date;
-        }
-
-        @Override
-        public void onSelect(List<Calendar> calendar) {
-            TimeDataModel.INSTANCE.setSelectDate(calendar.get(0).getTime());
-            String date = TimeDataModel.INSTANCE.getSelectDate();
-            TimeDataModel.INSTANCE.setDate(date);
-            tv_date.setText(date);
-            //Update time for selected date:
-            if (!TextUtils.isEmpty(TimeDataModel.INSTANCE.getStart())) {
-                String timeFrom = TimeDataModel.INSTANCE.getTimeFrom();
-                String timeTo = TimeDataModel.INSTANCE.getTimeTo();
-                TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFrom));
-                TimeDataModel.INSTANCE.setEndAt(String.valueOf(timeTo));
-                timeFrom = TimeDataModel.INSTANCE.getStart();
-                timeTo = TimeDataModel.INSTANCE.getEnd();
-                Timber.d("New date is selected: timeFrom: %s, timeTo: %s", timeFrom, timeTo);
-            }
-        }
-    }
-
-
     /**
      * Check before time select that date is already selected.
      */
     @Override
     public void onTimeClickListener() {
         if (TimeDataModel.INSTANCE.getIsDateSelect()) {
-            openTimePickerDialog();
+            timePickerDialog = new TimePickerDialog(binding.tvTime, getActivity());
+        setShowMapBtnEnable(binding.nextButton, true);
+
         } else {
             Toast.makeText(getActivity(), "Сначала выберите дату!", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-    /**
-     * Show time picker dialog.
-     */
-    private void openTimePickerDialog() {
-        int bntTextSize = 20;
-        int viewTextSize = 25;
-        TimePickerPopWin pickerPopWin = new TimePickerPopWin.Builder(getActivity(), (hour, min, timeDesc, timeFromData, timeToData) -> {
-
-            String time = timeFromData + " - " + timeToData;
-            binding.tvTime.setText(time);
-
-
-            TimeDataModel.INSTANCE.setTimeFrom(String.valueOf(timeFromData));
-            TimeDataModel.INSTANCE.setTimeTo(String.valueOf(timeToData));
-
-
-            TimeDataModel.INSTANCE.setStartAt(String.valueOf(timeFromData));
-            TimeDataModel.INSTANCE.setEndAt(String.valueOf(timeToData));
-
-            /**
-             *  Save date data from timepicker (start and end).
-             */
-            TimeDataModel.INSTANCE.setTime(time);
-
-
-        }).textConfirm("Продолжить") //text of confirm button
-                .textCancel("CANCEL") //text of cancel button
-                .btnTextSize(bntTextSize) // button text size
-                .viewTextSize(viewTextSize) // pick view text size
-                .colorCancel(Color.parseColor("#999999")) //color of cancel button
-                .colorConfirm(Color.parseColor("#A9A9A9"))//color of confirm button
-                .build();
-
-        setShowMapBtnEnable(binding.nextButton, true);
-
-        pickerPopWin.showPopWin(getActivity());
-    }
-
 
     protected void toast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
