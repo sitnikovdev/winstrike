@@ -33,7 +33,6 @@ public class YandexWebView extends AppCompatActivity {
     TextView tvToolbarTitle;
     private Intent confirmScreen;
     private Intent mainScreen;
-    private Intent chooseSrceen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,10 +42,10 @@ public class YandexWebView extends AppCompatActivity {
 
         confirmScreen = new Intent(this, UserConfirmActivity.class);
         mainScreen = new Intent(this, MainScreenActivity.class);
-        chooseSrceen = new Intent(this, ChooseScreenFragment.class);
+//        chooseSrceen = new Intent(this, ChooseScreenFragment.class);
 
         confirmScreen.putExtra("phone",AuthUtils.INSTANCE.getPhone());
-        mainScreen.putExtra("phone",AuthUtils.INSTANCE.getPhone());
+        //mainScreen.putExtra("phone",AuthUtils.INSTANCE.getPhone());
 
         url = getIntent().getStringExtra("url");
 
@@ -125,7 +124,8 @@ public class YandexWebView extends AppCompatActivity {
         if (url.contains("politika.html") || url.contains("rules.html")) {
             startActivity(confirmScreen);
         } else {
-            startActivity(chooseSrceen);
+
+            startActivity(mainScreen);
         }
 /*        if (mWebView.canGoBack()) {
             mWebView.goBack();
