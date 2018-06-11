@@ -9,8 +9,8 @@
             type="ru.prsolution.winstrike.mvp.models.TimeDataModel"/>
 
         <variable
-            name="handlers"
-            type="ru.prsolution.winstrike.ui.main.ChooseScreenFragment"/>
+            name="iChooseView"
+            type="ru.prsolution.winstrike.mvp.views.IChooseView" />
 
     </data>
 
@@ -107,7 +107,7 @@
             android:layout_marginBottom="-60dp"
             android:background="@drawable/ripple_effect_title_click"
             android:clickable="true"
-            android:onClick="@{handlers::onDateClickListener}"
+            android:onClick="@{()-> iChooseView.onDateClickListener()}"
             android:text="@{td.date}"
             tools:text="@string/seatdetail_date" />
 
@@ -118,8 +118,8 @@
             android:layout_height="50dp"
             android:layout_alignEnd="@id/head_image"
             android:layout_alignBottom="@id/iv_arr_date"
+            android:onClick="@{()-> iChooseView.onDateClickListener()}"
             android:layout_marginEnd="-20dp"
-            android:onClick="@{handlers::onDateClickListener}"
             android:layout_marginBottom="-20dp" />
 
 
@@ -145,7 +145,7 @@
             android:background="@drawable/ripple_effect_title_click"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{handlers::onTimeClickListener}"
+            android:onClick="@{()-> iChooseView.onTimeClickListener()}"
             android:text="@{td.time}"
             tools:text="@string/seatdetail_time" />
 
@@ -155,7 +155,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignEnd="@id/head_image"
-            android:onClick="@{handlers::onTimeClickListener}"
+            android:onClick="@{()-> iChooseView.onTimeClickListener()}"
             android:layout_alignBottom="@id/iv_arr_time"
             android:layout_marginEnd="-20dp"
             android:layout_marginBottom="-20dp" />
@@ -177,7 +177,7 @@
             android:layout_alignTop="@id/tv_time"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="55dp"
-            android:onClick="@{handlers::onNextButtonClickListener}"
+            android:onClick="@{() -> iChooseView.onNextButtonClickListener()}"
             android:background="@drawable/button_bgr_24dp" />
 
         <TextView

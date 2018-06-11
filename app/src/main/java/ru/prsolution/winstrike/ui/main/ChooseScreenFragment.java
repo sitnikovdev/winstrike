@@ -33,14 +33,14 @@ import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 import ru.prsolution.winstrike.mvp.models.SeatModel;
 import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.presenters.ChooseScreenPresenter;
-import ru.prsolution.winstrike.mvp.views.ChooseView;
+import ru.prsolution.winstrike.mvp.views.IChooseView;
 import ru.prsolution.winstrike.networking.Service;
 import timber.log.Timber;
 
 import static ru.prsolution.winstrike.common.utils.Utils.valideateDate;
 
 
-public class ChooseScreenFragment extends Fragment implements ChooseView {
+public class ChooseScreenFragment extends Fragment implements IChooseView {
 
     private static final String EXTRA_NAME = "extra_name";
     private static final String EXTRA_NUMBER = "extra_number";
@@ -103,7 +103,7 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
         binding = DataBindingUtil.inflate(inflater, R.layout.frm_choose, container, false);
         binding.setVm(seat);
         binding.setTd(TimeDataModel.INSTANCE);
-        binding.setHandlers(this);
+        binding.setIChooseView((IChooseView) this);
         View view = binding.getRoot();
 
         return view;
@@ -128,7 +128,8 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     }
 
 
-    public void onNextButtonClickListener(View view) {
+    @Override
+    public void onNextButtonClickListener() {
         setTime();
         if (valideateDate(timeFrom, timeTo)) {
             presenter.getActivePid();
@@ -222,7 +223,8 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
 
     }
 
-    public void onDateClickListener(View v) {
+    @Override
+    public void onDateClickListener() {
         TimeDataModel.INSTANCE.setIsDateSelect(true);
         dataPicker.build().show();
     }
@@ -257,7 +259,8 @@ public class ChooseScreenFragment extends Fragment implements ChooseView {
     /**
      * Check before time select that date is already selected.
      */
-    public void onTimeClickListener(View view) {
+    @Override
+    public void onTimeClickListener() {
         if (TimeDataModel.INSTANCE.getIsDateSelect()) {
             openTimePickerDialog();
         } else {
