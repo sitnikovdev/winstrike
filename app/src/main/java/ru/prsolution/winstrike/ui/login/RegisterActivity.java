@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     void init() {
-        setBtnEnable(nextButton, false);
+//        setBtnEnable(nextButton, false);
 
         nextButton.setOnClickListener(
                 view -> {

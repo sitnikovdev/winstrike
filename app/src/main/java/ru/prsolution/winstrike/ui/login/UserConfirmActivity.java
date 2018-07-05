@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.mvp.apimodels.User;
 import ru.prsolution.winstrike.mvp.models.ConfirmModel;
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.models.ProfileModel;
@@ -255,7 +256,7 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
 //                                    repository.insertUser(userDb);
 
                                 presenter.updateProfile(token, profile, publicId);
-                                startActivity(new Intent(getParent(), SignInActivity.class));
+                                startActivity(new Intent(UserConfirmActivity.this, SignInActivity.class));
                             }
                     );
                 } else {
