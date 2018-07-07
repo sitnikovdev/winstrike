@@ -894,7 +894,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     protected void onStop() {
         super.onStop();
-        presenter.onStop();
+//        presenter.onStop();
 /*        presenter.onStop();
         this.mMainOnClickListener = null;
         this.mMapOnClickListener = null;*/
