@@ -8,7 +8,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.common.YandexWebView;
 import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.common.utils.TextFormat;
 import ru.prsolution.winstrike.databinding.AcLoginBinding;
@@ -73,6 +76,13 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
 
     @BindView(R.id.text_footer2)
     TextView mFooterSingUpView;
+
+
+    @BindView(R.id.text_pol2)
+    TextView conditionsButton;
+
+    @BindView(R.id.text_pol4)
+    TextView privacyButton;
 
 
 //    @Inject
@@ -144,6 +154,35 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
         mFooterSingUpView.setOnClickListener(
                 it -> startActivity(new Intent(this, RegisterActivity.class))
         );
+
+        String mystring = new String("Условиями");
+        SpannableString content = new SpannableString(mystring);
+        content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
+        conditionsButton.setText(content);
+
+
+        conditionsButton.setOnClickListener(
+                it -> {
+                    Intent browserIntent = new Intent(this, YandexWebView.class);
+                    String url = "file:///android_asset/rules.html";
+                    browserIntent.putExtra("url", url);
+                    startActivity(browserIntent);
+                }
+        );
+
+        privacyButton.setOnClickListener(
+                it -> {
+                    Intent browserIntent = new Intent(this, YandexWebView.class);
+                    String url = "file:///android_asset/politika.html";
+                    browserIntent.putExtra("url", url);
+                    startActivity(browserIntent);
+                }
+        );
+
+        String textFooter = new String("Политикой конфиденциальности");
+        SpannableString content4 = new SpannableString(textFooter);
+        content4.setSpan(new UnderlineSpan(), 0, textFooter.length(), 0);
+        privacyButton.setText(content4);
 
     }
 
@@ -362,6 +401,8 @@ public class SignInActivity extends AppCompatActivity implements SignInView {
         am.killBackgroundProcesses("ru.prsolution.winstrike");
         finish();
     }
+
+
 
     public void onLogin(View view) {
         Timber.d("View on click fire");

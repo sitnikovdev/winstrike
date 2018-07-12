@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.common.utils.AuthUtils;
+import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
 import ru.prsolution.winstrike.ui.main.ChooseScreenFragment;
 import ru.prsolution.winstrike.ui.main.MainScreenActivity;
@@ -45,7 +46,8 @@ public class YandexWebView extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        confirmScreen = new Intent(this, UserConfirmActivity.class);
+//        confirmScreen = new Intent(this, UserConfirmActivity.class);
+        confirmScreen = new Intent(this, SignInActivity.class);
         mainScreen = new Intent(this, MainScreenActivity.class);
 
         confirmScreen.putExtra("phone",AuthUtils.INSTANCE.getPhone());
