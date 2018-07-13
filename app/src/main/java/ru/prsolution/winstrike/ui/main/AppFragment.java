@@ -9,6 +9,7 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,11 +40,17 @@ public class AppFragment extends Fragment {
     @BindView(R.id.v_twitch)
     View ivTwitch;
 
+    @BindView(R.id.sw_note)
+    Switch swNote;
+
     private OnAppButtonsClickListener listener;
     private final static String TITLE = "Приложение";
 
     public interface OnAppButtonsClickListener {
+        void onPushClick(String isOn);
+
         void onRecommendButtonClick();
+
         void onGooglePlayButtonClick();
 
         void onVkClick();
@@ -56,6 +63,7 @@ public class AppFragment extends Fragment {
 
         void onTwitchClick();
     }
+
     public AppFragment() {
     }
 
@@ -79,31 +87,48 @@ public class AppFragment extends Fragment {
         View v = inflater.inflate(R.layout.fmt_profile_app, container, false);
         ButterKnife.bind(this, v);
 
+        swNote.setTextOn("On"); // displayed text of the Switch whenever it is in checked or on state
+        swNote.setTextOff("Off"); // displayed text of the Switch whenever it is in unchecked i.e. off state
+
+        swNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (swNote.isChecked()) {
+                    listener.onPushClick(swNote.getTextOn().toString());
+                } else {
+                    listener.onPushClick(swNote.getTextOff().toString());
+                }
+
+            }
+        });
+
+
+
         cv_recomend.setOnClickListener(
-               it -> listener.onRecommendButtonClick()
+                it -> listener.onRecommendButtonClick()
         );
         cvEstimate.setOnClickListener(
                 it -> listener.onGooglePlayButtonClick()
         );
 
         ivVk.setOnClickListener(
-                it->listener.onVkClick()
+                it -> listener.onVkClick()
         );
 
         ivInstagram.setOnClickListener(
-                it->listener.onInstagramClick()
+                it -> listener.onInstagramClick()
         );
 
         ivTweeter.setOnClickListener(
-                it->listener.onTweeterClick()
+                it -> listener.onTweeterClick()
         );
 
         ivFacebook.setOnClickListener(
-                it->listener.onFacebookClick()
+                it -> listener.onFacebookClick()
         );
 
         ivTwitch.setOnClickListener(
-                it->listener.onTwitchClick()
+                it -> listener.onTwitchClick()
         );
 
         return v;

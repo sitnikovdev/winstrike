@@ -116,16 +116,31 @@
             android:src="@drawable/ic_handshake" />
     </android.support.v7.widget.CardView>
 
+    <Switch
+        android:id="@+id/sw_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Уведомления"
+        android:textOff="No"
+        android:textOn="Yes"
+        android:layout_marginTop="125dp"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        app:layout_constraintTop_toBottomOf="@id/line_head"
+        />
+
     <TextView
         android:id="@+id/text_social"
         style="@style/StemMedium15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="180dp"
         android:text="@string/all_social"
         app:layout_constraintEnd_toEndOf="@id/line_end"
         app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toBottomOf="@id/line_head" />
+        app:layout_constraintTop_toBottomOf="@id/line_head"
+        />
 
 
     <!-- Icons block -->

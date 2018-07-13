@@ -749,6 +749,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     }
 
+    @Override
+    public void onPushClick(String isOn) {
+        Toast.makeText(this,"Push is: "+ isOn,Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void onGooglePlayButtonClick() {
