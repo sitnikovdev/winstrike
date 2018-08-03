@@ -132,7 +132,7 @@ class MapViewUtils() {
                 "ЗАЛ" -> 0
                 "HP STAGE 1" -> -2
                 "HP STAGE 2" -> 16
-                "VIP ROOM" -> -2
+                "SENNHEISER ROOM" -> 30
                 "LG ROOM" -> 16
                 else -> 16
             }
@@ -143,7 +143,7 @@ class MapViewUtils() {
                 "ЗАЛ" -> 0
                 "HP STAGE 1" -> 4
                 "HP STAGE 2" -> 4
-                "VIP ROOM" ->  4
+                "SENNHEISER ROOM" ->  4
                 "LG ROOM" -> 4
                 else -> 4
             }
