@@ -1,183 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="user"
-            type="ru.prsolution.winstrike.mvp.models.UserProfileObservable"/>
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:bind="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+  <data>
+    <variable
+      name="user"
+      type="ru.prsolution.winstrike.mvp.models.UserProfileObservable"/>
 
-    </data>
+    <variable
+      name="bindingPlanet"
+      type="ru.prsolution.winstrike.ui.main.BindingPlanet"/>
+    <variable
+      name="spinAdapterPlanet"
+      type="android.widget.ArrayAdapter"/>
+
+  </data>
+
+  <RelativeLayout
+    android:id="@+id/cl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+      android:id="@+id/main_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="56dp"
+      android:layout_alignParentTop="true"
+      android:background="@color/color_primary_dark"
+      android:theme="@style/MainToolBarTheme">
+
+      <TextView
+        android:id="@+id/toolbar_text"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@{user.name}"
+        android:textColor="@color/color_primary"
+        tools:text=""/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.Space
+      android:id="@+id/spacer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="gone"/>
+
+    <!--        <ScrollView
+                android:id="@+id/rootScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="56dp"
+                android:fillViewport="true">-->
+
+    <android.support.constraint.ConstraintLayout
+      android:id="@+id/root"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <android.support.constraint.Guideline
+        android:id="@+id/line_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="40dp"/>
+
+      <android.support.constraint.Guideline
+        android:id="@+id/line_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/keyline_40dp"/>
+
+      <ImageView
+        android:id="@+id/head_image"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:src="@drawable/head_img"
+        app:layout_constraintBottom_toTopOf="@id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spin"
+        />
+
+
+      <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/spin"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/title_top"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="66dp"
+        android:layout_marginEnd="66dp"
+        android:layout_centerInParent="true"
+        app:adapter="@{spinAdapterPlanet}"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/head_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        bind:selectedPlanet="@={bindingPlanet.obvSelectedPlanet_}"/>
+
+      <TextView
+        android:id="@+id/description"
+        style="@style/StemRegular14Black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="start"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/seatdetail_description"
+        app:layout_constraintEnd_toEndOf="@id/head_image"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/head_image"/>
+
+
+      <TextView
+        android:id="@+id/category"
+        style="@style/StemMedium15Black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/seatdetail_category"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description"/>
+
+      <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_seat"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/space_vp_seat"
+        android:overScrollMode="never"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category"/>
+
+    </android.support.constraint.ConstraintLayout>
+    <!--</ScrollView>-->
 
     <RelativeLayout
-        android:id="@+id/cl_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+      android:id="@+id/ab_container"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"/>
 
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/color_primary_dark"
-            android:theme="@style/MainToolBarTheme">
-
-            <TextView
-                android:id="@+id/toolbar_text"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@{user.name}"
-                android:textColor="@color/color_primary"
-                tools:text="" />
-
-        </android.support.v7.widget.Toolbar>
-
-        <android.support.v4.widget.Space
-            android:id="@+id/spacer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
-<!--        <ScrollView
-            android:id="@+id/rootScroll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="56dp"
-            android:fillViewport="true">-->
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/root"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/line_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="40dp" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/line_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_end="@dimen/keyline_40dp" />
-
-                <ImageView
-                    android:id="@+id/head_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:src="@drawable/head_img"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/seat_title"
-                    app:layout_constraintBottom_toTopOf="@id/description"
-                    />
-
-                <TextView
-                    android:id="@+id/seat_title"
-                    style="@style/StemRegular15Base"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="56dp"
-                    android:layout_marginEnd="56dp"
-                    android:layout_marginTop="@dimen/title_top"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/club_full_name"
-                    android:textAlignment="center"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/head_image"
-                    app:layout_constraintTop_toTopOf="parent" />
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+      android:id="@+id/ab_bottom_navigation_bar"
+      android:layout_width="match_parent"
+      android:layout_height="56dp"
+      android:layout_alignParentBottom="true"/>
 
 
-                <TextView
-                    android:id="@+id/description"
-                    style="@style/StemRegular14Black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginStart="40dp"
-                    android:gravity="start"
-                    android:lineSpacingExtra="2dp"
-                    android:text="@string/seatdetail_description"
-                    app:layout_constraintEnd_toEndOf="@id/head_image"
-                    app:layout_constraintStart_toStartOf="@id/head_image"
-                    app:layout_constraintTop_toBottomOf="@id/head_image" />
+    <android.support.design.widget.TabLayout
+      android:id="@+id/tablayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="56dp"
+      app:tabGravity="fill"
+      app:tabMode="fixed"
+      app:tabTextAppearance="@style/TabLayoutProfile"/>
 
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
+      android:id="@+id/viewpager"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="56dp"
+      android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/category"
-                    style="@style/StemMedium15Black"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="48dp"
-                    android:text="@string/seatdetail_category"
-                    android:textAlignment="center"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/description" />
+    <View
+      android:id="@+id/v_back"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:background="@color/color_white"
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/view_pager_seat"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/space_vp_seat"
-                    android:overScrollMode="never"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/category" />
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"/>
 
-            </android.support.constraint.ConstraintLayout>
-        <!--</ScrollView>-->
-
-        <RelativeLayout
-            android:id="@+id/ab_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true" />
-
-
-        <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-            android:id="@+id/ab_bottom_navigation_bar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true" />
-
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            app:tabGravity="fill"
-            app:tabMode="fixed"
-            app:tabTextAppearance="@style/TabLayoutProfile" />
-
-        <com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:visibility="gone" />
-
-        <View
-            android:id="@+id/v_back"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:background="@color/color_white"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </RelativeLayout>
+  </RelativeLayout>
 </layout>
