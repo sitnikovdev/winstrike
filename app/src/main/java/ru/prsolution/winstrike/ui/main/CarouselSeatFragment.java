@@ -74,9 +74,9 @@ public class CarouselSeatFragment extends Fragment {
     public SeatModel setUpFragmentData(int pos) {
 
         if (pos == 0) {
-            return new SeatModel("Основной зал");
-        } else {
             return new SeatModel("VIP Room");
+        } else {
+            return new SeatModel("Основной зал");
         }
 
     }

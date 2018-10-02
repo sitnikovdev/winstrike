@@ -22,7 +22,7 @@ public class CarouselAdapter extends FragmentPagerAdapter implements ViewPager.P
     private FragmentActivity context;
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
-    private int PAGES = 2;
+    private int PAGES = 1;
     float dpHeight, dpWidth;
 
     public Float BIG_SCALE;

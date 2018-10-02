@@ -301,10 +301,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     planets_ = loadPlanets(this, R.array.planetsInSolarSystem);
     if (planets_ != null) {
-      planets_.add(0, new Planet("", 0)); //insert a blank item on the top of the list
+//      planets_.add(0, new Planet("", 0)); //insert a blank item on the top of the list
       binding.setSpinAdapterPlanet(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, planets_));
       Planet selectedPlanet = savedInstanceState != null ? savedInstanceState.<Planet> getParcelable(BUNDLE_SELECTED_PLANET)
-          : planets_.get(3);//initial selected planet is Earth, 3 is the index of Earth after a blank item inserted
+          : planets_.get(0);//initial selected planet is Earth, 3 is the index of Earth after a blank item inserted
       binding.setBindingPlanet(new BindingPlanet(selectedPlanet));
     }
 
