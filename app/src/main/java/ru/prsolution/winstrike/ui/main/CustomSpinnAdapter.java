@@ -17,7 +17,6 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
   public CustomSpinnAdapter(Activity context, int resouceId, int textviewId, List<RowItem> list) {
 
     super(context, resouceId, textviewId, list);
-//        flater = context.getLayoutInflater();
   }
 
   @Override
@@ -41,10 +40,11 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
       holder = new viewHolder();
       flater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      rowview = flater.inflate(R.layout.listitems_layout, null, false);
+      rowview = flater.inflate(R.layout.item_arena, null, false);
 
       holder.txtTitle = (TextView) rowview.findViewById(R.id.title);
       holder.txtAddress = (TextView) rowview.findViewById(R.id.address);
+
       rowview.setTag(holder);
     } else {
       holder = (viewHolder) rowview.getTag();
@@ -54,6 +54,8 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
     return rowview;
   }
+
+
 
   private class viewHolder {
 

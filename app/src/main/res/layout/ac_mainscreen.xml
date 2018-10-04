@@ -10,9 +10,6 @@
 
 
     <variable
-      name="bindingPlanet"
-      type="ru.prsolution.winstrike.ui.main.BindingPlanet"/>
-    <variable
       name="spinAdapterPlanet"
       type="android.widget.ArrayAdapter"/>
 
@@ -94,7 +91,7 @@
           android:id="@+id/spin"
           style="@style/Base.Widget.AppCompat.Spinner.Underlined"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+          android:layout_height="48dp"
           android:layout_marginStart="66dp"
           android:layout_marginEnd="66dp"
           android:layout_centerInParent="true"
@@ -103,7 +100,7 @@
           android:layout_marginBottom="@dimen/title_bottom"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          bind:selectedPlanet="@={bindingPlanet.obvSelectedPlanet_}"/>
+          />
 
 
         <TextView

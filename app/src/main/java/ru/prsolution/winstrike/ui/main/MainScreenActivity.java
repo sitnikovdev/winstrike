@@ -2,10 +2,7 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -28,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -139,7 +135,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private AcMainscreenBinding binding;
 
-  private List<Planet> planets;
   List<RowItem> rowItems;
   public static final Integer[] titles = new Integer[] { R.string.spin_arena1,
       R.string.spin_arena2 };
@@ -294,20 +289,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     AppCompatSpinner spinner;
     spinner = (AppCompatSpinner) findViewById(R.id.spin);
     CustomSpinnAdapter spAdapter = new CustomSpinnAdapter(this,
-        R.layout.listitems_layout, R.id.title, rowItems);
+        R.layout.item_arena, R.id.title, rowItems);
     spinner.setAdapter(spAdapter);
-
-/*
-    planets_ = loadPlanets(this, R.array.planetsInSolarSystem);
-    if (planets_ != null) {
-      planets_.add(0, new Planet("Выбрать арену", 0)); //insert a blank item on the top of the list
-//      binding.setSpinAdapterPlanet(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, planets_));
-      binding.setSpinAdapterPlanet(adapter);
-      Planet selectedPlanet = savedInstanceState != null ? savedInstanceState.<Planet> getParcelable(BUNDLE_SELECTED_PLANET)
-          : planets_.get(0);//initial selected planet is Earth, 3 is the index of Earth after a blank item inserted
-      binding.setBindingPlanet(new BindingPlanet(selectedPlanet));
-    }
-*/
 
     user.setName(getResources().getString(R.string.app_club));
 
@@ -338,63 +321,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       sendRegistrationToServer(token, fcmToken);
     }
   }
-
-  private List<Planet> loadPlanets(Context context, int resourceId) {
-    List<Planet> planets = null;
-
-    if (context != null) {
-      TypedArray typedArrayPlanets = null;
-      try {
-        typedArrayPlanets = getResources().obtainTypedArray(resourceId);
-        for (int i = 0; i < typedArrayPlanets.length(); i++) {
-          Planet planet = loadPlanet(context, typedArrayPlanets.getResourceId(i, 0));
-          if (planet != null) {
-            if (planets == null) { //lazy instantiation
-              planets = new ArrayList<>();
-            }
-            planets.add(planet);
-          }
-        }
-        typedArrayPlanets.recycle();
-      } catch (Resources.NotFoundException e) {
-        e.printStackTrace();
-      }
-    }
-
-    return planets;
-  }
-
-  private Planet loadPlanet(Context context, int resourceId) {
-    Planet planet = null;
-
-    if (context != null) {
-      TypedArray typedArrayPlanet = null;
-      try {
-        String name = null;
-        float distance = 0;
-        typedArrayPlanet = context.getResources().obtainTypedArray(resourceId);
-        for (int i = 0; i < typedArrayPlanet.length(); i++) {
-          if (i == 0) {
-            name = typedArrayPlanet.getString(i);
-          } else if (i == 1) {
-            distance = Float.valueOf(typedArrayPlanet.getString(i));
-          }
-        }
-        if (name != null && distance > 0) {
-          planet = new Planet(name, distance);
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      } finally {
-        if (typedArrayPlanet != null) {
-          typedArrayPlanet.recycle();
-        }
-      }
-    }
-
-    return planet;
-  }
-
 
   public void sendRegistrationToServer(String authToken, String refreshedToken) {
     FCMModel fcmModel = new FCMModel();

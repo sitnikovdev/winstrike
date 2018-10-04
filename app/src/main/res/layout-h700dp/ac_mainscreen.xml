@@ -9,9 +9,6 @@
       type="ru.prsolution.winstrike.mvp.models.UserProfileObservable"/>
 
     <variable
-      name="bindingPlanet"
-      type="ru.prsolution.winstrike.ui.main.BindingPlanet"/>
-    <variable
       name="spinAdapterPlanet"
       type="android.widget.ArrayAdapter"/>
 
@@ -92,7 +89,7 @@
         android:id="@+id/spin"
         style="@style/SpinnerTheme"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="@dimen/title_top"
         android:layout_marginBottom="16dp"
         android:layout_marginStart="66dp"
