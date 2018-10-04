@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,19 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
   LayoutInflater flater;
 
+/*  interface OnItemClickListener {
+
+    void itemSelect(View v);
+  }*/
+
+//  OnItemClickListener listener;
+  Context mContext;
+
   public CustomSpinnAdapter(Activity context, int resouceId, int textviewId, List<RowItem> list) {
 
     super(context, resouceId, textviewId, list);
+//    this.listener = listener;
+    this.mContext = context;
   }
 
   @Override
@@ -45,6 +56,13 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
       holder.txtTitle = (TextView) rowview.findViewById(R.id.title);
       holder.txtAddress = (TextView) rowview.findViewById(R.id.address);
 
+      holder.root = rowview.findViewById(R.id.root_item);
+
+      holder.txtTitle.setTextColor(mContext.getColor(R.color.color_accent));
+      holder.txtAddress.setTextColor(mContext.getColor(R.color.color_accent));
+
+//      holder.root.setOnClickListener(v -> this.listener.itemSelect(v));
+
       rowview.setTag(holder);
     } else {
       holder = (viewHolder) rowview.getTag();
@@ -59,6 +77,7 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
   private class viewHolder {
 
+    ConstraintLayout root;
     TextView txtTitle;
     TextView txtAddress;
   }

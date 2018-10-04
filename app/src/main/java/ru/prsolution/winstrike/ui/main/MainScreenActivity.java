@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,6 +66,10 @@ import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
+import ru.prsolution.winstrike.ui.main.AppFragment.OnAppButtonsClickListener;
+import ru.prsolution.winstrike.ui.main.CarouselSeatFragment.OnChoosePlaceButtonsClickListener;
+import ru.prsolution.winstrike.ui.main.ChooseScreenFragment.onMapShowProcess;
+import ru.prsolution.winstrike.ui.main.ProfileFragment.OnProfileButtonsClickListener;
 import ru.prsolution.winstrike.ui.start.SplashActivity;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -75,9 +81,9 @@ import ru.terrakok.cicerone.commands.SystemMessage;
 import timber.log.Timber;
 
 
-public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, ProfileFragment.OnProfileButtonsClickListener,
-    AppFragment.OnAppButtonsClickListener, CarouselSeatFragment.OnChoosePlaceButtonsClickListener
-    , ChooseScreenFragment.onMapShowProcess {
+public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, OnProfileButtonsClickListener,
+    OnAppButtonsClickListener, OnChoosePlaceButtonsClickListener
+    , onMapShowProcess {
 
   private ProgressDialog progressDialog;
   private AHBottomNavigation bottomNavigationBar;
@@ -291,6 +297,18 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     CustomSpinnAdapter spAdapter = new CustomSpinnAdapter(this,
         R.layout.item_arena, R.id.title, rowItems);
     spinner.setAdapter(spAdapter);
+    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+        // your code here
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parentView) {
+        // your code here
+      }
+
+    });
 
     user.setName(getResources().getString(R.string.app_club));
 
@@ -831,6 +849,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public ArrayList<OrderModel> getOrders() {
     return this.mPayList;
   }
+
 
   public class BottomNavigationListener implements AHBottomNavigation.OnTabSelectedListener {
 
