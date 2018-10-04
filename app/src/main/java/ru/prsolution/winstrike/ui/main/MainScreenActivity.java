@@ -823,7 +823,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Override
   public void onGooglePlayButtonClick() {
-    String url = "https://winstrike.gg/";
+    String url = "https://play.google.com/store/apps/details?id=ru.prsolution.winstrike";
     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
     startActivity(browserIntent);
   }

@@ -22,8 +22,7 @@ import ru.prsolution.winstrike.R;
 public class AppFragment extends Fragment {
     @BindView(R.id.cv_recomend)
     CardView cv_recomend;
-    @BindView(R.id.cv_estimate)
-    CardView cvEstimate;
+    @BindView(R.id.cv_estimate) CardView cvEstimate;
 
     @BindView(R.id.v_vk)
     View ivVk;
@@ -107,6 +106,7 @@ public class AppFragment extends Fragment {
         cv_recomend.setOnClickListener(
                 it -> listener.onRecommendButtonClick()
         );
+
         cvEstimate.setOnClickListener(
                 it -> listener.onGooglePlayButtonClick()
         );

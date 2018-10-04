@@ -98,11 +98,11 @@
         android:layout_marginStart="66dp"
         android:layout_marginEnd="66dp"
         android:layout_centerInParent="true"
-        app:adapter="@{spinAdapterPlanet}"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/head_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:adapter="@{spinAdapterPlanet}"
         bind:selectedPlanet="@={bindingPlanet.obvSelectedPlanet_}"/>
 
       <TextView

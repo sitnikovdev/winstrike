@@ -372,7 +372,8 @@ public class UserConfirmActivity extends AppCompatActivity implements UserConfir
         privacyButton.setOnClickListener(
                 it -> {
                     Intent browserIntent = new Intent(this, YandexWebView.class);
-                    String url = "file:///android_asset/politika.html";
+//                    String url = "file:///android_asset/politika.html";
+                    String url = "https://winstrike.gg/WinstrikePrivacyPolicy.pdf";
                     browserIntent.putExtra("url", url);
                     startActivity(browserIntent);
                 }
