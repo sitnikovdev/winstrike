@@ -22,6 +22,7 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
 //  OnItemClickListener listener;
   Context mContext;
+  int selectedItem;
 
   public CustomSpinnAdapter(Activity context, int resouceId, int textviewId, List<RowItem> list) {
 
@@ -47,6 +48,9 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
     viewHolder holder;
     View rowview = convertView;
+
+
+
     if (rowview == null) {
 
       holder = new viewHolder();
@@ -58,10 +62,22 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
       holder.root = rowview.findViewById(R.id.root_item);
 
-      holder.txtTitle.setTextColor(mContext.getColor(R.color.color_accent));
-      holder.txtAddress.setTextColor(mContext.getColor(R.color.color_accent));
+      switch (position) {
+        case 0:
+          holder.txtTitle.setTextColor(mContext.getColor(R.color.color_accent));
+          holder.txtAddress.setTextColor(mContext.getColor(R.color.color_accent));
+          break;
+        case 1:
+          holder.txtTitle.setTextColor(mContext.getColor(R.color.color_black));
+          holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
+          break;
+        default:
+          holder.txtTitle.setTextColor(mContext.getColor(R.color.color_black));
+          holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
+          break;
+      }
 
-//      holder.root.setOnClickListener(v -> this.listener.itemSelect(v));
+
 
       rowview.setTag(holder);
     } else {
@@ -72,7 +88,6 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
     return rowview;
   }
-
 
 
   private class viewHolder {

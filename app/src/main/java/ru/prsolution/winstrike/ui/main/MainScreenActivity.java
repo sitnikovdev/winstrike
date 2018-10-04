@@ -301,11 +301,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       @Override
       public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
         // your code here
+        Timber.d("On item selected.");
+//        RowItem item = (RowItem) parentView.getItemAtPosition(position);
       }
 
       @Override
       public void onNothingSelected(AdapterView<?> parentView) {
         // your code here
+        Timber.d("On item Nothing selected.");
       }
 
     });
