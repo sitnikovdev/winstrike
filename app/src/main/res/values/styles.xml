@@ -106,6 +106,18 @@
         <item name="android:textColor">@color/color_black</item>
     </style>
 
+  <style name="StemBold15Accent">
+    <item name="android:fontFamily">@font/stem_bold</item>
+    <item name="android:textSize">15sp</item>
+    <item name="android:textColor">@color/color_accent</item>
+  </style>
+
+  <style name="StemMedium12Accent">
+    <item name="android:fontFamily">@font/stem_medium</item>
+    <item name="android:textSize">12sp</item>
+    <item name="android:textColor">@color/color_accent</item>
+  </style>
+
     <style name="StemRegular15Gray06">
         <item name="android:fontFamily">@font/stem_regular</item>
         <item name="android:textSize">15sp</item>

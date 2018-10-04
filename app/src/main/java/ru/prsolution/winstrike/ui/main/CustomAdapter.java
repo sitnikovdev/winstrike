@@ -32,6 +32,9 @@ public class CustomAdapter extends ArrayAdapter<RowItem> {
     TextView txtTitle = (TextView) rowview.findViewById(R.id.title);
     txtTitle.setText(rowItem.getTitle());
 
+    TextView txtAddress = (TextView) rowview.findViewById(R.id.address);
+    txtAddress.setText(mContext.getString(rowItem.getAddress()));
+
     return rowview;
   }
 

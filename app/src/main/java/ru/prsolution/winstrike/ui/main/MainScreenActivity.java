@@ -141,9 +141,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private List<Planet> planets;
   List<RowItem> rowItems;
-  public static final String[] titles = new String[] { "Strawberry",
-      "Banana", "Orange", "Hello" };
+  public static final String[] titles = new String[] { "Winstrike Arena",
+      "Winstrike Corner"  };
 
+  public static final Integer[] address = { R.string.spin_address1,
+      R.string.spin_address2
+      };
 
   private static final String BUNDLE_SELECTED_PLANET = "bundle_selected_planet";
 
@@ -285,7 +288,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     rowItems = new ArrayList<RowItem>();
     for (int i = 0; i < titles.length; i++) {
 
-      RowItem item = new RowItem(titles[i]);
+      RowItem item = new RowItem(titles[i], address[i]);
       rowItems.add(item);
     }
     AppCompatSpinner spinner;
