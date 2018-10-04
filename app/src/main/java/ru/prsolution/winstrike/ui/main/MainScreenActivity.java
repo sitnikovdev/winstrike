@@ -108,33 +108,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private Dialog mDlgMapLegend;
 
 
-  @BindView(R.id.toolbar_text)
-  TextView tvToolbarTitle;
-
-  @BindView(R.id.ab_container)
-  RelativeLayout flFragmentContainer;
-
-  @BindView(R.id.head_image)
-  ImageView ivHeadImage;
-
-  @BindView(R.id.spin)
-  AppCompatSpinner spArenaSelect;
-
-  @BindView(R.id.description)
-  TextView tvCarouselDescription;
-
-  @BindView(R.id.category)
-  TextView tvCarouselTitleCategory;
-
-  @BindView(R.id.spacer)
-  Space spSpace;
-
-  @BindView(R.id.main_toolbar)
-  Toolbar toolbar;
-
-  @Nullable
-  @BindView(R.id.tv_title)
-  TextView tvToolbarHead;
+  @BindView(R.id.toolbar_text) TextView tvToolbarTitle;
+  @BindView(R.id.ab_container) RelativeLayout flFragmentContainer;
+  @BindView(R.id.head_image) ImageView ivHeadImage;
+  @BindView(R.id.spin) AppCompatSpinner spArenaSelect;
+  @BindView(R.id.description) TextView tvCarouselDescription;
+  @BindView(R.id.category) TextView tvCarouselTitleCategory;
+  @BindView(R.id.spacer) Space spSpace;
+  @BindView(R.id.main_toolbar) Toolbar toolbar;
+  @BindView(R.id.viewpager) AHBottomNavigationViewPager viewPager;
+  @Nullable @BindView(R.id.tv_title) TextView tvToolbarHead;
 
   @InjectPresenter
   MainScreenPresenter presenter;
@@ -142,8 +125,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.tablayout)
   TabLayout tabLayout;
 
-  @BindView(R.id.viewpager)
-  AHBottomNavigationViewPager viewPager;
 
 
   @Inject
@@ -158,7 +139,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private AcMainscreenBinding binding;
 
-  private List<Planet> planets_;
+  private List<Planet> planets;
+  List<RowItem> rowItems;
+  public static final String[] titles = new String[] { "Strawberry",
+      "Banana", "Orange", "Hello" };
 
 
   private static final String BUNDLE_SELECTED_PLANET = "bundle_selected_planet";
@@ -298,15 +282,29 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     binding.setUser(user);
 
+    rowItems = new ArrayList<RowItem>();
+    for (int i = 0; i < titles.length; i++) {
 
+      RowItem item = new RowItem(titles[i]);
+      rowItems.add(item);
+    }
+    AppCompatSpinner spinner;
+    spinner = (AppCompatSpinner) findViewById(R.id.spin);
+    CustomAdapter spAdapter = new CustomAdapter(this,
+        R.layout.listitems_layout, R.id.title, rowItems);
+    spinner.setAdapter(spAdapter);
+
+/*
     planets_ = loadPlanets(this, R.array.planetsInSolarSystem);
     if (planets_ != null) {
       planets_.add(0, new Planet("Выбрать арену", 0)); //insert a blank item on the top of the list
-      binding.setSpinAdapterPlanet(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, planets_));
+//      binding.setSpinAdapterPlanet(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, planets_));
+      binding.setSpinAdapterPlanet(adapter);
       Planet selectedPlanet = savedInstanceState != null ? savedInstanceState.<Planet> getParcelable(BUNDLE_SELECTED_PLANET)
           : planets_.get(0);//initial selected planet is Earth, 3 is the index of Earth after a blank item inserted
       binding.setBindingPlanet(new BindingPlanet(selectedPlanet));
     }
+*/
 
     user.setName(getResources().getString(R.string.app_club));
 

@@ -102,8 +102,7 @@
         app:layout_constraintBottom_toTopOf="@id/head_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:adapter="@{spinAdapterPlanet}"
-        bind:selectedPlanet="@={bindingPlanet.obvSelectedPlanet_}"/>
+        />
 
       <TextView
         android:id="@+id/description"

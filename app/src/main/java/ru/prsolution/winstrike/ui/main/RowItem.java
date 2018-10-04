@@ -1,13 +1,10 @@
 package ru.prsolution.winstrike.ui.main;
 
 public class RowItem {
-  private int ImageId;
   private String Title;
 
-  public RowItem(String Title,int ImageId){
-
+  public RowItem(String Title){
     this.Title = Title;
-    this.ImageId = ImageId;
   }
 
   public String getTitle(){
@@ -20,15 +17,6 @@ public class RowItem {
     this.Title = Title;
   }
 
-  public int getImageId(){
-
-    return ImageId;
-  }
-
-  public void setImageId(int ImageId){
-
-    this.ImageId = ImageId;
-  }
 
   @Override
   public String toString() {
