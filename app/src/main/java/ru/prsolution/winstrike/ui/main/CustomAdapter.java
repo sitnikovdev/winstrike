@@ -29,11 +29,11 @@ public class CustomAdapter extends ArrayAdapter<RowItem> {
 
     View rowview = flater.inflate(R.layout.listitems_layout, null, true);
 
-    TextView txtTitle = (TextView) rowview.findViewById(R.id.title);
+    TextView txtTitle = rowview.findViewById(R.id.title);
     txtTitle.setText(rowItem.getTitle());
 
-    TextView txtAddress = (TextView) rowview.findViewById(R.id.address);
-    txtAddress.setText(mContext.getString(rowItem.getAddress()));
+    TextView txtAddress = rowview.findViewById(R.id.address);
+    txtAddress.setText(rowItem.getAddress());
 
     return rowview;
   }

@@ -1,34 +1,33 @@
 package ru.prsolution.winstrike.ui.main;
 
 public class RowItem {
-  private Integer address;
-  private String title;
+  private String  title;
+  private String address;
 
-  public RowItem(String Title, Integer address){
+  public RowItem(String Title, String address){
     this.title = Title;
     this.address = address;
   }
 
-  public String getTitle(){
+  public String getTitle() {
     return title;
   }
 
-  public void setTitle(String Title){
-
-    this.title = Title;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
-  public Integer getAddress() {
+  public String getAddress() {
     return address;
   }
 
-  public void setAddress(Integer address) {
+  public void setAddress(String address) {
     this.address = address;
   }
 
   @Override
   public String toString() {
-    return title;
+    return getTitle();
   }
 
 }

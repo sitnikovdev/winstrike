@@ -141,8 +141,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private List<Planet> planets;
   List<RowItem> rowItems;
-  public static final String[] titles = new String[] { "Winstrike Arena",
-      "Winstrike Corner"  };
+  public static final Integer[] titles = new Integer[] { R.string.spin_arena1,
+      R.string.spin_arena2 };
 
   public static final Integer[] address = { R.string.spin_address1,
       R.string.spin_address2
@@ -288,12 +288,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     rowItems = new ArrayList<RowItem>();
     for (int i = 0; i < titles.length; i++) {
 
-      RowItem item = new RowItem(titles[i], address[i]);
+      RowItem item = new RowItem(getString(titles[i]),getString(address[i]));
       rowItems.add(item);
     }
     AppCompatSpinner spinner;
     spinner = (AppCompatSpinner) findViewById(R.id.spin);
-    CustomAdapter spAdapter = new CustomAdapter(this,
+    CustomSpinnAdapter spAdapter = new CustomSpinnAdapter(this,
         R.layout.listitems_layout, R.id.title, rowItems);
     spinner.setAdapter(spAdapter);
 

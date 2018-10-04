@@ -90,7 +90,7 @@
 
       <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/spin"
-        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+        style="@style/SpinnerTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/title_top"

@@ -69,6 +69,8 @@
     <string name="itempaid_date">Дата</string>
     <string name="spin_address1">Лубянка</string>
     <string name="spin_address2">Полежаевская</string>
+    <string name="spin_arena1">Winstrike Arena</string>
+    <string name="spin_arena2">Winstrike Corner</string>
     <string name="itempaid_dateval">15 декабря 2017 г</string>
     <string name="itempaid_time">Время</string>
     <string name="itempaid_timeval">10:00-11:00</string>
