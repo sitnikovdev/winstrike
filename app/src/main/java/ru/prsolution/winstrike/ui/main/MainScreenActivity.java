@@ -464,11 +464,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @Override
   public void setProfileScreenInterfaceVisibility(Boolean isVisible) {
     if (isVisible) {
+      binding.vSpinner.setVisibility(View.GONE);
       tabLayout.setVisibility(VISIBLE);
       viewPager.setVisibility(VISIBLE);
       setupViewPager(viewPager);
       tabLayout.setupWithViewPager(viewPager);
     } else {
+      binding.vSpinner.setVisibility(View.VISIBLE);
       tabLayout.setVisibility(View.GONE);
       viewPager.setVisibility(View.GONE);
     }
@@ -516,11 +518,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void setHomeScreenStateVisibily(Boolean isVisible) {
     if (isVisible) {
+      binding.vSpinner.setVisibility(View.VISIBLE);
       ivHeadImage.setVisibility(VISIBLE);
       tvCarouselDescription.setVisibility(VISIBLE);
       tvCarouselTitleCategory.setVisibility(VISIBLE);
       viewPagerSeat.setVisibility(VISIBLE);
     } else {
+      binding.vSpinner.setVisibility(View.GONE);
       ivHeadImage.setVisibility(View.GONE);
       tvCarouselDescription.setVisibility(View.GONE);
       tvCarouselTitleCategory.setVisibility(View.GONE);
