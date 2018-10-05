@@ -52,7 +52,6 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
       holder.txtTitle = (TextView) rowview.findViewById(R.id.title);
       holder.txtAddress = (TextView) rowview.findViewById(R.id.address);
 
-      holder.root = rowview.findViewById(R.id.root_item);
 
       holder.txtTitle.setTextColor(mContext.getColor(R.color.color_accent));
       holder.txtAddress.setTextColor(mContext.getColor(R.color.color_accent));
@@ -70,8 +69,6 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
 
   private class viewHolder {
-
-    ConstraintLayout root;
     TextView txtTitle;
     TextView txtAddress;
   }
