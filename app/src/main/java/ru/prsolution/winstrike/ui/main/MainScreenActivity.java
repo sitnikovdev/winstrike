@@ -303,7 +303,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, rowItems));
     binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerViewMargin decoration = new RecyclerViewMargin(12, 1);
+    RecyclerViewMargin decoration = new RecyclerViewMargin(24, 1);
     binding.rvArena.addItemDecoration(decoration);
     binding.rvArena.getAdapter().notifyDataSetChanged();
 
