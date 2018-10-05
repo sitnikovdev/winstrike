@@ -117,9 +117,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.viewpager) AHBottomNavigationViewPager viewPager;
   @BindView(R.id.tablayout) TabLayout tabLayout;
   @BindView(R.id.rv_spin) RecyclerView rv_ArenaSelect;
-  @BindView(R.id.v_tap_arrow_down) View viewCityDown;
+/*  @BindView(R.id.v_tap_arrow_down) View viewCityDown;
   @BindView(R.id.v_tap_arrow_up) View viewCityUp;
-  @BindView(R.id.text_city_title) TextView tv_city;
+  @BindView(R.id.text_city_title) TextView tv_city;*/
   @Nullable
   @BindView(R.id.tv_title)
   TextView tvToolbarHead;
@@ -148,8 +148,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public static final Integer[] address = {R.string.spin_address1,
       R.string.spin_address2
   };
-  private ConstraintSet langUpConstraintSet = new ConstraintSet();
-  private ConstraintSet langDownConstraintSet = new ConstraintSet();
+  private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
+  private ConstraintSet arenaDownConstraintSet = new ConstraintSet();
 
   public Service getService() {
     return service;
