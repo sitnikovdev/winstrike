@@ -15,19 +15,11 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
   LayoutInflater flater;
 
-/*  interface OnItemClickListener {
-
-    void itemSelect(View v);
-  }*/
-
-//  OnItemClickListener listener;
   Context mContext;
-  int selectedItem;
 
   public CustomSpinnAdapter(Activity context, int resouceId, int textviewId, List<RowItem> list) {
 
     super(context, resouceId, textviewId, list);
-//    this.listener = listener;
     this.mContext = context;
   }
 
@@ -76,7 +68,6 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
           holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
           break;
       }
-
 
 
       rowview.setTag(holder);
