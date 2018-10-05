@@ -126,7 +126,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.v_tap_arrow_up) View viewLangUp;
   @BindView(R.id.tvArenaSelect) TextView tv_lang;
   @Nullable
-  @BindView(R.id.tv_title) TextView tvToolbarHead;
+  @BindView(R.id.tv_title)
+  TextView tvToolbarHead;
   @BindView(R.id.root) ConstraintLayout layoutRoot;
 
   @InjectPresenter
@@ -301,8 +302,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     arenaDownConstraintSet.clone(this, R.layout.part_arena_down);
     arenaUpConstraintSet.clone(this, R.layout.part_arena_up);
 
-    ArenaSelectAdapter arenaSelectAdapter = new ArenaSelectAdapter(this, MainScreenActivity.this, rowItems);
-    binding.rvArena.setAdapter(arenaSelectAdapter);
+    binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, rowItems));
     binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
     binding.rvArena.getAdapter().notifyDataSetChanged();
 
@@ -335,9 +335,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       sendRegistrationToServer(token, fcmToken);
     }
 
-
     // Arena select:
-    viewLangDown.setOnClickListener( v ->
+    viewLangDown.setOnClickListener(v ->
         {
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             TransitionManager.beginDelayedTransition(binding.root);
@@ -373,7 +372,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
-
 
 
   public void sendRegistrationToServer(String authToken, String refreshedToken) {

@@ -53,14 +53,6 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
       holder.iv_checked.setVisibility(View.GONE);
     }
 
-    String langName = item.getTitle();
-/*        if (langName.equals("Русский")) {
-            holder.tv_addres.setText(item.getAddress());
-            holder.tv_addres.setVisibility(View.VISIBLE);
-        }else {
-            holder.tv_addres.setImageResource(R.drawable.en_lang);
-            holder.tv_addres.setVisibility(View.VISIBLE);
-        }*/
   }
 
   @Override
