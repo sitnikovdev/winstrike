@@ -54,20 +54,8 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
       holder.root = rowview.findViewById(R.id.root_item);
 
-      switch (position) {
-        case 0:
-          holder.txtTitle.setTextColor(mContext.getColor(R.color.color_accent));
-          holder.txtAddress.setTextColor(mContext.getColor(R.color.color_accent));
-          break;
-        case 1:
-          holder.txtTitle.setTextColor(mContext.getColor(R.color.color_black));
-          holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
-          break;
-        default:
-          holder.txtTitle.setTextColor(mContext.getColor(R.color.color_black));
-          holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
-          break;
-      }
+      holder.txtTitle.setTextColor(mContext.getColor(R.color.color_accent));
+      holder.txtAddress.setTextColor(mContext.getColor(R.color.color_accent));
 
 
       rowview.setTag(holder);
