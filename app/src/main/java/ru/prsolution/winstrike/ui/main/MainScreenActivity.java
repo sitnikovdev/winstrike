@@ -40,7 +40,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import java.util.ArrayList;
-import java.util.List;
 import javax.inject.Inject;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
@@ -116,10 +115,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.main_toolbar) Toolbar toolbar;
   @BindView(R.id.viewpager) AHBottomNavigationViewPager viewPager;
   @BindView(R.id.tablayout) TabLayout tabLayout;
-  @BindView(R.id.rv_spin) RecyclerView rv_ArenaSelect;
-  @BindView(R.id.v_tap_arrow_down) View viewCityDown;
-  @BindView(R.id.v_tap_arrow_up) View viewCityUp;
-  @BindView(R.id.tvArenaSelect) TextView tv_city;
+  @BindView(R.id.rv_spin) RecyclerView rv_arena;
+  @BindView(R.id.v_tap_arrow_down) View viewLangDown;
+  @BindView(R.id.v_tap_arrow_up) View viewLangUp;
+  @BindView(R.id.tvArenaSelect) TextView tv_lang;
   @Nullable
   @BindView(R.id.tv_title)
   TextView tvToolbarHead;
@@ -467,13 +466,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void setHomeScreenStateVisibily(Boolean isVisible) {
     if (isVisible) {
-      rv_ArenaSelect.setVisibility(View.VISIBLE);
       ivHeadImage.setVisibility(View.VISIBLE);
       tvCarouselDescription.setVisibility(View.VISIBLE);
       tvCarouselTitleCategory.setVisibility(View.VISIBLE);
       viewPagerSeat.setVisibility(View.VISIBLE);
     } else {
-      rv_ArenaSelect.setVisibility(View.GONE);
       ivHeadImage.setVisibility(View.GONE);
       tvCarouselDescription.setVisibility(View.GONE);
       tvCarouselTitleCategory.setVisibility(View.GONE);
