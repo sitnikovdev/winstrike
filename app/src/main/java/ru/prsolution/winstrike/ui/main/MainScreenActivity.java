@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintSet;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -116,7 +117,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.viewpager) AHBottomNavigationViewPager viewPager;
   @BindView(R.id.tablayout) TabLayout tabLayout;
   @BindView(R.id.rv_spin) RecyclerView rv_ArenaSelect;
-  @Nullable @BindView(R.id.tv_title) TextView tvToolbarHead;
+  @BindView(R.id.v_tap_arrow_down) View viewCityDown;
+  @BindView(R.id.v_tap_arrow_up) View viewCityUp;
+  @BindView(R.id.text_city_title) TextView tv_city;
+  @Nullable
+  @BindView(R.id.tv_title)
+  TextView tvToolbarHead;
 
   @InjectPresenter
   MainScreenPresenter presenter;
@@ -136,13 +142,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private AcMainscreenBinding binding;
 
   ArrayList<RowItem> rowItems;
-  public static final Integer[] titles = new Integer[] { R.string.spin_arena1,
-      R.string.spin_arena2 };
+  public static final Integer[] titles = new Integer[]{R.string.spin_arena1,
+      R.string.spin_arena2};
 
-  public static final Integer[] address = { R.string.spin_address1,
+  public static final Integer[] address = {R.string.spin_address1,
       R.string.spin_address2
-      };
-
+  };
+  private ConstraintSet langUpConstraintSet = new ConstraintSet();
+  private ConstraintSet langDownConstraintSet = new ConstraintSet();
 
   public Service getService() {
     return service;
@@ -281,8 +288,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     rowItems = new ArrayList<RowItem>();
     for (int i = 0; i < titles.length; i++) {
-
-      RowItem item = new RowItem(getString(titles[i]),getString(address[i]),false);
+      RowItem item = new RowItem(getString(titles[i]), getString(address[i]), false);
       rowItems.add(item);
     }
 
@@ -305,8 +311,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     mMapOnClickListener = new MapOnClickListener();
 
-        initViews();
-        initContainers();
+    initViews();
+    initContainers();
 
     if (savedInstanceState == null) {
       presenter.onCreate();

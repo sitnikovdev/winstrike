@@ -113,24 +113,24 @@
 
 
         <View
-          android:id="@+id/fl_arrow_tap_down_lang"
+          android:id="@+id/v_tap_arrow_down"
           android:layout_width="50dp"
           android:layout_height="50dp"
           android:visibility="visible"
           android:foreground="@drawable/ripple_effect"
           android:clickable="true"
-          app:layout_constraintEnd_toEndOf="@id/v_lang"
-          app:layout_constraintTop_toTopOf="@id/v_lang" />
+          app:layout_constraintEnd_toEndOf="@id/v_spinner"
+          app:layout_constraintTop_toTopOf="@id/v_spinner" />
 
         <View
-          android:id="@+id/fl_arrow_tap_up_lang"
+          android:id="@+id/v_tap_arrow_up"
           android:layout_width="50dp"
           android:layout_height="50dp"
           android:foreground="@drawable/ripple_effect"
           android:clickable="true"
           android:visibility="gone"
-          app:layout_constraintEnd_toEndOf="@id/v_lang"
-          app:layout_constraintTop_toTopOf="@id/v_lang" />
+          app:layout_constraintEnd_toEndOf="@id/v_spinner"
+          app:layout_constraintTop_toTopOf="@id/v_spinner" />
 
 
 
