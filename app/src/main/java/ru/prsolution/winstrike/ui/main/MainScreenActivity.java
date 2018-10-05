@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -119,14 +121,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.spacer) Space spSpace;
   @BindView(R.id.main_toolbar) Toolbar toolbar;
   @BindView(R.id.viewpager) AHBottomNavigationViewPager viewPager;
+  @BindView(R.id.tablayout) TabLayout tabLayout;
   @Nullable @BindView(R.id.tv_title) TextView tvToolbarHead;
 
   @InjectPresenter
   MainScreenPresenter presenter;
-
-  @BindView(R.id.tablayout)
-  TabLayout tabLayout;
-
 
 
   @Inject
@@ -148,8 +147,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public static final Integer[] address = { R.string.spin_address1,
       R.string.spin_address2
       };
+  private  int mSelectedIndex = 0;
 
-  private static final String BUNDLE_SELECTED_PLANET = "bundle_selected_planet";
 
   public Service getService() {
     return service;
@@ -289,20 +288,92 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     rowItems = new ArrayList<RowItem>();
     for (int i = 0; i < titles.length; i++) {
 
-      RowItem item = new RowItem(getString(titles[i]),getString(address[i]));
+      RowItem item = new RowItem(getString(titles[i]),getString(address[i]),false);
       rowItems.add(item);
     }
     AppCompatSpinner spinner;
     spinner = (AppCompatSpinner) findViewById(R.id.spin);
     CustomSpinnAdapter spAdapter = new CustomSpinnAdapter(this,
-        R.layout.item_arena, R.id.title, rowItems);
+        R.layout.item_arena, R.id.title, rowItems){
+
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+
+        return rowview(convertView, position, parent);
+      }
+
+
+      @Override
+      public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        return rowview(convertView, position, parent);
+      }
+
+      private View rowview(View convertView, int position, ViewGroup parent) {
+
+        RowItem rowItem = getItem(position);
+
+        viewHolder holder;
+        View rowview = convertView;
+
+
+        if (rowview == null) {
+
+          holder = new viewHolder();
+          flater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+          rowview = flater.inflate(R.layout.item_arena, null, false);
+
+          holder.txtTitle = (TextView) rowview.findViewById(R.id.title);
+          holder.txtAddress = (TextView) rowview.findViewById(R.id.address);
+
+          holder.txtTitle.setTextColor(mContext.getColor(R.color.color_black));
+          holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
+
+          Timber.d("Change color to black. Position: %s",position);
+
+
+/*          switch (position) {
+            case 0:
+              holder.txtTitle.setTextColor(mContext.getColor(R.color.color_accent));
+              holder.txtAddress.setTextColor(mContext.getColor(R.color.color_accent));
+              break;
+            case 1:
+              holder.txtTitle.setTextColor(mContext.getColor(R.color.color_black));
+              holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
+              break;
+            default:
+              holder.txtTitle.setTextColor(mContext.getColor(R.color.color_black));
+              holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
+              break;
+          }*/
+
+
+
+          rowview.setTag(holder);
+        } else {
+          holder = (viewHolder) rowview.getTag();
+        }
+        holder.txtTitle.setText(rowItem.getTitle());
+        holder.txtAddress.setText(rowItem.getAddress());
+
+        return rowview;
+      }
+
+
+       class viewHolder {
+        TextView txtTitle;
+        TextView txtAddress;
+      }
+
+    };
     spinner.setAdapter(spAdapter);
     spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
         // your code here
         Timber.d("On item selected.");
+        mSelectedIndex = position;
 //        RowItem item = (RowItem) parentView.getItemAtPosition(position);
+//        item.setSelected(true);
       }
 
       @Override

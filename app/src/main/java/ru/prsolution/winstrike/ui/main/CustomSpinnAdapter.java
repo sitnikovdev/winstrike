@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,6 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
     viewHolder holder;
     View rowview = convertView;
-
 
 
     if (rowview == null) {

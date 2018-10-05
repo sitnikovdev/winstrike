@@ -3,10 +3,12 @@ package ru.prsolution.winstrike.ui.main;
 public class RowItem {
   private String  title;
   private String address;
+  private Boolean mSelected;
 
-  public RowItem(String Title, String address){
+  public RowItem(String Title, String address, Boolean selected){
     this.title = Title;
     this.address = address;
+    this.mSelected = selected;
   }
 
   public String getTitle() {
@@ -30,4 +32,11 @@ public class RowItem {
     return getTitle();
   }
 
+  public Boolean getmSelected() {
+    return mSelected;
+  }
+
+  public void setSelected(Boolean mSelected) {
+    this.mSelected = mSelected;
+  }
 }
