@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.ui.main;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -17,37 +16,31 @@ import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.Space;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
-
 import java.util.ArrayList;
-
 import java.util.List;
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.BackButtonListener;
@@ -115,7 +108,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.toolbar_text) TextView tvToolbarTitle;
   @BindView(R.id.ab_container) RelativeLayout flFragmentContainer;
   @BindView(R.id.head_image) ImageView ivHeadImage;
-  @BindView(R.id.spin) AppCompatSpinner spArenaSelect;
+  @BindView(R.id.rv_spin) RecyclerView spArenaSelect;
   @BindView(R.id.description) TextView tvCarouselDescription;
   @BindView(R.id.category) TextView tvCarouselTitleCategory;
   @BindView(R.id.spacer) Space spSpace;
@@ -291,98 +284,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       RowItem item = new RowItem(getString(titles[i]),getString(address[i]),false);
       rowItems.add(item);
     }
-    AppCompatSpinner spinner;
-    spinner = (AppCompatSpinner) findViewById(R.id.spin);
-    CustomSpinnAdapter spAdapter = new CustomSpinnAdapter(this,
-        R.layout.item_arena, R.id.title, rowItems){
-
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-
-        return rowview(convertView, position, parent);
-      }
-
-
-      @Override
-      public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return rowview(convertView, position, parent);
-      }
-
-      private View rowview(View convertView, int position, ViewGroup parent) {
-
-        RowItem rowItem = getItem(position);
-
-        viewHolder holder;
-        View rowview = convertView;
-
-
-        if (rowview == null) {
-
-          holder = new viewHolder();
-          flater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-          rowview = flater.inflate(R.layout.item_arena, null, false);
-
-          holder.txtTitle = (TextView) rowview.findViewById(R.id.title);
-          holder.txtAddress = (TextView) rowview.findViewById(R.id.address);
-
-          holder.txtTitle.setTextColor(mContext.getColor(R.color.color_black));
-          holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
-
-          Timber.d("Change color to black. Position: %s",position);
-
-
-/*          switch (position) {
-            case 0:
-              holder.txtTitle.setTextColor(mContext.getColor(R.color.color_accent));
-              holder.txtAddress.setTextColor(mContext.getColor(R.color.color_accent));
-              break;
-            case 1:
-              holder.txtTitle.setTextColor(mContext.getColor(R.color.color_black));
-              holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
-              break;
-            default:
-              holder.txtTitle.setTextColor(mContext.getColor(R.color.color_black));
-              holder.txtAddress.setTextColor(mContext.getColor(R.color.color_black));
-              break;
-          }*/
-
-
-
-          rowview.setTag(holder);
-        } else {
-          holder = (viewHolder) rowview.getTag();
-        }
-        holder.txtTitle.setText(rowItem.getTitle());
-        holder.txtAddress.setText(rowItem.getAddress());
-
-        return rowview;
-      }
-
-
-       class viewHolder {
-        TextView txtTitle;
-        TextView txtAddress;
-      }
-
-    };
-    spinner.setAdapter(spAdapter);
-    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-      @Override
-      public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-        // your code here
-        Timber.d("On item selected.");
-        mSelectedIndex = position;
-//        RowItem item = (RowItem) parentView.getItemAtPosition(position);
-//        item.setSelected(true);
-      }
-
-      @Override
-      public void onNothingSelected(AdapterView<?> parentView) {
-        // your code here
-        Timber.d("On item Nothing selected.");
-      }
-
-    });
 
     user.setName(getResources().getString(R.string.app_club));
 

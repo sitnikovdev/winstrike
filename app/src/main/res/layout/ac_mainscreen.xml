@@ -82,25 +82,72 @@
           app:layout_constraintBottom_toTopOf="@id/description"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@id/spin"
+          app:layout_constraintTop_toBottomOf="@id/v_spinner"
           />
 
-
-
-        <android.support.v7.widget.AppCompatSpinner
-          android:id="@+id/spin"
-          style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-          android:layout_width="match_parent"
+        <View
+          android:id="@+id/v_spinner"
+          android:layout_width="244dp"
           android:layout_height="48dp"
           android:layout_marginStart="66dp"
           android:layout_marginEnd="66dp"
-          android:layout_centerInParent="true"
-          app:adapter="@{spinAdapterPlanet}"
+          android:background="@drawable/edit_text_shape"
           android:layout_marginTop="@dimen/title_top"
           android:layout_marginBottom="@dimen/title_bottom"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+          android:id="@+id/text_lang_title"
+          style="@style/StemBold15Accent"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="24dp"
+          android:text="Выбрать арену"
+          android:textColor="@color/color_black"
+          app:layout_constraintBottom_toBottomOf="@id/v_spinner"
+          app:layout_constraintStart_toStartOf="@id/v_spinner"
+          app:layout_constraintTop_toTopOf="@id/v_spinner"
           />
+
+
+        <View
+          android:id="@+id/fl_arrow_tap_down_lang"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:visibility="visible"
+          android:foreground="@drawable/ripple_effect"
+          android:clickable="true"
+          app:layout_constraintEnd_toEndOf="@id/v_lang"
+          app:layout_constraintTop_toTopOf="@id/v_lang" />
+
+        <View
+          android:id="@+id/fl_arrow_tap_up_lang"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:foreground="@drawable/ripple_effect"
+          android:clickable="true"
+          android:visibility="gone"
+          app:layout_constraintEnd_toEndOf="@id/v_lang"
+          app:layout_constraintTop_toTopOf="@id/v_lang" />
+
+
+
+        <android.support.v7.widget.RecyclerView
+          android:id="@+id/rv_spin"
+          android:layout_width="244dp"
+          android:layout_height="wrap_content"
+          android:background="@drawable/edit_text_shape"
+          android:layout_marginTop="24dp"
+          android:paddingTop="10dp"
+          android:scrollbars="vertical"
+          android:visibility="gone"
+          app:layout_constraintStart_toStartOf="@id/v_spinner"
+          app:layout_constraintTop_toBottomOf="@id/v_spinner"
+          />
+
+
 
 
         <TextView
