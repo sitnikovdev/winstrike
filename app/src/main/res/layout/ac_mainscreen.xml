@@ -135,7 +135,7 @@
 
 
         <android.support.v7.widget.RecyclerView
-          android:id="@+id/rv_spin"
+          android:id="@+id/rv_arena"
           android:layout_width="244dp"
           android:layout_height="wrap_content"
           android:background="@drawable/edit_text_shape"

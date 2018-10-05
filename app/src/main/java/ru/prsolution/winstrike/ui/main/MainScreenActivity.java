@@ -1,5 +1,7 @@
 package ru.prsolution.winstrike.ui.main;
 
+import static android.view.View.VISIBLE;
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -7,10 +9,13 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.TabLayout;
+import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
@@ -20,6 +25,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -115,13 +121,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.main_toolbar) Toolbar toolbar;
   @BindView(R.id.viewpager) AHBottomNavigationViewPager viewPager;
   @BindView(R.id.tablayout) TabLayout tabLayout;
-  @BindView(R.id.rv_spin) RecyclerView rv_arena;
+  @BindView(R.id.rv_arena) RecyclerView rv_arena;
   @BindView(R.id.v_tap_arrow_down) View viewLangDown;
   @BindView(R.id.v_tap_arrow_up) View viewLangUp;
   @BindView(R.id.tvArenaSelect) TextView tv_lang;
   @Nullable
-  @BindView(R.id.tv_title)
-  TextView tvToolbarHead;
+  @BindView(R.id.tv_title) TextView tvToolbarHead;
+  @BindView(R.id.root) ConstraintLayout layoutRoot;
 
   @InjectPresenter
   MainScreenPresenter presenter;
@@ -291,9 +297,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       rowItems.add(item);
     }
 
+    //Transitions animations:
+    arenaDownConstraintSet.clone(this, R.layout.part_arena_down);
+    arenaUpConstraintSet.clone(this, R.layout.part_arena_up);
+
     ArenaSelectAdapter arenaSelectAdapter = new ArenaSelectAdapter(this, MainScreenActivity.this, rowItems);
-    binding.rvSpin.setAdapter(arenaSelectAdapter);
-    binding.rvSpin.setLayoutManager(new LinearLayoutManager(this));
+    binding.rvArena.setAdapter(arenaSelectAdapter);
+    binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
+    binding.rvArena.getAdapter().notifyDataSetChanged();
 
     user.setName(getResources().getString(R.string.app_club));
 
@@ -323,7 +334,47 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (!fcmToken.isEmpty()) {
       sendRegistrationToServer(token, fcmToken);
     }
+
+
+    // Arena select:
+    viewLangDown.setOnClickListener( v ->
+        {
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            TransitionManager.beginDelayedTransition(binding.root);
+          }
+          arenaDownConstraintSet.applyTo(binding.root);
+        }
+    );
+
+    viewLangUp.setOnClickListener(
+        v ->
+
+        {
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            TransitionManager.beginDelayedTransition(binding.root);
+          }
+          arenaUpConstraintSet.applyTo(binding.root);
+        }
+    );
   }
+
+
+  @Override
+  public void onSelectItem(View v, int layoutPosition) {
+    Timber.d("On item click listener.");
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      TransitionManager.beginDelayedTransition(binding.root);
+    }
+    arenaUpConstraintSet.applyTo(binding.root);
+
+    ArenaSelectAdapter.SELECTED_ITEM = layoutPosition;
+    RowItem item = rowItems.get(layoutPosition);
+    tv_lang.setText(item.getTitle());
+
+    binding.rvArena.getAdapter().notifyDataSetChanged();
+  }
+
+
 
   public void sendRegistrationToServer(String authToken, String refreshedToken) {
     FCMModel fcmModel = new FCMModel();
@@ -414,8 +465,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @Override
   public void setProfileScreenInterfaceVisibility(Boolean isVisible) {
     if (isVisible) {
-      tabLayout.setVisibility(View.VISIBLE);
-      viewPager.setVisibility(View.VISIBLE);
+      tabLayout.setVisibility(VISIBLE);
+      viewPager.setVisibility(VISIBLE);
       setupViewPager(viewPager);
       tabLayout.setupWithViewPager(viewPager);
     } else {
@@ -466,10 +517,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void setHomeScreenStateVisibily(Boolean isVisible) {
     if (isVisible) {
-      ivHeadImage.setVisibility(View.VISIBLE);
-      tvCarouselDescription.setVisibility(View.VISIBLE);
-      tvCarouselTitleCategory.setVisibility(View.VISIBLE);
-      viewPagerSeat.setVisibility(View.VISIBLE);
+      ivHeadImage.setVisibility(VISIBLE);
+      tvCarouselDescription.setVisibility(VISIBLE);
+      tvCarouselTitleCategory.setVisibility(VISIBLE);
+      viewPagerSeat.setVisibility(VISIBLE);
     } else {
       ivHeadImage.setVisibility(View.GONE);
       tvCarouselDescription.setVisibility(View.GONE);
@@ -668,7 +719,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Override
   public void showBottomTab() {
-    bottomNavigationBar.setVisibility(View.VISIBLE);
+    bottomNavigationBar.setVisibility(VISIBLE);
   }
 
   @Override
@@ -808,7 +859,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void showFragmentHolderContainer(Boolean isVisible) {
     if (isVisible) {
-      flFragmentContainer.setVisibility(View.VISIBLE);
+      flFragmentContainer.setVisibility(VISIBLE);
     } else {
       flFragmentContainer.setVisibility(View.GONE);
     }
@@ -831,11 +882,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   public ArrayList<OrderModel> getOrders() {
     return this.mPayList;
-  }
-
-  @Override
-  public void onSelectItem(View v, int layoutPosition) {
-    Timber.d("On item click listener.");
   }
 
 
