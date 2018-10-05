@@ -1,183 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="user"
-            type="ru.prsolution.winstrike.mvp.models.UserProfileObservable"/>
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+  <data>
+    <variable
+      name="user"
+      type="ru.prsolution.winstrike.mvp.models.UserProfileObservable"/>
 
-    </data>
+  </data>
+
+  <RelativeLayout
+    android:id="@+id/cl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+      android:id="@+id/main_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="56dp"
+      android:layout_alignParentTop="true"
+      android:background="@color/color_primary_dark"
+      android:theme="@style/MainToolBarTheme">
+
+      <TextView
+        android:id="@+id/toolbar_text"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@{user.name}"
+        android:textColor="@color/color_primary"
+        tools:text=""/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.Space
+      android:id="@+id/spacer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="gone"/>
+
+    <!--        <ScrollView
+                android:id="@+id/rootScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="56dp"
+                android:fillViewport="true">-->
+
+    <android.support.constraint.ConstraintLayout
+      android:id="@+id/root"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <android.support.constraint.Guideline
+        android:id="@+id/line_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="40dp"/>
+
+      <android.support.constraint.Guideline
+        android:id="@+id/line_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/keyline_40dp"/>
+
+      <ImageView
+        android:id="@+id/head_image"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/head_img"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toTopOf="@id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_spinner"
+        />
+      <View
+        android:id="@+id/v_spinner"
+        android:layout_width="244dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="@dimen/title_bottom"
+        android:layout_marginStart="66dp"
+        android:layout_marginEnd="66dp"
+        android:background="@drawable/edit_text_shape"
+        app:layout_constraintBottom_toTopOf="@id/head_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginBottom="24dp"/>
+
+      <TextView
+        android:id="@+id/tvArenaTitle"
+        style="@style/StemBold15Accent"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Выбрать арену"
+        android:textColor="@color/color_black"
+        app:layout_constraintBottom_toBottomOf="@id/v_spinner"
+        app:layout_constraintStart_toStartOf="@id/v_spinner"
+        app:layout_constraintTop_toTopOf="@id/v_spinner"
+        />
+
+
+      <View
+        android:id="@+id/v_tap_arrow_down"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:clickable="true"
+        android:foreground="@drawable/ripple_effect"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/v_spinner"
+        app:layout_constraintTop_toTopOf="@id/v_spinner"/>
+
+      <View
+        android:id="@+id/v_tap_arrow_up"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:clickable="true"
+        android:foreground="@drawable/ripple_effect"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/v_spinner"
+        app:layout_constraintTop_toTopOf="@id/v_spinner"/>
+
+      <ImageView
+        android:id="@+id/iv_down_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="21dp"
+        android:background="@drawable/ic_down_arrow"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/v_spinner"
+        app:layout_constraintTop_toTopOf="@id/tvArenaTitle"/>
+
+      <ImageView
+        android:id="@+id/iv_up_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="21dp"
+        android:background="@drawable/ic_up_arrow"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/v_spinner"
+        app:layout_constraintTop_toTopOf="@id/tvArenaTitle"/>
+
+
+      <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_arena"
+        android:layout_width="244dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:paddingTop="10dp"
+        android:background="@drawable/edit_text_shape"
+        android:scrollbars="vertical"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/v_spinner"
+        app:layout_constraintTop_toBottomOf="@id/v_spinner"
+        />
+
+
+      <TextView
+        android:id="@+id/description"
+        style="@style/StemRegular12Black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="start"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/seatdetail_description"
+        app:layout_constraintEnd_toEndOf="@id/head_image"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/head_image"/>
+
+
+      <TextView
+        android:id="@+id/category"
+        style="@style/StemMedium15Black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/seatdetail_category"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description"/>
+
+      <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_seat"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/space_vp_seat"
+        android:overScrollMode="never"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category"/>
+
+    </android.support.constraint.ConstraintLayout>
+    <!--</ScrollView>-->
 
     <RelativeLayout
-        android:id="@+id/cl_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+      android:id="@+id/ab_container"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"/>
 
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/color_primary_dark"
-            android:theme="@style/MainToolBarTheme">
-
-            <TextView
-                android:id="@+id/toolbar_text"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@{user.name}"
-                android:textColor="@color/color_primary"
-                tools:text="" />
-
-        </android.support.v7.widget.Toolbar>
-
-        <android.support.v4.widget.Space
-            android:id="@+id/spacer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
-<!--        <ScrollView
-            android:id="@+id/rootScroll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="56dp"
-            android:fillViewport="true">-->
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/root"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/line_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="40dp" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/line_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_end="@dimen/keyline_40dp" />
-
-                <ImageView
-                    android:id="@+id/head_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:src="@drawable/head_img"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/seat_title"
-                    app:layout_constraintBottom_toTopOf="@id/description"
-                    />
-
-                <TextView
-                    android:id="@+id/seat_title"
-                    style="@style/StemRegular15Base"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/club_full_name"
-                    android:textAlignment="center"
-                    android:layout_marginTop="@dimen/title_top"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginStart="56dp"
-                    android:layout_marginEnd="56dp"
-                    app:layout_constraintBottom_toTopOf="@id/head_image"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/description"
-                    style="@style/StemRegular12Black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="4dp"
-                    android:gravity="start"
-                    android:lineSpacingExtra="2dp"
-                    android:text="@string/seatdetail_description"
-                    app:layout_constraintEnd_toEndOf="@id/head_image"
-                    app:layout_constraintStart_toStartOf="@id/head_image"
-                    app:layout_constraintTop_toBottomOf="@id/head_image" />
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+      android:id="@+id/ab_bottom_navigation_bar"
+      android:layout_width="match_parent"
+      android:layout_height="56dp"
+      android:layout_alignParentBottom="true"/>
 
 
-                <TextView
-                    android:id="@+id/category"
-                    style="@style/StemMedium15Black"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/seatdetail_category"
-                    android:textAlignment="center"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/description" />
+    <android.support.design.widget.TabLayout
+      android:id="@+id/tablayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="56dp"
+      app:tabGravity="fill"
+      app:tabMode="fixed"
+      app:tabTextAppearance="@style/TabLayoutProfile"/>
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/view_pager_seat"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/space_vp_seat"
-                    android:overScrollMode="never"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/category" />
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
+      android:id="@+id/viewpager"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="56dp"
+      android:visibility="gone"/>
 
-            </android.support.constraint.ConstraintLayout>
-        <!--</ScrollView>-->
+    <View
+      android:id="@+id/v_back"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:background="@color/color_white"
 
-        <RelativeLayout
-            android:id="@+id/ab_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true" />
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"/>
 
-
-        <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-            android:id="@+id/ab_bottom_navigation_bar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true" />
-
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            app:tabGravity="fill"
-            app:tabMode="fixed"
-            app:tabTextAppearance="@style/TabLayoutProfile" />
-
-        <com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:visibility="gone" />
-
-        <View
-            android:id="@+id/v_back"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:background="@color/color_white"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </RelativeLayout>
+  </RelativeLayout>
 </layout>
