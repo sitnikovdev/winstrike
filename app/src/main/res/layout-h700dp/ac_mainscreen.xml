@@ -100,9 +100,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
       <TextView
-        android:id="@+id/tvArenaSelect"
+        android:id="@+id/tvArenaTitle"
         style="@style/StemBold15Accent"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="Выбрать арену"
@@ -142,7 +142,7 @@
         android:background="@drawable/ic_down_arrow"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/tvArenaSelect" />
+        app:layout_constraintTop_toTopOf="@id/tvArenaTitle" />
 
       <ImageView
         android:id="@+id/iv_up_arrow"
@@ -153,7 +153,7 @@
         android:background="@drawable/ic_up_arrow"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/tvArenaSelect" />
+        app:layout_constraintTop_toTopOf="@id/tvArenaTitle" />
 
 
       <android.support.v7.widget.RecyclerView

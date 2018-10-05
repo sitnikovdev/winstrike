@@ -25,11 +25,11 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
     void onSelectItem(View v, int layoutPosition);
   }
 
-  private Context context;
+  private Context mContext;
   ArrayList<RowItem> rowItems;
 
   public ArenaSelectAdapter(Context context, OnItemLangClickListener itemLangClickListener, ArrayList<RowItem> rowItems) {
-    this.context = context;
+    this.mContext = context;
     this.itemLangClickListener = itemLangClickListener;
     this.rowItems = rowItems;
   }
@@ -37,7 +37,7 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
 
   @Override
   public LangViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(context).inflate(R.layout.item_arena, parent, false);
+    View view = LayoutInflater.from(mContext).inflate(R.layout.item_arena, parent, false);
     return new LangViewHolder(view);
   }
 
@@ -47,9 +47,13 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
     holder.tv_title.setText(item.getTitle());
     holder.tv_addres.setText(item.getAddress());
     if (position == SELECTED_ITEM) {
+      holder.tv_title.setTextColor(mContext.getColor(R.color.color_accent));
+      holder.tv_addres.setTextColor(mContext.getColor(R.color.color_accent));
       holder.iv_checked.setImageResource(R.drawable.ic_checked);
       holder.iv_checked.setVisibility(View.VISIBLE);
     } else {
+      holder.tv_title.setTextColor(mContext.getColor(R.color.color_black));
+      holder.tv_addres.setTextColor(mContext.getColor(R.color.color_black));
       holder.iv_checked.setVisibility(View.GONE);
     }
 

@@ -25,7 +25,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -124,7 +123,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.rv_arena) RecyclerView rv_arena;
   @BindView(R.id.v_tap_arrow_down) View viewLangDown;
   @BindView(R.id.v_tap_arrow_up) View viewLangUp;
-  @BindView(R.id.tvArenaSelect) TextView tv_lang;
+  @BindView(R.id.tvArenaTitle) TextView tv_lang;
   @Nullable
   @BindView(R.id.tv_title)
   TextView tvToolbarHead;
