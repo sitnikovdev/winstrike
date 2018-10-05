@@ -15,7 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.Space;
-import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -62,6 +62,7 @@ import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.ui.main.AppFragment.OnAppButtonsClickListener;
+import ru.prsolution.winstrike.ui.main.ArenaSelectAdapter.OnItemLangClickListener;
 import ru.prsolution.winstrike.ui.main.CarouselSeatFragment.OnChoosePlaceButtonsClickListener;
 import ru.prsolution.winstrike.ui.main.ChooseScreenFragment.onMapShowProcess;
 import ru.prsolution.winstrike.ui.main.ProfileFragment.OnProfileButtonsClickListener;
@@ -78,7 +79,7 @@ import timber.log.Timber;
 
 public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, OnProfileButtonsClickListener,
     OnAppButtonsClickListener, OnChoosePlaceButtonsClickListener
-    , onMapShowProcess {
+    , onMapShowProcess, OnItemLangClickListener {
 
   private ProgressDialog progressDialog;
   private AHBottomNavigation bottomNavigationBar;
@@ -108,13 +109,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.toolbar_text) TextView tvToolbarTitle;
   @BindView(R.id.ab_container) RelativeLayout flFragmentContainer;
   @BindView(R.id.head_image) ImageView ivHeadImage;
-  @BindView(R.id.rv_spin) RecyclerView spArenaSelect;
   @BindView(R.id.description) TextView tvCarouselDescription;
   @BindView(R.id.category) TextView tvCarouselTitleCategory;
   @BindView(R.id.spacer) Space spSpace;
   @BindView(R.id.main_toolbar) Toolbar toolbar;
   @BindView(R.id.viewpager) AHBottomNavigationViewPager viewPager;
   @BindView(R.id.tablayout) TabLayout tabLayout;
+  @BindView(R.id.rv_spin) RecyclerView rv_ArenaSelect;
   @Nullable @BindView(R.id.tv_title) TextView tvToolbarHead;
 
   @InjectPresenter
@@ -131,16 +132,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   NavigatorHolder navigatorHolder;
   private UserProfileObservable user;
 
+
   private AcMainscreenBinding binding;
 
-  List<RowItem> rowItems;
+  ArrayList<RowItem> rowItems;
   public static final Integer[] titles = new Integer[] { R.string.spin_arena1,
       R.string.spin_arena2 };
 
   public static final Integer[] address = { R.string.spin_address1,
       R.string.spin_address2
       };
-  private  int mSelectedIndex = 0;
 
 
   public Service getService() {
@@ -284,6 +285,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       RowItem item = new RowItem(getString(titles[i]),getString(address[i]),false);
       rowItems.add(item);
     }
+
+    ArenaSelectAdapter arenaSelectAdapter = new ArenaSelectAdapter(this, MainScreenActivity.this, rowItems);
+    binding.rvSpin.setAdapter(arenaSelectAdapter);
+    binding.rvSpin.setLayoutManager(new LinearLayoutManager(this));
 
     user.setName(getResources().getString(R.string.app_club));
 
@@ -456,13 +461,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void setHomeScreenStateVisibily(Boolean isVisible) {
     if (isVisible) {
-      spArenaSelect.setVisibility(View.VISIBLE);
+      rv_ArenaSelect.setVisibility(View.VISIBLE);
       ivHeadImage.setVisibility(View.VISIBLE);
       tvCarouselDescription.setVisibility(View.VISIBLE);
       tvCarouselTitleCategory.setVisibility(View.VISIBLE);
       viewPagerSeat.setVisibility(View.VISIBLE);
     } else {
-      spArenaSelect.setVisibility(View.GONE);
+      rv_ArenaSelect.setVisibility(View.GONE);
       ivHeadImage.setVisibility(View.GONE);
       tvCarouselDescription.setVisibility(View.GONE);
       tvCarouselTitleCategory.setVisibility(View.GONE);
@@ -823,6 +828,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   public ArrayList<OrderModel> getOrders() {
     return this.mPayList;
+  }
+
+  @Override
+  public void onSelectItem(View v, int layoutPosition) {
+    Timber.d("On item click listener.");
   }
 
 
