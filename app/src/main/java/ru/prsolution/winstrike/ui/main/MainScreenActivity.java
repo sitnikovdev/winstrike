@@ -143,8 +143,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private UserProfileObservable user;
   private AcMainscreenBinding binding;
   private ArrayList<RowItem> rowItems;
-  public static final Integer[] titles = new Integer[]{R.string.spin_arena1, R.string.spin_arena2};
-  public static final Integer[] address = {R.string.spin_address1, R.string.spin_address2};
+  private final Integer[] titles = new Integer[]{R.string.spin_arena1, R.string.spin_arena2};
+  private final Integer[] address = {R.string.spin_address1, R.string.spin_address2};
   private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
   private ConstraintSet arenaDownConstraintSet = new ConstraintSet();
 
@@ -691,38 +691,32 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   // Social networks block:
   @Override
   public void onGooglePlayButtonClick() {
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_GOOGLE_PLAY));
-    startActivity(browserIntent);
+    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_GOOGLE_PLAY)));
   }
 
   @Override
   public void onVkClick() {
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_VK));
-    startActivity(browserIntent);
+    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_VK)));
   }
 
   @Override
   public void onInstagramClick() {
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM));
-    startActivity(browserIntent);
+    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM)));
   }
 
   @Override
   public void onTweeterClick() {
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWEETER));
-    startActivity(browserIntent);
+    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWEETER)));
   }
 
   @Override
   public void onFacebookClick() {
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK));
-    startActivity(browserIntent);
+    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK)));
   }
 
   @Override
   public void onTwitchClick() {
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWITCH));
-    startActivity(browserIntent);
+    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWITCH)));
   }
 
   @Override
