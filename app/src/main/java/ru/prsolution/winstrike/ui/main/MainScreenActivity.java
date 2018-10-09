@@ -101,8 +101,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private BottomNavigationListener bottomNavigationListener;
   float dpHeight, dpWidth;
   private ArrayList<OrderModel> mPayList = new ArrayList<>();
-  private final Boolean HIDE_MENU = true;
-  private final Boolean SHOW_MENU = false;
   private final Boolean HIDE_ICON = true;
   private final Boolean SHOW_ICON = false;
   private Dialog mDlgSingOut;
@@ -141,10 +139,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Inject
   NavigatorHolder navigatorHolder;
+
   private UserProfileObservable user;
-
   private AcMainscreenBinding binding;
-
   private ArrayList<RowItem> rowItems;
   public static final Integer[] titles = new Integer[]{R.string.spin_arena1, R.string.spin_arena2};
   public static final Integer[] address = {R.string.spin_address1, R.string.spin_address2};
@@ -159,7 +156,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public Service getService() {
     return service;
   }
-
 
   @Override
   public Router getRouter() {
@@ -459,24 +455,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     );
   }
 
-  public void sendRegistrationToServer(String authToken, String refreshedToken) {
-    FCMModel fcmModel = new FCMModel();
-    fcmModel.setToken(refreshedToken);
-    presenter.sendFCMTokenToServer(authToken, fcmModel);
-  }
-
-  @Override
-  public void onPushClick(String isOn) {
-    Toast.makeText(this, "Push is: " + isOn, Toast.LENGTH_LONG).show();
-  }
-
-  private void setupProfileViewPager(ViewPager viewPager) {
-    pagerAdapter = new BaseViewPagerAdapter(getSupportFragmentManager());
-    pagerAdapter.addFragments(ProfileFragment.newInstance(), getString(R.string.title_profile));
-    pagerAdapter.addFragments(AppFragment.newInstance(), getString(R.string.title_app));
-    viewPager.setAdapter(pagerAdapter);
-  }
-
   private void initViews() {
     initMainToolbar(getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
     initBottomNavigationBar();
@@ -486,21 +464,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     dlgMapLegend();
     dlgProfileSingOut();
-  }
-
-  @Override
-  public void setProfileScreenInterfaceVisibility(Boolean isVisible) {
-    if (isVisible) {
-      binding.vSpinner.setVisibility(View.GONE);
-      tabLayout.setVisibility(VISIBLE);
-      viewPager.setVisibility(VISIBLE);
-      setupProfileViewPager(viewPager);
-      tabLayout.setupWithViewPager(viewPager);
-    } else {
-      binding.vSpinner.setVisibility(View.VISIBLE);
-      tabLayout.setVisibility(View.GONE);
-      viewPager.setVisibility(View.GONE);
-    }
   }
 
   public void initMainToolbar(String title, Boolean hideNavIcon, ScreenType screenType, View.OnClickListener listener) {
@@ -624,6 +587,28 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   // User profile actions:
+  @Override
+  public void setProfileScreenInterfaceVisibility(Boolean isVisible) {
+    if (isVisible) {
+      binding.vSpinner.setVisibility(View.GONE);
+      tabLayout.setVisibility(VISIBLE);
+      viewPager.setVisibility(VISIBLE);
+      setupProfileViewPager(viewPager);
+      tabLayout.setupWithViewPager(viewPager);
+    } else {
+      binding.vSpinner.setVisibility(View.VISIBLE);
+      tabLayout.setVisibility(View.GONE);
+      viewPager.setVisibility(View.GONE);
+    }
+  }
+
+  private void setupProfileViewPager(ViewPager viewPager) {
+    pagerAdapter = new BaseViewPagerAdapter(getSupportFragmentManager());
+    pagerAdapter.addFragments(ProfileFragment.newInstance(), getString(R.string.title_profile));
+    pagerAdapter.addFragments(AppFragment.newInstance(), getString(R.string.title_app));
+    viewPager.setAdapter(pagerAdapter);
+  }
+
   @Override
   public void onProfileUpdate(String name, String passw) {
     if (passw.isEmpty()) {
@@ -919,4 +904,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
     }
   }
+  //FCM push message services:
+  public void sendRegistrationToServer(String authToken, String refreshedToken) {
+    FCMModel fcmModel = new FCMModel();
+    fcmModel.setToken(refreshedToken);
+    presenter.sendFCMTokenToServer(authToken, fcmModel);
+  }
+
+  @Override
+  public void onPushClick(String isOn) {
+    Toast.makeText(this, "Push is: " + isOn, Toast.LENGTH_LONG).show();
+  }
+
 }
