@@ -125,7 +125,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.v_tap_arrow_up) View viewLangUp;
   @BindView(R.id.tvArenaTitle) TextView tv_lang;
   @Nullable
-  @BindView(R.id.tv_title) TextView tvToolbarHead;
+  @BindView(R.id.tv_title)
+  TextView tvToolbarHead;
   @BindView(R.id.root) ConstraintLayout layoutRoot;
 
   @InjectPresenter
@@ -279,6 +280,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     super.onPause();
   }
 
+
   @Override
   protected void onDestroy() {
     super.onDestroy();
@@ -389,10 +391,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     presenter.sendFCMTokenToServer(authToken, fcmModel);
   }
 
-  private void clearData() {
-    TimeDataModel.INSTANCE.clearPids();
-    TimeDataModel.INSTANCE.clearDateTime();
+  @Override
+  public void onPushClick(String isOn) {
+    Toast.makeText(this, "Push is: " + isOn, Toast.LENGTH_LONG).show();
   }
+
 
   private void initCarouselSeat(int currentItem) {
 
@@ -699,6 +702,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     return router;
   }
 
+  // User profile actions:
   @Override
   public void onProfileUpdate(String name, String passw) {
     if (passw.isEmpty()) {
@@ -718,7 +722,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       String token = "Bearer " + AuthUtils.INSTANCE.getToken();
       presenter.updateProfile(token, profile, publicId);
       AuthUtils.INSTANCE.setName(name);
-//            WinstrikeApp.getInstance().getUser().setName(name);
       String title = "Настройки";
       if (AuthUtils.INSTANCE.getName() != null) {
         if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getName())) {
@@ -738,28 +741,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public void onProfileUpdateSuccessfully(MessageResponse authResponse) {
     Timber.d("Profile is updated");
     Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
-  }
-
-  private void shareImg() {
-    Uri attached_Uri = Uri.parse("android.resource://" + getPackageName()
-        + "/drawable/" + "winstrike_share");
-    Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-        .setType("image/jpg")
-        .setStream(attached_Uri)
-        .getIntent();
-    shareIntent.putExtra(Intent.EXTRA_TEXT, "Winstrike Arena - киберспорт в центре Москвы.\n" +
-        "Качай приложение и играй за 50 рублей/час");
-    startActivity(Intent.createChooser(shareIntent, "Send"));
-  }
-
-  @Override
-  public void onRecommendButtonClick() {
-    shareImg();
-  }
-
-  @Override
-  public void onPushClick(String isOn) {
-    Toast.makeText(this, "Push is: " + isOn, Toast.LENGTH_LONG).show();
   }
 
   // Social networks block:
@@ -805,7 +786,28 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     startActivity(browserIntent);
   }
 
+  @Override
+  public void onRecommendButtonClick() {
+    shareImg();
+  }
+
+  private void shareImg() {
+    Uri attached_Uri = Uri.parse("android.resource://" + getPackageName()
+        + "/drawable/" + "winstrike_share");
+    Intent shareIntent = ShareCompat.IntentBuilder.from(this)
+        .setType("image/jpg")
+        .setStream(attached_Uri)
+        .getIntent();
+    shareIntent.putExtra(Intent.EXTRA_TEXT, "Winstrike Arena - киберспорт в центре Москвы.\n" + "Качай приложение и играй за 50 рублей/час");
+    startActivity(Intent.createChooser(shareIntent, "Send"));
+  }
+
   // Map actions:
+  private void clearData() {
+    TimeDataModel.INSTANCE.clearPids();
+    TimeDataModel.INSTANCE.clearDateTime();
+  }
+
   @Override
   public void onChooseSeatClick(SeatModel seat) {
     TimeDataModel.INSTANCE.clearPids();
@@ -839,6 +841,18 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   public ArrayList<OrderModel> getOrders() {
     return this.mPayList;
+  }
+
+  @Override
+  public void onGetOrdersSuccess(ArrayList<OrderModel> orders) {
+    mPayList = orders;
+    presenter.onTabPlaceClick(mPayList);
+    Timber.d("UserEntity order list size: %s", mPayList.size());
+  }
+
+  @Override
+  public void onGetOrdersFailure(String appErrorMessage) {
+    Timber.d("Failure get layout from server: %s", appErrorMessage);
   }
 
 
@@ -918,24 +932,5 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, this);
       router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
     }
-  }
-
-
-  @Override
-  protected void onStop() {
-    super.onStop();
-  }
-
-
-  @Override
-  public void onGetOrdersSuccess(ArrayList<OrderModel> orders) {
-    mPayList = orders;
-    presenter.onTabPlaceClick(mPayList);
-    Timber.d("UserEntity order list size: %s", mPayList.size());
-  }
-
-  @Override
-  public void onGetOrdersFailure(String appErrorMessage) {
-    Timber.d("Failure get layout from server: %s", appErrorMessage);
   }
 }
