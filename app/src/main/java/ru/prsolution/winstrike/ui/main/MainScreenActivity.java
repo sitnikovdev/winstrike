@@ -87,6 +87,25 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     OnAppButtonsClickListener, OnChoosePlaceButtonsClickListener
     , onMapShowProcess, OnItemLangClickListener {
 
+  @BindView(R.id.toolbar_text) TextView tvToolbarTitle;
+  @BindView(R.id.ab_container) RelativeLayout flFragmentContainer;
+  @BindView(R.id.head_image) ImageView ivHeadImage;
+  @BindView(R.id.description) TextView tvCarouselDescription;
+  @BindView(R.id.category) TextView tvCarouselTitleCategory;
+  @BindView(R.id.spacer) Space spSpace;
+  @BindView(R.id.main_toolbar) Toolbar toolbar;
+  @BindView(R.id.viewpager) AHBottomNavigationViewPager viewPager;
+  @BindView(R.id.tablayout) TabLayout tabLayout;
+  @BindView(R.id.rv_arena) RecyclerView rv_arena;
+  @BindView(R.id.v_tap_arrow_down) View viewLangDown;
+  @BindView(R.id.v_tap_arrow_up) View viewLangUp;
+  @BindView(R.id.tvArenaTitle) TextView tv_lang;
+  @Nullable
+  @BindView(R.id.tv_title)
+  TextView tvToolbarHead;
+  @BindView(R.id.root) ConstraintLayout layoutRoot;
+
+
   private ProgressDialog progressDialog;
   private AHBottomNavigation bottomNavigationBar;
   private BaseViewPagerAdapter pagerAdapter;
@@ -108,25 +127,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private MapOnClickListener mMapOnClickListener;
   private ScreenType mScreenType;
   private Dialog mDlgMapLegend;
+  private UserProfileObservable user;
+  private AcMainscreenBinding binding;
+  private ArrayList<RowItem> rowItems;
+  private final Integer[] titles = new Integer[]{R.string.spin_arena1, R.string.spin_arena2};
+  private final Integer[] address = {R.string.spin_address1, R.string.spin_address2};
+  private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
+  private ConstraintSet arenaDownConstraintSet = new ConstraintSet();
 
-
-  @BindView(R.id.toolbar_text) TextView tvToolbarTitle;
-  @BindView(R.id.ab_container) RelativeLayout flFragmentContainer;
-  @BindView(R.id.head_image) ImageView ivHeadImage;
-  @BindView(R.id.description) TextView tvCarouselDescription;
-  @BindView(R.id.category) TextView tvCarouselTitleCategory;
-  @BindView(R.id.spacer) Space spSpace;
-  @BindView(R.id.main_toolbar) Toolbar toolbar;
-  @BindView(R.id.viewpager) AHBottomNavigationViewPager viewPager;
-  @BindView(R.id.tablayout) TabLayout tabLayout;
-  @BindView(R.id.rv_arena) RecyclerView rv_arena;
-  @BindView(R.id.v_tap_arrow_down) View viewLangDown;
-  @BindView(R.id.v_tap_arrow_up) View viewLangUp;
-  @BindView(R.id.tvArenaTitle) TextView tv_lang;
-  @Nullable
-  @BindView(R.id.tv_title)
-  TextView tvToolbarHead;
-  @BindView(R.id.root) ConstraintLayout layoutRoot;
 
   @InjectPresenter
   MainScreenPresenter presenter;
@@ -139,14 +147,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Inject
   NavigatorHolder navigatorHolder;
-
-  private UserProfileObservable user;
-  private AcMainscreenBinding binding;
-  private ArrayList<RowItem> rowItems;
-  private final Integer[] titles = new Integer[]{R.string.spin_arena1, R.string.spin_arena2};
-  private final Integer[] address = {R.string.spin_address1, R.string.spin_address2};
-  private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
-  private ConstraintSet arenaDownConstraintSet = new ConstraintSet();
 
   @ProvidePresenter
   public MainScreenPresenter createBottomNavigationPresenter() {
