@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.ui.main;
 
 import static android.view.View.VISIBLE;
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -731,7 +732,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     return router;
   }
 
-
   @Override
   public void onProfileUpdate(String name, String passw) {
     if (passw.isEmpty()) {
@@ -763,7 +763,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
   }
 
-
   public void onFailtureUpdateProfile(String appErrorMessage) {
     Timber.d("Wrong update profile");
     Toast.makeText(this, "Не удалось обновить профиль", Toast.LENGTH_LONG).show();
@@ -773,7 +772,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     Timber.d("Profile is updated");
     Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
   }
-
 
   private void shareImg() {
     Uri attached_Uri = Uri.parse("android.resource://" + getPackageName()
@@ -791,7 +789,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @Override
   public void onRecommendButtonClick() {
     shareImg();
-
   }
 
   @Override
@@ -841,17 +838,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     startActivity(browserIntent);
   }
 
-
   @Override
   public void onChooseSeatClick(SeatModel seat) {
-
     TimeDataModel.INSTANCE.clearPids();
-
     showFragmentHolderContainer(true);
-
     initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-
-//        MapInfoSingleton.getInstance().setSeat(seat);
     WinstrikeApp.getInstance().setSeat(seat);
     presenter.onChooseScreenClick();
   }
@@ -947,11 +938,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @Override
   protected void onStop() {
     super.onStop();
-//        presenter.onStop();
-/*        presenter.onStop();
-        this.mMainOnClickListener = null;
-        this.mMapOnClickListener = null;*/
-    //this.mUserViewModel.delete();
   }
 
 
