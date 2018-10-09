@@ -305,6 +305,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   @Override
+  public void onChooseArenaSeatClick(SeatModel seat) {
+    TimeDataModel.INSTANCE.clearPids();
+    showFragmentHolderContainer(true);
+    initMainToolbar(getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+    WinstrikeApp.getInstance().setSeat(seat);
+    presenter.onChooseScreenClick();
+  }
+
+
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     if (this.mScreenType == ScreenType.MAIN) {
       getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
@@ -771,15 +781,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private void clearData() {
     TimeDataModel.INSTANCE.clearPids();
     TimeDataModel.INSTANCE.clearDateTime();
-  }
-
-  @Override
-  public void onChooseSeatClick(SeatModel seat) {
-    TimeDataModel.INSTANCE.clearPids();
-    showFragmentHolderContainer(true);
-    initMainToolbar(getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-    WinstrikeApp.getInstance().setSeat(seat);
-    presenter.onChooseScreenClick();
   }
 
   private void showFragmentHolderContainer(Boolean isVisible) {

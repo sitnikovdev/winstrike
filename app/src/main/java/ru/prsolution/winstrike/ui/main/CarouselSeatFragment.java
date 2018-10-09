@@ -26,7 +26,7 @@ public class CarouselSeatFragment extends Fragment {
 
 
     public interface OnChoosePlaceButtonsClickListener {
-        void onChooseSeatClick(SeatModel seat);
+        void onChooseArenaSeatClick(SeatModel seat);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class CarouselSeatFragment extends Fragment {
         root.setScaleBoth(scale);
 
         thumbnail.setOnClickListener(
-                it -> listener.onChooseSeatClick(seat)
+                it -> listener.onChooseArenaSeatClick(seat)
         );
 
         return itemSeat;
