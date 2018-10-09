@@ -125,13 +125,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @BindView(R.id.v_tap_arrow_up) View viewLangUp;
   @BindView(R.id.tvArenaTitle) TextView tv_lang;
   @Nullable
-  @BindView(R.id.tv_title)
-  TextView tvToolbarHead;
+  @BindView(R.id.tv_title) TextView tvToolbarHead;
   @BindView(R.id.root) ConstraintLayout layoutRoot;
 
   @InjectPresenter
   MainScreenPresenter presenter;
-
 
   @Inject
   public Service service;
@@ -143,22 +141,38 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   NavigatorHolder navigatorHolder;
   private UserProfileObservable user;
 
-
   private AcMainscreenBinding binding;
 
   ArrayList<RowItem> rowItems;
-  public static final Integer[] titles = new Integer[]{R.string.spin_arena1,
-      R.string.spin_arena2};
-
-  public static final Integer[] address = {R.string.spin_address1,
-      R.string.spin_address2
-  };
+  public static final Integer[] titles = new Integer[]{R.string.spin_arena1, R.string.spin_arena2};
+  public static final Integer[] address = {R.string.spin_address1, R.string.spin_address2};
   private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
   private ConstraintSet arenaDownConstraintSet = new ConstraintSet();
+
+  @ProvidePresenter
+  public MainScreenPresenter createBottomNavigationPresenter() {
+    return new MainScreenPresenter(service, router);
+  }
 
   public Service getService() {
     return service;
   }
+
+  @Override
+  public void onArenaSelectItem(View v, int layoutPosition) {
+    Timber.d("On item click listener.");
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      TransitionManager.beginDelayedTransition(binding.root);
+    }
+    arenaUpConstraintSet.applyTo(binding.root);
+
+    ArenaSelectAdapter.SELECTED_ITEM = layoutPosition;
+    RowItem item = rowItems.get(layoutPosition);
+    tv_lang.setText(item.getTitle());
+
+    binding.rvArena.getAdapter().notifyDataSetChanged();
+  }
+
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -184,11 +198,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       mDlgMapLegend.show();
     }
     return super.onOptionsItemSelected(item);
-  }
-
-  @ProvidePresenter
-  public MainScreenPresenter createBottomNavigationPresenter() {
-    return new MainScreenPresenter(service, router);
   }
 
   private void dlgSingOut() {
@@ -259,6 +268,18 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   @Override
+  protected void onStart() {
+    super.onStart();
+    AuthUtils.INSTANCE.setLogout(false);
+  }
+
+  @Override
+  protected void onPause() {
+    navigatorHolder.removeNavigator();
+    super.onPause();
+  }
+
+  @Override
   protected void onDestroy() {
     super.onDestroy();
     if (mDlgSingOut != null) {
@@ -272,9 +293,15 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   @Override
-  protected void onStart() {
-    super.onStart();
-    AuthUtils.INSTANCE.setLogout(false);
+  public void onBackPressed() {
+    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.ab_container);
+    if (fragment != null
+        && fragment instanceof BackButtonListener
+        && ((BackButtonListener) fragment).onBackPressed()) {
+      return;
+    } else {
+      presenter.onBackPressed();
+    }
   }
 
   @Override
@@ -356,21 +383,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     );
   }
 
-  @Override
-  public void onSelectItem(View v, int layoutPosition) {
-    Timber.d("On item click listener.");
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      TransitionManager.beginDelayedTransition(binding.root);
-    }
-    arenaUpConstraintSet.applyTo(binding.root);
-
-    ArenaSelectAdapter.SELECTED_ITEM = layoutPosition;
-    RowItem item = rowItems.get(layoutPosition);
-    tv_lang.setText(item.getTitle());
-
-    binding.rvArena.getAdapter().notifyDataSetChanged();
-  }
-
   public void sendRegistrationToServer(String authToken, String refreshedToken) {
     FCMModel fcmModel = new FCMModel();
     fcmModel.setToken(refreshedToken);
@@ -418,7 +430,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
 
-  private void setupViewPager(ViewPager viewPager) {
+  private void setupProfileViewPager(ViewPager viewPager) {
     pagerAdapter = new BaseViewPagerAdapter(getSupportFragmentManager());
     pagerAdapter.addFragments(ProfileFragment.newInstance(), "Профиль");
     pagerAdapter.addFragments(AppFragment.newInstance(), "Приложение");
@@ -436,31 +448,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     dlgSingOut();
   }
 
-  private void initBottomNavigationBar() {
-    bottomNavigationListener = new BottomNavigationListener();
-    // Create items
-    AHBottomNavigationItem item1 = new AHBottomNavigationItem(null, R.drawable.ic_home);
-    AHBottomNavigationItem item2 = new AHBottomNavigationItem(null, R.drawable.ic_money);
-    AHBottomNavigationItem item3 = new AHBottomNavigationItem(null, R.drawable.ic_user);
-
-    // Add items
-    bottomNavigationBar = findViewById(R.id.ab_bottom_navigation_bar);
-    bottomNavigationBar.addItem(item1);
-    bottomNavigationBar.addItem(item2);
-    bottomNavigationBar.addItem(item3);
-
-    bottomNavigationBar.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
-    bottomNavigationBar.setAccentColor(Color.parseColor("#ffc9186c"));
-    bottomNavigationBar.setOnTabSelectedListener(bottomNavigationListener);
-  }
-
   @Override
   public void setProfileScreenInterfaceVisibility(Boolean isVisible) {
     if (isVisible) {
       binding.vSpinner.setVisibility(View.GONE);
       tabLayout.setVisibility(VISIBLE);
       viewPager.setVisibility(VISIBLE);
-      setupViewPager(viewPager);
+      setupProfileViewPager(viewPager);
       tabLayout.setupWithViewPager(viewPager);
     } else {
       binding.vSpinner.setVisibility(View.VISIBLE);
@@ -507,7 +501,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     getSupportActionBar().setDisplayShowTitleEnabled(false);
   }
 
-  private void setHomeScreenStateVisibily(Boolean isVisible) {
+  private void setHomeScreenStateVisibility(Boolean isVisible) {
     if (isVisible) {
       binding.vSpinner.setVisibility(View.VISIBLE);
       ivHeadImage.setVisibility(VISIBLE);
@@ -587,24 +581,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     navigatorHolder.setNavigator(navigator);
   }
 
-  @Override
-  protected void onPause() {
-    navigatorHolder.removeNavigator();
-    super.onPause();
-  }
-
-  @Override
-  public void onBackPressed() {
-    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.ab_container);
-    if (fragment != null
-        && fragment instanceof BackButtonListener
-        && ((BackButtonListener) fragment).onBackPressed()) {
-      return;
-    } else {
-      presenter.onBackPressed();
-    }
-  }
-
   private Navigator navigator = new Navigator() {
     @Override
     public void applyCommands(Command[] commands) {
@@ -623,7 +599,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
         switch (((Replace) command).getScreenKey()) {
           case Screens.START_SCREEN:
-            setHomeScreenStateVisibily(true);
+            setHomeScreenStateVisibility(true);
             fm.beginTransaction()
                 .detach(userTabFragment)
                 .detach(placesTabFragment)
@@ -634,7 +610,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 .commitNow();
             break;
           case Screens.PLACE_SCREEN:
-            setHomeScreenStateVisibily(false);
+            setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(userTabFragment)
                 .detach(homeTabFragment)
@@ -645,7 +621,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 .commitNow();
             break;
           case Screens.USER_SCREEN:
-            setHomeScreenStateVisibily(false);
+            setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
                 .detach(placesTabFragment)
@@ -657,7 +633,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             break;
           case Screens.CHOOSE_SCREEN:
             initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-            setHomeScreenStateVisibily(false);
+            setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
                 .detach(placesTabFragment)
@@ -670,7 +646,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             break;
           case Screens.MAP_SCREEN:
             initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
-            setHomeScreenStateVisibily(false);
+            setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
                 .detach(placesTabFragment)
@@ -683,7 +659,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             break;
           case Screens.PAY_SCREEN:
             initMainToolbar(HIDE_MENU, "Оплата", SHOW_ICON, ScreenType.MAP, mMainOnClickListener);
-            setHomeScreenStateVisibily(false);
+            setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
                 .detach(placesTabFragment)
@@ -697,7 +673,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       }
     }
   };
-
 
   @Override
   public void highlightTab(int position) {
@@ -787,6 +762,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     Toast.makeText(this, "Push is: " + isOn, Toast.LENGTH_LONG).show();
   }
 
+  // Social networks block:
   @Override
   public void onGooglePlayButtonClick() {
     String url = "https://play.google.com/store/apps/details?id=ru.prsolution.winstrike";
@@ -829,6 +805,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     startActivity(browserIntent);
   }
 
+  // Map actions:
   @Override
   public void onChooseSeatClick(SeatModel seat) {
     TimeDataModel.INSTANCE.clearPids();
@@ -865,6 +842,25 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
 
+  // Bottom navigation menu:
+  private void initBottomNavigationBar() {
+    bottomNavigationListener = new BottomNavigationListener();
+    // Create items
+    AHBottomNavigationItem item1 = new AHBottomNavigationItem(null, R.drawable.ic_home);
+    AHBottomNavigationItem item2 = new AHBottomNavigationItem(null, R.drawable.ic_money);
+    AHBottomNavigationItem item3 = new AHBottomNavigationItem(null, R.drawable.ic_user);
+
+    // Add items
+    bottomNavigationBar = findViewById(R.id.ab_bottom_navigation_bar);
+    bottomNavigationBar.addItem(item1);
+    bottomNavigationBar.addItem(item2);
+    bottomNavigationBar.addItem(item3);
+
+    bottomNavigationBar.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
+    bottomNavigationBar.setAccentColor(Color.parseColor("#ffc9186c"));
+    bottomNavigationBar.setOnTabSelectedListener(bottomNavigationListener);
+  }
+
   public class BottomNavigationListener implements AHBottomNavigation.OnTabSelectedListener {
 
     @Override
@@ -872,7 +868,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       switch (position) {
         case HOME_TAB_POSITION:
           showFragmentHolderContainer(false);
-          setHomeScreenStateVisibily(true);
+          setHomeScreenStateVisibility(true);
           setProfileScreenInterfaceVisibility(false);
           initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
           presenter.onTabHomeClick();

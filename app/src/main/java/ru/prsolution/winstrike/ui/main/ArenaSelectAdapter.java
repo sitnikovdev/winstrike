@@ -22,7 +22,7 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
 
   interface OnItemLangClickListener {
 
-    void onSelectItem(View v, int layoutPosition);
+    void onArenaSelectItem(View v, int layoutPosition);
   }
 
   private Context mContext;
@@ -80,7 +80,7 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
 
     @Override
     public void onClick(View view) {
-      itemLangClickListener.onSelectItem(view, getLayoutPosition());
+      itemLangClickListener.onArenaSelectItem(view, getLayoutPosition());
     }
   }
 }
