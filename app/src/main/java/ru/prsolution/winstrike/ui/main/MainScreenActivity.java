@@ -72,6 +72,7 @@ import ru.prsolution.winstrike.ui.main.CarouselSeatFragment.OnChoosePlaceButtons
 import ru.prsolution.winstrike.ui.main.ChooseScreenFragment.onMapShowProcess;
 import ru.prsolution.winstrike.ui.main.ProfileFragment.OnProfileButtonsClickListener;
 import ru.prsolution.winstrike.ui.start.SplashActivity;
+import ru.prsolution.winstrike.utils.Constants;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
@@ -216,7 +217,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 .commitNow();
             break;
           case Screens.CHOOSE_SCREEN:
-            initMainToolbar(getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+            initMainToolbar(getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -229,7 +230,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.executePendingTransactions();
             break;
           case Screens.MAP_SCREEN:
-            initMainToolbar("Winstrike Arena", SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
+            initMainToolbar(getString(R.string.app_club), SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -242,7 +243,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.executePendingTransactions();
             break;
           case Screens.PAY_SCREEN:
-            initMainToolbar("Оплата", SHOW_ICON, ScreenType.MAP, mMainOnClickListener);
+            initMainToolbar(getString(R.string.title_payment), SHOW_ICON, ScreenType.MAP, mMainOnClickListener);
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -260,7 +261,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Override
   public void onArenaSelectItem(View v, int layoutPosition) {
-    Timber.d("On item click listener.");
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       TransitionManager.beginDelayedTransition(binding.root);
     }
@@ -472,8 +472,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void setupProfileViewPager(ViewPager viewPager) {
     pagerAdapter = new BaseViewPagerAdapter(getSupportFragmentManager());
-    pagerAdapter.addFragments(ProfileFragment.newInstance(), "Профиль");
-    pagerAdapter.addFragments(AppFragment.newInstance(), "Приложение");
+    pagerAdapter.addFragments(ProfileFragment.newInstance(), getString(R.string.title_profile));
+    pagerAdapter.addFragments(AppFragment.newInstance(), getString(R.string.title_app));
     viewPager.setAdapter(pagerAdapter);
   }
 
@@ -627,18 +627,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @Override
   public void onProfileUpdate(String name, String passw) {
     if (passw.isEmpty()) {
-      Toast.makeText(this, "Введите текущий пароль", Toast.LENGTH_LONG).show();
+      Toast.makeText(this, R.string.message_password, Toast.LENGTH_LONG).show();
     }
     if (name.isEmpty()) {
-      Toast.makeText(this, "Введите имя пользователя", Toast.LENGTH_LONG).show();
+      Toast.makeText(this, R.string.message_username, Toast.LENGTH_LONG).show();
     }
     if (!TextUtils.isEmpty(passw) && !TextUtils.isEmpty(name)) {
-      Timber.d("Update user profile..");
       // call api for update profile here ...
       ProfileModel profile = new ProfileModel();
       profile.setName(name);
       profile.setPassword(passw);
-      // TODO: 19/05/2018 Pass real public id here
       String publicId = AuthUtils.INSTANCE.getPublicid();
       String token = "Bearer " + AuthUtils.INSTANCE.getToken();
       presenter.updateProfile(token, profile, publicId);
@@ -656,12 +654,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   public void onFailureUpdateProfile(String appErrorMessage) {
     Timber.d("Wrong update profile");
-    Toast.makeText(this, "Не удалось обновить профиль", Toast.LENGTH_LONG).show();
+    Toast.makeText(this, R.string.message_on_failure_profile_update, Toast.LENGTH_LONG).show();
   }
 
   public void onProfileUpdateSuccessfully(MessageResponse authResponse) {
     Timber.d("Profile is updated");
-    Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
+    Toast.makeText(this, R.string.message_on_success_profile_update, Toast.LENGTH_LONG).show();
   }
 
   private void dlgProfileSingOut() {
@@ -708,43 +706,37 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   // Social networks block:
   @Override
   public void onGooglePlayButtonClick() {
-    String url = "https://play.google.com/store/apps/details?id=ru.prsolution.winstrike";
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_GOOGLE_PLAY));
     startActivity(browserIntent);
   }
 
   @Override
   public void onVkClick() {
-    String url = "https://vk.com/winstrikearena";
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_VK));
     startActivity(browserIntent);
   }
 
   @Override
   public void onInstagramClick() {
-    String url = "https://www.instagram.com/winstrikearena/";
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM));
     startActivity(browserIntent);
   }
 
   @Override
   public void onTweeterClick() {
-    String url = "https://twitter.com/winstrikearena";
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWEETER));
     startActivity(browserIntent);
   }
 
   @Override
   public void onFacebookClick() {
-    String url = "https://www.facebook.com/winstrikegg/";
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK));
     startActivity(browserIntent);
   }
 
   @Override
   public void onTwitchClick() {
-    String url = "https://www.twitch.tv/winstrikearena";
-    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWITCH));
     startActivity(browserIntent);
   }
 

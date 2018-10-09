@@ -126,4 +126,11 @@
 
     <string name="distance_mercury">0.4 </string>
     <string name="distance_venus"  >0.7 </string>
+  <string name="title_payment">Оплата</string>
+    <string name="title_profile">Профиль</string>
+    <string name="title_app">Приложение</string>
+    <string name="message_password">Введите текущий пароль</string>
+    <string name="message_username">Введите имя пользователя</string>
+    <string name="message_on_failure_profile_update">Не удалось обновить профиль</string>
+    <string name="message_on_success_profile_update">Профиль успешно обновлен</string>
 </resources>
