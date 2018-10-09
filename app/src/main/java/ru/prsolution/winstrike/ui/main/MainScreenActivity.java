@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.ui.main;
 
 import static android.view.View.VISIBLE;
-
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -515,7 +514,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     getSupportActionBar().setDisplayShowTitleEnabled(false);
   }
 
-
   private void setHomeScreenStateVisibily(Boolean isVisible) {
     if (isVisible) {
       binding.vSpinner.setVisibility(View.VISIBLE);
@@ -665,7 +663,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 .commitNow();
             break;
           case Screens.CHOOSE_SCREEN:
-//                        toolbar.setNavigationOnClickListener(mMainOnClickListener);
             initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
             setHomeScreenStateVisibily(false);
             fm.beginTransaction()
@@ -679,7 +676,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.executePendingTransactions();
             break;
           case Screens.MAP_SCREEN:
-//                        toolbar.setNavigationOnClickListener(mMapOnClickListener);
             initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
             setHomeScreenStateVisibily(false);
             fm.beginTransaction()
