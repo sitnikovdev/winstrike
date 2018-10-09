@@ -420,7 +420,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     mMapOnClickListener = new MapOnClickListener();
 
     initViews();
-    initContainers();
+    initFragmentsContainers();
 
     if (savedInstanceState == null) {
       presenter.onCreate();
@@ -518,7 +518,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
   }
 
-  private void initContainers() {
+  private void initFragmentsContainers() {
     FragmentManager fm = getSupportFragmentManager();
     homeTabFragment = (MainContainerFragment) fm.findFragmentByTag(getString(R.string.tag_main));
     if (homeTabFragment == null) {
@@ -898,6 +898,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
     }
   }
+
   //FCM push message services:
   public void sendRegistrationToServer(String authToken, String refreshedToken) {
     FCMModel fcmModel = new FCMModel();
