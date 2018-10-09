@@ -430,7 +430,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       presenter.onCreate();
     }
 
-    String token = "Bearer " + AuthUtils.INSTANCE.getToken();
+    String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();
 
     String fcmToken = AuthUtils.INSTANCE.getFcmtoken();
     if (!fcmToken.isEmpty()) {
@@ -557,56 +557,56 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void initContainers() {
     FragmentManager fm = getSupportFragmentManager();
-    homeTabFragment = (MainContainerFragment) fm.findFragmentByTag("MAIN");
+    homeTabFragment = (MainContainerFragment) fm.findFragmentByTag(getString(R.string.tag_main));
     if (homeTabFragment == null) {
-      homeTabFragment = MainContainerFragment.getNewInstance("MAIN");
+      homeTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_main));
       fm.beginTransaction()
-          .add(R.id.ab_container, homeTabFragment, "MAIN")
+          .add(R.id.ab_container, homeTabFragment, getString(R.string.tag_main))
           .detach(homeTabFragment).commitNow();
       fm.executePendingTransactions();
     }
 
-    placesTabFragment = (MainContainerFragment) fm.findFragmentByTag("PLACES");
+    placesTabFragment = (MainContainerFragment) fm.findFragmentByTag(getString(R.string.tag_places));
     if (placesTabFragment == null) {
-      placesTabFragment = MainContainerFragment.getNewInstance("PLACES");
+      placesTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_places));
       fm.beginTransaction()
-          .add(R.id.ab_container, placesTabFragment, "PLACES")
+          .add(R.id.ab_container, placesTabFragment, getString(R.string.tag_places))
           .detach(placesTabFragment).commitNow();
       fm.executePendingTransactions();
     }
 
-    userTabFragment = (MainContainerFragment) fm.findFragmentByTag("USER");
+    userTabFragment = (MainContainerFragment) fm.findFragmentByTag(getString(R.string.tag_user));
     if (userTabFragment == null) {
-      userTabFragment = MainContainerFragment.getNewInstance("USER");
+      userTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_user));
       fm.beginTransaction()
-          .add(R.id.ab_container, userTabFragment, "USER")
+          .add(R.id.ab_container, userTabFragment, getString(R.string.tag_user))
           .detach(userTabFragment).commitNow();
       fm.executePendingTransactions();
     }
 
-    chooseTabFragment = (MainContainerFragment) fm.findFragmentByTag("CHOOSE");
+    chooseTabFragment = (MainContainerFragment) fm.findFragmentByTag(getString(R.string.tag_choose));
     if (chooseTabFragment == null) {
-      chooseTabFragment = MainContainerFragment.getNewInstance("CHOOSE");
+      chooseTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_choose));
       fm.beginTransaction()
-          .add(R.id.ab_container, chooseTabFragment, "CHOOSE")
+          .add(R.id.ab_container, chooseTabFragment, getString(R.string.tag_choose))
           .detach(chooseTabFragment).commitNow();
       fm.executePendingTransactions();
     }
 
-    mapTabFragment = (MainContainerFragment) fm.findFragmentByTag("MAP");
+    mapTabFragment = (MainContainerFragment) fm.findFragmentByTag(getString(R.string.tag_map));
     if (mapTabFragment == null) {
-      mapTabFragment = MainContainerFragment.getNewInstance("MAP");
+      mapTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_map));
       fm.beginTransaction()
-          .add(R.id.ab_container, mapTabFragment, "MAP")
+          .add(R.id.ab_container, mapTabFragment, getString(R.string.tag_map))
           .detach(mapTabFragment).commitNow();
       fm.executePendingTransactions();
     }
 
-    payTabFragment = (MainContainerFragment) fm.findFragmentByTag("PAY");
+    payTabFragment = (MainContainerFragment) fm.findFragmentByTag(getString(R.string.tag_pay));
     if (payTabFragment == null) {
-      payTabFragment = MainContainerFragment.getNewInstance("PAY");
+      payTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_pay));
       fm.beginTransaction()
-          .add(R.id.ab_container, payTabFragment, "PAY")
+          .add(R.id.ab_container, payTabFragment, getString(R.string.tag_pay))
           .detach(payTabFragment).commitNow();
       fm.executePendingTransactions();
     }
@@ -638,10 +638,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       profile.setName(name);
       profile.setPassword(passw);
       String publicId = AuthUtils.INSTANCE.getPublicid();
-      String token = "Bearer " + AuthUtils.INSTANCE.getToken();
+      String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();
       presenter.updateProfile(token, profile, publicId);
       AuthUtils.INSTANCE.setName(name);
-      String title = "Настройки";
+      String title = getString(R.string.title_settings);
       if (AuthUtils.INSTANCE.getName() != null) {
         if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getName())) {
           title = AuthUtils.INSTANCE.getName();
@@ -746,14 +746,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   private void shareImg() {
-    Uri attached_Uri = Uri.parse("android.resource://" + getPackageName()
-        + "/drawable/" + "winstrike_share");
+    Uri attached_Uri = Uri.parse(Constants.ANDROID_RESOURCES_PATH + getPackageName()
+        + Constants.SHARE_DRAWABLE + Constants.SHARE_IMG);
     Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-        .setType("image/jpg")
+        .setType(Constants.IMAGE_TYPE)
         .setStream(attached_Uri)
         .getIntent();
-    shareIntent.putExtra(Intent.EXTRA_TEXT, "Winstrike Arena - киберспорт в центре Москвы.\n" + "Качай приложение и играй за 50 рублей/час");
-    startActivity(Intent.createChooser(shareIntent, "Send"));
+    shareIntent.putExtra(Intent.EXTRA_TEXT, R.string.message_share_images);
+    startActivity(Intent.createChooser(shareIntent, Constants.SHARE_IMG_TITLE));
   }
 
   // Map actions:
@@ -842,7 +842,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     bottomNavigationBar.addItem(item3);
 
     bottomNavigationBar.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
-    bottomNavigationBar.setAccentColor(Color.parseColor("#ffc9186c"));
+    bottomNavigationBar.setAccentColor(getColor(R.color.color_accent));
     bottomNavigationBar.setOnTabSelectedListener(bottomNavigationListener);
   }
 
@@ -861,8 +861,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         case PLACE_TAB_POSITION:
           showFragmentHolderContainer(true);
           setProfileScreenInterfaceVisibility(false);
-          initMainToolbar("Оплаченные места", SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-          String token = "Bearer " + AuthUtils.INSTANCE.getToken();
+          initMainToolbar(getString(R.string.title_payment_places), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+          String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();
           presenter.getOrders(token);
           break;
         case USER_TAB_POSITION:

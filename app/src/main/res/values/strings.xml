@@ -133,4 +133,13 @@
     <string name="message_username">Введите имя пользователя</string>
     <string name="message_on_failure_profile_update">Не удалось обновить профиль</string>
     <string name="message_on_success_profile_update">Профиль успешно обновлен</string>
+  <string name="title_payment_places">Оплаченные места</string>
+    <string name="message_share_images">Winstrike Arena - киберспорт в центре Москвы. Качай приложение и играй за 50 рублей/час</string>
+    <string name="title_settings">Настройки</string>
+    <string name="tag_main">MAIN</string>
+    <string name="tag_places">PLACES</string>
+    <string name="tag_user">USER</string>
+    <string name="tag_choose">CHOOSE</string>
+    <string name="tag_map">MAP</string>
+    <string name="tag_pay">PAY</string>
 </resources>

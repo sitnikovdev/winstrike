@@ -20,8 +20,15 @@ public class Constants {
     public static final String URL_TWITCH= "https://www.twitch.tv/winstrikearena";
 
 
+    public static final String IMAGE_TYPE= "image/jpg";
+    public static final String SHARE_DRAWABLE = "/drawable/";
+    public static final String SHARE_IMG= "winstrike_share";
+    public static final String SHARE_IMG_TITLE= "Send";
+    public static final String ANDROID_RESOURCES_PATH= "android.resource://";
+
+
     public static final String HEADER_AUTHORIZATION = "Authorization";
-    public static final String TOKEN_TYPE_BEARER = "Bearer";
+    public static final String TOKEN_TYPE_BEARER = "Bearer ";
 
     public static final long TIME_UPDATE =  TimeUnit.MINUTES.toMillis(5);
 
