@@ -191,7 +191,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     return new MainScreenPresenter(service, router);
   }
 
-
   private void dlgSingOut() {
     mDlgSingOut = new Dialog(this, android.R.style.Theme_Dialog);
     mDlgSingOut.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -258,7 +257,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     mDlgMapLegend.dismiss();
 
   }
-
 
   @Override
   protected void onDestroy() {
@@ -358,7 +356,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     );
   }
 
-
   @Override
   public void onSelectItem(View v, int layoutPosition) {
     Timber.d("On item click listener.");
@@ -374,13 +371,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
 
-
   public void sendRegistrationToServer(String authToken, String refreshedToken) {
     FCMModel fcmModel = new FCMModel();
     fcmModel.setToken(refreshedToken);
     presenter.sendFCMTokenToServer(authToken, fcmModel);
   }
-
 
   private void clearData() {
     TimeDataModel.INSTANCE.clearPids();
@@ -430,7 +425,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     viewPager.setAdapter(pagerAdapter);
   }
 
-
   private void initViews() {
     initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
     initBottomNavigationBar();
@@ -460,7 +454,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     bottomNavigationBar.setOnTabSelectedListener(bottomNavigationListener);
   }
 
-
   @Override
   public void setProfileScreenInterfaceVisibility(Boolean isVisible) {
     if (isVisible) {
@@ -475,7 +468,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       viewPager.setVisibility(View.GONE);
     }
   }
-
 
   public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon, ScreenType screenType, View.OnClickListener listener) {
     setSupportActionBar(toolbar);
@@ -763,7 +755,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
   }
 
-  public void onFailtureUpdateProfile(String appErrorMessage) {
+  public void onFailureUpdateProfile(String appErrorMessage) {
     Timber.d("Wrong update profile");
     Toast.makeText(this, "Не удалось обновить профиль", Toast.LENGTH_LONG).show();
   }
@@ -784,7 +776,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         "Качай приложение и играй за 50 рублей/час");
     startActivity(Intent.createChooser(shareIntent, "Send"));
   }
-
 
   @Override
   public void onRecommendButtonClick() {
@@ -854,7 +845,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       flFragmentContainer.setVisibility(View.GONE);
     }
   }
-
 
   @Override
   public void showWait() {

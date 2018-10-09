@@ -39,5 +39,5 @@ public interface MainScreenView extends MvpView {
 
     void onProfileUpdateSuccessfully(MessageResponse authResponse);
 
-    void onFailtureUpdateProfile(String appErrorMessage);
+    void onFailureUpdateProfile(String appErrorMessage);
 }

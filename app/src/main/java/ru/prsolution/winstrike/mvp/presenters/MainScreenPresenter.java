@@ -88,7 +88,7 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
 
             @Override
             public void onError(NetworkError networkError) {
-                getViewState().onFailtureUpdateProfile(networkError.getAppErrorMessage());
+                getViewState().onFailureUpdateProfile(networkError.getAppErrorMessage());
             }
 
         },token, profile, publicId);
