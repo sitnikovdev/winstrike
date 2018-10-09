@@ -174,7 +174,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
         } else {
             ((RouterProvider) getActivity()).getRouter().replaceScreen(Screens.START_SCREEN,0);
             MainScreenActivity activity = (MainScreenActivity) getActivity();
-            activity.initMainToolbar(true,"Winstrike",true,ScreenType.MAIN);
+            activity.initMainToolbar("Winstrike",true,ScreenType.MAIN);
             activity.showBottomTab();
             activity.highlightTab(MainScreenView.HOME_TAB_POSITION);
             activity.setProfileScreenInterfaceVisibility(false);

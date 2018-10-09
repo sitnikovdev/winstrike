@@ -216,7 +216,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 .commitNow();
             break;
           case Screens.CHOOSE_SCREEN:
-            initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+            initMainToolbar(getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -229,7 +229,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.executePendingTransactions();
             break;
           case Screens.MAP_SCREEN:
-            initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
+            initMainToolbar("Winstrike Arena", SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -242,7 +242,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.executePendingTransactions();
             break;
           case Screens.PAY_SCREEN:
-            initMainToolbar(HIDE_MENU, "Оплата", SHOW_ICON, ScreenType.MAP, mMainOnClickListener);
+            initMainToolbar("Оплата", SHOW_ICON, ScreenType.MAP, mMainOnClickListener);
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -478,7 +478,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   private void initViews() {
-    initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
+    initMainToolbar(getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
     initBottomNavigationBar();
 
     // Hide profile interface element
@@ -503,12 +503,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
   }
 
-  public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon, ScreenType screenType, View.OnClickListener listener) {
+  public void initMainToolbar(String title, Boolean hideNavIcon, ScreenType screenType, View.OnClickListener listener) {
     setSupportActionBar(toolbar);
     toolbar.setNavigationOnClickListener(listener);
 
     mScreenType = screenType;
-    // getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
     invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
     toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
     tvToolbarTitle.setText(title);
@@ -522,7 +521,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     getSupportActionBar().setDisplayShowTitleEnabled(false);
   }
 
-  public void initMainToolbar(Boolean hide_menu, String title, Boolean hideNavIcon, ScreenType screenType) {
+  public void initMainToolbar(String title, Boolean hideNavIcon, ScreenType screenType) {
     setSupportActionBar(toolbar);
     toolbar.setNavigationOnClickListener(mMainOnClickListener);
 
@@ -651,7 +650,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         }
       }
       user.setName(name);
-      initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener);
+      initMainToolbar(title, SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener);
     }
   }
 
@@ -807,7 +806,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public void onChooseSeatClick(SeatModel seat) {
     TimeDataModel.INSTANCE.clearPids();
     showFragmentHolderContainer(true);
-    initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+    initMainToolbar(getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
     WinstrikeApp.getInstance().setSeat(seat);
     presenter.onChooseScreenClick();
   }
@@ -864,13 +863,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           showFragmentHolderContainer(false);
           setHomeScreenStateVisibility(true);
           setProfileScreenInterfaceVisibility(false);
-          initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
+          initMainToolbar(getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
           presenter.onTabHomeClick();
           break;
         case PLACE_TAB_POSITION:
           showFragmentHolderContainer(true);
           setProfileScreenInterfaceVisibility(false);
-          initMainToolbar(HIDE_MENU, "Оплаченные места", SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+          initMainToolbar("Оплаченные места", SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
           String token = "Bearer " + AuthUtils.INSTANCE.getToken();
           presenter.getOrders(token);
           break;
@@ -885,7 +884,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
               title = AuthUtils.INSTANCE.getName();
             }
           }
-          initMainToolbar(SHOW_MENU, title, SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener);
+          initMainToolbar(title, SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener);
 
           presenter.onTabUserClick();
           break;
@@ -914,7 +913,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     public void onClick(View v) {
       clearData();
-      initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, this);
+      initMainToolbar(getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, this);
       presenter.onBackPressed();
     }
   }
@@ -924,7 +923,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     public void onClick(View v) {
       TimeDataModel.INSTANCE.clearPids();
-      initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, this);
+      initMainToolbar(getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, this);
       router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
     }
   }
