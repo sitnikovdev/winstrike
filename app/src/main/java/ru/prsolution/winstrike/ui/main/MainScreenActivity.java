@@ -159,6 +159,105 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     return service;
   }
 
+
+  @Override
+  public Router getRouter() {
+    return router;
+  }
+
+  private Navigator navigator = new Navigator() {
+    @Override
+    public void applyCommands(Command[] commands) {
+      for (Command command : commands) {
+        applyCommand(command);
+      }
+    }
+
+    private void applyCommand(Command command) {
+      if (command instanceof Back) {
+        finish();
+      } else if (command instanceof SystemMessage) {
+        Toast.makeText(MainScreenActivity.this, ((SystemMessage) command).getMessage(), Toast.LENGTH_SHORT).show();
+      } else if (command instanceof Replace) {
+        FragmentManager fm = getSupportFragmentManager();
+
+        switch (((Replace) command).getScreenKey()) {
+          case Screens.START_SCREEN:
+            setHomeScreenStateVisibility(true);
+            fm.beginTransaction()
+                .detach(userTabFragment)
+                .detach(placesTabFragment)
+                .detach(chooseTabFragment)
+                .detach(mapTabFragment)
+                .detach(payTabFragment)
+                .attach(homeTabFragment)
+                .commitNow();
+            break;
+          case Screens.PLACE_SCREEN:
+            setHomeScreenStateVisibility(false);
+            fm.beginTransaction()
+                .detach(userTabFragment)
+                .detach(homeTabFragment)
+                .detach(chooseTabFragment)
+                .detach(mapTabFragment)
+                .detach(payTabFragment)
+                .attach(placesTabFragment)
+                .commitNow();
+            break;
+          case Screens.USER_SCREEN:
+            setHomeScreenStateVisibility(false);
+            fm.beginTransaction()
+                .detach(homeTabFragment)
+                .detach(placesTabFragment)
+                .detach(chooseTabFragment)
+                .detach(mapTabFragment)
+                .detach(payTabFragment)
+                .attach(userTabFragment)
+                .commitNow();
+            break;
+          case Screens.CHOOSE_SCREEN:
+            initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+            setHomeScreenStateVisibility(false);
+            fm.beginTransaction()
+                .detach(homeTabFragment)
+                .detach(placesTabFragment)
+                .detach(userTabFragment)
+                .detach(mapTabFragment)
+                .detach(payTabFragment)
+                .attach(chooseTabFragment)
+                .commit();
+            fm.executePendingTransactions();
+            break;
+          case Screens.MAP_SCREEN:
+            initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
+            setHomeScreenStateVisibility(false);
+            fm.beginTransaction()
+                .detach(homeTabFragment)
+                .detach(placesTabFragment)
+                .detach(userTabFragment)
+                .detach(chooseTabFragment)
+                .detach(payTabFragment)
+                .attach(mapTabFragment)
+                .commit();
+            fm.executePendingTransactions();
+            break;
+          case Screens.PAY_SCREEN:
+            initMainToolbar(HIDE_MENU, "Оплата", SHOW_ICON, ScreenType.MAP, mMainOnClickListener);
+            setHomeScreenStateVisibility(false);
+            fm.beginTransaction()
+                .detach(homeTabFragment)
+                .detach(placesTabFragment)
+                .detach(userTabFragment)
+                .detach(chooseTabFragment)
+                .detach(mapTabFragment)
+                .attach(payTabFragment)
+                .commitNow();
+            break;
+        }
+      }
+    }
+  };
+
   @Override
   public void onArenaSelectItem(View v, int layoutPosition) {
     Timber.d("On item click listener.");
@@ -173,7 +272,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
-
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -201,71 +299,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     return super.onOptionsItemSelected(item);
   }
 
-  private void dlgSingOut() {
-    mDlgSingOut = new Dialog(this, android.R.style.Theme_Dialog);
-    mDlgSingOut.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    mDlgSingOut.setContentView(R.layout.dlg_logout);
-
-    TextView cvBtnOk = mDlgSingOut.findViewById(R.id.btn_ok);
-    TextView cvCancel = mDlgSingOut.findViewById(R.id.btn_cancel);
-
-    cvCancel.setOnClickListener(
-        it -> mDlgSingOut.dismiss()
-    );
-
-    cvBtnOk.setOnClickListener(
-        it -> {
-          AuthUtils.INSTANCE.setLogout(true);
-          AuthUtils.INSTANCE.setToken("");
-          startActivity(new Intent(MainScreenActivity.this, SplashActivity.class));
-        }
-    );
-
-    mDlgSingOut.setCanceledOnTouchOutside(true);
-    mDlgSingOut.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    mDlgSingOut.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-    Window window = mDlgSingOut.getWindow();
-    WindowManager.LayoutParams wlp = window.getAttributes();
-
-    wlp.gravity = Gravity.CENTER;
-    wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-    window.setAttributes(wlp);
-
-    mDlgSingOut.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-    mDlgSingOut.getWindow().setDimAmount(0.5f);
-
-    mDlgSingOut.setCanceledOnTouchOutside(false);
-    mDlgSingOut.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-    mDlgSingOut.dismiss();
-
+  @Override
+  public void showWait() {
   }
 
-  private void dlgLegend() {
-    mDlgMapLegend = new Dialog(this, android.R.style.Theme_Dialog);
-    mDlgMapLegend.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    mDlgMapLegend.setContentView(R.layout.dlg_legend);
-    TextView tvSee = mDlgMapLegend.findViewById(R.id.tv_see);
-
-    tvSee.setOnClickListener(
-        it -> mDlgMapLegend.dismiss()
-    );
-
-    mDlgMapLegend.setCanceledOnTouchOutside(true);
-    mDlgMapLegend.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    mDlgMapLegend.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    Window window = mDlgMapLegend.getWindow();
-    WindowManager.LayoutParams wlp = window.getAttributes();
-
-    wlp.gravity = Gravity.TOP;
-    wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-    wlp.y = 200;
-    window.setAttributes(wlp);
-
-    mDlgMapLegend.setCanceledOnTouchOutside(false);
-    mDlgMapLegend.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-    mDlgMapLegend.dismiss();
-
+  @Override
+  public void removeWait() {
   }
 
   @Override
@@ -447,8 +486,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     // Hide profile interface element
     setProfileScreenInterfaceVisibility(false);
 
-    dlgLegend();
-    dlgSingOut();
+    dlgMapLegend();
+    dlgProfileSingOut();
   }
 
   @Override
@@ -490,7 +529,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     toolbar.setNavigationOnClickListener(mMainOnClickListener);
 
     mScreenType = screenType;
-    // getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
     invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
     toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
     tvToolbarTitle.setText(title);
@@ -575,7 +613,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           .detach(payTabFragment).commitNow();
       fm.executePendingTransactions();
     }
-
   }
 
   @Override
@@ -584,122 +621,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     navigatorHolder.setNavigator(navigator);
   }
 
-  private Navigator navigator = new Navigator() {
-    @Override
-    public void applyCommands(Command[] commands) {
-      for (Command command : commands) {
-        applyCommand(command);
-      }
-    }
-
-    private void applyCommand(Command command) {
-      if (command instanceof Back) {
-        finish();
-      } else if (command instanceof SystemMessage) {
-        Toast.makeText(MainScreenActivity.this, ((SystemMessage) command).getMessage(), Toast.LENGTH_SHORT).show();
-      } else if (command instanceof Replace) {
-        FragmentManager fm = getSupportFragmentManager();
-
-        switch (((Replace) command).getScreenKey()) {
-          case Screens.START_SCREEN:
-            setHomeScreenStateVisibility(true);
-            fm.beginTransaction()
-                .detach(userTabFragment)
-                .detach(placesTabFragment)
-                .detach(chooseTabFragment)
-                .detach(mapTabFragment)
-                .detach(payTabFragment)
-                .attach(homeTabFragment)
-                .commitNow();
-            break;
-          case Screens.PLACE_SCREEN:
-            setHomeScreenStateVisibility(false);
-            fm.beginTransaction()
-                .detach(userTabFragment)
-                .detach(homeTabFragment)
-                .detach(chooseTabFragment)
-                .detach(mapTabFragment)
-                .detach(payTabFragment)
-                .attach(placesTabFragment)
-                .commitNow();
-            break;
-          case Screens.USER_SCREEN:
-            setHomeScreenStateVisibility(false);
-            fm.beginTransaction()
-                .detach(homeTabFragment)
-                .detach(placesTabFragment)
-                .detach(chooseTabFragment)
-                .detach(mapTabFragment)
-                .detach(payTabFragment)
-                .attach(userTabFragment)
-                .commitNow();
-            break;
-          case Screens.CHOOSE_SCREEN:
-            initMainToolbar(HIDE_MENU, getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-            setHomeScreenStateVisibility(false);
-            fm.beginTransaction()
-                .detach(homeTabFragment)
-                .detach(placesTabFragment)
-                .detach(userTabFragment)
-                .detach(mapTabFragment)
-                .detach(payTabFragment)
-                .attach(chooseTabFragment)
-                .commit();
-            fm.executePendingTransactions();
-            break;
-          case Screens.MAP_SCREEN:
-            initMainToolbar(HIDE_MENU, "Winstrike Arena", SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
-            setHomeScreenStateVisibility(false);
-            fm.beginTransaction()
-                .detach(homeTabFragment)
-                .detach(placesTabFragment)
-                .detach(userTabFragment)
-                .detach(chooseTabFragment)
-                .detach(payTabFragment)
-                .attach(mapTabFragment)
-                .commit();
-            fm.executePendingTransactions();
-            break;
-          case Screens.PAY_SCREEN:
-            initMainToolbar(HIDE_MENU, "Оплата", SHOW_ICON, ScreenType.MAP, mMainOnClickListener);
-            setHomeScreenStateVisibility(false);
-            fm.beginTransaction()
-                .detach(homeTabFragment)
-                .detach(placesTabFragment)
-                .detach(userTabFragment)
-                .detach(chooseTabFragment)
-                .detach(mapTabFragment)
-                .attach(payTabFragment)
-                .commitNow();
-            break;
-        }
-      }
-    }
-  };
-
-  @Override
-  public void highlightTab(int position) {
-    bottomNavigationBar.setCurrentItem(position, false);
-  }
-
-  @Override
-  public void hideBottomTab() {
-    bottomNavigationBar.setVisibility(View.GONE);
-  }
-
-  @Override
-  public void showBottomTab() {
-    bottomNavigationBar.setVisibility(VISIBLE);
-  }
-
   @Override
   public void goHome() {
     startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
-  }
-
-  @Override
-  public Router getRouter() {
-    return router;
   }
 
   // User profile actions:
@@ -742,6 +666,47 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     Timber.d("Profile is updated");
     Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
   }
+
+  private void dlgProfileSingOut() {
+    mDlgSingOut = new Dialog(this, android.R.style.Theme_Dialog);
+    mDlgSingOut.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    mDlgSingOut.setContentView(R.layout.dlg_logout);
+
+    TextView cvBtnOk = mDlgSingOut.findViewById(R.id.btn_ok);
+    TextView cvCancel = mDlgSingOut.findViewById(R.id.btn_cancel);
+
+    cvCancel.setOnClickListener(
+        it -> mDlgSingOut.dismiss()
+    );
+
+    cvBtnOk.setOnClickListener(
+        it -> {
+          AuthUtils.INSTANCE.setLogout(true);
+          AuthUtils.INSTANCE.setToken("");
+          startActivity(new Intent(MainScreenActivity.this, SplashActivity.class));
+        }
+    );
+
+    mDlgSingOut.setCanceledOnTouchOutside(true);
+    mDlgSingOut.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    mDlgSingOut.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+    Window window = mDlgSingOut.getWindow();
+    WindowManager.LayoutParams wlp = window.getAttributes();
+
+    wlp.gravity = Gravity.CENTER;
+    wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+    window.setAttributes(wlp);
+
+    mDlgSingOut.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+    mDlgSingOut.getWindow().setDimAmount(0.5f);
+
+    mDlgSingOut.setCanceledOnTouchOutside(false);
+    mDlgSingOut.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    mDlgSingOut.dismiss();
+
+  }
+
 
   // Social networks block:
   @Override
@@ -803,6 +768,38 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   // Map actions:
+  private void dlgMapLegend() {
+    mDlgMapLegend = new Dialog(this, android.R.style.Theme_Dialog);
+    mDlgMapLegend.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    mDlgMapLegend.setContentView(R.layout.dlg_legend);
+    TextView tvSee = mDlgMapLegend.findViewById(R.id.tv_see);
+
+    tvSee.setOnClickListener(
+        it -> mDlgMapLegend.dismiss()
+    );
+
+    mDlgMapLegend.setCanceledOnTouchOutside(true);
+    mDlgMapLegend.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    mDlgMapLegend.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    Window window = mDlgMapLegend.getWindow();
+    WindowManager.LayoutParams wlp = window.getAttributes();
+
+    wlp.gravity = Gravity.TOP;
+    wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+    wlp.y = 200;
+    window.setAttributes(wlp);
+
+    mDlgMapLegend.setCanceledOnTouchOutside(false);
+    mDlgMapLegend.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    mDlgMapLegend.dismiss();
+
+  }
+
+  @Override
+  public void onMapShow() {
+    presenter.onMapShowClick();
+  }
+
   private void clearData() {
     TimeDataModel.INSTANCE.clearPids();
     TimeDataModel.INSTANCE.clearDateTime();
@@ -825,20 +822,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
   }
 
-  @Override
-  public void showWait() {
-    // TODO: 13/05/2018 Show progress for some loading dialogs
-  }
-
-  @Override
-  public void removeWait() {
-  }
-
-  @Override
-  public void onMapShow() {
-    presenter.onMapShowClick();
-  }
-
   public ArrayList<OrderModel> getOrders() {
     return this.mPayList;
   }
@@ -854,7 +837,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public void onGetOrdersFailure(String appErrorMessage) {
     Timber.d("Failure get layout from server: %s", appErrorMessage);
   }
-
 
   // Bottom navigation menu:
   private void initBottomNavigationBar() {
@@ -912,6 +894,21 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       }
       return true;
     }
+  }
+
+  @Override
+  public void highlightTab(int position) {
+    bottomNavigationBar.setCurrentItem(position, false);
+  }
+
+  @Override
+  public void hideBottomTab() {
+    bottomNavigationBar.setVisibility(View.GONE);
+  }
+
+  @Override
+  public void showBottomTab() {
+    bottomNavigationBar.setVisibility(VISIBLE);
   }
 
   private class MainOnClickListener implements View.OnClickListener {

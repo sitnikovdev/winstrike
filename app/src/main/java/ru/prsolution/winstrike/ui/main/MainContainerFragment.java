@@ -172,7 +172,6 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
                 && ((BackButtonListener) fragment).onBackPressed()) {
             return true;
         } else {
-//            ((RouterProvider) getActivity()).getRouter().finishChain();
             ((RouterProvider) getActivity()).getRouter().replaceScreen(Screens.START_SCREEN,0);
             MainScreenActivity activity = (MainScreenActivity) getActivity();
             activity.initMainToolbar(true,"Winstrike",true,ScreenType.MAIN);
