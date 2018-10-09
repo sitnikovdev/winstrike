@@ -87,6 +87,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     OnAppButtonsClickListener, OnChoosePlaceButtonsClickListener
     , onMapShowProcess, OnItemLangClickListener {
 
+  @BindView(R.id.root) ConstraintLayout layoutRoot;
   @BindView(R.id.toolbar_text) TextView tvToolbarTitle;
   @BindView(R.id.ab_container) RelativeLayout flFragmentContainer;
   @BindView(R.id.head_image) ImageView ivHeadImage;
@@ -103,7 +104,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @Nullable
   @BindView(R.id.tv_title)
   TextView tvToolbarHead;
-  @BindView(R.id.root) ConstraintLayout layoutRoot;
 
 
   private ProgressDialog progressDialog;
