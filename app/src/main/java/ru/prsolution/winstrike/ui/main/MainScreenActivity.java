@@ -144,7 +144,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private AcMainscreenBinding binding;
 
-  ArrayList<RowItem> rowItems;
+  private ArrayList<RowItem> rowItems;
   public static final Integer[] titles = new Integer[]{R.string.spin_arena1, R.string.spin_arena2};
   public static final Integer[] address = {R.string.spin_address1, R.string.spin_address2};
   private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
@@ -273,6 +273,41 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
 
+  private void initCarouselArenaSeat(int currentItem) {
+
+    dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
+    dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
+
+    Float widthPx = WinstrikeApp.getInstance().getDisplayWidhtPx();
+    Float heightPx = WinstrikeApp.getInstance().getDisplayHeightPx();
+
+    adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0);
+    adapter.addFragment(CarouselSeatFragment.newInstance(this, 1), 1);
+    adapter.notifyDataSetChanged();
+    viewPagerSeat.setAdapter(adapter);
+    viewPagerSeat.setPageTransformer(false, adapter);
+    viewPagerSeat.setCurrentItem(currentItem);
+    viewPagerSeat.setOffscreenPageLimit(2);
+
+    Timber.d("PX: pxWidth: %s x pxHeight: %s px", widthPx, heightPx);
+    Timber.d("DP: dpWidth: %s dp x dpHeight: %s dp", dpWidth, dpHeight);
+
+    if (widthPx <= 720) {
+      viewPagerSeat.setPageMargin(-350);
+      Timber.d("widthPx <= 720");
+    } else if (widthPx <= 1080) {
+      viewPagerSeat.setPageMargin(-450);
+      Timber.d("widthPx <= 1080");
+    } else if (widthPx <= 1440) {
+      Timber.d("widthPx <= 1440");
+      viewPagerSeat.setPageMargin(-600);
+    } else {
+      Timber.d("dbWidth: - 450. Default");
+      viewPagerSeat.setPageMargin(-450);
+    }
+
+  }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     if (this.mScreenType == ScreenType.MAIN) {
@@ -380,7 +415,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     viewPagerSeat = findViewById(R.id.view_pager_seat);
     adapter = new CarouselAdapter(this);
     Timber.w(String.valueOf(adapter.getCount()));
-    initCarouselSeat(1);
+    initCarouselArenaSeat(1);
 
     progressDialog = new ProgressDialog(this);
 
@@ -434,43 +469,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public void onPushClick(String isOn) {
     Toast.makeText(this, "Push is: " + isOn, Toast.LENGTH_LONG).show();
   }
-
-
-  private void initCarouselSeat(int currentItem) {
-
-    dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
-    dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
-
-    Float widthPx = WinstrikeApp.getInstance().getDisplayWidhtPx();
-    Float heightPx = WinstrikeApp.getInstance().getDisplayHeightPx();
-
-    adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0);
-    adapter.addFragment(CarouselSeatFragment.newInstance(this, 1), 1);
-    adapter.notifyDataSetChanged();
-    viewPagerSeat.setAdapter(adapter);
-    viewPagerSeat.setPageTransformer(false, adapter);
-    viewPagerSeat.setCurrentItem(currentItem);
-    viewPagerSeat.setOffscreenPageLimit(2);
-
-    Timber.d("PX: pxWidth: %s x pxHeight: %s px", widthPx, heightPx);
-    Timber.d("DP: dpWidth: %s dp x dpHeight: %s dp", dpWidth, dpHeight);
-
-    if (widthPx <= 720) {
-      viewPagerSeat.setPageMargin(-350);
-      Timber.d("widthPx <= 720");
-    } else if (widthPx <= 1080) {
-      viewPagerSeat.setPageMargin(-450);
-      Timber.d("widthPx <= 1080");
-    } else if (widthPx <= 1440) {
-      Timber.d("widthPx <= 1440");
-      viewPagerSeat.setPageMargin(-600);
-    } else {
-      Timber.d("dbWidth: - 450. Default");
-      viewPagerSeat.setPageMargin(-450);
-    }
-
-  }
-
 
   private void setupProfileViewPager(ViewPager viewPager) {
     pagerAdapter = new BaseViewPagerAdapter(getSupportFragmentManager());
