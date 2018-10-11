@@ -33,6 +33,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import org.jetbrains.annotations.NotNull;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.YandexWebView;
@@ -181,9 +182,9 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
       // TODO: 07/06/2018 For test:
       Integer seatIdInt = Integer.parseInt(seat.getId().toString()) + 1;
 //            seatId = seatIdInt.toString();
-      Integer idLenth = seatId.length();
-      Integer textOffsetX = 0;
-      Integer textOffsetY = -10;
+      int idLenth = seatId.length();
+      int textOffsetX = 0;
+      int textOffsetY = -10;
       if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
         textOffsetY = 0;
       }
@@ -271,8 +272,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     for (
         LabelRoom label : room.getLabels()) {
       String text = label.getText();
-      Integer dx = 0;
-      Integer dy = 0;
+      Integer dx;
+      Integer dy;
 
       dx = (int) ((label.getDx() - MapViewUtils.Companion.getLabelOffsetX(text)) * mXScaleFactor);
       dy = (int) ((label.getDy() + MapViewUtils.Companion.getLabelOffsetY(text)) * (mYScaleFactor));
@@ -356,8 +357,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
     Float angle = radianToDegrees(seat);
 
-    Float pivotX = seatBitmap.getWidth() / 2f;
-    Float pivotY = seatBitmap.getHeight() / 2f;
+    float pivotX = seatBitmap.getWidth() / 2f;
+    float pivotY = seatBitmap.getHeight() / 2f;
     ivSeat.setPivotX(pivotX);
     ivSeat.setPivotY(pivotY);
     ivSeat.setRotation(angle);
@@ -396,7 +397,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
 
   @Override
-  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+  public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     this.presenter = new MapPresenter(service, this);
     presenter.initScreen();
