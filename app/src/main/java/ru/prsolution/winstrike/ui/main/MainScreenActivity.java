@@ -12,18 +12,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.support.design.widget.TabLayout;
 import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.Space;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
@@ -32,8 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
@@ -43,7 +36,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import java.util.ArrayList;
 import javax.inject.Inject;
 import ru.prsolution.winstrike.R;
@@ -87,28 +79,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     OnAppButtonsClickListener, OnChoosePlaceButtonsClickListener
     , onMapShowProcess, OnItemLangClickListener {
 
-  @BindView(R.id.root) ConstraintLayout layoutRoot;
-  @BindView(R.id.toolbar_text) TextView tvToolbarTitle;
-  @BindView(R.id.ab_container) RelativeLayout flFragmentContainer;
-  @BindView(R.id.head_image) ImageView ivHeadImage;
-  @BindView(R.id.description) TextView tvCarouselDescription;
-  @BindView(R.id.category) TextView tvCarouselTitleCategory;
-  @BindView(R.id.spacer) Space spSpace;
-  @BindView(R.id.main_toolbar) Toolbar toolbar;
-  @BindView(R.id.viewpager) AHBottomNavigationViewPager viewPager;
-  @BindView(R.id.tablayout) TabLayout tabLayout;
-  @BindView(R.id.rv_arena) RecyclerView rv_arena;
-  @BindView(R.id.v_tap_arrow_down) View viewLangDown;
-  @BindView(R.id.v_tap_arrow_up) View viewLangUp;
-  @BindView(R.id.tvArenaTitle) TextView tv_lang;
-  @Nullable
-  @BindView(R.id.tv_title)
-  TextView tvToolbarHead;
-
-
   private ProgressDialog progressDialog;
   private AHBottomNavigation bottomNavigationBar;
-  private BaseViewPagerAdapter pagerAdapter;
   private MainContainerFragment homeTabFragment;
   private MainContainerFragment placesTabFragment;
   private MainContainerFragment userTabFragment;
@@ -117,8 +89,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private MainContainerFragment payTabFragment;
   private ViewPager viewPagerSeat;
   private CarouselAdapter adapter;
-  private BottomNavigationListener bottomNavigationListener;
-  float dpHeight, dpWidth;
   private ArrayList<OrderModel> mPayList = new ArrayList<>();
   private final Boolean HIDE_ICON = true;
   private final Boolean SHOW_ICON = false;
@@ -264,15 +234,15 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     ArenaSelectAdapter.SELECTED_ITEM = layoutPosition;
     RowItem item = rowItems.get(layoutPosition);
-    tv_lang.setText(item.getTitle());
+    binding.tvArenaTitle.setText(item.getTitle());
 
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
 
   private void initCarouselArenaSeat(int currentItem) {
 
-    dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
-    dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
+    float dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
+    float dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
 
     Float widthPx = WinstrikeApp.getInstance().getDisplayWidhtPx();
     Float heightPx = WinstrikeApp.getInstance().getDisplayHeightPx();
@@ -312,7 +282,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     WinstrikeApp.getInstance().setSeat(seat);
     presenter.onChooseScreenClick();
   }
-
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -376,7 +345,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Override
   public void onBackPressed() {
-    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.ab_container);
+    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     if (fragment != null
         && fragment instanceof BackButtonListener
         && ((BackButtonListener) fragment).onBackPressed()) {
@@ -444,7 +413,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
 
     // Arena select:
-    viewLangDown.setOnClickListener(v ->
+    binding.arrowArenaDown.setOnClickListener(v ->
         {
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             TransitionManager.beginDelayedTransition(binding.root);
@@ -453,7 +422,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         }
     );
 
-    viewLangUp.setOnClickListener(
+    binding.arrowArenaUp.setOnClickListener(
         v ->
 
         {
@@ -477,37 +446,37 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   public void initMainToolbar(String title, Boolean hideNavIcon, ScreenType screenType, View.OnClickListener listener) {
-    setSupportActionBar(toolbar);
-    toolbar.setNavigationOnClickListener(listener);
+    setSupportActionBar(binding.toolbar);
+    binding.toolbar.setNavigationOnClickListener(listener);
 
     mScreenType = screenType;
     invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
-    toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-    tvToolbarTitle.setText(title);
+    binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+    binding.toolbarText.setText(title);
     if (hideNavIcon) {
-      toolbar.setNavigationIcon(null);
-      toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStart());
+      binding.toolbar.setNavigationIcon(null);
+      binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStart());
     } else {
-      toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-      toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStartWithNavigation());
+      binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+      binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStartWithNavigation());
     }
     getSupportActionBar().setDisplayShowTitleEnabled(false);
   }
 
   public void initMainToolbar(String title, Boolean hideNavIcon, ScreenType screenType) {
-    setSupportActionBar(toolbar);
-    toolbar.setNavigationOnClickListener(mMainOnClickListener);
+    setSupportActionBar(binding.toolbar);
+    binding.toolbar.setNavigationOnClickListener(mMainOnClickListener);
 
     mScreenType = screenType;
     invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
-    toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-    tvToolbarTitle.setText(title);
+    binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+    binding.toolbarText.setText(title);
     if (hideNavIcon) {
-      toolbar.setNavigationIcon(null);
-      toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStart());
+      binding.toolbar.setNavigationIcon(null);
+      binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStart());
     } else {
-      toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-      toolbar.setContentInsetsAbsolute(0, toolbar.getContentInsetStartWithNavigation());
+      binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+      binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStartWithNavigation());
     }
     getSupportActionBar().setDisplayShowTitleEnabled(false);
   }
@@ -515,15 +484,15 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private void setHomeScreenStateVisibility(Boolean isVisible) {
     if (isVisible) {
       binding.vSpinner.setVisibility(View.VISIBLE);
-      ivHeadImage.setVisibility(VISIBLE);
-      tvCarouselDescription.setVisibility(VISIBLE);
-      tvCarouselTitleCategory.setVisibility(VISIBLE);
+      binding.headImage.setVisibility(VISIBLE);
+      binding.arenaDescription.setVisibility(VISIBLE);
+      binding.seatTitle.setVisibility(VISIBLE);
       viewPagerSeat.setVisibility(VISIBLE);
     } else {
       binding.vSpinner.setVisibility(View.GONE);
-      ivHeadImage.setVisibility(View.GONE);
-      tvCarouselDescription.setVisibility(View.GONE);
-      tvCarouselTitleCategory.setVisibility(View.GONE);
+      binding.headImage.setVisibility(View.GONE);
+      binding.arenaDescription.setVisibility(View.GONE);
+      binding.seatTitle.setVisibility(View.GONE);
       viewPagerSeat.setVisibility(View.GONE);
     }
   }
@@ -534,7 +503,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (homeTabFragment == null) {
       homeTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_main));
       fm.beginTransaction()
-          .add(R.id.ab_container, homeTabFragment, getString(R.string.tag_main))
+          .add(R.id.fragment_container, homeTabFragment, getString(R.string.tag_main))
           .detach(homeTabFragment).commitNow();
       fm.executePendingTransactions();
     }
@@ -543,7 +512,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (placesTabFragment == null) {
       placesTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_places));
       fm.beginTransaction()
-          .add(R.id.ab_container, placesTabFragment, getString(R.string.tag_places))
+          .add(R.id.fragment_container, placesTabFragment, getString(R.string.tag_places))
           .detach(placesTabFragment).commitNow();
       fm.executePendingTransactions();
     }
@@ -552,7 +521,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (userTabFragment == null) {
       userTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_user));
       fm.beginTransaction()
-          .add(R.id.ab_container, userTabFragment, getString(R.string.tag_user))
+          .add(R.id.fragment_container, userTabFragment, getString(R.string.tag_user))
           .detach(userTabFragment).commitNow();
       fm.executePendingTransactions();
     }
@@ -561,7 +530,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (chooseTabFragment == null) {
       chooseTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_choose));
       fm.beginTransaction()
-          .add(R.id.ab_container, chooseTabFragment, getString(R.string.tag_choose))
+          .add(R.id.fragment_container, chooseTabFragment, getString(R.string.tag_choose))
           .detach(chooseTabFragment).commitNow();
       fm.executePendingTransactions();
     }
@@ -570,7 +539,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (mapTabFragment == null) {
       mapTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_map));
       fm.beginTransaction()
-          .add(R.id.ab_container, mapTabFragment, getString(R.string.tag_map))
+          .add(R.id.fragment_container, mapTabFragment, getString(R.string.tag_map))
           .detach(mapTabFragment).commitNow();
       fm.executePendingTransactions();
     }
@@ -579,7 +548,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (payTabFragment == null) {
       payTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_pay));
       fm.beginTransaction()
-          .add(R.id.ab_container, payTabFragment, getString(R.string.tag_pay))
+          .add(R.id.fragment_container, payTabFragment, getString(R.string.tag_pay))
           .detach(payTabFragment).commitNow();
       fm.executePendingTransactions();
     }
@@ -601,19 +570,19 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public void setProfileScreenInterfaceVisibility(Boolean isVisible) {
     if (isVisible) {
       binding.vSpinner.setVisibility(View.GONE);
-      tabLayout.setVisibility(VISIBLE);
-      viewPager.setVisibility(VISIBLE);
-      setupProfileViewPager(viewPager);
-      tabLayout.setupWithViewPager(viewPager);
+      binding.tabLayoutProfile.setVisibility(VISIBLE);
+      binding.viewPagerProfile.setVisibility(VISIBLE);
+      setupProfileViewPager(binding.viewPagerProfile);
+      binding.tabLayoutProfile.setupWithViewPager(binding.viewPagerProfile);
     } else {
       binding.vSpinner.setVisibility(View.VISIBLE);
-      tabLayout.setVisibility(View.GONE);
-      viewPager.setVisibility(View.GONE);
+      binding.tabLayoutProfile.setVisibility(View.GONE);
+      binding.viewPagerProfile.setVisibility(View.GONE);
     }
   }
 
   private void setupProfileViewPager(ViewPager viewPager) {
-    pagerAdapter = new BaseViewPagerAdapter(getSupportFragmentManager());
+    BaseViewPagerAdapter pagerAdapter = new BaseViewPagerAdapter(getSupportFragmentManager());
     pagerAdapter.addFragments(ProfileFragment.newInstance(), getString(R.string.title_profile));
     pagerAdapter.addFragments(AppFragment.newInstance(), getString(R.string.title_app));
     viewPager.setAdapter(pagerAdapter);
@@ -785,9 +754,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void showFragmentHolderContainer(Boolean isVisible) {
     if (isVisible) {
-      flFragmentContainer.setVisibility(VISIBLE);
+      binding.fragmentContainer.setVisibility(VISIBLE);
     } else {
-      flFragmentContainer.setVisibility(View.GONE);
+      binding.fragmentContainer.setVisibility(View.GONE);
     }
   }
 
@@ -809,7 +778,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   // Bottom navigation menu:
   private void initBottomNavigationBar() {
-    bottomNavigationListener = new BottomNavigationListener();
+    BottomNavigationListener bottomNavigationListener = new BottomNavigationListener();
     // Create items
     AHBottomNavigationItem item1 = new AHBottomNavigationItem(null, R.drawable.ic_home);
     AHBottomNavigationItem item2 = new AHBottomNavigationItem(null, R.drawable.ic_money);
@@ -848,7 +817,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         case USER_TAB_POSITION:
           showFragmentHolderContainer(false);
           setProfileScreenInterfaceVisibility(true);
-          toolbar.setNavigationIcon(null);
+          binding.toolbar.setNavigationIcon(null);
           user.setName(AuthUtils.INSTANCE.getName());
           String title = user.getName();
           if (AuthUtils.INSTANCE.getName() != null) {

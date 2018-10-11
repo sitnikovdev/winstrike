@@ -74,7 +74,7 @@
         android:layout_height="100dp"
         android:src="@drawable/head_img"
         android:layout_marginTop="12dp"
-        app:layout_constraintBottom_toTopOf="@id/description"
+        app:layout_constraintBottom_toTopOf="@id/arena_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/v_spinner"
@@ -109,7 +109,7 @@
 
 
       <View
-        android:id="@+id/v_tap_arrow_down"
+        android:id="@+id/arrowArena_Down"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:clickable="true"
@@ -119,7 +119,7 @@
         app:layout_constraintTop_toTopOf="@id/v_spinner"/>
 
       <View
-        android:id="@+id/v_tap_arrow_up"
+        android:id="@+id/arrowArena_Up"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:clickable="true"
@@ -166,7 +166,7 @@
 
 
       <TextView
-        android:id="@+id/description"
+        android:id="@+id/arena_description"
         style="@style/StemRegular12Black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
 
 
       <TextView
-        android:id="@+id/category"
+        android:id="@+id/seat_title"
         style="@style/StemMedium15Black"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -191,7 +191,7 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/description"/>
+        app:layout_constraintTop_toBottomOf="@id/arena_description"/>
 
       <android.support.v4.view.ViewPager
         android:id="@+id/view_pager_seat"
@@ -200,13 +200,13 @@
         android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/category"/>
+        app:layout_constraintTop_toBottomOf="@id/seat_title"/>
 
     </android.support.constraint.ConstraintLayout>
     <!--</ScrollView>-->
 
     <RelativeLayout
-      android:id="@+id/ab_container"
+      android:id="@+id/fragment_container"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
@@ -223,7 +223,7 @@
 
 
     <android.support.design.widget.TabLayout
-      android:id="@+id/tablayout"
+      android:id="@+id/tabLayout_Profile"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="56dp"
@@ -232,7 +232,7 @@
       app:tabTextAppearance="@style/TabLayoutProfile"/>
 
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
-      android:id="@+id/viewpager"
+      android:id="@+id/viewPager_Profile"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="56dp"

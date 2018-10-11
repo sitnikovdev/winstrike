@@ -34,7 +34,7 @@
 
 
   <View
-    android:id="@+id/v_tap_arrow_down"
+    android:id="@+id/arrowArena_Down"
     android:layout_width="50dp"
     android:layout_height="50dp"
     android:visibility="visible"
@@ -44,7 +44,7 @@
     app:layout_constraintTop_toTopOf="@id/v_spinner" />
 
   <View
-    android:id="@+id/v_tap_arrow_up"
+    android:id="@+id/arrowArena_Up"
     android:layout_width="50dp"
     android:layout_height="50dp"
     android:foreground="@drawable/ripple_effect"

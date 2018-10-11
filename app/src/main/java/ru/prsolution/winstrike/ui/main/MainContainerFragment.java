@@ -74,28 +74,28 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
         // TODO: 09/06/2018 REMOVE this!!!
 //        ArrayList<OrderModel> orderModels = new ArrayList<>();
 
-        if (getFragmentManager().findFragmentById(R.id.ab_container).getTag().equals("MAIN")) {
+        if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals("MAIN")) {
             getCicerone().getRouter().replaceScreen(Screens.START_SCREEN, 0);
         }
 
-        if (getFragmentManager().findFragmentById(R.id.ab_container).getTag().equals("PLACES")) {
+        if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals("PLACES")) {
             getCicerone().getRouter().replaceScreen(Screens.PLACE_SCREEN, orderModels);
         }
 
-        if (getFragmentManager().findFragmentById(R.id.ab_container).getTag().equals("USER")) {
+        if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals("USER")) {
             getCicerone().getRouter().replaceScreen(Screens.USER_SCREEN, 0);
         }
 
-        if (getFragmentManager().findFragmentById(R.id.ab_container).getTag().equals("CHOOSE")) {
+        if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals("CHOOSE")) {
             getCicerone().getRouter().replaceScreen(Screens.CHOOSE_SCREEN, 0);
         }
 
-        if (getFragmentManager().findFragmentById(R.id.ab_container).getTag().equals("MAP")) {
+        if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals("MAP")) {
 //              MapScreenFragment.getNewInstance(getContainerName(), 0);
             getCicerone().getRouter().replaceScreen(Screens.MAP_SCREEN, 0);
         }
 
-        if (getFragmentManager().findFragmentById(R.id.ab_container).getTag().equals("PAY")) {
+        if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals("PAY")) {
             getCicerone().getRouter().replaceScreen(Screens.PAY_SCREEN, 0);
         }
 
