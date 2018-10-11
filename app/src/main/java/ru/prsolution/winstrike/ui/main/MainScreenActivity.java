@@ -249,14 +249,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     viewPagerSeat.setCurrentItem(2);
     viewPagerSeat.setOffscreenPageLimit(2);
 
-    if (widthPx <= 720) {
-      viewPagerSeat.setPageMargin(-350);
-    } else if (widthPx <= 1080) {
-      viewPagerSeat.setPageMargin(-450);
-    } else if (widthPx <= 1440) {
-      viewPagerSeat.setPageMargin(-600);
+    if (widthPx <= Constants.SCREEN_WIDTH_PX_720) {
+      viewPagerSeat.setPageMargin(Constants.SCREEN_MARGIN_350);
+    } else if (widthPx <= Constants.SCREEN_WIDTH_PX_1080) {
+      viewPagerSeat.setPageMargin(Constants.SCREEN_MARGIN_450);
+    } else if (widthPx <= Constants.SCREEN_WIDTH_PX_1440) {
+      viewPagerSeat.setPageMargin(Constants.SCREEN_MARGIN_600);
     } else {
-      viewPagerSeat.setPageMargin(-450);
+      viewPagerSeat.setPageMargin(Constants.SCREEN_MARGIN_450);
     }
   }
 
@@ -686,10 +686,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Override
   public void onRecommendButtonClick() {
-    shareImg();
+    shareImgOnRecommendClick();
   }
 
-  private void shareImg() {
+  private void shareImgOnRecommendClick() {
     Uri attached_Uri = Uri.parse(Constants.ANDROID_RESOURCES_PATH + getPackageName()
         + Constants.SHARE_DRAWABLE + Constants.SHARE_IMG);
     Intent shareIntent = ShareCompat.IntentBuilder.from(this)
@@ -766,15 +766,15 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private void initBottomNavigationBar() {
     BottomNavigationListener bottomNavigationListener = new BottomNavigationListener();
     // Create items
-    AHBottomNavigationItem item1 = new AHBottomNavigationItem(null, R.drawable.ic_home);
-    AHBottomNavigationItem item2 = new AHBottomNavigationItem(null, R.drawable.ic_money);
-    AHBottomNavigationItem item3 = new AHBottomNavigationItem(null, R.drawable.ic_user);
+    AHBottomNavigationItem itHome = new AHBottomNavigationItem(null, R.drawable.ic_home);
+    AHBottomNavigationItem itPlaces = new AHBottomNavigationItem(null, R.drawable.ic_money);
+    AHBottomNavigationItem itProfile = new AHBottomNavigationItem(null, R.drawable.ic_user);
 
     // Add items
     bottomNavigationBar = findViewById(R.id.ab_bottom_navigation_bar);
-    bottomNavigationBar.addItem(item1);
-    bottomNavigationBar.addItem(item2);
-    bottomNavigationBar.addItem(item3);
+    bottomNavigationBar.addItem(itHome);
+    bottomNavigationBar.addItem(itPlaces);
+    bottomNavigationBar.addItem(itProfile);
 
     bottomNavigationBar.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
     bottomNavigationBar.setAccentColor(getColor(R.color.color_accent));

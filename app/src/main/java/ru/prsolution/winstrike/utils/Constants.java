@@ -26,6 +26,17 @@ public class Constants {
     public static final String SHARE_IMG_TITLE= "Send";
     public static final String ANDROID_RESOURCES_PATH= "android.resource://";
 
+    //Screen width in px:
+    public static final Integer SCREEN_WIDTH_PX_720 = 720;
+    public static final Integer SCREEN_WIDTH_PX_1080 = 1080;
+    public static final Integer SCREEN_WIDTH_PX_1440 = 1440;
+
+    // Margin of scfreen:
+    public static final Integer SCREEN_MARGIN_350 = -350;
+    public static final Integer SCREEN_MARGIN_450 = -450;
+    public static final Integer SCREEN_MARGIN_600 = -600;
+
+
 
     public static final String HEADER_AUTHORIZATION = "Authorization";
     public static final String TOKEN_TYPE_BEARER = "Bearer ";
