@@ -425,7 +425,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     initBottomNavigationBar();
 
     // Hide profile interface element
-    setProfileScreenInterfaceVisibility(false);
+    setProfileScreenVisibility(false);
 
     dlgMapLegend();
     dlgProfileSingOut();
@@ -553,7 +553,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   // User profile actions:
   @Override
-  public void setProfileScreenInterfaceVisibility(Boolean isVisible) {
+  public void setProfileScreenVisibility(Boolean isVisible) {
     if (isVisible) {
       binding.vSpinner.setVisibility(View.GONE);
       binding.tabLayoutProfile.setVisibility(VISIBLE);
@@ -653,7 +653,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
 
-  // Social networks block:
+  // Social networks links block:
   @Override
   public void onGooglePlayButtonClick() {
     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_GOOGLE_PLAY)));
@@ -700,7 +700,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     startActivity(Intent.createChooser(shareIntent, Constants.SHARE_IMG_TITLE));
   }
 
-  // Map actions:
+  // Map actions block:
   private void dlgMapLegend() {
     mDlgMapLegend = new Dialog(this, android.R.style.Theme_Dialog);
     mDlgMapLegend.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -789,20 +789,20 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         case HOME_TAB_POSITION:
           showFragmentHolderContainer(false);
           setHomeScreenStateVisibility(true);
-          setProfileScreenInterfaceVisibility(false);
+          setProfileScreenVisibility(false);
           initMainToolbar(getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
           presenter.onTabHomeClick();
           break;
         case PLACE_TAB_POSITION:
           showFragmentHolderContainer(true);
-          setProfileScreenInterfaceVisibility(false);
+          setProfileScreenVisibility(false);
           initMainToolbar(getString(R.string.title_payment_places), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
           String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();
           presenter.getOrders(token);
           break;
         case USER_TAB_POSITION:
           showFragmentHolderContainer(false);
-          setProfileScreenInterfaceVisibility(true);
+          setProfileScreenVisibility(true);
           binding.toolbar.setNavigationIcon(null);
           user.setName(AuthUtils.INSTANCE.getName());
           String title = user.getName();

@@ -35,7 +35,7 @@ public interface MainScreenView extends MvpView {
 
     void showBottomTab();
 
-    void setProfileScreenInterfaceVisibility(Boolean isVisible);
+    void setProfileScreenVisibility(Boolean isVisible);
 
     void onProfileUpdateSuccessfully(MessageResponse authResponse);
 

@@ -177,7 +177,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
             activity.initMainToolbar("Winstrike",true,ScreenType.MAIN);
             activity.showBottomTab();
             activity.highlightTab(MainScreenView.HOME_TAB_POSITION);
-            activity.setProfileScreenInterfaceVisibility(false);
+            activity.setProfileScreenVisibility(false);
 
             return true;
         }
