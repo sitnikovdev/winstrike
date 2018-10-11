@@ -72,7 +72,9 @@ import ru.terrakok.cicerone.commands.Replace;
 import ru.terrakok.cicerone.commands.SystemMessage;
 import timber.log.Timber;
 
-
+/*
+  A big God Activity.
+ */
 public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, OnProfileButtonsClickListener,
     OnAppButtonsClickListener, OnChoosePlaceButtonsClickListener
     , onMapShowProcess, OnItemLangClickListener {
@@ -575,18 +577,18 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   @Override
-  public void onProfileUpdate(String name, String passw) {
-    if (passw.isEmpty()) {
+  public void onProfileUpdate(String name, String password) {
+    if (password.isEmpty()) {
       Toast.makeText(this, R.string.message_password, Toast.LENGTH_LONG).show();
     }
     if (name.isEmpty()) {
       Toast.makeText(this, R.string.message_username, Toast.LENGTH_LONG).show();
     }
-    if (!TextUtils.isEmpty(passw) && !TextUtils.isEmpty(name)) {
+    if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(name)) {
       // call api for update profile here ...
       ProfileModel profile = new ProfileModel();
       profile.setName(name);
-      profile.setPassword(passw);
+      profile.setPassword(password);
       String publicId = AuthUtils.INSTANCE.getPublicid();
       String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();
       presenter.updateProfile(token, profile, publicId);
@@ -603,12 +605,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   public void onFailureUpdateProfile(String appErrorMessage) {
-    Timber.d("Wrong update profile");
     Toast.makeText(this, R.string.message_on_failure_profile_update, Toast.LENGTH_LONG).show();
   }
 
   public void onProfileUpdateSuccessfully(MessageResponse authResponse) {
-    Timber.d("Profile is updated");
     Toast.makeText(this, R.string.message_on_success_profile_update, Toast.LENGTH_LONG).show();
   }
 
