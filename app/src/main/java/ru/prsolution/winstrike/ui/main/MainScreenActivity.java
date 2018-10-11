@@ -11,7 +11,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintSet;
 import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
@@ -29,7 +28,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -239,39 +237,27 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
 
-  private void initCarouselArenaSeat(int currentItem) {
+  private void initCarouselArenaSeat() {
 
-    float dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
-    float dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
-
-    Float widthPx = WinstrikeApp.getInstance().getDisplayWidhtPx();
-    Float heightPx = WinstrikeApp.getInstance().getDisplayHeightPx();
+    float widthPx = WinstrikeApp.getInstance().getDisplayWidhtPx();
 
     adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0);
     adapter.addFragment(CarouselSeatFragment.newInstance(this, 1), 1);
     adapter.notifyDataSetChanged();
     viewPagerSeat.setAdapter(adapter);
     viewPagerSeat.setPageTransformer(false, adapter);
-    viewPagerSeat.setCurrentItem(currentItem);
+    viewPagerSeat.setCurrentItem(2);
     viewPagerSeat.setOffscreenPageLimit(2);
-
-    Timber.d("PX: pxWidth: %s x pxHeight: %s px", widthPx, heightPx);
-    Timber.d("DP: dpWidth: %s dp x dpHeight: %s dp", dpWidth, dpHeight);
 
     if (widthPx <= 720) {
       viewPagerSeat.setPageMargin(-350);
-      Timber.d("widthPx <= 720");
     } else if (widthPx <= 1080) {
       viewPagerSeat.setPageMargin(-450);
-      Timber.d("widthPx <= 1080");
     } else if (widthPx <= 1440) {
-      Timber.d("widthPx <= 1440");
       viewPagerSeat.setPageMargin(-600);
     } else {
-      Timber.d("dbWidth: - 450. Default");
       viewPagerSeat.setPageMargin(-450);
     }
-
   }
 
   @Override
@@ -390,7 +376,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     viewPagerSeat = findViewById(R.id.view_pager_seat);
     adapter = new CarouselAdapter(this);
     Timber.w(String.valueOf(adapter.getCount()));
-    initCarouselArenaSeat(1);
+    initCarouselArenaSeat();
 
     progressDialog = new ProgressDialog(this);
 
