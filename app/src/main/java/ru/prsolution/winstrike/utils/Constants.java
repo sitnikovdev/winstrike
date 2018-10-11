@@ -31,6 +31,11 @@ public class Constants {
     public static final Integer SCREEN_WIDTH_PX_1080 = 1080;
     public static final Integer SCREEN_WIDTH_PX_1440 = 1440;
 
+    //Screen height in px:
+    public static final Integer SCREEN_HEIGHT_PX_1280 = 1280;
+    public static final Integer SCREEN_HEIGHT_PX_1920 = 1920;
+    public static final Integer SCREEN_HEIGHT_PX_2560 = 2560;
+
     // Margin of scfreen:
     public static final Integer SCREEN_MARGIN_350 = -350;
     public static final Integer SCREEN_MARGIN_450 = -450;

@@ -72,8 +72,6 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     ArrayList<OrderModel> orderModels = ((MainScreenActivity) getActivity()).getOrders();
-    // TODO: 09/06/2018 REMOVE this!!!
-//        ArrayList<OrderModel> orderModels = new ArrayList<>();
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_main))) {
       getCicerone().getRouter().replaceScreen(Screens.START_SCREEN, 0);
@@ -92,7 +90,6 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_map))) {
-//              MapScreenFragment.getNewInstance(getContainerName(), 0);
       getCicerone().getRouter().replaceScreen(Screens.MAP_SCREEN, 0);
     }
 
@@ -171,11 +168,11 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
       return true;
     } else {
       ((RouterProvider) getActivity()).getRouter().replaceScreen(Screens.START_SCREEN, 0);
-      MainScreenActivity activity = (MainScreenActivity) getActivity();
-      activity.initMainToolbar(getString(R.string.app_name), true, ScreenType.MAIN);
-      activity.showBottomTab();
-      activity.highlightTab(MainScreenView.HOME_TAB_POSITION);
-      activity.setProfileScreenVisibility(false);
+      MainScreenActivity mainActivity = (MainScreenActivity) getActivity();
+      mainActivity.initMainToolbar(getString(R.string.app_name), true, ScreenType.MAIN);
+      mainActivity.showBottomTab();
+      mainActivity.highlightTab(MainScreenView.HOME_TAB_POSITION);
+      mainActivity.setProfileScreenVisibility(false);
 
       return true;
     }

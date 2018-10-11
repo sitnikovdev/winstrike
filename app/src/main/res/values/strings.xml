@@ -142,4 +142,21 @@
     <string name="tag_choose">CHOOSE</string>
     <string name="tag_map">MAP</string>
     <string name="tag_pay">PAY</string>
+    <string name="msg_server_internal_err">Внутренняя ошибка сервера: %s</string>
+    <string name="msg_server_500">500</string>
+    <string name="msg_server_400">400</string>
+    <string name="msg_server_401">401</string>
+    <string name="msg_serve_403">403</string>
+    <string name="msg_server_404">404</string>
+    <string name="msg_server_405">405</string>
+    <string name="msg_server_424">424</string>
+    <string name="msg_server_416">416</string>
+    <string name="msg_no_data">Нет данных: %s</string>
+    <string name="msg_no_auth">Пользователь не авторизован</string>
+    <string name="msg_auth_err">Ошибка авторизации пользователя</string>
+    <string name="msg_no_seat_with_id">В базе нет мест с таким public_id: %s</string>
+    <string name="msg_auth_error">Ошибка авторизации пользователя. Выйдите из приложение и зайдите снова.</string>
+    <string name="msg_date_error">Не правильно выбрана дата</string>
+    <string name="msg_booking_error">Не удается забронировать место на указанный интервал времени.</string>
+    <string name="msg_bookin_err">Не удается забронировать место.</string>
 </resources>

@@ -21,55 +21,46 @@ import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.common.RouterProvider;
 
 
-/**
- * Created by terrakok 26.11.16
- */
 public class ProfileScreenFragment extends MvpAppCompatFragment implements ProfileView {
-    private static final String EXTRA_NAME = "extra_name";
-    private static final String EXTRA_NUMBER = "extra_number";
 
-    @Inject
-    Service service;
+  private static final String EXTRA_NAME = "extra_name";
+  private static final String EXTRA_NUMBER = "extra_number";
 
-    @InjectPresenter
-    ProfilePresenter presenter;
+  @Inject
+  Service service;
 
-    @ProvidePresenter
-    ProfilePresenter provideMainScreenPresenter() {
-        return new ProfilePresenter(service,
-                ((RouterProvider) getParentFragment()).getRouter()
-                , getArguments().getInt(EXTRA_NUMBER)
-        );
-    }
+  @InjectPresenter
+  ProfilePresenter presenter;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        WinstrikeApp.INSTANCE.getAppComponent().inject(this);
-        super.onCreate(savedInstanceState);
-    }
+  @ProvidePresenter
+  ProfilePresenter provideMainScreenPresenter() {
+    return new ProfilePresenter(service,
+        ((RouterProvider) getParentFragment()).getRouter()
+        , getArguments().getInt(EXTRA_NUMBER)
+    );
+  }
 
-    public static ProfileScreenFragment getNewInstance(String name, int number) {
-        ProfileScreenFragment fragment = new ProfileScreenFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString(EXTRA_NAME, name);
-        arguments.putInt(EXTRA_NUMBER, number);
-        fragment.setArguments(arguments);
-        return fragment;
-    }
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    WinstrikeApp.INSTANCE.getAppComponent().inject(this);
+    super.onCreate(savedInstanceState);
+  }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frm_profile, container, false);
-        ButterKnife.bind(this, view);
-        return view;
-    }
+  public static ProfileScreenFragment getNewInstance(String name, int number) {
+    ProfileScreenFragment fragment = new ProfileScreenFragment();
+    Bundle arguments = new Bundle();
+    arguments.putString(EXTRA_NAME, name);
+    arguments.putInt(EXTRA_NUMBER, number);
+    fragment.setArguments(arguments);
+    return fragment;
+  }
 
-/*    @Override
-    public boolean onBackPressed() {
-        presenter.onBackPressed();
-//        startActivity(new Intent(getActivity(), MainScreenActivity.class));
-        return true;
-    }*/
+  @Nullable
+  @Override
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.frm_profile, container, false);
+    ButterKnife.bind(this, view);
+    return view;
+  }
 
 }
