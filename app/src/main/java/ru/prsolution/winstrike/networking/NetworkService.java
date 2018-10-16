@@ -26,58 +26,55 @@ import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.models.FCMModel;
 import rx.Observable;
 
-/**
- * Created by ennur on 6/25/16.
- */
 public interface NetworkService {
 
-    // Авторизация пользователя
-    @POST("login")
-    Observable<AuthResponse> authUser(@Body LoginViewModel loginViewModel);
+  // Получение pid арены
+  @GET("rooms")
+  Observable<Rooms> getRooms();
 
-    // Отправка смс c кодом подтверждения
-    @POST("confirm_codes")
-    Observable<MessageResponse> sendSmsByUserRequest(@Body ConfirmSmsModel confirmModel);
+  // Получение списка мест по  arena id (дефолтный диапазон времени на 30 мин)
+  @GET("room_layouts/{active_layout_pid}")
+  Observable<RoomLayoutFactory> getArena(@Path("active_layout_pid") String active_layout_pid);
 
-    // Повторная отправка пароля:
-    @POST("refresh_password/{confirm_code}")
-    Observable<MessageResponse> refreshPassword(@Body NewPasswordModel confirmModel, @Path("confirm_code") String confirm_code);
+  //Получение списка мест  по  id  и диапазону времени
+  @GET("room_layouts/{active_layout_pid}")
+  Observable<RoomLayoutFactory> getArenaByTimeRange(@Path("active_layout_pid") String active_layout_pid, @QueryMap Map<String, String> time);
 
-    // Создание пользователя
-    @POST("users")
-    Observable<AuthResponse> createUser(@Body LoginModel loginModel);
+  // Авторизация пользователя
+  @POST("login")
+  Observable<AuthResponse> authUser(@Body LoginViewModel loginViewModel);
 
-    // Update user profile
-    @PUT("users/{public_id}")
-    Observable<MessageResponse> updateUser(@Header("authorization") String token,  @Body ProfileModel loginModel, @Path("public_id") String public_id);
+  // Отправка смс c кодом подтверждения
+  @POST("confirm_codes")
+  Observable<MessageResponse> sendSmsByUserRequest(@Body ConfirmSmsModel confirmModel);
 
-    // Send fcm tocken to server
-    @POST("fcm_codes")
-    Observable<MessageResponse> sendTocken(@Header("authorization") String token, @Body FCMModel tokenModel);
+  // Повторная отправка пароля:
+  @POST("refresh_password/{confirm_code}")
+  Observable<MessageResponse> refreshPassword(@Body NewPasswordModel confirmModel, @Path("confirm_code") String confirm_code);
 
+  // Создание пользователя
+  @POST("users")
+  Observable<AuthResponse> createUser(@Body LoginModel loginModel);
 
-    // Подтверждение пользоватея по sms коду
-    @POST("confirm_user/{sms_code}")
-    Observable<MessageResponse> confirmUser(@Path("sms_code") String sms_code, @Body ConfirmModel confirmModel);
+  // Update user profile
+  @PUT("users/{public_id}")
+  Observable<MessageResponse> updateUser(@Header("authorization") String token, @Body ProfileModel loginModel, @Path("public_id") String public_id);
 
-    // Получение активной арены по active pid layout
-    @GET("rooms")
-    Observable<Rooms> getActivePid();
-
-    // Получение списка мест по  arena id (дефолтный диапазон времени на 30 мин)
-    @GET("room_layouts/{active_layout_pid}")
-    Observable<RoomLayoutFactory> getArena(@Path("active_layout_pid") String active_layout_pid);
-
-    //Получение списка мест  по  id  и диапазону времени
-    @GET("room_layouts/{active_layout_pid}")
-    Observable<RoomLayoutFactory> getArenaByTimeRange(@Path("active_layout_pid") String active_layout_pid, @QueryMap Map<String, String> time);
-
-    //  Создание платежа
-    @POST("payments")
-    Observable <PaymentResponse> getPayment(@Header("authorization") String token, @Body PaymentModel paymentModel);
+  // Send fcm tocken to server
+  @POST("fcm_codes")
+  Observable<MessageResponse> sendTocken(@Header("authorization") String token, @Body FCMModel tokenModel);
 
 
-    // Получение списка оплаченных мест пользователя
-    @GET("orders")
-    Observable<Orders> getOrders(@Header("authorization") String token);
+  // Подтверждение пользоватея по sms коду
+  @POST("confirm_user/{sms_code}")
+  Observable<MessageResponse> confirmUser(@Path("sms_code") String sms_code, @Body ConfirmModel confirmModel);
+
+  //  Создание платежа
+  @POST("payments")
+  Observable<PaymentResponse> getPayment(@Header("authorization") String token, @Body PaymentModel paymentModel);
+
+
+  // Получение списка оплаченных мест пользователя
+  @GET("orders")
+  Observable<Orders> getOrders(@Header("authorization") String token);
 }

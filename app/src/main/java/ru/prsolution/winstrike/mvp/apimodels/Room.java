@@ -26,31 +26,10 @@ public class Room implements Serializable
     private String name;
     @SerializedName("create_at")
     @Expose
-    private String createAt;
     private final static long serialVersionUID = -2030458791997759852L;
-
-    public List<Layout> getLayouts() {
-        return layouts;
-    }
-
-    public void setLayouts(List<Layout> layouts) {
-        this.layouts = layouts;
-    }
-
-    public String getLocale() {
-        return locale;
-    }
-
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
 
     public String getActiveLayoutPid() {
         return activeLayoutPid;
-    }
-
-    public void setActiveLayoutPid(String activeLayoutPid) {
-        this.activeLayoutPid = activeLayoutPid;
     }
 
     public String getPublicId() {
@@ -68,13 +47,4 @@ public class Room implements Serializable
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(String createAt) {
-        this.createAt = createAt;
-    }
-
 }

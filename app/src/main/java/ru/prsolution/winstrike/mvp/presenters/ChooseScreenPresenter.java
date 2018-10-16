@@ -33,10 +33,9 @@ public class ChooseScreenPresenter {
     public void getActivePid() {
         fragment.showWait();
 
-        Subscription subscription = service.getActivePid(new Service.RoomsCallback() {
+        Subscription subscription = service.getRooms(new Service.RoomsCallback() {
             @Override
             public void onSuccess(Rooms authResponse) {
-//                fragment.removeWait();
                 fragment.onGetActivePidResponseSuccess(authResponse);
             }
 
@@ -53,7 +52,6 @@ public class ChooseScreenPresenter {
 
 
     public void getArenaByTimeRange(String activeLayoutPid, Map<String, String> time) {
-//        fragment.showWait();
 
         Subscription subscription = service.getArenaByTimeRange(new Service.RoomLayoutByTimeCallback() {
             @Override

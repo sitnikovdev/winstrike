@@ -23,9 +23,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by ennur on 6/25/16.
- */
 public class Service {
     private final NetworkService networkService;
 
@@ -298,9 +295,9 @@ public class Service {
     }
 
 
-    public Subscription getActivePid(final RoomsCallback callback) {
+    public Subscription getRooms(final RoomsCallback callback) {
 
-        return networkService.getActivePid()
+        return networkService.getRooms()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Rooms>>() {

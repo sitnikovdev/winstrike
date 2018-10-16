@@ -21,9 +21,6 @@ import ru.prsolution.winstrike.networking.NetworkService;
 import ru.prsolution.winstrike.networking.Service;
 
 
-/**
- * Created by ennur on 6/28/16.
- */
 @Module
 public class NetworkModule {
     File cacheFile;
@@ -53,7 +50,6 @@ public class NetworkModule {
                                 .header("Content-Type", "application/json")
                                 .header("host", "winstrike.ru")
                                 .removeHeader("Pragma")
-//                                .header("Cache-Control", String.format("max-age=%d", BuildConfig.CACHETIME))
                                 .build();
 
                         okhttp3.Response response = chain.proceed(request);
