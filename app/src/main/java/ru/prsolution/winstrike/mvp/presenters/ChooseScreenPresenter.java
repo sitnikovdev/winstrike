@@ -4,6 +4,7 @@ package ru.prsolution.winstrike.mvp.presenters;
 import java.util.Map;
 
 import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.mvp.apimodels.Arenas;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
 import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 import ru.prsolution.winstrike.networking.NetworkError;
@@ -30,13 +31,33 @@ public class ChooseScreenPresenter {
     }
 
 
-    public void getActivePid() {
+    public void getActiveArenaPid() {
         fragment.showWait();
 
         Subscription subscription = service.getRooms(new Service.RoomsCallback() {
             @Override
             public void onSuccess(Rooms authResponse) {
                 fragment.onGetActivePidResponseSuccess(authResponse);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                fragment.removeWait();
+                fragment.onGetAcitivePidFailure(networkError.getAppErrorMessage());
+            }
+
+        });
+
+        subscriptions.add(subscription);
+    }
+
+    public void getActiveArena() {
+        fragment.showWait();
+
+        Subscription subscription = service.getArenas(new Service.ArenasCallback() {
+            @Override
+            public void onSuccess(Arenas authResponse) {
+                fragment.onGetArenasResponseSuccess(authResponse);
             }
 
             @Override

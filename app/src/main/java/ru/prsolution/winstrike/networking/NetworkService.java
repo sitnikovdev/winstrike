@@ -10,6 +10,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
+import ru.prsolution.winstrike.mvp.apimodels.Arenas;
 import ru.prsolution.winstrike.mvp.models.ProfileModel;
 import ru.prsolution.winstrike.mvp.models.LoginViewModel;
 import ru.prsolution.winstrike.mvp.models.ConfirmModel;
@@ -28,9 +29,13 @@ import rx.Observable;
 
 public interface NetworkService {
 
-  // Получение pid арены
+  // Получение арены
   @GET("rooms")
   Observable<Rooms> getRooms();
+
+  // Получение списка арен (новый API)
+  @GET("rooms")
+  Observable<Arenas> getArenas();
 
   // Получение списка мест по  arena id (дефолтный диапазон времени на 30 мин)
   @GET("room_layouts/{active_layout_pid}")
