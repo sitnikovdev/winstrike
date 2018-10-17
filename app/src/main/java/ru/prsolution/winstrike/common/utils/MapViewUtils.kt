@@ -41,7 +41,6 @@ class MapViewUtils() {
 
         fun getSeatOffsetY(seat: Seat): Int {
             var value: Int = 0
-            val id = seat.id
             val y = seat.dy
 
             // Row 76 - 80 (left) && Row: 6 - 10 (right)
@@ -100,7 +99,6 @@ class MapViewUtils() {
             }
             return value
 
-           // LG ROOM Row: 16 - 20
         }
 
         fun getSeatOffsetX(seat: Seat): Int {
@@ -138,7 +136,7 @@ class MapViewUtils() {
                 "HP STAGE 2" -> 0
                 "SENNHEISER" -> 0
                 "LG ROOM" -> 0
-                else -> 16
+                else -> 0
             }
         }
 
@@ -147,9 +145,9 @@ class MapViewUtils() {
                 "ЗАЛ" -> 0
                 "HP STAGE 1" -> 4
                 "HP STAGE 2" -> 4
-                "SENNHEISER ROOM" -> 4
-                "LG ROOM" -> 4
-                else -> 4
+                "SENNHEISER" -> 15
+                "LG ROOM" -> 15
+                else -> 0
             }
         }
     }
