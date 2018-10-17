@@ -17,7 +17,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -213,8 +212,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
         }
       }
 
-      dx = (int) ((seat.getDx() - MapViewUtils.Companion.getSeatOffsetX(seat)) * mXScaleFactor);
-      dy = (int) ((seat.getDy() + MapViewUtils.Companion.getSeatOffsetY(seat)) * mYScaleFactor);
+      dx = (int) ((seat.getDx() - MapViewUtils.Companion.getSeatOffsetXArena1(seat)) * mXScaleFactor);
+      dy = (int) ((seat.getDy() + MapViewUtils.Companion.getSeatOffsetYArena1(seat)) * mYScaleFactor);
 
       // Seats numbers:
       tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
@@ -278,8 +277,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
       Integer dx;
       Integer dy;
 
-      dx = (int) ((label.getDx() - MapViewUtils.Companion.getLabelOffsetX(text)) * mXScaleFactor);
-      dy = (int) ((label.getDy() + MapViewUtils.Companion.getLabelOffsetY(text)) * (mYScaleFactor));
+      dx = (int) ((label.getDx() - MapViewUtils.Companion.getLabelOffsetXArena1(text)) * mXScaleFactor);
+      dy = (int) ((label.getDy() + MapViewUtils.Companion.getLabelOffsetYArena1(text)) * (mYScaleFactor));
 
       tvParams = new RelativeLayout.LayoutParams(RLW, RLW);
       tvParams.leftMargin = dx;
@@ -298,8 +297,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
       textView.setLayoutParams(tvParams);
       // Add horizontal line
       if (text.equals("HP STAGE 1")) {
-        dx = (int) ((label.getDx() - MapViewUtils.Companion.getLabelOffsetX(text)) * mXScaleFactor);
-        dy = (int) ((label.getDy() - MapViewUtils.Companion.getLabelOffsetY(text)) * (mYScaleFactor));
+        dx = (int) ((label.getDx() - MapViewUtils.Companion.getLabelOffsetXArena1(text)) * mXScaleFactor);
+        dy = (int) ((label.getDy() - MapViewUtils.Companion.getLabelOffsetYArena1(text)) * (mYScaleFactor));
         tvDivParam = new RelativeLayout.LayoutParams(RLW, RLW);
         tvDivParam.leftMargin = dx;
         tvDivParam.topMargin = dy;
@@ -355,8 +354,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
   private void rotateSeat(Bitmap seatBitmap, Seat seat, ImageView ivSeat) {
     seatParams = new RelativeLayout.LayoutParams(RLW, RLW);
-    seatParams.leftMargin = (int) ((seat.getDx() - MapViewUtils.Companion.getSeatOffsetX(seat)) * mXScaleFactor);
-    seatParams.topMargin = (int) ((seat.getDy() + MapViewUtils.Companion.getSeatOffsetY(seat)) * mYScaleFactor);
+    seatParams.leftMargin = (int) ((seat.getDx() - MapViewUtils.Companion.getSeatOffsetXArena1(seat)) * mXScaleFactor);
+    seatParams.topMargin = (int) ((seat.getDy() + MapViewUtils.Companion.getSeatOffsetYArena1(seat)) * mYScaleFactor);
 
     Float angle = radianToDegrees(seat);
 

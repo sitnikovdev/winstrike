@@ -39,7 +39,7 @@ class MapViewUtils() {
             if (this == null) block(); return this
         }
 
-        fun getSeatOffsetY(seat: Seat): Int {
+        fun getSeatOffsetYArena1(seat: Seat): Int {
             var value: Int = 0
             val y = seat.dy
 
@@ -88,20 +88,20 @@ class MapViewUtils() {
 
             // HP STAGE 1 (left) (Row: 1 - 5) && HP STAGE 2 (right) (Row: 6 - 10)
             } else if (y == 455.0) {
-                value = 20
+                value = 25
 
             // LG ROOM Row: 15 - 11 && SENNHEISER  Row: 21 - 25
             } else if (y == 524.0) {
-                value = 20
+                value = 35
             // LG ROOM Row: 16 - 20
             } else if (y == 564.0) {
-                value = 20
+                value = 35
             }
             return value
 
         }
 
-        fun getSeatOffsetX(seat: Seat): Int {
+        fun getSeatOffsetXArena1(seat: Seat): Int {
             var value: Int = 0
 /*            val id = seat.id
             if (arrayListOf("5", "6", "7", "8", "9", "15", "16", "17", "18", "19").contains(id)) {
@@ -129,7 +129,7 @@ class MapViewUtils() {
         }
 
 
-        fun getLabelOffsetX(label: String): Int {
+        fun getLabelOffsetXArena1(label: String): Int {
             return when (label) {
                 "ЗАЛ" -> 0
                 "HP STAGE 1" -> 0
@@ -140,13 +140,13 @@ class MapViewUtils() {
             }
         }
 
-        fun getLabelOffsetY(label: String): Int {
+        fun getLabelOffsetYArena1(label: String): Int {
             return when (label) {
                 "ЗАЛ" -> 0
-                "HP STAGE 1" -> 4
-                "HP STAGE 2" -> 4
-                "SENNHEISER" -> 15
-                "LG ROOM" -> 15
+                "HP STAGE 1" -> 10
+                "HP STAGE 2" -> 10
+                "SENNHEISER" -> 25
+                "LG ROOM" -> 25
                 else -> 0
             }
         }
