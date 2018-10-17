@@ -42,15 +42,16 @@ class MapViewUtils() {
             var value: Int = 0
             val id = seat.id
             // First two blocks (1 - 20)
-            if (arrayListOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9").contains(id)) {
-                value = -12
-            } else if (arrayListOf("10", "11", "12", "13", "14", "15", "16", "17", "18", "19").contains(id)) {
-                value = -7
 
-            // Rotated rows (21 - 65)
-            } else if (arrayListOf("20", "21", "22", "23", "24", "25").contains(id)) {
-                value = -24
-            } else if (arrayListOf("31", "32", "33", "34", "35", "36").contains(id)) {
+            if ( arrayListOf( "76", "77", "78", "79","80").contains(id)) {
+                value = 7
+            } else if (arrayListOf("6", "7", "8", "9", "10").contains(id)) {
+                value = 7
+
+            // Rotated rows (66 - 41)
+            } else if (arrayListOf( "66", "65", "55", "56", "46", "45").contains(id)) {
+                value = 15
+/*            } else if (arrayListOf("31", "32", "33", "34", "35", "36").contains(id)) {
                 value = -14
             } else if (arrayListOf("42", "43", "44", "45", "46", "47").contains(id)) {
                 value = -2
@@ -94,14 +95,14 @@ class MapViewUtils() {
             } else if (arrayListOf("100", "101", "102", "103", "104", "105", "106", "107", "108", "109").contains(id)) {
                 value = 2
             } else if (arrayListOf("110", "111", "112", "113", "114").contains(id)) {
-                value = 8
+                value = 8*/
             }
             return value
         }
 
         fun getSeatOffsetX(seat: Seat): Int {
             var value: Int = 0
-            val id = seat.id
+/*            val id = seat.id
             if (arrayListOf("5", "6", "7", "8", "9", "15", "16", "17", "18", "19").contains(id)) {
                 value = 20
             } else if (arrayListOf("26", "27", "28", "29", "30").contains(id)) {
@@ -122,7 +123,7 @@ class MapViewUtils() {
                 value = 20
             } else if (arrayListOf("110", "111", "112", "113", "114").contains(id)) {
                 value = 20
-            }
+            }*/
             return value
         }
 

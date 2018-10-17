@@ -153,11 +153,10 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     Point mScreenSize = MapViewUtils.Companion.calculateScreenSize(seatSize, room.getSeats(), mXScaleFactor, mYScaleFactor);
 
     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rootLayout.getLayoutParams();
-    params.setMargins(-50, -80, 100, 80);
+    params.setMargins(-65, -80, 100, 80);
 
     // Width and Height of screen
     if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
-      params.setMargins(-50, -50, 100, 80);
       params.width = mScreenSize.x;
       params.height = mScreenSize.y + 250;
       mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
@@ -178,11 +177,11 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
     for (Seat seat : room.getSeats()) {
       String name = seat.getName();
-      String seatId = Utils.parseNumber(name);
+      String seatNumber = Utils.parseNumber(name);
       // TODO: 07/06/2018 For test:
-      Integer seatIdInt = Integer.parseInt(seat.getId().toString()) + 1;
-//            seatId = seatIdInt.toString();
-      int idLenth = seatId.length();
+      Integer seatIdInt = Integer.parseInt(seat.getId().toString());
+      seatNumber = seatIdInt.toString();
+      int numberLenth = seatNumber.length();
       int textOffsetX = 0;
       int textOffsetY = -10;
       if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
@@ -193,20 +192,20 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
       Integer dy = 0;
 
       // Calculate offset by x for diffrent length of numbers (1, 2 and 3)
-      if (idLenth <= 1) {
+      if (numberLenth <= 1) {
         textOffsetX = 7;
-      } else if (idLenth == 2) {
+      } else if (numberLenth == 2) {
         textOffsetX = 20;
-      } else if (idLenth == 3) {
-        textOffsetX = 25;
+      } else if (numberLenth == 3) {
+        textOffsetX = 55;
       }
 
       if (width <= Constants.SCREEN_WIDTH_PX_720) {
-        if (idLenth <= 1) {
+        if (numberLenth <= 1) {
           textOffsetX = 7;
-        } else if (idLenth == 2) {
+        } else if (numberLenth == 2) {
           textOffsetX = 10;
-        } else if (idLenth == 3) {
+        } else if (numberLenth == 3) {
           textOffsetX = 25;
         }
       }
@@ -222,6 +221,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
       Float angle = radianToDegrees(seat);
       Integer angleInt = Math.round(angle);
       Integer angleAbs = Math.abs(angleInt);
+
       if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
         if (angleAbs != 90) {
           tvParams.topMargin = dy + seatSize.y - textOffsetY - 2;
@@ -246,8 +246,8 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
       }
 
       TextView textView = new TextView(getContext());
+      textView.setText(seatNumber);
 
-      textView.setText(seatId);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         textView.setTextAppearance(R.style.StemRegular10Gray);
       } else {
