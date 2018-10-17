@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.common.utils
 
 import android.graphics.Point
+import android.util.Log
 import ru.prsolution.winstrike.mvp.models.Seat
 import timber.log.Timber
 
@@ -41,63 +42,65 @@ class MapViewUtils() {
         fun getSeatOffsetY(seat: Seat): Int {
             var value: Int = 0
             val id = seat.id
-            // First two blocks (1 - 20)
+            val y = seat.dy
 
-            if ( arrayListOf( "76", "77", "78", "79","80").contains(id)) {
-                value = 7
-            } else if (arrayListOf("6", "7", "8", "9", "10").contains(id)) {
+            // Row 76 - 80 (left) && Row: 6 - 10 (right)
+            if (y == 100.0) {
                 value = 7
 
             // Rotated rows (66 - 41)
-            } else if (arrayListOf( "66", "65", "55", "56", "46", "45").contains(id)) {
+             //Row: 66 - 45
+            } else if (y == 145.0) {
                 value = 15
-/*            } else if (arrayListOf("31", "32", "33", "34", "35", "36").contains(id)) {
-                value = -14
-            } else if (arrayListOf("42", "43", "44", "45", "46", "47").contains(id)) {
-                value = -2
-            } else if (arrayListOf("48", "49", "50", "51", "52", "53").contains(id)) {
-                value = 5
-            } else if (arrayListOf("59", "60", "61", "62", "63", "64").contains(id)) {
-                value = 18
+            //Row: 67 - 44
+            } else if (y == 181.0) {
+                value = 15
+            //Row: 68 - 43
+            } else if (y == 218.0) {
+                value = 15
+            //Row: 69 - 42
+            } else if (y == 254.0) {
+                value = 15
+            //Row: 70 - 41
+            } else if (y == 290.0) {
+                value = 15
 
-           // 27 - 42
-            } else if (arrayListOf("26", "27", "28", "29", "30").contains(id)) {
+            //Row: 15 - 11 (right)
+            } else if (y == 154.0) {
                 value = 0
-            } else if (arrayListOf("37", "38", "39", "40", "41").contains(id)) {
+            //Row: 16 - 20 (right)
+            } else if (y == 189.0) {
                 value = 8
 
-            // 71 - 85
-            } else if (arrayListOf("70", "71", "72", "73", "74").contains(id)) {
-                value = 12
-            } else if (arrayListOf("80", "81", "82", "83", "84").contains(id)) {
+            //Row: 25 - 21 (right)
+            } else if (y == 244.0) {
+                value = 0
+            //Row: 26 - 30 (right)
+            } else if (y == 279.0) {
+                value = 7
+
+            //Row:  81 - 85 (left) && 35 - 31 (right)
+            } else if (y == 336.0) {
+                value = 8
+            // Row: 86 - 90 (left) &&  Row: 36 - 40 (right)
+            } else if (y == 369.0) {
+                value = 15
+
+
+            // HP STAGE 1 (left) (Row: 1 - 5) && HP STAGE 2 (right) (Row: 6 - 10)
+            } else if (y == 455.0) {
                 value = 20
 
-            // 55 - 70
-            } else if (arrayListOf("54", "55", "56", "57", "58").contains(id)) {
-                value = 6
-            } else if (arrayListOf("65", "66", "67", "68", "69").contains(id)) {
-                value = 14
-
-             // 76 - 90
-            } else if (arrayListOf("75", "76", "77", "78", "79").contains(id)) {
-                value = 12
-            } else if (arrayListOf("85", "86", "87", "88", "89").contains(id)) {
+            // LG ROOM Row: 15 - 11 && SENNHEISER  Row: 21 - 25
+            } else if (y == 524.0) {
                 value = 20
-
-            // HP STAGE 1
-            } else if (arrayListOf("90", "91", "92", "93", "94").contains(id)) {
-                value = 2
-            // HP STAGE 2
-            } else if (arrayListOf("95", "96", "97", "98", "99").contains(id)) {
-                value = 2
-
-            // VIP ROOM && LG ROOM
-            } else if (arrayListOf("100", "101", "102", "103", "104", "105", "106", "107", "108", "109").contains(id)) {
-                value = 2
-            } else if (arrayListOf("110", "111", "112", "113", "114").contains(id)) {
-                value = 8*/
+            // LG ROOM Row: 16 - 20
+            } else if (y == 564.0) {
+                value = 20
             }
             return value
+
+           // LG ROOM Row: 16 - 20
         }
 
         fun getSeatOffsetX(seat: Seat): Int {
@@ -131,10 +134,10 @@ class MapViewUtils() {
         fun getLabelOffsetX(label: String): Int {
             return when (label) {
                 "ЗАЛ" -> 0
-                "HP STAGE 1" -> -2
-                "HP STAGE 2" -> 16
-                "SENNHEISER ROOM" -> 30
-                "LG ROOM" -> 16
+                "HP STAGE 1" -> 0
+                "HP STAGE 2" -> 0
+                "SENNHEISER" -> 0
+                "LG ROOM" -> 0
                 else -> 16
             }
         }
@@ -144,7 +147,7 @@ class MapViewUtils() {
                 "ЗАЛ" -> 0
                 "HP STAGE 1" -> 4
                 "HP STAGE 2" -> 4
-                "SENNHEISER ROOM" ->  4
+                "SENNHEISER ROOM" -> 4
                 "LG ROOM" -> 4
                 else -> 4
             }

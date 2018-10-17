@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -155,6 +156,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rootLayout.getLayoutParams();
     params.setMargins(-65, -80, 100, 80);
 
+
     // Width and Height of screen
     if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
       params.width = mScreenSize.x;
@@ -177,6 +179,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
     for (Seat seat : room.getSeats()) {
       String name = seat.getName();
+      Timber.d("id: %s, y: %s",seat.getId(),seat.getDy());
       String seatNumber = Utils.parseNumber(name);
       // TODO: 07/06/2018 For test:
       Integer seatIdInt = Integer.parseInt(seat.getId().toString());
