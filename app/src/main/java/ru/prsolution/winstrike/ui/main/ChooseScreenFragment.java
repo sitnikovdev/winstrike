@@ -137,7 +137,7 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
   public void onNextButtonClickListener() {
     if (valideateDate(TimeDataModel.INSTANCE.getStart(), TimeDataModel.INSTANCE.getEnd())) {
 //      presenter.getActiveArenaPid();
-      presenter.getActiveArena();
+      presenter.getActiveArena(0);
     } else {
       toast(getActivity(), getString(R.string.toast_wrong_range));
     }
@@ -160,7 +160,7 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
   }
 
   @Override
-  public void onGetArenasResponseSuccess(Arenas authResponse) {
+  public void onGetArenasResponseSuccess(Arenas authResponse, int selectedArena) {
     Timber.d("Success get map data from server: %s", authResponse);
     /**
      *  data for active room pid successfully get from server.
@@ -168,7 +168,8 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
      */
     List<Room> rooms = authResponse.getRooms();
 
-    String activePid = rooms.get(0).getRoomLayoutPid();
+    // TODO: 17/10/2018 Add parameter for arena select:
+    String activePid = rooms.get(selectedArena).getRoomLayoutPid();
 
 //    String activePid = authResponse.getRooms().getRoom_layout_pid();
 

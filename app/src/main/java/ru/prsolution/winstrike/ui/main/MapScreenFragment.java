@@ -178,7 +178,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 
     for (Seat seat : room.getSeats()) {
       String name = seat.getName();
-      Timber.d("id: %s, y: %s",seat.getId(),seat.getDy());
+//      Timber.d("id: %s, y: %s",seat.getId(),seat.getDy());
       String seatNumber = Utils.parseNumber(name);
       // TODO: 07/06/2018 For test:
       Integer seatIdInt = Integer.parseInt(seat.getId().toString());

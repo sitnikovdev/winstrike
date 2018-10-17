@@ -51,13 +51,13 @@ public class ChooseScreenPresenter {
         subscriptions.add(subscription);
     }
 
-    public void getActiveArena() {
+    public void getActiveArena(int selectedArena) {
         fragment.showWait();
 
         Subscription subscription = service.getArenas(new Service.ArenasCallback() {
             @Override
             public void onSuccess(Arenas authResponse) {
-                fragment.onGetArenasResponseSuccess(authResponse);
+                fragment.onGetArenasResponseSuccess(authResponse, selectedArena);
             }
 
             @Override
