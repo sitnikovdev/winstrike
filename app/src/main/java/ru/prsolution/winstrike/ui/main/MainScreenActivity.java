@@ -4,7 +4,9 @@ import static android.view.View.VISIBLE;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -105,6 +107,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private final Integer[] address = {R.string.spin_address2, R.string.spin_address1};
   private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
   private ConstraintSet arenaDownConstraintSet = new ConstraintSet();
+  SharedPreferences sharedPref;
+  SharedPreferences.Editor editor;
   public int selectedArena = 0;
 
 
@@ -188,7 +192,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             if (selectedArena == 0) {
               initMainToolbar(getString(R.string.app_arena_2), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
             } else {
-              initMainToolbar(getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+              initMainToolbar(getString(R.string.app_arena_1), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
             }
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
@@ -205,7 +209,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             if (selectedArena == 0) {
               initMainToolbar(getString(R.string.app_arena_2), SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
             } else {
-              initMainToolbar(getString(R.string.app_club), SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
+              initMainToolbar(getString(R.string.app_arena_1), SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
             }
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
@@ -242,6 +246,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
     this.selectedArena = layoutPosition;
     arenaUpConstraintSet.applyTo(binding.root);
+    editor.putInt(getString(R.string.saved_arena), this.selectedArena);
+    editor.commit();
 
     ArenaSelectAdapter.SELECTED_ITEM = layoutPosition;
     RowItem item = rowItems.get(layoutPosition);
@@ -250,8 +256,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (this.selectedArena == 0) {
       binding.getUser().setName(getString(R.string.app_arena_2));
     } else {
-      binding.getUser().setName(getString(R.string.app_club));
+      binding.getUser().setName(getString(R.string.app_arena_1));
     }
+
+
 
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
@@ -370,11 +378,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     super.onCreate(savedInstanceState);
     clearData();
 
+    sharedPref = getPreferences(Context.MODE_PRIVATE);
+    editor = sharedPref.edit();
+
     user = new UserProfileObservable();
     if (this.selectedArena == 0) {
       user.setName(getResources().getString(R.string.app_arena_2));
     } else {
-      user.setName(getResources().getString(R.string.app_club));
+      user.setName(getResources().getString(R.string.app_arena_1));
     }
 
     binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
@@ -390,6 +401,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     //Transitions animations:
     arenaDownConstraintSet.clone(this, R.layout.part_arena_down);
     arenaUpConstraintSet.clone(this, R.layout.part_arena_up);
+
+    int savedArena = sharedPref.getInt(getString(R.string.saved_arena), -1);
+    RowItem item = rowItems.get(savedArena);
+    binding.tvArenaTitle.setText(item.getTitle());
+    ArenaSelectAdapter.SELECTED_ITEM = savedArena;
 
     binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, rowItems));
     binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
@@ -824,7 +840,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           if (selectedArena == 0) {
             initMainToolbar(getResources().getString(R.string.app_arena_2), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
           } else {
-            initMainToolbar(getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
+            initMainToolbar(getResources().getString(R.string.app_arena_1), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
           }
           presenter.onTabHomeClick();
           break;

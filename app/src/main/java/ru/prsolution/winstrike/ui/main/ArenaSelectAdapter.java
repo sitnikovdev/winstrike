@@ -17,7 +17,7 @@ import ru.prsolution.winstrike.R;
 
 public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.LangViewHolder> {
 
-  public static Integer SELECTED_ITEM = 0;
+  public static Integer SELECTED_ITEM = -1;
   private OnItemArenaClickListener itemArenaClickListener;
 
   interface OnItemArenaClickListener {

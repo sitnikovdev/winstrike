@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Winstrike</string>
-    <string name="app_club">Winstrike Arena</string>
+    <string name="app_arena_1">Winstrike Arena</string>
     <string name="app_arena_2">Winstrike Corner</string>
     <string name="all_nextbtn">Далее</string>
     <string name="all_savebtn">Сохранить</string>
@@ -160,4 +160,5 @@
     <string name="msg_date_error">Не правильно выбрана дата</string>
     <string name="msg_booking_error">Не удается забронировать место на указанный интервал времени.</string>
     <string name="msg_bookin_err">Не удается забронировать место.</string>
+  <string name="saved_arena">SAVED_ARENA</string>
 </resources>
