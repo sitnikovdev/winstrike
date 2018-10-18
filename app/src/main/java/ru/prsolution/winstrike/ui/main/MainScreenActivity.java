@@ -255,19 +255,20 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     if (this.selectedArena == 0) {
       binding.getUser().setName(getString(R.string.app_arena_2));
+      initCarouselArenaSeat(1);
     } else {
       binding.getUser().setName(getString(R.string.app_arena_1));
+      initCarouselArenaSeat(2);
     }
-
-
 
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
 
-  private void initCarouselArenaSeat() {
+  private void initCarouselArenaSeat(int pagesCount) {
 
     float widthPx = WinstrikeApp.getInstance().getDisplayWidhtPx();
 
+    adapter.setPagesCount(pagesCount);
     adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0);
     adapter.addFragment(CarouselSeatFragment.newInstance(this, 1), 1);
     adapter.notifyDataSetChanged();
@@ -402,10 +403,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     arenaDownConstraintSet.clone(this, R.layout.part_arena_down);
     arenaUpConstraintSet.clone(this, R.layout.part_arena_up);
 
-    int savedArena = sharedPref.getInt(getString(R.string.saved_arena), -1);
-    RowItem item = rowItems.get(savedArena);
+    selectedArena = sharedPref.getInt(getString(R.string.saved_arena), -1);
+    RowItem item = rowItems.get(selectedArena);
     binding.tvArenaTitle.setText(item.getTitle());
-    ArenaSelectAdapter.SELECTED_ITEM = savedArena;
+    ArenaSelectAdapter.SELECTED_ITEM = selectedArena;
 
     binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, rowItems));
     binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
@@ -413,13 +414,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding.rvArena.addItemDecoration(decoration);
     binding.rvArena.getAdapter().notifyDataSetChanged();
 
-
     ButterKnife.bind(this);
 
     viewPagerSeat = findViewById(R.id.view_pager_seat);
     adapter = new CarouselAdapter(this);
+    if (this.selectedArena == 0) {
+      initCarouselArenaSeat(1);
+    } else {
+      initCarouselArenaSeat(2);
+    }
     Timber.w(String.valueOf(adapter.getCount()));
-    initCarouselArenaSeat();
 
     progressDialog = new ProgressDialog(this);
 

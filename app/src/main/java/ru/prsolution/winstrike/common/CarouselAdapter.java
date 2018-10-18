@@ -22,17 +22,21 @@ public class CarouselAdapter extends FragmentPagerAdapter implements ViewPager.P
     private FragmentActivity context;
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
-    private int PAGES = 1;
+    private int PAGES = 2;
     float dpHeight, dpWidth;
 
     public Float BIG_SCALE;
     public Float SMALL_SCALE;
     public Float DIFF_SCALE;
 
+    public void setPagesCount(int pages) {
+       this.PAGES = pages;
+    }
 
     public CarouselAdapter(FragmentActivity context) {
         super(context.getSupportFragmentManager());
         this.context = context;
+
 
         dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
         dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
