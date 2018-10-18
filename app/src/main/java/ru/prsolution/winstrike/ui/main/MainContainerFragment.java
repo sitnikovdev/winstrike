@@ -84,7 +84,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_choose))) {
-      getCicerone().getRouter().replaceScreen(Screens.CHOOSE_SCREEN, 0);
+      getCicerone().getRouter().replaceScreen(Screens.CHOOSE_SCREEN, mainActivity.selectedArena);
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_map))) {

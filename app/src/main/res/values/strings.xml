@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Winstrike</string>
     <string name="app_club">Winstrike Arena</string>
+    <string name="app_arena_2">Winstrike Corner</string>
     <string name="all_nextbtn">Далее</string>
     <string name="all_savebtn">Сохранить</string>
     <string name="all_enterbtn">Войти</string>

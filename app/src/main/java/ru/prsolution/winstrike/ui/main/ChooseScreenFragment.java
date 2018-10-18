@@ -23,7 +23,6 @@ import ru.prsolution.winstrike.databinding.FrmChooseBinding;
 import ru.prsolution.winstrike.mvp.apimodels.Arenas;
 import ru.prsolution.winstrike.mvp.apimodels.Room;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
-import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 import ru.prsolution.winstrike.mvp.models.SeatModel;
 import ru.prsolution.winstrike.mvp.models.TimeDataModel;
 import ru.prsolution.winstrike.mvp.presenters.ChooseScreenPresenter;
@@ -35,7 +34,7 @@ import timber.log.Timber;
 public class ChooseScreenFragment extends Fragment implements IChooseView {
 
   private static final String EXTRA_NAME = "extra_name";
-  private static final String EXTRA_NUMBER = "extra_number";
+  private static final String ACTIVE_ARENA = "extra_number";
 
   public ProgressDialog mProgressDialog;
   private onMapShowProcess listener;
@@ -43,6 +42,7 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
   private DataPicker dataPicker;
   private DateListener dateListener;
   private TimePickerDialog timePickerDialog;
+  private int selectedArena = 0;
 
   FrmChooseBinding binding;
 
@@ -73,11 +73,11 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
   }
 
 
-  public static ChooseScreenFragment getNewInstance(String name, int number) {
+  public static ChooseScreenFragment getNewInstance(String name, int selectedArena) {
     ChooseScreenFragment fragment = new ChooseScreenFragment();
     Bundle arguments = new Bundle();
     arguments.putString(EXTRA_NAME, name);
-    arguments.putInt(EXTRA_NUMBER, number);
+    arguments.putInt(ACTIVE_ARENA, selectedArena);
     fragment.setArguments(arguments);
     return fragment;
   }
@@ -86,6 +86,7 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
   public void onCreate(Bundle savedInstanceState) {
     WinstrikeApp.INSTANCE.getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
+    this.selectedArena = getArguments().getInt(ACTIVE_ARENA);
     this.presenter = new ChooseScreenPresenter(service, this);
   }
 
@@ -136,8 +137,7 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
   @Override
   public void onNextButtonClickListener() {
     if (valideateDate(TimeDataModel.INSTANCE.getStart(), TimeDataModel.INSTANCE.getEnd())) {
-//      presenter.getActiveArenaPid();
-      presenter.getActiveArena(0);
+      presenter.getActiveArena(this.selectedArena);
     } else {
       toast(getActivity(), getString(R.string.toast_wrong_range));
     }
@@ -154,8 +154,6 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
 
     // TODO: 17/10/2018 Add parameter for arena select:
     String activePid = rooms.get(selectedArena).getRoomLayoutPid();
-
-//    String activePid = authResponse.getRooms().getRoom_layout_pid();
 
     Map<String, String> time = new HashMap<>();
     time.put("start_at", TimeDataModel.INSTANCE.getStart());
