@@ -64,7 +64,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
   private Snackbar.SnackbarLayout snackLayout;
 
   private static final String EXTRA_NAME = "extra_name";
-  private static final String EXTRA_NUMBER = "extra_number";
+  private static final String ACTIVE_ARENA = "extra_number";
 
   private final int RLW = RelativeLayout.LayoutParams.WRAP_CONTENT;
   private RelativeLayout.LayoutParams tvParams;
@@ -74,6 +74,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
   private Float mXScaleFactor;
   private Float mYScaleFactor;
   private Float heightDp, widthDp;
+  private int selectedArena = 0;
 
 
   @Inject
@@ -90,10 +91,11 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     MapScreenFragment fragment = new MapScreenFragment();
     Bundle arguments = new Bundle();
     arguments.putString(EXTRA_NAME, name);
-    arguments.putInt(EXTRA_NUMBER, number);
+    arguments.putInt(ACTIVE_ARENA, number);
     fragment.setArguments(arguments);
     return fragment;
   }
+
 
   @Nullable
   @Override
@@ -138,41 +140,46 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
   }
 
   void drawSeat(GameRoom room) {
-    Wall mWall = room.getWalls().get(0);
+    Wall mWall = null;
     Float height = WinstrikeApp.getInstance().getDisplayHeightPx();
     Float width = WinstrikeApp.getInstance().getDisplayWidhtPx();
 
-    mXScaleFactor = (width / mWall.getEnd().x) + 0.2f;
-    mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
+    if (room.getWalls().size() > 0) {
+      mWall = room.getWalls().get(0);
+      mXScaleFactor = (width / mWall.getEnd().x);
+      mYScaleFactor = (height / mWall.getEnd().y);
+    } else {
+      mXScaleFactor = (width / 358);
+      mYScaleFactor = (height / 421);
+    }
 
     Point seatSize = new Point();
 
     Bitmap seatBitmap = getBitmap(getContext(), R.drawable.ic_seat_gray);
 
     seatSize.set(seatBitmap.getWidth(), seatBitmap.getHeight());
-    Point mScreenSize = MapViewUtils.Companion.calculateScreenSize(seatSize, room.getSeats(), mXScaleFactor, mYScaleFactor);
+    Point mScreenSize = MapViewUtils.Companion.calculateScreenSize(seatSize, room.getSeats(), mXScaleFactor + 0.2f, mYScaleFactor - 1.5f);
 
     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rootLayout.getLayoutParams();
     params.setMargins(-65, -80, 100, 80);
-
 
     // Width and Height of screen
     if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
       params.width = mScreenSize.x;
       params.height = mScreenSize.y + 250;
-      mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
+      mYScaleFactor = mYScaleFactor - 1.5f;
     } else if (height <= Constants.SCREEN_HEIGHT_PX_1920) {
       params.width = mScreenSize.x;
       params.height = mScreenSize.y + 260;
-      mYScaleFactor = (height / mWall.getEnd().y) - 2.0f;
+      mYScaleFactor = mYScaleFactor - 2.0f;
     } else if (height <= Constants.SCREEN_HEIGHT_PX_2560) {
       params.width = mScreenSize.x;
       params.height = mScreenSize.y + 150;
-      mYScaleFactor = (height / mWall.getEnd().y) - 3f;
+      mYScaleFactor = mYScaleFactor - 3f;
     } else {
       params.width = mScreenSize.x;
       params.height = mScreenSize.y + 250;
-      mYScaleFactor = (height / mWall.getEnd().y) - 1.5f;
+      mYScaleFactor = mYScaleFactor - 1.5f;
     }
     rootLayout.setLayoutParams(params);
 
@@ -410,7 +417,7 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
   public void onCreate(Bundle savedInstanceState) {
     WinstrikeApp.INSTANCE.getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
-
+    this.selectedArena = getArguments().getInt(ACTIVE_ARENA);
   }
 
 

@@ -143,22 +143,6 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     }
   }
 
-
-  @Override
-  public void onGetActivePidResponseSuccess(Rooms roomsResponse) {
-    Timber.d("Success get map data from server: %s", roomsResponse);
-    /**
-     *  data for active room pid successfully get from server.
-     *  save pid and get map for selected time period
-     */
-//    String activePid = roomsResponse.getRoom().getActiveLayoutPid();
-
-    Map<String, String> time = new HashMap<>();
-    time.put("start_at", TimeDataModel.INSTANCE.getStart());
-    time.put("end_at", TimeDataModel.INSTANCE.getEnd());
-//    presenter.getArenaByTimeRange(activePid, time);
-  }
-
   @Override
   public void onGetArenasResponseSuccess(Arenas authResponse, int selectedArena) {
     Timber.d("Success get map data from server: %s", authResponse);

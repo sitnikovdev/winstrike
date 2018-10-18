@@ -11,8 +11,6 @@ public interface IChooseView {
 
     void removeWait();
 
-    void onGetActivePidResponseSuccess(Rooms authResponse);
-
     void onGetArenasResponseSuccess(Arenas authResponse,int selectedArena);
 
     void onGetAcitivePidFailure(String appErrorMessage);

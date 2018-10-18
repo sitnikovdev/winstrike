@@ -57,7 +57,7 @@ import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
 import ru.prsolution.winstrike.ui.main.AppFragment.OnAppButtonsClickListener;
-import ru.prsolution.winstrike.ui.main.ArenaSelectAdapter.OnItemLangClickListener;
+import ru.prsolution.winstrike.ui.main.ArenaSelectAdapter.OnItemArenaClickListener;
 import ru.prsolution.winstrike.ui.main.CarouselSeatFragment.OnChoosePlaceButtonsClickListener;
 import ru.prsolution.winstrike.ui.main.ChooseScreenFragment.onMapShowProcess;
 import ru.prsolution.winstrike.ui.main.ProfileFragment.OnProfileButtonsClickListener;
@@ -73,11 +73,12 @@ import ru.terrakok.cicerone.commands.SystemMessage;
 import timber.log.Timber;
 
 /*
-  A big God Activity.
+  A Big God Activity.
+  // TODO: 18/10/2018 Need some refactoring for SOLID principle.
  */
 public class MainScreenActivity extends MvpAppCompatActivity implements MainScreenView, RouterProvider, OnProfileButtonsClickListener,
     OnAppButtonsClickListener, OnChoosePlaceButtonsClickListener
-    , onMapShowProcess, OnItemLangClickListener {
+    , onMapShowProcess, OnItemArenaClickListener {
 
   private ProgressDialog progressDialog;
   private AHBottomNavigation bottomNavigationBar;
@@ -104,6 +105,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private final Integer[] address = {R.string.spin_address1, R.string.spin_address2};
   private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
   private ConstraintSet arenaDownConstraintSet = new ConstraintSet();
+  public int selectedArena = 0;
 
 
   @InjectPresenter
@@ -233,6 +235,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     arenaUpConstraintSet.applyTo(binding.root);
 
     ArenaSelectAdapter.SELECTED_ITEM = layoutPosition;
+    this.selectedArena = layoutPosition;
     RowItem item = rowItems.get(layoutPosition);
     binding.tvArenaTitle.setText(item.getTitle());
 
@@ -351,6 +354,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     user = new UserProfileObservable();
 
+    user.setName(getResources().getString(R.string.app_club));
+
     binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
 
     binding.setUser(user);
@@ -371,7 +376,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding.rvArena.addItemDecoration(decoration);
     binding.rvArena.getAdapter().notifyDataSetChanged();
 
-    user.setName(getResources().getString(R.string.app_club));
 
     ButterKnife.bind(this);
 

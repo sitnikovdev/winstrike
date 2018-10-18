@@ -31,26 +31,6 @@ public class ChooseScreenPresenter {
     }
 
 
-    public void getActiveArenaPid() {
-        fragment.showWait();
-
-        Subscription subscription = service.getRooms(new Service.RoomsCallback() {
-            @Override
-            public void onSuccess(Rooms authResponse) {
-                fragment.onGetActivePidResponseSuccess(authResponse);
-            }
-
-            @Override
-            public void onError(NetworkError networkError) {
-                fragment.removeWait();
-                fragment.onGetAcitivePidFailure(networkError.getAppErrorMessage());
-            }
-
-        });
-
-        subscriptions.add(subscription);
-    }
-
     public void getActiveArena(int selectedArena) {
         fragment.showWait();
 

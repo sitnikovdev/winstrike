@@ -18,9 +18,9 @@ import ru.prsolution.winstrike.R;
 public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.LangViewHolder> {
 
   public static Integer SELECTED_ITEM = 0;
-  private OnItemLangClickListener itemLangClickListener;
+  private OnItemArenaClickListener itemArenaClickListener;
 
-  interface OnItemLangClickListener {
+  interface OnItemArenaClickListener {
 
     void onArenaSelectItem(View v, int layoutPosition);
   }
@@ -28,9 +28,9 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
   private Context mContext;
   ArrayList<RowItem> rowItems;
 
-  public ArenaSelectAdapter(Context context, OnItemLangClickListener itemLangClickListener, ArrayList<RowItem> rowItems) {
+  public ArenaSelectAdapter(Context context, OnItemArenaClickListener itemArenaClickListener, ArrayList<RowItem> rowItems) {
     this.mContext = context;
-    this.itemLangClickListener = itemLangClickListener;
+    this.itemArenaClickListener = itemArenaClickListener;
     this.rowItems = rowItems;
   }
 
@@ -80,7 +80,7 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
 
     @Override
     public void onClick(View view) {
-      itemLangClickListener.onArenaSelectItem(view, getLayoutPosition());
+      itemArenaClickListener.onArenaSelectItem(view, getLayoutPosition());
     }
   }
 }

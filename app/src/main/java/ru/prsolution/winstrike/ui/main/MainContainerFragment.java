@@ -30,6 +30,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
   private static final String EXTRA_NAME = "tcf_extra_name";
 
   private Navigator navigator;
+  private MainScreenActivity mainActivity;
 
   @Inject
   LocalCiceroneHolder ciceroneHolder;
@@ -61,6 +62,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+     mainActivity = (MainScreenActivity) getActivity();
     return inflater.inflate(R.layout.fragment_tab_container, container, false);
   }
 
@@ -86,7 +88,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_map))) {
-      getCicerone().getRouter().replaceScreen(Screens.MAP_SCREEN, 0);
+      getCicerone().getRouter().replaceScreen(Screens.MAP_SCREEN, mainActivity.selectedArena);
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_pay))) {
@@ -164,7 +166,6 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
       return true;
     } else {
       ((RouterProvider) getActivity()).getRouter().replaceScreen(Screens.START_SCREEN, 0);
-      MainScreenActivity mainActivity = (MainScreenActivity) getActivity();
       mainActivity.initMainToolbar(getString(R.string.app_name), true, ScreenType.MAIN);
       mainActivity.showBottomTab();
       mainActivity.highlightTab(MainScreenView.HOME_TAB_POSITION);
