@@ -2,7 +2,7 @@
 <layout xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="vm"
+            name="seat"
             type="ru.prsolution.winstrike.mvp.models.SeatModel"/>
         <variable
             name="td"
@@ -39,7 +39,7 @@
             android:layout_alignTop="@id/head_image"
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginTop="@dimen/space_text"
-            android:text="@{vm.title}"
+            android:text="@{seat.title}"
             tools:text="@string/seatdetail_title" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="-30dp"
-            android:text="@{vm.cpu}"
+            android:text="@{seat.cpu}"
             tools:text="@string/seatdetail_cpu" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_alignBottom="@id/cpu"
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginBottom="-25dp"
-            android:text="@{vm.ram}"
+            android:text="@{seat.ram}"
             tools:text="@string/seatdetail_ram" />
 
         <TextView
@@ -76,7 +76,7 @@
             android:layout_alignBottom="@id/ram"
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginBottom="-25dp"
-            android:text="@{vm.gpu}"
+            android:text="@{seat.gpu}"
             tools:text="@string/seatdetail_gpu" />
 
         <TextView
@@ -88,7 +88,7 @@
             android:layout_alignBottom="@id/gpu"
             android:layout_marginStart="@dimen/start_head"
             android:layout_marginBottom="-25dp"
-            android:text="@{vm.monitor}"
+            android:text="@{seat.monitor}"
             tools:text="@string/seatdetail_monitor" />
 
 

@@ -95,7 +95,7 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     SeatModel seat = WinstrikeApp.getInstance().getSeat();
     binding = DataBindingUtil.inflate(inflater, R.layout.frm_choose, container, false);
-    binding.setVm(seat);
+    binding.setSeat(seat);
     binding.setTd(TimeDataModel.INSTANCE);
     binding.setIChooseView((IChooseView) this);
     View view = binding.getRoot();
