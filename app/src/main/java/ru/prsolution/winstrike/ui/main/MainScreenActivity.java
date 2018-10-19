@@ -102,7 +102,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private Dialog mDlgMapLegend;
   private UserProfileObservable user;
   private AcMainscreenBinding binding;
-  private ArrayList<RowItem> rowItems;
+  private ArrayList<ArenaItem> arenaItems;
   private final Integer[] titles = new Integer[]{R.string.spin_arena2, R.string.spin_arena1};
   private final Integer[] address = {R.string.spin_address2, R.string.spin_address1};
   private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
@@ -250,7 +250,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     editor.commit();
 
     ArenaSelectAdapter.SELECTED_ITEM = layoutPosition;
-    RowItem item = rowItems.get(layoutPosition);
+    ArenaItem item = arenaItems.get(layoutPosition);
     binding.tvArenaTitle.setText(item.getTitle());
 
     if (this.selectedArena == 0) {
@@ -381,6 +381,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     sharedPref = getPreferences(Context.MODE_PRIVATE);
     editor = sharedPref.edit();
+    selectedArena = sharedPref.getInt(getString(R.string.saved_arena), -1);
 
     user = new UserProfileObservable();
     if (this.selectedArena == 0) {
@@ -393,22 +394,21 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     binding.setUser(user);
 
-    rowItems = new ArrayList<RowItem>();
+    arenaItems = new ArrayList<ArenaItem>();
     for (int i = 0; i < titles.length; i++) {
-      RowItem item = new RowItem(getString(titles[i]), getString(address[i]), false);
-      rowItems.add(item);
+      ArenaItem item = new ArenaItem(getString(titles[i]), getString(address[i]), false);
+      arenaItems.add(item);
     }
 
     //Transitions animations:
     arenaDownConstraintSet.clone(this, R.layout.part_arena_down);
     arenaUpConstraintSet.clone(this, R.layout.part_arena_up);
 
-    selectedArena = sharedPref.getInt(getString(R.string.saved_arena), -1);
-    RowItem item = rowItems.get(selectedArena);
+    ArenaItem item = arenaItems.get(selectedArena);
     binding.tvArenaTitle.setText(item.getTitle());
     ArenaSelectAdapter.SELECTED_ITEM = selectedArena;
 
-    binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, rowItems));
+    binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, arenaItems));
     binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
     RecyclerViewMargin decoration = new RecyclerViewMargin(24, 1);
     binding.rvArena.addItemDecoration(decoration);

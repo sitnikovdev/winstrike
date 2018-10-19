@@ -1,11 +1,11 @@
 package ru.prsolution.winstrike.ui.main;
 
-public class RowItem {
+public class ArenaItem {
   private String  title;
   private String address;
   private Boolean mSelected;
 
-  public RowItem(String Title, String address, Boolean selected){
+  public ArenaItem(String Title, String address, Boolean selected){
     this.title = Title;
     this.address = address;
     this.mSelected = selected;

@@ -26,12 +26,12 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
   }
 
   private Context mContext;
-  ArrayList<RowItem> rowItems;
+  ArrayList<ArenaItem> arenaItems;
 
-  public ArenaSelectAdapter(Context context, OnItemArenaClickListener itemArenaClickListener, ArrayList<RowItem> rowItems) {
+  public ArenaSelectAdapter(Context context, OnItemArenaClickListener itemArenaClickListener, ArrayList<ArenaItem> arenaItems) {
     this.mContext = context;
     this.itemArenaClickListener = itemArenaClickListener;
-    this.rowItems = rowItems;
+    this.arenaItems = arenaItems;
   }
 
 
@@ -43,7 +43,7 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
 
   @Override
   public void onBindViewHolder(LangViewHolder holder, int position) {
-    RowItem item = rowItems.get(position);
+    ArenaItem item = arenaItems.get(position);
     holder.tv_title.setText(item.getTitle());
     holder.tv_addres.setText(item.getAddress());
     if (position == SELECTED_ITEM) {
@@ -61,7 +61,7 @@ public class ArenaSelectAdapter extends RecyclerView.Adapter<ArenaSelectAdapter.
 
   @Override
   public int getItemCount() {
-    return rowItems.size();
+    return arenaItems.size();
   }
 
 

@@ -10,13 +10,13 @@ import android.widget.TextView;
 import java.util.List;
 import ru.prsolution.winstrike.R;
 
-public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
+public class CustomSpinnAdapter extends ArrayAdapter<ArenaItem> {
 
   LayoutInflater flater;
 
   Context mContext;
 
-  public CustomSpinnAdapter(Activity context, int resouceId, int textviewId, List<RowItem> list) {
+  public CustomSpinnAdapter(Activity context, int resouceId, int textviewId, List<ArenaItem> list) {
 
     super(context, resouceId, textviewId, list);
     this.mContext = context;
@@ -35,7 +35,7 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
 
   private View rowview(View convertView, int position) {
 
-    RowItem rowItem = getItem(position);
+    ArenaItem arenaItem = getItem(position);
 
     viewHolder holder;
     View rowview = convertView;
@@ -59,8 +59,8 @@ public class CustomSpinnAdapter extends ArrayAdapter<RowItem> {
     } else {
       holder = (viewHolder) rowview.getTag();
     }
-    holder.txtTitle.setText(rowItem.getTitle());
-    holder.txtAddress.setText(rowItem.getAddress());
+    holder.txtTitle.setText(arenaItem.getTitle());
+    holder.txtAddress.setText(arenaItem.getAddress());
 
     return rowview;
   }
