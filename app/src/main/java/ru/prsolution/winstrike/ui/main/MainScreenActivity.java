@@ -287,11 +287,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public void onChooseArenaSeatClick(SeatModel seat) {
     TimeDataModel.INSTANCE.clearPids();
     showFragmentHolderContainer(true);
-/*    if (this.selectedArena == 0) {
-      initMainToolbar(getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-    } else {
-      initMainToolbar(getResources().getString(R.string.app_arena_2), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-    }*/
     WinstrikeApp.getInstance().setSeat(seat);
     presenter.onChooseScreenClick();
   }
@@ -380,8 +375,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     sharedPref = getPreferences(Context.MODE_PRIVATE);
     editor = sharedPref.edit();
-    selectedArena = sharedPref.getInt(getString(R.string.saved_arena), -1);
-
+    selectedArena = sharedPref.getInt(getString(R.string.saved_arena), Constants.SAVED_ARENA_DEFAULT);
 
     binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
 
@@ -399,8 +393,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, arenaItems));
     binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerViewMargin decoration = new RecyclerViewMargin(24, 1);
-    binding.rvArena.addItemDecoration(decoration);
+    binding.rvArena.addItemDecoration(new RecyclerViewMargin(24, 1));
     binding.rvArena.getAdapter().notifyDataSetChanged();
 
     ButterKnife.bind(this);
@@ -455,16 +448,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private void initArena() {
     if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
       binding.getUser().setName(getString(R.string.app_arena_2));
-      initCarouselArenaSeat(1);
+      initCarouselArenaSeat(Constants.WINSTRIKE_CORNER_PAGES);
     } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
       binding.getUser().setName(getString(R.string.app_arena_1));
-      initCarouselArenaSeat(3);
+      initCarouselArenaSeat(Constants.WINSTRIKE_ARENA_PAGES);
     }
   }
 
   private void initViews() {
-//    initMainToolbar(getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
-//    initMainToolbar(getResources().getString(R.string.app_arena_2), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
     initBottomNavigationBar();
 
     // Hide profile interface element
@@ -492,28 +483,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     getSupportActionBar().setDisplayShowTitleEnabled(false);
   }
 
-  public void initMainToolbar(String title, Boolean hideNavIcon, ScreenType screenType) {
-    setSupportActionBar(binding.toolbar);
-    binding.toolbar.setNavigationOnClickListener(mMainOnClickListener);
-
-    mScreenType = screenType;
-    invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
-    binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-    //binding.toolbarText.setText(title);
-/*    if (this.selectedArena == 0) {
-      binding.toolbarText.setText(getString(R.string.app_name));
-    } else {
-      binding.toolbarText.setText(getString(R.string.app_arena_2));
-    }*/
-    if (hideNavIcon) {
-      binding.toolbar.setNavigationIcon(null);
-      binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStart());
-    } else {
-      binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-      binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStartWithNavigation());
-    }
-    getSupportActionBar().setDisplayShowTitleEnabled(false);
-  }
 
   private void setHomeScreenStateVisibility(Boolean isVisible) {
     if (isVisible) {
@@ -846,6 +815,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         case PLACE_TAB_POSITION:
           showFragmentHolderContainer(true);
           setProfileScreenVisibility(false);
+          setHomeScreenStateVisibility(false);
           initMainToolbar(getString(R.string.title_payment_places), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
           String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();
           presenter.getOrders(token);
@@ -890,7 +860,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     public void onClick(View v) {
       clearData();
-//      initMainToolbar(getResources().getString(R.string.app_club), HIDE_ICON, ScreenType.MAIN, this);
       presenter.onBackPressed();
     }
   }
@@ -900,7 +869,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     public void onClick(View v) {
       TimeDataModel.INSTANCE.clearPids();
-//      initMainToolbar(getResources().getString(R.string.app_club), SHOW_ICON, ScreenType.MAIN, this);
       router.replaceScreen(Screens.CHOOSE_SCREEN, 0);
     }
   }

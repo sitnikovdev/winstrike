@@ -166,7 +166,6 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
       return true;
     } else {
       ((RouterProvider) getActivity()).getRouter().replaceScreen(Screens.START_SCREEN, 0);
-      mainActivity.initMainToolbar(getString(R.string.app_name), true, ScreenType.MAIN);
       mainActivity.showBottomTab();
       mainActivity.highlightTab(MainScreenView.HOME_TAB_POSITION);
       mainActivity.setProfileScreenVisibility(false);

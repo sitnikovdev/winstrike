@@ -41,9 +41,12 @@ public class Constants {
   public static final Integer SCREEN_MARGIN_450 = -450;
   public static final Integer SCREEN_MARGIN_600 = -600;
 
-  // Arena
+  // Arenas:
   public static final Integer WINSTRIKE_CORNER = 0;
   public static final Integer WINSTRIKE_ARENA = 1;
+  public static final Integer WINSTRIKE_CORNER_PAGES = 1;
+  public static final Integer WINSTRIKE_ARENA_PAGES = 3;
+  public static final Integer SAVED_ARENA_DEFAULT = -1;
 
 
   public static final String HEADER_AUTHORIZATION = "Authorization";
