@@ -774,6 +774,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Override
   public void onGetOrdersFailure(String appErrorMessage) {
+    mPayList = new ArrayList<>();
+    presenter.onTabPlaceClick(mPayList);
     Timber.d("Failure get layout from server: %s", appErrorMessage);
   }
 

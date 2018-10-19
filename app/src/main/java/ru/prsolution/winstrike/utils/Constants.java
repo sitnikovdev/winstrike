@@ -19,6 +19,8 @@ public class Constants {
   public static final String URL_FACEBOOK = "https://www.facebook.com/winstrikegg/";
   public static final String URL_TWITCH = "https://www.twitch.tv/winstrikearena";
 
+  public static final String ORDER_URL = "https://dev.winstrike.ru/api/v1/orders";
+
 
   public static final String IMAGE_TYPE = "image/jpg";
   public static final String SHARE_DRAWABLE = "/drawable/";

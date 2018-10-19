@@ -50,6 +50,7 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
         router.replaceScreen(Screens.PLACE_SCREEN,mPayList);
     }
 
+
     public void onTabUserClick() {
         getViewState().highlightTab(MainScreenView.USER_TAB_POSITION);
         router.replaceScreen(Screens.USER_SCREEN);

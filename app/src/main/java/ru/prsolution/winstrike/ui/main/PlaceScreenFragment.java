@@ -10,33 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.common.PlacesAdapter;
-import ru.prsolution.winstrike.common.utils.AuthUtils;
-import ru.prsolution.winstrike.common.vpadapter.OrdersViewModel;
+import ru.prsolution.winstrike.common.BackButtonListener;
+import ru.prsolution.winstrike.common.BottomDecoratorHelper;
+import ru.prsolution.winstrike.common.RouterProvider;
 import ru.prsolution.winstrike.common.vpadapter.SeatAdapter;
 import ru.prsolution.winstrike.databinding.FmtPaidBinding;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.presenters.PlacesPresenter;
 import ru.prsolution.winstrike.mvp.views.PlacesView;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.common.BackButtonListener;
-import ru.prsolution.winstrike.common.BottomDecoratorHelper;
-import ru.prsolution.winstrike.common.RouterProvider;
-import timber.log.Timber;
 
 
 /**
@@ -100,6 +92,10 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view;
 
+        if (mPayList == null) {
+            view = inflater.inflate(R.layout.fmt_nopaid, container, false);
+            ButterKnife.bind(this, view);
+        }
         if (!mPayList.isEmpty()) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fmt_paid, container, false);
             view = binding.getRoot();
@@ -122,7 +118,6 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
 
     @Override
     public boolean onBackPressed() {
-//        presenter.onBackPressed();
         startActivity(new Intent(getActivity(), MainScreenActivity.class));
         return true;
     }

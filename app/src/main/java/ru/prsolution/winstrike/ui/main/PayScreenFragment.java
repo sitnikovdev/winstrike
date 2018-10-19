@@ -28,6 +28,7 @@ import ru.prsolution.winstrike.common.BackButtonListener;
 import ru.prsolution.winstrike.common.RouterProvider;
 import ru.prsolution.winstrike.mvp.presenters.PayPresenter;
 import ru.prsolution.winstrike.mvp.views.PayView;
+import ru.prsolution.winstrike.utils.Constants;
 import timber.log.Timber;
 
 public class PayScreenFragment extends MvpAppCompatFragment implements PayView, BackButtonListener {
@@ -94,12 +95,7 @@ public class PayScreenFragment extends MvpAppCompatFragment implements PayView, 
         }
         tvToolbarTitle.setText(s);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> presenter.onBackPressed());
     }
 
 
@@ -134,7 +130,7 @@ public class PayScreenFragment extends MvpAppCompatFragment implements PayView, 
         public void onLoadResource(WebView view, String url) {
             super.onLoadResource(view, url);
             Timber.d("Load link: %s", url);
-            if (url.equals("https://dev.winstrike.ru/api/v1/orders")) {
+            if (url.equals(Constants.ORDER_URL)) {
                 Intent intent = new Intent();
                 intent.putExtra("payments", true);
                 startActivity(new Intent(getActivity(), MainScreenActivity.class));

@@ -22,87 +22,83 @@ import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 
 public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static Integer SELECTED_ITEM = 0;
-    private Context context;
-    List<OrderModel> payList;
+  private Context context;
+  List<OrderModel> payList;
 
-    public PlacesAdapter(Context context, List<OrderModel> payList) {
-        this.context = context;
-        this.payList = payList;
+  public PlacesAdapter(Context context, List<OrderModel> payList) {
+    this.context = context;
+    this.payList = payList;
+  }
+
+
+  @Override
+  public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View view;
+    RecyclerView.ViewHolder rvHolder;
+
+    view = LayoutInflater.from(context).inflate(R.layout.item_paid, parent, false);
+    rvHolder = new PayViewHolder(view);
+
+    return rvHolder;
+  }
+
+  @Override
+  public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+    initPayFill(position, (PayViewHolder) holder);
+  }
+
+  private void initPayFill(int position, PayViewHolder holder) {
+    OrderModel pay = payList.get(position);
+
+    holder.date.setText(pay.getDate());
+    holder.time.setText(pay.getTime());
+    holder.pc.setText(pay.getPcName());
+    holder.pcCode.setText(pay.getAccessCode());
+
+    Glide.with(context)
+        .load(pay.getThumbnail())
+        .into(holder.thumbnail);
+
+  }
+
+  @Override
+  public int getItemCount() {
+    return payList.size();
+  }
+
+  public class PayViewHolder extends RecyclerView.ViewHolder {
+
+    @BindView(R.id.seat_title)
+    TextView title;
+    @BindView(R.id.tv_date)
+    TextView date;
+    @BindView(R.id.tv_time)
+    TextView time;
+    @BindView(R.id.tv_pc)
+    TextView pc;
+    @BindView(R.id.tv_pccode)
+    TextView pcCode;
+    @BindView(R.id.thumbnail)
+    ImageView thumbnail;
+
+    public PayViewHolder(View itemView) {
+      super(itemView);
+      ButterKnife.bind(this, itemView);
     }
 
+  }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view;
-        RecyclerView.ViewHolder rvHolder;
+  public class PayEmptyViewHolder extends RecyclerView.ViewHolder {
 
-        view = LayoutInflater.from(context).inflate(R.layout.item_paid, parent, false);
-        rvHolder = new PayViewHolder(view);
+    @BindView(R.id.thumbnail)
+    ImageView thumbnail;
 
-        return rvHolder;
+    public PayEmptyViewHolder(View itemView) {
+      super(itemView);
+      ButterKnife.bind(this, itemView);
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        initPayFill(position, (PayViewHolder) holder);
-    }
-
-    private void initPayFill(int position, PayViewHolder holder) {
-        OrderModel pay = payList.get(position);
-//        holder.title.setText(pay.getPlaceName());
-
-        holder.date.setText(pay.getDate());
-        holder.time.setText(pay.getTime());
-        holder.pc.setText(pay.getPcName());
-        holder.pcCode.setText(pay.getAccessCode());
-
-
-        Glide.with(context)
-                .load(pay.getThumbnail())
-                .into(holder.thumbnail);
-
-/*        holder.thumbnail.setOnClickListener(
-                it -> itemPayClickListener.onItemPayClick(holder, position)
-        );*/
-    }
-
-    @Override
-    public int getItemCount() {
-        return payList.size();
-    }
-
-    public class PayViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.seat_title)
-        TextView title;
-        @BindView(R.id.tv_date)
-        TextView date;
-        @BindView(R.id.tv_time)
-        TextView time;
-        @BindView(R.id.tv_pc)
-        TextView pc;
-        @BindView(R.id.tv_pccode)
-        TextView pcCode;
-        @BindView(R.id.thumbnail)
-        ImageView thumbnail;
-
-        public PayViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-    }
-
-    public class PayEmptyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.thumbnail)
-        ImageView thumbnail;
-
-        public PayEmptyViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-    }
+  }
 
 }
