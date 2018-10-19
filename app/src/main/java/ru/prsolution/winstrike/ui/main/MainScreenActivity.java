@@ -100,7 +100,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private MapOnClickListener mMapOnClickListener;
   private ScreenType mScreenType;
   private Dialog mDlgMapLegend;
-  private UserProfileObservable user;
+  private UserProfileObservable user = new UserProfileObservable();
   private AcMainscreenBinding binding;
   private ArrayList<ArenaItem> arenaItems = new ArrayList<ArenaItem>();
   private final Integer[] titles = new Integer[]{R.string.spin_arena2, R.string.spin_arena1};
@@ -382,12 +382,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     editor = sharedPref.edit();
     selectedArena = sharedPref.getInt(getString(R.string.saved_arena), -1);
 
-    user = new UserProfileObservable();
-    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
-      user.setName(getResources().getString(R.string.app_arena_2));
-    } else {
-      user.setName(getResources().getString(R.string.app_arena_1));
-    }
 
     binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
 
