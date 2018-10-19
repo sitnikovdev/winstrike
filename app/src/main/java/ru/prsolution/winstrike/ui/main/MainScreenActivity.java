@@ -271,6 +271,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     adapter.setPagesCount(pagesCount);
     adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0);
     adapter.addFragment(CarouselSeatFragment.newInstance(this, 1), 1);
+    adapter.addFragment(CarouselSeatFragment.newInstance(this, 2), 2);
     adapter.notifyDataSetChanged();
     viewPagerSeat.setAdapter(adapter);
     viewPagerSeat.setPageTransformer(false, adapter);
@@ -421,7 +422,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (this.selectedArena == 0) {
       initCarouselArenaSeat(1);
     } else {
-      initCarouselArenaSeat(2);
+      initCarouselArenaSeat(3);
     }
     Timber.w(String.valueOf(adapter.getCount()));
 
