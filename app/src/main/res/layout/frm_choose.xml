@@ -1,193 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="seat"
-            type="ru.prsolution.winstrike.mvp.models.SeatModel"/>
-        <variable
-            name="td"
-            type="ru.prsolution.winstrike.mvp.models.TimeDataModel"/>
+  <data>
+    <variable
+      name="seat"
+      type="ru.prsolution.winstrike.mvp.models.SeatModel"/>
+    <variable
+      name="td"
+      type="ru.prsolution.winstrike.mvp.models.TimeDataModel"/>
 
-        <variable
-            name="iChooseView"
-            type="ru.prsolution.winstrike.mvp.views.IChooseView" />
+    <variable
+      name="iChooseView"
+      type="ru.prsolution.winstrike.mvp.views.IChooseView"/>
 
-    </data>
+  </data>
+
+  <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="55dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="25dp"
+    >
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/fragment_container"
+      android:id="@+id/fragment_container"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      >
+
+
+      <ImageView
+        android:id="@+id/head_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_head"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="40dp"
+        android:src="@drawable/vip"/>
+
+      <TextView
+        android:id="@+id/seat_title"
+        style="@style/StemMedium15Black"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_text"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignStart="@id/head_image"
+        android:layout_alignTop="@id/head_image"
+        android:text="@{seat.title}"
+        tools:text="@string/seatdetail_title"/>
+
+      <TextView
+        android:id="@+id/cpu"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="-30dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignBottom="@id/head_image"
+        android:layout_alignStart="@+id/head_image"
+        android:text="@{seat.cpu}"
+        tools:text="CPU: Intel Core i5-8600K"/>
+
+      <TextView
+        android:id="@+id/ram"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-45dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignBottom="@id/cpu"
+        android:layout_alignStart="@+id/head_image"
+        android:text="@{seat.ram}"
+        tools:text="RAM: 16GB DDR4; 512 GB SSD NVMe  2TB 7200"/>
+
+      <TextView
+        android:id="@+id/gpu"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-25dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignBottom="@id/ram"
+        android:layout_alignStart="@+id/head_image"
+        android:text="@{seat.gpu}"
+        tools:text="@string/seatdetail_gpu"/>
+
+      <TextView
+        android:id="@+id/monitor"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-45dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignBottom="@id/gpu"
+        android:layout_alignStart="@+id/head_image"
+        android:text="@{seat.monitor}"
+        tools:text="Монитор: LG34 32GK850G 144hz \\ LG 24 24GM79G 144hz"/>
+
+      <TextView
+        android:id="@+id/garnitura"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-45dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignBottom="@id/monitor"
+        android:layout_alignStart="@+id/head_image"
+        android:text="@{seat.garnitura}"
+        tools:text="Гарнитура: Logitech G PRO \\ Logitech G231 \\ Logitech Headset G433"/>
+
+      <TextView
+        android:id="@+id/keyboard"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-45dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignBottom="@id/garnitura"
+        android:layout_alignStart="@+id/head_image"
+        android:text="@{seat.keyboard}"
+        tools:text="Клавиатура: Logitech G512 Carbon Mechanical GX Blue"/>
+
+      <TextView
+        android:id="@+id/mouse"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-45dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignBottom="@id/keyboard"
+        android:layout_alignStart="@+id/head_image"
+        android:text="@{seat.mouse}"
+        tools:text="Мышь: Logitech G102 Prodigy \ Logitech G403 Prodigy"/>
+
+      <TextView
+        android:id="@+id/carpet"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-25dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignBottom="@id/mouse"
+        android:layout_alignStart="@+id/head_image"
+        android:text="@{seat.carpet}"
+        tools:text="Ковер: Logitech G440 \ Logitech G240"/>
+
+      <TextView
+        android:id="@+id/tv_date"
+        style="@style/StemMedium15Black"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginBottom="-60dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignBottom="@id/carpet"
+        android:layout_alignStart="@+id/head_image"
+        android:background="@drawable/ripple_effect_title_click"
+        android:clickable="true"
+        android:onClick="@{()-> iChooseView.onDateClickListener()}"
+        android:text="@{td.date}"
+        tools:text="@string/seatdetail_date"/>
 
 
-        <ImageView
-            android:id="@+id/head_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="@dimen/space_head"
-            android:src="@drawable/vip" />
-
-        <TextView
-            android:id="@+id/seat_title"
-            style="@style/StemMedium15Black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@id/head_image"
-            android:layout_alignTop="@id/head_image"
-            android:layout_marginStart="@dimen/start_head"
-            android:layout_marginTop="@dimen/space_text"
-            android:text="@{seat.title}"
-            tools:text="@string/seatdetail_title" />
-
-        <TextView
-            android:id="@+id/cpu"
-            style="@style/StemRegular15Base"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/head_image"
-            android:layout_alignBottom="@id/head_image"
-            android:layout_marginStart="@dimen/start_head"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="-30dp"
-            android:text="@{seat.cpu}"
-            tools:text="@string/seatdetail_cpu" />
-
-        <TextView
-            android:id="@+id/ram"
-            style="@style/StemRegular15Base"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/head_image"
-            android:layout_alignBottom="@id/cpu"
-            android:layout_marginStart="@dimen/start_head"
-            android:layout_marginBottom="-25dp"
-            android:text="@{seat.ram}"
-            tools:text="@string/seatdetail_ram" />
-
-        <TextView
-            android:id="@+id/gpu"
-            style="@style/StemRegular15Base"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/head_image"
-            android:layout_alignBottom="@id/ram"
-            android:layout_marginStart="@dimen/start_head"
-            android:layout_marginBottom="-25dp"
-            android:text="@{seat.gpu}"
-            tools:text="@string/seatdetail_gpu" />
-
-        <TextView
-            android:id="@+id/monitor"
-            style="@style/StemRegular15Base"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/head_image"
-            android:layout_alignBottom="@id/gpu"
-            android:layout_marginStart="@dimen/start_head"
-            android:layout_marginBottom="-25dp"
-            android:text="@{seat.monitor}"
-            tools:text="@string/seatdetail_monitor" />
+      <View
+        android:id="@+id/v_date_tap"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="-20dp"
+        android:layout_marginEnd="-20dp"
+        android:layout_alignBottom="@id/iv_arr_date"
+        android:layout_alignEnd="@id/head_image"
+        android:onClick="@{()-> iChooseView.onDateClickListener()}"/>
 
 
-        <TextView
-            android:id="@+id/tv_date"
-            style="@style/StemMedium15Black"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_alignStart="@+id/head_image"
-            android:layout_alignBottom="@id/monitor"
-            android:layout_marginStart="@dimen/start_head"
-            android:layout_marginBottom="-60dp"
-            android:background="@drawable/ripple_effect_title_click"
-            android:clickable="true"
-            android:onClick="@{()-> iChooseView.onDateClickListener()}"
-            android:text="@{td.date}"
-            tools:text="@string/seatdetail_date" />
+      <ImageView
+        android:id="@+id/iv_arr_date"
+        android:layout_width="50dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="-20dp"
+        android:layout_alignEnd="@id/head_image"
+        android:layout_alignTop="@id/tv_date"
+        android:src="@drawable/ic_down_arrow"/>
+
+      <TextView
+        android:id="@+id/tv_time"
+        style="@style/StemMedium15Black"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignStart="@+id/head_image"
+        android:layout_alignTop="@id/tv_date"
+        android:background="@drawable/ripple_effect_title_click"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{()-> iChooseView.onTimeClickListener()}"
+        android:text="@{td.time}"
+        tools:text="@string/seatdetail_time"/>
 
 
-        <View
-            android:id="@+id/v_date_tap"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignEnd="@id/head_image"
-            android:layout_alignBottom="@id/iv_arr_date"
-            android:onClick="@{()-> iChooseView.onDateClickListener()}"
-            android:layout_marginEnd="-20dp"
-            android:layout_marginBottom="-20dp" />
+      <View
+        android:id="@+id/v_time_tap"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="-20dp"
+        android:layout_marginEnd="-20dp"
+        android:layout_alignBottom="@id/iv_arr_time"
+        android:layout_alignEnd="@id/head_image"
+        android:onClick="@{()-> iChooseView.onTimeClickListener()}"/>
 
+      <ImageView
+        android:id="@+id/iv_arr_time"
+        android:layout_width="50dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="-20dp"
+        android:layout_alignEnd="@id/head_image"
+        android:layout_alignTop="@id/tv_time"
+        android:src="@drawable/ic_down_arrow"/>
 
-        <ImageView
-            android:id="@+id/iv_arr_date"
-            android:layout_width="50dp"
-            android:layout_height="10dp"
-            android:layout_alignTop="@id/tv_date"
-            android:layout_alignEnd="@id/head_image"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="-20dp"
-            android:src="@drawable/ic_down_arrow" />
+      <View
+        android:id="@+id/next_button"
+        android:layout_width="@dimen/width_button"
+        android:layout_height="@dimen/height_button"
+        android:layout_marginTop="55dp"
+        android:layout_alignTop="@id/tv_time"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_bgr_24dp"
+        android:onClick="@{() -> iChooseView.onNextButtonClickListener()}"/>
 
-        <TextView
-            android:id="@+id/tv_time"
-            style="@style/StemMedium15Black"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_alignStart="@+id/head_image"
-            android:layout_alignTop="@id/tv_date"
-            android:layout_marginStart="@dimen/start_head"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/ripple_effect_title_click"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{()-> iChooseView.onTimeClickListener()}"
-            android:text="@{td.time}"
-            tools:text="@string/seatdetail_time" />
-
-
-        <View
-            android:id="@+id/v_time_tap"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignEnd="@id/head_image"
-            android:onClick="@{()-> iChooseView.onTimeClickListener()}"
-            android:layout_alignBottom="@id/iv_arr_time"
-            android:layout_marginEnd="-20dp"
-            android:layout_marginBottom="-20dp" />
-
-        <ImageView
-            android:id="@+id/iv_arr_time"
-            android:layout_width="50dp"
-            android:layout_height="10dp"
-            android:layout_alignTop="@id/tv_time"
-            android:layout_alignEnd="@id/head_image"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="-20dp"
-            android:src="@drawable/ic_down_arrow" />
-
-        <View
-            android:id="@+id/next_button"
-            android:layout_width="@dimen/width_button"
-            android:layout_height="@dimen/height_button"
-            android:layout_alignTop="@id/tv_time"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="55dp"
-            android:onClick="@{() -> iChooseView.onNextButtonClickListener()}"
-            android:background="@drawable/button_bgr_24dp" />
-
-        <TextView
-            android:id="@+id/btn_next"
-            style="@style/StemMedium15Primary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/next_button"
-            android:layout_alignBottom="@id/next_button"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:text="@string/seatdetail_btn"
-            android:textAlignment="center" />
+      <TextView
+        android:id="@+id/btn_next"
+        style="@style/StemMedium15Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_alignBaseline="@id/next_button"
+        android:layout_alignBottom="@id/next_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/seatdetail_btn"
+        android:textAlignment="center"/>
 
 
     </RelativeLayout>
+  </ScrollView>
 </layout>
