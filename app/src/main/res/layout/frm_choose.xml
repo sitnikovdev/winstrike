@@ -64,13 +64,26 @@
         tools:text="CPU: Intel Core i5-8600K"/>
 
       <TextView
+        android:id="@+id/hhd"
+        style="@style/StemRegular15Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="-25dp"
+        android:layout_marginStart="@dimen/start_head"
+        android:layout_alignBottom="@id/cpu"
+        android:layout_alignStart="@+id/head_image"
+        android:text="@{seat.hhd}"
+        tools:text="HHD: 512 GB SSD NVMe  2TB 7200"/>
+
+      <TextView
         android:id="@+id/ram"
         style="@style/StemRegular15Base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="-45dp"
+        android:layout_marginBottom="-25dp"
         android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/cpu"
+        android:layout_alignBottom="@id/hhd"
         android:layout_alignStart="@+id/head_image"
         android:text="@{seat.ram}"
         tools:text="RAM: 16GB DDR4; 512 GB SSD NVMe  2TB 7200"/>

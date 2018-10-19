@@ -734,7 +734,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     wlp.gravity = Gravity.TOP;
     wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-    wlp.y = 200;
+    wlp.y = Constants.LEGEND_MAP_TOP_MARGIN;
     window.setAttributes(wlp);
 
     mDlgMapLegend.setCanceledOnTouchOutside(false);

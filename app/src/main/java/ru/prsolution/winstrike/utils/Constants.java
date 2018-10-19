@@ -43,6 +43,8 @@ public class Constants {
   public static final Integer SCREEN_MARGIN_450 = -450;
   public static final Integer SCREEN_MARGIN_600 = -600;
 
+  public static final Integer LEGEND_MAP_TOP_MARGIN = 200;
+
   // Arenas:
   public static final Integer WINSTRIKE_CORNER = 0;
   public static final Integer WINSTRIKE_ARENA = 1;
