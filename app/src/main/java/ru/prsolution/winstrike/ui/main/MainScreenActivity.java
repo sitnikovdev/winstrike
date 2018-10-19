@@ -253,12 +253,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     ArenaItem item = arenaItems.get(layoutPosition);
     binding.tvArenaTitle.setText(item.getTitle());
 
-    if (this.selectedArena == 0) {
+    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
       binding.getUser().setName(getString(R.string.app_arena_2));
       initCarouselArenaSeat(1);
-    } else {
+    } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
       binding.getUser().setName(getString(R.string.app_arena_1));
-      initCarouselArenaSeat(2);
+      initCarouselArenaSeat(3);
     }
 
     binding.rvArena.getAdapter().notifyDataSetChanged();
@@ -275,7 +275,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     adapter.notifyDataSetChanged();
     viewPagerSeat.setAdapter(adapter);
     viewPagerSeat.setPageTransformer(false, adapter);
-    viewPagerSeat.setCurrentItem(2);
+    viewPagerSeat.setCurrentItem(0);
     viewPagerSeat.setOffscreenPageLimit(2);
 
     if (widthPx <= Constants.SCREEN_WIDTH_PX_720) {
@@ -419,9 +419,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     viewPagerSeat = findViewById(R.id.view_pager_seat);
     adapter = new CarouselAdapter(this);
-    if (this.selectedArena == 0) {
+    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
       initCarouselArenaSeat(1);
-    } else {
+    } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
       initCarouselArenaSeat(3);
     }
     Timber.w(String.valueOf(adapter.getCount()));
