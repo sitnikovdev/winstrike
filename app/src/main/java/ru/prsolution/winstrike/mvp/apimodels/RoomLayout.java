@@ -7,86 +7,86 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class RoomLayout implements Serializable
-{
+public class RoomLayout implements Serializable {
 
-    @SerializedName("places")
-    @Expose
-    private List<Place> places = null;
-    @SerializedName("room_pid")
-    @Expose
-    private String roomPid;
-    @SerializedName("public_id")
-    @Expose
-    private String publicId;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("create_at")
-    @Expose
-    private String createAt;
-    @SerializedName("walls")
-    @Expose
-    private List<Wall> walls = null;
-    @SerializedName("labels")
-    @Expose
-    private List<Label> labels = null;
-    private final static long serialVersionUID = -7881296003903503498L;
+  @SerializedName("places")
+  @Expose
+  private List<Place> places = null;
+  @SerializedName("room_pid")
+  @Expose
+  private String roomPid;
+  @SerializedName("public_id")
+  @Expose
+  private String publicId;
+  @SerializedName("name")
+  @Expose
+  private String name;
+  @SerializedName("create_at")
+  @Expose
+  private String createAt;
+  @SerializedName("walls")
+  @Expose
+  private List<Wall> walls = null;
+  @SerializedName("labels")
+  @Expose
+  private List<Label> labels = null;
 
-    public List<Place> getPlaces() {
-        return places;
-    }
+  private final static long serialVersionUID = -7881296003903503498L;
 
-    public void setPlaces(List<Place> places) {
-        this.places = places;
-    }
+  public List<Place> getPlaces() {
+    return places;
+  }
 
-    public String getRoomPid() {
-        return roomPid;
-    }
+  public void setPlaces(List<Place> places) {
+    this.places = places;
+  }
 
-    public void setRoomPid(String roomPid) {
-        this.roomPid = roomPid;
-    }
+  public String getRoomPid() {
+    return roomPid;
+  }
 
-    public String getPublicId() {
-        return publicId;
-    }
+  public void setRoomPid(String roomPid) {
+    this.roomPid = roomPid;
+  }
 
-    public void setPublicId(String publicId) {
-        this.publicId = publicId;
-    }
+  public String getPublicId() {
+    return publicId;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setPublicId(String publicId) {
+    this.publicId = publicId;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getCreateAt() {
-        return createAt;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setCreateAt(String createAt) {
-        this.createAt = createAt;
-    }
+  public String getCreateAt() {
+    return createAt;
+  }
 
-    public List<Wall> getWalls() {
-        return walls;
-    }
+  public void setCreateAt(String createAt) {
+    this.createAt = createAt;
+  }
 
-    public void setWalls(List<Wall> walls) {
-        this.walls = walls;
-    }
+  public List<Wall> getWalls() {
+    return walls;
+  }
 
-    public List<Label> getLabels() {
-        return labels;
-    }
+  public void setWalls(List<Wall> walls) {
+    this.walls = walls;
+  }
 
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
-    }
+  public List<Label> getLabels() {
+    return labels;
+  }
+
+  public void setLabels(List<Label> labels) {
+    this.labels = labels;
+  }
 
 }

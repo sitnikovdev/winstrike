@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ru.prsolution.winstrike.R;
+import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.ChooseSeatLinearLayout;
 import ru.prsolution.winstrike.mvp.models.SeatModel;
 
@@ -23,6 +24,9 @@ public class CarouselSeatFragment extends Fragment {
 
   OnChoosePlaceButtonsClickListener listener;
   private View itemSeat;
+  private static final String ACTIVE_ARENA = "extra_number";
+  private int mPosition;
+  private MainScreenActivity mainScreenActivity;
 
 
   public interface OnChoosePlaceButtonsClickListener {
@@ -41,17 +45,26 @@ public class CarouselSeatFragment extends Fragment {
   }
 
 
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
+
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+    this.mainScreenActivity = (MainScreenActivity) getActivity();
 
     if (container == null) {
       return null;
     }
     itemSeat = inflater.inflate(R.layout.item_seats, container, false);
 
-    int pos = this.getArguments().getInt("pos");
-    SeatModel seat = setUpFragmentData(pos);
+//    this.mPosition = getArguments().getInt(ACTIVE_ARENA);
+    this.mPosition = mainScreenActivity.selectedArena;
+    SeatModel seat = setUpFragmentData(mPosition);
 
     TextView seat_title = itemSeat.findViewById(R.id.seat_title);
     seat_title.setText(seat.getType());
@@ -76,8 +89,6 @@ public class CarouselSeatFragment extends Fragment {
       return new SeatModel(getString(R.string.common_hall));
     } else if (pos == 1) {
       return new SeatModel(getString(R.string.vip_hp));
-    } else if (pos == 2) {
-      return new SeatModel(getString(R.string.vip_lg_sennheiser));
     } else {
       return null;
     }

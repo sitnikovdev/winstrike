@@ -50,8 +50,6 @@ public class Constants {
   // Arenas:
   public static final Integer WINSTRIKE_CORNER = 0;
   public static final Integer WINSTRIKE_ARENA = 1;
-  public static final Integer WINSTRIKE_CORNER_PAGES = 1;
-  public static final Integer WINSTRIKE_ARENA_PAGES = 3;
   public static final Integer SAVED_ARENA_DEFAULT = -1;
 
 

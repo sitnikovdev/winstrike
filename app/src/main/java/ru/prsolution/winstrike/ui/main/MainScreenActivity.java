@@ -258,14 +258,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
 
-  private void initCarouselArenaSeat(int pagesCount) {
+  private void initCarouselArenaSeat(int pos) {
 
     float widthPx = WinstrikeApp.getInstance().getDisplayWidhtPx();
 
-    adapter.setPagesCount(pagesCount);
-    adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0);
-    adapter.addFragment(CarouselSeatFragment.newInstance(this, 1), 1);
-    adapter.addFragment(CarouselSeatFragment.newInstance(this, 2), 2);
+    adapter.setPagesCount(1);
+    adapter.addFragment(CarouselSeatFragment.newInstance(this, pos), 0);
     adapter.notifyDataSetChanged();
     viewPagerSeat.setAdapter(adapter);
     viewPagerSeat.setPageTransformer(false, adapter);
@@ -448,10 +446,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private void initArena() {
     if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
       binding.getUser().setName(getString(R.string.app_arena_2));
-      initCarouselArenaSeat(Constants.WINSTRIKE_CORNER_PAGES);
+      initCarouselArenaSeat(Constants.WINSTRIKE_CORNER);
     } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
       binding.getUser().setName(getString(R.string.app_arena_1));
-      initCarouselArenaSeat(Constants.WINSTRIKE_ARENA_PAGES);
+      initCarouselArenaSeat(Constants.WINSTRIKE_ARENA);
     }
   }
 
