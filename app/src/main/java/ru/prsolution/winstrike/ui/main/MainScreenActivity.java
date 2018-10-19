@@ -102,7 +102,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private Dialog mDlgMapLegend;
   private UserProfileObservable user;
   private AcMainscreenBinding binding;
-  private ArrayList<ArenaItem> arenaItems;
+  private ArrayList<ArenaItem> arenaItems = new ArrayList<ArenaItem>();
   private final Integer[] titles = new Integer[]{R.string.spin_arena2, R.string.spin_arena1};
   private final Integer[] address = {R.string.spin_address2, R.string.spin_address1};
   private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
@@ -253,13 +253,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     ArenaItem item = arenaItems.get(layoutPosition);
     binding.tvArenaTitle.setText(item.getTitle());
 
-    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
-      binding.getUser().setName(getString(R.string.app_arena_2));
-      initCarouselArenaSeat(1);
-    } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
-      binding.getUser().setName(getString(R.string.app_arena_1));
-      initCarouselArenaSeat(3);
-    }
+    initArena();
 
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
@@ -380,12 +374,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     super.onCreate(savedInstanceState);
     clearData();
 
+    for (int i = 0; i < titles.length; i++) {
+      arenaItems.add(new ArenaItem(getString(titles[i]), getString(address[i]), false));
+    }
+
     sharedPref = getPreferences(Context.MODE_PRIVATE);
     editor = sharedPref.edit();
     selectedArena = sharedPref.getInt(getString(R.string.saved_arena), -1);
 
     user = new UserProfileObservable();
-    if (this.selectedArena == 0) {
+    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
       user.setName(getResources().getString(R.string.app_arena_2));
     } else {
       user.setName(getResources().getString(R.string.app_arena_1));
@@ -394,20 +392,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
 
     binding.setUser(user);
-
-    arenaItems = new ArrayList<ArenaItem>();
-    for (int i = 0; i < titles.length; i++) {
-      ArenaItem item = new ArenaItem(getString(titles[i]), getString(address[i]), false);
-      arenaItems.add(item);
+    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
+      binding.tvArenaTitle.setText(getString(R.string.app_arena_2));
+    } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
+      binding.tvArenaTitle.setText(getString(R.string.app_arena_1));
     }
+    ArenaSelectAdapter.SELECTED_ITEM = selectedArena;
 
     //Transitions animations:
     arenaDownConstraintSet.clone(this, R.layout.part_arena_down);
     arenaUpConstraintSet.clone(this, R.layout.part_arena_up);
-
-    ArenaItem item = arenaItems.get(selectedArena);
-    binding.tvArenaTitle.setText(item.getTitle());
-    ArenaSelectAdapter.SELECTED_ITEM = selectedArena;
 
     binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, arenaItems));
     binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
@@ -419,11 +413,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     viewPagerSeat = findViewById(R.id.view_pager_seat);
     adapter = new CarouselAdapter(this);
-    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
-      initCarouselArenaSeat(1);
-    } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
-      initCarouselArenaSeat(3);
-    }
+    initArena();
     Timber.w(String.valueOf(adapter.getCount()));
 
     progressDialog = new ProgressDialog(this);
@@ -466,6 +456,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           arenaUpConstraintSet.applyTo(binding.root);
         }
     );
+  }
+
+  private void initArena() {
+    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
+      binding.getUser().setName(getString(R.string.app_arena_2));
+      initCarouselArenaSeat(1);
+    } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
+      binding.getUser().setName(getString(R.string.app_arena_1));
+      initCarouselArenaSeat(3);
+    }
   }
 
   private void initViews() {
