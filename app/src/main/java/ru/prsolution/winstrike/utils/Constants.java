@@ -12,6 +12,8 @@ public class Constants {
   public static final String URL_REST_API = String.format("http://%s/v%s/", DOMAIN, API_VERSION);
   public static final String URL_REST = "http://178.57.222.1:8000/";
 
+  public static final String URL_WINSTRIKE_HOST = "winstrike.ru";
+
   public static final String URL_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=ru.prsolution.winstrike";
   public static final String URL_VK = "https://vk.com/winstrikearena";
   public static final String URL_INSTAGRAM = "https://www.instagram.com/winstrikearena/";

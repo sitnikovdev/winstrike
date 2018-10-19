@@ -527,7 +527,11 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
   }
 
   protected void toast(String message) {
-    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    if (message.contains("авторизации")) {
+      Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+    } else {
+      Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
   }
 
   private Bitmap getBitmap(VectorDrawable vectorDrawable) {

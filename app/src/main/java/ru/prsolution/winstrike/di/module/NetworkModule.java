@@ -19,6 +19,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import ru.prsolution.winstrike.BuildConfig;
 import ru.prsolution.winstrike.networking.NetworkService;
 import ru.prsolution.winstrike.networking.Service;
+import ru.prsolution.winstrike.utils.Constants;
 
 
 @Module
@@ -40,23 +41,20 @@ public class NetworkModule {
         }
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public okhttp3.Response intercept(Chain chain) throws IOException {
-                        Request original = chain.request();
+                .addInterceptor(chain -> {
+                    Request original = chain.request();
 
-                        // Customize the request
-                        Request request = original.newBuilder()
-                                .header("Content-Type", "application/json")
-                                .header("host", "winstrike.ru")
-                                .removeHeader("Pragma")
-                                .build();
+                    // Customize the request
+                    Request request = original.newBuilder()
+                            .header("Content-Type", "application/json")
+                            .header("host", Constants.URL_WINSTRIKE_HOST)
+                            .removeHeader("Pragma")
+                            .build();
 
-                        okhttp3.Response response = chain.proceed(request);
-                        response.cacheResponse();
-                        // Customize or return the response
-                        return response;
-                    }
+                    okhttp3.Response response = chain.proceed(request);
+                    response.cacheResponse();
+                    // Customize or return the response
+                    return response;
                 })
                 .cache(cache)
                 .build();

@@ -67,8 +67,8 @@ class SeatModel(var type: String) {
             imgCarousel = R.drawable.event_room
             title = "Вы выбрали: Общий зал"
             cpu = "CPU: Intel Core i5-8600K"
-            hhd = ""
-            ram = "RAM: 16GB DDR4; 512 GB SSD NVMe  2TB 7200"
+            hhd = "HHD: 512 GB SSD NVMe 2TB 7200"
+            ram = "RAM: 16GB DDR4"
             gpu = "GPU: nVidia GTX 1070 8GB"
             monitor = "Монитор: LG34'' 32GK850G 144hz \\  LG 24 24GM79G 144hz"
             garnitura = "Гарнитура: Logitech G PRO \\ Logitech G231 \\ Logitech Headset G433"
