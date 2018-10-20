@@ -452,9 +452,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   private void initArena() {
+    // TODO: 20/10/2018 Get arena name from Api.
+/*    binding.getUser().setName(rooms.get(selectedArena).getName());
+    binding.arenaDescription.setText(rooms.get(selectedArena).getDescription());*/
     if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
       binding.getUser().setName(getString(R.string.app_arena_2));
-//      binding.getUser().setName(rooms.get(selectedArena).getName());
       initCarouselArenaSeat(Constants.WINSTRIKE_CORNER);
     } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
       binding.getUser().setName(getString(R.string.app_arena_1));
