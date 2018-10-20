@@ -18,6 +18,30 @@ public class Room implements Serializable {
   @Expose
   private String roomLayoutPid;
 
+  @SerializedName("description")
+  @Expose
+  private String description;
+
+  @SerializedName("image_url")
+  @Expose
+  private String imageUrl;
+
+  @SerializedName("locale")
+  @Expose
+  private String locale;
+
+  @SerializedName("usual_description")
+  @Expose
+  private String usualDescription;
+
+  @SerializedName("usual_image_url")
+  @Expose
+  private String usualImageUrl;
+
+  @SerializedName("vip_description")
+  @Expose
+  private String vipDescription;
+
   public String getName() {
     return name;
   }
@@ -40,6 +64,54 @@ public class Room implements Serializable {
 
   public void setRoomLayoutPid(String roomLayoutPid) {
     this.roomLayoutPid = roomLayoutPid;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public String getLocale() {
+    return locale;
+  }
+
+  public void setLocale(String locale) {
+    this.locale = locale;
+  }
+
+  public String getUsualDescription() {
+    return usualDescription;
+  }
+
+  public void setUsualDescription(String usualDescription) {
+    this.usualDescription = usualDescription;
+  }
+
+  public String getUsualImageUrl() {
+    return usualImageUrl;
+  }
+
+  public void setUsualImageUrl(String usualImageUrl) {
+    this.usualImageUrl = usualImageUrl;
+  }
+
+  public String getVipDescription() {
+    return vipDescription;
+  }
+
+  public void setVipDescription(String vipDescription) {
+    this.vipDescription = vipDescription;
   }
 }
 
