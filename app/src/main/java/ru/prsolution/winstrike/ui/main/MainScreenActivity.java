@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.ui.main;
 
 import static android.view.View.VISIBLE;
+import static ru.prsolution.winstrike.common.utils.Utils.toast;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -37,6 +38,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
@@ -47,7 +49,9 @@ import ru.prsolution.winstrike.common.ScreenType;
 import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.databinding.AcMainscreenBinding;
+import ru.prsolution.winstrike.mvp.apimodels.Arenas;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.mvp.apimodels.Room;
 import ru.prsolution.winstrike.mvp.models.FCMModel;
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.models.ProfileModel;
@@ -110,6 +114,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   SharedPreferences sharedPref;
   SharedPreferences.Editor editor;
   public int selectedArena = 0;
+  private List<Room> rooms;
 
 
   @InjectPresenter
@@ -239,6 +244,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
   };
 
+
   @Override
   public void onArenaSelectItem(View v, int layoutPosition) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -367,6 +373,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     super.onCreate(savedInstanceState);
     clearData();
 
+    this.rooms = WinstrikeApp.getInstance().getRooms();
+
+    binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
+
     for (int i = 0; i < titles.length; i++) {
       arenaItems.add(new ArenaItem(getString(titles[i]), getString(address[i]), false));
     }
@@ -374,8 +384,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     sharedPref = getPreferences(Context.MODE_PRIVATE);
     editor = sharedPref.edit();
     selectedArena = sharedPref.getInt(getString(R.string.saved_arena), Constants.SAVED_ARENA_DEFAULT);
-
-    binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
 
     binding.setUser(user);
     if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
@@ -446,6 +454,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private void initArena() {
     if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
       binding.getUser().setName(getString(R.string.app_arena_2));
+//      binding.getUser().setName(rooms.get(selectedArena).getName());
       initCarouselArenaSeat(Constants.WINSTRIKE_CORNER);
     } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
       binding.getUser().setName(getString(R.string.app_arena_1));

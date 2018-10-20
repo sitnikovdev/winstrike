@@ -9,7 +9,10 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import java.io.File;
 
 import io.fabric.sdk.android.Fabric;
+import java.util.List;
 import retrofit2.Retrofit;
+import ru.prsolution.winstrike.mvp.apimodels.Room;
+import ru.prsolution.winstrike.mvp.apimodels.Rooms;
 import ru.prsolution.winstrike.mvp.models.UserEntity;
 import ru.prsolution.winstrike.di.AppComponent;
 import ru.prsolution.winstrike.di.DaggerAppComponent;
@@ -27,6 +30,7 @@ public class WinstrikeApp extends Application {
     private UserEntity user;
     private SeatModel seat;
     private RoomLayout roomLayout;
+    private List<Room> rooms;
 
     @Override
     public void onCreate() {
@@ -106,4 +110,11 @@ public class WinstrikeApp extends Application {
         this.roomLayout = roomLayout;
     }
 
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
 }

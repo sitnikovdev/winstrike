@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.mvp.presenters;
 
 
+import ru.prsolution.winstrike.mvp.apimodels.Arenas;
 import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.models.LoginViewModel;
@@ -63,6 +64,27 @@ public class SplashPresenter {
 
         subscriptions.add(subscription);
     }
+
+
+    public void getActiveArena() {
+
+        Subscription subscription = service.getArenas(new Service.ArenasCallback() {
+            @Override
+            public void onSuccess(Arenas authResponse) {
+                activity.onGetArenasResponseSuccess(authResponse);
+            }
+
+            @Override
+            public void onError(NetworkError networkError) {
+                activity.onGetActivePidFailure(networkError.getAppErrorMessage());
+            }
+
+        });
+
+        subscriptions.add(subscription);
+    }
+
+
 
 
     public void onStop() {

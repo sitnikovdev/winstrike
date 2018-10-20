@@ -8,6 +8,7 @@ import java.util.List;
 
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.common.utils.Utils;
+import ru.prsolution.winstrike.mvp.apimodels.Arenas;
 import ru.prsolution.winstrike.mvp.apimodels.Order;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.apimodels.Orders;
@@ -164,6 +165,7 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
 
         subscriptions.add(subscription);
     }
+
 
 
 

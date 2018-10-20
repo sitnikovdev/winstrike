@@ -6,6 +6,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.ArrayList;
 
+import ru.prsolution.winstrike.mvp.apimodels.Arenas;
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 
@@ -15,29 +16,30 @@ import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
  */
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface MainScreenView extends MvpView {
-    int HOME_TAB_POSITION = 0;
-    int PLACE_TAB_POSITION = 1;
-    int USER_TAB_POSITION = 2;
 
-    void highlightTab(int position);
+  int HOME_TAB_POSITION = 0;
+  int PLACE_TAB_POSITION = 1;
+  int USER_TAB_POSITION = 2;
 
-    void hideBottomTab();
+  void highlightTab(int position);
 
-    void goHome();
+  void hideBottomTab();
 
-    void showWait();
+  void goHome();
 
-    void removeWait();
+  void showWait();
 
-    void onGetOrdersSuccess(ArrayList<OrderModel> orders);
+  void removeWait();
 
-    void onGetOrdersFailure(String appErrorMessage);
+  void onGetOrdersSuccess(ArrayList<OrderModel> orders);
 
-    void showBottomTab();
+  void onGetOrdersFailure(String appErrorMessage);
 
-    void setProfileScreenVisibility(Boolean isVisible);
+  void showBottomTab();
 
-    void onProfileUpdateSuccessfully(MessageResponse authResponse);
+  void setProfileScreenVisibility(Boolean isVisible);
 
-    void onFailureUpdateProfile(String appErrorMessage);
+  void onProfileUpdateSuccessfully(MessageResponse authResponse);
+
+  void onFailureUpdateProfile(String appErrorMessage);
 }
