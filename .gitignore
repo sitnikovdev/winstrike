@@ -14,9 +14,6 @@ build
 captures
 .externalNativeBuild
 app/*.iml
-#app/build.gradle
 app/libs
-app/build.gradle
 app/proguard-rules.pro
 app/release/*
-
