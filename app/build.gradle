@@ -1,0 +1,155 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-kapt'
+
+android {
+    signingConfigs {
+        signingConfig {
+            keyAlias 'MyAndroidKey'
+            keyPassword 'access'
+            storeFile file('/Users/designer/Library/Mobile Documents/com~apple~CloudDocs/icloud/android.jks')
+            storePassword 'access'
+        }
+    }
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "ru.prsolution.winstrike"
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode 39
+        versionName '1.0.5'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        buildConfigField "int", "LIMIT", "100"
+        buildConfigField "String", "BASEURL", "\"http://46.254.21.94:9000/api/v1/\""
+        buildConfigField "int", "CACHETIME", "432000" // 5days
+        signingConfig signingConfigs.signingConfig
+        resConfigs "en", "ru"
+    }
+    buildTypes {
+        debug {
+        }
+        release {
+            minifyEnabled false
+            debuggable false
+            signingConfig signingConfigs.signingConfig
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+    dataBinding {
+        enabled = true
+    }
+    productFlavors {
+    }
+
+    lintOptions {
+
+        checkReleaseBuilds false
+
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // android appcompat
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+
+    //  constraint layout
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    // test
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //recyclerview
+    implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
+
+    //cardview
+    implementation "com.android.support:cardview-v7:$supportLibraryVersion"
+
+    //material desing
+    implementation "com.android.support:design:$supportLibraryVersion"
+
+    //fresco
+    implementation 'com.facebook.fresco:fresco:1.9.0'
+
+    //lottie
+    implementation 'com.airbnb.android:lottie:2.5.4'
+
+    //phone mask
+    implementation 'ru.tinkoff.decoro:decoro:1.1.1'
+
+    //password
+    implementation 'com.github.scottyab:showhidepasswordedittext:0.8'
+
+    // calendar
+    implementation 'com.applandeo:material-calendar-view:1.4.0'
+
+    // bottom navigation bar
+    implementation 'com.aurelhubert:ahbottomnavigation:2.0.4'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    // Retrofit & OkHttp
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+
+    // Rx Java 1
+    implementation 'io.reactivex:rxandroid:1.2.1'
+
+    // butterknife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    // timber log
+    implementation 'com.jakewharton.timber:timber:4.6.1'
+
+    // moxy & cicerone
+    implementation 'com.arello-mobile:moxy-app-compat:1.5.3'
+    implementation 'com.arello-mobile:moxy:1.5.3'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+    implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
+
+    //dagger2
+    implementation 'com.google.dagger:dagger:2.15'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
+
+    //kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //fabric: crashlytics
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') {
+        transitive = true;
+    }
+
+    // fcm
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+}
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+}
+apply plugin: 'com.google.gms.google-services'
