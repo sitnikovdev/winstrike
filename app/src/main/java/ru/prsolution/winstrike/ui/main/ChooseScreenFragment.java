@@ -6,6 +6,7 @@ import static ru.prsolution.winstrike.common.utils.Utils.valideateDate;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -96,6 +97,8 @@ public class ChooseScreenFragment extends Fragment implements IChooseView {
     SeatModel seat = WinstrikeApp.getInstance().getSeat();
     binding = DataBindingUtil.inflate(inflater, R.layout.frm_choose, container, false);
     binding.setSeat(seat);
+    Uri uri = Uri.parse(seat.getImgCarousel());
+    binding.headImage.setImageURI(uri);
     binding.setTd(TimeDataModel.INSTANCE);
     binding.setIChooseView((IChooseView) this);
     View view = binding.getRoot();

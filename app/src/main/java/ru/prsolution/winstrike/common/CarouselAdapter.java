@@ -19,67 +19,68 @@ import ru.prsolution.winstrike.WinstrikeApp;
 
 public class CarouselAdapter extends FragmentPagerAdapter implements ViewPager.PageTransformer {
 
-    private FragmentActivity context;
+  private FragmentActivity context;
 
-    private final List<Fragment> mFragmentList = new ArrayList<>();
-    private int PAGES = 1;
-    float dpHeight, dpWidth;
+  private final List<Fragment> mFragmentList = new ArrayList<>();
+  private int PAGES = 1;
+  float dpHeight, dpWidth;
 
-    public Float BIG_SCALE;
-    public Float SMALL_SCALE;
-    public Float DIFF_SCALE;
+  public Float BIG_SCALE;
+  public Float SMALL_SCALE;
+  public Float DIFF_SCALE;
 
-    public void setPagesCount(int pages) {
-       this.PAGES = pages;
+  public void setPagesCount(int pages) {
+    this.PAGES = pages;
+  }
+
+  public CarouselAdapter(FragmentActivity context) {
+    super(context.getSupportFragmentManager());
+    this.context = context;
+
+    dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
+    dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
+
+    if (dpWidth <= 360.0) {
+      BIG_SCALE = 0.9f;
+      SMALL_SCALE = 0.5f;
+    } else {
+      BIG_SCALE = 1.0f;
+      SMALL_SCALE = 0.6f;
     }
-
-    public CarouselAdapter(FragmentActivity context) {
-        super(context.getSupportFragmentManager());
-        this.context = context;
+    DIFF_SCALE = BIG_SCALE - SMALL_SCALE;
+  }
 
 
-        dpHeight = WinstrikeApp.getInstance().getDisplayHeightDp();
-        dpWidth = WinstrikeApp.getInstance().getDisplayWidhtDp();
+  @Override
+  public Fragment getItem(int position) {
+    return mFragmentList.get(position);
+  }
 
-        if (dpWidth <= 360.0) {
-            BIG_SCALE = 0.9f;
-            SMALL_SCALE = 0.5f;
-        } else {
-            BIG_SCALE = 1.0f;
-            SMALL_SCALE = 0.6f;
-        }
-        DIFF_SCALE = BIG_SCALE - SMALL_SCALE;
+
+  public void addFragment(Fragment fragment, int position) {
+    mFragmentList.add(position, fragment);
+  }
+
+  @Override
+  public int getCount() {
+    return PAGES;
+  }
+
+  @Override
+  public void transformPage(@NonNull View page, float position) {
+    ChooseSeatLinearLayout root = page.findViewById(R.id.root);
+    ChooseSeatLinearLayout myLinearLayout = root;
+    Float scale = BIG_SCALE;
+    if (position > 0) {
+      scale -= position * DIFF_SCALE;
+    } else {
+      scale += position * DIFF_SCALE;
     }
-
-
-    @Override
-    public Fragment getItem(int position) {
-        return mFragmentList.get(position);
+    if (scale < 0) {
+      scale = 0f;
     }
-
-
-    public void addFragment(Fragment fragment, int position) {
-        mFragmentList.add(position, fragment);
-    }
-
-    @Override
-    public int getCount() {
-        return PAGES;
-    }
-
-    @Override
-    public void transformPage(@NonNull View page, float position) {
-        ChooseSeatLinearLayout root = page.findViewById(R.id.root);
-        ChooseSeatLinearLayout myLinearLayout = root;
-        Float scale = BIG_SCALE;
-        if (position > 0) {
-            scale -= position * DIFF_SCALE;
-        } else {
-            scale += position * DIFF_SCALE;
-        }
-        if (scale < 0) scale = 0f;
-        myLinearLayout.setScaleBoth(scale);
-    }
+    myLinearLayout.setScaleBoth(scale);
+  }
 
 }
 

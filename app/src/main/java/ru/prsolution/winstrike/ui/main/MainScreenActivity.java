@@ -107,14 +107,14 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private UserProfileObservable user = new UserProfileObservable();
   private AcMainscreenBinding binding;
   private ArrayList<ArenaItem> arenaItems = new ArrayList<ArenaItem>();
-  private final Integer[] titles = new Integer[]{R.string.spin_arena2, R.string.spin_arena1};
-  private final Integer[] address = {R.string.spin_address2, R.string.spin_address1};
+  private String[] titles;
+  private Integer[] address = {R.string.spin_address2, R.string.spin_address1};
   private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
   private ConstraintSet arenaDownConstraintSet = new ConstraintSet();
   SharedPreferences sharedPref;
   SharedPreferences.Editor editor;
   public int selectedArena = 0;
-  private List<Room> rooms;
+  public List<Room> rooms;
 
 
   @InjectPresenter
@@ -375,10 +375,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     this.rooms = WinstrikeApp.getInstance().getRooms();
 
+    titles = new String[]{rooms.get(0).getName(), rooms.get(1).getName()};
     binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
 
     for (int i = 0; i < titles.length; i++) {
-      arenaItems.add(new ArenaItem(getString(titles[i]), getString(address[i]), false));
+      arenaItems.add(new ArenaItem((titles[i]), getString(address[i]), false));
     }
 
     sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -386,11 +387,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     selectedArena = sharedPref.getInt(getString(R.string.saved_arena), Constants.SAVED_ARENA_DEFAULT);
 
     binding.setUser(user);
-    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
-      binding.tvArenaTitle.setText(getString(R.string.app_arena_2));
-    } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
-      binding.tvArenaTitle.setText(getString(R.string.app_arena_1));
-    }
+    binding.tvArenaTitle.setText(rooms.get(selectedArena).getName());
     ArenaSelectAdapter.SELECTED_ITEM = selectedArena;
 
     //Transitions animations:
@@ -441,7 +438,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
     binding.arrowArenaUp.setOnClickListener(
         v ->
-
         {
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             TransitionManager.beginDelayedTransition(binding.root);
@@ -453,16 +449,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void initArena() {
     // TODO: 20/10/2018 Get arena name from Api.
-/*    Uri uri = Uri.parse(rooms.get(selectedArena).getImageUrl());
+    Uri uri = Uri.parse(rooms.get(selectedArena).getImageUrl());
     binding.headImage.setImageURI(uri);
     binding.getUser().setName(rooms.get(selectedArena).getName());
-    binding.arenaDescription.setText(rooms.get(selectedArena).getDescription());*/
+    binding.arenaDescription.setText(rooms.get(selectedArena).getDescription());
 
     if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
-      binding.getUser().setName(getString(R.string.app_arena_2));
+//      binding.getUser().setName(getString(R.string.app_arena_2));
       initCarouselArenaSeat(Constants.WINSTRIKE_CORNER);
     } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
-      binding.getUser().setName(getString(R.string.app_arena_1));
+//      binding.getUser().setName(getString(R.string.app_arena_1));
       initCarouselArenaSeat(Constants.WINSTRIKE_ARENA);
     }
   }
