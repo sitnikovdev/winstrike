@@ -2,6 +2,8 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
   xmlns:fresco="http://schemas.android.com/apk/res-auto">
   <data>
+    <import type="android.view.View"/>
+    <import type="android.text.TextUtils"/>
     <variable
       name="seat"
       type="ru.prsolution.winstrike.mvp.models.SeatModel"/>
@@ -62,6 +64,7 @@
         android:layout_alignBottom="@id/head_image"
         android:layout_alignStart="@+id/head_image"
         android:text="@{seat.cpu}"
+        android:visibility="@{TextUtils.isEmpty(seat.cpu) ? View.GONE : View.VISIBLE}"
         tools:text="CPU: Intel Core i5-8600K"/>
 
       <TextView
@@ -75,6 +78,7 @@
         android:layout_alignBottom="@id/cpu"
         android:layout_alignStart="@+id/head_image"
         android:text="@{seat.hhd}"
+        android:visibility="@{TextUtils.isEmpty(seat.hhd) ? View.GONE : View.VISIBLE}"
         tools:text="HHD: 512 GB SSD NVMe  2TB 7200"/>
 
       <TextView
@@ -87,6 +91,7 @@
         android:layout_alignBottom="@id/hhd"
         android:layout_alignStart="@+id/head_image"
         android:text="@{seat.ram}"
+        android:visibility="@{TextUtils.isEmpty(seat.ram) ? View.GONE : View.VISIBLE}"
         tools:text="RAM: 16GB DDR4; 512 GB SSD NVMe  2TB 7200"/>
 
       <TextView
@@ -99,6 +104,7 @@
         android:layout_alignBottom="@id/ram"
         android:layout_alignStart="@+id/head_image"
         android:text="@{seat.gpu}"
+        android:visibility="@{TextUtils.isEmpty(seat.gpu) ? View.GONE : View.VISIBLE}"
         tools:text="@string/seatdetail_gpu"/>
 
       <TextView
@@ -111,6 +117,7 @@
         android:layout_alignBottom="@id/gpu"
         android:layout_alignStart="@+id/head_image"
         android:text="@{seat.monitor}"
+        android:visibility="@{TextUtils.isEmpty(seat.monitor) ? View.GONE : View.VISIBLE}"
         tools:text="Монитор: LG34 32GK850G 144hz \\ LG 24 24GM79G 144hz"/>
 
       <TextView
@@ -123,6 +130,7 @@
         android:layout_alignBottom="@id/monitor"
         android:layout_alignStart="@+id/head_image"
         android:text="@{seat.garnitura}"
+        android:visibility="@{TextUtils.isEmpty(seat.garnitura) ? View.GONE : View.VISIBLE}"
         tools:text="Гарнитура: Logitech G PRO \\ Logitech G231 \\ Logitech Headset G433"/>
 
       <TextView
@@ -135,6 +143,7 @@
         android:layout_alignBottom="@id/garnitura"
         android:layout_alignStart="@+id/head_image"
         android:text="@{seat.keyboard}"
+        android:visibility="@{TextUtils.isEmpty(seat.keyboard) ? View.GONE : View.VISIBLE}"
         tools:text="Клавиатура: Logitech G512 Carbon Mechanical GX Blue"/>
 
       <TextView
@@ -147,6 +156,7 @@
         android:layout_alignBottom="@id/keyboard"
         android:layout_alignStart="@+id/head_image"
         android:text="@{seat.mouse}"
+        android:visibility="@{TextUtils.isEmpty(seat.mouse) ? View.GONE : View.VISIBLE}"
         tools:text="Мышь: Logitech G102 Prodigy \ Logitech G403 Prodigy"/>
 
       <TextView
@@ -159,6 +169,7 @@
         android:layout_alignBottom="@id/mouse"
         android:layout_alignStart="@+id/head_image"
         android:text="@{seat.carpet}"
+        android:visibility="@{TextUtils.isEmpty(seat.carpet) ? View.GONE : View.VISIBLE}"
         tools:text="Ковер: Logitech G440 \ Logitech G240"/>
 
       <TextView
