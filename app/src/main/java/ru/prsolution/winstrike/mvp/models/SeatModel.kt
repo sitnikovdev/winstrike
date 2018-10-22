@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.mvp.models
 
 import org.jetbrains.annotations.NotNull
-import ru.prsolution.winstrike.R
 
 /*
  * Created by oleg on 01.02.2018.
@@ -9,32 +8,19 @@ import ru.prsolution.winstrike.R
 
 
 class SeatModel(var type: @NotNull String, imageUrl: @NotNull String, usualDescription: String) {
-    var img: Int
-    var imgCarousel: String
-    var title: String
-    var cpu: String
-    var hhd: String
-    var ram: String
-    var gpu: String
-    var monitor: String
-    var garnitura: String
-    var keyboard: String
-    var mouse: String
-    var carpet: String
+    var imgCarousel: String = imageUrl
+    var title: String = "Вы выбрали: $type"
+    var cpu: String = usualDescription
+    var hhd: String = ""
+    var ram: String = ""
+    var gpu: String = ""
+    var monitor: String = ""
+    var garnitura: String = ""
+    var keyboard: String = ""
+    var mouse: String = ""
+    var carpet: String = ""
 
     init {
-        title = "Вы выбрали: $type"
-        img = R.drawable.vip
-        imgCarousel = imageUrl
-        cpu = usualDescription
-        hhd = ""
-        ram = ""
-        gpu = ""
-        monitor = ""
-        garnitura = ""
-        keyboard = ""
-        mouse = ""
-        carpet = ""
 
 /*        if (type.contains("VIP HP")) {
             img = R.drawable.vip

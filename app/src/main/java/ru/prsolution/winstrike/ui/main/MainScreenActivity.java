@@ -194,11 +194,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 .commitNow();
             break;
           case Screens.CHOOSE_SCREEN:
-            if (selectedArena == 0) {
+            initMainToolbar(rooms.get(selectedArena).getName(), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+/*            if (selectedArena == 0) {
               initMainToolbar(getString(R.string.app_arena_2), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
             } else {
               initMainToolbar(getString(R.string.app_arena_1), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-            }
+            }*/
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -211,11 +212,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.executePendingTransactions();
             break;
           case Screens.MAP_SCREEN:
-            if (selectedArena == 0) {
+            initMainToolbar(rooms.get(selectedArena).getName(), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+/*            if (selectedArena == 0) {
               initMainToolbar(getString(R.string.app_arena_2), SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
             } else {
               initMainToolbar(getString(R.string.app_arena_1), SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
-            }
+            }*/
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -252,12 +254,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     }
     this.selectedArena = layoutPosition;
     arenaUpConstraintSet.applyTo(binding.root);
-    editor.putInt(getString(R.string.saved_arena), this.selectedArena);
+    editor.putInt(getString(R.string.saved_arena), layoutPosition);
     editor.commit();
 
     ArenaSelectAdapter.SELECTED_ITEM = layoutPosition;
-    ArenaItem item = arenaItems.get(layoutPosition);
-    binding.tvArenaTitle.setText(item.getTitle());
+    binding.tvArenaTitle.setText(rooms.get(selectedArena).getName());
 
     initArena();
 
@@ -453,14 +454,15 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding.headImage.setImageURI(uri);
     binding.getUser().setName(rooms.get(selectedArena).getName());
     binding.arenaDescription.setText(rooms.get(selectedArena).getDescription());
+    initCarouselArenaSeat(this.selectedArena);
 
-    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
+/*    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
 //      binding.getUser().setName(getString(R.string.app_arena_2));
       initCarouselArenaSeat(Constants.WINSTRIKE_CORNER);
     } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
 //      binding.getUser().setName(getString(R.string.app_arena_1));
       initCarouselArenaSeat(Constants.WINSTRIKE_ARENA);
-    }
+    }*/
   }
 
   private void initViews() {
@@ -815,11 +817,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           showFragmentHolderContainer(false);
           setHomeScreenStateVisibility(true);
           setProfileScreenVisibility(false);
-          if (selectedArena == 0) {
+          initMainToolbar(rooms.get(selectedArena).getName(), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
+/*          if (selectedArena == 0) {
             initMainToolbar(getResources().getString(R.string.app_arena_2), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
           } else {
             initMainToolbar(getResources().getString(R.string.app_arena_1), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
-          }
+          }*/
           presenter.onTabHomeClick();
           break;
         case PLACE_TAB_POSITION:
