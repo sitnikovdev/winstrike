@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:fresco="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools">
   <data>
     <variable
@@ -68,17 +69,18 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/keyline_40dp"/>
 
-      <ImageView
+      <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/head_image"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:src="@drawable/head_img"
-        android:layout_marginTop="12dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toTopOf="@id/arena_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/v_spinner"
+        fresco:placeholderImage="@drawable/head_img"
         />
+
       <View
         android:id="@+id/v_spinner"
         android:layout_width="244dp"
