@@ -108,7 +108,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private AcMainscreenBinding binding;
   private ArrayList<ArenaItem> arenaItems = new ArrayList<ArenaItem>();
   private String[] titles;
-  private Integer[] address = {R.string.spin_address2, R.string.spin_address1};
+  private String[] address;
   private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
   private ConstraintSet arenaDownConstraintSet = new ConstraintSet();
   SharedPreferences sharedPref;
@@ -195,11 +195,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             break;
           case Screens.CHOOSE_SCREEN:
             initMainToolbar(rooms.get(selectedArena).getName(), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-/*            if (selectedArena == 0) {
-              initMainToolbar(getString(R.string.app_arena_2), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-            } else {
-              initMainToolbar(getString(R.string.app_arena_1), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-            }*/
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -212,12 +207,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.executePendingTransactions();
             break;
           case Screens.MAP_SCREEN:
-            initMainToolbar(rooms.get(selectedArena).getName(), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
-/*            if (selectedArena == 0) {
-              initMainToolbar(getString(R.string.app_arena_2), SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
-            } else {
-              initMainToolbar(getString(R.string.app_arena_1), SHOW_ICON, ScreenType.MAP, mMapOnClickListener);
-            }*/
+            initMainToolbar(rooms.get(selectedArena).getName(), SHOW_ICON, ScreenType.MAIN, mMapOnClickListener);
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -377,10 +367,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     this.rooms = WinstrikeApp.getInstance().getRooms();
 
     titles = new String[]{rooms.get(0).getName(), rooms.get(1).getName()};
+    address = new String[] {rooms.get(0).getMetro(), rooms.get(1).getMetro()};
     binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
 
     for (int i = 0; i < titles.length; i++) {
-      arenaItems.add(new ArenaItem((titles[i]), getString(address[i]), false));
+      arenaItems.add(new ArenaItem((titles[i]), address[i], false));
     }
 
     sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -455,14 +446,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding.getUser().setName(rooms.get(selectedArena).getName());
     binding.arenaDescription.setText(rooms.get(selectedArena).getDescription());
     initCarouselArenaSeat(this.selectedArena);
-
-/*    if (this.selectedArena == Constants.WINSTRIKE_CORNER) {
-//      binding.getUser().setName(getString(R.string.app_arena_2));
-      initCarouselArenaSeat(Constants.WINSTRIKE_CORNER);
-    } else if (this.selectedArena == Constants.WINSTRIKE_ARENA) {
-//      binding.getUser().setName(getString(R.string.app_arena_1));
-      initCarouselArenaSeat(Constants.WINSTRIKE_ARENA);
-    }*/
   }
 
   private void initViews() {
@@ -818,11 +801,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           setHomeScreenStateVisibility(true);
           setProfileScreenVisibility(false);
           initMainToolbar(rooms.get(selectedArena).getName(), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
-/*          if (selectedArena == 0) {
-            initMainToolbar(getResources().getString(R.string.app_arena_2), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
-          } else {
-            initMainToolbar(getResources().getString(R.string.app_arena_1), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
-          }*/
           presenter.onTabHomeClick();
           break;
         case PLACE_TAB_POSITION:

@@ -11,9 +11,15 @@ public class Room implements Serializable {
   @SerializedName("name")
   @Expose
   private String name;
+
   @SerializedName("public_id")
   @Expose
   private String publicId;
+
+  @SerializedName("metro")
+  @Expose
+  private String metro;
+
   @SerializedName("room_layout_pid")
   @Expose
   private String roomLayoutPid;
@@ -112,6 +118,14 @@ public class Room implements Serializable {
 
   public void setVipDescription(String vipDescription) {
     this.vipDescription = vipDescription;
+  }
+
+  public String getMetro() {
+    return metro;
+  }
+
+  public void setMetro(String metro) {
+    this.metro = metro;
   }
 }
 
