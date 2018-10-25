@@ -50,7 +50,7 @@ public class Constants {
   // Arenas:
   public static final Integer WINSTRIKE_CORNER = 0;
   public static final Integer WINSTRIKE_ARENA = 1;
-  public static final Integer SAVED_ARENA_DEFAULT = -1;
+  public static final Integer SAVED_ARENA_DEFAULT = 0;
 
 
   public static final String HEADER_AUTHORIZATION = "Authorization";

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-  xmlns:fresco="http://schemas.android.com/apk/res-auto">
+<layout
+  xmlns:fresco="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
   <data>
     <import type="android.view.View"/>
     <import type="android.text.TextUtils"/>
@@ -19,26 +20,17 @@
 
   <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_marginTop="55dp"
-    android:layout_marginBottom="25dp"
-    >
+    android:layout_marginBottom="25dp" >
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
       android:id="@+id/fragment_container"
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content">
-
-      <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/head_image"
-        fresco:placeholderImage="@drawable/vip"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginTop="@dimen/space_head"
-        android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="40dp"
-        />
 
 
       <TextView
@@ -46,141 +38,51 @@
         style="@style/StemMedium15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_text"
-        android:layout_marginStart="@dimen/start_head"
+        android:layout_marginTop="16dp"
         android:layout_alignStart="@id/head_image"
-        android:layout_alignTop="@id/head_image"
         android:text="@{seat.title}"
-        tools:text="@string/seatdetail_title"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        tools:text="Вы выбрали: VIP место"/>
+
+
+      <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/head_image"
+        fresco:placeholderImage="@drawable/vip"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="40dp"
+        app:layout_constraintTop_toBottomOf="@id/seat_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
       <TextView
         android:id="@+id/cpu"
         style="@style/StemRegular15Base"
-        android:layout_width="wrap_content"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="-30dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/head_image"
-        android:layout_alignStart="@+id/head_image"
+        android:layout_marginEnd="@dimen/start_head"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/head_image"
         android:text="@{seat.cpu}"
         android:visibility="@{TextUtils.isEmpty(seat.cpu) ? View.GONE : View.VISIBLE}"
-        tools:text="CPU: Intel Core i5-8600K"/>
+        tools:text="ПК: Intel Core i5-8600K | 16GB DDR4 | 512 GB SSD NVMe &amp; 2TB 7200 | nVidia GTX 1070 8GB Монитор: LG 34 &quot; 34UC79G 144hz \\ LG 32 &quot; 32GK850G 144hz \\ LG 24 &quot; 24GM79G 144hz Гарнитура: Logitech G PRO \\ Logitech G231 \\ Logitech Headset G433 Клавиатура: Logitech G512 Carbon Mechanical GX Blue Мышь: Logitech G102 Prodigy \\ Logitech G403 Prodigy kkk"/>
 
-      <TextView
-        android:id="@+id/hhd"
-        style="@style/StemRegular15Base"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="-25dp"
-        android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/cpu"
-        android:layout_alignStart="@+id/head_image"
-        android:text="@{seat.hhd}"
-        android:visibility="@{TextUtils.isEmpty(seat.hhd) ? View.GONE : View.VISIBLE}"
-        tools:text="HHD: 512 GB SSD NVMe  2TB 7200"/>
 
-      <TextView
-        android:id="@+id/ram"
-        style="@style/StemRegular15Base"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-25dp"
-        android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/hhd"
-        android:layout_alignStart="@+id/head_image"
-        android:text="@{seat.ram}"
-        android:visibility="@{TextUtils.isEmpty(seat.ram) ? View.GONE : View.VISIBLE}"
-        tools:text="RAM: 16GB DDR4; 512 GB SSD NVMe  2TB 7200"/>
-
-      <TextView
-        android:id="@+id/gpu"
-        style="@style/StemRegular15Base"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-25dp"
-        android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/ram"
-        android:layout_alignStart="@+id/head_image"
-        android:text="@{seat.gpu}"
-        android:visibility="@{TextUtils.isEmpty(seat.gpu) ? View.GONE : View.VISIBLE}"
-        tools:text="@string/seatdetail_gpu"/>
-
-      <TextView
-        android:id="@+id/monitor"
-        style="@style/StemRegular15Base"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-45dp"
-        android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/gpu"
-        android:layout_alignStart="@+id/head_image"
-        android:text="@{seat.monitor}"
-        android:visibility="@{TextUtils.isEmpty(seat.monitor) ? View.GONE : View.VISIBLE}"
-        tools:text="Монитор: LG34 32GK850G 144hz \\ LG 24 24GM79G 144hz"/>
-
-      <TextView
-        android:id="@+id/garnitura"
-        style="@style/StemRegular15Base"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-45dp"
-        android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/monitor"
-        android:layout_alignStart="@+id/head_image"
-        android:text="@{seat.garnitura}"
-        android:visibility="@{TextUtils.isEmpty(seat.garnitura) ? View.GONE : View.VISIBLE}"
-        tools:text="Гарнитура: Logitech G PRO \\ Logitech G231 \\ Logitech Headset G433"/>
-
-      <TextView
-        android:id="@+id/keyboard"
-        style="@style/StemRegular15Base"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-45dp"
-        android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/garnitura"
-        android:layout_alignStart="@+id/head_image"
-        android:text="@{seat.keyboard}"
-        android:visibility="@{TextUtils.isEmpty(seat.keyboard) ? View.GONE : View.VISIBLE}"
-        tools:text="Клавиатура: Logitech G512 Carbon Mechanical GX Blue"/>
-
-      <TextView
-        android:id="@+id/mouse"
-        style="@style/StemRegular15Base"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-45dp"
-        android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/keyboard"
-        android:layout_alignStart="@+id/head_image"
-        android:text="@{seat.mouse}"
-        android:visibility="@{TextUtils.isEmpty(seat.mouse) ? View.GONE : View.VISIBLE}"
-        tools:text="Мышь: Logitech G102 Prodigy \ Logitech G403 Prodigy"/>
-
-      <TextView
-        android:id="@+id/carpet"
-        style="@style/StemRegular15Base"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-25dp"
-        android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/mouse"
-        android:layout_alignStart="@+id/head_image"
-        android:text="@{seat.carpet}"
-        android:visibility="@{TextUtils.isEmpty(seat.carpet) ? View.GONE : View.VISIBLE}"
-        tools:text="Ковер: Logitech G440 \ Logitech G240"/>
 
       <TextView
         android:id="@+id/tv_date"
         style="@style/StemMedium15Black"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginBottom="-60dp"
-        android:layout_marginStart="@dimen/start_head"
-        android:layout_alignBottom="@id/carpet"
-        android:layout_alignStart="@+id/head_image"
+        android:layout_marginTop="@dimen/start_head"
+        app:layout_constraintTop_toBottomOf="@id/cpu"
+        app:layout_constraintStart_toStartOf="@id/head_image"
         android:background="@drawable/ripple_effect_title_click"
         android:clickable="true"
         android:onClick="@{()-> iChooseView.onDateClickListener()}"
@@ -188,36 +90,36 @@
         tools:text="@string/seatdetail_date"/>
 
 
-      <View
-        android:id="@+id/v_date_tap"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="-20dp"
-        android:layout_marginEnd="-20dp"
-        android:layout_alignBottom="@id/iv_arr_date"
-        android:layout_alignEnd="@id/head_image"
-        android:onClick="@{()-> iChooseView.onDateClickListener()}"/>
-
-
       <ImageView
         android:id="@+id/iv_arr_date"
         android:layout_width="50dp"
         android:layout_height="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="-20dp"
-        android:layout_alignEnd="@id/head_image"
+        app:layout_constraintEnd_toEndOf="@id/head_image"
+        app:layout_constraintTop_toTopOf="@id/tv_date"
         android:layout_alignTop="@id/tv_date"
         android:src="@drawable/ic_down_arrow"/>
+
+      <View
+        android:id="@+id/v_date_tap"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@id/cpu"
+        app:layout_constraintEnd_toEndOf="@id/head_image"
+        android:layout_alignBottom="@id/iv_arr_date"
+        android:layout_alignEnd="@id/head_image"
+        android:onClick="@{()-> iChooseView.onDateClickListener()}"/>
+
+
 
       <TextView
         android:id="@+id/tv_time"
         style="@style/StemMedium15Black"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="@dimen/start_head"
-        android:layout_alignStart="@+id/head_image"
-        android:layout_alignTop="@id/tv_date"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_date"
         android:background="@drawable/ripple_effect_title_click"
         android:clickable="true"
         android:focusable="true"
@@ -230,9 +132,11 @@
         android:id="@+id/v_time_tap"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="-20dp"
-        android:layout_marginEnd="-20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@id/head_image"
+        app:layout_constraintTop_toBottomOf="@id/v_date_tap"
         android:layout_alignBottom="@id/iv_arr_time"
+
         android:layout_alignEnd="@id/head_image"
         android:onClick="@{()-> iChooseView.onTimeClickListener()}"/>
 
@@ -241,9 +145,10 @@
         android:layout_width="50dp"
         android:layout_height="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="-20dp"
         android:layout_alignEnd="@id/head_image"
         android:layout_alignTop="@id/tv_time"
+        app:layout_constraintEnd_toEndOf="@id/head_image"
+        app:layout_constraintTop_toTopOf="@id/tv_time"
         android:src="@drawable/ic_down_arrow"/>
 
       <View
@@ -252,6 +157,9 @@
         android:layout_height="@dimen/height_button"
         android:layout_marginTop="55dp"
         android:layout_alignTop="@id/tv_time"
+        app:layout_constraintTop_toBottomOf="@id/tv_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_bgr_24dp"
         android:onClick="@{() -> iChooseView.onNextButtonClickListener()}"/>
@@ -261,14 +169,17 @@
         style="@style/StemMedium15Primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
         android:layout_alignBaseline="@id/next_button"
         android:layout_alignBottom="@id/next_button"
+        app:layout_constraintStart_toStartOf="@id/next_button"
+        app:layout_constraintEnd_toEndOf="@id/next_button"
+        app:layout_constraintTop_toTopOf="@id/next_button"
+        app:layout_constraintBottom_toBottomOf="@id/next_button"
         android:layout_centerHorizontal="true"
         android:text="@string/seatdetail_btn"
         android:textAlignment="center"/>
 
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
   </ScrollView>
 </layout>
