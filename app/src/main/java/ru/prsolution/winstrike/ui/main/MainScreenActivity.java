@@ -194,7 +194,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
                 .commitNow();
             break;
           case Screens.CHOOSE_SCREEN:
-            initMainToolbar(rooms.get(selectedArena).getName(), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+            user.setName(rooms.get(selectedArena).getName());
+            initMainToolbar(SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -207,7 +208,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.executePendingTransactions();
             break;
           case Screens.MAP_SCREEN:
-            initMainToolbar(rooms.get(selectedArena).getName(), SHOW_ICON, ScreenType.MAIN, mMapOnClickListener);
+            user.setName(rooms.get(selectedArena).getName());
+            initMainToolbar(SHOW_ICON, ScreenType.MAIN, mMapOnClickListener);
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -220,7 +222,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
             fm.executePendingTransactions();
             break;
           case Screens.PAY_SCREEN:
-            initMainToolbar(getString(R.string.title_payment), SHOW_ICON, ScreenType.MAP, mMainOnClickListener);
+            user.setName(getString(R.string.title_payment));
+            initMainToolbar(SHOW_ICON, ScreenType.MAP, mMainOnClickListener);
             setHomeScreenStateVisibility(false);
             fm.beginTransaction()
                 .detach(homeTabFragment)
@@ -458,25 +461,21 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     dlgProfileSingOut();
   }
 
-  public void initMainToolbar(String title, Boolean hideNavIcon, ScreenType screenType, View.OnClickListener listener) {
-    // Xiaomi bag fix
-    if (binding.toolbar != null) {
-      setSupportActionBar(binding.toolbar);
-      binding.toolbar.setNavigationOnClickListener(listener);
+  public void initMainToolbar(Boolean hideNavIcon, ScreenType screenType, View.OnClickListener listener) {
+    setSupportActionBar(binding.toolbar);
+    binding.toolbar.setNavigationOnClickListener(listener);
 
-      mScreenType = screenType;
-      invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
+    mScreenType = screenType;
+    invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
+    binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+    if (hideNavIcon) {
+      binding.toolbar.setNavigationIcon(null);
+      binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStart());
+    } else {
       binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-      binding.toolbarText.setText(title);
-      if (hideNavIcon) {
-        binding.toolbar.setNavigationIcon(null);
-        binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStart());
-      } else {
-        binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-        binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStartWithNavigation());
-      }
-      getSupportActionBar().setDisplayShowTitleEnabled(false);
+      binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStartWithNavigation());
     }
+    getSupportActionBar().setDisplayShowTitleEnabled(false);
 
   }
 
@@ -612,7 +611,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         }
       }
       user.setName(name);
-      initMainToolbar(title, SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener);
+      initMainToolbar(SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener);
     }
   }
 
@@ -805,7 +804,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           setHomeScreenStateVisibility(true);
           setProfileScreenVisibility(false);
           user.setName(rooms.get(selectedArena).getName());
-          initMainToolbar(rooms.get(selectedArena).getName(), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
+          initMainToolbar(HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
           presenter.onTabHomeClick();
           break;
         case PLACE_TAB_POSITION:
@@ -813,26 +812,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           setProfileScreenVisibility(false);
           setHomeScreenStateVisibility(false);
           user.setName(getString(R.string.title_payment_places));
-          initMainToolbar(getString(R.string.title_payment_places), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
+          initMainToolbar(SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
           String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();
           presenter.getOrders(token);
           break;
         case USER_TAB_POSITION:
           showFragmentHolderContainer(false);
           setProfileScreenVisibility(true);
-          // Xiaomi bag fix
-          if (binding.toolbar != null) {
-            binding.toolbar.setNavigationIcon(null);
-          }
+          binding.toolbar.setNavigationIcon(null);
           user.setName(AuthUtils.INSTANCE.getName());
-          String title = user.getName();
-          if (AuthUtils.INSTANCE.getName() != null) {
-            if (!TextUtils.isEmpty(AuthUtils.INSTANCE.getName())) {
-              title = AuthUtils.INSTANCE.getName();
-            }
-          }
-          initMainToolbar(title, SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener);
-
+          initMainToolbar(SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener);
           presenter.onTabUserClick();
           break;
       }
