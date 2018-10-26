@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.ui.main;
 
 import static android.view.View.VISIBLE;
-import static ru.prsolution.winstrike.common.utils.Utils.toast;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -49,7 +48,6 @@ import ru.prsolution.winstrike.common.ScreenType;
 import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter;
 import ru.prsolution.winstrike.databinding.AcMainscreenBinding;
-import ru.prsolution.winstrike.mvp.apimodels.Arenas;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.apimodels.Room;
 import ru.prsolution.winstrike.mvp.models.FCMModel;
@@ -99,6 +97,9 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private ArrayList<OrderModel> mPayList = new ArrayList<>();
   private final Boolean HIDE_ICON = true;
   private final Boolean SHOW_ICON = false;
+  private final Boolean HIDEMENU = false;
+  private final Boolean SHOWMENU = true;
+  private Boolean mState = SHOWMENU;
   private Dialog mDlgSingOut;
   private MainOnClickListener mMainOnClickListener;
   private MapOnClickListener mMapOnClickListener;
@@ -116,6 +117,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public int selectedArena = 0;
   public List<Room> rooms;
 
+  private MenuItem profileMenu;
 
   @InjectPresenter
   MainScreenPresenter presenter;
@@ -291,8 +293,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
+    profileMenu = menu.findItem(R.id.act_help);
     if (this.mScreenType == ScreenType.MAIN) {
       getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
+      if (mState == HIDEMENU) {
+        profileMenu.setVisible(false);
+      }
     }
     if (this.mScreenType == ScreenType.PROFILE) {
       getMenuInflater().inflate(R.menu.prof_toolbar_menu, menu);
@@ -312,6 +318,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (this.mScreenType == ScreenType.MAP) {
       mDlgMapLegend.show();
     }
+    mDlgSingOut.hide();
     return super.onOptionsItemSelected(item);
   }
 
@@ -849,6 +856,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     @Override
     public void onClick(View v) {
       clearData();
+      user.setName(rooms.get(selectedArena).getName());
+
+      mState = HIDEMENU;
+      invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
+      binding.toolbar.setNavigationIcon(null);
       presenter.onBackPressed();
     }
   }

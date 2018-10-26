@@ -189,7 +189,7 @@
           style="@style/StemMedium15Black"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:layout_marginTop="48dp"
+          android:layout_marginTop="28dp"
           android:text="@string/seatdetail_category"
           android:textAlignment="center"
           app:layout_constraintEnd_toEndOf="parent"
