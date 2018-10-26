@@ -18,7 +18,7 @@
 
 
     <android.support.v7.widget.Toolbar
-      android:id="@+id/main_toolbar"
+      android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="56dp"
       android:layout_alignParentTop="true"
@@ -43,170 +43,170 @@
       android:layout_height="wrap_content"
       android:visibility="gone"/>
 
-    <!--        <ScrollView
-                android:id="@+id/rootScroll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="56dp"
-                android:fillViewport="true">-->
-
-    <android.support.constraint.ConstraintLayout
-      android:id="@+id/root"
+<!--    <ScrollView
+      android:id="@+id/rootScroll"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content"
+      android:layout_marginTop="56dp"
+      android:fillViewport="true">-->
 
-      <android.support.constraint.Guideline
-        android:id="@+id/line_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="40dp"/>
-
-      <android.support.constraint.Guideline
-        android:id="@+id/line_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/keyline_40dp"/>
-
-
-      <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/head_image"
+      <android.support.constraint.ConstraintLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toTopOf="@id/arena_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/v_spinner"
-        fresco:placeholderImage="@drawable/head_img"
-        />
+        android:layout_height="wrap_content">
 
-      <View
-        android:id="@+id/v_spinner"
-        android:layout_width="244dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="@dimen/title_bottom"
-        android:layout_marginStart="66dp"
-        android:layout_marginEnd="66dp"
-        android:background="@drawable/edit_text_shape"
-        app:layout_constraintBottom_toTopOf="@id/head_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginBottom="24dp"/>
+        <android.support.constraint.Guideline
+          android:id="@+id/line_start"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          app:layout_constraintGuide_begin="40dp"/>
 
-      <TextView
-        android:id="@+id/tvArenaTitle"
-        style="@style/StemBold15Accent"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="Выбрать арену"
-        android:textColor="@color/color_black"
-        app:layout_constraintBottom_toBottomOf="@id/v_spinner"
-        app:layout_constraintStart_toStartOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/v_spinner"
-        />
+        <android.support.constraint.Guideline
+          android:id="@+id/line_end"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          app:layout_constraintGuide_end="@dimen/keyline_40dp"/>
 
 
-      <View
-        android:id="@+id/arrowArena_Down"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:clickable="true"
-        android:foreground="@drawable/ripple_effect"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/v_spinner"/>
+        <com.facebook.drawee.view.SimpleDraweeView
+          android:id="@+id/head_image"
+          android:layout_width="match_parent"
+          android:layout_height="130dp"
+          android:layout_marginTop="24dp"
+          app:layout_constraintBottom_toTopOf="@id/arena_description"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/v_spinner"
+          fresco:placeholderImage="@drawable/head_img"
+          />
 
-      <View
-        android:id="@+id/arrowArena_Up"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:clickable="true"
-        android:foreground="@drawable/ripple_effect"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/v_spinner"/>
+        <View
+          android:id="@+id/v_spinner"
+          android:layout_width="244dp"
+          android:layout_height="48dp"
+          android:layout_marginTop="64dp"
+          android:layout_marginBottom="@dimen/title_bottom"
+          android:layout_marginStart="66dp"
+          android:layout_marginEnd="66dp"
+          android:background="@drawable/edit_text_shape"
+          app:layout_constraintBottom_toTopOf="@id/head_image"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_goneMarginBottom="24dp"/>
 
-      <ImageView
-        android:id="@+id/iv_down_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="21dp"
-        android:background="@drawable/ic_down_arrow"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/tvArenaTitle"/>
-
-      <ImageView
-        android:id="@+id/iv_up_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="21dp"
-        android:background="@drawable/ic_up_arrow"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/tvArenaTitle"/>
+        <TextView
+          android:id="@+id/tvArenaTitle"
+          style="@style/StemBold15Accent"
+          android:layout_width="120dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="24dp"
+          android:text="Выбрать арену"
+          android:textColor="@color/color_black"
+          app:layout_constraintBottom_toBottomOf="@id/v_spinner"
+          app:layout_constraintStart_toStartOf="@id/v_spinner"
+          app:layout_constraintTop_toTopOf="@id/v_spinner"
+          />
 
 
-      <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_arena"
-        android:layout_width="244dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:paddingTop="10dp"
-        android:background="@drawable/edit_text_shape"
-        android:scrollbars="vertical"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/v_spinner"
-        app:layout_constraintTop_toBottomOf="@id/v_spinner"
-        />
+        <View
+          android:id="@+id/arrowArena_Down"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:clickable="true"
+          android:foreground="@drawable/ripple_effect"
+          android:visibility="visible"
+          app:layout_constraintEnd_toEndOf="@id/v_spinner"
+          app:layout_constraintTop_toTopOf="@id/v_spinner"/>
+
+        <View
+          android:id="@+id/arrowArena_Up"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:clickable="true"
+          android:foreground="@drawable/ripple_effect"
+          android:visibility="gone"
+          app:layout_constraintEnd_toEndOf="@id/v_spinner"
+          app:layout_constraintTop_toTopOf="@id/v_spinner"/>
+
+        <ImageView
+          android:id="@+id/iv_down_arrow"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="21dp"
+          android:background="@drawable/ic_down_arrow"
+          android:visibility="visible"
+          app:layout_constraintEnd_toEndOf="@id/v_spinner"
+          app:layout_constraintTop_toTopOf="@id/tvArenaTitle"/>
+
+        <ImageView
+          android:id="@+id/iv_up_arrow"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="21dp"
+          android:background="@drawable/ic_up_arrow"
+          android:visibility="gone"
+          app:layout_constraintEnd_toEndOf="@id/v_spinner"
+          app:layout_constraintTop_toTopOf="@id/tvArenaTitle"/>
 
 
-      <TextView
-        android:id="@+id/arena_description"
-        style="@style/StemRegular14Black"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:gravity="start"
-        android:lineSpacingExtra="2dp"
-        android:text="@string/seatdetail_description"
-        app:layout_constraintEnd_toEndOf="@id/head_image"
-        app:layout_constraintStart_toStartOf="@id/head_image"
-        app:layout_constraintTop_toBottomOf="@id/head_image"/>
+        <android.support.v7.widget.RecyclerView
+          android:id="@+id/rv_arena"
+          android:layout_width="244dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="24dp"
+          android:paddingTop="10dp"
+          android:background="@drawable/edit_text_shape"
+          android:scrollbars="vertical"
+          android:visibility="gone"
+          app:layout_constraintStart_toStartOf="@id/v_spinner"
+          app:layout_constraintTop_toBottomOf="@id/v_spinner"
+          />
 
 
-      <TextView
-        android:id="@+id/seat_title"
-        style="@style/StemMedium15Black"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/seatdetail_category"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/arena_description"/>
+        <TextView
+          android:id="@+id/arena_description"
+          style="@style/StemRegular14Black"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="6dp"
+          android:layout_marginStart="40dp"
+          android:layout_marginEnd="40dp"
+          android:gravity="start"
+          android:lineSpacingExtra="2dp"
+          android:text="@string/seatdetail_description"
+          app:layout_constraintEnd_toEndOf="@id/head_image"
+          app:layout_constraintStart_toStartOf="@id/head_image"
+          app:layout_constraintTop_toBottomOf="@id/head_image"/>
 
-      <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager_seat"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/space_vp_seat"
-        android:layout_marginTop="8dp"
-        android:overScrollMode="never"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/seat_title"/>
 
-    </android.support.constraint.ConstraintLayout>
+        <TextView
+          android:id="@+id/seat_title"
+          style="@style/StemMedium15Black"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="48dp"
+          android:text="@string/seatdetail_category"
+          android:textAlignment="center"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/arena_description"/>
+
+        <android.support.v4.view.ViewPager
+          android:id="@+id/view_pager_seat"
+          android:layout_width="0dp"
+          android:layout_height="@dimen/space_vp_seat"
+          android:layout_marginTop="8dp"
+          android:overScrollMode="never"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/seat_title"/>
+
+      </android.support.constraint.ConstraintLayout>
     <!--</ScrollView>-->
 
     <RelativeLayout

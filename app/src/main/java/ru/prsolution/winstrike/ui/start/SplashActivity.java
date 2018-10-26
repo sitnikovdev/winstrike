@@ -69,8 +69,7 @@ public class SplashActivity extends AppCompatActivity {
         Log.e("Animation:", "end");
         if (AuthUtils.INSTANCE.isFirstLogin()) {
           AuthUtils.INSTANCE.setFirstLogin(false);
-          mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
-          startActivity(mainIntent);
+          splashPresenter.getActiveArena();
         } else {
           isCheckLogin();
         }
@@ -90,7 +89,7 @@ public class SplashActivity extends AppCompatActivity {
     animationView.playAnimation();
 
     splashPresenter = createSplashPresenter();
-    splashPresenter.getActiveArena();
+//    splashPresenter.getActiveArena();
   }
 
   public SplashPresenter createSplashPresenter() {
@@ -103,7 +102,8 @@ public class SplashActivity extends AppCompatActivity {
     if (AuthUtils.INSTANCE.isLogout()) {
       startActivity(new Intent(SplashActivity.this, SignInActivity.class));
     } else if (!AuthUtils.INSTANCE.getToken().isEmpty()) {
-      startActivity(new Intent(this, MainScreenActivity.class));
+//      startActivity(new Intent(this, MainScreenActivity.class));
+      splashPresenter.getActiveArena();
     } else {
       startActivity(new Intent(SplashActivity.this, SignInActivity.class));
     }
@@ -119,7 +119,6 @@ public class SplashActivity extends AppCompatActivity {
     AuthUtils.INSTANCE.setPhone(authResponse.getUser().getPhone());
     AuthUtils.INSTANCE.setConfirmed(authResponse.getUser().getConfirmed());
     AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
-
 
     if (confirmed && AuthUtils.INSTANCE.isLogout() != true) {
 //                        router.replaceScreen(Screens.START_SCREEN);
@@ -172,6 +171,10 @@ public class SplashActivity extends AppCompatActivity {
      */
     rooms = authResponse.getRooms();
     WinstrikeApp.getInstance().setRooms(rooms);
+
+    mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
+    startActivity(mainIntent);
+
   }
 
   public void onGetActivePidFailure(String appErrorMessage) {

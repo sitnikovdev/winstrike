@@ -367,7 +367,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     this.rooms = WinstrikeApp.getInstance().getRooms();
 
     titles = new String[]{rooms.get(0).getName(), rooms.get(1).getName()};
-    address = new String[] {rooms.get(0).getMetro(), rooms.get(1).getMetro()};
+    address = new String[]{rooms.get(0).getMetro(), rooms.get(1).getMetro()};
     binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
 
     for (int i = 0; i < titles.length; i++) {
@@ -459,21 +459,25 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   }
 
   public void initMainToolbar(String title, Boolean hideNavIcon, ScreenType screenType, View.OnClickListener listener) {
-    setSupportActionBar(binding.toolbar);
-    binding.toolbar.setNavigationOnClickListener(listener);
+    // Xiaomi bag fix
+    if (binding.toolbar != null) {
+      setSupportActionBar(binding.toolbar);
+      binding.toolbar.setNavigationOnClickListener(listener);
 
-    mScreenType = screenType;
-    invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
-    binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-    binding.toolbarText.setText(title);
-    if (hideNavIcon) {
-      binding.toolbar.setNavigationIcon(null);
-      binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStart());
-    } else {
+      mScreenType = screenType;
+      invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
       binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-      binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStartWithNavigation());
+      binding.toolbarText.setText(title);
+      if (hideNavIcon) {
+        binding.toolbar.setNavigationIcon(null);
+        binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStart());
+      } else {
+        binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        binding.toolbar.setContentInsetsAbsolute(0, binding.toolbar.getContentInsetStartWithNavigation());
+      }
+      getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
-    getSupportActionBar().setDisplayShowTitleEnabled(false);
+
   }
 
 
@@ -800,6 +804,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           showFragmentHolderContainer(false);
           setHomeScreenStateVisibility(true);
           setProfileScreenVisibility(false);
+          user.setName(rooms.get(selectedArena).getName());
           initMainToolbar(rooms.get(selectedArena).getName(), HIDE_ICON, ScreenType.MAIN, mMainOnClickListener);
           presenter.onTabHomeClick();
           break;
@@ -807,6 +812,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           showFragmentHolderContainer(true);
           setProfileScreenVisibility(false);
           setHomeScreenStateVisibility(false);
+          user.setName(getString(R.string.title_payment_places));
           initMainToolbar(getString(R.string.title_payment_places), SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
           String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();
           presenter.getOrders(token);
@@ -814,7 +820,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         case USER_TAB_POSITION:
           showFragmentHolderContainer(false);
           setProfileScreenVisibility(true);
-          binding.toolbar.setNavigationIcon(null);
+          // Xiaomi bag fix
+          if (binding.toolbar != null) {
+            binding.toolbar.setNavigationIcon(null);
+          }
           user.setName(AuthUtils.INSTANCE.getName());
           String title = user.getName();
           if (AuthUtils.INSTANCE.getName() != null) {
