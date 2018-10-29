@@ -853,9 +853,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     public void onClick(View v) {
       clearData();
       user.setName(rooms.get(selectedArena).getName());
-      initMainToolbar(SHOW_ICON, ScreenType.MAIN, this);
-
-      binding.toolbar.setNavigationIcon(null);
+      initMainToolbar(HIDE_ICON, ScreenType.MAIN, this);
       presenter.onBackPressed();
     }
   }
