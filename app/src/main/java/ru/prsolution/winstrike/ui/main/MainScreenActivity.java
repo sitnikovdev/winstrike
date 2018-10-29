@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.ui.main;
 
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.app.Dialog;
@@ -314,7 +315,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (this.mScreenType == ScreenType.MAP) {
       mDlgMapLegend.show();
     }
-    mDlgSingOut.hide();
     return super.onOptionsItemSelected(item);
   }
 
@@ -491,11 +491,12 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       binding.seatTitle.setVisibility(VISIBLE);
       viewPagerSeat.setVisibility(VISIBLE);
     } else {
-      binding.vSpinner.setVisibility(View.GONE);
-      binding.headImage.setVisibility(View.GONE);
-      binding.arenaDescription.setVisibility(View.GONE);
-      binding.seatTitle.setVisibility(View.GONE);
-      viewPagerSeat.setVisibility(View.GONE);
+      binding.vSpinner.setVisibility(GONE);
+      binding.rvArena.setVisibility(GONE);
+      binding.headImage.setVisibility(GONE);
+      binding.arenaDescription.setVisibility(GONE);
+      binding.seatTitle.setVisibility(GONE);
+      viewPagerSeat.setVisibility(GONE);
     }
   }
 
@@ -571,15 +572,16 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @Override
   public void setProfileScreenVisibility(Boolean isVisible) {
     if (isVisible) {
-      binding.vSpinner.setVisibility(View.GONE);
+      binding.vSpinner.setVisibility(GONE);
+      binding.rvArena.setVisibility(GONE);
       binding.tabLayoutProfile.setVisibility(VISIBLE);
       binding.viewPagerProfile.setVisibility(VISIBLE);
       setupProfileViewPager(binding.viewPagerProfile);
       binding.tabLayoutProfile.setupWithViewPager(binding.viewPagerProfile);
     } else {
-      binding.vSpinner.setVisibility(View.VISIBLE);
-      binding.tabLayoutProfile.setVisibility(View.GONE);
-      binding.viewPagerProfile.setVisibility(View.GONE);
+      binding.vSpinner.setVisibility(VISIBLE);
+      binding.tabLayoutProfile.setVisibility(GONE);
+      binding.viewPagerProfile.setVisibility(GONE);
     }
   }
 
@@ -756,7 +758,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (isVisible) {
       binding.fragmentContainer.setVisibility(VISIBLE);
     } else {
-      binding.fragmentContainer.setVisibility(View.GONE);
+      binding.fragmentContainer.setVisibility(GONE);
     }
   }
 
@@ -839,7 +841,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Override
   public void hideBottomTab() {
-    bottomNavigationBar.setVisibility(View.GONE);
+    bottomNavigationBar.setVisibility(GONE);
   }
 
   @Override
