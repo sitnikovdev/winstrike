@@ -67,12 +67,7 @@ public class SplashActivity extends AppCompatActivity {
       @Override
       public void onAnimationEnd(Animator animation) {
         Log.e("Animation:", "end");
-        if (AuthUtils.INSTANCE.isFirstLogin()) {
-          AuthUtils.INSTANCE.setFirstLogin(false);
-          splashPresenter.getActiveArena();
-        } else {
-          isCheckLogin();
-        }
+        splashPresenter.getActiveArena();
         finish();
       }
 
@@ -89,7 +84,6 @@ public class SplashActivity extends AppCompatActivity {
     animationView.playAnimation();
 
     splashPresenter = createSplashPresenter();
-//    splashPresenter.getActiveArena();
   }
 
   public SplashPresenter createSplashPresenter() {
@@ -102,8 +96,9 @@ public class SplashActivity extends AppCompatActivity {
     if (AuthUtils.INSTANCE.isLogout()) {
       startActivity(new Intent(SplashActivity.this, SignInActivity.class));
     } else if (!AuthUtils.INSTANCE.getToken().isEmpty()) {
-//      startActivity(new Intent(this, MainScreenActivity.class));
-      splashPresenter.getActiveArena();
+      mainIntent = new Intent(SplashActivity.this, MainScreenActivity.class);
+      startActivity(mainIntent);
+//      splashPresenter.getActiveArena();
     } else {
       startActivity(new Intent(SplashActivity.this, SignInActivity.class));
     }
@@ -121,8 +116,7 @@ public class SplashActivity extends AppCompatActivity {
     AuthUtils.INSTANCE.setPublicid(authResponse.getUser().getPublicId());
 
     if (confirmed && AuthUtils.INSTANCE.isLogout() != true) {
-//                        router.replaceScreen(Screens.START_SCREEN);
-      startActivity(new Intent(this, MainScreenActivity.class));
+      splashPresenter.getActiveArena();
       Timber.d("Success signIn");
     } else if (!confirmed) {
       // If user not confirmed: send him sms, and go to UserConfirmActivity
@@ -172,8 +166,14 @@ public class SplashActivity extends AppCompatActivity {
     rooms = authResponse.getRooms();
     WinstrikeApp.getInstance().setRooms(rooms);
 
-    mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
-    startActivity(mainIntent);
+    if (AuthUtils.INSTANCE.isFirstLogin()) {
+      AuthUtils.INSTANCE.setFirstLogin(false);
+      mainIntent = new Intent(SplashActivity.this, GuideActivity.class);
+      startActivity(mainIntent);
+    } else {
+      isCheckLogin();
+    }
+
 
   }
 

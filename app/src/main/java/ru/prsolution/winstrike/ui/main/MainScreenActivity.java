@@ -293,12 +293,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    profileMenu = menu.findItem(R.id.act_help);
     if (this.mScreenType == ScreenType.MAIN) {
       getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
-      if (mState == HIDEMENU) {
-        profileMenu.setVisible(false);
-      }
     }
     if (this.mScreenType == ScreenType.PROFILE) {
       getMenuInflater().inflate(R.menu.prof_toolbar_menu, menu);
@@ -857,9 +853,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     public void onClick(View v) {
       clearData();
       user.setName(rooms.get(selectedArena).getName());
+      initMainToolbar(SHOW_ICON, ScreenType.MAIN, this);
 
-      mState = HIDEMENU;
-      invalidateOptionsMenu(); // now onCreateOptionsMenu(...) is called again
       binding.toolbar.setNavigationIcon(null);
       presenter.onBackPressed();
     }
