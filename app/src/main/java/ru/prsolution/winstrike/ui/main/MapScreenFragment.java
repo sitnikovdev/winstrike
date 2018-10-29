@@ -169,8 +169,9 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
       params.height = mScreenSize.y + 250;
       mYScaleFactor = mYScaleFactor - 1.5f;
     } else if (height <= Constants.SCREEN_HEIGHT_PX_1920) {
+      params.setMargins(-35, -80, 100, 80);
       params.width = mScreenSize.x;
-      params.height = mScreenSize.y + 260;
+      params.height = mScreenSize.y + 275;
       mYScaleFactor = mYScaleFactor - 2.0f;
     } else if (height <= Constants.SCREEN_HEIGHT_PX_2560) {
       params.width = mScreenSize.x;
