@@ -321,6 +321,22 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
   @Override
   public void onDestroy() {
     super.onDestroy();
+    snackLayout.setOnClickListener(null);
+    for (int i = 0; i < rootLayout.getChildCount(); i++) {
+      View v = rootLayout.getChildAt(i);
+      if (v instanceof ImageView) {
+        ImageView ivSeat = (ImageView) v;
+        ivSeat.setOnClickListener(null);
+      }
+
+    }
+    if (this.presenter != null) {
+      presenter.onStop();
+      presenter = null;
+    }
+    if (this.service != null) {
+      this.service = null;
+    }
   }
 
   /**
@@ -451,24 +467,9 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
   public void onStop() {
     super.onStop();
     snackbar.dismiss();
-    snackLayout.setOnClickListener(null);
-    for (int i = 0; i < rootLayout.getChildCount(); i++) {
-      View v = rootLayout.getChildAt(i);
-      if (v instanceof ImageView) {
-        ImageView ivSeat = (ImageView) v;
-        ivSeat.setOnClickListener(null);
-      }
-
-    }
-    if (this.presenter != null) {
-      presenter.onStop();
-      presenter = null;
-    }
-    if (this.service != null) {
-      this.service = null;
-    }
 
   }
+
 
   @Override
   public void showWait() {
