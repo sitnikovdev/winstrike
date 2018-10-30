@@ -572,16 +572,28 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   @Override
   public void setProfileScreenVisibility(Boolean isVisible) {
     if (isVisible) {
-      binding.vSpinner.setVisibility(GONE);
-      binding.rvArena.setVisibility(GONE);
+      setArenaVisibility(false);
       binding.tabLayoutProfile.setVisibility(VISIBLE);
       binding.viewPagerProfile.setVisibility(VISIBLE);
       setupProfileViewPager(binding.viewPagerProfile);
       binding.tabLayoutProfile.setupWithViewPager(binding.viewPagerProfile);
     } else {
-      binding.vSpinner.setVisibility(VISIBLE);
+      setArenaVisibility(true);
       binding.tabLayoutProfile.setVisibility(GONE);
       binding.viewPagerProfile.setVisibility(GONE);
+    }
+  }
+
+  public void setArenaVisibility(Boolean isVisible) {
+    if (!isVisible) {
+      binding.vSpinner.setVisibility(GONE);
+      binding.rvArena.setVisibility(GONE);
+      binding.arrowArenaUp.setVisibility(GONE);
+      binding.arrowArenaDown.setVisibility(GONE);
+    } else {
+      binding.vSpinner.setVisibility(VISIBLE);
+      binding.arrowArenaUp.setVisibility(GONE);
+      binding.arrowArenaDown.setVisibility(VISIBLE);
     }
   }
 
