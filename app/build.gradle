@@ -26,11 +26,11 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 45
-        versionName '1.0.12'
+        versionName '1.0.15'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "int", "LIMIT", "100"
-        buildConfigField "String", "BASEURL", "\"http://46.254.21.94:9000/api/v1/\""
+        buildConfigField "String", "BASEURL", "\"http://api.winstrike.ru:8000/api/v1/\""
         buildConfigField "int", "CACHETIME", "432000" // 5days
         signingConfig signingConfigs.signingConfig
         resConfigs "en", "ru"

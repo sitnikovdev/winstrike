@@ -131,6 +131,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Inject
   NavigatorHolder navigatorHolder;
+  private boolean isArenaShow;
 
   @ProvidePresenter
   public MainScreenPresenter createBottomNavigationPresenter() {
@@ -249,6 +250,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       TransitionManager.beginDelayedTransition(binding.root);
     }
     this.selectedArena = layoutPosition;
+    this.isArenaShow = false;
     arenaUpConstraintSet.applyTo(binding.root);
     editor.putInt(getString(R.string.saved_arena), layoutPosition);
     editor.commit();
@@ -430,7 +432,13 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             TransitionManager.beginDelayedTransition(binding.root);
           }
-          arenaDownConstraintSet.applyTo(binding.root);
+          if (!isArenaShow) {
+            isArenaShow = true;
+            arenaDownConstraintSet.applyTo(binding.root);
+          } else {
+            arenaUpConstraintSet.applyTo(binding.root);
+            isArenaShow = false;
+          }
         }
     );
 

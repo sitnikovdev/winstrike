@@ -488,7 +488,11 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
 //    Intent intent = new Intent(this.getContext(), YandexWebView.class);
 //    intent.putExtra("url", url);
 
-    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    Intent intent = new Intent();
+    intent.putExtra("payments", true);
+    startActivity(new Intent(getActivity(), MainScreenActivity.class));
+
+    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
     startActivity(intent);
   }
 
