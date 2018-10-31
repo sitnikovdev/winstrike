@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.common;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -46,7 +47,6 @@ public class YandexWebView extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        confirmScreen = new Intent(this, UserConfirmActivity.class);
         confirmScreen = new Intent(this, SignInActivity.class);
         mainScreen = new Intent(this, MainScreenActivity.class);
 
@@ -84,6 +84,8 @@ public class YandexWebView extends AppCompatActivity {
         mWebView.setHorizontalScrollBarEnabled(false);
         // включаем поддержку JavaScript
         mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.getSettings().setUseWideViewPort(true);
         // указываем страницу загрузки
         mWebView.loadUrl(url);
     }
@@ -92,19 +94,21 @@ public class YandexWebView extends AppCompatActivity {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
+//            view.loadUrl(url);
             return true;
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
+//            super.onPageStarted(view, url, favicon);
             progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
+//            super.onPageFinished(view, url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            view.getContext().startActivity(intent);
             progressBar.setVisibility(View.GONE);
         }
 
@@ -125,14 +129,8 @@ public class YandexWebView extends AppCompatActivity {
         if (url.contains("politika.html") || url.contains("rules.html")) {
             startActivity(confirmScreen);
         } else {
-
             startActivity(mainScreen);
         }
-/*        if (mWebView.canGoBack()) {
-            mWebView.goBack();
-        } else {
-            super.onBackPressed();
-        }*/
     }
 
     public void initMainToolbar(Boolean hide_menu, String title) {

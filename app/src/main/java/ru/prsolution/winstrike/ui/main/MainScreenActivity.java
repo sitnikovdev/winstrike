@@ -485,16 +485,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void setHomeScreenStateVisibility(Boolean isVisible) {
     if (isVisible) {
-      binding.vSpinner.setVisibility(View.VISIBLE);
-      binding.headImage.setVisibility(VISIBLE);
-      binding.arenaDescription.setVisibility(VISIBLE);
-      binding.seatTitle.setVisibility(VISIBLE);
+      setArenaVisibility(true);
       viewPagerSeat.setVisibility(VISIBLE);
     } else {
-      binding.vSpinner.setVisibility(GONE);
-      binding.rvArena.setVisibility(GONE);
-      binding.headImage.setVisibility(GONE);
-      binding.arenaDescription.setVisibility(GONE);
+      setArenaVisibility(false);
       binding.seatTitle.setVisibility(GONE);
       viewPagerSeat.setVisibility(GONE);
     }
@@ -590,7 +584,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       binding.rvArena.setVisibility(GONE);
       binding.arrowArenaUp.setVisibility(GONE);
       binding.arrowArenaDown.setVisibility(GONE);
+      binding.arenaDescription.setVisibility(GONE);
+      binding.headImage.setVisibility(GONE);
     } else {
+      binding.headImage.setVisibility(VISIBLE);
+      binding.arenaDescription.setVisibility(VISIBLE);
       binding.vSpinner.setVisibility(VISIBLE);
       binding.arrowArenaUp.setVisibility(GONE);
       binding.arrowArenaDown.setVisibility(VISIBLE);
@@ -827,7 +825,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
         case PLACE_TAB_POSITION:
           showFragmentHolderContainer(true);
           setProfileScreenVisibility(false);
-          setHomeScreenStateVisibility(false);
+//          setHomeScreenStateVisibility(false);
           user.setName(getString(R.string.title_payment_places));
           initMainToolbar(SHOW_ICON, ScreenType.MAIN, mMainOnClickListener);
           String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();

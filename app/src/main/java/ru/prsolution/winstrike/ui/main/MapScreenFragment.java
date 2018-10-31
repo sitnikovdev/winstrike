@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -188,9 +189,9 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
       String name = seat.getName();
 //      Timber.d("id: %s, y: %s",seat.getId(),seat.getDy());
       String seatNumber = Utils.parseNumber(name);
-      // TODO: 07/06/2018 For test:
-      Integer seatIdInt = Integer.parseInt(seat.getId().toString());
-      seatNumber = seatIdInt.toString();
+      // TODO: 07/06/2018 For test (number of places by id):
+/*      Integer seatIdInt = Integer.parseInt(seat.getId().toString());
+      seatNumber = seatIdInt.toString();*/
       int numberLenth = seatNumber.length();
       int textOffsetX = 0;
       int textOffsetY = -10;
@@ -484,8 +485,10 @@ public class MapScreenFragment extends android.support.v4.app.Fragment implement
     Timber.tag("common").d("Pay successfully: %s", payResponse);
 
     String url = payResponse.getRedirectUrl();
-    Intent intent = new Intent(this.getContext(), YandexWebView.class);
-    intent.putExtra("url", url);
+//    Intent intent = new Intent(this.getContext(), YandexWebView.class);
+//    intent.putExtra("url", url);
+
+    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
     startActivity(intent);
   }
 

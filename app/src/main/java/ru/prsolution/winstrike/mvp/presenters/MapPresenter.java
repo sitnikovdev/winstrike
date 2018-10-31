@@ -87,18 +87,6 @@ public class MapPresenter {
         subscriptions.add(subscription);
     }
 
-    public void onPaySuccess(String redirectUrl) {
-        // TODO: 19/05/2018 Redirect to PlacesScreenFragment on Successfully pay.
-        Timber.d("Redirect to PlacesScreenFragment on Successfully pay.");
-//        fragment.onGetPaymentResponseSuccess(redirectUrl);
-       // router.replaceScreen(Screens.PAY_SCREEN,redirectUrl);
-
-    }
-
-    public void hideSnackBar() {
-        fragment.onSnackBarHide();
-    }
-
     public void onStop() {
         this.subscriptions.unsubscribe();
     }
