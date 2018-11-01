@@ -7,6 +7,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class OrderModel implements Parcelable {
+    String arenaName;
     String placeName;
     String date;
     String time;
@@ -22,6 +23,7 @@ public class OrderModel implements Parcelable {
     int thumbnail;
 
     protected OrderModel(Parcel in) {
+        arenaName = in.readString();
         placeName = in.readString();
         date = in.readString();
         time = in.readString();
@@ -61,6 +63,7 @@ public class OrderModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(arenaName);
         dest.writeString(placeName);
         dest.writeString(date);
         dest.writeString(time);
@@ -83,7 +86,8 @@ public class OrderModel implements Parcelable {
 
 
 
-    public OrderModel(String placeName, Integer cost, String date, String time, String pcName, String accessCode, int thumbnail) {
+    public OrderModel(String arenaName, String placeName, Integer cost, String date, String time, String pcName, String accessCode, int thumbnail) {
+        this.arenaName = arenaName;
         this.placeName = placeName;
         this.date = date;
         this.time = time;
@@ -199,5 +203,13 @@ public class OrderModel implements Parcelable {
 
     public void setThumbnail(int thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public String getArenaName() {
+        return arenaName;
+    }
+
+    public void setArenaName(String arenaName) {
+        this.arenaName = arenaName;
     }
 }

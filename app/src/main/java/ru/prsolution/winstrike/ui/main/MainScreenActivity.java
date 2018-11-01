@@ -817,6 +817,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     bottomNavigationBar.setOnTabSelectedListener(bottomNavigationListener);
   }
 
+  public String getArenaName() {
+    return this.rooms.get(selectedArena).getName();
+  }
+
   public class BottomNavigationListener implements AHBottomNavigation.OnTabSelectedListener {
 
     @Override

@@ -11,9 +11,6 @@ import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 
 
-/**
- * Created by terrakok 25.11.16
- */
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface MainScreenView extends MvpView {
 

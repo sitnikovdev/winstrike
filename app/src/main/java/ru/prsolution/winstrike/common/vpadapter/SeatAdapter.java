@@ -17,10 +17,11 @@ public final class SeatAdapter extends ViewModelAdapter {
 
     }
 
-    public SeatAdapter(List<OrderModel> orders) {
+    public SeatAdapter(List<OrderModel> orders, String arenaName) {
         registerCell(OrdersViewModel.class, R.layout.item_paid, BR.vm);
         for (OrderModel order : orders) {
             OrdersViewModel vm = new OrdersViewModel();
+            vm.setArenaName(arenaName);
             vm.setDate(order.getDate());
             vm.setTime(order.getTime());
             vm.setPlaceName(order.getPcName());

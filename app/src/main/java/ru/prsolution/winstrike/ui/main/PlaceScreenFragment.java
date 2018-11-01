@@ -35,110 +35,109 @@ import ru.prsolution.winstrike.networking.Service;
  * Created by terrakok 26.11.16
  */
 public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesView, BackButtonListener {
-    private static final String EXTRA_NAME = "extra_name";
-    private static final String ORDERS = "extra_number";
-    private List<OrderModel> mPayList = new ArrayList<>();
+
+  private static final String ARENA_NAME = "extra_name";
+  private static final String ORDERS = "extra_number";
+  private List<OrderModel> mPayList = new ArrayList<>();
 
 
+  FmtPaidBinding binding;
+  private SeatAdapter mSeatAdapter;
 
-    FmtPaidBinding binding;
-    private  SeatAdapter mSeatAdapter;
+  @Nullable
+  @BindView(R.id.rv_pay)
+  RecyclerView rv_pay;
 
-    @Nullable
-    @BindView(R.id.rv_pay)
-    RecyclerView rv_pay;
+  @Inject
+  Service service;
 
-    @Inject
-    Service service;
-
-    @InjectPresenter
-    PlacesPresenter presenter;
+  @InjectPresenter
+  PlacesPresenter presenter;
 
 
-    @ProvidePresenter
-    PlacesPresenter provideMainScreenPresenter() {
-        return new PlacesPresenter(service,
-                ((RouterProvider) getParentFragment()).getRouter()
-                , getArguments().getParcelableArrayList(ORDERS)
-        );
+  @ProvidePresenter
+  PlacesPresenter provideMainScreenPresenter() {
+    return new PlacesPresenter(service,
+        ((RouterProvider) getParentFragment()).getRouter()
+        , getArguments().getParcelableArrayList(ORDERS)
+    );
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+  }
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    WinstrikeApp.INSTANCE.getAppComponent().inject(this);
+    super.onCreate(savedInstanceState);
+    this.mPayList = getArguments().getParcelableArrayList(ORDERS);
+    mSeatAdapter = new SeatAdapter(mPayList, getArguments().get(ARENA_NAME).toString());
+  }
+
+
+  public static PlaceScreenFragment getNewInstance(String name, ArrayList<OrderModel> orders) {
+    PlaceScreenFragment fragment = new PlaceScreenFragment();
+    Bundle arguments = new Bundle();
+    arguments.putString(ARENA_NAME, name);
+    arguments.putParcelableArrayList(ORDERS, orders);
+    fragment.setArguments(arguments);
+    return fragment;
+  }
+
+  @Nullable
+  @Override
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View view;
+
+    if (mPayList == null) {
+      view = inflater.inflate(R.layout.fmt_nopaid, container, false);
+      ButterKnife.bind(this, view);
+    }
+    if (!mPayList.isEmpty()) {
+      binding = DataBindingUtil.inflate(inflater, R.layout.fmt_paid, container, false);
+      view = binding.getRoot();
+      binding.setAdapter(mSeatAdapter);
+      initRView();
+    } else {
+      view = inflater.inflate(R.layout.fmt_nopaid, container, false);
+      ButterKnife.bind(this, view);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
+    return view;
+  }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        WinstrikeApp.INSTANCE.getAppComponent().inject(this);
-        super.onCreate(savedInstanceState);
-        this.mPayList = getArguments().getParcelableArrayList(ORDERS);
-        mSeatAdapter = new SeatAdapter(mPayList);
-    }
+  private void initRView() {
+    binding.rvPay.addItemDecoration(new BottomDecoratorHelper(350));
+    binding.rvPay.setLayoutManager(new LinearLayoutManager(getActivity()));
+    binding.rvPay.setAdapter(mSeatAdapter);
+  }
 
 
-
-    public static PlaceScreenFragment getNewInstance(String name, ArrayList<OrderModel> orders) {
-        PlaceScreenFragment fragment = new PlaceScreenFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString(EXTRA_NAME, name);
-        arguments.putParcelableArrayList(ORDERS, orders);
-        fragment.setArguments(arguments);
-        return fragment;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view;
-
-        if (mPayList == null) {
-            view = inflater.inflate(R.layout.fmt_nopaid, container, false);
-            ButterKnife.bind(this, view);
-        }
-        if (!mPayList.isEmpty()) {
-            binding = DataBindingUtil.inflate(inflater, R.layout.fmt_paid, container, false);
-            view = binding.getRoot();
-            binding.setAdapter(mSeatAdapter);
-            initRView();
-        } else {
-            view = inflater.inflate(R.layout.fmt_nopaid, container, false);
-            ButterKnife.bind(this, view);
-        }
-
-        return view;
-    }
-
-    private void initRView() {
-        binding.rvPay.addItemDecoration(new BottomDecoratorHelper(350));
-        binding.rvPay.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.rvPay.setAdapter(mSeatAdapter);
-    }
+  @Override
+  public boolean onBackPressed() {
+    startActivity(new Intent(getActivity(), MainScreenActivity.class));
+    return true;
+  }
 
 
-    @Override
-    public boolean onBackPressed() {
-        startActivity(new Intent(getActivity(), MainScreenActivity.class));
-        return true;
-    }
+  @Override
+  public void onStop() {
+    super.onStop();
+    presenter.onStop();
+  }
+
+  @Override
+  public void showWait() {
+  }
+
+  @Override
+  public void removeWait() {
+  }
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        presenter.onStop();
-    }
-
-    @Override
-    public void showWait() {
-    }
-
-    @Override
-    public void removeWait() {
-    }
-
-
-    protected void toast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-    }
+  protected void toast(String message) {
+    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+  }
 }

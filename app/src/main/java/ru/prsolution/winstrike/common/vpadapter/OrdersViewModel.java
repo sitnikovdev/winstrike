@@ -5,6 +5,7 @@ package ru.prsolution.winstrike.common.vpadapter;
 
 
 public class OrdersViewModel {
+    String arenaName;
     String placeName;
     String date;
     String time;
@@ -93,6 +94,14 @@ public class OrdersViewModel {
 
     public void setThumbnail(int thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public String getArenaName() {
+        return arenaName;
+    }
+
+    public void setArenaName(String arenaName) {
+        this.arenaName = arenaName;
     }
 }
 
