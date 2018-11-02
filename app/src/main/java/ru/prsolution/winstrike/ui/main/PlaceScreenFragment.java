@@ -73,7 +73,7 @@ public class PlaceScreenFragment extends MvpAppCompatFragment implements PlacesV
     WinstrikeApp.INSTANCE.getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
     this.mPayList = getArguments().getParcelableArrayList(ORDERS);
-    mSeatAdapter = new SeatAdapter(mPayList, getArguments().get(ARENA_NAME).toString());
+    mSeatAdapter = new SeatAdapter(mPayList);
   }
 
 

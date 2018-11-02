@@ -6,104 +6,115 @@ import com.google.gson.annotations.SerializedName;
 
 public class Order {
 
-    @SerializedName("place")
-    @Expose
-    private Place place;
-    @SerializedName("cost")
-    @Expose
-    private Integer cost;
-    @SerializedName("end_at")
-    @Expose
-    private String endAt;
-    @SerializedName("access_code")
-    @Expose
-    private String accessCode;
-    @SerializedName("place_pid")
-    @Expose
-    private String placePid;
-    @SerializedName("start_at")
-    @Expose
-    private String startAt;
-    @SerializedName("user_pid")
-    @Expose
-    private String userPid;
-    @SerializedName("public_id")
-    @Expose
-    private String publicId;
-    @SerializedName("create_at")
-    @Expose
-    private String createAt;
+  @SerializedName("room_name")
+  @Expose
+  private String roomName;
 
-    public Place getPlace() {
-        return place;
-    }
+  @SerializedName("place")
+  @Expose
+  private Place place;
+  @SerializedName("cost")
+  @Expose
+  private Integer cost;
+  @SerializedName("end_at")
+  @Expose
+  private String endAt;
+  @SerializedName("access_code")
+  @Expose
+  private String accessCode;
+  @SerializedName("place_pid")
+  @Expose
+  private String placePid;
+  @SerializedName("start_at")
+  @Expose
+  private String startAt;
+  @SerializedName("user_pid")
+  @Expose
+  private String userPid;
+  @SerializedName("public_id")
+  @Expose
+  private String publicId;
+  @SerializedName("create_at")
+  @Expose
+  private String createAt;
 
-    public void setPlace(Place place) {
-        this.place = place;
-    }
+  public Place getPlace() {
+    return place;
+  }
 
-    public Integer getCost() {
-        return cost;
-    }
+  public void setPlace(Place place) {
+    this.place = place;
+  }
 
-    public void setCost(Integer cost) {
-        this.cost = cost;
-    }
+  public Integer getCost() {
+    return cost;
+  }
 
-    public String getEndAt() {
-        return endAt;
-    }
+  public void setCost(Integer cost) {
+    this.cost = cost;
+  }
 
-    public void setEndAt(String endAt) {
-        this.endAt = endAt;
-    }
+  public String getEndAt() {
+    return endAt;
+  }
 
-    public String getAccessCode() {
-        return accessCode;
-    }
+  public void setEndAt(String endAt) {
+    this.endAt = endAt;
+  }
 
-    public void setAccessCode(String accessCode) {
-        this.accessCode = accessCode;
-    }
+  public String getAccessCode() {
+    return accessCode;
+  }
 
-    public String getPlacePid() {
-        return placePid;
-    }
+  public void setAccessCode(String accessCode) {
+    this.accessCode = accessCode;
+  }
 
-    public void setPlacePid(String placePid) {
-        this.placePid = placePid;
-    }
+  public String getPlacePid() {
+    return placePid;
+  }
 
-    public String getStartAt() {
-        return startAt;
-    }
+  public void setPlacePid(String placePid) {
+    this.placePid = placePid;
+  }
 
-    public void setStartAt(String startAt) {
-        this.startAt = startAt;
-    }
+  public String getStartAt() {
+    return startAt;
+  }
 
-    public String getUserPid() {
-        return userPid;
-    }
+  public void setStartAt(String startAt) {
+    this.startAt = startAt;
+  }
 
-    public void setUserPid(String userPid) {
-        this.userPid = userPid;
-    }
+  public String getUserPid() {
+    return userPid;
+  }
 
-    public String getPublicId() {
-        return publicId;
-    }
+  public void setUserPid(String userPid) {
+    this.userPid = userPid;
+  }
 
-    public void setPublicId(String publicId) {
-        this.publicId = publicId;
-    }
+  public String getPublicId() {
+    return publicId;
+  }
 
-    public String getCreateAt() {
-        return createAt;
-    }
+  public void setPublicId(String publicId) {
+    this.publicId = publicId;
+  }
 
-    public void setCreateAt(String createAt) {
-        this.createAt = createAt;
-    }
+  public String getCreateAt() {
+    return createAt;
+  }
 
+  public void setCreateAt(String createAt) {
+    this.createAt = createAt;
+  }
+
+  public String getRoomName() {
+    return roomName;
+  }
+
+  public void setRoomName(String roomName) {
+    this.roomName = roomName;
+  }
 }

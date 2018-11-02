@@ -138,6 +138,7 @@ public class MainScreenPresenter extends MvpPresenter<MainScreenView> {
 
                 for (Order order : orders.getOrders()) {
                     OrderModel orderModel = new OrderModel();
+                    orderModel.setArenaName(order.getRoomName());
                     orderModel.setCost(order.getCost());
                     orderModel.setAccessCode(order.getAccessCode());
                     orderModel.setStartAt(order.getStartAt());
