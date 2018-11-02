@@ -27,12 +27,13 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import ru.prsolution.winstrike.R;
+import ru.prsolution.winstrike.WinstrikeApp;
+import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.ui.main.MainScreenActivity;
 import timber.log.Timber;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-  private static final String TAG = "MyFirebaseMsgService";
 
   /**
    * Called when message is received.
@@ -97,11 +98,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     NotificationCompat.Builder notificationBuilder =
         new NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.winstrike_fcm)
-            .setContentTitle("Winstrike")
+            .setContentTitle(getString(R.string.app_name))
             .setContentText(messageBody)
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
-            .setPriority(2)
             .setContentIntent(pendingIntent);
 
     NotificationManager notificationManager =

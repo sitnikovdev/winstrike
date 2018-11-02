@@ -2,24 +2,20 @@ package ru.prsolution.winstrike;
 
 import android.app.Application;
 import android.util.DisplayMetrics;
-
 import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
-
-import java.io.File;
-
 import io.fabric.sdk.android.Fabric;
+import java.io.File;
 import java.util.List;
 import retrofit2.Retrofit;
-import ru.prsolution.winstrike.mvp.apimodels.Room;
-import ru.prsolution.winstrike.mvp.apimodels.Rooms;
-import ru.prsolution.winstrike.mvp.models.UserEntity;
 import ru.prsolution.winstrike.di.AppComponent;
 import ru.prsolution.winstrike.di.DaggerAppComponent;
 import ru.prsolution.winstrike.di.module.ContextModule;
 import ru.prsolution.winstrike.di.module.NetworkModule;
+import ru.prsolution.winstrike.mvp.apimodels.Room;
 import ru.prsolution.winstrike.mvp.apimodels.RoomLayout;
 import ru.prsolution.winstrike.mvp.models.SeatModel;
+import ru.prsolution.winstrike.mvp.models.UserEntity;
 import ru.prsolution.winstrike.networking.Service;
 
 

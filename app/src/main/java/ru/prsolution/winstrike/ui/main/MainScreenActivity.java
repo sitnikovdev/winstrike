@@ -61,12 +61,15 @@ import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
+import ru.prsolution.winstrike.ui.login.RegisterActivity;
+import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.main.AppFragment.OnAppButtonsClickListener;
 import ru.prsolution.winstrike.ui.main.ArenaSelectAdapter.OnItemArenaClickListener;
 import ru.prsolution.winstrike.ui.main.CarouselSeatFragment.OnChoosePlaceButtonsClickListener;
 import ru.prsolution.winstrike.ui.main.ChooseScreenFragment.onMapShowProcess;
 import ru.prsolution.winstrike.ui.main.ProfileFragment.OnProfileButtonsClickListener;
 import ru.prsolution.winstrike.ui.start.SplashActivity;
+import ru.prsolution.winstrike.ui.start.StartActivity;
 import ru.prsolution.winstrike.utils.Constants;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -98,9 +101,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private ArrayList<OrderModel> mPayList = new ArrayList<>();
   private final Boolean HIDE_ICON = true;
   private final Boolean SHOW_ICON = false;
-  private final Boolean HIDEMENU = false;
-  private final Boolean SHOWMENU = true;
-  private Boolean mState = SHOWMENU;
   private Dialog mDlgSingOut;
   private MainOnClickListener mMainOnClickListener;
   private MapOnClickListener mMapOnClickListener;
@@ -118,7 +118,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   public int selectedArena = 0;
   public List<Room> rooms;
 
-  private MenuItem profileMenu;
 
   @InjectPresenter
   MainScreenPresenter presenter;
@@ -371,86 +370,92 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     WinstrikeApp.INSTANCE.getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
     clearData();
-
-    this.rooms = WinstrikeApp.getInstance().getRooms();
-
-    titles = new String[]{rooms.get(0).getName(), rooms.get(1).getName()};
-    address = new String[]{rooms.get(0).getMetro(), rooms.get(1).getMetro()};
     binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
 
-    for (int i = 0; i < titles.length; i++) {
-      arenaItems.add(new ArenaItem((titles[i]), address[i], false));
-    }
+    this.rooms = WinstrikeApp.getInstance().getRooms();
+    if (this.rooms == null) {
+      Intent intent = new Intent(this, SignInActivity.class);
+      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      startActivity(intent);
+    } else {
 
-    sharedPref = getPreferences(Context.MODE_PRIVATE);
-    editor = sharedPref.edit();
-    selectedArena = sharedPref.getInt(getString(R.string.saved_arena), Constants.SAVED_ARENA_DEFAULT);
+      titles = new String[]{rooms.get(0).getName(), rooms.get(1).getName()};
+      address = new String[]{rooms.get(0).getMetro(), rooms.get(1).getMetro()};
 
-    binding.setUser(user);
-    binding.tvArenaTitle.setText(rooms.get(selectedArena).getName());
-    ArenaSelectAdapter.SELECTED_ITEM = selectedArena;
+      for (int i = 0; i < titles.length; i++) {
+        arenaItems.add(new ArenaItem((titles[i]), address[i], false));
+      }
 
-    //Transitions animations:
-    arenaDownConstraintSet.clone(this, R.layout.part_arena_down);
-    arenaUpConstraintSet.clone(this, R.layout.part_arena_up);
+      sharedPref = getPreferences(Context.MODE_PRIVATE);
+      editor = sharedPref.edit();
+      selectedArena = sharedPref.getInt(getString(R.string.saved_arena), Constants.SAVED_ARENA_DEFAULT);
 
-    binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, arenaItems));
-    binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
-    binding.rvArena.addItemDecoration(new RecyclerViewMargin(24, 1));
-    binding.rvArena.getAdapter().notifyDataSetChanged();
+      binding.setUser(user);
+      binding.tvArenaTitle.setText(rooms.get(selectedArena).getName());
+      ArenaSelectAdapter.SELECTED_ITEM = selectedArena;
 
-    ButterKnife.bind(this);
+      //Transitions animations:
+      arenaDownConstraintSet.clone(this, R.layout.part_arena_down);
+      arenaUpConstraintSet.clone(this, R.layout.part_arena_up);
 
-    viewPagerSeat = findViewById(R.id.view_pager_seat);
-    adapter = new CarouselAdapter(this);
-    initArena();
-    Timber.w(String.valueOf(adapter.getCount()));
+      binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, arenaItems));
+      binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
+      binding.rvArena.addItemDecoration(new RecyclerViewMargin(24, 1));
+      binding.rvArena.getAdapter().notifyDataSetChanged();
 
-    progressDialog = new ProgressDialog(this);
+      ButterKnife.bind(this);
 
-    mMainOnClickListener = new MainOnClickListener();
+      viewPagerSeat = findViewById(R.id.view_pager_seat);
+      adapter = new CarouselAdapter(this);
+      initArena();
+      Timber.w(String.valueOf(adapter.getCount()));
 
-    mMapOnClickListener = new MapOnClickListener();
+      progressDialog = new ProgressDialog(this);
 
-    initViews();
-    initFragmentsContainers();
+      mMainOnClickListener = new MainOnClickListener();
 
-    if (savedInstanceState == null) {
-      presenter.onCreate();
-    }
+      mMapOnClickListener = new MapOnClickListener();
 
-    String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();
+      initViews();
+      initFragmentsContainers();
 
-    String fcmToken = AuthUtils.INSTANCE.getFcmtoken();
-    if (!fcmToken.isEmpty()) {
-      sendRegistrationToServer(token, fcmToken);
-    }
+      if (savedInstanceState == null) {
+        presenter.onCreate();
+      }
 
-    // Arena select:
-    binding.arrowArenaDown.setOnClickListener(v ->
-        {
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            TransitionManager.beginDelayedTransition(binding.root);
+      String token = Constants.TOKEN_TYPE_BEARER + AuthUtils.INSTANCE.getToken();
+
+      String fcmToken = AuthUtils.INSTANCE.getFcmtoken();
+      if (!fcmToken.isEmpty()) {
+        sendRegistrationToServer(token, fcmToken);
+      }
+
+      // Arena select:
+      binding.arrowArenaDown.setOnClickListener(v ->
+          {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+              TransitionManager.beginDelayedTransition(binding.root);
+            }
+            if (!isArenaShow) {
+              isArenaShow = true;
+              arenaDownConstraintSet.applyTo(binding.root);
+            } else {
+              arenaUpConstraintSet.applyTo(binding.root);
+              isArenaShow = false;
+            }
           }
-          if (!isArenaShow) {
-            isArenaShow = true;
-            arenaDownConstraintSet.applyTo(binding.root);
-          } else {
+      );
+
+      binding.arrowArenaUp.setOnClickListener(
+          v ->
+          {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+              TransitionManager.beginDelayedTransition(binding.root);
+            }
             arenaUpConstraintSet.applyTo(binding.root);
-            isArenaShow = false;
           }
-        }
-    );
-
-    binding.arrowArenaUp.setOnClickListener(
-        v ->
-        {
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            TransitionManager.beginDelayedTransition(binding.root);
-          }
-          arenaUpConstraintSet.applyTo(binding.root);
-        }
-    );
+      );
+    }
   }
 
   private void initArena() {
@@ -815,10 +820,6 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     bottomNavigationBar.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
     bottomNavigationBar.setAccentColor(getColor(R.color.color_accent));
     bottomNavigationBar.setOnTabSelectedListener(bottomNavigationListener);
-  }
-
-  public String getArenaName() {
-    return this.rooms.get(selectedArena).getName();
   }
 
   public class BottomNavigationListener implements AHBottomNavigation.OnTabSelectedListener {

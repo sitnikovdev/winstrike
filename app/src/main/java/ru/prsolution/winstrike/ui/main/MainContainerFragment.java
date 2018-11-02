@@ -125,7 +125,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
             fragment = HomeScreenFragment.getNewInstance(getContainerName(), (int) data);
           }
           if (screenKey.equals(Screens.PLACE_SCREEN)) {
-            fragment = PlaceScreenFragment.getNewInstance(mainActivity.getArenaName(), (ArrayList<OrderModel>) data);
+            fragment = PlaceScreenFragment.getNewInstance(getContainerName(), (ArrayList<OrderModel>) data);
           }
           if (screenKey.equals(Screens.USER_SCREEN)) {
             fragment = ProfileScreenFragment.getNewInstance(getContainerName(), (int) data);

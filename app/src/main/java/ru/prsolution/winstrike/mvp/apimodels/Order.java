@@ -9,7 +9,6 @@ public class Order {
   @SerializedName("room_name")
   @Expose
   private String roomName;
-
   @SerializedName("place")
   @Expose
   private Place place;
