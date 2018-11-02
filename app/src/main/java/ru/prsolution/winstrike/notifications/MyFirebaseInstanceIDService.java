@@ -37,7 +37,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     OnTockenUpdate listener;
 
 
-    private static final String TAG = "MyFirebaseIIDService";
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
