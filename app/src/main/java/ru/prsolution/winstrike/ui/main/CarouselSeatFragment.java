@@ -83,7 +83,7 @@ public class CarouselSeatFragment extends Fragment {
     TextView seat_title = itemSeat.findViewById(R.id.seat_title);
     seat_title.setText(seat.getType());
     SimpleDraweeView thumbnail = itemSeat.findViewById(R.id.content);
-    Uri uri = Uri.parse(rooms.get(this.mSelectedArena).getImageUrl());
+    Uri uri = Uri.parse(seat.getImgCarousel());
     thumbnail.setImageURI(uri);
 
     ChooseSeatLinearLayout root = itemSeat.findViewById(R.id.root);
@@ -108,7 +108,7 @@ public class CarouselSeatFragment extends Fragment {
     } else if (arena == 1) {
       if (mPosition == 0) {
         return new SeatModel(getString(R.string.common_hall),
-            rooms.get(arena).getImageUrl()
+            rooms.get(arena).getUsualImageUrl()
             , rooms.get(arena).getUsualDescription()
         );
       } else {
