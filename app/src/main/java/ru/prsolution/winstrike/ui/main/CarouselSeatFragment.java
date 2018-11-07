@@ -82,6 +82,7 @@ public class CarouselSeatFragment extends Fragment {
 
     TextView seat_title = itemSeat.findViewById(R.id.seat_title);
     seat_title.setText(seat.getType());
+
     SimpleDraweeView thumbnail = itemSeat.findViewById(R.id.content);
     Uri uri = Uri.parse(seat.getImgCarousel());
     thumbnail.setImageURI(uri);

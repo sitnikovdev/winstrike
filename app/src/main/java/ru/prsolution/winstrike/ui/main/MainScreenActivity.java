@@ -507,7 +507,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       viewPagerSeat.setVisibility(VISIBLE);
     } else {
       setArenaVisibility(false);
-      binding.seatTitle.setVisibility(GONE);
+      binding.seatCat.setVisibility(GONE);
       viewPagerSeat.setVisibility(GONE);
     }
   }
