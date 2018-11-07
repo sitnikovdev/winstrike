@@ -1,6 +1,8 @@
 package ru.prsolution.winstrike.di.module;
 
 
+import android.content.Context;
+import com.readystatesoftware.chuck.ChuckInterceptor;
 import java.io.File;
 import java.io.IOException;
 
@@ -25,9 +27,11 @@ import ru.prsolution.winstrike.utils.Constants;
 @Module
 public class NetworkModule {
     File cacheFile;
+    Context context;
 
-    public NetworkModule(File cacheFile) {
+    public NetworkModule(File cacheFile, Context context) {
         this.cacheFile = cacheFile;
+        this.context = context;
     }
 
     @Provides
@@ -56,9 +60,11 @@ public class NetworkModule {
                     // Customize or return the response
                     return response;
                 })
+                .addInterceptor(new ChuckInterceptor(context))
                 .cache(cache)
                 .build();
 
+      //Chuck
 
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASEURL)

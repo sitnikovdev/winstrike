@@ -48,7 +48,7 @@ public class WinstrikeApp extends Application {
             File cacheFile = new File(getCacheDir(), "responses");
             sAppComponent = DaggerAppComponent.builder()
                     .contextModule(new ContextModule(this))
-                    .networkModule(new NetworkModule(cacheFile))
+                    .networkModule(new NetworkModule(cacheFile, getApplicationContext()))
                     .build();
         }
         return sAppComponent;
@@ -56,7 +56,7 @@ public class WinstrikeApp extends Application {
 
     public Service getService() {
         File cacheFile = new File(getCacheDir(), "responses");
-        NetworkModule networkModule = new NetworkModule(cacheFile);
+        NetworkModule networkModule = new NetworkModule(cacheFile, getApplicationContext());
         Retrofit retrofit = networkModule.provideCall();
         return new Service(networkModule.providesNetworkService(retrofit));
     }

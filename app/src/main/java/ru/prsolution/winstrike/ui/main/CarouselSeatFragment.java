@@ -102,7 +102,7 @@ public class CarouselSeatFragment extends Fragment {
 
     if ( arena == 0) {
       return new SeatModel(getString(R.string.common_hall),
-          rooms.get(arena).getImageUrl()
+          rooms.get(arena).getUsualImageUrl()
           , rooms.get(arena).getUsualDescription()
       );
     } else if (arena == 1) {
@@ -113,7 +113,7 @@ public class CarouselSeatFragment extends Fragment {
         );
       } else {
         return new SeatModel(getString(R.string.vip_hp),
-            rooms.get(arena).getImageUrl()
+            rooms.get(arena).getVipImageUrl()
             , rooms.get(arena).getVipDescription()
         );
       }

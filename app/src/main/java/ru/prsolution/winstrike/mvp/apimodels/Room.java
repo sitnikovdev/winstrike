@@ -44,6 +44,10 @@ public class Room implements Serializable {
   @Expose
   private String usualImageUrl;
 
+  @SerializedName("vip_image_url")
+  @Expose
+  private String vipImageUrl;
+
   @SerializedName("vip_description")
   @Expose
   private String vipDescription;
@@ -126,6 +130,14 @@ public class Room implements Serializable {
 
   public void setMetro(String metro) {
     this.metro = metro;
+  }
+
+  public String getVipImageUrl() {
+    return vipImageUrl;
+  }
+
+  public void setVipImageUrl(String vipImageUrl) {
+    this.vipImageUrl = vipImageUrl;
   }
 }
 
