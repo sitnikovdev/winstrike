@@ -22,6 +22,8 @@ class SeatModel(var type: @NotNull String, imageUrl: @NotNull String, usualDescr
 
     init {
 
+
+
 /*        if (type.contains("VIP HP")) {
             img = R.drawable.vip
             imgCarousel = imageUrl

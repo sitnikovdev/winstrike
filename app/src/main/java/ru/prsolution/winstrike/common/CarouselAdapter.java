@@ -28,6 +28,7 @@ public class CarouselAdapter extends FragmentPagerAdapter implements ViewPager.P
   public Float BIG_SCALE;
   public Float SMALL_SCALE;
   public Float DIFF_SCALE;
+  private String hall_name;
 
   public void setPagesCount(int pages) {
     this.PAGES = pages;
@@ -57,7 +58,8 @@ public class CarouselAdapter extends FragmentPagerAdapter implements ViewPager.P
   }
 
 
-  public void addFragment(Fragment fragment, int position) {
+  public void addFragment(Fragment fragment, int position, String hall_name) {
+    this.hall_name = hall_name;
     mFragmentList.add(position, fragment);
   }
 

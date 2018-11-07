@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,8 @@ public class CarouselSeatFragment extends Fragment {
   OnChoosePlaceButtonsClickListener listener;
   private View itemSeat;
   private static final String ACTIVE_ARENA = "extra_number";
-  private int mPosition;
+  private int mSelectedArena;
+  private int mPosition = 0;
   private List<Room> rooms;
   private MainScreenActivity mainScreenActivity;
 
@@ -51,6 +53,16 @@ public class CarouselSeatFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    final Bundle bdl = getArguments();
+
+    try
+    {
+      mPosition = bdl.getInt("pos");
+    }
+    catch(final Exception e)
+    {
+      // Do nothing
+    }
   }
 
 
@@ -64,14 +76,14 @@ public class CarouselSeatFragment extends Fragment {
     }
     itemSeat = inflater.inflate(R.layout.item_seats, container, false);
 
-    this.mPosition = mainScreenActivity.selectedArena;
+    this.mSelectedArena = mainScreenActivity.selectedArena;
     this.rooms = mainScreenActivity.rooms;
-    SeatModel seat = setUpFragmentData(mPosition);
+    SeatModel seat = setUpFragmentData(mSelectedArena);
 
     TextView seat_title = itemSeat.findViewById(R.id.seat_title);
     seat_title.setText(seat.getType());
     SimpleDraweeView thumbnail = itemSeat.findViewById(R.id.content);
-    Uri uri = Uri.parse(rooms.get(this.mPosition).getImageUrl());
+    Uri uri = Uri.parse(rooms.get(this.mSelectedArena).getImageUrl());
     thumbnail.setImageURI(uri);
 
     ChooseSeatLinearLayout root = itemSeat.findViewById(R.id.root);
@@ -86,22 +98,28 @@ public class CarouselSeatFragment extends Fragment {
 
   }
 
-  public SeatModel setUpFragmentData(int pos) {
+  public SeatModel setUpFragmentData(int arena) {
 
-    if (pos == 0) {
+    if ( arena == 0) {
       return new SeatModel(getString(R.string.common_hall),
-          rooms.get(0).getImageUrl()
-          , rooms.get(0).getUsualDescription()
+          rooms.get(arena).getImageUrl()
+          , rooms.get(arena).getUsualDescription()
       );
-    } else if (pos == 1) {
-      return new SeatModel(getString(R.string.vip_hp),
-          rooms.get(1).getImageUrl()
-          , rooms.get(0).getUsualDescription()
-      );
+    } else if (arena == 1) {
+      if (mPosition == 0) {
+        return new SeatModel(getString(R.string.common_hall),
+            rooms.get(arena).getImageUrl()
+            , rooms.get(arena).getUsualDescription()
+        );
+      } else {
+        return new SeatModel(getString(R.string.vip_hp),
+            rooms.get(arena).getImageUrl()
+            , rooms.get(arena).getVipDescription()
+        );
+      }
     } else {
       return null;
     }
-
   }
 
   public static Fragment newInstance(Context c, int pos) {

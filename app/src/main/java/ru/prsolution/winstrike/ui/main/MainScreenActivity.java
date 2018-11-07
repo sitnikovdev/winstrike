@@ -61,7 +61,6 @@ import ru.prsolution.winstrike.mvp.presenters.MainScreenPresenter;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
-import ru.prsolution.winstrike.ui.login.RegisterActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.main.AppFragment.OnAppButtonsClickListener;
 import ru.prsolution.winstrike.ui.main.ArenaSelectAdapter.OnItemArenaClickListener;
@@ -69,7 +68,6 @@ import ru.prsolution.winstrike.ui.main.CarouselSeatFragment.OnChoosePlaceButtons
 import ru.prsolution.winstrike.ui.main.ChooseScreenFragment.onMapShowProcess;
 import ru.prsolution.winstrike.ui.main.ProfileFragment.OnProfileButtonsClickListener;
 import ru.prsolution.winstrike.ui.start.SplashActivity;
-import ru.prsolution.winstrike.ui.start.StartActivity;
 import ru.prsolution.winstrike.utils.Constants;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -262,12 +260,19 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding.rvArena.getAdapter().notifyDataSetChanged();
   }
 
-  private void initCarouselArenaSeat(int pos) {
+  private void initCarouselArenaSeat() {
 
     float widthPx = WinstrikeApp.getInstance().getDisplayWidhtPx();
 
-    adapter.setPagesCount(1);
-    adapter.addFragment(CarouselSeatFragment.newInstance(this, pos), 0);
+    if (!TextUtils.isEmpty(this.rooms.get(selectedArena).getUsualDescription()) && !TextUtils
+        .isEmpty(this.rooms.get(selectedArena).getVipDescription())) {
+      adapter.setPagesCount(2);
+      adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0, "Общий зал");
+      adapter.addFragment(CarouselSeatFragment.newInstance(this, 1), 1, "Vip зал");
+    } else {
+      adapter.setPagesCount(1);
+      adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0, "Общий зал");
+    }
     adapter.notifyDataSetChanged();
     viewPagerSeat.setAdapter(adapter);
     viewPagerSeat.setPageTransformer(false, adapter);
@@ -464,7 +469,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding.headImage.setImageURI(uri);
     binding.getUser().setName(rooms.get(selectedArena).getName());
     binding.arenaDescription.setText(rooms.get(selectedArena).getDescription());
-    initCarouselArenaSeat(this.selectedArena);
+    initCarouselArenaSeat();
   }
 
   private void initViews() {
