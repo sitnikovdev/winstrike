@@ -150,5 +150,8 @@ dependencies {
     debugCompile 'com.readystatesoftware.chuck:library:1.1.0'
     releaseCompile 'com.readystatesoftware.chuck:library-no-op:1.1.0'
 
+    // testing
+    testImplementation "org.robolectric:robolectric:4.0.2"
+
 }
 apply plugin: 'com.google.gms.google-services'
