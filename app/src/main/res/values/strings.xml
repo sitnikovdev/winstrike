@@ -163,4 +163,5 @@
   <string name="vip_lg_sennheiser">VIP LG &amp; Sennheiser</string>
   <string name="vip_hp">VIP HP</string>
   <string name="common_hall">Общий зал</string>
+  <string name="empty_hall">Empty hall</string>
 </resources>

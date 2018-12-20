@@ -55,12 +55,9 @@ public class CarouselSeatFragment extends Fragment {
     super.onCreate(savedInstanceState);
     final Bundle bdl = getArguments();
 
-    try
-    {
+    try {
       mPosition = bdl.getInt("pos");
-    }
-    catch(final Exception e)
-    {
+    } catch (final Exception e) {
       // Do nothing
     }
   }
@@ -101,12 +98,8 @@ public class CarouselSeatFragment extends Fragment {
 
   public SeatModel setUpFragmentData(int arena) {
 
-    if ( arena == 0) {
-      return new SeatModel(getString(R.string.common_hall),
-          rooms.get(arena).getUsualImageUrl()
-          , rooms.get(arena).getUsualDescription()
-      );
-    } else if (arena == 1) {
+    if (!TextUtils.isEmpty(rooms.get(arena).getUsualDescription()) &&
+        !TextUtils.isEmpty(rooms.get(arena).getVipDescription())) {
       if (mPosition == 0) {
         return new SeatModel(getString(R.string.common_hall),
             rooms.get(arena).getUsualImageUrl()
@@ -114,12 +107,26 @@ public class CarouselSeatFragment extends Fragment {
         );
       } else {
         return new SeatModel(getString(R.string.vip_hp),
-            rooms.get(arena).getVipImageUrl()
-            , rooms.get(arena).getVipDescription()
+            rooms.get(arena).getUsualImageUrl()
+            , rooms.get(arena).getUsualDescription()
         );
       }
+    } else if (!TextUtils.isEmpty(rooms.get(arena).getUsualDescription())) {
+      return new SeatModel(getString(R.string.common_hall),
+          rooms.get(arena).getUsualImageUrl()
+          , rooms.get(arena).getUsualDescription()
+      );
+    } else if (!TextUtils.isEmpty(rooms.get(arena).getVipDescription())) {
+      return new SeatModel(getString(R.string.vip_hp),
+          rooms.get(arena).getUsualImageUrl()
+          , rooms.get(arena).getUsualDescription()
+      );
     } else {
-      return null;
+      return new SeatModel(getString(R.string.common_hall),
+          rooms.get(arena).getUsualImageUrl()
+          , rooms.get(arena).getUsualDescription()
+      );
+
     }
   }
 

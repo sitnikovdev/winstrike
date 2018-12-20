@@ -384,11 +384,18 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       startActivity(intent);
     } else {
 
-      titles = new String[]{rooms.get(0).getName(), rooms.get(1).getName()};
-      address = new String[]{rooms.get(0).getMetro(), rooms.get(1).getMetro()};
+      ArrayList<String> arenaTitle = new ArrayList<>();
+      ArrayList<String> arenaAdress = new ArrayList<>();
+      for (Room room : rooms
+      ) {
+         arenaTitle.add(room.getName());
+         arenaAdress.add(room.getMetro());
+      }
+//      titles = new String[]{rooms.get(0).getName(), rooms.get(1).getName()};
+//      address = new String[]{rooms.get(0).getMetro(), rooms.get(1).getMetro()};
 
-      for (int i = 0; i < titles.length; i++) {
-        arenaItems.add(new ArenaItem((titles[i]), address[i], false));
+      for (int i = 0; i < arenaTitle.size(); i++) {
+        arenaItems.add(new ArenaItem((arenaTitle.get(i)), arenaAdress.get(i), false));
       }
 
       sharedPref = getPreferences(Context.MODE_PRIVATE);
