@@ -17,3 +17,4 @@ app/*.iml
 app/libs
 app/proguard-rules.pro
 app/release/*
+app/release/output.json

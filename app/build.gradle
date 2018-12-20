@@ -16,7 +16,7 @@ android {
         release {
             keyAlias 'MyAndroidKey'
             keyPassword 'access'
-            storeFile file('/Users/designer/Library/Mobile Documents/com~apple~CloudDocs/icloud/android.jks')
+            storeFile file('/Users/oleg/Project/Winstrike/signing/release/store.jks')
             storePassword 'access'
         }
     }
