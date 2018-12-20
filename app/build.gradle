@@ -13,7 +13,7 @@ apply plugin: 'kotlin-android'
 
 android {
     signingConfigs {
-        signingConfig {
+        release {
             keyAlias 'MyAndroidKey'
             keyPassword 'access'
             storeFile file('/Users/designer/Library/Mobile Documents/com~apple~CloudDocs/icloud/android.jks')
@@ -32,18 +32,25 @@ android {
         buildConfigField "int", "LIMIT", "100"
         buildConfigField "String", "BASEURL", "\"http://46.254.21.94:9000/api/v1/\""
         buildConfigField "int", "CACHETIME", "432000" // 5days
-        signingConfig signingConfigs.signingConfig
         resConfigs "en", "ru"
     }
     buildTypes {
         debug {
+            versionNameSuffix "-debug"
+            signingConfig signingConfigs.debug
         }
         release {
             minifyEnabled false
             debuggable false
-            signingConfig signingConfigs.signingConfig
+            signingConfig signingConfigs.release
         }
     }
+
+    signingConfigs {
+        release
+        debug
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -154,4 +161,6 @@ dependencies {
     testImplementation "org.robolectric:robolectric:4.0.2"
 
 }
+
+apply from: '../signing/signing.gradle'
 apply plugin: 'com.google.gms.google-services'
