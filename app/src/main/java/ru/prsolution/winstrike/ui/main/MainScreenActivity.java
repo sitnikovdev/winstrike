@@ -106,9 +106,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
   private Dialog mDlgMapLegend;
   private UserProfileObservable user = new UserProfileObservable();
   private AcMainscreenBinding binding;
-  private ArrayList<ArenaItem> arenaItems = new ArrayList<ArenaItem>();
-  private String[] titles;
-  private String[] address;
+  private ArrayList<ArenaItem> arenaItems = new ArrayList<>();
   private ConstraintSet arenaUpConstraintSet = new ConstraintSet();
   private ConstraintSet arenaDownConstraintSet = new ConstraintSet();
   SharedPreferences sharedPref;
@@ -413,6 +411,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       binding.rvArena.setAdapter(new ArenaSelectAdapter(this, this, arenaItems));
       binding.rvArena.setLayoutManager(new LinearLayoutManager(this));
       binding.rvArena.addItemDecoration(new RecyclerViewMargin(24, 1));
+      binding.rvArena.bringToFront();
       binding.rvArena.getAdapter().notifyDataSetChanged();
 
       ButterKnife.bind(this);
