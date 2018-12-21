@@ -12,20 +12,12 @@ apply plugin: 'io.fabric'
 apply plugin: 'kotlin-android'
 
 android {
+
     signingConfigs {
-        release {
-            keyAlias 'MyAndroidKey'
-            keyPassword 'access'
-            storeFile file('/Users/oleg/Project/Winstrike/signing/release/store.jks')
-            storePassword 'access'
-        }
-        debug {
-            keyAlias 'MyAndroidKey'
-            keyPassword 'access'
-            storeFile file('/Users/oleg/Project/Winstrike/signing/debug/store.jks')
-            storePassword 'access'
-        }
+        release
+        debug
     }
+
     compileSdkVersion 28
     defaultConfig {
         applicationId "ru.prsolution.winstrike"
@@ -42,10 +34,12 @@ android {
     }
     buildTypes {
         debug {
+            signingConfig signingConfigs.debug
         }
         release {
             minifyEnabled false
             debuggable false
+            signingConfig signingConfigs.release
         }
     }
 
@@ -160,4 +154,5 @@ dependencies {
 
 }
 
+apply from: '../signing/signing.gradle'
 apply plugin: 'com.google.gms.google-services'
