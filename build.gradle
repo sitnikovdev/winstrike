@@ -29,6 +29,7 @@ allprojects {
         jcenter()
         google()
         maven { url 'https://jitpack.io' }
+        buildDir = "/Users/oleg/Builds/${rootProject.name}/${project.name}"
     }
 }
 
