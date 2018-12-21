@@ -11,7 +11,7 @@ task signReleaseBuild(type: Task, dependsOn: "assembleRelease") {
 def initSigningProperties(folder, config) {
     println ":: Initialize signing properties with folder: ${folder}"
 
-    def Properties props = new Properties()
+    Properties props = new Properties()
 
     println ":: Initialize signing properties with folder: ${folder}"
     def propFile = file("${SIGNING_FOLDER}${folder}${SIGNING_PROPERTIES}")
@@ -34,19 +34,13 @@ def initSigningProperties(folder, config) {
                 println ":: Build is signed."
             } else {
                 println ":: [ERROR] Can't read keystoreFile (${keystoreFile})."
-//                config.signingConfig = null
             }
         } else {
             println ":: [ERROR] Not found all keys in ${SIGNING_PROPERTIES}"
-//            config.signingConfig = null
         }
     } else {
         println ":: [ERROR] Can't read properties file (${propFile})."
-//        config.signingConfig = null
     }
 
 }
 
-
-//assembleDebug.dependsOn signDebugBuild;
-//assembleRelease.dependsOn signReleaseBuild;
