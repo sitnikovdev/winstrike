@@ -23,20 +23,21 @@ android {
         applicationId "ru.prsolution.winstrike"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 49
-        versionName '1.0.5.1'
+        versionCode 50
+        versionName '1.0.5.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "int", "LIMIT", "100"
-        buildConfigField "String", "BASEURL", "\"http://api.winstrike.ru:8000/api/v1/\""
         buildConfigField "int", "CACHETIME", "432000" // 5days
         resConfigs "en", "ru"
     }
     buildTypes {
         debug {
+            buildConfigField "String", "DEGUGURL", "\"http://46.254.21.94:9000/api/v1/\""
             signingConfig signingConfigs.debug
         }
         release {
+            buildConfigField "String", "BASEURL", "\"http://api.winstrike.ru:8000/api/v1/\""
             minifyEnabled false
             debuggable false
             signingConfig signingConfigs.release

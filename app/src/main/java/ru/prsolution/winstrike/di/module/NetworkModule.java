@@ -67,7 +67,7 @@ public class NetworkModule {
       //Chuck
 
         return new Retrofit.Builder()
-                .baseUrl(BuildConfig.BASEURL)
+                .baseUrl(BuildConfig.DEGUGURL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
