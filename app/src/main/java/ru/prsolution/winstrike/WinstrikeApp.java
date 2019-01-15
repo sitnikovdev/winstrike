@@ -2,9 +2,7 @@ package ru.prsolution.winstrike;
 
 import android.app.Application;
 import android.util.DisplayMetrics;
-import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import io.fabric.sdk.android.Fabric;
 import java.io.File;
 import java.util.List;
 import retrofit2.Retrofit;
@@ -31,7 +29,7 @@ public class WinstrikeApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
         INSTANCE = this;
 
         Fresco.initialize(this);

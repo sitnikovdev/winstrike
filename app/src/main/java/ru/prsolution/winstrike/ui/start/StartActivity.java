@@ -4,11 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
-
-import io.fabric.sdk.android.Fabric;
 import ru.prsolution.winstrike.WinstrikeApp;
 import timber.log.Timber;
 
@@ -29,13 +24,6 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        Fabric.with(this, new Crashlytics());
-
-        CrashlyticsCore core = new CrashlyticsCore.Builder()
-                .disabled(WinstrikeApp.DEBUG)
-                .build();
-        Fabric.with(this, new Crashlytics.Builder().core(core).build(), new Crashlytics());
 
         if (WinstrikeApp.DEBUG) {
             Timber.plant(new Timber.DebugTree());
