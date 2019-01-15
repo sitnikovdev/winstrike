@@ -50,80 +50,80 @@ android {
 
 
 dependencies {
-    //kotlin
+    /** kotlin */
     implementation(Libraries.kotlin)
 
-    // android appcompat
-    /** Android */
+    /** Android AppCompat*/
     implementation(Libraries.appCompat)
-    //  constraint layout
+
+    /**  constraint layout */
     implementation(Libraries.constraintLayout)
-    //recyclerview
+
+    /** recyclerview */
     implementation(Libraries.recyclerView)
-    //cardview
+
+    /** cardview */
     implementation(Libraries.cardView)
 
-    //material desing
+    /** material desing */
     implementation(Libraries.design)
 
-    //fresco
+    /** fresco */
     implementation(Libraries.fresco)
 
-    //lottie
+    /** lottie */
     implementation(Libraries.lottie)
 
-    //phone mask
+    /** phone mask */
     implementation(Libraries.decoro)
 
-    //password
+    /** password */
     implementation(Libraries.showhidepasswordedittext)
 
-    // calendar
+    /** calendar */
     implementation(Libraries.materialCalendarView)
 
-    // bottom navigation bar
+    /** bottom navigation bar */
     implementation(Libraries.ahbottomnavigation)
 
-    //gson
+    /** gson */
     implementation(Libraries.gson)
 
-    // Retrofit & OkHttp
+    /** Retrofit & OkHttp */
     implementation(Libraries.retrofit)
     implementation(Libraries.retrofitAdapterrxJava)
     implementation(Libraries.retrofitGson)
     implementation(Libraries.retrofitConverterScalars)
 
-    // Rx Java 1
+    /** Rx Java 1 */
     implementation(Libraries.rxAndroid)
 
-    // butterknife
+    /** butterknife */
     implementation(Libraries.butterKnife)
     annotationProcessor(Libraries.butterKnifeCompiler)
 
-    // timber log
+    /** timber log */
     implementation(Libraries.timber)
 
-    // moxy & cicerone
+    /** moxy & cicerone */
     implementation(Libraries.moxy)
     implementation(Libraries.moxyAppCompat)
     annotationProcessor(Libraries.moxyCompiler)
     implementation(Libraries.cicerone)
 
-    //dagger2
+    /** dagger2 */
     implementation(Libraries.dagger)
     annotationProcessor(Libraries.daggerCompiler)
 
-
-// fcm
+    /** fcm */
     implementation(Libraries.fireBase)
     implementation(Libraries.fireBaseMessaging)
 
-// chuck
+    /** chuck */
     debugImplementation(Libraries.chuck)
     releaseImplementation(Libraries.chuckRelease)
 
     /*
-
         // testing
         testImplementation("org.robolectric:robolectric:4.0.2")
         implementation fileTree("include: [")*.jar")], dir:("libs"))
@@ -132,7 +132,6 @@ dependencies {
         testImplementation "junit:junit:4.12"
         androidTestImplementation "com.android.support.test:runner:1.0.2"
         androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
-
     */
 
     //fabric: crashlytics
