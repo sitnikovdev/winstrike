@@ -12,7 +12,9 @@ object Release {
 }
 
 object Versions {
-    val gradle = "3.4.0-alpha10"
+    val gradle = "3.5.0-alpha01"
+    val proguardGradle = "6.0.3"
+    val gradleWrapper = "5.1.1-all"
     val targetSdk = 28
     val compileSdk = 28
     val minSdk = 21
