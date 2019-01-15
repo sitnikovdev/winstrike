@@ -1,38 +1,31 @@
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-
-    dependencies {
-    }
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "com.google.gms.google-services"
 }
-apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
-apply plugin: 'kotlin-android'
 
 android {
+
+    compileSdkVersion(28)
+    defaultConfig {
+        applicationId "ru.prsolution.winstrike"
+        minSdkVersion(21)
+        targetSdkVersion(28)
+        versionCode = 50
+        versionName = "1.50.0"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
 
     signingConfigs {
         release
         debug
     }
 
-    compileSdkVersion 28
-    defaultConfig {
-        applicationId "ru.prsolution.winstrike"
-        minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 50
-        versionName '1.50.0'
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
-        buildConfigField "int", "LIMIT", "100"
-        buildConfigField "int", "CACHETIME", "432000" // 5days
-        resConfigs "en", "ru"
-    }
     buildTypes {
         debug {
+//            buildConfigField "int", "LIMIT", "100"
+//            buildConfigField "int", "CACHETIME", "432000" // 5days
             buildConfigField "String", "DEGUGURL", "\"http://46.254.21.94:9000/api/v1/\""
             signingConfig signingConfigs.debug
         }
@@ -58,11 +51,11 @@ android {
     }
 
     lintOptions {
-
         checkReleaseBuilds false
-
     }
+
 }
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -156,4 +149,3 @@ dependencies {
 }
 
 apply from: '../signing/signing.gradle'
-apply plugin: 'com.google.gms.google-services'
