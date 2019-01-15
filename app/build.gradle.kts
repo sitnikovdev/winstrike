@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(Versions.targetSdk)
     defaultConfig {
-        applicationId = "ru.prsolution.winstrike"
-        minSdkVersion(21)
-        targetSdkVersion(28)
-        versionCode = 50
-        versionName = "1.50.0"
+        applicationId = ApplicationId.id
+        targetSdkVersion(Versions.targetSdk)
+        minSdkVersion(Versions.minSdk)
+        versionCode = Release.versionCode
+        versionName = Release.versionName
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -20,22 +20,15 @@ android {
 
     buildTypes {
         getByName("debug") {
-            buildConfigField("String", "DEGUGURL", "\"http://46.254.21.94:9000/api/v1/\"")
+            buildConfigField("String", "DEBUGURL", Constants.DEBUGURL)
 //            signingConfig signingConfigs.debug
         }
         getByName("release") {
-            buildConfigField("String", "BASEURL", "\"http://api.winstrike.ru:8000/api/v1/\"")
+            buildConfigField("String", "BASEURL", Constants.BASEURL)
             isMinifyEnabled = false
 //            signingConfig signingConfigs.release
         }
     }
-/*    signingConfigs {
-        release
-        debug
-    }*/
-/*    lintOptions {
-        checkReleaseBuilds false
-    }*/
 
     compileOptions {
         setSourceCompatibility(1.8)
@@ -46,6 +39,15 @@ android {
         isEnabled = true
     }
 
+    lintOptions {
+        isCheckReleaseBuilds = false
+    }
+
+/*    signingConfigs {
+        release
+        debug
+    }
+    */
 }
 
 
@@ -122,22 +124,6 @@ dependencies {
     /** chuck */
     debugImplementation(Libraries.chuck)
     releaseImplementation(Libraries.chuckRelease)
-
-    /*
-        // testing
-        testImplementation("org.robolectric:robolectric:4.0.2")
-        implementation fileTree("include: [")*.jar")], dir:("libs"))
-
-        // test
-        testImplementation "junit:junit:4.12"
-        androidTestImplementation "com.android.support.test:runner:1.0.2"
-        androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
-    */
-
-    //fabric: crashlytics
-/*    implementation("com.crashlytics.sdk.android:crashlytics:2.9.3@aar") {
-    transitive = true
-}*/
 
 }
 

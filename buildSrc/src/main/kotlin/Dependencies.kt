@@ -1,5 +1,5 @@
 object ApplicationId {
-    val id = ""
+    val id = "ru.prsolution.winstrike"
 }
 
 object Modules {
@@ -7,15 +7,15 @@ object Modules {
 }
 
 object Release {
-    val versionCode = 1
-    val versionName = ""
+    val versionCode = 50
+    val versionName = "1.50.0"
 }
 
 object Versions {
     val gradle = "3.4.0-alpha10"
-    val compileSdk = "28"
-    val minSdk = "21"
-    val targetSdk = "28"
+    val targetSdk = 28
+    val compileSdk = 28
+    val minSdk = 21
     val googleServicies = "4.2.0"
     val firebase = "16.0.4"
     val fabric = "1.27.0"
@@ -84,7 +84,10 @@ object Libraries {
     val fireBaseMessaging = "com.google.firebase:firebase-messaging:17.3.4"
     val chuck = "com.readystatesoftware.chuck:library:1.1.0"
     val chuckRelease = "com.readystatesoftware.chuck:library-no-op:1.1.0"
+}
 
-
+object Constants {
+    val DEBUGURL = "\"http://46.254.21.94:9000/api/v1/\""
+    val BASEURL = "\"http://api.winstrike.ru:8000/api/v1/\""
 
 }
