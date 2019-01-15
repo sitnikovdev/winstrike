@@ -21,12 +21,10 @@ android {
     buildTypes {
         getByName("debug") {
             buildConfigField("String", "DEBUGURL", Constants.DEBUGURL)
-//            signingConfig signingConfigs.debug
         }
         getByName("release") {
             buildConfigField("String", "BASEURL", Constants.BASEURL)
             isMinifyEnabled = false
-//            signingConfig signingConfigs.release
         }
     }
 
@@ -43,11 +41,6 @@ android {
         isCheckReleaseBuilds = false
     }
 
-/*    signingConfigs {
-        release
-        debug
-    }
-    */
 }
 
 
