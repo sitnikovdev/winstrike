@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.mvp.presenters;
+package ru.prsolution.winstrike.ui.splash;
 
 
 import ru.prsolution.winstrike.mvp.apimodels.Arenas;
@@ -8,7 +8,7 @@ import ru.prsolution.winstrike.mvp.models.LoginViewModel;
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
 import ru.prsolution.winstrike.networking.NetworkError;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.ui.start.SplashActivity;
+import ru.prsolution.winstrike.ui.splash.SplashActivity;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 

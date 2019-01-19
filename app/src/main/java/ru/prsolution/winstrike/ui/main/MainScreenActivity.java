@@ -67,7 +67,7 @@ import ru.prsolution.winstrike.ui.main.ArenaSelectAdapter.OnItemArenaClickListen
 import ru.prsolution.winstrike.ui.main.CarouselSeatFragment.OnChoosePlaceButtonsClickListener;
 import ru.prsolution.winstrike.ui.main.ChooseScreenFragment.onMapShowProcess;
 import ru.prsolution.winstrike.ui.main.ProfileFragment.OnProfileButtonsClickListener;
-import ru.prsolution.winstrike.ui.start.SplashActivity;
+import ru.prsolution.winstrike.ui.splash.SplashActivity;
 import ru.prsolution.winstrike.utils.Constants;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;

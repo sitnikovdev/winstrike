@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.start;
+package ru.prsolution.winstrike.ui.splash;
 
 import android.animation.Animator;
 import android.content.Intent;
@@ -22,13 +22,11 @@ import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel;
 import ru.prsolution.winstrike.mvp.apimodels.Room;
 import ru.prsolution.winstrike.mvp.models.MessageResponse;
-import ru.prsolution.winstrike.mvp.presenters.SplashPresenter;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.guides.GuideActivity;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
 import ru.prsolution.winstrike.ui.main.MainScreenActivity;
-import ru.prsolution.winstrike.utils.Constants;
 import timber.log.Timber;
 
 

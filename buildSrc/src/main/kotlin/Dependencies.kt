@@ -67,11 +67,23 @@ object Libraries {
     val showhidepasswordedittext = "com.github.scottyab:showhidepasswordedittext:0.8"
     val materialCalendarView = "com.applandeo:material-calendar-view:1.4.0"
     val ahbottomnavigation = "com.aurelhubert:ahbottomnavigation:2.0.4"
-    val gson = "com.google.code.gson:gson:2.8.5"
+
+    // networking
     val retrofit = "com.squareup.retrofit2:retrofit:2.5.0"
     val retrofitAdapterrxJava  = "com.squareup.retrofit2:adapter-rxjava:2.3.0"
     val retrofitGson = "com.squareup.retrofit2:converter-gson:2.5.0"
+    val gson = "com.google.code.gson:gson:2.8.5"
     val retrofitConverterScalars = "com.squareup.retrofit2:converter-scalars:2.1.0"
+    val retrofitCoroutines = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
+    val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0"
+    val moshi = "com.squareup.retrofit2:converter-moshi:2.5.0"
+
+    val okhttp = "com.squareup.okhttp3:okhttp:3.12.0"
+    val okhttpLoging = "com.squareup.okhttp3:logging-interceptor:3.12.0"
+
+    val anko = "org.jetbrains.anko:anko:0.10.8"
+
+
     val rxAndroid = "io.reactivex:rxandroid:1.2.1"
     val butterKnife = "com.jakewharton:butterknife:8.8.1"
     val butterKnifeCompiler =  "com.jakewharton:butterknife-compiler:8.8.1"
@@ -84,6 +96,8 @@ object Libraries {
     val daggerCompiler = "com.google.dagger:dagger-compiler:2.19"
     val fireBase =  "com.google.firebase:firebase-core:16.0.6"
     val fireBaseMessaging = "com.google.firebase:firebase-messaging:17.3.4"
+
+    // Loging
     val chuck = "com.readystatesoftware.chuck:library:1.1.0"
     val chuckRelease = "com.readystatesoftware.chuck:library-no-op:1.1.0"
 }

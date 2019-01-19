@@ -21,7 +21,7 @@ import ru.prsolution.winstrike.ui.main.MapScreenFragment;
 import ru.prsolution.winstrike.ui.main.PayScreenFragment;
 import ru.prsolution.winstrike.ui.main.PlaceScreenFragment;
 import ru.prsolution.winstrike.ui.main.ProfileScreenFragment;
-import ru.prsolution.winstrike.ui.start.SplashActivity;
+import ru.prsolution.winstrike.ui.splash.SplashActivity;
 
 /**
  * Created by ennur on 6/28/16.

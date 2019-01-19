@@ -41,6 +41,10 @@ android {
         isCheckReleaseBuilds = false
     }
 
+    sourceSets {
+        getByName("main").java.srcDirs("src/main/kotlin")
+    }
+
 }
 
 
@@ -84,11 +88,26 @@ dependencies {
     /** gson */
     implementation(Libraries.gson)
 
-    /** Retrofit & OkHttp */
+    /** Retrofit  */
     implementation(Libraries.retrofit)
     implementation(Libraries.retrofitAdapterrxJava)
     implementation(Libraries.retrofitGson)
     implementation(Libraries.retrofitConverterScalars)
+    implementation(Libraries.retrofitCoroutines)
+
+    /** moshi */
+    implementation(Libraries.moshi)
+
+    /** okhttp */
+    implementation(Libraries.okhttp)
+    implementation(Libraries.okhttpLoging)
+
+    /** coroutines */
+    implementation(Libraries.coroutines)
+
+    /** anko from jetbrain */
+    implementation(Libraries.anko)
+
 
     /** Rx Java 1 */
     implementation(Libraries.rxAndroid)
