@@ -1,77 +1,49 @@
 package ru.prsolution.winstrike.ui.splash
 
 
-import ru.prsolution.winstrike.mvp.apimodels.Arenas
-import ru.prsolution.winstrike.mvp.apimodels.AuthResponse
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel
-import ru.prsolution.winstrike.mvp.models.LoginViewModel
-import ru.prsolution.winstrike.mvp.models.MessageResponse
-import ru.prsolution.winstrike.networking.NetworkError
+import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.networking.Service
-import ru.prsolution.winstrike.ui.splash.SplashActivity
-import rx.Subscription
 import rx.subscriptions.CompositeSubscription
+import timber.log.Timber
 
 class SplashPresenter(private val service: Service, private val activity: SplashActivity) {
-    private val subscriptions: CompositeSubscription
+    private val subscriptions: CompositeSubscription = CompositeSubscription()
 
-    init {
-        this.subscriptions = CompositeSubscription()
-    }
-
-    fun signIn(user: LoginViewModel) {
-        //        activity.showWait();
-
-        val subscription = service.authUser(object : Service.AuthCallback {
-            override fun onSuccess(authResponse: AuthResponse) {
-                //                activity.removeWait();
-                activity.onAuthResponseSuccess(authResponse)
-            }
-
-            override fun onError(networkError: NetworkError) {
-                //                activity.removeWait();
-                activity.onAuthFailure(networkError.appErrorMessage)
-            }
-
-        }, user)
-
-        subscriptions.add(subscription)
-    }
-
+    private val retrofitService = RetrofitFactory.makeRetrofitService()
 
     fun sendSms(smsModel: ConfirmSmsModel) {
 
-        val subscription = service.sendSmsByUserRequest(object : Service.SmsCallback {
-            override fun onSuccess(authResponse: MessageResponse) {
-                //                activity.removeWait();
-                activity.onSendSmsSuccess(authResponse)
+        GlobalScope.launch {
+            val request = retrofitService.sendSmsByUserRequest(smsModel)
+            try {
+                val response = request.await()
+                response.body()?.let { activity.onSendSmsSuccess() }
+            } catch (e: HttpException) {
+                Timber.e(e.message())
+            } catch (e: Throwable) {
+                Timber.e(e)
             }
-
-            override fun onError(networkError: NetworkError) {
-                //                activity.removeWait();
-                activity.onSendSmsFailure(networkError.appErrorMessage)
-            }
-
-        }, smsModel)
-
-        subscriptions.add(subscription)
+        }
     }
 
 
     fun getActiveArena() {
 
-        val subscription = service.getArenas(object : Service.ArenasCallback {
-            override fun onSuccess(authResponse: Arenas) {
-                activity.onGetArenasResponseSuccess(authResponse)
+        GlobalScope.launch {
+            val request = retrofitService.arenas
+            try {
+                val response = request.await()
+                response.body()?.let { activity.onGetArenasResponseSuccess(it) }
+            } catch (e: HttpException) {
+                Timber.e(e.message())
+            } catch (e: Throwable) {
+                Timber.e(e)
             }
-
-            override fun onError(networkError: NetworkError) {
-                activity.onGetActivePidFailure(networkError.appErrorMessage)
-            }
-
-        })
-
-        subscriptions.add(subscription)
+        }
     }
 
 

@@ -241,9 +241,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   @Override
   public void onArenaSelectItem(View v, int layoutPosition) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      TransitionManager.beginDelayedTransition(binding.root);
-    }
+    TransitionManager.beginDelayedTransition(binding.root);
     this.selectedArena = layoutPosition;
     this.isArenaShow = false;
     arenaUpConstraintSet.applyTo(binding.root);
@@ -265,11 +263,11 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     if (!TextUtils.isEmpty(this.rooms.get(selectedArena).getUsualDescription()) && !TextUtils
         .isEmpty(this.rooms.get(selectedArena).getVipDescription())) {
       adapter.setPagesCount(2);
-      adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0, "Общий зал");
-      adapter.addFragment(CarouselSeatFragment.newInstance(this, 1), 1, "Vip зал");
+      adapter.addFragment(CarouselSeatFragment.Companion.newInstance(this, 0), 0, "Общий зал");
+      adapter.addFragment(CarouselSeatFragment.Companion.newInstance(this, 1), 1, "Vip зал");
     } else {
       adapter.setPagesCount(1);
-      adapter.addFragment(CarouselSeatFragment.newInstance(this, 0), 0, "Общий зал");
+      adapter.addFragment(CarouselSeatFragment.Companion.newInstance(this, 0), 0, "Общий зал");
     }
     adapter.notifyDataSetChanged();
     viewPagerSeat.setAdapter(adapter);
@@ -376,6 +374,8 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
     binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen);
 
     this.rooms = WinstrikeApp.getInstance().getRooms();
+
+
     if (this.rooms == null) {
       Intent intent = new Intent(this, SignInActivity.class);
       intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -386,11 +386,10 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       ArrayList<String> arenaAdress = new ArrayList<>();
       for (Room room : rooms
       ) {
-         arenaTitle.add(room.getName());
-         arenaAdress.add(room.getMetro());
+        arenaTitle.add(room.getName());
+        arenaAdress.add(room.getMetro());
       }
-//      titles = new String[]{rooms.get(0).getName(), rooms.get(1).getName()};
-//      address = new String[]{rooms.get(0).getMetro(), rooms.get(1).getMetro()};
+
 
       for (int i = 0; i < arenaTitle.size(); i++) {
         arenaItems.add(new ArenaItem((arenaTitle.get(i)), arenaAdress.get(i), false));
@@ -444,9 +443,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       // Arena select:
       binding.arrowArenaDown.setOnClickListener(v ->
           {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-              TransitionManager.beginDelayedTransition(binding.root);
-            }
+            TransitionManager.beginDelayedTransition(binding.root);
             if (!isArenaShow) {
               isArenaShow = true;
               arenaDownConstraintSet.applyTo(binding.root);
@@ -460,9 +457,7 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
       binding.arrowArenaUp.setOnClickListener(
           v ->
           {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-              TransitionManager.beginDelayedTransition(binding.root);
-            }
+            TransitionManager.beginDelayedTransition(binding.root);
             arenaUpConstraintSet.applyTo(binding.root);
           }
       );
@@ -471,10 +466,18 @@ public class MainScreenActivity extends MvpAppCompatActivity implements MainScre
 
   private void initArena() {
     // TODO: 20/10/2018 Get arena name from Api.
-    Uri uri = Uri.parse(rooms.get(selectedArena).getImageUrl());
-    binding.headImage.setImageURI(uri);
-    binding.getUser().setName(rooms.get(selectedArena).getName());
-    binding.arenaDescription.setText(rooms.get(selectedArena).getDescription());
+    Uri uri;
+    if (rooms.get(selectedArena).getImageUrl() != null) {
+      uri = Uri.parse(rooms.get(selectedArena).getImageUrl());
+      binding.headImage.setImageURI(uri);
+    }
+    if (rooms.get(selectedArena).getName() != null) {
+      binding.getUser().setName(rooms.get(selectedArena).getName());
+    }
+    if (rooms.get(selectedArena).getDescription() != null) {
+
+      binding.arenaDescription.setText(rooms.get(selectedArena).getDescription());
+    }
     initCarouselArenaSeat();
   }
 
