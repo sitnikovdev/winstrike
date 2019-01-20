@@ -14,12 +14,10 @@ import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.BackButtonListener;
 import ru.prsolution.winstrike.common.RouterProvider;
-import ru.prsolution.winstrike.common.ScreenType;
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.subnavigation.LocalCiceroneHolder;
 import ru.prsolution.winstrike.ui.Screens;
-import ru.prsolution.winstrike.ui.login.HomeScreenFragment;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
@@ -84,11 +82,11 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_choose))) {
-      getCicerone().getRouter().replaceScreen(Screens.CHOOSE_SCREEN, mainActivity.selectedArena);
+      getCicerone().getRouter().replaceScreen(Screens.CHOOSE_SCREEN, mainActivity.getSelectedArena());
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_map))) {
-      getCicerone().getRouter().replaceScreen(Screens.MAP_SCREEN, mainActivity.selectedArena);
+      getCicerone().getRouter().replaceScreen(Screens.MAP_SCREEN, mainActivity.getSelectedArena());
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_pay))) {
@@ -122,7 +120,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
         protected Fragment createFragment(String screenKey, Object data) {
           Fragment fragment = null;
           if (screenKey.equals(Screens.START_SCREEN)) {
-            fragment = HomeScreenFragment.getNewInstance(getContainerName(), (int) data);
+            fragment = HomeScreenFragment.Companion.getNewInstance(getContainerName(), (int) data);
           }
           if (screenKey.equals(Screens.PLACE_SCREEN)) {
             fragment = PlaceScreenFragment.getNewInstance(getContainerName(), (ArrayList<OrderModel>) data);

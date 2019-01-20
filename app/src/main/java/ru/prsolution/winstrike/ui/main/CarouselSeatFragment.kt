@@ -91,24 +91,24 @@ class CarouselSeatFragment : Fragment() {
         return if (!TextUtils.isEmpty(room.usualDescription) && !TextUtils.isEmpty(room.vipDescription)) {
             if (mPosition == 0) {
                 SeatModel(getString(R.string.common_hall),
-                        room.usualImageUrl?:"", room.usualDescription?:""
+                        room.usualImageUrl ?: "", room.usualDescription ?: ""
                 )
             } else {
                 SeatModel(getString(R.string.vip_hp),
-                        room.usualImageUrl?:"", room.usualDescription?:""
+                        room.usualImageUrl ?: "", room.usualDescription ?: ""
                 )
             }
         } else if (!TextUtils.isEmpty(room.usualDescription)) {
             SeatModel(getString(R.string.common_hall),
-                    room.usualImageUrl?:"", room.usualDescription?:""
+                    room.usualImageUrl ?: "", room.usualDescription ?: ""
             )
         } else if (!TextUtils.isEmpty(room.vipDescription)) {
             SeatModel(getString(R.string.vip_hp),
-                    room.usualImageUrl?:"", room.usualDescription?:""
+                    room.usualImageUrl ?: "", room.usualDescription ?: ""
             )
         } else {
             SeatModel(getString(R.string.common_hall),
-                    room.usualImageUrl?:"", room.usualDescription?:""
+                    room.usualImageUrl ?: "", room.usualDescription ?: ""
             )
 
         }
