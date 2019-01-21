@@ -50,6 +50,7 @@ object Versions {
     val dagger2 = "2.19"
     val firebaseMessaging = "17.3.4"
     val chuck = "1.1.0"
+	val lifecycle = "1.1.1"
 
 }
 
@@ -64,6 +65,7 @@ object Libraries {
     val cardView = "com.android.support:cardview-v7:${Versions.appCompat}"
     val design = "com.android.support:design:${Versions.appCompat}"
     val fresco = "com.facebook.fresco:fresco:1.11.0"
+    val lifecycle = "android.arch.lifecycle:extensions:${Versions.lifecycle}"
 
     val lottie = "com.airbnb.android:lottie:2.5.4"
     val decoro = "ru.tinkoff.decoro:decoro:1.1.1"
