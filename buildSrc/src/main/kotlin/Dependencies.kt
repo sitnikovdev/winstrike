@@ -26,7 +26,9 @@ object Versions {
     val cardView = "1.0.0"
     val recyclerView = "1.0.0"
 
+    val appcompat = "1.0.2"
     val kotlin = "1.3.11"
+    val ktx = "1.0.0-alpha1"
     val dataBinding = "3.2.0-alpha10"
 
     val fresco = "1.11.0"
@@ -56,6 +58,7 @@ object Libraries {
     val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
 
     val appCompat = "com.android.support:appcompat-v7:${Versions.appCompat}"
+    val ktx = "androidx.core:core-ktx:${Versions.ktx}"
     val constraintLayout = "com.android.support.constraint:constraint-layout:1.1.3"
     val recyclerView = "com.android.support:recyclerview-v7:${Versions.appCompat}"
     val cardView = "com.android.support:cardview-v7:${Versions.appCompat}"
@@ -100,6 +103,10 @@ object Libraries {
     // Loging
     val chuck = "com.readystatesoftware.chuck:library:1.1.0"
     val chuckRelease = "com.readystatesoftware.chuck:library-no-op:1.1.0"
+}
+
+object SupportLibraries {
+    val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
 }
 
 object Constants {

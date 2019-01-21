@@ -29,6 +29,7 @@ import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
 import ru.prsolution.winstrike.mvp.presenters.PlacesPresenter;
 import ru.prsolution.winstrike.mvp.views.PlacesView;
 import ru.prsolution.winstrike.networking.Service;
+import ru.prsolution.winstrike.presentation.main.MainScreenActivity;
 
 
 /**

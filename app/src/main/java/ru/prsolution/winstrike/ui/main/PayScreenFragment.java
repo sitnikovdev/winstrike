@@ -28,6 +28,7 @@ import ru.prsolution.winstrike.common.BackButtonListener;
 import ru.prsolution.winstrike.common.RouterProvider;
 import ru.prsolution.winstrike.mvp.presenters.PayPresenter;
 import ru.prsolution.winstrike.mvp.views.PayView;
+import ru.prsolution.winstrike.presentation.main.MainScreenActivity;
 import ru.prsolution.winstrike.utils.Constants;
 import timber.log.Timber;
 

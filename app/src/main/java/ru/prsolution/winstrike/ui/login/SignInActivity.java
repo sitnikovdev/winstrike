@@ -35,7 +35,7 @@ import ru.prsolution.winstrike.mvp.presenters.SignInPresenter;
 import ru.prsolution.winstrike.mvp.views.SignInView;
 import ru.prsolution.winstrike.networking.Service;
 import ru.prsolution.winstrike.ui.Screens;
-import ru.prsolution.winstrike.ui.main.MainScreenActivity;
+import ru.prsolution.winstrike.presentation.main.MainScreenActivity;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.commands.Back;
 import ru.terrakok.cicerone.commands.Command;

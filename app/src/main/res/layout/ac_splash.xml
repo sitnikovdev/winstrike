@@ -5,7 +5,7 @@
     android:id="@+id/fl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:activity="ru.prsolution.winstrike.ui.splash.SplashActivity">
+    tools:activity="ru.prsolution.winstrike.presentation.splash.SplashActivity">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation_view"

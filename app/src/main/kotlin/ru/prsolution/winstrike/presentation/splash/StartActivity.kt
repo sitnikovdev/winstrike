@@ -1,10 +1,8 @@
-package ru.prsolution.winstrike.ui.splash
+package ru.prsolution.winstrike.presentation.splash
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.ui.splash.SplashActivity
 import timber.log.Timber
 
 /*

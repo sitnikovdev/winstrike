@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.common;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -19,9 +18,7 @@ import butterknife.ButterKnife;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.common.utils.AuthUtils;
 import ru.prsolution.winstrike.ui.login.SignInActivity;
-import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
-import ru.prsolution.winstrike.ui.main.ChooseScreenFragment;
-import ru.prsolution.winstrike.ui.main.MainScreenActivity;
+import ru.prsolution.winstrike.presentation.main.MainScreenActivity;
 import timber.log.Timber;
 
 public class YandexWebView extends AppCompatActivity {

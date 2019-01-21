@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.splash
+package ru.prsolution.winstrike.presentation.splash
 
 import android.animation.Animator
 import android.content.Intent
@@ -17,7 +17,7 @@ import ru.prsolution.winstrike.mvp.apimodels.Room
 import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.ui.guides.GuideActivity
 import ru.prsolution.winstrike.ui.login.SignInActivity
-import ru.prsolution.winstrike.ui.main.MainScreenActivity
+import ru.prsolution.winstrike.presentation.main.MainScreenActivity
 import timber.log.Timber
 import javax.inject.Inject
 

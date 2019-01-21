@@ -19,6 +19,7 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.common.ChooseSeatLinearLayout
 import ru.prsolution.winstrike.mvp.apimodels.Room
 import ru.prsolution.winstrike.mvp.models.SeatModel
+import ru.prsolution.winstrike.presentation.main.MainScreenActivity
 
 class CarouselSeatFragment : Fragment() {
 

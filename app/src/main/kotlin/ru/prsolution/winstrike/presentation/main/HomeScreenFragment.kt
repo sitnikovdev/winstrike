@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.main
+package ru.prsolution.winstrike.presentation.main
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -6,18 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import com.arellomobile.mvp.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
-
 import butterknife.ButterKnife
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.mvp.presenters.HomePresenter
 import ru.prsolution.winstrike.mvp.views.HomeView
 import ru.prsolution.winstrike.common.BackButtonListener
-import ru.prsolution.winstrike.common.RouterProvider
 import ru.prsolution.winstrike.networking.RetrofitFactory
-import ru.prsolution.winstrike.networking.RetrofitService
 
 
 /**

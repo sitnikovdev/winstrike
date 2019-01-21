@@ -16,12 +16,12 @@ import ru.prsolution.winstrike.ui.login.SignInActivity;
 import ru.prsolution.winstrike.ui.login.UserConfirmActivity;
 import ru.prsolution.winstrike.ui.main.ChooseScreenFragment;
 import ru.prsolution.winstrike.ui.main.MainContainerFragment;
-import ru.prsolution.winstrike.ui.main.MainScreenActivity;
+import ru.prsolution.winstrike.presentation.main.MainScreenActivity;
 import ru.prsolution.winstrike.ui.main.MapScreenFragment;
 import ru.prsolution.winstrike.ui.main.PayScreenFragment;
 import ru.prsolution.winstrike.ui.main.PlaceScreenFragment;
 import ru.prsolution.winstrike.ui.main.ProfileScreenFragment;
-import ru.prsolution.winstrike.ui.splash.SplashActivity;
+import ru.prsolution.winstrike.presentation.splash.SplashActivity;
 
 @Singleton
 @Component(modules = {ContextModule.class, NetworkModule.class,

@@ -1,20 +1,16 @@
-package ru.prsolution.winstrike.ui.main
+package ru.prsolution.winstrike.presentation.main
 
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.constraint.ConstraintSet
 import android.support.transition.TransitionManager
-import android.support.v4.app.ActivityCompat.invalidateOptionsMenu
 import android.support.v4.app.ShareCompat
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -24,10 +20,9 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TextView
 import android.widget.Toast
-import butterknife.ButterKnife
-import com.arellomobile.mvp.MvpAppCompatActivity
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
+import kotlinx.android.synthetic.main.ac_mainscreen.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.common.BackButtonListener
@@ -35,30 +30,22 @@ import ru.prsolution.winstrike.common.CarouselAdapter
 import ru.prsolution.winstrike.common.ScreenType
 import ru.prsolution.winstrike.common.utils.AuthUtils
 import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter
-import ru.prsolution.winstrike.databinding.AcMainscreenBinding
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel
 import ru.prsolution.winstrike.mvp.apimodels.Room
 import ru.prsolution.winstrike.mvp.models.*
 import ru.prsolution.winstrike.mvp.views.MainScreenView
 import ru.prsolution.winstrike.networking.RetrofitFactory
-import ru.prsolution.winstrike.ui.Screens
 import ru.prsolution.winstrike.ui.login.SignInActivity
 import ru.prsolution.winstrike.ui.main.AppFragment.OnAppButtonsClickListener
-import ru.prsolution.winstrike.ui.main.ArenaSelectAdapter.OnItemArenaClickListener
+import ru.prsolution.winstrike.presentation.main.ArenaSelectAdapter.OnItemArenaClickListener
 import ru.prsolution.winstrike.ui.main.CarouselSeatFragment.OnChoosePlaceButtonsClickListener
 import ru.prsolution.winstrike.ui.main.ChooseScreenFragment.onMapShowProcess
 import ru.prsolution.winstrike.ui.main.ProfileFragment.OnProfileButtonsClickListener
-import ru.prsolution.winstrike.ui.splash.SplashActivity
+import ru.prsolution.winstrike.presentation.splash.SplashActivity
+import ru.prsolution.winstrike.ui.main.*
 import ru.prsolution.winstrike.utils.Constants
-import ru.terrakok.cicerone.Navigator
-import ru.terrakok.cicerone.NavigatorHolder
-import ru.terrakok.cicerone.commands.Back
-import ru.terrakok.cicerone.commands.Command
-import ru.terrakok.cicerone.commands.Replace
-import ru.terrakok.cicerone.commands.SystemMessage
 import timber.log.Timber
 import java.util.*
-import javax.inject.Inject
 
 /*
   A Big God Activity.
@@ -71,7 +58,6 @@ class MainScreenActivity : AppCompatActivity(),
         onMapShowProcess,
         OnItemArenaClickListener {
 
-    private var progressDialog: ProgressDialog? = null
     private var bottomNavigationBar: AHBottomNavigation? = null
     private var homeTabFragment: MainContainerFragment? = null
     private var placesTabFragment: MainContainerFragment? = null
@@ -79,7 +65,6 @@ class MainScreenActivity : AppCompatActivity(),
     private var chooseTabFragment: MainContainerFragment? = null
     private var mapTabFragment: MainContainerFragment? = null
     private var payTabFragment: MainContainerFragment? = null
-    private var viewPagerSeat: ViewPager? = null
     private var adapter: CarouselAdapter? = null
     var orders = ArrayList<OrderModel>()
         private set
@@ -88,10 +73,10 @@ class MainScreenActivity : AppCompatActivity(),
     private var mDlgSingOut: Dialog? = null
     private var mMainOnClickListener: MainOnClickListener? = null
     private var mMapOnClickListener: MapOnClickListener? = null
+
     private var mScreenType: ScreenType? = null
     private var mDlgMapLegend: Dialog? = null
-    private val user = UserProfileObservable()
-    private var binding: AcMainscreenBinding? = null
+//    private val user = UserProfileObservable()
     private val arenaItems = ArrayList<ArenaItem>()
     private val arenaUpConstraintSet = ConstraintSet()
     private val arenaDownConstraintSet = ConstraintSet()
@@ -100,14 +85,8 @@ class MainScreenActivity : AppCompatActivity(),
     var selectedArena = 0
     private var isArenaShow: Boolean = false
     var rooms: List<Room>? = null
+    private lateinit var presenter: MainScreenPresenter
 
-
-//    @InjectPresenter
-
-//    @Inject
-
-//    @Inject
-//    var router: Router? = null
 
 /*    @Inject
     var navigatorHolder: NavigatorHolder? = null*/
@@ -209,27 +188,27 @@ class MainScreenActivity : AppCompatActivity(),
 
 
     override fun onArenaSelectItem(v: View, layoutPosition: Int) {
-        TransitionManager.beginDelayedTransition(binding!!.root)
+        TransitionManager.beginDelayedTransition(root)
         this.selectedArena = layoutPosition
         this.isArenaShow = false
-        arenaUpConstraintSet.applyTo(binding!!.root)
+        arenaUpConstraintSet.applyTo(root)
         editor.putInt(getString(R.string.saved_arena), layoutPosition)
         editor.commit()
 
         ArenaSelectAdapter.SELECTED_ITEM = layoutPosition
-        binding!!.tvArenaTitle.text = rooms!![selectedArena].name
+        tvArenaTitle.text = rooms!![selectedArena].name
 
         initArena()
 
-        binding!!.rvArena.adapter!!.notifyDataSetChanged()
+        rv_arena.adapter!!.notifyDataSetChanged()
     }
 
-    private fun initCarouselArenaSeat() {
+    private fun initCarouselArenaSeat(room: Room) {
 
         val widthPx = WinstrikeApp.getInstance().displayWidhtPx
 
-        if (!TextUtils.isEmpty(this.rooms!![selectedArena].usualDescription) && !TextUtils
-                        .isEmpty(this.rooms!![selectedArena].vipDescription)) {
+        if (!TextUtils.isEmpty(room.usualDescription) &&
+                !TextUtils .isEmpty(room.vipDescription)) {
             adapter!!.setPagesCount(2)
             adapter!!.addFragment(CarouselSeatFragment.newInstance(this, 0), 0, "Общий зал")
             adapter!!.addFragment(CarouselSeatFragment.newInstance(this, 1), 1, "Vip зал")
@@ -238,19 +217,16 @@ class MainScreenActivity : AppCompatActivity(),
             adapter!!.addFragment(CarouselSeatFragment.newInstance(this, 0), 0, "Общий зал")
         }
         adapter!!.notifyDataSetChanged()
-        viewPagerSeat!!.adapter = adapter
-        viewPagerSeat!!.setPageTransformer(false, adapter)
-        viewPagerSeat!!.currentItem = 0
-        viewPagerSeat!!.offscreenPageLimit = 2
+        view_pager_seat!!.adapter = adapter
+        view_pager_seat!!.setPageTransformer(false, adapter)
+        view_pager_seat!!.currentItem = 0
+        view_pager_seat!!.offscreenPageLimit = 2
 
-        if (widthPx <= Constants.SCREEN_WIDTH_PX_720) {
-            viewPagerSeat!!.pageMargin = Constants.SCREEN_MARGIN_350
-        } else if (widthPx <= Constants.SCREEN_WIDTH_PX_1080) {
-            viewPagerSeat!!.pageMargin = Constants.SCREEN_MARGIN_450
-        } else if (widthPx <= Constants.SCREEN_WIDTH_PX_1440) {
-            viewPagerSeat!!.pageMargin = Constants.SCREEN_MARGIN_600
-        } else {
-            viewPagerSeat!!.pageMargin = Constants.SCREEN_MARGIN_450
+        when {
+            widthPx <= Constants.SCREEN_WIDTH_PX_720 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_350
+            widthPx <= Constants.SCREEN_WIDTH_PX_1080 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_450
+            widthPx <= Constants.SCREEN_WIDTH_PX_1440 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_600
+            else -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_450
         }
     }
 
@@ -258,7 +234,7 @@ class MainScreenActivity : AppCompatActivity(),
         TimeDataModel.clearPids()
         showFragmentHolderContainer(true)
         WinstrikeApp.getInstance().seat = seat
-        presenter!!.onChooseScreenClick()
+        presenter.onChooseScreenClick()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -285,18 +261,10 @@ class MainScreenActivity : AppCompatActivity(),
         return super.onOptionsItemSelected(item)
     }
 
-    fun showWait() {}
-
-    fun removeWait() {}
 
     override fun onStart() {
         super.onStart()
         AuthUtils.isLogout = false
-    }
-
-    override fun onPause() {
-//        navigatorHolder!!.removeNavigator()
-        super.onPause()
     }
 
 
@@ -304,9 +272,6 @@ class MainScreenActivity : AppCompatActivity(),
         super.onDestroy()
         if (mDlgSingOut != null) {
             mDlgSingOut!!.dismiss()
-        }
-        if (progressDialog != null) {
-            progressDialog!!.dismiss()
         }
         this.mMainOnClickListener = null
         this.mMapOnClickListener = null
@@ -319,21 +284,20 @@ class MainScreenActivity : AppCompatActivity(),
                 && (fragment as BackButtonListener).onBackPressed()) {
             return
         } else {
-            presenter!!.onBackPressed()
+            presenter.onBackPressed()
         }
     }
 
 
-    private lateinit var presenter: MainScreenPresenter
-
     public override fun onCreate(savedInstanceState: Bundle?) {
-        var service = RetrofitFactory.makeRetrofitService()
+        val service = RetrofitFactory.makeRetrofitService()
         presenter = MainScreenPresenter(service)
-//        WinstrikeApp.INSTANCE.appComponent.inject(this)
         super.onCreate(savedInstanceState)
         clearData()
-        binding = DataBindingUtil.setContentView(this, R.layout.ac_mainscreen)
 
+        setContentView(R.layout.ac_mainscreen)
+
+        // TODO: remove this in future
         this.rooms = WinstrikeApp.getInstance().rooms
 
 
@@ -342,55 +306,45 @@ class MainScreenActivity : AppCompatActivity(),
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
         } else {
-
-            val arenaTitle = ArrayList<String>()
-            val arenaAdress = ArrayList<String>()
             for (room in rooms!!) {
-                arenaTitle.add(room.name ?: "No title")
-                arenaAdress.add(room.metro ?: "No metro")
-            }
-
-
-            for (i in arenaTitle.indices) {
-                arenaItems.add(ArenaItem(arenaTitle[i], arenaAdress[i], false))
+                val arenaTitle = room.name ?: "No title"
+                val arenaMetro = room.metro ?: "No metro"
+                arenaItems.add(ArenaItem(arenaTitle, arenaMetro, false))
             }
 
             sharedPref = getPreferences(Context.MODE_PRIVATE)
             editor = sharedPref.edit()
             selectedArena = sharedPref.getInt(getString(R.string.saved_arena), Constants.SAVED_ARENA_DEFAULT)
 
-            binding!!.user = user
-            binding!!.tvArenaTitle.text = rooms!![selectedArena].name
+//            user = user
+//            toolbar_text.text = user.name
+            tvArenaTitle.text = rooms!![selectedArena].name
+
             ArenaSelectAdapter.SELECTED_ITEM = selectedArena
 
             //Transitions animations:
             arenaDownConstraintSet.clone(this, R.layout.part_arena_down)
             arenaUpConstraintSet.clone(this, R.layout.part_arena_up)
 
-            binding!!.rvArena.adapter = ArenaSelectAdapter(this, this, arenaItems)
-            binding!!.rvArena.layoutManager = LinearLayoutManager(this)
-            binding!!.rvArena.addItemDecoration(RecyclerViewMargin(24, 1))
-            binding!!.rvArena.bringToFront()
-            binding!!.rvArena.adapter!!.notifyDataSetChanged()
+            rv_arena.adapter = ArenaSelectAdapter(this, this, arenaItems)
+            rv_arena.layoutManager = LinearLayoutManager(this)
+            rv_arena.addItemDecoration(RecyclerViewMargin(24, 1))
+            rv_arena.bringToFront()
+            rv_arena.adapter!!.notifyDataSetChanged()
 
-            ButterKnife.bind(this)
 
-            viewPagerSeat = findViewById(R.id.view_pager_seat)
             adapter = CarouselAdapter(this)
             initArena()
-            Timber.w(adapter!!.count.toString())
 
-            progressDialog = ProgressDialog(this)
 
             mMainOnClickListener = MainOnClickListener()
-
             mMapOnClickListener = MapOnClickListener()
 
             initViews()
             initFragmentsContainers()
 
             if (savedInstanceState == null) {
-                presenter!!.onCreate()
+                presenter.onCreate()
             }
 
             val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
@@ -401,64 +355,61 @@ class MainScreenActivity : AppCompatActivity(),
             }
 
             // Arena select:
-            binding!!.arrowArenaDown.setOnClickListener { v ->
-                TransitionManager.beginDelayedTransition(binding!!.root)
+            arrowArena_Down.setOnClickListener {
+                TransitionManager.beginDelayedTransition(root)
                 if (!isArenaShow) {
                     isArenaShow = true
-                    arenaDownConstraintSet.applyTo(binding!!.root)
+                    arenaDownConstraintSet.applyTo(root)
                 } else {
-                    arenaUpConstraintSet.applyTo(binding!!.root)
+                    arenaUpConstraintSet.applyTo(root)
                     isArenaShow = false
                 }
             }
 
-            binding!!.arrowArenaUp.setOnClickListener { v ->
-                TransitionManager.beginDelayedTransition(binding!!.root)
-                arenaUpConstraintSet.applyTo(binding!!.root)
+            arrowArena_Up.setOnClickListener {
+                TransitionManager.beginDelayedTransition(root)
+                arenaUpConstraintSet.applyTo(root)
             }
         }
     }
 
     private fun initArena() {
-        // TODO: 20/10/2018 Get arena name from Api.
         val uri: Uri
         if (rooms!![selectedArena].imageUrl != null) {
             uri = Uri.parse(rooms!![selectedArena].imageUrl)
-            binding!!.headImage.setImageURI(uri)
+            head_image.setImageURI(uri)
         }
         if (rooms!![selectedArena].name != null) {
-            binding!!.user?.name = rooms!![selectedArena].name
+//            user.name = rooms!![selectedArena].name
+//            toolbar.title
         }
         if (rooms!![selectedArena].description != null) {
 
-            binding!!.arenaDescription.text = rooms!![selectedArena].description
+            arena_description.text = rooms!![selectedArena].description
         }
-        initCarouselArenaSeat()
+        initCarouselArenaSeat(rooms!![selectedArena])
     }
 
     private fun initViews() {
         initBottomNavigationBar()
-
-        // Hide profile interface element
         setProfileScreenVisibility(false)
-
         dlgMapLegend()
         dlgProfileSingOut()
     }
 
     fun initMainToolbar(hideNavIcon: Boolean?, screenType: ScreenType, listener: View.OnClickListener?) {
-        setSupportActionBar(binding!!.toolbar)
-        binding!!.toolbar.setNavigationOnClickListener(listener)
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener(listener)
 
         mScreenType = screenType
         invalidateOptionsMenu() // now onCreateOptionsMenu(...) is called again
-        binding!!.toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
         if (hideNavIcon!!) {
-            binding!!.toolbar.navigationIcon = null
-            binding!!.toolbar.setContentInsetsAbsolute(0, binding!!.toolbar.contentInsetStart)
+            toolbar.navigationIcon = null
+            toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
         } else {
-            binding!!.toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
-            binding!!.toolbar.setContentInsetsAbsolute(0, binding!!.toolbar.contentInsetStartWithNavigation)
+            toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
+            toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
         }
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
@@ -468,12 +419,12 @@ class MainScreenActivity : AppCompatActivity(),
     private fun setHomeScreenStateVisibility(isVisible: Boolean) {
         if (isVisible) {
             setArenaVisibility(true)
-            viewPagerSeat!!.visibility = VISIBLE
-            binding!!.seatCat.visibility = VISIBLE
+            view_pager_seat.visibility = VISIBLE
+            seat_cat.visibility = VISIBLE
         } else {
             setArenaVisibility(false)
-            binding!!.seatCat.visibility = GONE
-            viewPagerSeat!!.visibility = GONE
+            seat_cat.visibility = GONE
+            view_pager_seat!!.visibility = GONE
         }
     }
 
@@ -534,44 +485,38 @@ class MainScreenActivity : AppCompatActivity(),
         }
     }
 
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-//        navigatorHolder!!.setNavigator(navigator)
-    }
-
     fun goHome() {
         startActivity(Intent(applicationContext, MainScreenActivity::class.java))
     }
 
-    // User profile actions:
     fun setProfileScreenVisibility(isVisible: Boolean?) {
         if (isVisible!!) {
             setArenaVisibility(false)
-            binding!!.tabLayoutProfile.visibility = VISIBLE
-            binding!!.viewPagerProfile.visibility = VISIBLE
-            setupProfileViewPager(binding!!.viewPagerProfile)
-            binding!!.tabLayoutProfile.setupWithViewPager(binding!!.viewPagerProfile)
+            tabLayout_Profile.visibility = VISIBLE
+            viewPager_Profile.visibility = VISIBLE
+            setupProfileViewPager(viewPager_Profile)
+            tabLayout_Profile.setupWithViewPager(viewPager_Profile)
         } else {
             setArenaVisibility(true)
-            binding!!.tabLayoutProfile.visibility = GONE
-            binding!!.viewPagerProfile.visibility = GONE
+            tabLayout_Profile.visibility = GONE
+            viewPager_Profile.visibility = GONE
         }
     }
 
     private fun setArenaVisibility(isVisible: Boolean?) {
         if ((!isVisible!!)) {
-            binding!!.vSpinner.visibility = GONE
-            binding!!.rvArena.visibility = GONE
-            binding!!.arrowArenaUp.visibility = GONE
-            binding!!.arrowArenaDown.visibility = GONE
-            binding!!.arenaDescription.visibility = GONE
-            binding!!.headImage.visibility = GONE
+            v_spinner.visibility = GONE
+            rv_arena.visibility = GONE
+            arrowArena_Up.visibility = GONE
+            arrowArena_Down.visibility = GONE
+            arena_description.visibility = GONE
+            head_image.visibility = GONE
         } else {
-            binding!!.headImage.visibility = VISIBLE
-            binding!!.arenaDescription.visibility = VISIBLE
-            binding!!.vSpinner.visibility = VISIBLE
-            binding!!.arrowArenaUp.visibility = GONE
-            binding!!.arrowArenaDown.visibility = VISIBLE
+            head_image.visibility = VISIBLE
+            arena_description.visibility = VISIBLE
+            v_spinner.visibility = VISIBLE
+            arrowArena_Up.visibility = GONE
+            arrowArena_Down.visibility = VISIBLE
         }
     }
 
@@ -596,7 +541,7 @@ class MainScreenActivity : AppCompatActivity(),
             profile.password = password
             val publicId = AuthUtils.publicid
             val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
-            presenter!!.updateProfile(token, profile, publicId)
+            presenter.updateProfile(token, profile, publicId)
             AuthUtils.name = name
             var title = getString(R.string.title_settings)
             if (AuthUtils.name != null) {
@@ -604,7 +549,8 @@ class MainScreenActivity : AppCompatActivity(),
                     title = AuthUtils.name
                 }
             }
-            user.name = name
+//            user.name = name
+//            toolbar.title
             initMainToolbar(SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener)
         }
     }
@@ -684,11 +630,11 @@ class MainScreenActivity : AppCompatActivity(),
     }
 
     private fun shareImgOnRecommendClick() {
-        val attached_Uri = Uri.parse(Constants.ANDROID_RESOURCES_PATH + packageName
+        val attachedUri = Uri.parse(Constants.ANDROID_RESOURCES_PATH + packageName
                 + Constants.SHARE_DRAWABLE + Constants.SHARE_IMG)
         val shareIntent = ShareCompat.IntentBuilder.from(this)
                 .setType(Constants.IMAGE_TYPE)
-                .setStream(attached_Uri)
+                .setStream(attachedUri)
                 .intent
         shareIntent.putExtra(Intent.EXTRA_TEXT, R.string.message_share_images)
         startActivity(Intent.createChooser(shareIntent, Constants.SHARE_IMG_TITLE))
@@ -721,7 +667,7 @@ class MainScreenActivity : AppCompatActivity(),
     }
 
     override fun onMapShow() {
-        presenter!!.onMapShowClick()
+        presenter.onMapShowClick()
     }
 
     private fun clearData() {
@@ -731,21 +677,21 @@ class MainScreenActivity : AppCompatActivity(),
 
     private fun showFragmentHolderContainer(isVisible: Boolean) {
         if (isVisible) {
-            binding!!.fragmentContainer.visibility = VISIBLE
+            fragment_container.visibility = VISIBLE
         } else {
-            binding!!.fragmentContainer.visibility = GONE
+            fragment_container.visibility = GONE
         }
     }
 
-     fun onGetOrdersSuccess(orders: ArrayList<OrderModel>) {
+    fun onGetOrdersSuccess(orders: ArrayList<OrderModel>) {
         this.orders = orders
-        presenter!!.onTabPlaceClick(this.orders)
+        presenter.onTabPlaceClick(this.orders)
         Timber.d("UserEntity order list size: %s", this.orders.size)
     }
 
-     fun onGetOrdersFailure(appErrorMessage: String) {
+    fun onGetOrdersFailure(appErrorMessage: String) {
         orders = ArrayList()
-        presenter!!.onTabPlaceClick(orders)
+        presenter.onTabPlaceClick(orders)
         Timber.d("Failure get layout from server: %s", appErrorMessage)
     }
 
@@ -776,41 +722,44 @@ class MainScreenActivity : AppCompatActivity(),
                     showFragmentHolderContainer(false)
                     setHomeScreenStateVisibility(true)
                     setProfileScreenVisibility(false)
-                    user.name = rooms!![selectedArena].name
+//                    user.name = rooms!![selectedArena].name
+//                    toolbar.title
                     initMainToolbar(HIDE_ICON, ScreenType.MAIN, mMainOnClickListener)
-                    presenter!!.onTabHomeClick()
+                    presenter.onTabHomeClick()
                 }
                 MainScreenView.PLACE_TAB_POSITION -> {
                     showFragmentHolderContainer(true)
                     setProfileScreenVisibility(false)
                     //          setHomeScreenStateVisibility(false);
-                    user.name = getString(R.string.title_payment_places)
+//                    user.name = getString(R.string.title_payment_places)
+//                    toolbar.title
                     initMainToolbar(SHOW_ICON, ScreenType.MAIN, mMainOnClickListener)
                     val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
-                    presenter!!.getOrders(token)
+                    presenter.getOrders(token)
                 }
                 MainScreenView.USER_TAB_POSITION -> {
                     showFragmentHolderContainer(false)
                     setProfileScreenVisibility(true)
-                    binding!!.toolbar.navigationIcon = null
-                    user.name = AuthUtils.name
+                    toolbar.navigationIcon = null
+//                    user.name = AuthUtils.name
+//                    toolbar.title
                     initMainToolbar(SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener)
-                    presenter!!.onTabUserClick()
+                    presenter.onTabUserClick()
                 }
             }
             return true
         }
     }
 
-     fun highlightTab(position: Int) {
+    fun highlightTab(position: Int) {
         bottomNavigationBar!!.setCurrentItem(position, false)
     }
 
-     fun hideBottomTab() {
+    fun hideBottomTab() {
         bottomNavigationBar!!.visibility = GONE
     }
 
-     fun showBottomTab() {
+    fun showBottomTab() {
         bottomNavigationBar!!.visibility = VISIBLE
     }
 
@@ -818,9 +767,10 @@ class MainScreenActivity : AppCompatActivity(),
 
         override fun onClick(v: View) {
             clearData()
-            user.name = rooms!![selectedArena].name
+//            user.name = rooms!![selectedArena].name
+//                    toolbar.title
             initMainToolbar(HIDE_ICON, ScreenType.MAIN, this)
-            presenter!!.onBackPressed()
+            presenter.onBackPressed()
         }
     }
 
@@ -834,10 +784,10 @@ class MainScreenActivity : AppCompatActivity(),
     }
 
     //FCM push message services:
-    fun sendRegistrationToServer(authToken: String, refreshedToken: String) {
+    private fun sendRegistrationToServer(authToken: String, refreshedToken: String) {
         val fcmModel = FCMModel()
         fcmModel.token = refreshedToken
-        presenter!!.sendFCMTokenToServer(authToken, fcmModel)
+        presenter.sendFCMTokenToServer(authToken, fcmModel)
     }
 
     override fun onPushClick(isOn: String) {

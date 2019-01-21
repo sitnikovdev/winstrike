@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.main
+package ru.prsolution.winstrike.presentation.main
 
 import com.arellomobile.mvp.MvpPresenter
 import ru.prsolution.winstrike.mvp.apimodels.OrderModel

@@ -37,7 +37,6 @@ import butterknife.ButterKnife;
 import org.jetbrains.annotations.NotNull;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
-import ru.prsolution.winstrike.common.YandexWebView;
 import ru.prsolution.winstrike.common.utils.MapViewUtils;
 import ru.prsolution.winstrike.common.utils.Utils;
 import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
@@ -50,6 +49,7 @@ import ru.prsolution.winstrike.mvp.models.Wall;
 import ru.prsolution.winstrike.mvp.presenters.MapPresenter;
 import ru.prsolution.winstrike.mvp.views.MapView;
 import ru.prsolution.winstrike.networking.Service;
+import ru.prsolution.winstrike.presentation.main.MainScreenActivity;
 import ru.prsolution.winstrike.utils.Constants;
 import timber.log.Timber;
 

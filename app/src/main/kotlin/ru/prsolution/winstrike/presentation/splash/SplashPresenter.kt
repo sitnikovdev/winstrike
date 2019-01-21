@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.splash
+package ru.prsolution.winstrike.presentation.splash
 
 
 import kotlinx.coroutines.GlobalScope

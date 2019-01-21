@@ -54,6 +54,7 @@ dependencies {
 
     /** Android AppCompat*/
     implementation(Libraries.appCompat)
+//    implementation (SupportLibraries.appcompat)
 
     /**  constraint layout */
     implementation(Libraries.constraintLayout)
