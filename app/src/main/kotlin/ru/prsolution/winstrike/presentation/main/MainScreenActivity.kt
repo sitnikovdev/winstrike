@@ -54,10 +54,10 @@ import java.util.*
   // TODO: 18/10/2018 Need some refactoring for SOLID principle.
  */
 class MainScreenActivity : AppCompatActivity(),
-                           OnProfileButtonsClickListener,
-                           OnAppButtonsClickListener,
-                           OnChoosePlaceButtonsClickListener,
-                           onMapShowProcess {
+		OnProfileButtonsClickListener,
+		OnAppButtonsClickListener,
+		OnChoosePlaceButtonsClickListener,
+		onMapShowProcess {
 
 	private var bottomNavigationBar: AHBottomNavigation? = null
 	private var homeTabFragment: MainContainerFragment? = null
@@ -652,7 +652,7 @@ class MainScreenActivity : AppCompatActivity(),
 
 	private fun shareImgOnRecommendClick() {
 		val attachedUri = Uri.parse(Constants.ANDROID_RESOURCES_PATH + packageName
-				                            + Constants.SHARE_DRAWABLE + Constants.SHARE_IMG)
+				+ Constants.SHARE_DRAWABLE + Constants.SHARE_IMG)
 		val shareIntent = ShareCompat.IntentBuilder.from(this)
 				.setType(Constants.IMAGE_TYPE)
 				.setStream(attachedUri)

@@ -36,7 +36,7 @@ fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View =
 fun ImageView.loadImage(url: String) = Glide.with(this).load(url).into(this)
 
 fun TextView.setColor(color: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-    context.getColor(color)
+    this.setTextColor(context.getColor(color))
 } else {
     TODO("VERSION.SDK_INT < M")
 }
