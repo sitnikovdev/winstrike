@@ -53,10 +53,10 @@ import java.util.*
   // TODO: 18/10/2018 Need some refactoring for SOLID principle.
  */
 class MainScreenActivity : AppCompatActivity(),
-		OnProfileButtonsClickListener,
-		OnAppButtonsClickListener,
-		OnChoosePlaceButtonsClickListener,
-		onMapShowProcess {
+                           OnProfileButtonsClickListener,
+                           OnAppButtonsClickListener,
+                           OnChoosePlaceButtonsClickListener,
+                           onMapShowProcess {
 
 	private var bottomNavigationBar: AHBottomNavigation? = null
 	private var homeTabFragment: MainContainerFragment? = null
@@ -65,7 +65,7 @@ class MainScreenActivity : AppCompatActivity(),
 	private var chooseTabFragment: MainContainerFragment? = null
 	private var mapTabFragment: MainContainerFragment? = null
 	private var payTabFragment: MainContainerFragment? = null
-	private var adapter: CarouselAdapter? = null
+	private var carouselAdapter: CarouselAdapter? = null
 	var orders = ArrayList<OrderModel>()
 		private set
 	private val HIDE_ICON = true
@@ -81,17 +81,12 @@ class MainScreenActivity : AppCompatActivity(),
 	private val arenaUpConstraintSet = ConstraintSet()
 	private val arenaDownConstraintSet = ConstraintSet()
 	private lateinit var sharedPref: SharedPreferences
-	private lateinit var editor: SharedPreferences.Editor
 	var selectedArena = 0
 	private var isArenaShow: Boolean = false
 	var rooms: List<Room>? = null
 	private lateinit var presenter: MainScreenPresenter
+	private lateinit var vm: ArenaListViewModel
 
-	class BaseViewModelFactory<T>(val creator: () -> T) : ViewModelProvider.Factory {
-		override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-			return creator() as T
-		}
-	}
 
 /*    @Inject
     var navigatorHolder: NavigatorHolder? = null*/
@@ -191,56 +186,6 @@ class MainScreenActivity : AppCompatActivity(),
 ////        }
 //    }
 
-
-	val onArenaSelectItem: (Room, Int) -> Unit = { room, position ->
-		TransitionManager.beginDelayedTransition(root)
-		this.selectedArena = position
-		this.isArenaShow = false
-		arenaUpConstraintSet.applyTo(root)
-		editor.putInt(getString(R.string.saved_arena), position)
-		editor.commit()
-
-		ArenaListAdapter.SELECTED_ITEM = position
-		tvArenaTitle.text = room.name
-
-		rv_arena.adapter!!.notifyDataSetChanged()
-		updateCarouselSeatAdapter(room)
-	}
-
-	private fun updateCarouselSeatAdapter(room: Room?) {
-
-		val widthPx = WinstrikeApp.getInstance().displayWidhtPx
-
-		if (!TextUtils.isEmpty(room?.usualDescription) &&
-				!TextUtils.isEmpty(room?.vipDescription)) {
-			adapter!!.setPagesCount(2)
-			adapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 0, "Общий зал")
-			adapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 1, "Vip зал")
-		} else {
-			adapter!!.setPagesCount(1)
-			adapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 0, "Общий зал")
-		}
-		adapter!!.notifyDataSetChanged()
-		view_pager_seat!!.adapter = adapter
-		view_pager_seat!!.setPageTransformer(false, adapter)
-		view_pager_seat!!.currentItem = 0
-		view_pager_seat!!.offscreenPageLimit = 2
-
-		when {
-			widthPx <= Constants.SCREEN_WIDTH_PX_720 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_350
-			widthPx <= Constants.SCREEN_WIDTH_PX_1080 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_450
-			widthPx <= Constants.SCREEN_WIDTH_PX_1440 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_600
-			else -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_450
-		}
-	}
-
-	override fun onChooseArenaSeatClick(seat: SeatModel) {
-		TimeDataModel.clearPids()
-		showFragmentHolderContainer(true)
-		WinstrikeApp.getInstance().seat = seat
-		presenter.onChooseScreenClick()
-	}
-
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
 		if (this.mScreenType === ScreenType.MAIN) {
 			menuInflater.inflate(R.menu.main_toolbar_menu, menu)
@@ -265,12 +210,10 @@ class MainScreenActivity : AppCompatActivity(),
 		return super.onOptionsItemSelected(item)
 	}
 
-
 	override fun onStart() {
 		super.onStart()
 		AuthUtils.isLogout = false
 	}
-
 
 	override fun onDestroy() {
 		super.onDestroy()
@@ -292,41 +235,31 @@ class MainScreenActivity : AppCompatActivity(),
 		}
 	}
 
-
-	private lateinit var vm: ArenaListViewModel
-
 	public override fun onCreate(savedInstanceState: Bundle?) {
-		val service = RetrofitFactory.makeRetrofitService()
-		presenter = MainScreenPresenter(service)
 		super.onCreate(savedInstanceState)
 		clearData()
-
 		setContentView(R.layout.ac_mainscreen)
 
-
+		val service = RetrofitFactory.makeRetrofitService()
+		presenter = MainScreenPresenter(service)
+		carouselAdapter = CarouselAdapter(this)
+		// TODO: remove this!!!
+		mMainOnClickListener = MainOnClickListener()
+		mMapOnClickListener = MapOnClickListener()
 		sharedPref = getPreferences(Context.MODE_PRIVATE)
-		editor = sharedPref.edit()
 		selectedArena = sharedPref.getInt(getString(R.string.saved_arena), Constants.SAVED_ARENA_DEFAULT)
-
-//            user = user
-//            toolbar_text.text = user.name
-
+		// TODO: remove this!!! (possibility memory leaks)
 		ArenaListAdapter.SELECTED_ITEM = selectedArena
-
-		//Transitions animations:
-		arenaDownConstraintSet.clone(this, R.layout.part_arena_down)
-		arenaUpConstraintSet.clone(this, R.layout.part_arena_up)
-
-		 vm  = ViewModelProviders.of(this)[ArenaListViewModel::class.java]
+		vm = ViewModelProviders.of(this)[ArenaListViewModel::class.java]
 
 		if (savedInstanceState == null) {
 			vm.get()
 		}
+//            user = user
+//            toolbar_text.text = user.name
 
-		adapter = CarouselAdapter(this)
 		val arenaListAdapter = ArenaListAdapter(onArenaSelectItem)
 		rv_arena.adapter = arenaListAdapter
-
 
 		vm.rooms.observe(this, android.arch.lifecycle.Observer {
 			it.let { resource ->
@@ -335,30 +268,39 @@ class MainScreenActivity : AppCompatActivity(),
 			}
 		})
 
+		initArenaRV()
+		initViews()
+		initFCM() // FCM push notifications
+		initFragmentsContainers()
+		arenaSelectTransitionAnim() // Arena select transitions animations
+	}
+
+	private fun initArenaRV() {
 		rv_arena.layoutManager = LinearLayoutManager(this)
 		rv_arena.addItemDecoration(RecyclerViewMargin(24, 1))
 		rv_arena.bringToFront()
 		rv_arena.adapter!!.notifyDataSetChanged()
+	}
 
+	val onArenaSelectItem: (Room, Int) -> Unit = { room, position ->
+		val editor: SharedPreferences.Editor  by lazy { sharedPref.edit() }
+		TransitionManager.beginDelayedTransition(root)
+		this.selectedArena = position
+		this.isArenaShow = false
+		arenaUpConstraintSet.applyTo(root)
+		editor.putInt(getString(R.string.saved_arena), position)
+		editor.commit()
 
-		mMainOnClickListener = MainOnClickListener()
-		mMapOnClickListener = MapOnClickListener()
+		ArenaListAdapter.SELECTED_ITEM = position
+		tvArenaTitle.text = room.name
 
-		initViews()
-		initFragmentsContainers()
+		rv_arena.adapter!!.notifyDataSetChanged()
+		updateCarouselSeatAdapter(room)
+	}
 
-		if (savedInstanceState == null) {
-			presenter.onCreate()
-		}
-
-		val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
-
-		val fcmToken = AuthUtils.fcmtoken
-		if (!fcmToken.isEmpty()) {
-			sendRegistrationToServer(token, fcmToken)
-		}
-
-		// Arena select:
+	private fun arenaSelectTransitionAnim() {
+		arenaDownConstraintSet.clone(this, R.layout.part_arena_down)
+		arenaUpConstraintSet.clone(this, R.layout.part_arena_up)
 		arrowArena_Down.setOnClickListener {
 			TransitionManager.beginDelayedTransition(root)
 			if (!isArenaShow) {
@@ -376,6 +318,52 @@ class MainScreenActivity : AppCompatActivity(),
 		}
 	}
 
+	/** seat type carousel view */
+	// TODO: remove this!!!
+	private fun updateCarouselSeatAdapter(room: Room?) {
+
+		val widthPx = WinstrikeApp.getInstance().displayWidhtPx
+
+		if (!TextUtils.isEmpty(room?.usualDescription) &&
+				!TextUtils.isEmpty(room?.vipDescription)) {
+			carouselAdapter!!.setPagesCount(2)
+			carouselAdapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 0, "Общий зал")
+			carouselAdapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 1, "Vip зал")
+		} else {
+			carouselAdapter!!.setPagesCount(1)
+			carouselAdapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 0, "Общий зал")
+		}
+		carouselAdapter!!.notifyDataSetChanged()
+		view_pager_seat!!.adapter = carouselAdapter
+		view_pager_seat!!.setPageTransformer(false, carouselAdapter)
+		view_pager_seat!!.currentItem = 0
+		view_pager_seat!!.offscreenPageLimit = 2
+
+		when {
+			widthPx <= Constants.SCREEN_WIDTH_PX_720 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_350
+			widthPx <= Constants.SCREEN_WIDTH_PX_1080 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_450
+			widthPx <= Constants.SCREEN_WIDTH_PX_1440 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_600
+			else -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_450
+		}
+	}
+
+	/** click on seat in carousel view */
+	override fun onSeatClick(seat: SeatModel) {
+		TimeDataModel.clearPids()
+		showFragmentHolderContainer(true)
+		// TODO: remove this!!!
+		WinstrikeApp.getInstance().seat = seat
+		presenter.onChooseScreenClick()
+	}
+
+	private fun initFCM() {
+		val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
+
+		val fcmToken = AuthUtils.fcmtoken
+		if (!fcmToken.isEmpty()) {
+			sendRegistrationToServer(token, fcmToken)
+		}
+	}
 
 	private fun initViews() {
 		initBottomNavigationBar()
@@ -399,9 +387,7 @@ class MainScreenActivity : AppCompatActivity(),
 			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
 		}
 		supportActionBar!!.setDisplayShowTitleEnabled(false)
-
 	}
-
 
 	private fun setHomeScreenStateVisibility(isVisible: Boolean) {
 		if (isVisible) {
@@ -587,7 +573,6 @@ class MainScreenActivity : AppCompatActivity(),
 
 	}
 
-
 	// TODO: remove it !!!
 	// Social networks links block:
 	override fun onGooglePlayButtonClick() {
@@ -620,7 +605,7 @@ class MainScreenActivity : AppCompatActivity(),
 
 	private fun shareImgOnRecommendClick() {
 		val attachedUri = Uri.parse(Constants.ANDROID_RESOURCES_PATH + packageName
-				+ Constants.SHARE_DRAWABLE + Constants.SHARE_IMG)
+				                            + Constants.SHARE_DRAWABLE + Constants.SHARE_IMG)
 		val shareIntent = ShareCompat.IntentBuilder.from(this)
 				.setType(Constants.IMAGE_TYPE)
 				.setStream(attachedUri)
@@ -629,7 +614,7 @@ class MainScreenActivity : AppCompatActivity(),
 		startActivity(Intent.createChooser(shareIntent, Constants.SHARE_IMG_TITLE))
 	}
 
-	// Map actions block:
+	// TODO: remove this Map actions block:
 	private fun dlgMapLegend() {
 		mDlgMapLegend = Dialog(this, android.R.style.Theme_Dialog)
 		mDlgMapLegend!!.requestWindowFeature(Window.FEATURE_NO_TITLE)

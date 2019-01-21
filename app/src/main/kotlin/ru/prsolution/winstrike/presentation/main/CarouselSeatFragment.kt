@@ -33,7 +33,7 @@ class CarouselSeatFragment : Fragment() {
 
     interface OnChoosePlaceButtonsClickListener {
 
-        fun onChooseArenaSeatClick(seat: SeatModel)
+        fun onSeatClick(seat: SeatModel)
     }
 
     override fun onAttach(context: Context?) {
@@ -80,7 +80,7 @@ class CarouselSeatFragment : Fragment() {
         val root = itemSeat!!.findViewById<ChooseSeatLinearLayout>(R.id.root)
         val scale = this.arguments!!.getFloat("scale")
         root.setScaleBoth(scale)
-        thumbnail.setOnClickListener { it -> listener.onChooseArenaSeatClick(seat) }
+        thumbnail.setOnClickListener { it -> listener.onSeatClick(seat) }
         return itemSeat
     }
 
