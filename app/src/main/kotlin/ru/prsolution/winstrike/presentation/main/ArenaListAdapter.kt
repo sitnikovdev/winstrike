@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.dlg_logout.view.title
-import kotlinx.android.synthetic.main.dlg_time_tw.view.tv_title
 import kotlinx.android.synthetic.main.item_arena.view.address
 import kotlinx.android.synthetic.main.item_arena.view.iv_checked
 import ru.prsolution.winstrike.presentation.utils.inflate
@@ -14,7 +13,7 @@ import ru.prsolution.winstrike.presentation.utils.setColor
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.mvp.apimodels.Room
 
-class ArenaListAdapter constructor(private val itemClick: (Int) -> Unit) :
+class ArenaListAdapter (private val itemClick: (Room, Int) -> Unit) :
 		ListAdapter<Room, ArenaListAdapter.ViewHolder>(PostDiffCallback()) {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -40,7 +39,7 @@ class ArenaListAdapter constructor(private val itemClick: (Int) -> Unit) :
 				itemView.iv_checked.visibility = View.GONE
 			}
 
-			itemView.setOnClickListener { itemClick.invoke(position) }
+			itemView.setOnClickListener { itemClick.invoke(item,position) }
 		}
 	}
 

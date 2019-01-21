@@ -38,9 +38,8 @@ import ru.prsolution.winstrike.mvp.apimodels.Room
 import ru.prsolution.winstrike.mvp.models.*
 import ru.prsolution.winstrike.mvp.views.MainScreenView
 import ru.prsolution.winstrike.networking.RetrofitFactory
-import ru.prsolution.winstrike.ui.login.SignInActivity
 import ru.prsolution.winstrike.ui.main.AppFragment.OnAppButtonsClickListener
-import ru.prsolution.winstrike.ui.main.CarouselSeatFragment.OnChoosePlaceButtonsClickListener
+import ru.prsolution.winstrike.presentation.main.CarouselSeatFragment.OnChoosePlaceButtonsClickListener
 import ru.prsolution.winstrike.ui.main.ChooseScreenFragment.onMapShowProcess
 import ru.prsolution.winstrike.ui.main.ProfileFragment.OnProfileButtonsClickListener
 import ru.prsolution.winstrike.presentation.splash.SplashActivity
@@ -193,7 +192,7 @@ class MainScreenActivity : AppCompatActivity(),
 //    }
 
 
-	val onArenaSelectItem: (Int) -> Unit = { position ->
+	val onArenaSelectItem: (Room, Int) -> Unit = { room, position ->
 		TransitionManager.beginDelayedTransition(root)
 		this.selectedArena = position
 		this.isArenaShow = false
@@ -202,25 +201,24 @@ class MainScreenActivity : AppCompatActivity(),
 		editor.commit()
 
 		ArenaListAdapter.SELECTED_ITEM = position
-		tvArenaTitle.text = rooms!![selectedArena].name
-
-		initArena()
+		tvArenaTitle.text = room.name
 
 		rv_arena.adapter!!.notifyDataSetChanged()
+		updateCarouselSeatAdapter(room)
 	}
 
-	private fun initCarouselArenaSeat(room: Room) {
+	private fun updateCarouselSeatAdapter(room: Room?) {
 
 		val widthPx = WinstrikeApp.getInstance().displayWidhtPx
 
-		if (!TextUtils.isEmpty(room.usualDescription) &&
-				!TextUtils.isEmpty(room.vipDescription)) {
+		if (!TextUtils.isEmpty(room?.usualDescription) &&
+				!TextUtils.isEmpty(room?.vipDescription)) {
 			adapter!!.setPagesCount(2)
-			adapter!!.addFragment(CarouselSeatFragment.newInstance(this, 0), 0, "Общий зал")
-			adapter!!.addFragment(CarouselSeatFragment.newInstance(this, 1), 1, "Vip зал")
+			adapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 0, "Общий зал")
+			adapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 1, "Vip зал")
 		} else {
 			adapter!!.setPagesCount(1)
-			adapter!!.addFragment(CarouselSeatFragment.newInstance(this, 0), 0, "Общий зал")
+			adapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 0, "Общий зал")
 		}
 		adapter!!.notifyDataSetChanged()
 		view_pager_seat!!.adapter = adapter
@@ -295,6 +293,8 @@ class MainScreenActivity : AppCompatActivity(),
 	}
 
 
+	private lateinit var vm: ArenaListViewModel
+
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		val service = RetrofitFactory.makeRetrofitService()
 		presenter = MainScreenPresenter(service)
@@ -303,113 +303,82 @@ class MainScreenActivity : AppCompatActivity(),
 
 		setContentView(R.layout.ac_mainscreen)
 
-		// TODO: remove this in future
-		this.rooms = WinstrikeApp.getInstance().rooms
 
-
-		if (this.rooms == null) {
-			val intent = Intent(this, SignInActivity::class.java)
-			intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-			startActivity(intent)
-		} else {
-			for (room in rooms!!) {
-				val arenaTitle = room.name ?: "No title"
-				val arenaMetro = room.metro ?: "No metro"
-				arenaItems.add(ArenaItem(arenaTitle, arenaMetro, false))
-			}
-
-			sharedPref = getPreferences(Context.MODE_PRIVATE)
-			editor = sharedPref.edit()
-			selectedArena = sharedPref.getInt(getString(R.string.saved_arena), Constants.SAVED_ARENA_DEFAULT)
+		sharedPref = getPreferences(Context.MODE_PRIVATE)
+		editor = sharedPref.edit()
+		selectedArena = sharedPref.getInt(getString(R.string.saved_arena), Constants.SAVED_ARENA_DEFAULT)
 
 //            user = user
 //            toolbar_text.text = user.name
-			tvArenaTitle.text = rooms!![selectedArena].name
 
-			ArenaListAdapter.SELECTED_ITEM = selectedArena
+		ArenaListAdapter.SELECTED_ITEM = selectedArena
 
-			//Transitions animations:
-			arenaDownConstraintSet.clone(this, R.layout.part_arena_down)
-			arenaUpConstraintSet.clone(this, R.layout.part_arena_up)
+		//Transitions animations:
+		arenaDownConstraintSet.clone(this, R.layout.part_arena_down)
+		arenaUpConstraintSet.clone(this, R.layout.part_arena_up)
 
-			val vm: ArenaListViewModel = ViewModelProviders.of(this)[ArenaListViewModel::class.java]
+		 vm  = ViewModelProviders.of(this)[ArenaListViewModel::class.java]
 
-			if (savedInstanceState == null) {
-				vm.get()
+		if (savedInstanceState == null) {
+			vm.get()
+		}
+
+		adapter = CarouselAdapter(this)
+		val arenaListAdapter = ArenaListAdapter(onArenaSelectItem)
+		rv_arena.adapter = arenaListAdapter
+
+
+		vm.rooms.observe(this, android.arch.lifecycle.Observer {
+			it.let { resource ->
+				resource?.data?.let { arenaListAdapter.submitList(it) }
+				updateCarouselSeatAdapter(it?.data?.get(selectedArena))
 			}
+		})
 
-			val arenaListAdapter = ArenaListAdapter(onArenaSelectItem)
-			rv_arena.adapter = arenaListAdapter
-
-
-			vm.rooms.observe(this, android.arch.lifecycle.Observer {
-				it.let { resource ->
-					resource?.data?.let { arenaListAdapter.submitList(it) }
-				}
-			})
-
-			rv_arena.layoutManager = LinearLayoutManager(this)
-			rv_arena.addItemDecoration(RecyclerViewMargin(24, 1))
-			rv_arena.bringToFront()
-			rv_arena.adapter!!.notifyDataSetChanged()
+		rv_arena.layoutManager = LinearLayoutManager(this)
+		rv_arena.addItemDecoration(RecyclerViewMargin(24, 1))
+		rv_arena.bringToFront()
+		rv_arena.adapter!!.notifyDataSetChanged()
 
 
-			adapter = CarouselAdapter(this)
-			initArena()
 
 
-			mMainOnClickListener = MainOnClickListener()
-			mMapOnClickListener = MapOnClickListener()
+		mMainOnClickListener = MainOnClickListener()
+		mMapOnClickListener = MapOnClickListener()
 
-			initViews()
-			initFragmentsContainers()
+		initViews()
+		initFragmentsContainers()
 
-			if (savedInstanceState == null) {
-				presenter.onCreate()
-			}
+		if (savedInstanceState == null) {
+			presenter.onCreate()
+		}
 
-			val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
+		val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
 
-			val fcmToken = AuthUtils.fcmtoken
-			if (!fcmToken.isEmpty()) {
-				sendRegistrationToServer(token, fcmToken)
-			}
+		val fcmToken = AuthUtils.fcmtoken
+		if (!fcmToken.isEmpty()) {
+			sendRegistrationToServer(token, fcmToken)
+		}
 
-			// Arena select:
-			arrowArena_Down.setOnClickListener {
-				TransitionManager.beginDelayedTransition(root)
-				if (!isArenaShow) {
-					isArenaShow = true
-					arenaDownConstraintSet.applyTo(root)
-				} else {
-					arenaUpConstraintSet.applyTo(root)
-					isArenaShow = false
-				}
-			}
-
-			arrowArena_Up.setOnClickListener {
-				TransitionManager.beginDelayedTransition(root)
+		// Arena select:
+		arrowArena_Down.setOnClickListener {
+			TransitionManager.beginDelayedTransition(root)
+			if (!isArenaShow) {
+				isArenaShow = true
+				arenaDownConstraintSet.applyTo(root)
+			} else {
 				arenaUpConstraintSet.applyTo(root)
+				isArenaShow = false
 			}
 		}
+
+		arrowArena_Up.setOnClickListener {
+			TransitionManager.beginDelayedTransition(root)
+			arenaUpConstraintSet.applyTo(root)
+		}
 	}
 
-	private fun initArena() {
-		val uri: Uri
-		if (rooms!![selectedArena].imageUrl != null) {
-			uri = Uri.parse(rooms!![selectedArena].imageUrl)
-			head_image.setImageURI(uri)
-		}
-		if (rooms!![selectedArena].name != null) {
-//            user.name = rooms!![selectedArena].name
-//            toolbar.title
-		}
-		if (rooms!![selectedArena].description != null) {
-
-			arena_description.text = rooms!![selectedArena].description
-		}
-		initCarouselArenaSeat(rooms!![selectedArena])
-	}
+		// TODO: make it by view model
 
 	private fun initViews() {
 		initBottomNavigationBar()

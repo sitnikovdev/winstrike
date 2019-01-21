@@ -33,17 +33,6 @@ class SplashPresenter(private val service: Service, private val activity: Splash
 
     fun getActiveArena() {
 
-        GlobalScope.launch {
-            val request = retrofitService.arenas
-            try {
-                val response = request.await()
-                response.body()?.let { activity.onGetArenasResponseSuccess(it) }
-            } catch (e: HttpException) {
-                Timber.e(e.message())
-            } catch (e: Throwable) {
-                Timber.e(e)
-            }
-        }
     }
 
 

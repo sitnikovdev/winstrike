@@ -2,8 +2,9 @@ package ru.prsolution.winstrike.mvp.apimodels
 
 import com.google.gson.annotations.SerializedName
 import ru.prsolution.winstrike.R
+import java.io.Serializable
 
-class Room {
+class Room : Serializable {
 
 	@SerializedName("name")
 	var name: String? = null

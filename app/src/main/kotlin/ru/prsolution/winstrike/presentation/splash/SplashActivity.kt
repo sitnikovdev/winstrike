@@ -52,7 +52,8 @@ open class SplashActivity : AppCompatActivity() {
             }
 
             override fun onAnimationEnd(animation: Animator) {
-                splashPresenter.getActiveArena()
+//                splashPresenter.getActiveArena()
+                openMainActivity()
                 finish()
             }
 
@@ -90,14 +91,14 @@ open class SplashActivity : AppCompatActivity() {
     }
 
 
-    fun onGetArenasResponseSuccess(authResponse: Arenas) {
-        Timber.d("Success get map data from server: %s", authResponse)
+    fun openMainActivity() {
+//        Timber.d("Success get map data from server: %s", authResponse)
         /**
          * data for active room pid successfully get from server.
          * save pid and get map for selected time period
          */
-        rooms = authResponse.rooms
-        WinstrikeApp.getInstance().rooms = rooms
+//        rooms = authResponse.rooms
+//        WinstrikeApp.getInstance().rooms = rooms
 
         if (AuthUtils.isFirstLogin) {
             AuthUtils.isFirstLogin = false

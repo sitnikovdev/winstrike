@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.main
+package ru.prsolution.winstrike.presentation.main
 
 /*
  * Created by oleg on 01.02.2018.
@@ -19,7 +19,7 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.common.ChooseSeatLinearLayout
 import ru.prsolution.winstrike.mvp.apimodels.Room
 import ru.prsolution.winstrike.mvp.models.SeatModel
-import ru.prsolution.winstrike.presentation.main.MainScreenActivity
+import timber.log.Timber
 
 class CarouselSeatFragment : Fragment() {
 
@@ -27,8 +27,7 @@ class CarouselSeatFragment : Fragment() {
     lateinit var listener: OnChoosePlaceButtonsClickListener
     private var itemSeat: View? = null
     private var mSelectedArena: Int = 0
-    private var mPosition = 0
-    private var rooms: List<Room>? = null
+    private  var mRoom: Room? = null
     private var mainScreenActivity: MainScreenActivity? = null
 
 
@@ -42,19 +41,18 @@ class CarouselSeatFragment : Fragment() {
         if (context is OnChoosePlaceButtonsClickListener) {
             listener = context
         } else {
-            throw ClassCastException(context!!.toString() + " must implements OnChoosePlaceButtonsClickListener ")
+            throw ClassCastException(context!!.toString() + " must implements OnChoosePlaceButtonsClickListener ") as Throwable
         }
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bdl = arguments
 
         try {
-            mPosition = bdl!!.getInt("pos")
+            mRoom =  arguments?.getSerializable("room") as Room
         } catch (e: Exception) {
-            // Do nothing
+			Timber.e(e)
         }
 
     }
@@ -69,9 +67,8 @@ class CarouselSeatFragment : Fragment() {
         itemSeat = inflater.inflate(R.layout.item_seats, container, false)
 
         this.mSelectedArena = mainScreenActivity!!.selectedArena
-        this.rooms = mainScreenActivity!!.rooms
 
-        val seat = setUpFragmentData(rooms!![mSelectedArena])
+        val seat = setUpFragmentData(mRoom)
 
         val seat_title = itemSeat!!.findViewById<TextView>(R.id.seat_title)
         seat_title.text = seat.type
@@ -87,29 +84,29 @@ class CarouselSeatFragment : Fragment() {
         return itemSeat
     }
 
-    private fun setUpFragmentData(room: Room): SeatModel {
+    private fun setUpFragmentData(room: Room?): SeatModel {
 
-        return if (!TextUtils.isEmpty(room.usualDescription) && !TextUtils.isEmpty(room.vipDescription)) {
-            if (mPosition == 0) {
+        return if (!TextUtils.isEmpty(room?.usualDescription) && !TextUtils.isEmpty(room?.vipDescription)) {
+            if (mRoom == null) {
                 SeatModel(getString(R.string.common_hall),
-                        room.usualImageUrl ?: "", room.usualDescription ?: ""
+                        room?.usualImageUrl ?: "", room?.usualDescription ?: ""
                 )
             } else {
                 SeatModel(getString(R.string.vip_hp),
-                        room.usualImageUrl ?: "", room.usualDescription ?: ""
+                        room?.usualImageUrl ?: "", room?.usualDescription ?: ""
                 )
             }
-        } else if (!TextUtils.isEmpty(room.usualDescription)) {
+        } else if (!TextUtils.isEmpty(room?.usualDescription)) {
             SeatModel(getString(R.string.common_hall),
-                    room.usualImageUrl ?: "", room.usualDescription ?: ""
+                    room?.usualImageUrl ?: "", room?.usualDescription ?: ""
             )
-        } else if (!TextUtils.isEmpty(room.vipDescription)) {
+        } else if (!TextUtils.isEmpty(room?.vipDescription)) {
             SeatModel(getString(R.string.vip_hp),
-                    room.usualImageUrl ?: "", room.usualDescription ?: ""
+                    room?.usualImageUrl ?: "", room?.usualDescription ?: ""
             )
         } else {
             SeatModel(getString(R.string.common_hall),
-                    room.usualImageUrl ?: "", room.usualDescription ?: ""
+                    room?.usualImageUrl ?: "", room?.usualDescription ?: ""
             )
 
         }
@@ -117,9 +114,9 @@ class CarouselSeatFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(c: Context, pos: Int): Fragment {
+        fun newInstance(c: Context, room: Room?): Fragment {
             val bundle = Bundle()
-            bundle.putInt("pos", pos)
+            bundle.putSerializable("room", room)
             return Fragment.instantiate(c, CarouselSeatFragment::class.java.name, bundle)
         }
     }
