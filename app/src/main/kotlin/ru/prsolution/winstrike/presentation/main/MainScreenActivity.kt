@@ -341,8 +341,6 @@ class MainScreenActivity : AppCompatActivity(),
 		rv_arena.adapter!!.notifyDataSetChanged()
 
 
-
-
 		mMainOnClickListener = MainOnClickListener()
 		mMapOnClickListener = MapOnClickListener()
 
@@ -378,7 +376,6 @@ class MainScreenActivity : AppCompatActivity(),
 		}
 	}
 
-		// TODO: make it by view model
 
 	private fun initViews() {
 		initBottomNavigationBar()
@@ -553,6 +550,7 @@ class MainScreenActivity : AppCompatActivity(),
 		Toast.makeText(this, R.string.message_on_success_profile_update, Toast.LENGTH_LONG).show()
 	}
 
+	// TODO: remove it!!!
 	private fun dlgProfileSingOut() {
 		mDlgSingOut = Dialog(this, android.R.style.Theme_Dialog)
 		mDlgSingOut!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -590,6 +588,7 @@ class MainScreenActivity : AppCompatActivity(),
 	}
 
 
+	// TODO: remove it !!!
 	// Social networks links block:
 	override fun onGooglePlayButtonClick() {
 		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_GOOGLE_PLAY)))
@@ -774,6 +773,7 @@ class MainScreenActivity : AppCompatActivity(),
 	}
 
 	//FCM push message services:
+	// TODO: move it in start activity or App
 	private fun sendRegistrationToServer(authToken: String, refreshedToken: String) {
 		val fcmModel = FCMModel()
 		fcmModel.token = refreshedToken
