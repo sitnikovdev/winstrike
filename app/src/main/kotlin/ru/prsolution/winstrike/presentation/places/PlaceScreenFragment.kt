@@ -6,17 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.common.BackButtonListener
 import ru.prsolution.winstrike.datasource.model.OrderModel
 import ru.prsolution.winstrike.presentation.utils.vpadapter.SeatAdapter
-import ru.prsolution.winstrike.mvp.views.PlacesView
 import ru.prsolution.winstrike.networking.Service
 import java.util.ArrayList
 
 
-class PlaceScreenFragment : Fragment(), PlacesView, BackButtonListener {
+class PlaceScreenFragment : Fragment(),  BackButtonListener {
 	private val mPayList = ArrayList<OrderModel>()
 
 
@@ -26,7 +24,6 @@ class PlaceScreenFragment : Fragment(), PlacesView, BackButtonListener {
 
 	var service: Service? = null
 
-	@InjectPresenter
 	var presenter: PlacesPresenter? = null
 
 
@@ -77,9 +74,9 @@ class PlaceScreenFragment : Fragment(), PlacesView, BackButtonListener {
 		presenter!!.onStop()
 	}
 
-	override fun showWait() {}
+	 fun showWait() {}
 
-	override fun removeWait() {}
+	 fun removeWait() {}
 
 
 	protected fun toast(message: String) {

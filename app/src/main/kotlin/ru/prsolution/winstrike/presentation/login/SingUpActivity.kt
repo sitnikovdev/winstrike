@@ -17,7 +17,6 @@ import ru.prsolution.winstrike.common.utils.TextFormat
 import ru.prsolution.winstrike.domain.models.LoginModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.domain.models.UserEntity
-import ru.prsolution.winstrike.mvp.views.RegisterView
 import ru.prsolution.winstrike.networking.Service
 import timber.log.Timber
 
@@ -31,7 +30,7 @@ import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
  * Created by oleg on 31.01.2018.
  */
 
-class SingUpActivity : AppCompatActivity(), RegisterView {
+class SingUpActivity : AppCompatActivity(){
 
 
 	var service: Service? = null
@@ -48,7 +47,7 @@ class SingUpActivity : AppCompatActivity(), RegisterView {
 
 		init()
 
-		presenter = RegisterPresenter(service, this)
+		presenter = RegisterPresenter(service)
 
 	}
 
@@ -76,7 +75,7 @@ class SingUpActivity : AppCompatActivity(), RegisterView {
 		setFooter()
 	}
 
-	override fun onSendSmsSuccess(authResponse: MessageResponse) {
+	 fun onSendSmsSuccess(authResponse: MessageResponse) {
 		Timber.d("Sms send successfully: %s", authResponse.message)
 		toast("Код выслан")
 		val intent = Intent(this@SingUpActivity, UserConfirmActivity::class.java)
@@ -84,7 +83,7 @@ class SingUpActivity : AppCompatActivity(), RegisterView {
 		startActivity(intent)
 	}
 
-	override fun onSmsSendFailure(appErrorMessage: String) {
+	 fun onSmsSendFailure(appErrorMessage: String) {
 		Timber.d("Sms send failure: %s", appErrorMessage)
 	}
 
@@ -109,15 +108,15 @@ class SingUpActivity : AppCompatActivity(), RegisterView {
 	}
 
 
-	override fun showWait() {}
+	 fun showWait() {}
 
-	override fun removeWait() {}
+	 fun removeWait() {}
 
 
 	/**
 	 * Register new user and send him sms with confirm code.
 	 */
-	override fun onRegisterSuccess(authResponse: AuthResponse) {
+	 fun onRegisterSuccess(authResponse: AuthResponse) {
 		Timber.d("Register success: %s", authResponse)
 		//        toast("Пользователь создан");
 		//        setOperation();
@@ -144,7 +143,7 @@ class SingUpActivity : AppCompatActivity(), RegisterView {
 		startActivity(intent)
 	}
 
-	override fun onRegisterFailure(appErrorMessage: String) {
+	 fun onRegisterFailure(appErrorMessage: String) {
 		Timber.d("Register failure: %s", appErrorMessage)
 		if (appErrorMessage.contains("409")) toast("Пользователь уже существует")
 		if (appErrorMessage.contains("422")) toast("Пароль слишком короткий.")

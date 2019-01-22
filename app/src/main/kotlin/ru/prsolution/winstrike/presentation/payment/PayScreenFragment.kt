@@ -9,23 +9,20 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
-import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.content_main.webView
 import kotlinx.android.synthetic.main.fmt_pay.progressBar
 import kotlinx.android.synthetic.main.fmt_pay.toolbar
 import kotlinx.android.synthetic.main.fmt_pay.toolbar_text
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.common.BackButtonListener
-import ru.prsolution.winstrike.mvp.views.PayView
 import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.presentation.utils.Constants
 import timber.log.Timber
 
-class PayScreenFragment : Fragment(), PayView, BackButtonListener {
+class PayScreenFragment : Fragment(),  BackButtonListener {
 
 	internal var service: Service? = null
 
-	@InjectPresenter
 	internal var presenter: PayPresenter? = null
 
 
@@ -88,15 +85,15 @@ class PayScreenFragment : Fragment(), PayView, BackButtonListener {
 		return false
 	}
 
-	override fun showWait() {
+	 fun showWait() {
 		progressBar!!.visibility = View.VISIBLE
 	}
 
-	override fun removeWait() {
+	 fun removeWait() {
 		progressBar!!.visibility = View.GONE
 	}
 
-	override fun loadUrl(url: String) {
+	 fun loadUrl(url: String) {
 		webView!!.loadUrl(url)
 	}
 

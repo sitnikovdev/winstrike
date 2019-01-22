@@ -16,7 +16,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import kotlinx.android.synthetic.main.ac_smshelp.displayWorkTimeLeft
 import kotlinx.android.synthetic.main.ac_smshelp.et_code
 import kotlinx.android.synthetic.main.ac_smshelp.et_phone
@@ -32,7 +31,6 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.common.utils.TextFormat
-import ru.prsolution.winstrike.databinding.AcSmshelpBinding
 import ru.prsolution.winstrike.networking.NetworkError
 import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.domain.models.TimerViewModel
@@ -80,9 +78,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 		timer!!.listener = this
 
 
-		val binding = DataBindingUtil.setContentView<AcSmshelpBinding>(this, R.layout.ac_smshelp)
-
-		binding.viewmodel = timer
+		setContentView(R.layout.ac_smshelp)
 
 //		setSupportActionBar(toolbar)
 //		supportActionBar!!.setDisplayShowTitleEnabled(false)

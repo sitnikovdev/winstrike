@@ -3,12 +3,11 @@ package ru.prsolution.winstrike.presentation.login
 import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
 import ru.prsolution.winstrike.domain.models.LoginModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
-import ru.prsolution.winstrike.mvp.views.RegisterView
 import ru.prsolution.winstrike.networking.NetworkError
 import ru.prsolution.winstrike.networking.Service
 import rx.subscriptions.CompositeSubscription
 
-class RegisterPresenter(private val service: Service?, private val view: RegisterView) {
+class RegisterPresenter(private val service: Service?) {
 	private val subscriptions: CompositeSubscription
 
 	init {
@@ -40,11 +39,11 @@ class RegisterPresenter(private val service: Service?, private val view: Registe
 
 		val subscription = service?.sendSmsByUserRequest(object : Service.SmsCallback {
 			override fun onSuccess(authResponse: MessageResponse) {
-				view.onSendSmsSuccess(authResponse)
+//				view.onSendSmsSuccess(authResponse)
 			}
 
 			override fun onError(networkError: NetworkError) {
-				view.onSmsSendFailure(networkError.appErrorMessage)
+//				view.onSmsSendFailure(networkError.appErrorMessage)
 			}
 
 		}, smsModel)

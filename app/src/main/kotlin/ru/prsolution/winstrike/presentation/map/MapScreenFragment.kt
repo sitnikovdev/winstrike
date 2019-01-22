@@ -36,7 +36,6 @@ import ru.prsolution.winstrike.domain.models.Seat
 import ru.prsolution.winstrike.domain.models.SeatType
 import ru.prsolution.winstrike.domain.models.TimeDataModel
 import ru.prsolution.winstrike.domain.models.Wall
-import ru.prsolution.winstrike.mvp.views.MapView
 import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.presentation.main.MainScreenActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
@@ -46,7 +45,7 @@ import timber.log.Timber
 /**
  * Created by terrakok 26.11.16
  */
-class MapScreenFragment : Fragment(), MapView {
+class MapScreenFragment : Fragment() {
 
 	internal var rootLayout: RelativeLayout? = null
 	private var snackbar: Snackbar? = null
@@ -98,7 +97,7 @@ class MapScreenFragment : Fragment(), MapView {
 	}
 
 
-	override fun onScreenInit() {
+	fun onScreenInit() {
 		heightDp = WinstrikeApp.instance.displayHeightDp
 		widthDp = WinstrikeApp.instance.displayWidhtDp
 		rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
@@ -106,7 +105,7 @@ class MapScreenFragment : Fragment(), MapView {
 	}
 
 
-	override fun showSeat(room: GameRoom) {
+	fun showSeat(room: GameRoom) {
 		this.mRoom = room
 		drawSeat(mRoom)
 	}
@@ -415,11 +414,11 @@ class MapScreenFragment : Fragment(), MapView {
 		}
 	}
 
-	override fun onSnackBarShow() {
+	fun onSnackBarShow() {
 		snackbar!!.show()
 	}
 
-	override fun onSnackBarHide() {
+	fun onSnackBarHide() {
 		snackbar!!.dismiss()
 	}
 
@@ -430,11 +429,11 @@ class MapScreenFragment : Fragment(), MapView {
 	}
 
 
-	override fun showWait() {}
+	fun showWait() {}
 
-	override fun removeWait() {}
+	fun removeWait() {}
 
-	override fun onGetPaymentResponseSuccess(payResponse: PaymentResponse) {
+	 fun onGetPaymentResponseSuccess(payResponse: PaymentResponse) {
 		Timber.tag("common").d("Pay successfully: %s", payResponse)
 
 		val url = payResponse.redirectUrl
@@ -452,7 +451,7 @@ class MapScreenFragment : Fragment(), MapView {
 	/**
 	 * Something goes wrong, and we can't bye seat from Winstrike PC club. show user toast with description this fucking situation.
 	 */
-	override fun onGetPaymentFailure(appErrorMessage: String) {
+	 fun onGetPaymentFailure(appErrorMessage: String) {
 		val timeFrom = TimeDataModel.start
 		val timeTo = TimeDataModel.end
 		Timber.d("timeFrom: %s", timeFrom)

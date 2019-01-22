@@ -19,7 +19,6 @@ package ru.prsolution.winstrike.domain.models
 
 import java.util.TimerTask
 
-import androidx.databinding.ObservableInt
 import ru.prsolution.winstrike.common.utils.DefaultTimer
 
 class TimerViewModel {
@@ -29,14 +28,14 @@ class TimerViewModel {
 
 	var timer: DefaultTimer
 	var timerRunning: Boolean? = null
-	    get() {
-		    return state == TimerStates.STARTED
-	    }
+		get() {
+			return state == TimerStates.STARTED
+		}
 
 
-	var workTimeLeft = ObservableInt(INITIAL_SECONDS_PER_WORK_SET * 10)
-		set // tenths
-	var timePerWorkSet = ObservableInt(INITIAL_SECONDS_PER_WORK_SET * 10) // tenths
+//	var workTimeLeft = ObservableInt(INITIAL_SECONDS_PER_WORK_SET * 10)
+//		set // tenths
+//	var timePerWorkSet = ObservableInt(INITIAL_SECONDS_PER_WORK_SET * 10) // tenths
 
 	var state = TimerStates.STOPPED
 
@@ -104,32 +103,31 @@ class TimerViewModel {
 
 	private fun updateWorkCountdowns(elapsed: Long?) {
 		//        stage = StartedStages.WORKING
-		val newTimeLeft = (timePerWorkSet.get() - elapsed!! / 100).toInt()
-		if (newTimeLeft <= 0) {
-			workoutFinished()
-		}
-		workTimeLeft.set(coerceAt(newTimeLeft, 0))
-
+//		val newTimeLeft = (timePerWorkSet.get() - elapsed!! / 100).toInt()
+//		if (newTimeLeft <= 0) {
+		workoutFinished()
 	}
-
-	private fun coerceAt(newTimeLeft: Int?, minimumValue: Int): Int {
-			return if (newTimeLeft!! >= minimumValue) {
-				newTimeLeft
-			} else {
-				0
-			}
-	}
-
-	private fun workoutFinished() {
-		this.listener.onTimeFinish()
-		//        state = TimerStates.STOPPED;
-		timer.resetStartTime()
-		//        stage = StartedStages.RESTING
-		//        notifyPropertyChanged(BR.inWorkingStage)
-	}
-
-	enum class TimerStates {
-		STOPPED, STARTED, PAUSED
-	}
+//		workTimeLeft.set(coerceAt(newTimeLeft, 0))
 
 }
+
+private fun coerceAt(newTimeLeft: Int?, minimumValue: Int): Int {
+	return if (newTimeLeft!! >= minimumValue) {
+		newTimeLeft
+	} else {
+		0
+	}
+}
+
+private fun workoutFinished() {
+//		this.listener.onTimeFinish()
+	//        state = TimerStates.STOPPED;
+//		timer.resetStartTime()
+	//        stage = StartedStages.RESTING
+	//        notifyPropertyChanged(BR.inWorkingStage)
+}
+
+enum class TimerStates {
+	STOPPED, STARTED, PAUSED
+}
+

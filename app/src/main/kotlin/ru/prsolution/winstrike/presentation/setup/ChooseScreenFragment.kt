@@ -10,36 +10,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import java.util.HashMap
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.databinding.FrmChooseBinding
 import ru.prsolution.winstrike.datasource.model.Arenas
 import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
 import ru.prsolution.winstrike.domain.models.TimeDataModel
-import ru.prsolution.winstrike.mvp.views.IChooseView
 import ru.prsolution.winstrike.networking.Service
 import timber.log.Timber
 
 
-class ChooseScreenFragment : Fragment(), IChooseView {
+class ChooseScreenFragment : Fragment() {
 
 	var mProgressDialog: ProgressDialog? = null
 	private var listener: onMapShowProcess? = null
 
-//	private var dataPicker: com.ositnikov.datepicker.DataPicker? = null
+	//	private var dataPicker: com.ositnikov.datepicker.DataPicker? = null
 //	private var dateListener: DateListener? = null
 	private var timePickerDialog: TimePickerDialog? = null
 	private var selectedArena = 0
 
-	lateinit var binding: FrmChooseBinding
-
 
 	var presenter: ChooseScreenPresenter? = null
 
-//	@Inject
+	//	@Inject
 	var service: Service? = null
 
 
@@ -60,8 +55,8 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 		}
 	}
 
- override fun onCreate(savedInstanceState: Bundle?) {
-	 WinstrikeApp.instance.appComponent?.inject(this)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		WinstrikeApp.instance.appComponent?.inject(this)
 		super.onCreate(savedInstanceState)
 		this.selectedArena = arguments!!.getInt(
 				ACTIVE_ARENA)
@@ -70,14 +65,7 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val seat = WinstrikeApp.instance.seat
-		binding = DataBindingUtil.inflate(inflater, R.layout.frm_choose, container, false)
-		binding.seat = seat
-		val uri = Uri.parse(seat?.imgCarousel)
-		binding.headImage.setImageURI(uri)
-		binding.td = TimeDataModel
-		binding.iChooseView = this
-		val view = binding.root
-
+		val view = inflater.inflate(R.layout.frm_choose, container, false)
 		return view
 	}
 
@@ -95,12 +83,12 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 
 	}
 
-	override fun onDateClickListener() {
+	fun onDateClickListener() {
 		TimeDataModel.setIsDateSelect(true)
 //		dataPicker!!.build().show()
 	}
 
-	override fun onTimeClickListener() {
+	fun onTimeClickListener() {
 		if (TimeDataModel.getIsDateSelect()) {
 			timePickerDialog = TimePickerDialog(activity)
 		} else {
@@ -109,7 +97,7 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 	}
 
 
-	override fun onNextButtonClickListener() {
+	fun onNextButtonClickListener() {
 		if (valideateDate(TimeDataModel.start, TimeDataModel.end)) {
 			presenter!!.getActiveArena(this.selectedArena)
 		} else {
@@ -117,7 +105,7 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 		}
 	}
 
-	override fun onGetArenasResponseSuccess(authResponse: Arenas, selectedArena: Int) {
+	fun onGetArenasResponseSuccess(authResponse: Arenas, selectedArena: Int) {
 		Timber.d("Success get map data from server: %s", authResponse)
 		/**
 		 * data for active room pid successfully get from server.
@@ -134,7 +122,7 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 		presenter!!.getArenaByTimeRange(activePid, time)
 	}
 
-	override fun onGetArenaByTimeResponseSuccess(roomLayoutFactory: RoomLayoutFactory) {
+	fun onGetArenaByTimeResponseSuccess(roomLayoutFactory: RoomLayoutFactory) {
 		Timber.d("Success get layout data from server: %s", roomLayoutFactory)
 		/**
 		 * data for seat mapping successfully get from sever.
@@ -149,7 +137,7 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 	/**
 	 * Something go wrong with map request, show user message in toast
 	 */
-	override fun onGetAcitivePidFailure(appErrorMessage: String) {
+	fun onGetAcitivePidFailure(appErrorMessage: String) {
 		Timber.d("Failure get map from server: %s", appErrorMessage)
 		if (appErrorMessage.contains("502")) {
 			toast(activity, getString(R.string.server_error_502))
@@ -161,7 +149,7 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 	/**
 	 * Something go wrong with map request
 	 */
-	override fun onGetArenaByTimeFailure(appErrorMessage: String) {
+	fun onGetArenaByTimeFailure(appErrorMessage: String) {
 		Timber.d("Failure get layout from server: %s", appErrorMessage)
 		if (appErrorMessage.contains("416")) {
 			toast(activity, getString(R.string.not_working_range))
@@ -188,11 +176,11 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 		}
 	}
 
-	override fun showWait() {
+	fun showWait() {
 		showProgressDialog()
 	}
 
-	override fun removeWait() {
+	fun removeWait() {
 		hideProgressDialog()
 	}
 

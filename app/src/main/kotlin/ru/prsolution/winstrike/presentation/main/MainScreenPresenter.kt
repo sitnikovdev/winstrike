@@ -1,11 +1,9 @@
 package ru.prsolution.winstrike.presentation.main
 
-import com.arellomobile.mvp.MvpPresenter
 import ru.prsolution.winstrike.datasource.model.OrderModel
 import ru.prsolution.winstrike.domain.models.FCMModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.domain.models.ProfileModel
-import ru.prsolution.winstrike.mvp.views.MainScreenView
 import ru.prsolution.winstrike.networking.RetrofitService
 import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
@@ -14,7 +12,7 @@ import timber.log.Timber
  * Created by terrakok 25.11.16
  */
 class MainScreenPresenter(//    private Router router;
-		private val service: RetrofitService) : MvpPresenter<MainScreenView>() {
+		private val service: RetrofitService)   {
 	private val subscriptions: CompositeSubscription
 
 	init {

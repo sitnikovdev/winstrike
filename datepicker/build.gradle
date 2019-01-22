@@ -26,6 +26,7 @@ android {
         setTargetCompatibility(1.8)
     }
 
+
 }
 
 dependencies {

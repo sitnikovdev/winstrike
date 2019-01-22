@@ -12,24 +12,17 @@ import androidx.fragment.app.Fragment;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.BackButtonListener;
-import ru.prsolution.winstrike.common.RouterProvider;
 import ru.prsolution.winstrike.datasource.model.OrderModel;
-import ru.prsolution.winstrike.mvp.views.MainScreenView;
 import ru.prsolution.winstrike.presentation.main.MainScreenActivity;
-import ru.prsolution.winstrike.subnavigation.LocalCiceroneHolder;
-import ru.prsolution.winstrike.ui.Screens;
-import ru.terrakok.cicerone.Cicerone;
-import ru.terrakok.cicerone.Navigator;
-import ru.terrakok.cicerone.Router;
 
-public class MainContainerFragment extends Fragment implements RouterProvider, BackButtonListener {
+
+public class MainContainerFragment extends Fragment {
 
   private static final String EXTRA_NAME = "tcf_extra_name";
 
-  private Navigator navigator;
+//  private Navigator navigator;
   private MainScreenActivity mainActivity;
 
-  LocalCiceroneHolder ciceroneHolder;
 
   public static MainContainerFragment getNewInstance(String name) {
     MainContainerFragment fragment = new MainContainerFragment();
@@ -51,9 +44,9 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
     super.onCreate(savedInstanceState);
   }
 
-  private Cicerone<Router> getCicerone() {
-    return ciceroneHolder.getCicerone(getContainerName());
-  }
+//  private Cicerone<Router> getCicerone() {
+//    return ciceroneHolder.getCicerone(getContainerName());
+//  }
 
   @Nullable
   @Override
@@ -68,15 +61,15 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
     ArrayList<OrderModel> orderModels = ((MainScreenActivity) getActivity()).getOrders();
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_main))) {
-      getCicerone().getRouter().replaceScreen(Screens.START_SCREEN, 0);
+//      getCicerone().getRouter().replaceScreen(Screens.START_SCREEN, 0);
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_places))) {
-      getCicerone().getRouter().replaceScreen(Screens.PLACE_SCREEN, orderModels);
+//      getCicerone().getRouter().replaceScreen(Screens.PLACE_SCREEN, orderModels);
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_user))) {
-      getCicerone().getRouter().replaceScreen(Screens.USER_SCREEN, 0);
+//      getCicerone().getRouter().replaceScreen(Screens.USER_SCREEN, 0);
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_choose))) {
@@ -88,7 +81,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_pay))) {
-      getCicerone().getRouter().replaceScreen(Screens.PAY_SCREEN, 0);
+//      getCicerone().getRouter().replaceScreen(Screens.PAY_SCREEN, 0);
     }
 
   }
@@ -96,16 +89,16 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
   @Override
   public void onResume() {
     super.onResume();
-    getCicerone().getNavigatorHolder().setNavigator(getNavigator());
+//    getCicerone().getNavigatorHolder().setNavigator(getNavigator());
   }
 
   @Override
   public void onPause() {
-    getCicerone().getNavigatorHolder().removeNavigator();
+//    getCicerone().getNavigatorHolder().removeNavigator();
     super.onPause();
   }
 
-  private Navigator getNavigator() {
+//  private Navigator getNavigator() {
   /*  if (navigator == null){
       navigator = new SupportAppNavigator(getActivity(), getChildFragmentManager(), R.id.ftc_container) {
 
@@ -146,15 +139,13 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
       };
     }
     return navigator;*/
-  return null;
-  }
+//  return null;
+//  }
 
-  @Override
-  public Router getRouter() {
-    return getCicerone().getRouter();
-  }
+//  public Router getRouter() {
+//    return getCicerone().getRouter();
+//  }
 
-  @Override
   public boolean onBackPressed() {
     Fragment fragment = getChildFragmentManager().findFragmentById(R.id.ftc_container);
     if (fragment != null
@@ -162,9 +153,9 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
         && ((BackButtonListener) fragment).onBackPressed()) {
       return true;
     } else {
-      ((RouterProvider) getActivity()).getRouter().replaceScreen(Screens.START_SCREEN, 0);
+//      ((RouterProvider) getActivity()).getRouter().replaceScreen(Screens.START_SCREEN, 0);
       mainActivity.showBottomTab();
-      mainActivity.highlightTab(MainScreenView.HOME_TAB_POSITION);
+//      mainActivity.highlightTab(MainScreenView.HOME_TAB_POSITION);
       mainActivity.setProfileScreenVisibility(false);
 
       return true;

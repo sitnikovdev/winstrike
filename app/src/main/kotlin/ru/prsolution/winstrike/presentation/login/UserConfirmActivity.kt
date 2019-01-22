@@ -11,7 +11,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import kotlinx.android.synthetic.main.ac_confsmscode.confirm_button
 import kotlinx.android.synthetic.main.ac_confsmscode.displayWorkTimeLeft
 import kotlinx.android.synthetic.main.ac_confsmscode.et_code
@@ -30,13 +29,11 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
 import ru.prsolution.winstrike.common.utils.AuthUtils
-import ru.prsolution.winstrike.databinding.AcConfsmscodeBinding
 import ru.prsolution.winstrike.domain.models.ConfirmModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.domain.models.ProfileModel
 import ru.prsolution.winstrike.domain.models.TimerViewModel
 import ru.prsolution.winstrike.domain.models.UserEntity
-import ru.prsolution.winstrike.mvp.views.UserConfirmView
 import ru.prsolution.winstrike.networking.Service
 import timber.log.Timber
 
@@ -49,7 +46,7 @@ import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
  * Created by designer on 15/03/2018.
  */
 
-class UserConfirmActivity : AppCompatActivity(), UserConfirmView, TimerViewModel.TimeFinishListener {
+class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
 
 	var service: Service? = null
@@ -81,7 +78,7 @@ class UserConfirmActivity : AppCompatActivity(), UserConfirmView, TimerViewModel
 		super.onCreate(savedInstanceState)
 
 		WinstrikeApp.instance.appComponent?.inject(this)
-		presenter = UserConfirmPresenter(service, this)
+		presenter = UserConfirmPresenter(service)
 
 
 		renderView()
@@ -94,9 +91,7 @@ class UserConfirmActivity : AppCompatActivity(), UserConfirmView, TimerViewModel
 		timer = TimerViewModel()
 		timer!!.listener = this
 
-		val binding = DataBindingUtil.setContentView<AcConfsmscodeBinding>(this, R.layout.ac_confsmscode)
-
-		binding.viewmodel = timer
+		setContentView(R.layout.ac_confsmscode)
 	}
 
 	private fun init() {
@@ -221,7 +216,7 @@ class UserConfirmActivity : AppCompatActivity(), UserConfirmView, TimerViewModel
 
 	}
 
-	override fun onUserConfirmSuccess(confirmModel: MessageResponse) {
+	fun onUserConfirmSuccess(confirmModel: MessageResponse) {
 		Timber.d("UserEntity confirm successfully: %s", confirmModel.message)
 		//        toast("Пользователь подтвержден");
 		//        setBtnEnable(confirm_button, false);
@@ -230,7 +225,7 @@ class UserConfirmActivity : AppCompatActivity(), UserConfirmView, TimerViewModel
 		confirmSuccess()
 	}
 
-	override fun onUserConfirmFailure(appErrorMessage: String) {
+	fun onUserConfirmFailure(appErrorMessage: String) {
 		Timber.w("UserEntity confirm failure: %s", appErrorMessage)
 		if (appErrorMessage.contains("409")) toast("Не верный код")
 		if (appErrorMessage.contains("403")) toast("Пользователь уже поддвержден")
@@ -244,7 +239,7 @@ class UserConfirmActivity : AppCompatActivity(), UserConfirmView, TimerViewModel
 	}
 
 
-	override fun onSendSmsSuccess(authResponse: MessageResponse) {
+	fun onSendSmsSuccess(authResponse: MessageResponse) {
 		Timber.d("Sms send successfully: %s", authResponse.message)
 		toast("Код выслан")
 
@@ -252,7 +247,7 @@ class UserConfirmActivity : AppCompatActivity(), UserConfirmView, TimerViewModel
 
 	}
 
-	override fun onSmsSendFailure(appErrorMessage: String) {
+	fun onSmsSendFailure(appErrorMessage: String) {
 		Timber.d("Sms send failure: %s", appErrorMessage)
 	}
 
@@ -318,16 +313,16 @@ class UserConfirmActivity : AppCompatActivity(), UserConfirmView, TimerViewModel
 		text_footer4!!.text = content4
 	}
 
-	override fun showWait() {}
+	fun showWait() {}
 
-	override fun removeWait() {}
+	fun removeWait() {}
 
-	override fun onProfileUpdateSuccessfully(authResponse: MessageResponse) {
+	fun onProfileUpdateSuccessfully(authResponse: MessageResponse) {
 		Timber.d("Profile is updated")
 		//        Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
 	}
 
-	override fun onFailtureUpdateProfile(appErrorMessage: String) {
+	fun onFailtureUpdateProfile(appErrorMessage: String) {
 		Timber.d("Wrong update profile")
 		Toast.makeText(this, "Не удалось обновить профиль", Toast.LENGTH_LONG).show()
 	}

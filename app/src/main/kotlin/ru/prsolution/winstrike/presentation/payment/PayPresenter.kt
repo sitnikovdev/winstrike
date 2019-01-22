@@ -1,13 +1,6 @@
 package ru.prsolution.winstrike.presentation.payment
 
-
-import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
-
-import ru.prsolution.winstrike.ui.Screens
 import ru.prsolution.winstrike.networking.Service
-import ru.prsolution.winstrike.mvp.views.PayView
-import ru.terrakok.cicerone.Router
 import rx.subscriptions.CompositeSubscription
 
 /**
@@ -27,7 +20,7 @@ class PayPresenter
             toolbar.setTitle(R.string.arena_name);
         }
 */
-(private val service: Service, private val router: Router, internal var url: String) : MvpPresenter<PayView>() {
+(private val service: Service, internal var url: String)  {
 	private val subscriptions: CompositeSubscription
 
 	init {
@@ -39,18 +32,18 @@ class PayPresenter
 	}
 
 	fun loadUrl() {
-		viewState.loadUrl(url)
+//		viewState.loadUrl(url)
 	}
 
 	fun showProgress() {
-		viewState.showWait()
+//		viewState.showWait()
 	}
 
 	fun hideProgress() {
-		viewState.removeWait()
+//		viewState.removeWait()
 	}
 
 	fun onBackPressed() {
-		router.replaceScreen(Screens.MAP_SCREEN, 0)
+//		router.replaceScreen(Screens.MAP_SCREEN, 0)
 	}
 }

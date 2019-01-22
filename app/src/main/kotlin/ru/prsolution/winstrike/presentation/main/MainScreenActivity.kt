@@ -27,7 +27,6 @@ import ru.prsolution.winstrike.domain.models.FCMModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.domain.models.ProfileModel
 import ru.prsolution.winstrike.domain.models.TimeDataModel
-import ru.prsolution.winstrike.mvp.views.MainScreenView
 import ru.prsolution.winstrike.presentation.splash.SplashActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.Constants.TOKEN_TYPE_BEARER

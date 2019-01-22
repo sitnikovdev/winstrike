@@ -10,8 +10,6 @@ import java.util.LinkedList
 
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
@@ -84,9 +82,8 @@ abstract class ViewModelAdapter : RecyclerView.Adapter<ViewModelAdapter.ViewHold
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 		val holder = ViewHolder(LayoutInflater.from(parent.context).inflate(viewType, parent, false))
-		val binding = holder.binding
 		for ((key, value) in mGlobalObjects) {
-			binding!!.setVariable(key, value)
+//			binding!!.setVariable(key, value)
 		}
 		return holder
 	}
@@ -96,8 +93,7 @@ abstract class ViewModelAdapter : RecyclerView.Adapter<ViewModelAdapter.ViewHold
 		val cellInfo = getCellInfo(item)
 
 		if (cellInfo!!.mBindingId != 0) {
-			val binding = holder.binding
-			binding!!.setVariable(cellInfo!!.mBindingId, item)
+//			binding!!.setVariable(cellInfo!!.mBindingId, item)
 		}
 
 		if (position == itemCount - 2) loadMore()
@@ -119,10 +115,8 @@ abstract class ViewModelAdapter : RecyclerView.Adapter<ViewModelAdapter.ViewHold
 
 	inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-		val binding: ViewDataBinding?
 
 		init {
-			binding = DataBindingUtil.bind(itemView)
 		}
 
 	}

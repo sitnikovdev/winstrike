@@ -5,17 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.arellomobile.mvp.presenter.InjectPresenter
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.mvp.views.ProfileView
 import ru.prsolution.winstrike.networking.Service
 
 
-class ProfileScreenFragment : Fragment(), ProfileView {
+class ProfileScreenFragment : Fragment() {
 
 	internal var service: Service? = null
 
-	@InjectPresenter
 	internal var presenter: ProfilePresenter? = null
 
 	/*  ProfilePresenter provideMainScreenPresenter() {

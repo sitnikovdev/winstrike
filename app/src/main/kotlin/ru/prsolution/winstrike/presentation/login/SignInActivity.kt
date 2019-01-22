@@ -8,11 +8,9 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import kotlinx.android.synthetic.main.ac_login.et_password
 import kotlinx.android.synthetic.main.ac_login.et_phone
 import kotlinx.android.synthetic.main.ac_login.text_button_title
@@ -23,36 +21,27 @@ import kotlinx.android.synthetic.main.ac_login.text_pol4
 import kotlinx.android.synthetic.main.ac_login.v_button
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
 import ru.prsolution.winstrike.common.utils.AuthUtils
 import ru.prsolution.winstrike.common.utils.TextFormat
-import ru.prsolution.winstrike.databinding.AcLoginBinding
-import ru.prsolution.winstrike.domain.models.LoginViewModel
-import ru.prsolution.winstrike.domain.models.MessageResponse
-import ru.prsolution.winstrike.mvp.views.SignInView
-import ru.prsolution.winstrike.networking.Service
-import ru.prsolution.winstrike.presentation.help.HelpActivity
-import ru.prsolution.winstrike.ui.Screens
-import ru.prsolution.winstrike.presentation.main.MainScreenActivity
-import ru.terrakok.cicerone.Navigator
-import ru.terrakok.cicerone.commands.Back
-import ru.terrakok.cicerone.commands.Command
-import ru.terrakok.cicerone.commands.Forward
-import ru.terrakok.cicerone.commands.Replace
-import ru.terrakok.cicerone.commands.SystemMessage
-import timber.log.Timber
 import ru.prsolution.winstrike.common.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot1Color
 import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot2Color
 import ru.prsolution.winstrike.common.utils.Utils.setBtnEnable
 import ru.prsolution.winstrike.datasource.model.AuthResponse
 import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
+import ru.prsolution.winstrike.domain.models.LoginViewModel
+import ru.prsolution.winstrike.domain.models.MessageResponse
+import ru.prsolution.winstrike.networking.Service
+import ru.prsolution.winstrike.presentation.help.HelpActivity
+import ru.prsolution.winstrike.presentation.main.MainScreenActivity
+import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
+import timber.log.Timber
 
 /*
  * Created by oleg on 31.01.2018.
  */
 // TODO: 13/05/2018 Reorder method call in this activity.
-class SignInActivity : AppCompatActivity(), SignInView {
+class SignInActivity : AppCompatActivity() {
 
 	private var loginViewModel: LoginViewModel? = null
 	private var mProgressDialog: ProgressDialog? = null
@@ -69,6 +58,7 @@ class SignInActivity : AppCompatActivity(), SignInView {
 	//    @InjectPresenter
 	internal var mSignInPresenter: SignInPresenter? = null
 
+/*
 	private val navigator = object : Navigator {
 
 		override fun applyCommands(commands: Array<Command>) {
@@ -92,7 +82,8 @@ class SignInActivity : AppCompatActivity(), SignInView {
 		private fun forward(command: Forward) {
 			when (command.screenKey) {
 
-			}/*                case Screens.START_ACTIVITY_SCREEN:
+			}*/
+/*                case Screens.START_ACTIVITY_SCREEN:
                     startActivity(new Intent(StartActivity.this, StartActivity.class));
                     break;
                 case Screens.MAIN_ACTIVITY_SCREEN:
@@ -106,7 +97,8 @@ class SignInActivity : AppCompatActivity(), SignInView {
                     break;
                 default:
                     Log.e("Cicerone", "Unknown screen: " + command.getScreenKey());
-                    break;*/
+                    break;*//*
+
 		}
 
 		private fun replace(command: Replace) {
@@ -121,6 +113,7 @@ class SignInActivity : AppCompatActivity(), SignInView {
 			finish()
 		}
 	}
+*/
 
 	//    @ProvidePresenter
 	fun createSignInPresenter(): SignInPresenter {
@@ -206,27 +199,25 @@ class SignInActivity : AppCompatActivity(), SignInView {
 
 		loginViewModel = LoginViewModel()
 
-		val binding = DataBindingUtil.setContentView<AcLoginBinding>(this, R.layout.ac_login)
-
-		binding.loginModel = loginViewModel
+		setContentView(R.layout.ac_login)
 
 	}
 
-	override fun showWait() {
+	fun showWait() {
 		//        showProgressDialog();
 	}
 
-	override fun removeWait() {
+	fun removeWait() {
 		//        hideProgressDialog();
 	}
 
 
-	override fun onSendSmsSuccess(confirmModel: MessageResponse) {
+	fun onSendSmsSuccess(confirmModel: MessageResponse) {
 		Timber.tag("common").d("Sms send success: %s", confirmModel.message)
 		//        toast("Код выслан повторно");
 	}
 
-	override fun onSmsSendFailure(appErrorMessage: String) {
+	fun onSmsSendFailure(appErrorMessage: String) {
 		Timber.tag("common").w("Sms send error: %s", appErrorMessage)
 		if (appErrorMessage.contains("404"))
 			toast("Ошибка отправки кода! Нет пользователя с таким номером")
@@ -239,7 +230,7 @@ class SignInActivity : AppCompatActivity(), SignInView {
 	 *
 	 * @param authResponse - (token,isConfirmed)
 	 */
-	override fun onAuthResponseSuccess(authResponse: AuthResponse) {
+	fun onAuthResponseSuccess(authResponse: AuthResponse) {
 		val confirmed = authResponse.user?.confirmed
 
 		updateUser(authResponse)
@@ -268,7 +259,7 @@ class SignInActivity : AppCompatActivity(), SignInView {
 		AuthUtils.publicid = authResponse.user!!.publicId!!
 	}
 
-	override fun onAuthFailure(appErrorMessage: String) {
+	fun onAuthFailure(appErrorMessage: String) {
 		Timber.e("Error on auth: %s", appErrorMessage)
 		if (appErrorMessage.contains("403")) toast("Неправильный пароль")
 		if (appErrorMessage.contains("404")) {
@@ -286,10 +277,6 @@ class SignInActivity : AppCompatActivity(), SignInView {
 			mSignInPresenter = createSignInPresenter()
 		}
 		//        navigatorHolder.setNavigator(navigator);
-	}
-
-	override fun onPause() {
-		super.onPause()
 	}
 
 

@@ -34,7 +34,7 @@ android {
     }
 
     dataBinding {
-        isEnabled = true
+        isEnabled = false
     }
 
     lintOptions {
@@ -122,10 +122,10 @@ dependencies {
     implementation(Libraries.timber)
 
     /** moxy & cicerone */
-    implementation(Libraries.moxy)
-    implementation(Libraries.moxyAppCompat)
-    annotationProcessor(Libraries.moxyCompiler)
-    implementation(Libraries.cicerone)
+//    implementation(Libraries.moxy)
+//    implementation(Libraries.moxyAppCompat)
+//    annotationProcessor(Libraries.moxyCompiler)
+//    implementation(Libraries.cicerone)
 
     /** dagger2 */
 //    implementation(Libraries.dagger)

@@ -7,13 +7,12 @@ import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.networking.NetworkError
 import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.domain.models.ProfileModel
-import ru.prsolution.winstrike.mvp.views.UserConfirmView
 import rx.subscriptions.CompositeSubscription
 
 /**
  * Created by ennur on 6/25/16.
  */
-class UserConfirmPresenter(private val service: Service?, private val view: UserConfirmView) {
+class UserConfirmPresenter(private val service: Service?) {
 	private val subscriptions: CompositeSubscription
 
 	init {
@@ -26,12 +25,12 @@ class UserConfirmPresenter(private val service: Service?, private val view: User
 		val subscription = service?.confirmUser(object : Service.ConfirmCallback {
 			override fun onSuccess(authResponse: MessageResponse) {
 				//                view.removeWait();
-				view.onUserConfirmSuccess(authResponse)
+//				view.onUserConfirmSuccess(authResponse)
 			}
 
 			override fun onError(networkError: NetworkError) {
 				//                view.removeWait();
-				view.onUserConfirmFailure(networkError.appErrorMessage)
+//				view.onUserConfirmFailure(networkError.appErrorMessage)
 			}
 
 		}, sms_code, confirmPhone)

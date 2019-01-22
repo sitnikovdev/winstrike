@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.domain.models
 
-import androidx.databinding.ObservableField
 import ru.prsolution.winstrike.mvp.transform.DateTransform
 import timber.log.Timber
 import java.util.*
@@ -13,8 +12,8 @@ object TimeDataModel {
     var pid: String = ""
     var pids: LinkedHashMap<Int, String> = LinkedHashMap()
     //var date: String  by observing("", didSet = { valideateDate() })
-    var date: ObservableField<String> = ObservableField("Выберите дату")
-    var time: ObservableField<String>  = ObservableField("Укажите диапазон времени")
+//    var date: ObservableField<String> = ObservableField("Выберите дату")
+//    var time: ObservableField<String>  = ObservableField("Укажите диапазон времени")
     var selectDate: String = ""
     var start: String = ""
     var end: String = ""
@@ -45,8 +44,8 @@ object TimeDataModel {
 
     fun setSelectDate(datetime: Date) {
         selectDate = DateTransform.getSimpleDateFromCalendar(datetime)
-        date.set(
-                selectDate)
+//        date.set(
+//                selectDate)
     }
 
 
@@ -78,8 +77,8 @@ object TimeDataModel {
 
     fun clearDateTime() {
         isDateSelect = false
-        date.set("Выберите дату")
-        time.set("Укажите диапазон времени")
+//        date.set("Выберите дату")
+//        time.set("Укажите диапазон времени")
         start = ""
         end = ""
         startDate = Date()
