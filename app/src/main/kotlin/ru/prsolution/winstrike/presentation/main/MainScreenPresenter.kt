@@ -1,10 +1,10 @@
 package ru.prsolution.winstrike.presentation.main
 
 import com.arellomobile.mvp.MvpPresenter
-import ru.prsolution.winstrike.mvp.apimodels.OrderModel
-import ru.prsolution.winstrike.mvp.models.FCMModel
-import ru.prsolution.winstrike.mvp.models.MessageResponse
-import ru.prsolution.winstrike.mvp.models.ProfileModel
+import ru.prsolution.winstrike.datasource.model.OrderModel
+import ru.prsolution.winstrike.domain.models.FCMModel
+import ru.prsolution.winstrike.domain.models.MessageResponse
+import ru.prsolution.winstrike.domain.models.ProfileModel
 import ru.prsolution.winstrike.mvp.views.MainScreenView
 import ru.prsolution.winstrike.networking.RetrofitService
 import rx.subscriptions.CompositeSubscription
@@ -14,54 +14,54 @@ import timber.log.Timber
  * Created by terrakok 25.11.16
  */
 class MainScreenPresenter(//    private Router router;
-        private val service: RetrofitService) : MvpPresenter<MainScreenView>() {
-    private val subscriptions: CompositeSubscription
+		private val service: RetrofitService) : MvpPresenter<MainScreenView>() {
+	private val subscriptions: CompositeSubscription
 
-    init {
-        this.subscriptions = CompositeSubscription()
-    }//        this.router = router;
+	init {
+		this.subscriptions = CompositeSubscription()
+	}//        this.router = router;
 
-    fun onCreate() {
+	fun onCreate() {
 //        viewState.highlightTab(MainScreenView.HOME_TAB_POSITION)
-        //        router.replaceScreen(Screens.START_SCREEN);
-    }
+		//        router.replaceScreen(Screens.START_SCREEN);
+	}
 
 
-    fun onTabPlaceClick(mPayList: List<OrderModel>) {
+	fun onTabPlaceClick(mPayList: List<OrderModel>) {
 //        viewState.highlightTab(MainScreenView.PLACE_TAB_POSITION)
-        //        router.replaceScreen(Screens.PLACE_SCREEN,mPayList);
-    }
+		//        router.replaceScreen(Screens.PLACE_SCREEN,mPayList);
+	}
 
 
-    fun onTabUserClick() {
+	fun onTabUserClick() {
 //        viewState.highlightTab(MainScreenView.USER_TAB_POSITION)
-        //        router.replaceScreen(Screens.USER_SCREEN);
-    }
+		//        router.replaceScreen(Screens.USER_SCREEN);
+	}
 
-    fun onTabHomeClick() {
+	fun onTabHomeClick() {
 //        viewState.highlightTab(MainScreenView.HOME_TAB_POSITION)
-        //        router.replaceScreen(Screens.START_SCREEN);
-    }
+		//        router.replaceScreen(Screens.START_SCREEN);
+	}
 
-    fun onMapShowClick() {
-        //        router.replaceScreen(Screens.MAP_SCREEN,0);
-    }
+	fun onMapShowClick() {
+		//        router.replaceScreen(Screens.MAP_SCREEN,0);
+	}
 
-    fun onChooseScreenClick() {
+	fun onChooseScreenClick() {
 //        viewState.hideBottomTab()
-        //        router.replaceScreen(Screens.CHOOSE_SCREEN);
-    }
+		//        router.replaceScreen(Screens.CHOOSE_SCREEN);
+	}
 
 
-    fun onBackPressed() {
-        //        router.exit(); // used Back command
+	fun onBackPressed() {
+		//        router.exit(); // used Back command
 //        viewState.showBottomTab()
 //        viewState.setProfileScreenVisibility(false)
-        //        router.replaceScreen(Screens.START_SCREEN,0);
-    }
+		//        router.replaceScreen(Screens.START_SCREEN,0);
+	}
 
 
-    fun updateProfile(token: String, profile: ProfileModel, publicId: String) {
+	fun updateProfile(token: String, profile: ProfileModel, publicId: String) {
 
 /*        val subscription = service.updateUser(object : Service.ProfileCallback {
             override fun onSuccess(authResponse: MessageResponse) {
@@ -75,10 +75,10 @@ class MainScreenPresenter(//    private Router router;
         }, token, profile, publicId)
 
         subscriptions.add(subscription)*/
-    }
+	}
 
 
-    fun sendFCMTokenToServer(token: String, fcmToken: FCMModel) {
+	fun sendFCMTokenToServer(token: String, fcmToken: FCMModel) {
 
 /*        val subscription = service.sendToken(object : Service.FcmTokenCallback {
             override fun onSuccess(messageResponse: MessageResponse) {
@@ -91,19 +91,19 @@ class MainScreenPresenter(//    private Router router;
         }, token, fcmToken)
 
         subscriptions.add(subscription)*/
-    }
+	}
 
 
-    private fun onFailtureTokenSend(appErrorMessage: String) {
-        Timber.d("On failure send token: %s", appErrorMessage)
-    }
+	private fun onFailtureTokenSend(appErrorMessage: String) {
+		Timber.d("On failure send token: %s", appErrorMessage)
+	}
 
-    private fun onTokenSendSuccessfully(authResponse: MessageResponse) {
-        Timber.d("Successfully send token: %s", authResponse.message)
-    }
+	private fun onTokenSendSuccessfully(authResponse: MessageResponse) {
+		Timber.d("Successfully send token: %s", authResponse.message)
+	}
 
 
-    fun getOrders(token: String) {
+	fun getOrders(token: String) {
 //        viewState.showWait()
 
 /*        val subscription = service.getOrders(object : Service.OrdersCallback {
@@ -140,10 +140,10 @@ class MainScreenPresenter(//    private Router router;
         }, token)
 
         subscriptions.add(subscription)*/
-    }
+	}
 
 
-    fun onStop() {
-        subscriptions.unsubscribe()
-    }
+	fun onStop() {
+		subscriptions.unsubscribe()
+	}
 }

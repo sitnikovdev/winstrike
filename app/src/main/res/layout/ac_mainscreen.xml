@@ -11,7 +11,7 @@
   android:orientation="vertical">
 
 
-  <android.support.v7.widget.Toolbar
+  <androidx.appcompat.widget.Toolbar
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="56dp"
@@ -29,9 +29,9 @@
       android:textColor="@color/color_primary"
       tools:text=""/>
 
-  </android.support.v7.widget.Toolbar>
+  </androidx.appcompat.widget.Toolbar>
 
-  <android.support.v4.widget.Space
+  <Space
     android:id="@+id/spacer"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -44,19 +44,19 @@
     android:layout_marginTop="56dp"
     android:fillViewport="true">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@+id/root"
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
 
-      <android.support.constraint.Guideline
+      <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="40dp"/>
 
-      <android.support.constraint.Guideline
+      <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -148,7 +148,7 @@
         app:layout_constraintTop_toTopOf="@id/tvArenaTitle"/>
 
 
-      <android.support.v7.widget.RecyclerView
+      <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_arena"
         android:layout_width="244dp"
         android:layout_height="wrap_content"
@@ -189,7 +189,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/arena_description"/>
 
-      <android.support.v4.view.ViewPager
+      <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager_seat"
         android:layout_width="0dp"
         android:layout_height="@dimen/space_vp_seat"
@@ -198,7 +198,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/seat_cat"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
   </ScrollView>
 
   <RelativeLayout
@@ -218,7 +218,7 @@
     android:layout_alignParentBottom="true"/>
 
 
-  <android.support.design.widget.TabLayout
+  <com.google.android.material.tabs.TabLayout
     android:id="@+id/tabLayout_Profile"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

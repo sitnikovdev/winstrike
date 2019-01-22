@@ -1,6 +1,6 @@
 package ru.prsolution.winstrike.mvp.transform
 
-import ru.prsolution.winstrike.mvp.models.TimeDataModel.date
+import ru.prsolution.winstrike.domain.models.TimeDataModel.date
 import java.text.SimpleDateFormat
 import java.util.*
 

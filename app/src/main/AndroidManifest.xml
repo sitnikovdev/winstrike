@@ -33,27 +33,27 @@
     android:screenOrientation="portrait"/>
   <activity
     android:configChanges="keyboardHidden|orientation"
-    android:name=".ui.guides.GuideActivity"
+    android:name=".presentation.guides.GuideActivity"
     android:screenOrientation="portrait"/>
   <activity
     android:configChanges="keyboardHidden|orientation"
-    android:name=".ui.login.SignInActivity"
+    android:name=".presentation.login.SignInActivity"
     android:screenOrientation="portrait"/>
   <activity
     android:configChanges="keyboardHidden|orientation"
-    android:name=".ui.login.RegisterActivity"
+    android:name=".presentation.login.SingUpActivity"
     android:screenOrientation="portrait"/>
   <activity
     android:configChanges="keyboardHidden|orientation"
-    android:name=".ui.login.HelpActivity"
+    android:name=".presentation.help.HelpActivity"
     android:screenOrientation="portrait"/>
   <activity
     android:configChanges="keyboardHidden|orientation"
-    android:name=".ui.login.UserConfirmActivity"
+    android:name=".presentation.login.UserConfirmActivity"
     android:screenOrientation="portrait"/>
   <activity
     android:configChanges="keyboardHidden|orientation"
-    android:name=".ui.login.HelpSmsActivity"
+    android:name=".presentation.help.HelpSmsActivity"
     android:screenOrientation="portrait"/>
   <activity
     android:configChanges="keyboardHidden|orientation"
@@ -61,7 +61,7 @@
     android:screenOrientation="portrait"/>
   <activity
     android:configChanges="keyboardHidden|orientation"
-    android:name=".common.YandexWebView"
+    android:name=".presentation.utils.webview.YandexWebView"
     android:screenOrientation="portrait"
     android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
@@ -69,12 +69,12 @@
     android:name="io.fabric.ApiKey"
     android:value="97794305a3c84acb7d3a3335d9b889c90da7a71f"/>
 
-  <service android:name=".notifications.MyFirebaseMessagingService">
+  <service android:name=".presentation.utils.notifications.MyFirebaseMessagingService">
     <intent-filter>
       <action android:name="com.google.firebase.MESSAGING_EVENT"/>
     </intent-filter>
   </service>
-  <service android:name=".notifications.MyFirebaseInstanceIDService">
+  <service android:name=".presentation.utils.notifications.MyFirebaseInstanceIDService">
     <intent-filter>
       <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
     </intent-filter>

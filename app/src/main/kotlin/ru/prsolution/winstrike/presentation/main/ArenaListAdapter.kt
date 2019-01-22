@@ -1,17 +1,17 @@
 package ru.prsolution.winstrike.presentation.main
 
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.dlg_logout.view.title
 import kotlinx.android.synthetic.main.item_arena.view.address
 import kotlinx.android.synthetic.main.item_arena.view.iv_checked
+import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.datasource.model.Room
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.setColor
-import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.mvp.apimodels.Room
 
 class ArenaListAdapter (private val itemClick: (Room, Int) -> Unit) :
 		ListAdapter<Room, ArenaListAdapter.ViewHolder>(PostDiffCallback()) {

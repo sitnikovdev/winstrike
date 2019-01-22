@@ -8,45 +8,45 @@
 
                 <variable
                     name="viewmodel"
-                    type="ru.prsolution.winstrike.mvp.models.TimerViewModel" />
+                    type="ru.prsolution.winstrike.domain.models.TimerViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/phone_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:activity="ru.prsolution.winstrike.ui.login.HelpSmsActivity">
+        tools:activity="ru.prsolution.winstrike.presentation.help.HelpSmsActivity">
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/line_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="@dimen/keyline_40dp" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/line_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/keyline_40dp" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/line_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="186dp" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/line_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="56dp" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/line_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
             app:layout_constraintTop_toTopOf="@id/v_code" />
 
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/line_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -167,7 +167,7 @@
             app:layout_constraintTop_toBottomOf="@id/next_button_phone"
             tools:visibility="gone" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:id="@+id/displayWorkTimeLeft"
             android:layout_width="0dp"
             android:layout_height="20dp"
@@ -284,5 +284,5 @@
             app:layout_constraintEnd_toEndOf="@id/line_end"
             app:layout_constraintStart_toEndOf="@id/text_footer" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

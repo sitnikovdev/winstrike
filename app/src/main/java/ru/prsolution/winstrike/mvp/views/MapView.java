@@ -1,7 +1,7 @@
 package ru.prsolution.winstrike.mvp.views;
 
-import ru.prsolution.winstrike.mvp.apimodels.PaymentResponse;
-import ru.prsolution.winstrike.mvp.models.GameRoom;
+import ru.prsolution.winstrike.datasource.model.PaymentResponse;
+import ru.prsolution.winstrike.domain.models.GameRoom;
 
 public interface MapView  {
 

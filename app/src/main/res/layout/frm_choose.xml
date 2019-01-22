@@ -7,10 +7,10 @@
     <import type="android.text.TextUtils"/>
     <variable
       name="seat"
-      type="ru.prsolution.winstrike.mvp.models.SeatModel"/>
+      type="ru.prsolution.winstrike.domain.models.SeatModel"/>
     <variable
       name="td"
-      type="ru.prsolution.winstrike.mvp.models.TimeDataModel"/>
+      type="ru.prsolution.winstrike.domain.models.TimeDataModel"/>
 
     <variable
       name="iChooseView"

@@ -1,8 +1,8 @@
 package ru.prsolution.winstrike.mvp.views;
 
 
-import ru.prsolution.winstrike.mvp.models.MessageResponse;
-import ru.prsolution.winstrike.mvp.apimodels.AuthResponse;
+import ru.prsolution.winstrike.datasource.model.AuthResponse;
+import ru.prsolution.winstrike.domain.models.MessageResponse;
 
 public interface RegisterView {
     void showWait();

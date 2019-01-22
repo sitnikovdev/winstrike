@@ -1,6 +1,6 @@
 package ru.prsolution.winstrike.navigation
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 
 internal fun String.loadFragmentOrNull(): Fragment? =

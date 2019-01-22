@@ -54,7 +54,7 @@ dependencies {
 
     /** Android AppCompat*/
     implementation(Libraries.appCompat)
-//    implementation (SupportLibraries.appcompat)
+    implementation (SupportLibraries.androidx)
     implementation(Libraries.lifecycle)
 
     /**  constraint layout */
@@ -85,7 +85,7 @@ dependencies {
     implementation(Libraries.materialCalendarView)
 
     /** bottom navigation bar */
-    implementation(Libraries.ahbottomnavigation)
+//    implementation(Libraries.ahbottomnavigation)
 
     /** gson */
     implementation(Libraries.gson)
@@ -115,8 +115,8 @@ dependencies {
     implementation(Libraries.rxAndroid)
 
     /** butterknife */
-    implementation(Libraries.butterKnife)
-    annotationProcessor(Libraries.butterKnifeCompiler)
+//    implementation(Libraries.butterKnife)
+//    annotationProcessor(Libraries.butterKnifeCompiler)
 
     /** timber log */
     implementation(Libraries.timber)
@@ -128,8 +128,8 @@ dependencies {
     implementation(Libraries.cicerone)
 
     /** dagger2 */
-    implementation(Libraries.dagger)
-    annotationProcessor(Libraries.daggerCompiler)
+//    implementation(Libraries.dagger)
+//    annotationProcessor(Libraries.daggerCompiler)
 
     /** fcm */
     implementation(Libraries.fireBase)

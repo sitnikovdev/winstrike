@@ -1,50 +1,37 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.app.Dialog
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.constraint.ConstraintSet
-import android.support.transition.TransitionManager
-import android.support.v4.app.ShareCompat
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ShareCompat
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager.widget.ViewPager
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.common.BackButtonListener
-import ru.prsolution.winstrike.common.CarouselAdapter
 import ru.prsolution.winstrike.common.ScreenType
 import ru.prsolution.winstrike.common.utils.AuthUtils
-import ru.prsolution.winstrike.common.vpadapter.BaseViewPagerAdapter
-import ru.prsolution.winstrike.mvp.apimodels.OrderModel
-import ru.prsolution.winstrike.mvp.apimodels.Room
-import ru.prsolution.winstrike.mvp.models.*
+import ru.prsolution.winstrike.datasource.model.OrderModel
+import ru.prsolution.winstrike.datasource.model.Room
+import ru.prsolution.winstrike.domain.models.FCMModel
+import ru.prsolution.winstrike.domain.models.MessageResponse
+import ru.prsolution.winstrike.domain.models.ProfileModel
+import ru.prsolution.winstrike.domain.models.TimeDataModel
 import ru.prsolution.winstrike.mvp.views.MainScreenView
-import ru.prsolution.winstrike.networking.RetrofitFactory
-import ru.prsolution.winstrike.ui.main.AppFragment.OnAppButtonsClickListener
-import ru.prsolution.winstrike.presentation.main.CarouselSeatFragment.OnChoosePlaceButtonsClickListener
-import ru.prsolution.winstrike.ui.main.ChooseScreenFragment.onMapShowProcess
-import ru.prsolution.winstrike.ui.main.ProfileFragment.OnProfileButtonsClickListener
 import ru.prsolution.winstrike.presentation.splash.SplashActivity
-import ru.prsolution.winstrike.ui.main.*
-import ru.prsolution.winstrike.utils.Constants
+import ru.prsolution.winstrike.presentation.utils.Constants
+import ru.prsolution.winstrike.presentation.utils.Constants.TOKEN_TYPE_BEARER
 import timber.log.Timber
 import java.util.*
 
@@ -52,40 +39,23 @@ import java.util.*
   A Big God Activity.
   // TODO: 18/10/2018 Need some refactoring for SOLID principle.
  */
-class MainScreenActivity : AppCompatActivity(),
-                           OnProfileButtonsClickListener,
+class MainScreenActivity : FragmentActivity()
+/*                           ,OnProfileButtonsClickListener,
                            OnAppButtonsClickListener,
                            OnChoosePlaceButtonsClickListener,
-                           onMapShowProcess {
+                           onMapShowProcess */ {
 
 	private var bottomNavigationBar: AHBottomNavigation? = null
-	private var homeTabFragment: MainContainerFragment? = null
-	private var placesTabFragment: MainContainerFragment? = null
-	private var userTabFragment: MainContainerFragment? = null
-	private var chooseTabFragment: MainContainerFragment? = null
-	private var mapTabFragment: MainContainerFragment? = null
-	private var payTabFragment: MainContainerFragment? = null
-	private var carouselAdapter: CarouselAdapter? = null
 	var orders = ArrayList<OrderModel>()
 		private set
-	private val HIDE_ICON = true
-	private val SHOW_ICON = false
 	private var mDlgSingOut: Dialog? = null
 	private var mMainOnClickListener: MainOnClickListener? = null
 	private var mMapOnClickListener: MapOnClickListener? = null
 
 	private var mScreenType: ScreenType? = null
 	private var mDlgMapLegend: Dialog? = null
-	//    private val user = UserProfileObservable()
-	private val arenaItems = ArrayList<ArenaItem>()
-	private val arenaUpConstraintSet = ConstraintSet()
-	private val arenaDownConstraintSet = ConstraintSet()
-	private lateinit var sharedPref: SharedPreferences
-	var selectedArena = 0
-	private var isArenaShow: Boolean = false
 	var rooms: List<Room>? = null
 	private lateinit var presenter: MainScreenPresenter
-	private lateinit var vm: ArenaListViewModel
 
 
 /*    @Inject
@@ -186,6 +156,23 @@ class MainScreenActivity : AppCompatActivity(),
 ////        }
 //    }
 
+	fun initMainToolbar(hideNavIcon: Boolean?, screenType: ScreenType, listener: View.OnClickListener?) {
+/*		setActionBar(toolbar)
+		toolbar.setNavigationOnClickListener(listener)
+
+		mScreenType = screenType
+		invalidateOptionsMenu() // now onCreateOptionsMenu(...) is called again
+		toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
+		if (hideNavIcon!!) {
+			toolbar.navigationIcon = null
+			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
+		} else {
+			toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
+			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
+		}
+		supportActionBar!!.setDisplayShowTitleEnabled(false)*/
+	}
+
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
 		if (this.mScreenType === ScreenType.MAIN) {
 			menuInflater.inflate(R.menu.main_toolbar_menu, menu)
@@ -239,158 +226,16 @@ class MainScreenActivity : AppCompatActivity(),
 		super.onCreate(savedInstanceState)
 		clearData()
 		setContentView(R.layout.ac_mainscreen)
-
-		val service = RetrofitFactory.makeRetrofitService()
-		presenter = MainScreenPresenter(service)
-		carouselAdapter = CarouselAdapter(this)
-		// TODO: remove this!!!
-		mMainOnClickListener = MainOnClickListener()
-		mMapOnClickListener = MapOnClickListener()
-		sharedPref = getPreferences(Context.MODE_PRIVATE)
-		selectedArena = sharedPref.getInt(getString(R.string.saved_arena), Constants.SAVED_ARENA_DEFAULT)
-		// TODO: remove this!!! (possibility memory leaks)
-		ArenaListAdapter.SELECTED_ITEM = selectedArena
-		vm = ViewModelProviders.of(this)[ArenaListViewModel::class.java]
-
-		if (savedInstanceState == null) {
-			vm.get()
-		}
-//            user = user
-//            toolbar_text.text = user.name
-
-		val arenaListAdapter = ArenaListAdapter(onArenaSelectItem)
-		rv_arena.adapter = arenaListAdapter
-
-		vm.rooms.observe(this, android.arch.lifecycle.Observer {
-			it.let { resource ->
-				resource?.data?.let { arenaListAdapter.submitList(it) }
-				updateCarouselSeatAdapter(it?.data?.get(selectedArena))
-			}
-		})
-
-		initArenaRV()
-		initViews()
-		initFCM() // FCM push notifications
-		initFragmentsContainers()
-		arenaSelectTransitionAnim() // Arena select transitions animations
-	}
-
-	private fun initArenaRV() {
-		rv_arena.layoutManager = LinearLayoutManager(this)
-		rv_arena.addItemDecoration(RecyclerViewMargin(24, 1))
-		rv_arena.bringToFront()
-		rv_arena.adapter!!.notifyDataSetChanged()
-	}
-
-	val onArenaSelectItem: (Room, Int) -> Unit = { room, position ->
-		val editor: SharedPreferences.Editor  by lazy { sharedPref.edit() }
-		TransitionManager.beginDelayedTransition(root)
-		this.selectedArena = position
-		this.isArenaShow = false
-		arenaUpConstraintSet.applyTo(root)
-		editor.putInt(getString(R.string.saved_arena), position)
-		editor.commit()
-
-		ArenaListAdapter.SELECTED_ITEM = position
-		tvArenaTitle.text = room.name
-
-		rv_arena.adapter!!.notifyDataSetChanged()
-		updateCarouselSeatAdapter(room)
-	}
-
-	private fun arenaSelectTransitionAnim() {
-		arenaDownConstraintSet.clone(this, R.layout.part_arena_down)
-		arenaUpConstraintSet.clone(this, R.layout.part_arena_up)
-		arrowArena_Down.setOnClickListener {
-			TransitionManager.beginDelayedTransition(root)
-			if (!isArenaShow) {
-				isArenaShow = true
-				arenaDownConstraintSet.applyTo(root)
-			} else {
-				arenaUpConstraintSet.applyTo(root)
-				isArenaShow = false
-			}
-		}
-
-		arrowArena_Up.setOnClickListener {
-			TransitionManager.beginDelayedTransition(root)
-			arenaUpConstraintSet.applyTo(root)
-		}
-	}
-
-	/** seat type carousel view */
-	// TODO: remove this!!!
-	private fun updateCarouselSeatAdapter(room: Room?) {
-
-		val widthPx = WinstrikeApp.getInstance().displayWidhtPx
-
-		if (!TextUtils.isEmpty(room?.usualDescription) &&
-				!TextUtils.isEmpty(room?.vipDescription)) {
-			carouselAdapter!!.setPagesCount(2)
-			carouselAdapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 0, "Общий зал")
-			carouselAdapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 1, "Vip зал")
-		} else {
-			carouselAdapter!!.setPagesCount(1)
-			carouselAdapter!!.addFragment(CarouselSeatFragment.newInstance(this, room), 0, "Общий зал")
-		}
-		carouselAdapter!!.notifyDataSetChanged()
-		view_pager_seat!!.adapter = carouselAdapter
-		view_pager_seat!!.setPageTransformer(false, carouselAdapter)
-		view_pager_seat!!.currentItem = 0
-		view_pager_seat!!.offscreenPageLimit = 2
-
-		when {
-			widthPx <= Constants.SCREEN_WIDTH_PX_720 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_350
-			widthPx <= Constants.SCREEN_WIDTH_PX_1080 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_450
-			widthPx <= Constants.SCREEN_WIDTH_PX_1440 -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_600
-			else -> view_pager_seat!!.pageMargin = Constants.SCREEN_MARGIN_450
-		}
-	}
-
-	/** click on seat in carousel view */
-	override fun onSeatClick(seat: SeatModel) {
-		TimeDataModel.clearPids()
-		showFragmentHolderContainer(true)
-		// TODO: remove this!!!
-		WinstrikeApp.getInstance().seat = seat
-		presenter.onChooseScreenClick()
-	}
-
-	private fun initFCM() {
-		val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
-
-		val fcmToken = AuthUtils.fcmtoken
-		if (!fcmToken.isEmpty()) {
-			sendRegistrationToServer(token, fcmToken)
-		}
-	}
-
-	private fun initViews() {
+		// TODO: Do it by ViewModel (possibility memory leaks)
 		initBottomNavigationBar()
-		setProfileScreenVisibility(false)
+		initFCM() // FCM push notifications
 		dlgMapLegend()
 		dlgProfileSingOut()
 	}
 
-	fun initMainToolbar(hideNavIcon: Boolean?, screenType: ScreenType, listener: View.OnClickListener?) {
-		setSupportActionBar(toolbar)
-		toolbar.setNavigationOnClickListener(listener)
-
-		mScreenType = screenType
-		invalidateOptionsMenu() // now onCreateOptionsMenu(...) is called again
-		toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
-		if (hideNavIcon!!) {
-			toolbar.navigationIcon = null
-			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
-		} else {
-			toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
-			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
-		}
-		supportActionBar!!.setDisplayShowTitleEnabled(false)
-	}
 
 	private fun setHomeScreenStateVisibility(isVisible: Boolean) {
-		if (isVisible) {
+/*		if (isVisible) {
 			setArenaVisibility(true)
 			view_pager_seat.visibility = VISIBLE
 			seat_cat.visibility = VISIBLE
@@ -398,11 +243,11 @@ class MainScreenActivity : AppCompatActivity(),
 			setArenaVisibility(false)
 			seat_cat.visibility = GONE
 			view_pager_seat!!.visibility = GONE
-		}
+		}*/
 	}
 
 	private fun initFragmentsContainers() {
-		val fm = supportFragmentManager
+/*		val fm = supportFragmentManager
 		homeTabFragment = fm.findFragmentByTag(getString(R.string.tag_main)) as MainContainerFragment?
 		if (homeTabFragment == null) {
 			homeTabFragment = MainContainerFragment.getNewInstance(getString(R.string.tag_main))
@@ -455,7 +300,7 @@ class MainScreenActivity : AppCompatActivity(),
 					.add(R.id.fragment_container, payTabFragment!!, getString(R.string.tag_pay))
 					.detach(payTabFragment!!).commitNow()
 			fm.executePendingTransactions()
-		}
+		}*/
 	}
 
 	fun goHome() {
@@ -463,7 +308,7 @@ class MainScreenActivity : AppCompatActivity(),
 	}
 
 	fun setProfileScreenVisibility(isVisible: Boolean?) {
-		if (isVisible!!) {
+/*		if (isVisible!!) {
 			setArenaVisibility(false)
 			tabLayout_Profile.visibility = VISIBLE
 			viewPager_Profile.visibility = VISIBLE
@@ -473,11 +318,11 @@ class MainScreenActivity : AppCompatActivity(),
 			setArenaVisibility(true)
 			tabLayout_Profile.visibility = GONE
 			viewPager_Profile.visibility = GONE
-		}
+		}*/
 	}
 
 	private fun setArenaVisibility(isVisible: Boolean?) {
-		if ((!isVisible!!)) {
+/*		if ((!isVisible!!)) {
 			v_spinner.visibility = GONE
 			rv_arena.visibility = GONE
 			arrowArena_Up.visibility = GONE
@@ -490,17 +335,17 @@ class MainScreenActivity : AppCompatActivity(),
 			v_spinner.visibility = VISIBLE
 			arrowArena_Up.visibility = GONE
 			arrowArena_Down.visibility = VISIBLE
-		}
+		}*/
 	}
 
 	private fun setupProfileViewPager(viewPager: ViewPager) {
-		val pagerAdapter = BaseViewPagerAdapter(supportFragmentManager)
+/*		val pagerAdapter = BaseViewPagerAdapter(supportFragmentManager)
 		pagerAdapter.addFragments(ProfileFragment.newInstance(), getString(R.string.title_profile))
 		pagerAdapter.addFragments(AppFragment.newInstance(), getString(R.string.title_app))
-		viewPager.adapter = pagerAdapter
+		viewPager.adapter = pagerAdapter*/
 	}
 
-	override fun onProfileUpdate(name: String, password: String) {
+	fun onProfileUpdate(name: String, password: String) {
 		if (password.isEmpty()) {
 			Toast.makeText(this, R.string.message_password, Toast.LENGTH_LONG).show()
 		}
@@ -524,7 +369,7 @@ class MainScreenActivity : AppCompatActivity(),
 			}
 //            user.name = name
 //            toolbar.title
-			initMainToolbar(SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener)
+//			initMainToolbar(SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener)
 		}
 	}
 
@@ -575,31 +420,31 @@ class MainScreenActivity : AppCompatActivity(),
 
 	// TODO: remove it !!!
 	// Social networks links block:
-	override fun onGooglePlayButtonClick() {
+	fun onGooglePlayButtonClick() {
 		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_GOOGLE_PLAY)))
 	}
 
-	override fun onVkClick() {
+	fun onVkClick() {
 		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_VK)))
 	}
 
-	override fun onInstagramClick() {
+	fun onInstagramClick() {
 		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM)))
 	}
 
-	override fun onTweeterClick() {
+	fun onTweeterClick() {
 		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWEETER)))
 	}
 
-	override fun onFacebookClick() {
+	fun onFacebookClick() {
 		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK)))
 	}
 
-	override fun onTwitchClick() {
+	fun onTwitchClick() {
 		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWITCH)))
 	}
 
-	override fun onRecommendButtonClick() {
+	fun onRecommendButtonClick() {
 		shareImgOnRecommendClick()
 	}
 
@@ -640,7 +485,7 @@ class MainScreenActivity : AppCompatActivity(),
 
 	}
 
-	override fun onMapShow() {
+	fun onMapShow() {
 		presenter.onMapShowClick()
 	}
 
@@ -698,7 +543,7 @@ class MainScreenActivity : AppCompatActivity(),
 					setProfileScreenVisibility(false)
 //                    user.name = rooms!![selectedArena].name
 //                    toolbar.title
-					initMainToolbar(HIDE_ICON, ScreenType.MAIN, mMainOnClickListener)
+//					initMainToolbar(HIDE_ICON, ScreenType.MAIN, mMainOnClickListener)
 					presenter.onTabHomeClick()
 				}
 				MainScreenView.PLACE_TAB_POSITION -> {
@@ -707,17 +552,17 @@ class MainScreenActivity : AppCompatActivity(),
 					//          setHomeScreenStateVisibility(false);
 //                    user.name = getString(R.string.title_payment_places)
 //                    toolbar.title
-					initMainToolbar(SHOW_ICON, ScreenType.MAIN, mMainOnClickListener)
+//					initMainToolbar(SHOW_ICON, ScreenType.MAIN, mMainOnClickListener)
 					val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
 					presenter.getOrders(token)
 				}
 				MainScreenView.USER_TAB_POSITION -> {
 					showFragmentHolderContainer(false)
 					setProfileScreenVisibility(true)
-					toolbar.navigationIcon = null
+//					toolbar.navigationIcon = null
 //                    user.name = AuthUtils.name
 //                    toolbar.title
-					initMainToolbar(SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener)
+//					initMainToolbar(SHOW_ICON, ScreenType.PROFILE, mMainOnClickListener)
 					presenter.onTabUserClick()
 				}
 			}
@@ -743,7 +588,7 @@ class MainScreenActivity : AppCompatActivity(),
 			clearData()
 //            user.name = rooms!![selectedArena].name
 //                    toolbar.title
-			initMainToolbar(HIDE_ICON, ScreenType.MAIN, this)
+//			initMainToolbar(HIDE_ICON, ScreenType.MAIN, this)
 			presenter.onBackPressed()
 		}
 	}
@@ -765,8 +610,16 @@ class MainScreenActivity : AppCompatActivity(),
 		presenter.sendFCMTokenToServer(authToken, fcmModel)
 	}
 
-	override fun onPushClick(isOn: String) {
+	fun onPushClick(isOn: String) {
 		Toast.makeText(this, "Push is: $isOn", Toast.LENGTH_LONG).show()
 	}
 
+	private fun initFCM() {
+		val token = TOKEN_TYPE_BEARER + AuthUtils.token
+
+		val fcmToken = AuthUtils.fcmtoken
+		if (!fcmToken.isEmpty()) {
+			sendRegistrationToServer(token, fcmToken)
+		}
+	}
 }

@@ -9,32 +9,32 @@
 
         <variable
             name="viewmodel"
-            type="ru.prsolution.winstrike.mvp.models.TimerViewModel" />
+            type="ru.prsolution.winstrike.domain.models.TimerViewModel" />
     </data>
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:activity="ru.prsolution.winstrike.ui.login.UserConfirmActivity">
+        tools:activity="ru.prsolution.winstrike.presentation.login.UserConfirmActivity">
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/line_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="40dp" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/line_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="40dp" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/line_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -214,7 +214,7 @@
             tools:visibility="gone" />
 
 
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:id="@+id/displayWorkTimeLeft"
             style="@style/StemRegular13Gray"
             android:layout_width="395dp"
@@ -304,6 +304,6 @@
             app:layout_constraintStart_toEndOf="@id/text_footer3" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

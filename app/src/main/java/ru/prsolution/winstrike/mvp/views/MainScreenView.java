@@ -6,9 +6,8 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.ArrayList;
 
-import ru.prsolution.winstrike.mvp.apimodels.Arenas;
-import ru.prsolution.winstrike.mvp.models.MessageResponse;
-import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.datasource.model.OrderModel;
+import ru.prsolution.winstrike.domain.models.MessageResponse;
 
 
 @StateStrategyType(AddToEndSingleStrategy.class)

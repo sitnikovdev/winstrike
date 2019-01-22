@@ -1,8 +1,7 @@
 package ru.prsolution.winstrike.mvp.views;
 
-import ru.prsolution.winstrike.mvp.apimodels.Arenas;
-import ru.prsolution.winstrike.mvp.apimodels.RoomLayoutFactory;
-import ru.prsolution.winstrike.mvp.apimodels.Rooms;
+import ru.prsolution.winstrike.datasource.model.Arenas;
+import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory;
 
 
 public interface IChooseView {
@@ -11,7 +10,7 @@ public interface IChooseView {
 
     void removeWait();
 
-    void onGetArenasResponseSuccess(Arenas authResponse,int selectedArena);
+    void onGetArenasResponseSuccess(Arenas authResponse, int selectedArena);
 
     void onGetAcitivePidFailure(String appErrorMessage);
 

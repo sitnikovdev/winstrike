@@ -1,4 +1,4 @@
-package com.sanogueralorenzo.presentation
+package ru.prsolution.winstrike.presentation.utils
 
 import android.app.Activity
 import android.content.Context

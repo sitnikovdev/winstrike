@@ -4,14 +4,8 @@ package ru.prsolution.winstrike.di.module;
 import android.content.Context;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 import java.io.File;
-import java.io.IOException;
 
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
 import okhttp3.Cache;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
@@ -21,10 +15,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import ru.prsolution.winstrike.BuildConfig;
 import ru.prsolution.winstrike.networking.NetworkService;
 import ru.prsolution.winstrike.networking.Service;
-import ru.prsolution.winstrike.utils.Constants;
+import ru.prsolution.winstrike.presentation.utils.Constants;
 
 
-@Module
 public class NetworkModule {
     File cacheFile;
     Context context;
@@ -34,8 +27,6 @@ public class NetworkModule {
         this.context = context;
     }
 
-    @Provides
-    @Singleton
    public Retrofit provideCall() {
         Cache cache = null;
         try {
@@ -76,14 +67,10 @@ public class NetworkModule {
 
     }
 
-    @Provides
-    @Singleton
     public NetworkService providesNetworkService(
              Retrofit retrofit) {
         return retrofit.create(NetworkService.class);
     }
-    @Provides
-    @Singleton
     public Service providesService(
             NetworkService networkService) {
         return new Service(networkService);

@@ -2,10 +2,6 @@ package ru.prsolution.winstrike.di.module;
 
 import android.content.Context;
 
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
 
 /**
  * Date: 8/18/2016
@@ -13,7 +9,6 @@ import dagger.Provides;
  *
  * @author Artur Artikov
  */
-@Module
 public class ContextModule {
 	private Context mContext;
 
@@ -21,8 +16,6 @@ public class ContextModule {
 		mContext = context;
 	}
 
-	@Provides
-	@Singleton
 	public Context provideContext() {
 		return mContext;
 	}

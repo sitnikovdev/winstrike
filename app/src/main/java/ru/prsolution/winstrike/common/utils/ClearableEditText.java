@@ -13,6 +13,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
 
+import androidx.appcompat.widget.AppCompatEditText;
 import ru.prsolution.winstrike.R;
 
 
@@ -23,7 +24,8 @@ import ru.prsolution.winstrike.R;
  * android:drawable(Right|Left)="@drawable/custom_icon"
  * </pre>
  */
-public class ClearableEditText extends android.support.v7.widget.AppCompatEditText implements OnTouchListener, OnFocusChangeListener, TextWatcherAdapter.TextWatcherListener {
+public class ClearableEditText extends AppCompatEditText
+        implements OnTouchListener, OnFocusChangeListener, TextWatcherAdapter.TextWatcherListener {
 
     public static enum Location {
         LEFT(0), RIGHT(2);

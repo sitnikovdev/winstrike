@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.common.utils
 
 import android.content.Context
-import android.databinding.BindingAdapter
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -9,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import ru.prsolution.winstrike.R
 
 

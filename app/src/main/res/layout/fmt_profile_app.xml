@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:activity="ru.prsolution.winstrike.ui.main.AppFragment"
+    tools:activity="ru.prsolution.winstrike.presentation.profile.AppFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -44,7 +44,7 @@
         app:layout_constraintGuide_end="346dp" />
 
 
-    <android.support.v7.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_estimate"
         android:layout_width="120dp"
         android:layout_height="94dp"
@@ -58,7 +58,6 @@
         app:cardCornerRadius="6dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintEnd_toStartOf="@+id/cv_recomend"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line_head">
 
@@ -79,9 +78,9 @@
             android:layout_gravity="center_horizontal|top"
             android:layout_marginTop="16dp"
             android:src="@drawable/ic_recomend" />
-    </android.support.v7.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <android.support.v7.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_recomend"
         android:layout_width="120dp"
         android:layout_height="94dp"
@@ -114,7 +113,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:src="@drawable/ic_handshake" />
-    </android.support.v7.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <Switch
         android:id="@+id/sw_note"
@@ -260,5 +259,5 @@
     <!-- Icons block -->
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

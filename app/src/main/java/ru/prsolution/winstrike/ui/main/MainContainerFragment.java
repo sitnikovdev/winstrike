@@ -1,29 +1,26 @@
 package ru.prsolution.winstrike.ui.main;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.util.ArrayList;
-import javax.inject.Inject;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import ru.prsolution.winstrike.R;
 import ru.prsolution.winstrike.WinstrikeApp;
 import ru.prsolution.winstrike.common.BackButtonListener;
 import ru.prsolution.winstrike.common.RouterProvider;
-import ru.prsolution.winstrike.mvp.apimodels.OrderModel;
+import ru.prsolution.winstrike.datasource.model.OrderModel;
 import ru.prsolution.winstrike.mvp.views.MainScreenView;
-import ru.prsolution.winstrike.presentation.main.HomeScreenFragment;
 import ru.prsolution.winstrike.presentation.main.MainScreenActivity;
 import ru.prsolution.winstrike.subnavigation.LocalCiceroneHolder;
 import ru.prsolution.winstrike.ui.Screens;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
-import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 public class MainContainerFragment extends Fragment implements RouterProvider, BackButtonListener {
 
@@ -32,7 +29,6 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
   private Navigator navigator;
   private MainScreenActivity mainActivity;
 
-  @Inject
   LocalCiceroneHolder ciceroneHolder;
 
   public static MainContainerFragment getNewInstance(String name) {
@@ -51,7 +47,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
-    WinstrikeApp.INSTANCE.getAppComponent().inject(this);
+    WinstrikeApp.Companion.getInstance().getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
   }
 
@@ -84,11 +80,11 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_choose))) {
-      getCicerone().getRouter().replaceScreen(Screens.CHOOSE_SCREEN, mainActivity.getSelectedArena());
+//      getCicerone().getRouter().replaceScreen(Screens.CHOOSE_SCREEN, mainActivity.getSelectedArena());
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_map))) {
-      getCicerone().getRouter().replaceScreen(Screens.MAP_SCREEN, mainActivity.getSelectedArena());
+//      getCicerone().getRouter().replaceScreen(Screens.MAP_SCREEN, mainActivity.getSelectedArena());
     }
 
     if (getFragmentManager().findFragmentById(R.id.fragment_container).getTag().equals(getString(R.string.tag_pay))) {
@@ -110,7 +106,7 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
   }
 
   private Navigator getNavigator() {
-    if (navigator == null) {
+  /*  if (navigator == null){
       navigator = new SupportAppNavigator(getActivity(), getChildFragmentManager(), R.id.ftc_container) {
 
         @Override
@@ -125,19 +121,19 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
             fragment = HomeScreenFragment.Companion.getNewInstance(getContainerName(), (int) data);
           }
           if (screenKey.equals(Screens.PLACE_SCREEN)) {
-            fragment = PlaceScreenFragment.getNewInstance(getContainerName(), (ArrayList<OrderModel>) data);
+//            fragment = PlaceScreenFragment.getNewInstance(getContainerName(), (ArrayList<OrderModel>) data);
           }
           if (screenKey.equals(Screens.USER_SCREEN)) {
-            fragment = ProfileScreenFragment.getNewInstance(getContainerName(), (int) data);
+//            fragment = ProfileScreenFragment.getNewInstance(getContainerName(), (int) data);
           }
           if (screenKey.equals(Screens.CHOOSE_SCREEN)) {
-            fragment = ChooseScreenFragment.getNewInstance(getContainerName(), (int) data);
+            fragment = ChooseScreenFragment.Companion.getNewInstance(getContainerName(), (int) data);
           }
           if (screenKey.equals(Screens.MAP_SCREEN)) {
-            fragment = MapScreenFragment.getNewInstance(getContainerName(), (int) data);
+//            fragment = MapScreenFragment.getNewInstance(getContainerName(), (int) data);
           }
           if (screenKey.equals(Screens.PAY_SCREEN)) {
-            fragment = PayScreenFragment.getNewInstance(getContainerName(), (String) data);
+//            fragment = PayScreenFragment.getNewInstance(getContainerName(), (String) data);
           }
 
           return fragment;
@@ -149,7 +145,8 @@ public class MainContainerFragment extends Fragment implements RouterProvider, B
         }
       };
     }
-    return navigator;
+    return navigator;*/
+  return null;
   }
 
   @Override

@@ -26,7 +26,7 @@ object Versions {
     val cardView = "1.0.0"
     val recyclerView = "1.0.0"
 
-    val appcompat = "1.0.2"
+    val androidx = "1.0.2"
     val kotlin = "1.3.11"
     val ktx = "1.0.0-alpha1"
     val dataBinding = "3.2.0-alpha10"
@@ -108,7 +108,7 @@ object Libraries {
 }
 
 object SupportLibraries {
-    val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+    val androidx = "androidx.appcompat:appcompat:${Versions.androidx}"
 }
 
 object Constants {

@@ -5,10 +5,10 @@
   <data>
     <variable
       name="loginModel"
-      type="ru.prsolution.winstrike.mvp.models.LoginViewModel" />
+      type="ru.prsolution.winstrike.domain.models.LoginViewModel" />
     <variable
       name="signActivity"
-      type="ru.prsolution.winstrike.ui.login.SignInActivity"/>
+      type="ru.prsolution.winstrike.presentation.login.SignInActivity"/>
   </data>
 
   <android.support.constraint.ConstraintLayout

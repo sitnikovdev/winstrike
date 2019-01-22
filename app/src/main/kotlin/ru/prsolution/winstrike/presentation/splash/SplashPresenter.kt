@@ -4,7 +4,7 @@ package ru.prsolution.winstrike.presentation.splash
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import ru.prsolution.winstrike.mvp.apimodels.ConfirmSmsModel
+import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
 import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.networking.Service
 import rx.subscriptions.CompositeSubscription

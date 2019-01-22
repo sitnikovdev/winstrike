@@ -14,6 +14,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
         classpath("com.android.databinding:compiler:${Versions.dataBinding}")
         classpath("net.sf.proguard:proguard-gradle:${Versions.proguardGradle}")
+        classpath ("com.jakewharton:butterknife-gradle-plugin:10.0.0")
     }
 }
 

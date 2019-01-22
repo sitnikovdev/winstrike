@@ -7,7 +7,7 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
-  <ru.prsolution.winstrike.common.ChooseSeatLinearLayout
+  <ru.prsolution.winstrike.presentation.utils.custom.ChooseSeatLinearLayout
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -50,5 +50,5 @@
         tools:textColor="@color/color_black"
         />
     </android.support.constraint.ConstraintLayout>
-  </ru.prsolution.winstrike.common.ChooseSeatLinearLayout>
+  </ru.prsolution.winstrike.presentation.utils.custom.ChooseSeatLinearLayout>
 </LinearLayout>

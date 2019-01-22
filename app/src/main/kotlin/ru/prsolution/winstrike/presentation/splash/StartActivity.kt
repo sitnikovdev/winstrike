@@ -2,7 +2,7 @@ package ru.prsolution.winstrike.presentation.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import timber.log.Timber
 
 /*

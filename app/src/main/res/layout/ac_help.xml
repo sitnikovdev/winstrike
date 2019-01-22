@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:activity="ru.prsolution.winstrike.ui.login.HelpActivity">
+    tools:activity="ru.prsolution.winstrike.presentation.help.HelpActivity">
 
     <android.support.constraint.Guideline
         android:id="@+id/line_start"

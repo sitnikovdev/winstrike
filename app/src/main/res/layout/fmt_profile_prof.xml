@@ -1,52 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:activity="ru.prsolution.winstrike.ui.main.ProfileFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:activity="ru.prsolution.winstrike.presentation.profile.ProfileFragment">
 
-
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="40dp" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="40dp" />
 
-
     <View
         android:id="@+id/fio_bgr"
         android:layout_width="@dimen/width_edit_295dp"
         android:layout_height="@dimen/height_edit_48dp"
-        android:background="@drawable/edit_text_shape"
         android:layout_marginTop="@dimen/height_guide_bottomlayer_90dp"
+        android:background="@drawable/edit_text_shape"
         app:layout_constraintEnd_toEndOf="@id/line_end"
         app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/fio"
         style="@style/StemMedium15Black04"
         android:layout_width="@dimen/width_editext_255dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:layout_marginStart="@dimen/start_edit_25dp"
+        android:background="@android:color/transparent"
         android:hint="@string/all_fio"
         android:paddingBottom="5dp"
         android:textColorHint="@color/color_primary_dark"
         app:layout_constraintBottom_toBottomOf="@id/fio_bgr"
         app:layout_constraintStart_toStartOf="@id/fio_bgr"
         app:layout_constraintTop_toTopOf="@id/fio_bgr" />
-
 
     <View
         android:id="@+id/password_bgr"
@@ -56,8 +52,7 @@
         android:background="@drawable/edit_text_shape"
         app:layout_constraintEnd_toEndOf="@id/line_end"
         app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toBottomOf="@id/fio_bgr"
-        />
+        app:layout_constraintTop_toBottomOf="@id/fio_bgr" />
 
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
         android:id="@+id/et_password"
@@ -65,19 +60,18 @@
         android:layout_width="@dimen/width_editext_255dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/start_edit_25dp"
+        android:background="@android:color/transparent"
         android:hint="@string/all_password_old"
         android:inputType="textPassword"
         android:paddingBottom="5dp"
         android:textColorHint="@color/color_primary_dark"
-        android:background="@android:color/transparent"
-        app:additionalTouchTargetSize="80dp"
-        app:drawable_hide="@mipmap/ic_hide_eye"
-        app:drawable_show="@mipmap/ic_show_eye"
         app:layout_constraintBottom_toBottomOf="@id/password_bgr"
         app:layout_constraintStart_toStartOf="@id/password_bgr"
         app:layout_constraintTop_toTopOf="@id/password_bgr"
+        app:additionalTouchTargetSize="80dp"
+        app:drawable_hide="@mipmap/ic_hide_eye"
+        app:drawable_show="@mipmap/ic_show_eye"
         app:tint_color="@color/color_accent" />
-
 
     <View
         android:id="@+id/next_button"
@@ -102,7 +96,6 @@
         app:layout_constraintStart_toStartOf="@id/next_button"
         app:layout_constraintTop_toTopOf="@id/next_button" />
 
-
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
