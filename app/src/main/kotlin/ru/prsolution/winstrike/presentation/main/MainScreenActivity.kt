@@ -15,8 +15,7 @@ import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.ViewPager
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.common.BackButtonListener
@@ -45,7 +44,7 @@ class MainScreenActivity : FragmentActivity()
                            OnChoosePlaceButtonsClickListener,
                            onMapShowProcess */ {
 
-	private var bottomNavigationBar: AHBottomNavigation? = null
+	private var bottomNavigationBar: BottomNavigationView? = null
 	var orders = ArrayList<OrderModel>()
 		private set
 	private var mDlgSingOut: Dialog? = null
@@ -516,26 +515,26 @@ class MainScreenActivity : FragmentActivity()
 
 	// Bottom navigation menu:
 	private fun initBottomNavigationBar() {
-		val bottomNavigationListener = BottomNavigationListener()
+//		val bottomNavigationListener = BottomNavigationListener()
 		// Create items
-		val itHome = AHBottomNavigationItem(null, R.drawable.ic_home)
-		val itPlaces = AHBottomNavigationItem(null, R.drawable.ic_money)
-		val itProfile = AHBottomNavigationItem(null, R.drawable.ic_user)
+//		val itHome = BottomNavigationView(null, R.drawable.ic_home)
+//		val itPlaces = BottomNavigationView(null, R.drawable.ic_money)
+//		val itProfile = BottomNavigationView(null, R.drawable.ic_user)
 
 		// Add items
 		bottomNavigationBar = findViewById(R.id.ab_bottom_navigation_bar)
-		bottomNavigationBar!!.addItem(itHome)
-		bottomNavigationBar!!.addItem(itPlaces)
-		bottomNavigationBar!!.addItem(itProfile)
-
-		bottomNavigationBar!!.titleState = AHBottomNavigation.TitleState.ALWAYS_HIDE
-		bottomNavigationBar!!.accentColor = R.color.color_accent
-		bottomNavigationBar!!.setOnTabSelectedListener(bottomNavigationListener)
+//		bottomNavigationBar!!.addItem(itHome)
+//		bottomNavigationBar!!.addItem(itPlaces)
+//		bottomNavigationBar!!.addItem(itProfile)
+//
+//		bottomNavigationBar!!.titleState = AHBottomNavigation.TitleState.ALWAYS_HIDE
+//		bottomNavigationBar!!.accentColor = R.color.color_accent
+//		bottomNavigationBar!!.setOnTabSelectedListener(bottomNavigationListener)
 	}
 
-	inner class BottomNavigationListener : AHBottomNavigation.OnTabSelectedListener {
+//	inner class BottomNavigationListener : BottomNavigationView.OnNavigationItemSelectedListener {
 
-		override fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
+/*		override fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
 			when (position) {
 				MainScreenView.HOME_TAB_POSITION -> {
 					showFragmentHolderContainer(false)
@@ -567,11 +566,11 @@ class MainScreenActivity : FragmentActivity()
 				}
 			}
 			return true
-		}
-	}
+		}*/
+//	}
 
 	fun highlightTab(position: Int) {
-		bottomNavigationBar!!.setCurrentItem(position, false)
+//		bottomNavigationBar!!.setCurrentItem(position, false)
 	}
 
 	fun hideBottomTab() {

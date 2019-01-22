@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import java.util.HashMap
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
-import com.ositnikov.datepicker.DataPicker
 import ru.prsolution.winstrike.databinding.FrmChooseBinding
 import ru.prsolution.winstrike.datasource.model.Arenas
 import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
@@ -30,8 +29,8 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 	var mProgressDialog: ProgressDialog? = null
 	private var listener: onMapShowProcess? = null
 
-	private var dataPicker: com.ositnikov.datepicker.DataPicker? = null
-	private var dateListener: DateListener? = null
+//	private var dataPicker: com.ositnikov.datepicker.DataPicker? = null
+//	private var dateListener: DateListener? = null
 	private var timePickerDialog: TimePickerDialog? = null
 	private var selectedArena = 0
 
@@ -89,16 +88,16 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 			this.presenter = ChooseScreenPresenter(service, this)
 		}
 
-		if (this.dataPicker == null) {
+/*		if (this.dataPicker == null) {
 			dateListener = DateListener()
 			dataPicker = com.ositnikov.datepicker.DataPicker(activity, dateListener)
-		}
+		}*/
 
 	}
 
 	override fun onDateClickListener() {
 		TimeDataModel.setIsDateSelect(true)
-		dataPicker!!.build().show()
+//		dataPicker!!.build().show()
 	}
 
 	override fun onTimeClickListener() {
@@ -216,12 +215,12 @@ class ChooseScreenFragment : Fragment(), IChooseView {
 			presenter!!.onStop()
 			presenter = null
 		}
-		if (this.dataPicker != null) {
+/*		if (this.dataPicker != null) {
 			this.dataPicker = null
 		}
 		if (this.dateListener != null) {
 			this.dateListener = null
-		}
+		}*/
 	}
 
 	companion object {

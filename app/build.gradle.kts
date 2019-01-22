@@ -82,7 +82,7 @@ dependencies {
     implementation(Libraries.showhidepasswordedittext)
 
     /** calendar */
-    implementation(Libraries.materialCalendarView)
+//    implementation(Libraries.materialCalendarView)
 
     /** bottom navigation bar */
 //    implementation(Libraries.ahbottomnavigation)

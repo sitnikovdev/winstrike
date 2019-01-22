@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bumptech.glide.Glide
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -32,7 +31,7 @@ fun SwipeRefreshLayout.stopRefreshing() {
 fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View =
     LayoutInflater.from(context).inflate(layoutId, this, attachToRoot)
 
-fun ImageView.loadImage(url: String) = Glide.with(this).load(url).into(this)
+//fun ImageView.loadImage(url: String) = Glide.with(this).load(url).into(this)
 
 fun TextView.setColor(color: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
     this.setTextColor(context.getColor(color))

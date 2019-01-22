@@ -1,16 +1,15 @@
 package ru.prsolution.winstrike.presentation.setup
 
 import android.text.TextUtils
-import android.widget.TextView
 
-import com.applandeo.materialcalendarview.listeners.OnSelectDateListener
 
 import java.util.Calendar
 
 import ru.prsolution.winstrike.domain.models.TimeDataModel
 import timber.log.Timber
 
-internal class DateListener : OnSelectDateListener {
+// TODO: Replace with another component
+/*internal class DateListener : OnSelectDateListener {
 
 	override fun onSelect(calendar: List<Calendar>) {
 		TimeDataModel.setSelectDate(calendar[0].time)
@@ -27,5 +26,5 @@ internal class DateListener : OnSelectDateListener {
 			Timber.d("New date is selected: timeFrom: %s, timeTo: %s", timeFrom, timeTo)
 		}
 	}
-}
+}*/
 
