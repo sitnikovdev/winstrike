@@ -1,132 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="235dp"
     android:layout_height="315dp"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="right|top"
-    android:layout_marginStart="22dp"
     android:layout_marginEnd="22dp"
-    android:paddingTop="24dp"
-    android:paddingBottom="32dp"
+    android:layout_marginStart="22dp"
     android:background="@drawable/legend_bg"
+    android:paddingBottom="32dp"
+    android:paddingTop="24dp"
     tools:activity=".common.FavPushDialogActivity">
-
 
     <TextView
         android:id="@+id/tv_legend"
         style="@style/StemMedium17Black"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Статус мест:"
         android:layout_marginStart="14dp"
+        android:text="Статус мест:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0"
-        />
+        app:layout_constraintVertical_bias="0" />
+
     <ImageView
         android:id="@+id/iv_vip"
         android:layout_width="25dp"
         android:layout_height="24dp"
-        android:rotation="90"
-        android:background="@drawable/ic_seat_darkgray"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="14dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_seat_darkgray"
+        android:rotation="90"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_legend"
-        />
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/tv_vip"
-        android:text="Недоступно"
         style="@style/StemRegular15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="26dp"
+        android:text="Недоступно"
         app:layout_constraintStart_toEndOf="@id/iv_vip"
-        app:layout_constraintTop_toBottomOf="@id/tv_legend"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tv_legend" />
+
     <ImageView
         android:id="@+id/iv_lockyou"
         android:layout_width="25dp"
         android:layout_height="24dp"
-        android:rotation="90"
-        android:background="@drawable/ic_seat_gray"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="14dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_seat_gray"
+        android:rotation="90"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_vip"
-        />
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/tv_lockyou"
-        android:text="Свободно"
         style="@style/StemRegular15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="26dp"
+        android:text="Свободно"
         app:layout_constraintStart_toEndOf="@id/iv_vip"
-        app:layout_constraintTop_toBottomOf="@id/tv_vip"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tv_vip" />
+
     <ImageView
         android:id="@+id/iv_locked"
         android:layout_width="25dp"
         android:layout_height="24dp"
-        android:rotation="90"
-        android:background="@drawable/ic_seat_yellow"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="14dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_seat_yellow"
+        android:rotation="90"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_lockyou"
-        />
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/tv_locked"
-        android:text="VIP"
         style="@style/StemRegular15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="26dp"
+        android:text="VIP"
         app:layout_constraintStart_toEndOf="@id/iv_vip"
-        app:layout_constraintTop_toBottomOf="@id/tv_lockyou"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tv_lockyou" />
+
     <ImageView
         android:id="@+id/iv_free"
         android:layout_width="24dp"
         android:layout_height="25dp"
-        android:rotation="90"
-        android:background="@drawable/ic_seat_red"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="14dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_seat_red"
+        android:rotation="90"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_locked"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tv_locked" />
+
     <TextView
         android:id="@+id/tv_free"
-        android:text="Забронировано"
         style="@style/StemRegular15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="26dp"
+        android:text="Забронировано"
         app:layout_constraintStart_toEndOf="@id/iv_vip"
-        app:layout_constraintTop_toBottomOf="@id/tv_locked"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tv_locked" />
 
     <TextView
         android:id="@+id/tv_see"
-        android:text="Понял!"
         style="@style/StemMedium17Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_free"
+        android:text="Понял!"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_free" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

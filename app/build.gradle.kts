@@ -49,6 +49,7 @@ android {
 
 
 dependencies {
+    implementation (project(":preference"))
     /** kotlin */
     implementation(Libraries.kotlin)
 

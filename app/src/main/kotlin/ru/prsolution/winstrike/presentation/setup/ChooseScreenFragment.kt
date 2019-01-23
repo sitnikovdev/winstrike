@@ -56,7 +56,6 @@ class ChooseScreenFragment : Fragment() {
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		WinstrikeApp.instance.appComponent?.inject(this)
 		super.onCreate(savedInstanceState)
 		this.selectedArena = arguments!!.getInt(
 				ACTIVE_ARENA)

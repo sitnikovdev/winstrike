@@ -5,23 +5,29 @@ import android.app.ActivityManager
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.UnderlineSpan
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.ositnikov.preference.LiveSharedPreferences
 import kotlinx.android.synthetic.main.ac_login.et_password
 import kotlinx.android.synthetic.main.ac_login.et_phone
 import kotlinx.android.synthetic.main.ac_login.text_button_title
-import kotlinx.android.synthetic.main.ac_login.text_footer
-import kotlinx.android.synthetic.main.ac_login.text_footer2
-import kotlinx.android.synthetic.main.ac_login.text_pol2
-import kotlinx.android.synthetic.main.ac_login.text_pol4
+import kotlinx.android.synthetic.main.ac_login.tv_register
+import kotlinx.android.synthetic.main.ac_login.tv_register2
+import kotlinx.android.synthetic.main.ac_login.tv_politica4
+import kotlinx.android.synthetic.main.ac_login.tv_conditions
 import kotlinx.android.synthetic.main.ac_login.v_button
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.common.utils.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 import ru.prsolution.winstrike.common.utils.TextFormat
 import ru.prsolution.winstrike.common.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot1Color
@@ -34,6 +40,7 @@ import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.presentation.help.HelpActivity
 import ru.prsolution.winstrike.presentation.main.MainScreenActivity
+import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
 import timber.log.Timber
 
@@ -43,20 +50,7 @@ import timber.log.Timber
 // TODO: 13/05/2018 Reorder method call in this activity.
 class SignInActivity : AppCompatActivity() {
 
-	private var loginViewModel: LoginViewModel? = null
 	private var mProgressDialog: ProgressDialog? = null
-
-
-	//    @Inject
-	//    Router router;
-
-	//    @Inject
-	//    NavigatorHolder navigatorHolder;
-
-	var mService: Service? = null
-
-	//    @InjectPresenter
-	internal var mSignInPresenter: SignInPresenter? = null
 
 /*
 	private val navigator = object : Navigator {
@@ -115,100 +109,114 @@ class SignInActivity : AppCompatActivity() {
 	}
 */
 
-	//    @ProvidePresenter
-	fun createSignInPresenter(): SignInPresenter {
-		return SignInPresenter(mService, this)
-	}
+
+	private lateinit var vm: SignInViewModel
+
 
 	public override fun onCreate(savedInstanceState: Bundle?) {
-		WinstrikeApp.instance.appComponent?.inject(this)
 		super.onCreate(savedInstanceState)
+		setContentView(R.layout.ac_login)
 
-		renderView()
+		vm = ViewModelProviders.of(this)[SignInViewModel::class.java]
+
 		init()
+
+		vm.authResponse.observe(this, Observer {
+			it.let {
+				it?.data?.let { response ->
+					onAuthResponseSuccess(response)
+				}
+			}
+		})
+
+		val liveSharedPreferences = LiveSharedPreferences(
+				WinstrikeApp.instance.getSharedPreferences("winstrike_preference", 0))
+
+
+		liveSharedPreferences.getString("token", "empty").observe(this, Observer<String> { value ->
+			Timber.tag("###").d(value)
+		})
+
 
 	}
 
 	fun init() {
-		TextFormat.formatText(et_phone, "(___) ___-__-__")
+		TextFormat.formatText(et_phone, Constants.PHONE_MASK)
 
 		setBtnEnable(v_button, true)
 
-		v_button!!.setOnClickListener { it ->
-			if (et_phone!!.text.length >= 14 && et_password!!.text.length >= 6) {
-				loginViewModel!!.username = formatPhone(et_phone!!.text.toString())
-				loginViewModel!!.password = et_password!!.text.toString()
-				AuthUtils.phone = loginViewModel!!.username.toString()
-				AuthUtils.password = loginViewModel!!.password.toString()
+		v_button!!.setOnClickListener {
+			if (et_phone?.text?.length!! >= Constants.PHONE_LENGTH && et_password?.text?.length!! >= Constants.PASSWORD_LENGTH) {
 
-				mSignInPresenter!!.signIn(loginViewModel!!)
+//				loginViewModel!!.username = formatPhone(et_phone!!.text.toString())
+//				loginViewModel!!.password = et_password!!.text.toString()
+
+//				AuthUtils.phone = loginViewModel!!.username.toString()
+//				AuthUtils.password = loginViewModel!!.password.toString()
+
+				vm.signIn()
 
 			} else if (TextUtils.isEmpty(et_phone!!.text)) {
-				toast("Введите номер телефона")
+				longToast("Введите номер телефона")
 			} else if (TextUtils.isEmpty(et_password!!.text)) {
-				toast("Пароль не должен быть пустым")
-			} else if (et_phone!!.text.length < 14) {
-				toast("Номер телефона не верный")
-			} else if (et_password!!.text.length < 6) {
-				toast("Длина пароля должна не менее 6 символов")
+				longToast("Пароль не должен быть пустым")
+			} else if (et_phone!!.text.length < Constants.PHONE_LENGTH) {
+				longToast("Номер телефона не верный")
+			} else if (et_password!!.text.length < Constants.PASSWORD_LENGTH) {
+				longToast("Длина пароля должна не менее 6 символов")
 			}
 		}
 
 		//        checkFieldEnabled(et_phone, et_password, v_button);
 
-		text_button_title!!.setOnClickListener { it -> startActivity(Intent(this, HelpActivity::class.java)) }
+//		text_button_title!!.setOnClickListener { startActivity(Intent(this, HelpActivity::class.java)) }
 
 		setFooter()
 	}
 
-	private fun setFooter() {
-		setTextFoot1Color(text_footer!!, "Еще нет аккаунта?", "#9b9b9b")
-		setTextFoot2Color(text_footer2!!, " Зарегистрируйтесь", "#c9186c")
-		text_footer2!!.setOnClickListener { it -> startActivity(Intent(this, SingUpActivity::class.java)) }
+	// TODO move in view model
+	/**
+	 * Success auth user. Save token
+	 *
+	 * @param authResponse - (token,isConfirmed)
+	 */
+	private fun onAuthResponseSuccess(authResponse: AuthResponse) {
+		val confirmed = authResponse.user?.confirmed
 
-		val mystring = "Условиями"
-		val content = SpannableString(mystring)
-		content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
-		text_pol2!!.text = content
+		updateUser(authResponse)
 
+		if (confirmed!!) {
+			startActivity(Intent(this, MainScreenActivity::class.java))
+			Timber.d("Success signIn")
+		} else {
+			val smsModel = ConfirmSmsModel()
+			smsModel.username = authResponse.user!!.phone
+			vm.sendSms()
 
-		text_pol2!!.setOnClickListener { it ->
-			val browserIntent = Intent(this, YandexWebView::class.java)
-			val url = "file:///android_asset/rules.html"
-			browserIntent.putExtra("url", url)
-			startActivity(browserIntent)
+			val intent = Intent(this, UserConfirmActivity::class.java)
+			intent.putExtra("phone", smsModel.username)
+			startActivity(intent)
 		}
 
-		text_pol4!!.setOnClickListener { it ->
-			val browserIntent = Intent(this, YandexWebView::class.java)
-			val url = "file:///android_asset/politika.html"
-			browserIntent.putExtra("url", url)
-			startActivity(browserIntent)
+	}
+
+	private fun updateUser(authResponse: AuthResponse) {
+		AuthUtils.name = authResponse.user?.name ?: ""
+		AuthUtils.token = authResponse.token ?: ""
+		AuthUtils.phone = authResponse.user?.phone ?: ""
+		AuthUtils.isConfirmed = authResponse.user?.confirmed ?: false
+		AuthUtils.publicid = authResponse.user?.publicId ?: ""
+	}
+
+	fun onAuthFailure(appErrorMessage: String) {
+		Timber.e("Error on auth: %s", appErrorMessage)
+		if (appErrorMessage.contains("403")) longToast("Неправильный пароль")
+		if (appErrorMessage.contains("404")) {
+			longToast("Пользователь не найден")
 		}
-
-		val textFooter = "Политикой конфиденциальности"
-		val content4 = SpannableString(textFooter)
-		content4.setSpan(UnderlineSpan(), 0, textFooter.length, 0)
-		text_pol4!!.text = content4
-
-	}
-
-
-	fun renderView() {
-		//  setContentView(R.layout.ac_login);
-
-		loginViewModel = LoginViewModel()
-
-		setContentView(R.layout.ac_login)
-
-	}
-
-	fun showWait() {
-		//        showProgressDialog();
-	}
-
-	fun removeWait() {
-		//        hideProgressDialog();
+		if (appErrorMessage.contains("502")) longToast("Ошибка сервера")
+		if (appErrorMessage.contains("No Internet Connection!"))
+			longToast("Интернет подключение не доступно!")
 	}
 
 
@@ -223,60 +231,6 @@ class SignInActivity : AppCompatActivity() {
 			toast("Ошибка отправки кода! Нет пользователя с таким номером")
 		if (appErrorMessage.contains("409")) toast("Ошибка функции кодогенерации")
 		if (appErrorMessage.contains("422")) toast("Не указан номер телефона")
-	}
-
-	/**
-	 * Success auth user. Save token
-	 *
-	 * @param authResponse - (token,isConfirmed)
-	 */
-	fun onAuthResponseSuccess(authResponse: AuthResponse) {
-		val confirmed = authResponse.user?.confirmed
-
-		updateUser(authResponse)
-
-		if (confirmed!!) {
-			//                        router.replaceScreen(Screens.START_SCREEN);
-			startActivity(Intent(this, MainScreenActivity::class.java))
-			Timber.d("Success signIn")
-		} else {
-			val smsModel = ConfirmSmsModel()
-			smsModel.username = authResponse.user!!.phone
-			mSignInPresenter!!.sendSms(smsModel)
-
-			val intent = Intent(this, UserConfirmActivity::class.java)
-			intent.putExtra("phone", smsModel.username)
-			startActivity(intent)
-		}
-
-	}
-
-	private fun updateUser(authResponse: AuthResponse) {
-		AuthUtils.name = authResponse.user?.name!!
-		AuthUtils.token = authResponse.token.toString()
-		AuthUtils.phone = authResponse.user!!.phone!!
-		AuthUtils.isConfirmed = authResponse.user!!.confirmed!!
-		AuthUtils.publicid = authResponse.user!!.publicId!!
-	}
-
-	fun onAuthFailure(appErrorMessage: String) {
-		Timber.e("Error on auth: %s", appErrorMessage)
-		if (appErrorMessage.contains("403")) toast("Неправильный пароль")
-		if (appErrorMessage.contains("404")) {
-			toast("Пользователь не найден")
-		}
-		if (appErrorMessage.contains("502")) toast("Ошибка сервера")
-		if (appErrorMessage.contains("No Internet Connection!"))
-			toast("Интернет подключение не доступно!")
-
-	}
-
-	override fun onResume() {
-		super.onResume()
-		if (mSignInPresenter == null) {
-			mSignInPresenter = createSignInPresenter()
-		}
-		//        navigatorHolder.setNavigator(navigator);
 	}
 
 
@@ -315,15 +269,10 @@ class SignInActivity : AppCompatActivity() {
     }
 */
 
-	protected fun toast(message: String) {
-		Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-	}
 
 	override fun onStop() {
 		super.onStop()
 		hideProgressDialog()
-		mSignInPresenter!!.onStop()
-		mSignInPresenter = null
 	}
 
 	override fun onBackPressed() {
@@ -335,6 +284,40 @@ class SignInActivity : AppCompatActivity() {
 		val am = getSystemService(Activity.ACTIVITY_SERVICE) as ActivityManager
 		am.killBackgroundProcesses("ru.prsolution.winstrike")
 		finish()
+	}
+
+
+	private fun setFooter() {
+		setTextFoot1Color(tv_register!!, "Еще нет аккаунта?", "#9b9b9b")
+		setTextFoot2Color(tv_register2!!, " Зарегистрируйтесь", "#c9186c")
+		tv_register2!!.setOnClickListener { startActivity(Intent(this, SingUpActivity::class.java)) }
+
+		val textConditions = "Условиями"
+		val content = SpannableString(textConditions).apply {
+			setSpan(UnderlineSpan(), 0, textConditions.length, 0)
+		}
+		tv_conditions!!.text = content
+
+
+		tv_conditions!!.setOnClickListener {
+			val browserIntent = Intent(this, YandexWebView::class.java)
+			val url = "file:///android_asset/rules.html"
+			browserIntent.putExtra("url", url)
+			startActivity(browserIntent)
+		}
+
+		tv_politica4!!.setOnClickListener {
+			val browserIntent = Intent(this, YandexWebView::class.java)
+			val url = "file:///android_asset/politika.html"
+			browserIntent.putExtra("url", url)
+			startActivity(browserIntent)
+		}
+
+		val textFooter = "Политикой конфиденциальности"
+		val content4 = SpannableString(textFooter)
+		content4.setSpan(UnderlineSpan(), 0, textFooter.length, 0)
+		tv_politica4!!.text = content4
+
 	}
 
 

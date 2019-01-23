@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.content_main.webView
+import kotlinx.android.synthetic.main.webview_holder.webView
 import kotlinx.android.synthetic.main.fmt_pay.progressBar
 import kotlinx.android.synthetic.main.fmt_pay.toolbar
 import kotlinx.android.synthetic.main.fmt_pay.toolbar_text

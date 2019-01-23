@@ -241,7 +241,7 @@
         app:layout_constraintTop_toTopOf="@+id/next_button_confirm" />
 
     <TextView
-        android:id="@+id/text_footer"
+        android:id="@+id/tv_register"
         style="@style/StemRegular15Base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -251,12 +251,12 @@
         android:clickable="true"
         android:text="Уже есть аккаунт?"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/text_footer2"
+        app:layout_constraintEnd_toStartOf="@id/tv_register2"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@id/line_start" />
 
     <TextView
-        android:id="@+id/text_footer2"
+        android:id="@+id/tv_register2"
         style="@style/StemRegular15Base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -266,6 +266,6 @@
         android:text="Войдите"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/line_end"
-        app:layout_constraintStart_toEndOf="@id/text_footer" />
+        app:layout_constraintStart_toEndOf="@id/tv_register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,7 +46,7 @@
                 android:layout_height="56dp"
                 android:layout_alignParentTop="true"
                 android:background="@color/color_primary_dark"
-                android:theme="@style/MainToolBarTheme">
+                >
 
                 <TextView
                     android:id="@+id/toolbar_text"
@@ -62,7 +62,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/webview_holder" />
 
     <ProgressBar
         android:id="@+id/progressBar"

@@ -3,17 +3,15 @@ package ru.prsolution.winstrike.presentation.splash
 import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.text.TextUtils
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.airbnb.lottie.LottieAnimationView
+import androidx.lifecycle.ViewModelProviders
+import kotlinx.android.synthetic.main.ac_splash.animation_view
 import org.jetbrains.anko.longToast
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.common.utils.AuthUtils
-import ru.prsolution.winstrike.datasource.model.Room
-import ru.prsolution.winstrike.networking.Service
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 import ru.prsolution.winstrike.presentation.main.MainScreenActivity
 import ru.prsolution.winstrike.presentation.guides.GuideActivity
 import ru.prsolution.winstrike.presentation.login.SignInActivity
@@ -22,50 +20,42 @@ import ru.prsolution.winstrike.presentation.login.SignInActivity
 open class SplashActivity : AppCompatActivity() {
 
 	private var mainIntent: Intent? = null
-	lateinit var splashPresenter: SplashPresenter
-
-	lateinit var mService: Service
-
-	private var rooms: List<Room>? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		WinstrikeApp.instance.appComponent?.inject(this)
 		super.onCreate(savedInstanceState)
 		requestWindowFeature(Window.FEATURE_NO_TITLE)
 		window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		                WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
 		setContentView(R.layout.ac_splash)
+		mainIntent = Intent(this@SplashActivity, MainScreenActivity::class.java)
 
-		val animationView = findViewById<View>(R.id.animation_view) as LottieAnimationView
-		animationView.imageAssetsFolder = "images"
-		animationView.setAnimation("data.json")
-		animationView.repeatCount = 0
-		animationView.scale = 1f
+		animation_view.imageAssetsFolder = "images"
+		animation_view.setAnimation("data.json")
+		animation_view.repeatCount = 0
+		animation_view.scale = 1f
 
-		animationView.addAnimatorListener(object : Animator.AnimatorListener {
-			override fun onAnimationStart(animation: Animator) {
-			}
-
+		animation_view.addAnimatorListener(object : Animator.AnimatorListener {
 			override fun onAnimationEnd(animation: Animator) {
-//                splashPresenter.getActiveArena()
 				openMainActivity()
 				finish()
 			}
 
-			override fun onAnimationCancel(animation: Animator) {
-			}
+			override fun onAnimationStart(animation: Animator) {}
 
-			override fun onAnimationRepeat(animation: Animator) {
-			}
+			override fun onAnimationCancel(animation: Animator) {}
+
+			override fun onAnimationRepeat(animation: Animator) {}
 		})
-		animationView.playAnimation()
+		animation_view.playAnimation()
 
-		splashPresenter = createSplashPresenter()
-	}
 
-	fun createSplashPresenter(): SplashPresenter {
-		return SplashPresenter(mService, this)
+		val vm: SplashViewModel = ViewModelProviders.of(this)[SplashViewModel::class.java]
+
+		if (savedInstanceState == null) {
+//			vm.get()
+		}
+
 	}
 
 
@@ -74,13 +64,11 @@ open class SplashActivity : AppCompatActivity() {
 		if (AuthUtils.isLogout) {
 			startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
 		} else if (!AuthUtils.token.isEmpty()) {
-			mainIntent = Intent(this@SplashActivity, MainScreenActivity::class.java)
 			startActivity(mainIntent)
 		} else {
 			startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
 		}
 	}
-
 
 	fun onSendSmsSuccess() {
 		longToast("CMC успешно отпралена")
@@ -96,9 +84,11 @@ open class SplashActivity : AppCompatActivity() {
 //        rooms = authResponse.rooms
 //        WinstrikeApp.getInstance().rooms = rooms
 
-		if (AuthUtils.isFirstLogin) {
+		// TODO Use AtomicBoolean
+		if (AuthUtils.isFirstLogin && !TextUtils.isEmpty(AuthUtils.token)) {
 			AuthUtils.isFirstLogin = false
-			mainIntent = Intent(this@SplashActivity, GuideActivity::class.java)
+//			TODO: Fix guides
+//			mainIntent = Intent(this@SplashActivity, GuideActivity::class.java)
 			startActivity(mainIntent)
 		} else {
 			isCheckLogin()

@@ -1,7 +1,7 @@
 package ru.prsolution.winstrike.domain.models
 
 /**
- * Created by designer on 07/03/2018.
+ * Created by oleg on 07/03/2018.
  */
 
 import com.google.gson.annotations.Expose

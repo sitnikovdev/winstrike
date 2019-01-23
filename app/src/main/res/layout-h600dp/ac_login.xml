@@ -283,7 +283,7 @@
 -->
 
     <TextView
-        android:id="@+id/text_pol1"
+        android:id="@+id/tv_politica1"
         style="@style/StemRegular12Gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -291,13 +291,13 @@
         android:layout_marginStart="0dp"
         android:clickable="true"
         android:text="Регистрируясь, вы соглашаетесь с нашими"
-        app:layout_constraintBottom_toTopOf="@id/text_pol2"
+        app:layout_constraintBottom_toTopOf="@id/tv_conditions"
         app:layout_constraintEnd_toEndOf="@id/line_end"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@id/line_start" />
 
     <TextView
-        android:id="@+id/text_pol2"
+        android:id="@+id/tv_conditions"
         style="@style/StemRegular12Red"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -310,7 +310,7 @@
         app:layout_constraintStart_toStartOf="@id/line_start" />
 
     <TextView
-        android:id="@+id/text_pol3"
+        android:id="@+id/tv_politica3"
         style="@style/StemRegular12Gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -321,10 +321,10 @@
         android:clickable="true"
         android:text="и"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_pol2" />
+        app:layout_constraintStart_toEndOf="@+id/tv_conditions" />
 
     <TextView
-        android:id="@+id/text_pol4"
+        android:id="@+id/tv_politica4"
         style="@style/StemRegular12Red"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -335,10 +335,10 @@
         android:text="Политикой конфиденциальности"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/line_end"
-        app:layout_constraintStart_toEndOf="@+id/text_pol3" />
+        app:layout_constraintStart_toEndOf="@+id/tv_politica3" />
 
     <TextView
-        android:id="@+id/text_footer"
+        android:id="@+id/tv_register"
         style="@style/StemRegular15Base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -347,13 +347,13 @@
         android:layout_marginStart="10dp"
         android:clickable="true"
         android:text="Еще нет аккаунта?"
-        app:layout_constraintBottom_toTopOf="@id/text_pol1"
-        app:layout_constraintEnd_toStartOf="@id/text_footer2"
+        app:layout_constraintBottom_toTopOf="@id/tv_politica1"
+        app:layout_constraintEnd_toStartOf="@id/tv_register2"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/text_footer2"
+        android:id="@+id/tv_register2"
         style="@style/StemRegular15Base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -361,9 +361,9 @@
         android:background="@drawable/ripple_effect_title_click"
         android:clickable="true"
         android:text="Зарегистрируйтесь"
-        app:layout_constraintBottom_toTopOf="@id/text_pol1"
+        app:layout_constraintBottom_toTopOf="@id/tv_politica1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/text_footer" />
+        app:layout_constraintStart_toEndOf="@id/tv_register" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_footer"

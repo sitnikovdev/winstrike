@@ -5,7 +5,7 @@
     <color name="colorPrimaryDark">@color/color_primary_dark</color>
     <color name="colorAccent">@color/color_accent</color>
 
-    <color name="color_primary">#ffffff</color>
+    <color name="color_primary">#ffc9186c</color>
     <color name="color_accent">#ffc9186c</color>
     <color name="color_primary_dark">#ff161715</color>
     <color name="color_black">#ff1f1f1f</color>

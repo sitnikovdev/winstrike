@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
     android:layout_height="400dp"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center_horizontal"
-    android:layout_marginStart="87dp"
     android:layout_marginEnd="87dp"
+    android:layout_marginStart="87dp"
     android:background="@drawable/dialog_background"
     tools:activity=".common.FavPushDialogActivity">
 
@@ -15,15 +15,15 @@
         style="@style/StemMedium17Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="26dp"
-        android:layout_marginEnd="30dp"
         android:gravity="center_horizontal"
         android:text="Введите новый пароль"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/v_passw_first"
@@ -31,12 +31,12 @@
         android:layout_height="48dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/edit_text_shape"
+        app:layout_constraintBottom_toTopOf="@id/v_pass_second"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/v_pass_second"
-        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintVertical_chainStyle="packed"
 
         />
 
@@ -45,50 +45,48 @@
         android:layout_width="288dp"
         android:layout_height="48dp"
         android:background="@drawable/edit_text_shape"
+        app:layout_constraintBottom_toTopOf="@id/v_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/v_passw_first"
-        app:layout_constraintBottom_toTopOf="@id/v_button"
 
         />
 
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
         android:id="@+id/et_password_first"
         style="@style/StemRegular15Base"
-        android:inputType="textPassword"
-        android:textColorHint="@color/color_grey"
-        app:additionalTouchTargetSize="80dp"
-        app:drawable_hide="@mipmap/ic_hide_eye"
-        app:drawable_show="@mipmap/ic_show_eye"
-        app:tint_color="@color/color_accent"
         android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:background="@null"
         android:hint="Пароль"
+        android:inputType="textPassword"
+        android:textColorHint="@color/color_grey"
         app:layout_constraintBottom_toBottomOf="@id/v_passw_first"
         app:layout_constraintEnd_toEndOf="@id/v_passw_first"
         app:layout_constraintStart_toStartOf="@id/v_passw_first"
-        app:layout_constraintTop_toTopOf="@id/v_passw_first" />
-
+        app:layout_constraintTop_toTopOf="@id/v_passw_first"
+        app:additionalTouchTargetSize="80dp"
+        app:drawable_hide="@mipmap/ic_hide_eye"
+        app:drawable_show="@mipmap/ic_show_eye"
+        app:tint_color="@color/color_accent" />
 
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
         android:id="@+id/et_password_second"
         style="@style/StemRegular15Base"
-        android:inputType="textPassword"
-        android:textColorHint="@color/color_grey"
-        app:additionalTouchTargetSize="80dp"
-        app:drawable_hide="@mipmap/ic_hide_eye"
-        app:drawable_show="@mipmap/ic_show_eye"
-        app:tint_color="@color/color_accent"
         android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:background="@null"
         android:hint="Повторите пароль"
+        android:inputType="textPassword"
+        android:textColorHint="@color/color_grey"
         app:layout_constraintBottom_toBottomOf="@id/v_pass_second"
         app:layout_constraintEnd_toEndOf="@id/v_pass_second"
         app:layout_constraintStart_toStartOf="@id/v_pass_second"
-        app:layout_constraintTop_toTopOf="@id/v_pass_second" />
-
+        app:layout_constraintTop_toTopOf="@id/v_pass_second"
+        app:additionalTouchTargetSize="80dp"
+        app:drawable_hide="@mipmap/ic_hide_eye"
+        app:drawable_show="@mipmap/ic_show_eye"
+        app:tint_color="@color/color_accent" />
 
     <View
         android:id="@+id/v_button"
@@ -96,10 +94,10 @@
         android:layout_height="48dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/button_bgr_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/v_pass_second"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/v_pass_second" />
 
     <TextView
         android:id="@+id/text_button_title"
@@ -113,6 +111,4 @@
         app:layout_constraintStart_toStartOf="@id/v_button"
         app:layout_constraintTop_toTopOf="@id/v_button" />
 
-
-
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

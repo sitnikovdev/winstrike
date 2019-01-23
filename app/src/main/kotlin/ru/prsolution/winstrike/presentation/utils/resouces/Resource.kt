@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.presentation.utils
+package ru.prsolution.winstrike.presentation.utils.resouces
 
 data class Resource<out T> constructor(
 		val state: ResourceState,

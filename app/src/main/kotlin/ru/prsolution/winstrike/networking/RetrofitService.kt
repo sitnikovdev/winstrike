@@ -47,7 +47,7 @@ interface RetrofitService {
 
 	// Авторизация пользователя
 	@POST("login")
-	fun authUser(@Body loginViewModel: LoginViewModel): Deferred<Response<AuthResponse>>
+	fun authUser(@Body loginViewModel: LoginViewModel?): Deferred<Response<AuthResponse>>
 
 	// Отправка смс c кодом подтверждения
 	@POST("confirm_codes")

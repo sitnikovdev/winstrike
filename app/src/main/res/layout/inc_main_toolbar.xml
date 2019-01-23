@@ -9,7 +9,7 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/color_primary_dark"
         android:elevation="4dp"
-        android:theme="@style/MainToolBarTheme">
+        >
 
         <TextView
             android:id="@+id/toolbar_title"

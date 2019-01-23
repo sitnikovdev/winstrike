@@ -6,7 +6,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.prsolution.winstrike.datasource.model.Room
 import ru.prsolution.winstrike.networking.RetrofitFactory
-import ru.prsolution.winstrike.presentation.utils.Resource
+import ru.prsolution.winstrike.presentation.utils.resouces.Resource
 import ru.prsolution.winstrike.presentation.utils.setError
 import ru.prsolution.winstrike.presentation.utils.setSuccess
 import timber.log.Timber
@@ -36,7 +36,4 @@ class ArenaListViewModel :
 		}
 	}
 
-	override fun onCleared() {
-		super.onCleared()
-	}
 }

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_guide1"
-    tools:activity="ru.prsolution.winstrike.presentation.guides.GuideFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:activity="ru.prsolution.winstrike.presentation.guides.GuideFragment">
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_start"
-        app:layout_constraintGuide_begin="@dimen/guidestart_77dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/guidestart_77dp" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/guideend_77dp" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,16 +35,17 @@
         android:background="@drawable/present1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/text_header"
         style="@style/StemMedium20Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
         android:text="@string/pres1_title"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,17 +57,15 @@
         style="@style/StemRegular15Base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="40dp"
         android:text="@string/pres1_detail1"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_header" />
-
-
 
     <View
         android:id="@+id/v_layertop"
@@ -75,10 +74,9 @@
         android:alpha="0.6"
         android:background="@drawable/footer_layer1"
         android:scaleX="-1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <View
         android:id="@+id/v_layermidle"
@@ -87,10 +85,9 @@
         android:alpha="0.71"
         android:background="@drawable/footer_layer3"
         android:scaleX="-1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <View
         android:id="@+id/layerbottom"
@@ -99,10 +96,9 @@
         android:alpha="0.68"
         android:background="@drawable/footer_layer2"
         android:scaleX="-1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/image_selector"
@@ -110,51 +106,48 @@
         android:layout_height="wrap_content"
         android:paddingBottom="15dp"
         android:src="@drawable/ic_selector1"
-        app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
+        tools:ignore="ContentDescription" />
 
     <View
         android:id="@+id/fl_prev"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintHorizontal_bias="0.23"
-        app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintStart_toStartOf="@id/line_start" />
 
     <View
         android:id="@+id/fl_next"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintHorizontal_bias="0.73"
-        app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
-
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintStart_toStartOf="@id/line_start" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="19dp"
         android:src="@drawable/ic_right_arrow"
-        app:layout_constraintStart_toEndOf="@id/line_end"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/line_end"
+        tools:ignore="ContentDescription" />
+
     <View
         android:id="@+id/btn_nextGuide"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:foreground="?android:selectableItemBackgroundBorderless"
-        android:clickable="true"
         android:layout_alignParentEnd="true"
-        app:layout_constraintStart_toEndOf="@id/line_end"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:clickable="true"
+        android:foreground="?android:selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/line_end" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

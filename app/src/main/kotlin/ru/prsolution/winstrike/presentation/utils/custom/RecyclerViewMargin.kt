@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.ui.main
+package ru.prsolution.winstrike.presentation.utils.custom
 
 import android.graphics.Rect
 import android.view.View

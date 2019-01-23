@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.ac_mainscreen.toolbar_text
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.common.utils.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 import ru.prsolution.winstrike.presentation.login.SignInActivity
 import ru.prsolution.winstrike.presentation.main.MainScreenActivity
 import timber.log.Timber

@@ -11,7 +11,7 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
 
 /**
- * Created by designer on 02/04/2018.
+ * Created by oleg on 02/04/2018.
  */
 
 class CarouselAdapter(val context: FragmentActivity?) : FragmentPagerAdapter(

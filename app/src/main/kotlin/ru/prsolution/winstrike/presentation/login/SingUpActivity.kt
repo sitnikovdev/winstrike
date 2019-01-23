@@ -8,11 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ac_registration.et_password
 import kotlinx.android.synthetic.main.ac_registration.et_phone
 import kotlinx.android.synthetic.main.ac_registration.next_button_phone
-import kotlinx.android.synthetic.main.ac_registration.text_footer
-import kotlinx.android.synthetic.main.ac_registration.text_footer2
+import kotlinx.android.synthetic.main.ac_registration.tv_register
+import kotlinx.android.synthetic.main.ac_registration.tv_register2
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.common.utils.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 import ru.prsolution.winstrike.common.utils.TextFormat
 import ru.prsolution.winstrike.domain.models.LoginModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
@@ -41,7 +41,6 @@ class SingUpActivity : AppCompatActivity(){
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		WinstrikeApp.instance.appComponent?.inject(this)
 
 		renderView()
 
@@ -96,10 +95,10 @@ class SingUpActivity : AppCompatActivity(){
 
 
 	private fun setFooter() {
-		setTextFoot1Color(text_footer!!, "Уже есть аккаунт?", "#9b9b9b")
-		setTextFoot2Color(text_footer2!!, "Войдите", "#c9186c")
+		setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
+		setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
 
-		text_footer2!!.setOnClickListener { it -> startActivity(Intent(this, SignInActivity::class.java)) }
+		tv_register2!!.setOnClickListener { it -> startActivity(Intent(this, SignInActivity::class.java)) }
 	}
 
 

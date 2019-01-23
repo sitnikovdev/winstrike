@@ -21,8 +21,8 @@ import kotlinx.android.synthetic.main.ac_smshelp.et_code
 import kotlinx.android.synthetic.main.ac_smshelp.et_phone
 import kotlinx.android.synthetic.main.ac_smshelp.next_button_confirm
 import kotlinx.android.synthetic.main.ac_smshelp.next_button_phone
-import kotlinx.android.synthetic.main.ac_smshelp.text_footer
-import kotlinx.android.synthetic.main.ac_smshelp.text_footer2
+import kotlinx.android.synthetic.main.ac_smshelp.tv_register
+import kotlinx.android.synthetic.main.ac_smshelp.tv_register2
 import kotlinx.android.synthetic.main.ac_smshelp.tv_bntc
 import kotlinx.android.synthetic.main.ac_smshelp.tv_code
 import kotlinx.android.synthetic.main.ac_smshelp.v_pass
@@ -44,7 +44,7 @@ import ru.prsolution.winstrike.datasource.model.NewPasswordModel
 import ru.prsolution.winstrike.presentation.login.SignInActivity
 
 /**
- * Created by designer on 15/03/2018.
+ * Created by oleg on 15/03/2018.
  */
 
 class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
@@ -71,7 +71,6 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		WinstrikeApp.instance.appComponent?.inject(this)
 		super.onCreate(savedInstanceState)
 
 		timer = TimerViewModel()
@@ -157,11 +156,11 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
         );*/
 
 
-		setTextFoot1Color(text_footer!!, "Уже есть аккаунт?", "#9b9b9b")
-		setTextFoot2Color(text_footer2!!, "Войдите", "#c9186c")
+		setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
+		setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
 
 
-		text_footer2!!.setOnClickListener { it -> startActivity(Intent(this, SignInActivity::class.java)) }
+		tv_register2!!.setOnClickListener { it -> startActivity(Intent(this, SignInActivity::class.java)) }
 	}
 
 	private fun setConfirmVisible(isEnabled: Boolean) {

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fmt_profile_prof.fio
 import kotlinx.android.synthetic.main.fmt_profile_prof.next_button
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.UserEntity
-import ru.prsolution.winstrike.common.utils.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 
 /*
  * Created by oleg on 03.02.2018.

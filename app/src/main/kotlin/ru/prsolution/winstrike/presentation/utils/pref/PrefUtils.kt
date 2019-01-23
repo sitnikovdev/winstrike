@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.common.utils
+package ru.prsolution.winstrike.presentation.utils.pref
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -12,10 +12,11 @@ import ru.prsolution.winstrike.WinstrikeApp
  *
  */
 object PrefUtils {
-    private val PREF_NAME = "token"
+    private const val PREF_NAME = "winstrike_preferences"
 
     val prefs: SharedPreferences
-        get() = WinstrikeApp.instance.appComponent!!.context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        get() = WinstrikeApp.instance.getSharedPreferences(
+                PREF_NAME, Context.MODE_PRIVATE)
 
     val editor: SharedPreferences.Editor
         get() = prefs.edit()

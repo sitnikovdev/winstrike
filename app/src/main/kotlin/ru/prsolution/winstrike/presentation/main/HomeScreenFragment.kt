@@ -64,10 +64,10 @@ class HomeScreenFragment : Fragment() {
 		val arenaListAdapter = ArenaListAdapter(onArenaClickItem)
 		rv_arena.adapter = arenaListAdapter
 
-		vm.rooms.observe(this, Observer {
-			it.let { resource ->
+		vm.rooms.observe(this, Observer { resource ->
+			resource.let { resource ->
 				resource?.data?.let { arenaListAdapter.submitList(it) }
-				updateCarouselSeatAdapter(it?.data?.get(selectedArena))
+				updateCarouselSeatAdapter(resource?.data?.get(selectedArena))
 			}
 		})
 

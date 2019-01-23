@@ -20,7 +20,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
 
 
-import ru.prsolution.winstrike.common.utils.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 import timber.log.Timber
 
 

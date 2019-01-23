@@ -1,23 +1,71 @@
 package ru.prsolution.winstrike.presentation.main
 
+import android.text.TextUtils
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.prsolution.winstrike.datasource.model.OrderModel
 import ru.prsolution.winstrike.domain.models.FCMModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.domain.models.ProfileModel
+import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.networking.RetrofitService
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.resouces.Resource
+import ru.prsolution.winstrike.presentation.utils.setSuccess
 import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
 
 /**
- * Created by terrakok 25.11.16
+ * Created by oleg 23.01.2019
  */
-class MainScreenPresenter(//    private Router router;
-		private val service: RetrofitService)   {
-	private val subscriptions: CompositeSubscription
+class MainScreenViewModel : ViewModel() {
 
-	init {
-		this.subscriptions = CompositeSubscription()
-	}//        this.router = router;
+	val retrofitService = RetrofitFactory.makeRetrofitService()
+
+	val fcmResponse = MutableLiveData<Resource<MessageResponse>>()
+
+//	val userToken = AuthUtils.token
+//	val fcmToken: FCMModel = FCMModel(AuthUtils.fcmtoken)
+
+	fun sendFCMToken(userToken: String, fcmBody: FCMModel) {
+		require(!TextUtils.isEmpty(userToken)) {
+			"User's token don't have to be empty."
+		}
+		require(!TextUtils.isEmpty(fcmBody.token)) {
+			"FCM token don't have to be empty."
+		}
+
+		GlobalScope.launch {
+			val request = retrofitService.sendTocken(userToken, fcmBody)
+			try {
+				val response = request.await()
+				response.body()?.let {
+					fcmResponse.setSuccess(it)
+				}
+			} catch (e: Throwable) {
+				Timber.e(e)
+			}
+		}
+
+	}
+
+	fun sendFCMTokenToServer(token: String, fcmToken: FCMModel) {
+
+/*        val subscription = service.sendToken(object : Service.FcmTokenCallback {
+            override fun onSuccess(messageResponse: MessageResponse) {
+                onTokenSendSuccessfully(messageResponse)
+            }
+
+            override fun onError(networkError: NetworkError) {
+                onFailtureTokenSend(networkError.appErrorMessage)
+            }
+        }, token, fcmToken)
+
+        subscriptions.add(subscription)*/
+	}
+
 
 	fun onCreate() {
 //        viewState.highlightTab(MainScreenView.HOME_TAB_POSITION)
@@ -76,22 +124,6 @@ class MainScreenPresenter(//    private Router router;
 	}
 
 
-	fun sendFCMTokenToServer(token: String, fcmToken: FCMModel) {
-
-/*        val subscription = service.sendToken(object : Service.FcmTokenCallback {
-            override fun onSuccess(messageResponse: MessageResponse) {
-                onTokenSendSuccessfully(messageResponse)
-            }
-
-            override fun onError(networkError: NetworkError) {
-                onFailtureTokenSend(networkError.appErrorMessage)
-            }
-        }, token, fcmToken)
-
-        subscriptions.add(subscription)*/
-	}
-
-
 	private fun onFailtureTokenSend(appErrorMessage: String) {
 		Timber.d("On failure send token: %s", appErrorMessage)
 	}
@@ -140,8 +172,4 @@ class MainScreenPresenter(//    private Router router;
         subscriptions.add(subscription)*/
 	}
 
-
-	fun onStop() {
-		subscriptions.unsubscribe()
-	}
 }

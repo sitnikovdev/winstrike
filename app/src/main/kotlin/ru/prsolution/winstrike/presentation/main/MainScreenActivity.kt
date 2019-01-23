@@ -7,152 +7,49 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.*
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.ac_mainscreen.*
+import kotlinx.android.synthetic.main.ac_mainscreen.fragment_container
+import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.common.BackButtonListener
 import ru.prsolution.winstrike.common.ScreenType
-import ru.prsolution.winstrike.common.utils.AuthUtils
 import ru.prsolution.winstrike.datasource.model.OrderModel
-import ru.prsolution.winstrike.datasource.model.Room
 import ru.prsolution.winstrike.domain.models.FCMModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.domain.models.ProfileModel
 import ru.prsolution.winstrike.domain.models.TimeDataModel
 import ru.prsolution.winstrike.presentation.splash.SplashActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
-import ru.prsolution.winstrike.presentation.utils.Constants.TOKEN_TYPE_BEARER
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 import timber.log.Timber
-import java.util.*
+import java.util.ArrayList
 
 /*
   A Big God Activity.
   // TODO: 18/10/2018 Need some refactoring for SOLID principle.
  */
-class MainScreenActivity : FragmentActivity()
-/*                           ,OnProfileButtonsClickListener,
-                           OnAppButtonsClickListener,
-                           OnChoosePlaceButtonsClickListener,
-                           onMapShowProcess */ {
+class MainScreenActivity : FragmentActivity() {
 
-	private var bottomNavigationBar: BottomNavigationView? = null
-	var orders = ArrayList<OrderModel>()
-		private set
 	private var mDlgSingOut: Dialog? = null
-	private var mMainOnClickListener: MainOnClickListener? = null
-	private var mMapOnClickListener: MapOnClickListener? = null
-
 	private var mScreenType: ScreenType? = null
 	private var mDlgMapLegend: Dialog? = null
-	var rooms: List<Room>? = null
-	private lateinit var presenter: MainScreenPresenter
-
-
-/*    @Inject
-    var navigatorHolder: NavigatorHolder? = null*/
-
-//    private val navigator = object : Navigator {
-////        override fun applyCommands(commands: Array<Command>) {
-////            for (command in commands) {
-////                applyCommand(command)
-////            }
-////        }
-//
-////        private fun applyCommand(command: Command) {
-////            if (command is Back) {
-////                finish()
-////            } else if (command is SystemMessage) {
-////                Toast.makeText(this@MainScreenActivity, command.message, Toast.LENGTH_SHORT).show()
-////            } else if (command is Replace) {
-////                val fm = supportFragmentManager
-////
-////                when (command.screenKey) {
-////                    Screens.START_SCREEN -> {
-////                        setHomeScreenStateVisibility(true)
-////                        fm.beginTransaction()
-////                                .detach(userTabFragment!!)
-////                                .detach(placesTabFragment!!)
-////                                .detach(chooseTabFragment!!)
-////                                .detach(mapTabFragment!!)
-////                                .detach(payTabFragment!!)
-////                                .attach(homeTabFragment!!)
-////                                .commitNow()
-////                    }
-////                    Screens.PLACE_SCREEN -> {
-////                        setHomeScreenStateVisibility(false)
-////                        fm.beginTransaction()
-////                                .detach(userTabFragment!!)
-////                                .detach(homeTabFragment!!)
-////                                .detach(chooseTabFragment!!)
-////                                .detach(mapTabFragment!!)
-////                                .detach(payTabFragment!!)
-////                                .attach(placesTabFragment!!)
-////                                .commitNow()
-////                    }
-////                    Screens.USER_SCREEN -> {
-////                        setHomeScreenStateVisibility(false)
-////                        fm.beginTransaction()
-////                                .detach(homeTabFragment!!)
-////                                .detach(placesTabFragment!!)
-////                                .detach(chooseTabFragment!!)
-////                                .detach(mapTabFragment!!)
-////                                .detach(payTabFragment!!)
-////                                .attach(userTabFragment!!)
-////                                .commitNow()
-////                    }
-////                    Screens.CHOOSE_SCREEN -> {
-////                        user.name = rooms!![selectedArena].name
-////                        initMainToolbar(SHOW_ICON, ScreenType.MAIN, mMainOnClickListener)
-////                        setHomeScreenStateVisibility(false)
-////                        fm.beginTransaction()
-////                                .detach(homeTabFragment!!)
-////                                .detach(placesTabFragment!!)
-////                                .detach(userTabFragment!!)
-////                                .detach(mapTabFragment!!)
-////                                .detach(payTabFragment!!)
-////                                .attach(chooseTabFragment!!)
-////                                .commit()
-////                        fm.executePendingTransactions()
-////                    }
-////                    Screens.MAP_SCREEN -> {
-////                        user.name = rooms!![selectedArena].name
-////                        initMainToolbar(SHOW_ICON, ScreenType.MAIN, mMapOnClickListener)
-////                        setHomeScreenStateVisibility(false)
-////                        fm.beginTransaction()
-////                                .detach(homeTabFragment!!)
-////                                .detach(placesTabFragment!!)
-////                                .detach(userTabFragment!!)
-////                                .detach(chooseTabFragment!!)
-////                                .detach(payTabFragment!!)
-////                                .attach(mapTabFragment!!)
-////                                .commit()
-////                        fm.executePendingTransactions()
-////                    }
-////                    Screens.PAY_SCREEN -> {
-////                        user.name = getString(R.string.title_payment)
-////                        initMainToolbar(SHOW_ICON, ScreenType.MAP, mMainOnClickListener)
-////                        setHomeScreenStateVisibility(false)
-////                        fm.beginTransaction()
-////                                .detach(homeTabFragment!!)
-////                                .detach(placesTabFragment!!)
-////                                .detach(userTabFragment!!)
-////                                .detach(chooseTabFragment!!)
-////                                .detach(mapTabFragment!!)
-////                                .attach(payTabFragment!!)
-////                                .commitNow()
-////                    }
-////                }
-////            }
-////        }
-//    }
+	private lateinit var mViewModel: MainScreenViewModel
 
 	fun initMainToolbar(hideNavIcon: Boolean?, screenType: ScreenType, listener: View.OnClickListener?) {
 /*		setActionBar(toolbar)
@@ -205,8 +102,8 @@ class MainScreenActivity : FragmentActivity()
 		if (mDlgSingOut != null) {
 			mDlgSingOut!!.dismiss()
 		}
-		this.mMainOnClickListener = null
-		this.mMapOnClickListener = null
+//		this.mMainOnClickListener = null
+//		this.mMapOnClickListener = null
 	}
 
 	override fun onBackPressed() {
@@ -216,16 +113,37 @@ class MainScreenActivity : FragmentActivity()
 				&& (fragment as BackButtonListener).onBackPressed()) {
 			return
 		} else {
-			presenter.onBackPressed()
+			mViewModel.onBackPressed()
 		}
 	}
+
+	private lateinit var vm: MainScreenViewModel
+
+	val homeScreenFragment = HomeScreenFragment()
+	val fragmentManager = supportFragmentManager
+	val activeFragment = homeScreenFragment
 
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		clearData()
 		setContentView(R.layout.ac_mainscreen)
-		// TODO: Do it by ViewModel (possibility memory leaks)
-		initBottomNavigationBar()
+		vm = ViewModelProviders.of(this).get(MainScreenViewModel::class.java)
+
+		vm.fcmResponse.observe(this, Observer {
+			it.let {
+				it.data?.let {
+					Timber.i("FCM token send to server. \n ${it.message} ")
+				}
+			}
+		})
+
+		// Toolbar
+		toolbar.navigationIcon = getDrawable(R.drawable.ic_back_arrow)
+		toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
+
+//		fragmentManager.beginTransaction().add()
+
+//		initBottomNavigationBar()
 		initFCM() // FCM push notifications
 		dlgMapLegend()
 		dlgProfileSingOut()
@@ -357,7 +275,7 @@ class MainScreenActivity : FragmentActivity()
 			profile.password = password
 			val publicId = AuthUtils.publicid
 			val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
-			presenter.updateProfile(token, profile, publicId)
+			mViewModel.updateProfile(token, profile, publicId)
 			AuthUtils.name = name
 			var title = getString(R.string.title_settings)
 			if (AuthUtils.name != null) {
@@ -484,7 +402,7 @@ class MainScreenActivity : FragmentActivity()
 	}
 
 	fun onMapShow() {
-		presenter.onMapShowClick()
+		mViewModel.onMapShowClick()
 	}
 
 	private fun clearData() {
@@ -501,15 +419,15 @@ class MainScreenActivity : FragmentActivity()
 	}
 
 	fun onGetOrdersSuccess(orders: ArrayList<OrderModel>) {
-		this.orders = orders
-		presenter.onTabPlaceClick(this.orders)
-		Timber.d("UserEntity order list size: %s", this.orders.size)
+//		this.orders = orders
+//		mViewModel.onTabPlaceClick(this.orders)
+//		Timber.d("UserEntity order list size: %s", this.orders.size)
 	}
 
 	fun onGetOrdersFailure(appErrorMessage: String) {
-		orders = ArrayList()
-		presenter.onTabPlaceClick(orders)
-		Timber.d("Failure get layout from server: %s", appErrorMessage)
+//		orders = ArrayList()
+//		mViewModel.onTabPlaceClick(orders)
+//		Timber.d("Failure get layout from server: %s", appErrorMessage)
 	}
 
 	// Bottom navigation menu:
@@ -521,7 +439,7 @@ class MainScreenActivity : FragmentActivity()
 //		val itProfile = BottomNavigationView(null, R.drawable.ic_user)
 
 		// Add items
-		bottomNavigationBar = findViewById(R.id.ab_bottom_navigation_bar)
+//		bottomNavigationBar = findViewById(R.id.ab_bottom_navigation_bar)
 //		bottomNavigationBar!!.addItem(itHome)
 //		bottomNavigationBar!!.addItem(itPlaces)
 //		bottomNavigationBar!!.addItem(itProfile)
@@ -572,13 +490,6 @@ class MainScreenActivity : FragmentActivity()
 //		bottomNavigationBar!!.setCurrentItem(position, false)
 	}
 
-	fun hideBottomTab() {
-		bottomNavigationBar!!.visibility = GONE
-	}
-
-	fun showBottomTab() {
-		bottomNavigationBar!!.visibility = VISIBLE
-	}
 
 	private inner class MainOnClickListener : View.OnClickListener {
 
@@ -587,7 +498,7 @@ class MainScreenActivity : FragmentActivity()
 //            user.name = rooms!![selectedArena].name
 //                    toolbar.title
 //			initMainToolbar(HIDE_ICON, ScreenType.MAIN, this)
-			presenter.onBackPressed()
+			mViewModel.onBackPressed()
 		}
 	}
 
@@ -600,24 +511,17 @@ class MainScreenActivity : FragmentActivity()
 		}
 	}
 
-	//FCM push message services:
-	// TODO: move it in start activity or App
-	private fun sendRegistrationToServer(authToken: String, refreshedToken: String) {
-		val fcmModel = FCMModel()
-		fcmModel.token = refreshedToken
-		presenter.sendFCMTokenToServer(authToken, fcmModel)
-	}
-
 	fun onPushClick(isOn: String) {
 		Toast.makeText(this, "Push is: $isOn", Toast.LENGTH_LONG).show()
 	}
 
 	private fun initFCM() {
-		val token = TOKEN_TYPE_BEARER + AuthUtils.token
-
 		val fcmToken = AuthUtils.fcmtoken
+		val userToken = AuthUtils.token
 		if (!fcmToken.isEmpty()) {
-			sendRegistrationToServer(token, fcmToken)
+			// TODO fix it: server send "message": "Token is missing" (see logs). Try install chuck.
+			vm.sendFCMToken(userToken, FCMModel(AuthUtils.fcmtoken))
 		}
 	}
+
 }

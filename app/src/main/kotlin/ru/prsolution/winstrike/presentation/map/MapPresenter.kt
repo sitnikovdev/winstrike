@@ -1,7 +1,7 @@
 package ru.prsolution.winstrike.presentation.map
 
 import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.common.utils.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 import ru.prsolution.winstrike.datasource.model.PaymentModel
 import ru.prsolution.winstrike.datasource.model.PaymentResponse
 import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory

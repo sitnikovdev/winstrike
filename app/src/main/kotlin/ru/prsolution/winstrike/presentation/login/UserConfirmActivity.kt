@@ -15,8 +15,8 @@ import kotlinx.android.synthetic.main.ac_confsmscode.confirm_button
 import kotlinx.android.synthetic.main.ac_confsmscode.displayWorkTimeLeft
 import kotlinx.android.synthetic.main.ac_confsmscode.et_code
 import kotlinx.android.synthetic.main.ac_confsmscode.et_name
-import kotlinx.android.synthetic.main.ac_confsmscode.text_footer2
-import kotlinx.android.synthetic.main.ac_confsmscode.text_footer4
+import kotlinx.android.synthetic.main.ac_confsmscode.tv_register2
+import kotlinx.android.synthetic.main.ac_confsmscode.tv_register4
 import kotlinx.android.synthetic.main.ac_confsmscode.tv_confirm_btn
 import kotlinx.android.synthetic.main.ac_confsmscode.tv_hint
 import kotlinx.android.synthetic.main.ac_confsmscode.tv_nextbtn_label
@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.ac_confsmscode.v_send_code_again
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
-import ru.prsolution.winstrike.common.utils.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 import ru.prsolution.winstrike.domain.models.ConfirmModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.domain.models.ProfileModel
@@ -43,7 +43,7 @@ import ru.prsolution.winstrike.common.utils.Utils.setBtnEnable
 import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
 
 /**
- * Created by designer on 15/03/2018.
+ * Created by oleg on 15/03/2018.
  */
 
 class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
@@ -77,7 +77,6 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		WinstrikeApp.instance.appComponent?.inject(this)
 		presenter = UserConfirmPresenter(service)
 
 
@@ -289,17 +288,17 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 		val mystring = "Условиями"
 		val content = SpannableString(mystring)
 		content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
-		text_footer2!!.text = content
+		tv_register2!!.text = content
 
 
-		text_footer2!!.setOnClickListener { it ->
+		tv_register2!!.setOnClickListener { it ->
 			val browserIntent = Intent(this, YandexWebView::class.java)
 			val url = "file:///android_asset/rules.html"
 			browserIntent.putExtra("url", url)
 			startActivity(browserIntent)
 		}
 
-		text_footer4!!.setOnClickListener { it ->
+		tv_register4!!.setOnClickListener { it ->
 			val browserIntent = Intent(this, YandexWebView::class.java)
 			//                    String url = "file:///android_asset/politika.html";
 			val url = "https://winstrike.gg/WinstrikePrivacyPolicy.pdf"
@@ -310,7 +309,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 		val textFooter = "Политикой конфиденциальности"
 		val content4 = SpannableString(textFooter)
 		content4.setSpan(UnderlineSpan(), 0, textFooter.length, 0)
-		text_footer4!!.text = content4
+		tv_register4!!.text = content4
 	}
 
 	fun showWait() {}
