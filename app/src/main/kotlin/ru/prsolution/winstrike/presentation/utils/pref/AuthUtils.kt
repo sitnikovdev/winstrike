@@ -10,23 +10,30 @@ object AuthUtils {
     private val PHONE = "phone"
     private val NAME = "name"
     private val PASSWORD = "password"
+    private val SELECTEDARENA = "selectedArena"
 
-    var token: String
+    var token: String?
         get() = PrefUtils.prefs.getString(TOKEN, "")
         set(token) {
             PrefUtils.editor.putString(TOKEN, token).commit()
         }
 
-    var fcmtoken: String
+    var fcmtoken: String?
         get() = PrefUtils.prefs.getString(FCMTOKEN, "")
         set(fcmtoken) {
             PrefUtils.editor.putString(FCMTOKEN, fcmtoken).commit()
         }
 
-    var publicid: String
+    var publicid: String?
         get() = PrefUtils.prefs.getString(PUBLICID, "")
         set(publicid) {
             PrefUtils.editor.putString(PUBLICID, publicid).commit()
+        }
+
+    var selectedArena: Int
+        get() = PrefUtils.prefs.getInt(SELECTEDARENA, 0)
+        set(selectedArena) {
+            PrefUtils.editor.putInt(SELECTEDARENA, selectedArena).commit()
         }
 
     var isFirstLogin: Boolean

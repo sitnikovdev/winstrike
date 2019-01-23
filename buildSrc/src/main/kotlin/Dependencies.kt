@@ -12,6 +12,7 @@ object Release {
 }
 
 object Versions {
+    val kotlin = "1.3.20"
     val gradle = "3.5.0-alpha01"
     val proguardGradle = "6.0.3"
     val gradleWrapper = "5.1.1-all"
@@ -27,7 +28,6 @@ object Versions {
     val recyclerView = "1.0.0"
 
     val androidx = "1.0.2"
-    val kotlin = "1.3.11"
     val ktx = "1.0.0-alpha1"
     val dataBinding = "3.2.0-alpha10"
 

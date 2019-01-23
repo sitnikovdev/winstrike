@@ -185,14 +185,14 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 						val userDb = UserEntity()
 						userDb.setConfirmed(true)
 						userDb.setPhone(user!!.phone.toString())
-						userDb.setPublickId(AuthUtils.publicid)
+						AuthUtils.publicid?.let { userDb.setPublickId(it) }
 						userDb.setToken(AuthUtils.token)
 						userDb.setName(profile.name!!)
 						AuthUtils.name = userDb.getName()!!
 
 						//                                    repository.insertUser(userDb);
 
-						presenter!!.updateProfile(token, profile, publicId)
+						publicId?.let { presenter!!.updateProfile(token, profile, it) }
 						startActivity(Intent(this@UserConfirmActivity, SignInActivity::class.java))
 					}
 				} else {

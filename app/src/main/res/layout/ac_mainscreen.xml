@@ -80,7 +80,7 @@
         android:id="@+id/v_spinner"
         android:layout_width="244dp"
         android:layout_height="48dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="@dimen/title_bottom"
         android:layout_marginStart="66dp"
         android:layout_marginEnd="66dp"

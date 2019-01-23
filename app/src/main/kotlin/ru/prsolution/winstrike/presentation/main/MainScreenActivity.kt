@@ -20,7 +20,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -141,7 +140,7 @@ class MainScreenActivity : FragmentActivity() {
 		toolbar.navigationIcon = getDrawable(R.drawable.ic_back_arrow)
 		toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
 
-//		fragmentManager.beginTransaction().add()
+		fragmentManager.beginTransaction().add(R.id.main_container,homeScreenFragment,"home").commit()
 
 //		initBottomNavigationBar()
 		initFCM() // FCM push notifications
@@ -275,7 +274,7 @@ class MainScreenActivity : FragmentActivity() {
 			profile.password = password
 			val publicId = AuthUtils.publicid
 			val token = Constants.TOKEN_TYPE_BEARER + AuthUtils.token
-			mViewModel.updateProfile(token, profile, publicId)
+			publicId?.let { mViewModel.updateProfile(token, profile, it) }
 			AuthUtils.name = name
 			var title = getString(R.string.title_settings)
 			if (AuthUtils.name != null) {
@@ -518,9 +517,9 @@ class MainScreenActivity : FragmentActivity() {
 	private fun initFCM() {
 		val fcmToken = AuthUtils.fcmtoken
 		val userToken = AuthUtils.token
-		if (!fcmToken.isEmpty()) {
+		if (!fcmToken?.isEmpty()!!) {
 			// TODO fix it: server send "message": "Token is missing" (see logs). Try install chuck.
-			vm.sendFCMToken(userToken, FCMModel(AuthUtils.fcmtoken))
+			userToken?.let { vm.sendFCMToken(it, FCMModel(AuthUtils.fcmtoken)) }
 		}
 	}
 

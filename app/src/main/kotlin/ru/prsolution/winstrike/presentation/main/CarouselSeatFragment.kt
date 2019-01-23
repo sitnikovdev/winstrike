@@ -27,7 +27,6 @@ class CarouselSeatFragment : Fragment() {
 
 	lateinit var listener: OnChoosePlaceButtonsClickListener
 	private var itemSeat: View? = null
-	private var mSelectedArena: Int = 0
 	private var mRoom: Room? = null
 	private var mainScreenActivity: MainScreenActivity? = null
 
@@ -42,8 +41,9 @@ class CarouselSeatFragment : Fragment() {
 		if (context is OnChoosePlaceButtonsClickListener) {
 			listener = context
 		} else {
-			throw ClassCastException(
-					context!!.toString() + " must implements OnChoosePlaceButtonsClickListener ") as Throwable
+			//TODO make it by shared ViewModel
+////			throw ClassCastException(
+//					context!!.toString() + " must implements OnChoosePlaceButtonsClickListener ") as Throwable
 		}
 	}
 

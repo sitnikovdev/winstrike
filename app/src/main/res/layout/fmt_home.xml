@@ -1,12 +1,11 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:activity=".">
+    tools:activity=".presentation.main.MainScreenActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_start"
@@ -22,17 +21,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/keyline_40dp" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/head_image"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toTopOf="@id/arena_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/v_spinner"
-        fresco:placeholderImage="@drawable/head_img" />
-
     <View
         android:id="@+id/v_spinner"
         android:layout_width="244dp"
@@ -40,7 +28,7 @@
         android:layout_marginBottom="@dimen/title_bottom"
         android:layout_marginEnd="66dp"
         android:layout_marginStart="66dp"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/edit_text_shape"
         app:layout_constraintBottom_toTopOf="@id/head_image"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,10 +41,12 @@
         style="@style/StemBold15Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="24dp"
         android:text="Выбрать арену"
         android:textColor="@color/color_black"
         app:layout_constraintBottom_toBottomOf="@id/v_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/arrowArena_Down"
         app:layout_constraintStart_toStartOf="@id/v_spinner"
         app:layout_constraintTop_toTopOf="@id/v_spinner" />
 
@@ -102,6 +92,17 @@
         app:layout_constraintEnd_toEndOf="@id/v_spinner"
         app:layout_constraintTop_toTopOf="@id/tvArenaTitle" />
 
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/head_image"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@id/arena_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_spinner"
+        fresco:placeholderImage="@drawable/head_img" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_arena"
         android:layout_width="244dp"
@@ -132,13 +133,12 @@
     <TextView
         android:id="@+id/seat_cat"
         style="@style/StemMedium15Black"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:text="@string/seatdetail_category"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/line_end"
+        app:layout_constraintStart_toStartOf="@id/line_start"
         app:layout_constraintTop_toBottomOf="@id/arena_description" />
 
     <androidx.viewpager.widget.ViewPager

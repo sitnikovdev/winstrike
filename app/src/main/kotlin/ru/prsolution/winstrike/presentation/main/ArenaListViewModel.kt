@@ -18,12 +18,6 @@ class ArenaListViewModel :
 	val rooms = MutableLiveData<Resource<List<Room>>>()
 
 	fun get() {
-/*        compositeDisposable.add(usersPostsUseCase.get(refresh)
-                                        .doOnSubscribe { posts.setLoading() }
-                                        .subscribeOn(Schedulers.io())
-                                        .map { it.mapToPresentation() }
-                                        .subscribe({ posts.setSuccess(it) }, { posts.setError(it.message) })*/
-		// TODO: Return arena lsit
 		GlobalScope.launch {
 			val request = retrofitService.arenas
 			try {

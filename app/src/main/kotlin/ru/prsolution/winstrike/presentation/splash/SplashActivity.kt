@@ -13,7 +13,6 @@ import org.jetbrains.anko.longToast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 import ru.prsolution.winstrike.presentation.main.MainScreenActivity
-import ru.prsolution.winstrike.presentation.guides.GuideActivity
 import ru.prsolution.winstrike.presentation.login.SignInActivity
 
 
@@ -26,8 +25,8 @@ open class SplashActivity : AppCompatActivity() {
 		requestWindowFeature(Window.FEATURE_NO_TITLE)
 		window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		                WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
 		setContentView(R.layout.ac_splash)
+
 		mainIntent = Intent(this@SplashActivity, MainScreenActivity::class.java)
 
 		animation_view.imageAssetsFolder = "images"
@@ -42,13 +41,9 @@ open class SplashActivity : AppCompatActivity() {
 			}
 
 			override fun onAnimationStart(animation: Animator) {}
-
 			override fun onAnimationCancel(animation: Animator) {}
-
 			override fun onAnimationRepeat(animation: Animator) {}
 		})
-		animation_view.playAnimation()
-
 
 		val vm: SplashViewModel = ViewModelProviders.of(this)[SplashViewModel::class.java]
 
@@ -63,7 +58,7 @@ open class SplashActivity : AppCompatActivity() {
 		// If user is signOut from App: go to SingIn screen. Else: check if user is exist on server and if Ok -- go to Main screen.
 		if (AuthUtils.isLogout) {
 			startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
-		} else if (!AuthUtils.token.isEmpty()) {
+		} else if (!AuthUtils.token?.isEmpty()!!) {
 			startActivity(mainIntent)
 		} else {
 			startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
@@ -76,13 +71,6 @@ open class SplashActivity : AppCompatActivity() {
 
 
 	fun openMainActivity() {
-//        Timber.d("Success get map data from server: %s", authResponse)
-		/**
-		 * data for active room pid successfully get from server.
-		 * save pid and get map for selected time period
-		 */
-//        rooms = authResponse.rooms
-//        WinstrikeApp.getInstance().rooms = rooms
 
 		// TODO Use AtomicBoolean
 		if (AuthUtils.isFirstLogin && !TextUtils.isEmpty(AuthUtils.token)) {
@@ -94,8 +82,6 @@ open class SplashActivity : AppCompatActivity() {
 			isCheckLogin()
 		}
 
-
 	}
 
 }
-
