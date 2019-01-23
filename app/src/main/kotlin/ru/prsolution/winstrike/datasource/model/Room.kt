@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.datasource.model
 
 import com.squareup.moshi.Json
 import ru.prsolution.winstrike.R
+import java.io.Serializable
 
 class Room  (
 	@field:Json(name= "public_id") val publicId: String? = null,
@@ -17,5 +18,5 @@ class Room  (
 	@field:Json(name= "vip_description") val vipDescription: String? = null,
 
 	@field:Json(name= "locale") val locale: String? = null
-)
+) : Serializable
 
