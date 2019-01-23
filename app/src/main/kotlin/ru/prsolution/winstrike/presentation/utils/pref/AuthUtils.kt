@@ -11,6 +11,22 @@ object AuthUtils {
     private val NAME = "name"
     private val PASSWORD = "password"
     private val SELECTEDARENA = "selectedArena"
+    private val DISPLAYWIDHTPX = "displayWidhtPx"
+    private val DISPLAYHEIGHTPX = "displayHeightPx"
+
+
+    var displayHeightPx: Float
+        get() = PrefUtils.prefs.getFloat(DISPLAYHEIGHTPX, 0f)
+        set(displayHeightPx) {
+            PrefUtils.editor.putFloat(DISPLAYHEIGHTPX, displayHeightPx).commit()
+        }
+
+    var displayWidhtPx: Float
+        get() = PrefUtils.prefs.getFloat(DISPLAYWIDHTPX, 0f)
+        set(displayWidhtPx) {
+            PrefUtils.editor.putFloat(DISPLAYWIDHTPX, displayWidhtPx).commit()
+        }
+
 
     var token: String?
         get() = PrefUtils.prefs.getString(TOKEN, "")

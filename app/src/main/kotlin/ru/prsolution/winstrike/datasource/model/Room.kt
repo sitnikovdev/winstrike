@@ -1,44 +1,21 @@
 package ru.prsolution.winstrike.datasource.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 import ru.prsolution.winstrike.R
-import java.io.Serializable
 
-class Room : Serializable {
+class Room  (
+	@field:Json(name= "public_id") val publicId: String? = null,
+	@field:Json(name= "name") val name: String? = null,
+	@field:Json(name= "metro") val metro: String? = null,
+	@field:Json(name= "room_layout_pid") val roomLayoutPid: String? = null,
+	@field:Json(name= "description") val description: String? = null,
 
-	@SerializedName("name")
-	var name: String? = null
 
-	@SerializedName("public_id")
-	var publicId: String? = null
+	@field:Json(name= "usual_description") val usualDescription: String? = null,
+	@field:Json(name= "usual_image_url") val usualImageUrl: String? = null,
+	@field:Json(name= "vip_image_url") val vipImageUrl: String? = null,
+	@field:Json(name= "vip_description") val vipDescription: String? = null,
 
-	@SerializedName("metro")
-	var metro: String? = null
-
-	@SerializedName("room_layout_pid")
-	var roomLayoutPid: String? = null
-
-	@SerializedName("description")
-	var description: String? = null
-
-	@SerializedName("image_url")
-	var imageUrl: String? = null
-
-	var imageDefault: Int = R.drawable.vip
-
-	@SerializedName("locale")
-	var locale: String? = null
-
-	@SerializedName("usual_description")
-	var usualDescription: String? = null
-
-	@SerializedName("usual_image_url")
-	var usualImageUrl: String? = null
-
-	@SerializedName("vip_image_url")
-	var vipImageUrl: String? = null
-
-	@SerializedName("vip_description")
-	var vipDescription: String? = null
-}
+	@field:Json(name= "locale") val locale: String? = null
+)
 

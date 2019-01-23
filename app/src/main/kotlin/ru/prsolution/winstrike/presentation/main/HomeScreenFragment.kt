@@ -129,7 +129,7 @@ class HomeScreenFragment : Fragment() {
 	// TODO: remove this!!!
 	private fun updateCarouselSeatAdapter(room: Room?) {
 
-		val widthPx = WinstrikeApp.instance.displayWidhtPx
+		val widthPx =  AuthUtils.displayWidhtPx
 
 		if (!TextUtils.isEmpty(room?.usualDescription) &&
 				!TextUtils.isEmpty(room?.vipDescription)) {

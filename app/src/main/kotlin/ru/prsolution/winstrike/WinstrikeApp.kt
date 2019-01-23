@@ -10,6 +10,7 @@ import ru.prsolution.winstrike.di.module.NetworkModule
 import ru.prsolution.winstrike.domain.models.SeatModel
 import ru.prsolution.winstrike.domain.models.UserEntity
 import ru.prsolution.winstrike.networking.Service
+import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
 
 
 class WinstrikeApp : Application() {
@@ -63,10 +64,16 @@ class WinstrikeApp : Application() {
 
 		Fresco.initialize(this)
 
+		initScreenPref()
+
+	}
+
+	private fun initScreenPref() {
+		AuthUtils.displayHeightPx = displayHeightPx
+		AuthUtils.displayWidhtPx = displayWidhtPx
 	}
 
 	companion object {
-		val DEBUG = true
 		lateinit var instance: WinstrikeApp
 	}
 }
