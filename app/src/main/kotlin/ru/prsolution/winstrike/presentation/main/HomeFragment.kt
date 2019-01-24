@@ -51,20 +51,20 @@ class HomeFragment : Fragment() {
 	val arenaUpConstraintSet = ConstraintSet()
 	val arenaDownConstraintSet = ConstraintSet()
 	var isArenaShow: Boolean = false
-	lateinit var vm: MainScreenViewModel
+	lateinit var mVm: MainViewModel
 	lateinit var arenaListAdapter: ArenaListAdapter
 	lateinit var carouselAdapter: CarouselAdapter
 	lateinit var liveSharedPreferences: LiveSharedPreferences
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		vm = ViewModelProviders.of(this)[MainScreenViewModel::class.java]
+		mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
 		selectedArena = PrefUtils.selectedArena
 		ArenaListAdapter.SELECTED_ITEM = selectedArena
 		carouselAdapter = CarouselAdapter(activity)
 
 		if (savedInstanceState == null) {
-			vm.getRooms()
+			mVm.getRooms()
 		}
 
 		liveSharedPreferences = LiveSharedPreferences(SharedPrefFactory.prefs)
@@ -79,7 +79,7 @@ class HomeFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 		arenaListAdapter = ArenaListAdapter(onArenaClickItem)
 
-		vm.rooms.observe(this, Observer { resource ->
+		mVm.rooms.observe(this, Observer { resource ->
 			resource.let {
 				it?.data?.let { arenaListAdapter.submitList(it) }
 				val room = resource?.data?.get(selectedArena)
@@ -188,8 +188,8 @@ class HomeFragment : Fragment() {
 
 				with(carouselAdapter) {
 					setPagesCount(2)
-					addFragment(CarouselSeatFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
-					addFragment(CarouselSeatFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 1)
+					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
+					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 1)
 				}
 			}
 			RoomType.COMMON -> {
@@ -202,7 +202,7 @@ class HomeFragment : Fragment() {
 
 				with(carouselAdapter) {
 					setPagesCount(1)
-					addFragment(CarouselSeatFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
+					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
 				}
 			}
 			RoomType.VIP -> {
@@ -215,7 +215,7 @@ class HomeFragment : Fragment() {
 
 				with(carouselAdapter) {
 					setPagesCount(1)
-					addFragment(CarouselSeatFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 0)
+					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 0)
 				}
 			}
 		}

@@ -12,7 +12,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.ositnikov.preference.LiveSharedPreferences
 import kotlinx.android.synthetic.main.ac_login.et_password
 import kotlinx.android.synthetic.main.ac_login.et_phone
 import kotlinx.android.synthetic.main.ac_login.tv_register
@@ -23,7 +22,6 @@ import kotlinx.android.synthetic.main.ac_login.v_button
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.common.utils.TextFormat
 import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot1Color
@@ -32,7 +30,7 @@ import ru.prsolution.winstrike.common.utils.Utils.setBtnEnable
 import ru.prsolution.winstrike.datasource.model.AuthResponse
 import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
-import ru.prsolution.winstrike.presentation.main.MainScreenActivity
+import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
 import timber.log.Timber
@@ -171,7 +169,7 @@ class SignInActivity : AppCompatActivity() {
 		updateUser(authResponse)
 
 		if (confirmed!!) {
-			startActivity(Intent(this, MainScreenActivity::class.java))
+			startActivity(Intent(this, MainActivity::class.java))
 			Timber.d("Success signIn")
 		} else {
 			val smsModel = ConfirmSmsModel()

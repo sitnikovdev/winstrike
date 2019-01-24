@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.ac_splash.animation_view
 import org.jetbrains.anko.longToast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.main.MainScreenActivity
+import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.login.SignInActivity
 
 
@@ -27,7 +27,7 @@ open class SplashActivity : AppCompatActivity() {
 		                WindowManager.LayoutParams.FLAG_FULLSCREEN)
 		setContentView(R.layout.ac_splash)
 
-		mainIntent = Intent(this@SplashActivity, MainScreenActivity::class.java)
+		mainIntent = Intent(this@SplashActivity, MainActivity::class.java)
 
 		animation_view.imageAssetsFolder = "images"
 		animation_view.setAnimation("data.json")

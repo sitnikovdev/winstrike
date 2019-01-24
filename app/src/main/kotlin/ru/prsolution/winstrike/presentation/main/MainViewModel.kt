@@ -12,6 +12,7 @@ import ru.prsolution.winstrike.datasource.model.Room
 import ru.prsolution.winstrike.domain.models.FCMModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.domain.models.ProfileModel
+import ru.prsolution.winstrike.domain.models.SeatModel
 import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.presentation.utils.resouces.Resource
 import ru.prsolution.winstrike.presentation.utils.setError
@@ -21,7 +22,7 @@ import timber.log.Timber
 /**
  * Created by oleg 23.01.2019
  */
-class MainScreenViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
 
 	private val retrofitService = RetrofitFactory.makeRetrofitService()
 
@@ -29,6 +30,8 @@ class MainScreenViewModel : ViewModel() {
 
 	val rooms = MutableLiveData<Resource<List<Room>>>()
 
+	val currentArena = MutableLiveData<Resource<Int>>()
+	val currentSeat = MutableLiveData<SeatModel>()
 
 	fun getRooms() {
 		GlobalScope.launch {

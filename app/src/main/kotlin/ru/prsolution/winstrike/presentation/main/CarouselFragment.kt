@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProviders
 import com.facebook.drawee.view.SimpleDraweeView
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.RoomSeatType
@@ -20,13 +21,13 @@ import ru.prsolution.winstrike.domain.models.SeatModel
 import ru.prsolution.winstrike.presentation.utils.custom.ChooseSeatLinearLayout
 import timber.log.Timber
 
-class CarouselSeatFragment : Fragment() {
+class CarouselFragment : Fragment() {
 
 
 	lateinit var mListener: OnSeatClickListener
 	private var itemSeat: View? = null
 	private var mSeat: SeatModel? = null
-	private var mainScreenActivity: MainScreenActivity? = null
+	private var mMainActivity: MainActivity? = null
 
 
 	interface OnSeatClickListener {
@@ -39,7 +40,6 @@ class CarouselSeatFragment : Fragment() {
 		if (context is OnSeatClickListener) {
 			mListener = context
 		} else {
-			//TODO make it by shared ViewModel
 			throw ClassCastException(
 					context!!.toString() + " must implements OnChoosePlaceButtonsClickListener ") as Throwable
 		}
@@ -60,7 +60,7 @@ class CarouselSeatFragment : Fragment() {
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-		this.mainScreenActivity = activity as MainScreenActivity?
+		this.mMainActivity = activity as MainActivity?
 		if (container == null) {
 			return null
 		}
@@ -97,7 +97,7 @@ class CarouselSeatFragment : Fragment() {
 		fun newInstance(activity: FragmentActivity?, room: SeatModel): Fragment {
 			val bundle = Bundle()
 			bundle.putSerializable("room", room)
-			return Fragment.instantiate(activity, CarouselSeatFragment::class.java.name, bundle)
+			return Fragment.instantiate(activity, CarouselFragment::class.java.name, bundle)
 		}
 	}
 

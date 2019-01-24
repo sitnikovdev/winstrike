@@ -14,16 +14,16 @@ import ru.prsolution.winstrike.presentation.setup.SetupFragment
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
 
-class MainScreenActivity : FragmentActivity(),
-                           SetupFragment.onMapShowListener,
-                           CarouselSeatFragment.OnSeatClickListener {
+class MainActivity : FragmentActivity(),
+                     SetupFragment.MapShowListener,
+                     CarouselFragment.OnSeatClickListener {
 	override fun onMapShow() {
 		Timber.d("On map show listener")
 	}
 
 	override fun onSeatClick(seat: SeatModel?) {
-		toolbar.navigationIcon = getDrawable(R.drawable.ic_back_arrow)
-		toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
+		mVm.currentSeat.postValue(seat)
+		showToolbar(isVisible = true)
 		fm.beginTransaction()
 				.hide(active)
 				.addToBackStack(null)
@@ -32,14 +32,14 @@ class MainScreenActivity : FragmentActivity(),
 		active = setupFragment
 	}
 
+
 	fun setActive() {
 		this.active = homeFragment
 	}
 
 	override fun onBackPressed() {
 		if (fm.backStackEntryCount == 1) {
-			toolbar.navigationIcon = null
-			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
+			showToolbar(isVisible = false)
 			active = homeFragment
 			super.onBackPressed()
 		} else {
@@ -60,10 +60,10 @@ class MainScreenActivity : FragmentActivity(),
 	}
 
 
-	private lateinit var vm: MainScreenViewModel
+	private lateinit var mVm: MainViewModel
 
-	val homeFragment = HomeFragment()
-	val setupFragment = SetupFragment()
+	private val homeFragment = HomeFragment()
+	private val setupFragment = SetupFragment()
 	private val fm: FragmentManager = supportFragmentManager
 	var active: Fragment = homeFragment
 
@@ -71,9 +71,9 @@ class MainScreenActivity : FragmentActivity(),
 		super.onCreate(savedInstanceState)
 		clearData()
 		setContentView(R.layout.ac_mainscreen)
-		vm = ViewModelProviders.of(this).get(MainScreenViewModel::class.java)
+		mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-		vm.fcmResponse.observe(this, Observer {
+		mVm.fcmResponse.observe(this, Observer {
 			it.let {
 				it.data?.let {
 					Timber.i("FCM token send to server. \n ${it.message} ")
@@ -82,9 +82,7 @@ class MainScreenActivity : FragmentActivity(),
 		})
 
 		// Toolbar
-		toolbar.navigationIcon = null
-		toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
-
+		showToolbar(isVisible = false)
 
 		with(fm) {
 			beginTransaction()
@@ -112,6 +110,16 @@ class MainScreenActivity : FragmentActivity(),
 		if (!fcmToken?.isEmpty()!!) {
 			// TODO fix it: server send "message": "Token is missing" (see logs). Try install chuck.
 //			userToken?.let { vm.sendFCMToken(it, FCMModel(PrefUtils.fcmtoken)) }
+		}
+	}
+
+	private fun showToolbar(isVisible: Boolean) {
+		if (isVisible) {
+			toolbar.navigationIcon = getDrawable(R.drawable.ic_back_arrow)
+			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
+		} else {
+			toolbar.navigationIcon = null
+			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
 		}
 	}
 

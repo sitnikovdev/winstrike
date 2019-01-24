@@ -22,7 +22,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build
 
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -30,7 +29,7 @@ import com.google.firebase.messaging.RemoteMessage
 
 import androidx.core.app.NotificationCompat
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.main.MainScreenActivity
+import ru.prsolution.winstrike.presentation.main.MainActivity
 import timber.log.Timber
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -88,7 +87,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 	 * @param messageBody FCM message body received.
 	 */
 	private fun sendNotification(messageBody: String?) {
-		val intent = Intent(this, MainScreenActivity::class.java)
+		val intent = Intent(this, MainActivity::class.java)
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 		val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
 		                                              PendingIntent.FLAG_ONE_SHOT)

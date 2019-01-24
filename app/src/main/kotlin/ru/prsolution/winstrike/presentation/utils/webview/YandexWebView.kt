@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.ac_mainscreen.toolbar_text
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.login.SignInActivity
-import ru.prsolution.winstrike.presentation.main.MainScreenActivity
+import ru.prsolution.winstrike.presentation.main.MainActivity
 import timber.log.Timber
 
 class YandexWebView : AppCompatActivity() {
@@ -37,7 +37,7 @@ class YandexWebView : AppCompatActivity() {
 		supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
 		confirmScreen = Intent(this, SignInActivity::class.java)
-		mainScreen = Intent(this, MainScreenActivity::class.java)
+		mainScreen = Intent(this, MainActivity::class.java)
 
 		confirmScreen!!.putExtra("phone", PrefUtils.phone)
 
@@ -99,7 +99,7 @@ class YandexWebView : AppCompatActivity() {
 			if (url == "https://dev.winstrike.ru/api/v1/orders") {
 				val intent = Intent()
 				intent.putExtra("payments", true)
-				startActivity(Intent(this@YandexWebView, MainScreenActivity::class.java))
+				startActivity(Intent(this@YandexWebView, MainActivity::class.java))
 			}
 		}
 	}

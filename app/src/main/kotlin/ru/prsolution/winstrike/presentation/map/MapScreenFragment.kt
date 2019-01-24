@@ -41,7 +41,7 @@ import ru.prsolution.winstrike.domain.models.SeatType
 import ru.prsolution.winstrike.domain.models.TimeDataModel
 import ru.prsolution.winstrike.domain.models.Wall
 import ru.prsolution.winstrike.networking.Service
-import ru.prsolution.winstrike.presentation.main.MainScreenActivity
+import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
@@ -439,7 +439,7 @@ class MapScreenFragment : Fragment() {
 
 		var intent = Intent()
 		intent.putExtra("payments", true)
-		startActivity(Intent(activity, MainScreenActivity::class.java))
+		startActivity(Intent(activity, MainActivity::class.java))
 
 		intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
 		startActivity(intent)
