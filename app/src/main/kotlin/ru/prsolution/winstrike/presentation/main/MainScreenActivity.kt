@@ -1,20 +1,57 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.FCMModel
+import ru.prsolution.winstrike.domain.models.SeatModel
 import ru.prsolution.winstrike.domain.models.TimeDataModel
+import ru.prsolution.winstrike.presentation.setup.SetupFragment
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
 
-class MainScreenActivity : FragmentActivity() {
+class MainScreenActivity : FragmentActivity(),
+                           SetupFragment.onMapShowListener,
+                           CarouselSeatFragment.OnSeatClickListener {
+	override fun onMapShow() {
+		Timber.d("On map show listener")
+	}
 
-	private lateinit var mViewModel: MainScreenViewModel
+	override fun onSeatClick(seat: SeatModel?) {
+		toolbar.navigationIcon = getDrawable(R.drawable.ic_back_arrow)
+		toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
+		fm.beginTransaction()
+				.hide(active)
+				.addToBackStack(null)
+				.show(setupFragment)
+				.commit()
+		active = setupFragment
+	}
 
+	fun setActive() {
+		this.active = homeFragment
+	}
+
+	override fun onBackPressed() {
+		if (fm.backStackEntryCount == 1) {
+			toolbar.navigationIcon = null
+			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
+			active = homeFragment
+			super.onBackPressed()
+		} else {
+//			super.onBackPressed()
+		}
+	}
+
+
+	override fun onResume() {
+		super.onResume()
+		active = homeFragment
+	}
 
 	override fun onStart() {
 		super.onStart()
@@ -25,9 +62,10 @@ class MainScreenActivity : FragmentActivity() {
 
 	private lateinit var vm: MainScreenViewModel
 
-	val homeScreenFragment = HomeScreenFragment()
-	val fragmentManager = supportFragmentManager
-	val activeFragment = homeScreenFragment
+	val homeFragment = HomeFragment()
+	val setupFragment = SetupFragment()
+	private val fm: FragmentManager = supportFragmentManager
+	var active: Fragment = homeFragment
 
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -44,9 +82,20 @@ class MainScreenActivity : FragmentActivity() {
 		})
 
 		// Toolbar
-		toolbar.navigationIcon = getDrawable(R.drawable.ic_back_arrow)
-		toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
-		fragmentManager.beginTransaction().add(R.id.main_container, homeScreenFragment, "home").commit()
+		toolbar.navigationIcon = null
+		toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
+
+
+		with(fm) {
+			beginTransaction()
+					.add(R.id.main_container, setupFragment, setupFragment.javaClass.name)
+					.hide(setupFragment)
+					.commit()
+			beginTransaction()
+					.add(R.id.main_container, homeFragment, homeFragment.javaClass.name)
+					.commit()
+
+		}
 		initFCM() // FCM push notifications
 	}
 
@@ -62,7 +111,7 @@ class MainScreenActivity : FragmentActivity() {
 		val userToken = PrefUtils.token
 		if (!fcmToken?.isEmpty()!!) {
 			// TODO fix it: server send "message": "Token is missing" (see logs). Try install chuck.
-			userToken?.let { vm.sendFCMToken(it, FCMModel(PrefUtils.fcmtoken)) }
+//			userToken?.let { vm.sendFCMToken(it, FCMModel(PrefUtils.fcmtoken)) }
 		}
 	}
 

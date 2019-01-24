@@ -1,15 +1,11 @@
 package ru.prsolution.winstrike.presentation.setup
 
-
 import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.datasource.model.Arenas
-import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
-import ru.prsolution.winstrike.networking.NetworkError
 import ru.prsolution.winstrike.networking.Service
 import rx.subscriptions.CompositeSubscription
 
 
-class ChooseScreenPresenter(service: Service?, private val fragment: ChooseScreenFragment) {
+class ChooseScreenPresenter(service: Service?, private val fragment: SetupFragment) {
 	private val subscriptions: CompositeSubscription
 	private val service: Service
 
@@ -25,6 +21,7 @@ class ChooseScreenPresenter(service: Service?, private val fragment: ChooseScree
 
 
 	fun getActiveArena(selectedArena: Int) {
+/*
 		fragment.showWait()
 
 		val subscription = service.getArenas(object : Service.ArenasCallback {
@@ -36,16 +33,17 @@ class ChooseScreenPresenter(service: Service?, private val fragment: ChooseScree
 				fragment.removeWait()
 				fragment.onGetAcitivePidFailure(networkError.appErrorMessage)
 			}
+*/
 
-		})
+		}
 
-		subscriptions.add(subscription)
+//		subscriptions.add(subscription)
 	}
 
 
 	fun getArenaByTimeRange(activeLayoutPid: String?, time: Map<String, String>) {
 
-		val subscription = service.getArenaByTimeRange(object : Service.RoomLayoutByTimeCallback {
+/*		val subscription = service.getArenaByTimeRange(object : Service.RoomLayoutByTimeCallback {
 			override fun onSuccess(authResponse: RoomLayoutFactory) {
 				fragment.removeWait()
 				fragment.onGetArenaByTimeResponseSuccess(authResponse)
@@ -64,6 +62,6 @@ class ChooseScreenPresenter(service: Service?, private val fragment: ChooseScree
 
 	fun onStop() {
 		subscriptions.unsubscribe()
-	}
+	}*/
 
 }

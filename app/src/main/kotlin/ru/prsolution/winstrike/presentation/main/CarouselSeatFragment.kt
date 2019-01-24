@@ -23,25 +23,25 @@ import timber.log.Timber
 class CarouselSeatFragment : Fragment() {
 
 
-	//	lateinit var listener: OnChoosePlaceButtonsClickListener
+	lateinit var mListener: OnSeatClickListener
 	private var itemSeat: View? = null
 	private var mSeat: SeatModel? = null
 	private var mainScreenActivity: MainScreenActivity? = null
 
 
-	interface OnChoosePlaceButtonsClickListener {
+	interface OnSeatClickListener {
 
-		fun onSeatClick(seat: SeatModel)
+		fun onSeatClick(seat: SeatModel?)
 	}
 
 	override fun onAttach(context: Context?) {
 		super.onAttach(context)
-		if (context is OnChoosePlaceButtonsClickListener) {
-//			listener = context
+		if (context is OnSeatClickListener) {
+			mListener = context
 		} else {
 			//TODO make it by shared ViewModel
-////			throw ClassCastException(
-//					context!!.toString() + " must implements OnChoosePlaceButtonsClickListener ") as Throwable
+			throw ClassCastException(
+					context!!.toString() + " must implements OnChoosePlaceButtonsClickListener ") as Throwable
 		}
 	}
 
@@ -86,7 +86,7 @@ class CarouselSeatFragment : Fragment() {
 		val scale = this.arguments!!.getFloat("scale")
 		root.setScaleBoth(scale)
 		thumbnail.setOnClickListener {
-			//			listener.onSeatClick(seat)
+						mListener.onSeatClick(mSeat)
 		}
 		return itemSeat
 	}

@@ -45,7 +45,7 @@ import timber.log.Timber
 /**
  * A main screen of Winstrike app.
  */
-class HomeScreenFragment : Fragment() {
+class HomeFragment : Fragment() {
 
 	var selectedArena = 0
 	val arenaUpConstraintSet = ConstraintSet()
