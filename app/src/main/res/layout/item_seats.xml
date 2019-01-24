@@ -21,7 +21,7 @@
             android:layout_height="wrap_content">
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/content"
+                android:id="@+id/seat_image"
                 android:layout_width="204dp"
                 android:layout_height="140dp"
                 android:clickable="true"
@@ -40,10 +40,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Обычные"
-                app:layout_constraintBottom_toBottomOf="@id/content"
-                app:layout_constraintEnd_toEndOf="@id/content"
-                app:layout_constraintStart_toStartOf="@id/content"
-                app:layout_constraintTop_toTopOf="@id/content"
+                app:layout_constraintBottom_toBottomOf="@id/seat_image"
+                app:layout_constraintEnd_toEndOf="@id/seat_image"
+                app:layout_constraintStart_toStartOf="@id/seat_image"
+                app:layout_constraintTop_toTopOf="@id/seat_image"
                 app:layout_constraintVertical_bias=".85"
                 tools:textColor="@color/color_black" />
         </androidx.constraintlayout.widget.ConstraintLayout>

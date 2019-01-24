@@ -148,7 +148,7 @@
     <string name="msg_bookin_err">Не удается забронировать место.</string>
     <string name="saved_arena">SAVED_ARENA</string>
     <string name="vip_lg_sennheiser">VIP LG &amp; Sennheiser</string>
-    <string name="vip_hp">VIP HP</string>
+    <string name="vip_hall">VIP HP</string>
     <string name="common_hall">Общий зал</string>
     <string name="empty_hall">Empty hall</string>
 

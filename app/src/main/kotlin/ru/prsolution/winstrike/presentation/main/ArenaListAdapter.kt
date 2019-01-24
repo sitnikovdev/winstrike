@@ -13,7 +13,7 @@ import ru.prsolution.winstrike.datasource.model.Room
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.setColor
 
-class ArenaListAdapter (private val itemClick: (Room, Int) -> Unit) :
+class ArenaListAdapter(private val itemClick: (Room, Int) -> Unit) :
 		ListAdapter<Room, ArenaListAdapter.ViewHolder>(PostDiffCallback()) {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -28,18 +28,22 @@ class ArenaListAdapter (private val itemClick: (Room, Int) -> Unit) :
 		fun bind(item: Room) {
 			itemView.title.text = item.name
 			itemView.address.text = item.metro
-			if (position == SELECTED_ITEM) {
-				itemView.title.setColor(R.color.color_accent)
-				itemView.address.setColor(R.color.color_accent)
-				itemView.iv_checked.setImageResource(R.drawable.ic_checked)
-				itemView.iv_checked.visibility = View.VISIBLE
+			if (layoutPosition == SELECTED_ITEM) {
+				with(itemView) {
+					title.setColor(R.color.color_accent)
+					address.setColor(R.color.color_accent)
+					iv_checked.setImageResource(R.drawable.ic_checked)
+					iv_checked.visibility = View.VISIBLE
+				}
 			} else {
-				itemView.title.setColor(R.color.color_black)
-				itemView.address.setColor(R.color.color_black)
-				itemView.iv_checked.visibility = View.GONE
+				with(itemView) {
+					title.setColor(R.color.color_black)
+					address.setColor(R.color.color_black)
+					iv_checked.visibility = View.GONE
+				}
 			}
 
-			itemView.setOnClickListener { itemClick.invoke(item,position) }
+			itemView.setOnClickListener { itemClick.invoke(item, position) }
 		}
 	}
 

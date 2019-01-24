@@ -1,7 +1,7 @@
 package ru.prsolution.winstrike.presentation.map
 
 import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.datasource.model.PaymentModel
 import ru.prsolution.winstrike.datasource.model.PaymentResponse
 import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
@@ -12,7 +12,7 @@ import ru.prsolution.winstrike.networking.Service
 import rx.subscriptions.CompositeSubscription
 
 /**
- * Created by terrakok 26.11.16
+ * Created by oleg 24.01.2019
  */
 
 class MapPresenter(private val service: Service?, private val fragment: MapScreenFragment) {
@@ -48,7 +48,7 @@ class MapPresenter(private val service: Service?, private val fragment: MapScree
 		payModel.end_at = TimeDataModel.end
 		payModel.setPlacesPid(TimeDataModel.pids)
 
-		val token = "Bearer " + AuthUtils.token
+		val token = "Bearer " + PrefUtils.token
 		getPayment(token, payModel)
 		fragment.onSnackBarHide()
 	}

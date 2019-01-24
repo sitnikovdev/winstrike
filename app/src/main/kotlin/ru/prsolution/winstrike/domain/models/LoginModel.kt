@@ -1,19 +1,13 @@
 package ru.prsolution.winstrike.domain.models
 
+import com.squareup.moshi.Json
+
 /**
  * Created by oleg on 07/03/2018.
  */
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 
-class LoginModel {
-
-	@SerializedName("phone")
-	@Expose
-	var phone: String? = null
-	@SerializedName("password")
-	@Expose
-	var password: String? = null
-
-}
+class LoginModel(
+		@field:Json(name = "phone") val phone: String? = null,
+		@field:Json(name = "password") val password: String? = null
+)
 

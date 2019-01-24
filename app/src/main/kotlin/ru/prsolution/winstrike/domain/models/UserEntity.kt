@@ -16,75 +16,11 @@
 
 package ru.prsolution.winstrike.domain.models
 
-class UserEntity {
-    private var id: Int = 0
-    private var name: String? = null
-    private var phone: String? = null
-    private var publickId: String? = null
-    private var token: String? = null
-    private var confirmed: Boolean? = null
-
-    fun getId(): Int {
-        return id
-    }
-
-    fun setId(id: Int) {
-        this.id = id
-    }
-
-    fun getPublickId(): String? {
-        return publickId
-    }
-
-    fun setPublickId(publickId: String) {
-        this.publickId = publickId
-    }
-
-    fun getName(): String? {
-        return name
-    }
-
-    fun setName(name: String) {
-        this.name = name
-    }
-
-
-    fun getPhone(): String? {
-        return phone
-    }
-
-    fun setPhone(phone: String) {
-        this.phone = phone
-    }
-
-    fun getConfirmed(): Boolean? {
-        return this.confirmed
-    }
-
-    fun setConfirmed(confirmed: Boolean?) {
-        this.confirmed = confirmed
-    }
-
-
-    fun getToken(): String? {
-        return token
-    }
-
-
-    fun setToken(token: String?) {
-        this.token = token
-    }
-
-    constructor() {}
-
-    constructor(id: Int, name: String) {
-        this.id = id
-        this.name = name
-    }
-
-    constructor(user: UserEntity) {
-        this.id = user.getId()
-        this.name = user.getName()
-    }
-
-}
+data class UserEntity(
+		val id: Int = 0,
+		val name: String? ="NoName",
+		val phone: String? = null,
+		val publickId: String? = null,
+		val token: String? = null,
+		val confirmed: Boolean? = null
+)

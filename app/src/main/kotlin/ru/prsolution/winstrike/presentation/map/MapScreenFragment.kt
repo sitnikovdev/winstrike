@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.presentation.map
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,13 +10,17 @@ import android.graphics.Color
 import android.graphics.Point
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.VectorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -27,7 +32,6 @@ import java.util.LinkedHashMap
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.common.utils.MapViewUtils
 import ru.prsolution.winstrike.common.utils.Utils
 import ru.prsolution.winstrike.datasource.model.PaymentResponse
@@ -39,15 +43,17 @@ import ru.prsolution.winstrike.domain.models.Wall
 import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.presentation.main.MainScreenActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
 
 
 /**
- * Created by terrakok 26.11.16
+ * Created by oleg 24.01.2019
  */
 class MapScreenFragment : Fragment() {
 
-	internal var rootLayout: RelativeLayout? = null
+	private var mDlgMapLegend: Dialog? = null
+	var rootLayout: RelativeLayout? = null
 	private var snackbar: Snackbar? = null
 	private var snackLayout: Snackbar.SnackbarLayout? = null
 
@@ -56,19 +62,14 @@ class MapScreenFragment : Fragment() {
 	private var seatParams: RelativeLayout.LayoutParams? = null
 	private var rootLayoutParams: RelativeLayout.LayoutParams? = null
 	private val mPickedSeatsIds = LinkedHashMap<Int, String>()
-	private var heightDp: Float? = null
-	private var widthDp: Float? = null
-	private var selectedArena = 0
-	val height = WinstrikeApp.instance.displayHeightPx
-	val width = WinstrikeApp.instance.displayWidhtPx
+	val height: Float = PrefUtils.displayHeightPx
+	val width: Float = PrefUtils.displayWidhtPx
 	var mXScaleFactor: Float? = null
 	var mYScaleFactor: Float? = null
 
 
-	internal var service: Service? = null
-
-	//    @Inject
-	internal var presenter: MapPresenter? = null
+	var service: Service? = null
+	var presenter: MapPresenter? = null
 
 	private var mRoom: GameRoom? = null
 	private var tvDivParam: RelativeLayout.LayoutParams? = null
@@ -98,8 +99,6 @@ class MapScreenFragment : Fragment() {
 
 
 	fun onScreenInit() {
-		heightDp = WinstrikeApp.instance.displayHeightDp
-		widthDp = WinstrikeApp.instance.displayWidhtDp
 		rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
 		initSnackBar()
 	}
@@ -110,8 +109,8 @@ class MapScreenFragment : Fragment() {
 		drawSeat(mRoom)
 	}
 
-	internal fun drawSeat(room: GameRoom?) {
-		var mWall: Wall? = null
+	fun drawSeat(room: GameRoom?) {
+		var mWall: Wall?
 
 
 		if (room!!.walls.size > 0) {
@@ -169,8 +168,8 @@ class MapScreenFragment : Fragment() {
 				textOffsetY = 0
 			}
 
-			var dx: Int? = 0
-			var dy: Int? = 0
+			var dx: Int?
+			var dy: Int?
 
 			// Calculate offset by x for diffrent length of numbers (1, 2 and 3)
 			if (numberLenth <= 1) {
@@ -393,8 +392,7 @@ class MapScreenFragment : Fragment() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		this.selectedArena = arguments!!.getInt(
-				ACTIVE_ARENA)
+		dlgMapLegend()
 	}
 
 
@@ -432,7 +430,7 @@ class MapScreenFragment : Fragment() {
 
 	fun removeWait() {}
 
-	 fun onGetPaymentResponseSuccess(payResponse: PaymentResponse) {
+	fun onGetPaymentResponseSuccess(payResponse: PaymentResponse) {
 		Timber.tag("common").d("Pay successfully: %s", payResponse)
 
 		val url = payResponse.redirectUrl
@@ -450,7 +448,7 @@ class MapScreenFragment : Fragment() {
 	/**
 	 * Something goes wrong, and we can't bye seat from Winstrike PC club. show user toast with description this fucking situation.
 	 */
-	 fun onGetPaymentFailure(appErrorMessage: String) {
+	fun onGetPaymentFailure(appErrorMessage: String) {
 		val timeFrom = TimeDataModel.start
 		val timeTo = TimeDataModel.end
 		Timber.d("timeFrom: %s", timeFrom)
@@ -547,20 +545,31 @@ class MapScreenFragment : Fragment() {
 		}
 	}
 
-	companion object {
+	// TODO: remove this Map actions block:
+	private fun dlgMapLegend() {
+		mDlgMapLegend = Dialog(activity, android.R.style.Theme_Dialog)
+		mDlgMapLegend!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		mDlgMapLegend!!.setContentView(R.layout.dlg_legend)
+		val tvSee = mDlgMapLegend!!.findViewById<TextView>(R.id.tv_see)
 
-		private val EXTRA_NAME = "extra_name"
-		private val ACTIVE_ARENA = "extra_number"
+		tvSee.setOnClickListener { mDlgMapLegend!!.dismiss() }
 
+		mDlgMapLegend!!.setCanceledOnTouchOutside(true)
+		mDlgMapLegend!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+		mDlgMapLegend!!.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+		val window = mDlgMapLegend!!.window
+		val wlp = window!!.attributes
 
-		fun getNewInstance(name: String, number: Int): MapScreenFragment {
-			val fragment = MapScreenFragment()
-			val arguments = Bundle()
-			arguments.putString(EXTRA_NAME, name)
-			arguments.putInt(ACTIVE_ARENA, number)
-			fragment.arguments = arguments
-			return fragment
-		}
+		wlp.gravity = Gravity.TOP
+		wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
+		wlp.y = Constants.LEGEND_MAP_TOP_MARGIN
+		window.attributes = wlp
+
+		mDlgMapLegend!!.setCanceledOnTouchOutside(false)
+		mDlgMapLegend!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+		mDlgMapLegend!!.dismiss()
+
 	}
+
 
 }

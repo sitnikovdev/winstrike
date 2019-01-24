@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.ac_splash.animation_view
 import org.jetbrains.anko.longToast
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.main.MainScreenActivity
 import ru.prsolution.winstrike.presentation.login.SignInActivity
 
@@ -56,9 +56,9 @@ open class SplashActivity : AppCompatActivity() {
 
 	private fun isCheckLogin() {
 		// If user is signOut from App: go to SingIn screen. Else: check if user is exist on server and if Ok -- go to Main screen.
-		if (AuthUtils.isLogout) {
+		if (PrefUtils.isLogout) {
 			startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
-		} else if (!AuthUtils.token?.isEmpty()!!) {
+		} else if (!PrefUtils.token?.isEmpty()!!) {
 			startActivity(mainIntent)
 		} else {
 			startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
@@ -73,8 +73,8 @@ open class SplashActivity : AppCompatActivity() {
 	fun openMainActivity() {
 
 		// TODO Use AtomicBoolean
-		if (AuthUtils.isFirstLogin && !TextUtils.isEmpty(AuthUtils.token)) {
-			AuthUtils.isFirstLogin = false
+		if (PrefUtils.isFirstLogin && !TextUtils.isEmpty(PrefUtils.token)) {
+			PrefUtils.isFirstLogin = false
 //			TODO: Fix guides
 //			mainIntent = Intent(this@SplashActivity, GuideActivity::class.java)
 			startActivity(mainIntent)

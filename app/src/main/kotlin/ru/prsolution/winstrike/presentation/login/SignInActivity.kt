@@ -5,11 +5,9 @@ import android.app.ActivityManager
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -17,7 +15,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.ositnikov.preference.LiveSharedPreferences
 import kotlinx.android.synthetic.main.ac_login.et_password
 import kotlinx.android.synthetic.main.ac_login.et_phone
-import kotlinx.android.synthetic.main.ac_login.text_button_title
 import kotlinx.android.synthetic.main.ac_login.tv_register
 import kotlinx.android.synthetic.main.ac_login.tv_register2
 import kotlinx.android.synthetic.main.ac_login.tv_politica4
@@ -27,18 +24,14 @@ import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.common.utils.TextFormat
-import ru.prsolution.winstrike.common.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot1Color
 import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot2Color
 import ru.prsolution.winstrike.common.utils.Utils.setBtnEnable
 import ru.prsolution.winstrike.datasource.model.AuthResponse
 import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
-import ru.prsolution.winstrike.domain.models.LoginViewModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
-import ru.prsolution.winstrike.networking.Service
-import ru.prsolution.winstrike.presentation.help.HelpActivity
 import ru.prsolution.winstrike.presentation.main.MainScreenActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
@@ -129,14 +122,6 @@ class SignInActivity : AppCompatActivity() {
 			}
 		})
 
-		val liveSharedPreferences = LiveSharedPreferences(
-				WinstrikeApp.instance.getSharedPreferences("winstrike_preference", 0))
-
-
-		liveSharedPreferences.getString("token", "empty").observe(this, Observer<String> { value ->
-			Timber.tag("###").d(value)
-		})
-
 
 	}
 
@@ -201,11 +186,11 @@ class SignInActivity : AppCompatActivity() {
 	}
 
 	private fun updateUser(authResponse: AuthResponse) {
-		AuthUtils.name = authResponse.user?.name ?: ""
-		AuthUtils.token = authResponse.token ?: ""
-		AuthUtils.phone = authResponse.user?.phone ?: ""
-		AuthUtils.isConfirmed = authResponse.user?.confirmed ?: false
-		AuthUtils.publicid = authResponse.user?.publicId ?: ""
+		PrefUtils.name = authResponse.user?.name ?: ""
+		PrefUtils.token = authResponse.token ?: ""
+		PrefUtils.phone = authResponse.user?.phone ?: ""
+		PrefUtils.isConfirmed = authResponse.user?.confirmed ?: false
+		PrefUtils.publicid = authResponse.user?.publicId ?: ""
 	}
 
 	fun onAuthFailure(appErrorMessage: String) {

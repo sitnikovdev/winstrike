@@ -10,7 +10,7 @@ import ru.prsolution.winstrike.di.module.NetworkModule
 import ru.prsolution.winstrike.domain.models.SeatModel
 import ru.prsolution.winstrike.domain.models.UserEntity
 import ru.prsolution.winstrike.networking.Service
-import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 
 class WinstrikeApp : Application() {
@@ -69,8 +69,10 @@ class WinstrikeApp : Application() {
 	}
 
 	private fun initScreenPref() {
-		AuthUtils.displayHeightPx = displayHeightPx
-		AuthUtils.displayWidhtPx = displayWidhtPx
+		PrefUtils.displayHeightPx = displayHeightPx
+		PrefUtils.displayWidhtPx = displayWidhtPx
+		PrefUtils.displayHeightDp = displayHeightDp
+		PrefUtils.displayWidhtDp = displayWidhtDp
 	}
 
 	companion object {

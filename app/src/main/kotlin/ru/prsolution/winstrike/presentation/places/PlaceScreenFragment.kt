@@ -27,12 +27,18 @@ class PlaceScreenFragment : Fragment(),  BackButtonListener {
 	var presenter: PlacesPresenter? = null
 
 
-	/*  PlacesPresenter provideMainScreenPresenter() {
-    return new PlacesPresenter(service,
-        ((RouterProvider) getParentFragment()).getRouter()
-        , getArguments().getParcelableArrayList(ORDERS)
-    );
-  }*/
+	fun onGetOrdersSuccess(orders: ArrayList<OrderModel>) {
+//		this.orders = orders
+//		mViewModel.onTabPlaceClick(this.orders)
+//		Timber.d("UserEntity order list size: %s", this.orders.size)
+	}
+
+	fun onGetOrdersFailure(appErrorMessage: String) {
+//		orders = ArrayList()
+//		mViewModel.onTabPlaceClick(orders)
+//		Timber.d("Failure get layout from server: %s", appErrorMessage)
+	}
+
 
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -78,26 +84,4 @@ class PlaceScreenFragment : Fragment(),  BackButtonListener {
 
 	 fun removeWait() {}
 
-
-	protected fun toast(message: String) {
-
-		//    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-	}
-
-	companion object {
-
-		private val ARENA_NAME = "extra_name"
-		private val ORDERS = "extra_number"
-
-
-		fun getNewInstance(name: String, orders: ArrayList<OrderModel>): PlaceScreenFragment {
-			val fragment = PlaceScreenFragment()
-			val arguments = Bundle()
-			arguments.putString(ARENA_NAME, name)
-/*			arguments.putParcelableArrayList(
-					ORDERS, orders)*/
-			//    fragment.setArguments(arguments);
-			return fragment
-		}
-	}
 }

@@ -20,7 +20,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
 
 
-import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
 
 
@@ -43,7 +43,7 @@ class MyFirebaseInstanceIDService : FirebaseInstanceIdService() {
 		// Get updated InstanceID token.
 		val refreshedToken = FirebaseInstanceId.getInstance().token
 		Timber.d("Refreshed token: %s", refreshedToken)
-		AuthUtils.fcmtoken = refreshedToken!!
+		PrefUtils.fcmtoken = refreshedToken!!
 
 		// If you want to send messages to this application instance or
 		// manage this apps subscriptions on the server side, send the

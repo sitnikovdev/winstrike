@@ -6,7 +6,7 @@ import rx.subscriptions.CompositeSubscription
 import java.util.ArrayList
 
 /**
- * Created by terrakok 26.11.16
+ * Created by oleg 24.01.2019
  */
 
 class PlacesPresenter(private val service: Service,

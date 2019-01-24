@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ac_registration.et_password
@@ -10,9 +9,10 @@ import kotlinx.android.synthetic.main.ac_registration.et_phone
 import kotlinx.android.synthetic.main.ac_registration.next_button_phone
 import kotlinx.android.synthetic.main.ac_registration.tv_register
 import kotlinx.android.synthetic.main.ac_registration.tv_register2
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.toast
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.common.utils.TextFormat
 import ru.prsolution.winstrike.domain.models.LoginModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
@@ -25,12 +25,13 @@ import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot1Color
 import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot2Color
 import ru.prsolution.winstrike.datasource.model.AuthResponse
 import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
+import ru.prsolution.winstrike.presentation.utils.Constants
 
 /*
  * Created by oleg on 31.01.2018.
  */
 
-class SingUpActivity : AppCompatActivity(){
+class SingUpActivity : AppCompatActivity() {
 
 
 	var service: Service? = null
@@ -41,40 +42,28 @@ class SingUpActivity : AppCompatActivity(){
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-
 		renderView()
-
 		init()
-
 		presenter = RegisterPresenter(service)
-
 	}
 
-	internal fun init() {
-		//        setBtnEnable(next_button_phone, false);
-
-		next_button_phone!!.setOnClickListener { view ->
+	fun init() {
+		next_button_phone!!.setOnClickListener {
 			// Создание пользователя и переход на страницу подтверждения пароля
-			user = LoginModel()
-			user!!.phone = formatPhone(et_phone!!.text.toString())
-			user!!.password = et_password!!.text.toString()
-			Timber.tag("common").d("Create new user...")
+			user = LoginModel(
+					phone = formatPhone(et_phone?.text.toString()),
+					password = et_password?.text.toString()
+			)
 
 			presenter!!.createUser(user!!)
-
-			// TODO: 22/05/2018 For test (Send sms already confirmed user):
-			/*                    ConfirmSmsModel auth = getConfirmSmsModel(user.getPhone());
-                    presenter.sendSms(auth);*/
 		}
 
-		//        checkFieldEnabled(et_phone, et_password, next_button_phone);
-
-		TextFormat.formatText(et_phone, "(___) ___-__-__")
+		TextFormat.formatText(et_phone, Constants.PHONE_MASK)
 
 		setFooter()
 	}
 
-	 fun onSendSmsSuccess(authResponse: MessageResponse) {
+	fun onSendSmsSuccess(authResponse: MessageResponse) {
 		Timber.d("Sms send successfully: %s", authResponse.message)
 		toast("Код выслан")
 		val intent = Intent(this@SingUpActivity, UserConfirmActivity::class.java)
@@ -82,7 +71,7 @@ class SingUpActivity : AppCompatActivity(){
 		startActivity(intent)
 	}
 
-	 fun onSmsSendFailure(appErrorMessage: String) {
+	fun onSmsSendFailure(appErrorMessage: String) {
 		Timber.d("Sms send failure: %s", appErrorMessage)
 	}
 
@@ -98,57 +87,45 @@ class SingUpActivity : AppCompatActivity(){
 		setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
 		setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
 
-		tv_register2!!.setOnClickListener { it -> startActivity(Intent(this, SignInActivity::class.java)) }
+		tv_register2!!.setOnClickListener { startActivity(Intent(this, SignInActivity::class.java)) }
 	}
 
 
-	internal fun renderView() {
+	fun renderView() {
 		setContentView(R.layout.ac_registration)
 	}
-
-
-	 fun showWait() {}
-
-	 fun removeWait() {}
-
 
 	/**
 	 * Register new user and send him sms with confirm code.
 	 */
-	 fun onRegisterSuccess(authResponse: AuthResponse) {
-		Timber.d("Register success: %s", authResponse)
-		//        toast("Пользователь создан");
-		//        setOperation();
-		//        setConfirmed(false);
+	fun onRegisterSuccess(authResponse: AuthResponse) {
+		with(PrefUtils) {
+			token = authResponse.token
+			publicid = authResponse.user?.publicId!!
+			isConfirmed = false
+			phone = user?.phone
+			name = "NoName"
+		}
 
-		//saveUser(authResponse);
-		AuthUtils.token = authResponse.token.toString()
-		AuthUtils.publicid = authResponse.user?.publicId!!
-		AuthUtils.isConfirmed = false
-		AuthUtils.phone = user!!.phone.toString()
-		AuthUtils.name = "NoName"
+		val userDb = UserEntity(
+				confirmed = false,
+				phone = user?.phone,
+				publickId = authResponse.user?.publicId,
+				token = authResponse.token
+		)
 
-		val userDb = UserEntity()
-		userDb.setConfirmed(false)
-		userDb.setPhone(user!!.phone.toString())
-		userDb.setPublickId(authResponse.user!!.publicId!!)
-		userDb.setToken(authResponse.token)
-		userDb.setName("NoName")
-
-
-		Timber.d("Sms send successfully: %s", authResponse.message)
 		val intent = Intent(this@SingUpActivity, UserConfirmActivity::class.java)
 		intent.putExtra("phone", user!!.phone)
 		startActivity(intent)
 	}
 
-	 fun onRegisterFailure(appErrorMessage: String) {
+	fun onRegisterFailure(appErrorMessage: String) {
 		Timber.d("Register failure: %s", appErrorMessage)
-		if (appErrorMessage.contains("409")) toast("Пользователь уже существует")
-		if (appErrorMessage.contains("422")) toast("Пароль слишком короткий.")
+		if (appErrorMessage.contains("409")) longToast("Пользователь уже существует")
+		if (appErrorMessage.contains("422")) longToast("Пароль слишком короткий.")
 		if (appErrorMessage.contains("413")) {
 			Timber.w("RegisterUser: Передан не правильный формат данных JSON")
-			toast("Пользователь не создан")
+			longToast("Пользователь не создан")
 		}
 	}
 
@@ -175,7 +152,4 @@ class SingUpActivity : AppCompatActivity(){
         });
     }*/
 
-	protected fun toast(message: String) {
-		Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-	}
 }

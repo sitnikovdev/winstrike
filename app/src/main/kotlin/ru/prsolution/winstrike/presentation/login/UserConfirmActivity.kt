@@ -26,14 +26,12 @@ import kotlinx.android.synthetic.main.ac_confsmscode.v_name
 import kotlinx.android.synthetic.main.ac_confsmscode.v_nextbtn
 import kotlinx.android.synthetic.main.ac_confsmscode.v_send_code_again
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
-import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.domain.models.ConfirmModel
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.domain.models.ProfileModel
 import ru.prsolution.winstrike.domain.models.TimerViewModel
-import ru.prsolution.winstrike.domain.models.UserEntity
 import ru.prsolution.winstrike.networking.Service
 import timber.log.Timber
 
@@ -98,7 +96,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 		phone = intent.getStringExtra("phone")
 		if (phone == null) {
 			phone = "9520757099"
-			AuthUtils.phone = phone as String
+			PrefUtils.phone = phone as String
 		}
 
 		confirmFalse()
@@ -107,7 +105,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 
 		v_send_code_again!!.setOnClickListener { it ->
 			val smsModel = ConfirmSmsModel()
-			smsModel.username = AuthUtils.phone
+			smsModel.username = PrefUtils.phone
 			presenter!!.sendSms(smsModel)
 		}
 
@@ -159,40 +157,37 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 			presenter!!.confirmUser(sms_code, user!!)
 		}
 
-		// Вводим имя пользователя и переходим на главный экран
-		/*        RxTextView.textChanges(et_name).subscribe(
-                it -> {
-                }
-        );*/
 
 		et_name!!.addTextChangedListener(object : TextWatcher {
-			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
-			}
 
 			override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 				val fieldOk = et_name!!.text.length >= 4
 				if (fieldOk) {
 					// Update user profile - set name.
-					val publicId = AuthUtils.publicid
-					val token = "Bearer " + AuthUtils.token
-					val profile = ProfileModel()
-					profile.name = et_name!!.text.toString()
+					val publicId = PrefUtils.publicid
+					val token = "Bearer " + PrefUtils.token
+
+					val profile = ProfileModel(
+							name = et_name!!.text.toString()
+					)
+					publicId?.let { presenter!!.updateProfile(token, profile, it) }
+
 					setBtnEnable(v_nextbtn, true)
+
 					tv_nextbtn_label!!.text = "Поехали!"
-					v_nextbtn!!.setOnClickListener { v ->
+					v_nextbtn!!.setOnClickListener {
+						// Save user in db (may be remove it?)
+						/*						with(AuthUtils) {
+													val userDb = UserEntity(
+															confirmed = true,
+															phone = user?.phone,
+															publickId = publicid,
+															token = token,
+															name = profile.name
+													)
+													AuthUtils.name = userDb.name
+												}*/
 
-						val userDb = UserEntity()
-						userDb.setConfirmed(true)
-						userDb.setPhone(user!!.phone.toString())
-						AuthUtils.publicid?.let { userDb.setPublickId(it) }
-						userDb.setToken(AuthUtils.token)
-						userDb.setName(profile.name!!)
-						AuthUtils.name = userDb.getName()!!
-
-						//                                    repository.insertUser(userDb);
-
-						publicId?.let { presenter!!.updateProfile(token, profile, it) }
 						startActivity(Intent(this@UserConfirmActivity, SignInActivity::class.java))
 					}
 				} else {
@@ -202,9 +197,8 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 
 			}
 
-			override fun afterTextChanged(s: Editable) {
-
-			}
+			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+			override fun afterTextChanged(s: Editable) {}
 		})
 
 
@@ -284,6 +278,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 
 	}
 
+	// TODO Copy paste code - remove it
 	private fun setFooter() {
 		val mystring = "Условиями"
 		val content = SpannableString(mystring)
@@ -291,14 +286,14 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 		tv_register2!!.text = content
 
 
-		tv_register2!!.setOnClickListener { it ->
+		tv_register2!!.setOnClickListener {
 			val browserIntent = Intent(this, YandexWebView::class.java)
 			val url = "file:///android_asset/rules.html"
 			browserIntent.putExtra("url", url)
 			startActivity(browserIntent)
 		}
 
-		tv_register4!!.setOnClickListener { it ->
+		tv_register4!!.setOnClickListener {
 			val browserIntent = Intent(this, YandexWebView::class.java)
 			//                    String url = "file:///android_asset/politika.html";
 			val url = "https://winstrike.gg/WinstrikePrivacyPolicy.pdf"

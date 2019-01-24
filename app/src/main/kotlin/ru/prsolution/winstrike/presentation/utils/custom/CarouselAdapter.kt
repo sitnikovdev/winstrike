@@ -52,7 +52,7 @@ class CarouselAdapter(val context: FragmentActivity?) : FragmentPagerAdapter(
 	}
 
 
-	fun addFragment(fragment: Fragment, position: Int, hall_name: String) {
+	fun addFragment(fragment: Fragment, position: Int) {
 		this.hall_name = hall_name
 		mFragmentList.add(position, fragment)
 	}

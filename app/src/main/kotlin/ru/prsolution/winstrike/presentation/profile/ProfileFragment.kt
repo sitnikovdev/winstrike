@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.presentation.profile
 
 import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import kotlinx.android.synthetic.main.fmt_profile_prof.fio
 import kotlinx.android.synthetic.main.fmt_profile_prof.next_button
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.UserEntity
-import ru.prsolution.winstrike.presentation.utils.pref.AuthUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 /*
  * Created by oleg on 03.02.2018.
@@ -48,11 +47,11 @@ class ProfileFragment : Fragment() {
 			listener.onProfileUpdate(name, passw)
 		}
 
-		if (AuthUtils.name != null) {
-			this.user!!.setName(AuthUtils.name)
+		if (PrefUtils.name != null) {
+/*			this.user?.name = (AuthUtils.name)
 			if (!TextUtils.isEmpty(user!!.getName())) {
 				fio!!.setText(user!!.getName())
-			}
+			}*/
 		}
 
 		return v
