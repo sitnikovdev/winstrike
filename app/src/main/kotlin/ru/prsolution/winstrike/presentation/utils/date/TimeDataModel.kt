@@ -57,6 +57,16 @@ object TimeDataModel {
 		valideateDate()
 	})
 
+	fun valideateDate(stDate: String, edDate: String): Boolean {
+		if (stDate.isEmpty() || edDate.isEmpty()) {
+			return false
+		}
+		val current = Date()
+		val startDate = DateTransform.getDateInUTC(stDate)
+		val endDate = DateTransform.getDateInUTC(edDate)
+		return startDate.before(endDate) && (startDate.after(current) || startDate.equals(current))
+	}
+
 
 	fun valideateDate(): Boolean {
 		val current = Date()

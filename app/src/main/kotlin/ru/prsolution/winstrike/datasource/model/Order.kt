@@ -1,38 +1,26 @@
 package ru.prsolution.winstrike.datasource.model
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
-class Order {
-
-	@SerializedName("room_name")
-	@Expose
-	var roomName: String? = null
-	@SerializedName("place")
-	@Expose
-	var place: Place? = null
-	@SerializedName("cost")
-	@Expose
-	var cost: Int? = null
-	@SerializedName("end_at")
-	@Expose
-	var endAt: String? = null
-	@SerializedName("access_code")
-	@Expose
-	var accessCode: String? = null
-	@SerializedName("place_pid")
-	@Expose
-	var placePid: String? = null
-	@SerializedName("start_at")
-	@Expose
-	var startAt: String? = null
-	@SerializedName("user_pid")
-	@Expose
-	var userPid: String? = null
-	@SerializedName("public_id")
-	@Expose
-	var publicId: String? = null
-	@SerializedName("create_at")
-	@Expose
-	var createAt: String? = null
-}
+class Order (
+	@field:Json(name = "room_name")
+	val roomName: String? = null,
+	@field:Json(name = "place")
+	val place: Place? = null,
+	@field:Json(name = "cost")
+	val cost: Int? = null,
+	@field:Json(name = "end_at")
+	val endAt: String? = null,
+	@field:Json(name = "access_code")
+	val accessCode: String? = null,
+	@field:Json(name = "place_pid")
+	val placePid: String? = null,
+	@field:Json(name = "start_at")
+	val startAt: String? = null,
+	@field:Json(name = "user_pid")
+	val userPid: String? = null,
+	@field:Json(name = "public_id")
+	val publicId: String? = null,
+	@field:Json(name = "create_at")
+	val createAt: String? = null
+)

@@ -23,33 +23,27 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
 import kotlinx.android.synthetic.main.frm_choose.cpu
 import kotlinx.android.synthetic.main.frm_choose.head_image
+import kotlinx.android.synthetic.main.frm_choose.next_button
 import kotlinx.android.synthetic.main.frm_choose.seat_title
 import kotlinx.android.synthetic.main.frm_choose.tv_date
 import kotlinx.android.synthetic.main.frm_choose.tv_time
 import kotlinx.android.synthetic.main.frm_choose.v_date_tap
 import kotlinx.android.synthetic.main.frm_choose.v_time_tap
+import ru.prsolution.winstrike.datasource.model.Room
 import ru.prsolution.winstrike.domain.models.SeatModel
 import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.main.MainViewModel
-import timber.log.Timber
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import java.text.DateFormatSymbols
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
+import timber.log.Timber
 
 
 class SetupFragment : Fragment(),
                       DatePickerDialog.OnDateSetListener,
                       TimePickerDialog.OnTimeSetListener {
 
-	override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
-		mVm?.currentDate?.value = "$day ${DateFormatSymbols().months[month]} $year"
-	}
-
-	override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
-		mVm?.currentTime?.value = "$hourOfDay:$minute - ${hourOfDay + 1}:$minute"
-	}
-
-	var mVm: MainViewModel? = null
-	private var mListener: MapShowListener? = null
-
+	private var rooms: List<Room>? = null
 
 	/**
 	 * route show map to main presenter in MainScreenActivity
@@ -68,47 +62,80 @@ class SetupFragment : Fragment(),
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
-	}
-
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		activity?.toolbar?.setNavigationOnClickListener {
 			(activity as FragmentActivity).supportFragmentManager.popBackStack()
 			activity?.toolbar?.navigationIcon = null
 			activity?.toolbar?.setContentInsetsAbsolute(0, (activity as FragmentActivity).toolbar.contentInsetStart)
 			(activity as MainActivity).setActive()
 		}
+		mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
 
+		if (savedInstanceState == null) {
+			mVm?.getRooms()
+		}
+	}
+
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		return inflater.inflate(ru.prsolution.winstrike.R.layout.frm_choose, container, false)
 	}
+
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
 		activity?.let {
+			// arenaList
+			mVm?.rooms?.observe(it, Observer { response ->
+				this.rooms = response.data
+			})
+			// seat
 			mVm?.currentSeat?.observe(it, Observer { seat ->
-				updateUI(seat)
+				updateSeatInfo(seat)
 			})
+			// date
 			mVm?.currentDate?.observe(it, Observer { date ->
-				updateDate(date)
+				tv_date.text = date
 			})
+			// time
 			mVm?.currentTime?.observe(it, Observer { time ->
-				updateTime(time)
+				tv_time.text = time
+			})
+			mVm?.arena?.observe(it, Observer {
+				arena ->
+				Timber.d("arena room pid: ${arena.data?.roomLayout?.publicId}")
 			})
 		}
 
-		setupListeners()
+		initListeners()
 	}
 
-	private fun updateTime(time: String?) {
-		tv_time.text = time
+	private fun getArenaByTime() {
+		requireNotNull(rooms)
+		{"+++ Rooms must be initialized +++"}
+		// get active arena pid
+		val activePid = rooms?.get(selectedArena)?.roomLayoutPid
+		val time = mutableMapOf<String, String>()
+//		time["start_at"] = TimeDataModel.start
+//		time["end_at"] = TimeDataModel.end
+		time["start_at"] = "2019-01-25T16:00:00"
+		time["end_at"] = "2019-01-25T17:00:00"
+		mVm?.getArena(activePid,time)
 	}
 
-	private fun updateDate(date: String?) {
-		tv_date.text = date
+	override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
+		mVm?.currentDate?.value = "$day ${DateFormatSymbols().months[month]} $year"
 	}
 
-	private fun setupListeners() {
+	override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
+		mVm?.currentTime?.value = "$hourOfDay:$minute - ${hourOfDay + 1}:$minute"
+	}
+
+	var mVm: MainViewModel? = null
+	private var mListener: MapShowListener? = null
+
+
+	private fun initListeners() {
+		// date
 		v_date_tap.setOnClickListener {
 			showDatePickerDialog(it)
 		}
@@ -116,33 +143,34 @@ class SetupFragment : Fragment(),
 			showDatePickerDialog(it)
 		}
 
+		// time
 		v_time_tap.setOnClickListener {
 			showTimePickerDialog(it)
 		}
 		tv_time.setOnClickListener {
 			showTimePickerDialog(it)
 		}
+
+		// next button
+		next_button.setOnClickListener {
+			// TODO getActiveArena
+			getArenaByTime()
+		}
 	}
 
-	private fun updateUI(seat: SeatModel?) {
+	private fun updateSeatInfo(seat: SeatModel?) {
 		seat_title.text = seat?.title
 		head_image.setImageURI(Uri.parse(seat?.imageUrl))
-		cpu.text = seat?.description.let { it?.replace("\\", "") }
-	}
-
-	val datePickerDialoListener = DatePickerDialog.OnDateSetListener() { datePiker, year, month, day ->
-
-		Timber.d("This date: $year - $month - $day")
-
+		cpu.text = seat?.description.let { it?.replace(oldValue = "\\", newValue = "") }
 	}
 
 
-	fun showDatePickerDialog(v: View) {
+	private fun showDatePickerDialog(v: View) {
 		val newFragment = DatePickeFragment(this)
 		newFragment.show(activity?.supportFragmentManager, "datePicker")
 	}
 
-	fun showTimePickerDialog(v: View) {
+	private fun showTimePickerDialog(v: View) {
 		val timePicker = TimePickerFragment(this)
 		timePicker.show(activity?.supportFragmentManager, "timePicker")
 	}
@@ -157,7 +185,6 @@ class DatePickeFragment(
 	init {
 		requireNotNull(listener) { "+++++ Must implement DatePickerDialog.OnDateSetListener. +++++" }
 	}
-
 
 	@SuppressLint("NewApi")
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -181,22 +208,14 @@ class TimePickerFragment(listener: TimePickerDialog.OnTimeSetListener) : DialogF
 
 	@SuppressLint("NewApi", "InlinedApi")
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-		// Use the current time as the default values for the picker
 		val c = Calendar.getInstance()
 		val hour = c.get(Calendar.HOUR_OF_DAY)
 		val minute = c.get(Calendar.MINUTE)
 
-		// Create a new instance of TimePickerDialog and return it
 		return TimePickerDialog(activity, AlertDialog.THEME_HOLO_DARK, listener, hour, minute,
 		                        DateFormat.is24HourFormat(activity))
-
 	}
 
-
-/*	override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
-		// Do something with the time chosen by the user
-		Timber.d("On time picker selected")
-	}*/
 }
 
 

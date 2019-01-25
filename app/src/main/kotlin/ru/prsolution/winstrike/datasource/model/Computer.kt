@@ -1,26 +1,14 @@
 package ru.prsolution.winstrike.datasource.model
 
-import java.io.Serializable
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
-class Computer : Serializable {
-
-	@SerializedName("active")
-	@Expose
-	var active: Boolean? = null
-	@SerializedName("name")
-	@Expose
-	var name: String? = null
-	@SerializedName("public_id")
-	@Expose
-	var publicId: String? = null
-	@SerializedName("create_at")
-	@Expose
-	var createAt: String? = null
-
-	companion object {
-		private const val serialVersionUID = -1318326118487899001L
-	}
-
-}
+class Computer  (
+	@field:Json(name = "active")
+	val active: Boolean? = null,
+	@field:Json(name = "name")
+	val name: String? = null,
+	@field:Json(name = "public_id")
+	val publicId: String? = null,
+	@field:Json(name = "create_at")
+	val createAt: String? = null
+)

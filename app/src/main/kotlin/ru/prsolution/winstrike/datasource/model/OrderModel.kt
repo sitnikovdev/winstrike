@@ -1,8 +1,5 @@
 package ru.prsolution.winstrike.datasource.model
 
-import android.os.Parcelable
-
-
 /*
  * Created by oleg on 31.01.2018.
  */

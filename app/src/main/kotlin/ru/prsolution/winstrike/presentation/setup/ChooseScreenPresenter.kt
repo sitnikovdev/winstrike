@@ -24,7 +24,7 @@ class ChooseScreenPresenter(service: Service?, private val fragment: SetupFragme
 /*
 		fragment.showWait()
 
-		val subscription = service.getArenas(object : Service.ArenasCallback {
+		val subscription = service.getArenaList(object : Service.ArenasCallback {
 			override fun onSuccess(authResponse: Arenas) {
 				fragment.onGetArenasResponseSuccess(authResponse, selectedArena)
 			}

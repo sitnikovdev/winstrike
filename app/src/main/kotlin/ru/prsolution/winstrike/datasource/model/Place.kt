@@ -1,52 +1,28 @@
 package ru.prsolution.winstrike.datasource.model
 
-import java.io.Serializable
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
-class Place : Serializable {
-
-	@SerializedName("offer_pid")
-	@Expose
-	var offerPid: String? = null
-	@SerializedName("is_hidden")
-	@Expose
-	var isHidden: Boolean? = null
-	@SerializedName("computer")
-	@Expose
-	var computer: Computer? = null
-	@SerializedName("public_id")
-	@Expose
-	var publicId: String? = null
-	@SerializedName("offer")
-	@Expose
-	var offer: Offer? = null
-	@SerializedName("computer_pid")
-	@Expose
-	var computerPid: String? = null
-	@SerializedName("room_layout_pid")
-	@Expose
-	var roomLayoutPid: String? = null
-	@SerializedName("name")
-	@Expose
-	var name: String? = null
-
-	@SerializedName("create_at")
-	@Expose
-	var createAt: String? = null
-
-	@SerializedName("coors")
-	@Expose
-	var coors: Coors? = null
-
-	@SerializedName("status")
-	@Expose
-	var status: String? = null
-
-	companion object {
-
-
-		private const val serialVersionUID = 2061867234598659099L
-	}
-
-}
+class Place(
+		@field:Json(name = "offer_pid")
+		val offerPid: String? = null,
+		@field:Json(name = "is_hidden")
+		val isHidden: Boolean? = null,
+		@field:Json(name = "computer")
+		val computer: Computer? = null,
+		@field:Json(name = "public_id")
+		val publicId: String? = null,
+		@field:Json(name = "offer")
+		val offer: Offer? = null,
+		@field:Json(name = "computer_pid")
+		val computerPid: String? = null,
+		@field:Json(name = "room_layout_pid")
+		val roomLayoutPid: String? = null,
+		@field:Json(name = "name")
+		val name: String? = null,
+		@field:Json(name = "create_at")
+		val createAt: String? = null,
+		@field:Json(name = "coors")
+		val coors: Coors? = null,
+		@field:Json(name = "status")
+		val status: String? = null
+)

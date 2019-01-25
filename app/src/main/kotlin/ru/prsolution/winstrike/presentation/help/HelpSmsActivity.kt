@@ -60,6 +60,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 		get() {
 			val auth = ConfirmSmsModel()
 			val phone = TextFormat.formatPhone(et_phone!!.text.toString())
+			// TODO make model immutable
 			auth.username = phone
 			return auth
 		}
@@ -119,6 +120,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 				val passw = NewPasswordModel()
 				val phone = TextFormat.formatPhone(et_phone!!.text.toString())
 				val smsCode = et_code!!.text.toString()
+				// TODO make model immutable
 				passw.username = phone
 				// Показываем диалог для смены пароля:
 				dlgRefreshPassword(passw, smsCode)
@@ -249,6 +251,8 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 					toast("Длина пароля должна быть не менее 6 символов")
 				}
 				if (passTexOne == passTexTwo) {
+
+					// TODO make model immutable
 					passw.new_password = passTexOne
 					refreshPassword(passw, smsCode)
 					dialog!!.dismiss()

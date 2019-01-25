@@ -1,43 +1,27 @@
 package ru.prsolution.winstrike.datasource.model
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
-class User {
-
-    @SerializedName("confirmed")
-    @Expose
-    var confirmed: Boolean? = null
-    @SerializedName("confirmed_on")
-    @Expose
-    var confirmedOn: Any? = null
-    @SerializedName("email")
-    @Expose
-    var email: String? = null
-    @SerializedName("name")
-    @Expose
-    var name: String? = null
-    @SerializedName("phone")
-    @Expose
-    var phone: String? = null
-    @SerializedName("public_id")
-    @Expose
-    var publicId: String? = null
-    @SerializedName("registered_on")
-    @Expose
-    var registeredOn: String? = null
-    @SerializedName("social_id")
-    @Expose
-    var socialId: Any? = null
-
-    @SerializedName("role")
-    @Expose
-    var role: String? = null
-
-    @SerializedName("user_id")
-    @Expose
-    var id: String? = null
-
-    var password: String? = null
-
-}
+class User (
+    @field:Json(name = "confirmed")
+    val confirmed: Boolean? = null,
+    @field:Json(name = "confirmed_on")
+    val confirmedOn: Any? = null,
+    @field:Json(name = "email")
+    val email: String? = null,
+    @field:Json(name = "name")
+    val name: String? = null,
+    @field:Json(name = "phone")
+    val phone: String? = null,
+    @field:Json(name = "public_id")
+    val publicId: String? = null,
+    @field:Json(name = "registered_on")
+    val registeredOn: String? = null,
+    @field:Json(name = "social_id")
+    val socialId: Any? = null,
+    @field:Json(name = "role")
+    val role: String? = null,
+    @field:Json(name = "user_id")
+    val id: String? = null,
+    val password: String? = null
+)

@@ -1,29 +1,16 @@
 package ru.prsolution.winstrike.datasource.model
 
-import java.io.Serializable
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
-class Coors : Serializable {
-
-	@SerializedName("id")
-	@Expose
-	var id: String? = null
-	@SerializedName("x")
-	@Expose
-	var x: Int? = null
-	@SerializedName("y")
-	@Expose
-	var y: Int? = null
-	@SerializedName("angle")
-	@Expose
-	var angle: Double? = null
-	@SerializedName("type")
-	@Expose
-	var type: Int? = null
-
-	companion object {
-		private const val serialVersionUID = -6921130380543258340L
-	}
-
-}
+class Coors  (
+	@field:Json(name = "id")
+	val id: String? = null,
+	@field:Json(name = "x")
+	val x: Int? = null,
+	@field:Json(name = "y")
+	val y: Int? = null,
+	@field:Json(name = "angle")
+	val angle: Double? = null,
+	@field:Json(name = "type")
+	val type: Int? = null
+)

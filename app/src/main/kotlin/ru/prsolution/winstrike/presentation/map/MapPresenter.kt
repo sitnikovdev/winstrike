@@ -15,7 +15,7 @@ import rx.subscriptions.CompositeSubscription
  * Created by oleg 24.01.2019
  */
 
-class MapPresenter(private val service: Service?, private val fragment: MapScreenFragment) {
+class MapPresenter(private val service: Service?, private val fragment: MapFragment) {
 	private val subscriptions: CompositeSubscription
 
 	init {
@@ -27,6 +27,7 @@ class MapPresenter(private val service: Service?, private val fragment: MapScree
 		val roomLayoutFactory: RoomLayoutFactory
 
 		roomLayoutFactory = RoomLayoutFactory()
+		// TODO make model immutable
 		roomLayoutFactory.roomLayout = WinstrikeApp.instance.roomLayout
 
 		// Init models:
@@ -59,16 +60,13 @@ class MapPresenter(private val service: Service?, private val fragment: MapScree
 
 
 	fun getPayment(token: String, paymentModel: PaymentModel) {
-		fragment.showWait()
 
 		val subscription = service?.getPayment(object : Service.PaymentCallback {
 			override fun onSuccess(authResponse: PaymentResponse) {
-				fragment.removeWait()
 				fragment.onGetPaymentResponseSuccess(authResponse)
 			}
 
 			override fun onError(networkError: NetworkError) {
-				fragment.removeWait()
 				fragment.onGetPaymentFailure(networkError.appErrorMessage)
 			}
 

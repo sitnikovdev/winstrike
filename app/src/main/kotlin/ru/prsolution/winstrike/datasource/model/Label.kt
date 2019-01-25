@@ -1,23 +1,12 @@
 package ru.prsolution.winstrike.datasource.model
 
-import java.io.Serializable
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
-class Label : Serializable {
-
-	@SerializedName("x")
-	@Expose
-	var x: Int? = null
-	@SerializedName("y")
-	@Expose
-	var y: Int? = null
-	@SerializedName("text")
-	@Expose
-	var text: String? = null
-
-	companion object {
-		private const val serialVersionUID = 3470742069396083544L
-	}
-
-}
+class Label(
+		@field:Json(name = "x")
+		val x: Int? = null,
+		@field:Json(name = "y")
+		val y: Int? = null,
+		@field:Json(name = "text")
+		val text: String? = null
+)

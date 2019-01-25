@@ -31,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar
 import java.util.LinkedHashMap
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.common.utils.MapViewUtils
 import ru.prsolution.winstrike.common.utils.Utils
@@ -50,7 +51,7 @@ import timber.log.Timber
 /**
  * Created by oleg 24.01.2019
  */
-class MapScreenFragment : Fragment() {
+class MapFragment : Fragment() {
 
 	private var mDlgMapLegend: Dialog? = null
 	var rootLayout: RelativeLayout? = null
@@ -76,8 +77,7 @@ class MapScreenFragment : Fragment() {
 
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val view = inflater.inflate(R.layout.frm_map, container, false)
-		return view
+		return inflater.inflate(R.layout.frm_map, container, false)
 	}
 
 	override fun onStart() {
@@ -399,10 +399,8 @@ class MapScreenFragment : Fragment() {
 	private inner class BookingBtnListener : View.OnClickListener {
 
 		override fun onClick(view: View) {
-			var timeFrom = ""
-			var timeTo = ""
-			timeFrom = TimeDataModel.start
-			timeTo = TimeDataModel.end
+			val timeFrom: String = TimeDataModel.start
+			val timeTo: String = TimeDataModel.end
 			if (Utils.valideateDate(timeFrom, timeTo)) {
 				presenter!!.onBookingClick()
 			} else {
@@ -426,23 +424,21 @@ class MapScreenFragment : Fragment() {
 	}
 
 
-	fun showWait() {}
-
-	fun removeWait() {}
-
 	fun onGetPaymentResponseSuccess(payResponse: PaymentResponse) {
 		Timber.tag("common").d("Pay successfully: %s", payResponse)
 
 		val url = payResponse.redirectUrl
-		//    Intent intent = new Intent(this.getContext(), YandexWebView.class);
-		//    intent.putExtra("url", url);
 
-		var intent = Intent()
+		// TODO Fix it!!!
+//		Intent intent = new Intent(this.getContext(), YandexWebView.class);
+//		intent.putExtra("url", url);
+
+/*		var intent = Intent()
 		intent.putExtra("payments", true)
 		startActivity(Intent(activity, MainActivity::class.java))
 
 		intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-		startActivity(intent)
+		startActivity(intent)*/
 	}
 
 	/**
@@ -454,6 +450,7 @@ class MapScreenFragment : Fragment() {
 		Timber.d("timeFrom: %s", timeFrom)
 		Timber.d("timeTo: %s", timeTo)
 
+		// TODO Replace with "when" construct
 		Timber.tag("common").w("Failure on pay: %s", appErrorMessage)
 		if (appErrorMessage.contains(getString(R.string.msg_server_500))) {
 			toast(getString(R.string.msg_server_internal_err))
@@ -483,13 +480,6 @@ class MapScreenFragment : Fragment() {
 		}
 	}
 
-	protected fun toast(message: String) {
-		if (message.contains("авторизации")) {
-			Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
-		} else {
-			Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-		}
-	}
 
 	private fun getBitmap(vectorDrawable: VectorDrawable): Bitmap {
 		val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth,

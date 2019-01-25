@@ -7,13 +7,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
-import ru.prsolution.winstrike.datasource.model.Room
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.networking.RetrofitFactory
-import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.presentation.utils.resouces.Resource
 import ru.prsolution.winstrike.presentation.utils.setSuccess
-import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
 
 class SplashViewModel : ViewModel() {
@@ -26,7 +23,7 @@ class SplashViewModel : ViewModel() {
 	fun sendSms(smsModel: ConfirmSmsModel) {
 
 		GlobalScope.launch {
-			val request = retrofitService.sendSmsByUserRequest(smsModel)
+			val request = retrofitService.sendSmsByUserRequestAsync(smsModel)
 			try {
 				val response = request.await()
 				response.body()?.let {

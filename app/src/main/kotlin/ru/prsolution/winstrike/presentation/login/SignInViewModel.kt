@@ -9,7 +9,6 @@ import retrofit2.HttpException
 import ru.prsolution.winstrike.datasource.model.AuthResponse
 import ru.prsolution.winstrike.domain.models.LoginViewModel
 import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
-import ru.prsolution.winstrike.datasource.model.Room
 import ru.prsolution.winstrike.domain.models.MessageResponse
 import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.presentation.utils.resouces.Resource
@@ -30,7 +29,7 @@ class SignInViewModel : ViewModel() {
 		checkNotNull(userConfidence)
 
 		GlobalScope.launch {
-			val request = retrofitService.authUser(userConfidence)
+			val request = retrofitService.authUserAsync(userConfidence)
 			try {
 				val response = request.await()
 				response.body()?.let {
@@ -52,7 +51,7 @@ class SignInViewModel : ViewModel() {
 		checkNotNull(smsModel)
 
 		GlobalScope.launch {
-			val request = retrofitService.sendSmsByUserRequest(smsModel)
+			val request = retrofitService.sendSmsByUserRequestAsync(smsModel)
 			try {
 				val response = request.await()
 				response.body()?.let {

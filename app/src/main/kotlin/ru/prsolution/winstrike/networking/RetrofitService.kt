@@ -18,7 +18,6 @@ import ru.prsolution.winstrike.datasource.model.Orders
 import ru.prsolution.winstrike.datasource.model.PaymentModel
 import ru.prsolution.winstrike.datasource.model.PaymentResponse
 import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
-import ru.prsolution.winstrike.datasource.model.Rooms
 import ru.prsolution.winstrike.domain.models.ConfirmModel
 import ru.prsolution.winstrike.domain.models.FCMModel
 import ru.prsolution.winstrike.domain.models.LoginModel
@@ -28,30 +27,30 @@ import ru.prsolution.winstrike.domain.models.ProfileModel
 
 interface RetrofitService {
 
-	// Получение арены
+/*	// Получение списка ар
 	@get:GET("rooms")
-	val rooms: Deferred<Response<Rooms>>
+	val rooms: Deferred<Response<Rooms>>*/
 
 	// Получение списка арен (новый API)
 	@get:GET("rooms")
-	val arenas: Deferred<Response<Arenas>>
+	val arenaList: Deferred<Response<Arenas>>
 
-	// Получение списка мест по  arena id (дефолтный диапазон времени на 30 мин)
+/*	// Получение списка мест по  arena id (дефолтный диапазон времени на 30 мин)
 	@GET("room_layouts/{active_layout_pid}")
-	fun getArena(@Path("active_layout_pid") active_layout_pid: String): Deferred<Response<RoomLayoutFactory>>
+	fun getArena(@Path("active_layout_pid") active_layout_pid: String): Deferred<Response<RoomLayoutFactory>>*/
 
-	//Получение списка мест  по  id  и диапазону времени
+	//Получение арены по  id  и диапазону времени
 	@GET("room_layouts/{active_layout_pid}")
-	fun getArenaByTimeRange(@Path(
-			"active_layout_pid") active_layout_pid: String, @QueryMap time: Map<String, String>): Deferred<Response<RoomLayoutFactory>>
+	fun arenaAsync(@Path(
+			"active_layout_pid") active_layout_pid: String?, @QueryMap time: Map<String, String>): Deferred<Response<RoomLayoutFactory>>
 
 	// Авторизация пользователя
 	@POST("login")
-	fun authUser(@Body loginViewModel: LoginViewModel?): Deferred<Response<AuthResponse>>
+	fun authUserAsync(@Body loginViewModel: LoginViewModel?): Deferred<Response<AuthResponse>>
 
 	// Отправка смс c кодом подтверждения
 	@POST("confirm_codes")
-	fun sendSmsByUserRequest(@Body confirmModel: ConfirmSmsModel): Deferred<Response<MessageResponse>>
+	fun sendSmsByUserRequestAsync(@Body confirmModel: ConfirmSmsModel): Deferred<Response<MessageResponse>>
 
 	// Повторная отправка пароля:
 	@POST("refresh_password/{confirm_code}")
