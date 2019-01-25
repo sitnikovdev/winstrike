@@ -16,6 +16,30 @@ object PrefUtils {
 	private const val DISPLAYHEIGHTDP = "displayHeightDp"
 	private const val DISPLAYWIDHTDP = "displayWidhtDp"
 
+	private const val STARTTIME = "startTime"
+	private const val ENDTIME = "endTime"
+
+	private const val ARENAPID = "arenaPid"
+
+	var arenaPid: String?
+		get() = SharedPrefFactory.prefs.getString(ARENAPID, "")
+		set(arenaPid) {
+			SharedPrefFactory.editor.putString(ARENAPID, arenaPid).commit()
+		}
+
+	var startTime: String?
+		get() = SharedPrefFactory.prefs.getString(STARTTIME, "")
+		set(startTime) {
+			SharedPrefFactory.editor.putString(STARTTIME, startTime).commit()
+		}
+
+
+	var endTime: String?
+		get() = SharedPrefFactory.prefs.getString(ENDTIME, "")
+		set(endTime) {
+			SharedPrefFactory.editor.putString(ENDTIME, endTime).commit()
+		}
+
 	var displayWidhtDp: Float
 		get() = SharedPrefFactory.prefs.getFloat(DISPLAYWIDHTDP, 0f)
 		set(displayWidhtDp) {
@@ -26,7 +50,6 @@ object PrefUtils {
 		set(displayHeightDp) {
 			SharedPrefFactory.editor.putFloat(DISPLAYHEIGHTDP, displayHeightDp).commit()
 		}
-
 
 	var displayHeightPx: Float
 		get() = SharedPrefFactory.prefs.getFloat(DISPLAYHEIGHTPX, 0f)
@@ -39,7 +62,6 @@ object PrefUtils {
 		set(displayWidhtPx) {
 			SharedPrefFactory.editor.putFloat(DISPLAYWIDHTPX, displayWidhtPx).commit()
 		}
-
 
 	var token: String?
 		get() = SharedPrefFactory.prefs.getString(TOKEN, "")

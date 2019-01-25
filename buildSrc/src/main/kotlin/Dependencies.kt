@@ -8,12 +8,12 @@ object Modules {
 
 object Release {
     val versionCode = 50
-    val versionName = "v1.50.5"
+    val versionName = "v1.50.6"
 }
 
 object Versions {
     val kotlin = "1.3.20"
-    val gradle = "3.5.0-alpha01"
+    val gradle = "3.5.0-alpha02"
     val proguardGradle = "6.0.3"
     val gradleWrapper = "5.1.1-all"
     val targetSdk = 28

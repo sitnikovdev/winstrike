@@ -16,33 +16,13 @@ import rx.subscriptions.CompositeSubscription
  */
 
 class MapPresenter(private val service: Service?, private val fragment: MapFragment) {
-	private val subscriptions: CompositeSubscription
-
-	init {
-		this.subscriptions = CompositeSubscription()
-	}
-
-
-	fun readMap() {
-		val roomLayoutFactory: RoomLayoutFactory
-
-		roomLayoutFactory = RoomLayoutFactory()
-		// TODO make model immutable
-		roomLayoutFactory.roomLayout = WinstrikeApp.instance.roomLayout
-
-		// Init models:
-		val room = GameRoom(roomLayoutFactory.roomLayout)
-
-		fragment.showSeat(room)
-	}
 
 
 	/**
 	 * Yo, now we can go to yandex casa and bye some cool seats in Winstrike PC club!
 	 */
 	fun onBookingClick() {
-		val payModel: PaymentModel
-		payModel = PaymentModel()
+		val payModel = PaymentModel()
 
 		// TODO: 12/05/2018 Replace with TimeDataModel.
 		payModel.startAt = TimeDataModel.start
@@ -54,14 +34,10 @@ class MapPresenter(private val service: Service?, private val fragment: MapFragm
 		fragment.onSnackBarHide()
 	}
 
-	fun initScreen() {
-		fragment.onScreenInit()
-	}
-
 
 	fun getPayment(token: String, paymentModel: PaymentModel) {
 
-		val subscription = service?.getPayment(object : Service.PaymentCallback {
+		service?.getPayment(object : Service.PaymentCallback {
 			override fun onSuccess(authResponse: PaymentResponse) {
 				fragment.onGetPaymentResponseSuccess(authResponse)
 			}
@@ -72,11 +48,7 @@ class MapPresenter(private val service: Service?, private val fragment: MapFragm
 
 		}, token, paymentModel)
 
-		subscriptions.add(subscription)
 	}
 
-	fun onStop() {
-		this.subscriptions.unsubscribe()
-	}
 
 }

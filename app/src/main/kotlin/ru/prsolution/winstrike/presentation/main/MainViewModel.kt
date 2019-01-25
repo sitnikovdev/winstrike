@@ -38,6 +38,11 @@ class MainViewModel : ViewModel() {
 	val currentDate = MutableLiveData<String>()
 	val currentTime = MutableLiveData<String>()
 
+	var startTime: String? = null
+	var endTime: String? = null
+	var arenaPid: String? = null
+
+
 	// Получение списка арен (новый API)
 	fun getRooms() {
 		GlobalScope.launch {

@@ -120,26 +120,23 @@ class MainActivity : FragmentActivity(),
 
 		toolbar?.setNavigationOnClickListener {
 			supportFragmentManager.popBackStack()
-			if (active is HomeFragment) {
-				showHome(isVisible = false)
-				navigation.visibility = View.VISIBLE
+			when (active) {
+				is HomeFragment -> {
+					showHome(isVisible = false)
+					navigation.visibility = View.VISIBLE
+				}
+				is SetupFragment -> {
+					showHome(isVisible = false)
+					navigation.visibility = View.VISIBLE
+					mVm.active.value = homeFragment
+				}
+				is MapFragment -> {
+					showHome(isVisible = true)
+					navigation.visibility = View.GONE
+					mVm.active.value = setupFragment
+				}
 			}
-			if (active is SetupFragment) {
-				showHome(isVisible = false)
-				navigation.visibility = View.VISIBLE
-				mVm.active.value = homeFragment
-			}
-			if (active is MapFragment) {
-				showHome(isVisible = true)
-				navigation.visibility = View.GONE
-				mVm.active.value = setupFragment
-			}
-			else {
-//				mVm.active.value = setupFragment
-//				showHome(isVisible = true)
-//				navigation.visibility = View.GONE
-			}
-//						(activity as MainActivity).setActive()
+
 		}
 
 

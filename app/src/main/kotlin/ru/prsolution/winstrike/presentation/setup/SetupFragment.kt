@@ -17,11 +17,8 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.ac_mainscreen.navigation
-import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
 import kotlinx.android.synthetic.main.frm_choose.cpu
 import kotlinx.android.synthetic.main.frm_choose.head_image
 import kotlinx.android.synthetic.main.frm_choose.next_button
@@ -32,11 +29,10 @@ import kotlinx.android.synthetic.main.frm_choose.v_date_tap
 import kotlinx.android.synthetic.main.frm_choose.v_time_tap
 import ru.prsolution.winstrike.datasource.model.Room
 import ru.prsolution.winstrike.domain.models.SeatModel
-import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.main.MainViewModel
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import java.text.DateFormatSymbols
-import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import timber.log.Timber
 
 
@@ -121,6 +117,19 @@ class SetupFragment : Fragment(),
 		time["start_at"] = "2019-01-25T16:00:00"
 		time["end_at"] = "2019-01-25T17:00:00"
 		mVm?.getArena(activePid, time)
+
+		saveTimeAndPid(time, activePid)
+	}
+
+	private fun saveTimeAndPid(time: MutableMap<String, String>,
+	                           activePid: String?) {
+/*		PrefUtils.startTime = time["start_at"]
+		PrefUtils.endTime = time["end_at"]
+		PrefUtils.arenaPid = activePid*/
+
+		mVm?.startTime = time["start_at"]
+		mVm?.endTime = time["end_at"]
+		mVm?.arenaPid = activePid
 	}
 
 	override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {

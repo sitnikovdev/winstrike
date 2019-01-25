@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.VectorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -27,14 +28,18 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
+import kotlinx.android.synthetic.main.frm_map.rootMap
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.common.utils.MapViewUtils
 import ru.prsolution.winstrike.common.utils.Utils
 import ru.prsolution.winstrike.datasource.model.PaymentResponse
+import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
 import ru.prsolution.winstrike.domain.models.GameRoom
 import ru.prsolution.winstrike.domain.models.Seat
 import ru.prsolution.winstrike.domain.models.SeatType
@@ -63,33 +68,26 @@ class MapFragment : Fragment() {
 	private var seatParams: RelativeLayout.LayoutParams? = null
 	private var rootLayoutParams: RelativeLayout.LayoutParams? = null
 	private val mPickedSeatsIds = LinkedHashMap<Int, String>()
+
 	val height: Float = PrefUtils.displayHeightPx
 	val width: Float = PrefUtils.displayWidhtPx
 	var mXScaleFactor: Float? = null
 	var mYScaleFactor: Float? = null
 
 
+	var mVm: MainViewModel? = null
 	private var mRoom: GameRoom? = null
 	private var tvDivParam: RelativeLayout.LayoutParams? = null
-
-	var mVm: MainViewModel? = null
+	private var roomLayoutFactory: RoomLayoutFactory? = null
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		dlgMapLegend()
 
-/*		activity?.toolbar?.setNavigationOnClickListener {
-			(activity as FragmentActivity).supportFragmentManager.popBackStack()
-			activity?.toolbar?.navigationIcon = null
-			activity?.toolbar?.setContentInsetsAbsolute(0, (activity as FragmentActivity).toolbar.contentInsetStart)
-//			(activity as MainActivity).setActive()
-		}*/
 		mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
 
-/*		if (savedInstanceState == null) {
-			mVm?.getRooms()
-		}*/
+
 	}
 
 
@@ -97,27 +95,57 @@ class MapFragment : Fragment() {
 		return inflater.inflate(R.layout.frm_map, container, false)
 	}
 
-	override fun onStart() {
-		super.onStart()
-//		snackbar!!.dismiss()
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+/*		this.presenter = MapPresenter(service, this)
+		presenter!!.initScreen()
+		presenter!!.readMap()*/
+
+//		initSnackBar()
+
+/*		require(!TextUtils.isEmpty(mVm?.startTime)) { " +++ Arena pid  must not be empty. +++" }
+		require(!TextUtils.isEmpty(mVm?.endTime)) { " +++ Start time must not be empty. +++" }
+		require(!TextUtils.isEmpty(mVm?.arenaPid)) { " +++ End time must not be empty. +++" }*/
+
+		val time = mutableMapOf<String, String>()
+
+
+		if (savedInstanceState == null) {
+/*			if (!TextUtils.isEmpty(mVm?.startTime)
+					&&
+					!TextUtils.isEmpty(mVm?.endTime)
+					&&
+					!TextUtils.isEmpty(mVm?.arenaPid)
+			) {
+				time["start_at"] = mVm?.startTime ?: ""
+				time["end_at"] = mVm?.endTime ?: ""
+				mVm?.getArena(mVm?.arenaPid, time)
+			}*/
+		}
+
+		activity?.let {
+			mVm?.arena?.observe(it, Observer {
+				this.roomLayoutFactory = it.data
+				readMap()
+			})
+		}
+
+/*		if (roomLayoutFactory != null) {
+		}*/
 	}
 
-	private fun initSnackBar() {
-/*		snackbar = Snackbar.make(rootLayout!!, "", Snackbar.LENGTH_INDEFINITE)
-		snackbar!!.view.setBackgroundColor(Color.TRANSPARENT)
-		snackbar!!.view.setBackgroundResource(R.drawable.btn_bukking)
-		val layoutInflater = this.layoutInflater
-		val snackView = layoutInflater.inflate(R.layout.my_snackbar, null)
-		snackLayout = snackbar!!.view as Snackbar.SnackbarLayout
-		snackLayout!!.addView(snackView)
-		snackLayout!!.setOnClickListener(BookingBtnListener())
-		snackbar!!.dismiss()*/
-	}
-
-
-	fun onScreenInit() {
+	fun readMap() {
+		requireNotNull(roomLayoutFactory)
+		{ "++++ RoomLayoutFactory must be init. ++++" }
 		rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
-		initSnackBar()
+		rootLayout = rootMap
+		// init arena:
+//		val roomLayoutFactory = RoomLayoutFactory(WinstrikeApp.instance.roomLayout)
+
+		// init models:
+		val room = GameRoom(roomLayoutFactory?.roomLayout)
+
+		showSeat(room)
 	}
 
 
@@ -127,7 +155,7 @@ class MapFragment : Fragment() {
 	}
 
 	fun drawSeat(room: GameRoom?) {
-		var mWall: Wall?
+		val mWall: Wall?
 
 
 		if (room!!.walls.size > 0) {
@@ -393,15 +421,6 @@ class MapFragment : Fragment() {
 	}
 
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
-/*		this.presenter = MapPresenter(service, this)
-		presenter!!.initScreen()
-		presenter!!.readMap()*/
-	}
-
-
 	private inner class BookingBtnListener : View.OnClickListener {
 
 		override fun onClick(view: View) {
@@ -413,20 +432,6 @@ class MapFragment : Fragment() {
 				toast(activity!!.resources.getString(R.string.toast_wrong_range))
 			}
 		}
-	}
-
-	fun onSnackBarShow() {
-//		snackbar!!.show()
-	}
-
-	fun onSnackBarHide() {
-//		snackbar!!.dismiss()
-	}
-
-	override fun onStop() {
-		super.onStop()
-//		snackbar!!.dismiss()
-
 	}
 
 
@@ -565,6 +570,37 @@ class MapFragment : Fragment() {
 		mDlgMapLegend!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 		mDlgMapLegend!!.dismiss()
 
+	}
+
+	private fun initSnackBar() {
+/*		snackbar = Snackbar.make(rootLayout!!, "", Snackbar.LENGTH_INDEFINITE)
+		snackbar!!.view.setBackgroundColor(Color.TRANSPARENT)
+		snackbar!!.view.setBackgroundResource(R.drawable.btn_bukking)
+		val layoutInflater = this.layoutInflater
+		val snackView = layoutInflater.inflate(R.layout.my_snackbar, null)
+		snackLayout = snackbar!!.view as Snackbar.SnackbarLayout
+		snackLayout!!.addView(snackView)
+		snackLayout!!.setOnClickListener(BookingBtnListener())
+		snackbar!!.dismiss()*/
+	}
+
+	fun onSnackBarShow() {
+//		snackbar!!.show()
+	}
+
+	fun onSnackBarHide() {
+//		snackbar!!.dismiss()
+	}
+
+	override fun onStop() {
+		super.onStop()
+//		snackbar!!.dismiss()
+	}
+
+
+	override fun onStart() {
+		super.onStart()
+//		snackbar!!.dismiss()
 	}
 
 
