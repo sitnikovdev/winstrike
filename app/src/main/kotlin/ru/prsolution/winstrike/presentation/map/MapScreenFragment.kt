@@ -38,7 +38,7 @@ import ru.prsolution.winstrike.datasource.model.PaymentResponse
 import ru.prsolution.winstrike.domain.models.GameRoom
 import ru.prsolution.winstrike.domain.models.Seat
 import ru.prsolution.winstrike.domain.models.SeatType
-import ru.prsolution.winstrike.domain.models.TimeDataModel
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.domain.models.Wall
 import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.presentation.main.MainActivity

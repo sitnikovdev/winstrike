@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.SeatModel
-import ru.prsolution.winstrike.domain.models.TimeDataModel
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.setup.SetupFragment
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber

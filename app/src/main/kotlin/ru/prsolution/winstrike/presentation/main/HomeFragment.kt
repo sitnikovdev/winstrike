@@ -28,7 +28,7 @@ import ru.prsolution.winstrike.datasource.model.Room
 import ru.prsolution.winstrike.datasource.model.RoomType
 import ru.prsolution.winstrike.domain.models.RoomSeatType
 import ru.prsolution.winstrike.domain.models.SeatModel
-import ru.prsolution.winstrike.domain.models.TimeDataModel
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_350
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_450
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_600

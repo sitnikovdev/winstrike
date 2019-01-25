@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.domain.models
 
-import ru.prsolution.winstrike.datasource.model.RoomType
 import java.io.Serializable
 
 /*
@@ -16,9 +15,6 @@ class SeatModel(
 			}
 			RoomSeatType.VIP -> {
 				"Вы выбрали: VIP"
-			}
-			else -> {
-				"Вы выбрали:"
 			}
 		},
 

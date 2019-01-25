@@ -32,6 +32,8 @@ class MainViewModel : ViewModel() {
 
 	val currentArena = MutableLiveData<Resource<Int>>()
 	val currentSeat = MutableLiveData<SeatModel>()
+	val currentDate = MutableLiveData<String>()
+	val currentTime = MutableLiveData<String>()
 
 	fun getRooms() {
 		GlobalScope.launch {

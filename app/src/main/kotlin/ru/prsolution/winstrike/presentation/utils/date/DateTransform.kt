@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.mvp.transform
+package ru.prsolution.winstrike.presentation.utils.date
 
 import java.text.SimpleDateFormat
 import java.util.*

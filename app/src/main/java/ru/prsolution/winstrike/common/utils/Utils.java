@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ru.prsolution.winstrike.mvp.transform.DateTransform;
+import ru.prsolution.winstrike.presentation.utils.date.DateTransform;
 
 public class Utils {
 

@@ -6,7 +6,7 @@ import ru.prsolution.winstrike.datasource.model.PaymentModel
 import ru.prsolution.winstrike.datasource.model.PaymentResponse
 import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
 import ru.prsolution.winstrike.domain.models.GameRoom
-import ru.prsolution.winstrike.domain.models.TimeDataModel
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.networking.NetworkError
 import ru.prsolution.winstrike.networking.Service
 import rx.subscriptions.CompositeSubscription
