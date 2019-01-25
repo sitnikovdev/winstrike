@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import kotlinx.android.synthetic.main.ac_mainscreen.navigation
 import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
 import kotlinx.android.synthetic.main.frm_choose.cpu
 import kotlinx.android.synthetic.main.frm_choose.head_image
@@ -52,22 +53,20 @@ class SetupFragment : Fragment(),
 		fun onMapShow()
 	}
 
+	var onMapShowListener: MapShowListener? = null
+	var mVm: MainViewModel? = null
+
+
 	override fun onAttach(context: Context?) {
 		super.onAttach(context)
 		require(context is MapShowListener)
 		{ "++++ Must implements onMapShowListener. +++" }
-		mListener = context
+		onMapShowListener = context
 	}
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		activity?.toolbar?.setNavigationOnClickListener {
-			(activity as FragmentActivity).supportFragmentManager.popBackStack()
-			activity?.toolbar?.navigationIcon = null
-			activity?.toolbar?.setContentInsetsAbsolute(0, (activity as FragmentActivity).toolbar.contentInsetStart)
-			(activity as MainActivity).setActive()
-		}
 		mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
 
 		if (savedInstanceState == null) {
@@ -82,6 +81,7 @@ class SetupFragment : Fragment(),
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+
 
 		activity?.let {
 			// arenaList
@@ -100,9 +100,10 @@ class SetupFragment : Fragment(),
 			mVm?.currentTime?.observe(it, Observer { time ->
 				tv_time.text = time
 			})
-			mVm?.arena?.observe(it, Observer {
-				arena ->
+			mVm?.arena?.observe(it, Observer { arena ->
 				Timber.d("arena room pid: ${arena.data?.roomLayout?.publicId}")
+				// TODO: Open MapFragment here
+				onMapShowListener?.onMapShow()
 			})
 		}
 
@@ -111,7 +112,7 @@ class SetupFragment : Fragment(),
 
 	private fun getArenaByTime() {
 		requireNotNull(rooms)
-		{"+++ Rooms must be initialized +++"}
+		{ "+++ Rooms must be initialized +++" }
 		// get active arena pid
 		val activePid = rooms?.get(selectedArena)?.roomLayoutPid
 		val time = mutableMapOf<String, String>()
@@ -119,7 +120,7 @@ class SetupFragment : Fragment(),
 //		time["end_at"] = TimeDataModel.end
 		time["start_at"] = "2019-01-25T16:00:00"
 		time["end_at"] = "2019-01-25T17:00:00"
-		mVm?.getArena(activePid,time)
+		mVm?.getArena(activePid, time)
 	}
 
 	override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
@@ -129,9 +130,6 @@ class SetupFragment : Fragment(),
 	override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
 		mVm?.currentTime?.value = "$hourOfDay:$minute - ${hourOfDay + 1}:$minute"
 	}
-
-	var mVm: MainViewModel? = null
-	private var mListener: MapShowListener? = null
 
 
 	private fun initListeners() {

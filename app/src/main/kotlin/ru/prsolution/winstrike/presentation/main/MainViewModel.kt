@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.text.TextUtils
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
@@ -22,6 +23,8 @@ import timber.log.Timber
 class MainViewModel : ViewModel() {
 
 	private val retrofitService = RetrofitFactory.makeRetrofitService()
+
+	var active = MutableLiveData<Fragment>()
 
 	val fcmResponse = MutableLiveData<Resource<MessageResponse>>()
 

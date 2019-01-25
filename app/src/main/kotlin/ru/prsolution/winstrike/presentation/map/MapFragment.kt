@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.presentation.map
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -12,7 +11,6 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.VectorDrawable
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
@@ -26,11 +24,12 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
-import java.util.LinkedHashMap
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.common.utils.MapViewUtils
@@ -39,13 +38,14 @@ import ru.prsolution.winstrike.datasource.model.PaymentResponse
 import ru.prsolution.winstrike.domain.models.GameRoom
 import ru.prsolution.winstrike.domain.models.Seat
 import ru.prsolution.winstrike.domain.models.SeatType
-import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.domain.models.Wall
-import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.presentation.main.MainActivity
+import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
+import java.util.LinkedHashMap
 
 
 /**
@@ -69,11 +69,28 @@ class MapFragment : Fragment() {
 	var mYScaleFactor: Float? = null
 
 
-	var service: Service? = null
-	var presenter: MapPresenter? = null
-
 	private var mRoom: GameRoom? = null
 	private var tvDivParam: RelativeLayout.LayoutParams? = null
+
+	var mVm: MainViewModel? = null
+
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		dlgMapLegend()
+
+/*		activity?.toolbar?.setNavigationOnClickListener {
+			(activity as FragmentActivity).supportFragmentManager.popBackStack()
+			activity?.toolbar?.navigationIcon = null
+			activity?.toolbar?.setContentInsetsAbsolute(0, (activity as FragmentActivity).toolbar.contentInsetStart)
+//			(activity as MainActivity).setActive()
+		}*/
+		mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
+
+/*		if (savedInstanceState == null) {
+			mVm?.getRooms()
+		}*/
+	}
 
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -82,11 +99,11 @@ class MapFragment : Fragment() {
 
 	override fun onStart() {
 		super.onStart()
-		snackbar!!.dismiss()
+//		snackbar!!.dismiss()
 	}
 
 	private fun initSnackBar() {
-		snackbar = Snackbar.make(rootLayout!!, "", Snackbar.LENGTH_INDEFINITE)
+/*		snackbar = Snackbar.make(rootLayout!!, "", Snackbar.LENGTH_INDEFINITE)
 		snackbar!!.view.setBackgroundColor(Color.TRANSPARENT)
 		snackbar!!.view.setBackgroundResource(R.drawable.btn_bukking)
 		val layoutInflater = this.layoutInflater
@@ -94,7 +111,7 @@ class MapFragment : Fragment() {
 		snackLayout = snackbar!!.view as Snackbar.SnackbarLayout
 		snackLayout!!.addView(snackView)
 		snackLayout!!.setOnClickListener(BookingBtnListener())
-		snackbar!!.dismiss()
+		snackbar!!.dismiss()*/
 	}
 
 
@@ -297,13 +314,6 @@ class MapFragment : Fragment() {
 			}
 
 		}
-		if (this.presenter != null) {
-			presenter!!.onStop()
-			presenter = null
-		}
-		if (this.service != null) {
-			this.service = null
-		}
 	}
 
 	/**
@@ -329,9 +339,9 @@ class MapFragment : Fragment() {
 
 	private fun onPickedSeatChanged() {
 		if (!mPickedSeatsIds.isEmpty()) {
-			snackbar!!.show()
+//			snackbar!!.show()
 		} else {
-			snackbar!!.dismiss()
+//			snackbar!!.dismiss()
 		}
 	}
 
@@ -385,14 +395,10 @@ class MapFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		this.presenter = MapPresenter(service, this)
-		presenter!!.initScreen()
-		presenter!!.readMap()
-	}
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		dlgMapLegend()
+/*		this.presenter = MapPresenter(service, this)
+		presenter!!.initScreen()
+		presenter!!.readMap()*/
 	}
 
 
@@ -402,7 +408,7 @@ class MapFragment : Fragment() {
 			val timeFrom: String = TimeDataModel.start
 			val timeTo: String = TimeDataModel.end
 			if (Utils.valideateDate(timeFrom, timeTo)) {
-				presenter!!.onBookingClick()
+//				presenter!!.onBookingClick()
 			} else {
 				toast(activity!!.resources.getString(R.string.toast_wrong_range))
 			}
@@ -410,16 +416,16 @@ class MapFragment : Fragment() {
 	}
 
 	fun onSnackBarShow() {
-		snackbar!!.show()
+//		snackbar!!.show()
 	}
 
 	fun onSnackBarHide() {
-		snackbar!!.dismiss()
+//		snackbar!!.dismiss()
 	}
 
 	override fun onStop() {
 		super.onStop()
-		snackbar!!.dismiss()
+//		snackbar!!.dismiss()
 
 	}
 
