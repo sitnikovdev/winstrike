@@ -36,10 +36,10 @@ import ru.prsolution.winstrike.presentation.utils.MapViewUtils
 import ru.prsolution.winstrike.presentation.utils.Utils
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.domain.models.ArenaMap
+import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.Room
 import ru.prsolution.winstrike.domain.models.SeatMap
 import ru.prsolution.winstrike.domain.models.SeatType
-import ru.prsolution.winstrike.domain.models.WallModel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
@@ -54,12 +54,12 @@ import java.util.LinkedHashMap
 class MapFragment : Fragment() {
 
 	private var mDlgMapLegend: Dialog? = null
-	var rootLayout: RelativeLayout? = null
+	var mapLayout: RelativeLayout? = null
 	private var snackbar: Snackbar? = null
 	private var snackLayout: Snackbar.SnackbarLayout? = null
 
 	private val RLW = RelativeLayout.LayoutParams.WRAP_CONTENT
-	private var tvParams: RelativeLayout.LayoutParams? = null
+	private var numberParams: RelativeLayout.LayoutParams? = null
 	private var seatParams: RelativeLayout.LayoutParams? = null
 	private var rootLayoutParams: RelativeLayout.LayoutParams? = null
 	private val mPickedSeatsIds = LinkedHashMap<Int, String>()
@@ -81,7 +81,6 @@ class MapFragment : Fragment() {
 		dlgMapLegend()
 
 		mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
-
 
 	}
 
@@ -107,31 +106,34 @@ class MapFragment : Fragment() {
 
 	}
 
-	fun readMap() {
+	private fun readMap() {
 		requireNotNull(room)
 		{ "++++ RoomLayoutFactory must be init. ++++" }
 
 		val room = ArenaMap(room)
 		rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
-		rootLayout = rootMap
+		mapLayout = rootMap
 
 		showSeat(room)
 	}
 
 
-	fun showSeat(room: ArenaMap) {
+	private fun showSeat(room: ArenaMap) {
 		this.mRoom = room
 		drawSeat(mRoom)
 	}
 
-	fun drawSeat(room: ArenaMap?) {
-		val mWall: WallModel?
+	// TODO: Move this code in Interactor
+	private fun drawSeat(room: ArenaMap?) {
 
+		val schema = room?.arenaSchema
 
-		if (room!!.walls.size > 0) {
-			mWall = room.walls[0]
-			mXScaleFactor = width / mWall.end.x
-			mYScaleFactor = height / mWall.end.y
+		mXScaleFactor = width / 358
+		mYScaleFactor = height / 421
+
+		if (schema == ArenaSchema.WINSTRIKE) {
+			mXScaleFactor = (width / 358) * 1
+			mYScaleFactor = (height / 421) * 1.5f
 		} else {
 			mXScaleFactor = width / 358
 			mYScaleFactor = height / 421
@@ -142,144 +144,90 @@ class MapFragment : Fragment() {
 		val seatBitmap = getBitmap(context, R.drawable.ic_seat_gray)
 
 		seatSize.set(seatBitmap.width, seatBitmap.height)
-		val mScreenSize = MapViewUtils.calculateScreenSize(seatSize, room.seats, mXScaleFactor!! + 0.2f,
+		val mScreenSize = MapViewUtils.calculateScreenSize(seatSize, room!!.seats, mXScaleFactor!! + 0.2f,
 		                                                   mYScaleFactor!! - 1.5f)
 
-		val params = rootLayout!!.layoutParams as FrameLayout.LayoutParams
-		params.setMargins(-65, -80, 100, 80)
+		val mapLP = mapLayout!!.layoutParams as FrameLayout.LayoutParams
+		mapLP.setMargins(-65, -80, 100, 80)
 
-		// Width and Height of screen
+		// Calculate  width and height for different Android screen sizes
+
 		if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
-			params.width = mScreenSize.x
-			params.height = mScreenSize.y + 250
-//			mYScaleFactor = mYScaleFactor!! - 1.5f
+			mapLP.width = mScreenSize.x
+			mapLP.height = mScreenSize.y + 250
+			mYScaleFactor = mYScaleFactor!! - 1.5f
 		} else if (height <= Constants.SCREEN_HEIGHT_PX_1920) {
-			params.setMargins(-35, -80, 100, 80)
-			params.width = mScreenSize.x
-			params.height = mScreenSize.y + 380
-//			mYScaleFactor = mYScaleFactor!! - 2.0f
-		} else if (height <= Constants.SCREEN_HEIGHT_PX_2560) {
-			params.width = mScreenSize.x
-			params.height = mScreenSize.y + 150
-//			mYScaleFactor = mYScaleFactor!! - 3f
+			mapLP.setMargins(-35, -80, 100, 80)
+			mapLP.width = mScreenSize.x
+			mapLP.height = mScreenSize.y + 380
+			mYScaleFactor = mYScaleFactor!! - 2.0f
+		} else if (height <= Constants.SCREEN_HEIGHT_PX_2560) { // Samsung GX-7
+			mapLP.width = mScreenSize.x
+			mapLP.height = mScreenSize.y + 150
+			mYScaleFactor = mYScaleFactor!! - 3f
+			if (schema == ArenaSchema.WINSTRIKE) { // Winstrike Arena
+				mapLP.height = mScreenSize.y + 850
+				mapLP.width = mScreenSize.x + 500
+				mYScaleFactor = mYScaleFactor!! - 0f
+				mXScaleFactor = mXScaleFactor!! - 0.2f
+				mapLP.setMargins(0, -250, 0, 80)
+			}
 		} else {
-			params.width = mScreenSize.x
-			params.height = mScreenSize.y + 250
-//			mYScaleFactor = mYScaleFactor!! - 1.5f
+			mapLP.width = mScreenSize.x
+			mapLP.height = mScreenSize.y + 250
+			mYScaleFactor = mYScaleFactor!! - 1.5f
 		}
-		rootLayout!!.layoutParams = params
+		mapLayout!!.layoutParams = mapLP
+
+
+		// Draw seats and numbers
 
 		for (seat in room.seats) {
-			val name = seat.name
-			//      Timber.d("id: %s, y: %s",seat.getId(),seat.getDy());
-			val seatNumber = Utils.parseNumber(name)
-			// TODO: 07/06/2018 For test (number of places by id):
-			/*      Integer seatIdInt = Integer.parseInt(seat.getId().toString());
-      seatNumber = seatIdInt.toString();*/
-			val numberLenth = seatNumber.length
-			var textOffsetX = 0
-			var textOffsetY = -10
-			if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
-				textOffsetY = 0
-			}
 
-			var dx: Int?
-			var dy: Int?
-
-			// Calculate offset by x for diffrent length of numbers (1, 2 and 3)
-			if (numberLenth <= 1) {
-				textOffsetX = 7
-			} else if (numberLenth == 2) {
-				textOffsetX = 20
-			} else if (numberLenth == 3) {
-				textOffsetX = 55
-			}
-
-			if (width <= Constants.SCREEN_WIDTH_PX_720) {
-				if (numberLenth <= 1) {
-					textOffsetX = 7
-				} else if (numberLenth == 2) {
-					textOffsetX = 10
-				} else if (numberLenth == 3) {
-					textOffsetX = 25
-				}
-			}
-
-			dx = ((seat.dx - MapViewUtils.getSeatOffsetXArena1(seat)) * mXScaleFactor!!).toInt()
-			dy = ((seat.dy + MapViewUtils.getSeatOffsetYArena1(seat)) * mYScaleFactor!!).toInt()
-
-			// Seats numbers:
-			tvParams = RelativeLayout.LayoutParams(RLW, RLW)
-			tvParams!!.leftMargin = dx + seatSize.x / 2 - textOffsetX
-			tvParams!!.topMargin = dy + seatSize.y - textOffsetY - 10
-
-			val angle = radianToDegrees(seat)
-			val angleInt = Math.round(angle)
-			val angleAbs = Math.abs(angleInt)
-
-			if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
-				if (angleAbs != 90) {
-					tvParams!!.topMargin = dy + seatSize.y - textOffsetY - 2
-				} else {
-					tvParams!!.topMargin = dy + seatSize.y - textOffsetY + 2
-				}
-			} else if (height <= Constants.SCREEN_HEIGHT_PX_1920) {
-				if (angleAbs != 90) {
-					tvParams!!.topMargin = dy + seatSize.y - textOffsetY - 10
-				} else {
-					tvParams!!.topMargin = dy + seatSize.y - textOffsetY
-				}
-			} else if (height <= Constants.SCREEN_HEIGHT_PX_2560) {
-				if (angleAbs != 90) {
-					tvParams!!.topMargin = dy + seatSize.y - textOffsetY - 10
-				} else {
-					tvParams!!.topMargin = dy + seatSize.y - textOffsetY
-				}
-
-			} else {
-				tvParams!!.topMargin = dy + seatSize.y - textOffsetY
-			}
-
-			val textView = TextView(context)
-			textView.text = seatNumber
-
+			val numberTextView = TextView(context)
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-				textView.setTextAppearance(R.style.StemRegular10Gray)
+				numberTextView.setTextAppearance(R.style.StemRegular10Gray)
 			} else {
-				textView.setTextAppearance(context, R.style.StemRegular10Gray)
+				numberTextView.setTextAppearance(context, R.style.StemRegular10Gray)
 			}
-			textView.layoutParams = tvParams
-			rootLayout!!.addView(textView)
 
-			val ivSeat = ImageView(context)
-			setImage(ivSeat, seat)
+			setNumber(seat, numberTextView)
 
-			rotateSeat(seatBitmap, seat, ivSeat)
+			// Visualize seat
+			ImageView(context).apply {
+				setImage(this, seat)
+				setSeat(seatBitmap, seat, this)
+				this.layoutParams = seatParams
 
-			ivSeat.layoutParams = seatParams
+				// On seat click listener
+				this.setOnClickListener(SeatViewOnClickListener(numberTextView, seat, this, seatBitmap,
+				                                                mPickedSeatsIds))
+				mapLayout!!.addView(this)
+			}
 
-			val mSeatViewOnClickListener = SeatViewOnClickListener(textView, seat, ivSeat, seatBitmap, mPickedSeatsIds)
-			ivSeat.setOnClickListener(mSeatViewOnClickListener)
-			rootLayout!!.addView(ivSeat)
 		}
 
-		// Labels of Rooms
+		// Draw labels for halls
+
 		for (label in room.labels) {
 			val text = label.text
-			var dx: Int?
-			var dy: Int?
+			var offsetY = -5
 
-			dx = ((label.dx?.minus(
-					MapViewUtils.getLabelOffsetXArena1(text)))?.times(mXScaleFactor!!))?.toInt()
-			dy = ((label.dy?.plus(
-					MapViewUtils.getLabelOffsetYArena1(text)))?.times(mYScaleFactor!!))?.toInt()
-
-			tvParams = RelativeLayout.LayoutParams(RLW, RLW)
-			tvParams!!.leftMargin = dx!!
-			tvParams!!.topMargin = dy!!
-			if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
-				tvParams!!.topMargin = dy - 5
+			if (schema == ArenaSchema.WINSTRIKE) {
+				offsetY = 5
 			}
+
+			val dx: Int? = ((label.dx?.minus(0))?.times(mXScaleFactor!!))?.toInt()
+			val dy: Int? = ((label.dy?.plus(offsetY))?.times(mYScaleFactor!!))?.toInt()
+
+			numberParams = RelativeLayout.LayoutParams(RLW, RLW)
+			numberParams!!.leftMargin = dx!!
+			numberParams!!.topMargin = dy!!
+
+			if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
+				numberParams!!.topMargin = dy - 5
+			}
+
 			val textView = TextView(context)
 			textView.text = text
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -288,19 +236,8 @@ class MapFragment : Fragment() {
 				textView.setTextAppearance(context, R.style.StemMedium15Primary)
 			}
 
-			textView.layoutParams = tvParams
-			// Add horizontal line
-			if (text == "HP STAGE 1") {
-				dx = ((label.dx?.minus(
-						MapViewUtils.getLabelOffsetXArena1(text)))?.times(mXScaleFactor!!))?.toInt()
-				dy = ((label.dy?.minus(
-						MapViewUtils.getLabelOffsetYArena1(text)))?.times(mYScaleFactor!!))?.toInt()
-				tvDivParam = RelativeLayout.LayoutParams(RLW, RLW)
-				tvDivParam!!.leftMargin = dx!!
-				tvDivParam!!.topMargin = dy!!
-			}
-
-			rootLayout!!.addView(textView)
+			textView.layoutParams = numberParams
+			mapLayout!!.addView(textView)
 		}
 
 	}
@@ -309,8 +246,8 @@ class MapFragment : Fragment() {
 	override fun onDestroy() {
 		super.onDestroy()
 		snackLayout!!.setOnClickListener(null)
-		for (i in 0 until rootLayout!!.childCount) {
-			val v = rootLayout!!.getChildAt(i)
+		for (i in 0 until mapLayout!!.childCount) {
+			val v = mapLayout!!.getChildAt(i)
 			if (v is ImageView) {
 				v.setOnClickListener(null)
 			}
@@ -355,12 +292,46 @@ class MapFragment : Fragment() {
 		seatView.startAnimation(animation1)
 	}
 
-	private fun rotateSeat(seatBitmap: Bitmap, seat: SeatMap, ivSeat: ImageView) {
-		seatParams = RelativeLayout.LayoutParams(RLW, RLW)
-		seatParams!!.leftMargin = ((seat.dx - MapViewUtils.getSeatOffsetXArena1(seat)) * mXScaleFactor!!).toInt()
-		seatParams!!.topMargin = ((seat.dy + MapViewUtils.getSeatOffsetYArena1(seat)) * mYScaleFactor!!).toInt()
+	private fun setNumber(seat: SeatMap, numberTextView: TextView) {
+		numberParams = RelativeLayout.LayoutParams(RLW, RLW)
+		val seatNumber = Utils.parseNumber(seat.name)
+		numberTextView.text = seatNumber
+
 
 		val angle = radianToDegrees(seat)
+		val angleInt = Math.round(angle)
+		val angleAbs = Math.abs(angleInt)
+
+		var offsetX: Int
+
+		if (angleAbs != 90) { // horizontal seats
+			offsetX = 0
+		} else { // vertical seats
+			if (seatNumber.length < 2) {
+				offsetX = 5
+			} else {
+				offsetX = 4
+			}
+		}
+
+		numberParams?.leftMargin = ((seat.numberDeltaX?.plus(offsetX))?.times(
+				mXScaleFactor!!))?.toInt()
+		numberParams?.topMargin = ((seat.numberDeltaY?.plus(0))?.times(
+				mYScaleFactor!!))?.toInt()
+
+		numberTextView.layoutParams = numberParams
+		mapLayout?.addView(numberTextView)
+
+	}
+
+
+	private fun setSeat(seatBitmap: Bitmap, seat: SeatMap, ivSeat: ImageView) {
+		seatParams = RelativeLayout.LayoutParams(RLW, RLW)
+		seatParams!!.leftMargin = ((seat.dx.minus(0)) * mXScaleFactor!!).toInt()
+		seatParams!!.topMargin = ((seat.dy.plus(0)) * mYScaleFactor!!).toInt()
+
+		val angle = radianToDegrees(seat)
+//		Timber.tag("@@@").d("name: ${seat.name} -  angle: $angle")
 
 		val pivotX = seatBitmap.width / 2f
 		val pivotY = seatBitmap.height / 2f
@@ -492,7 +463,7 @@ class MapFragment : Fragment() {
 	}
 
 
-	private inner class SeatViewOnClickListener(private val seatName: TextView, private val seat: SeatMap,
+	private inner class SeatViewOnClickListener(private val seatNumber: TextView, private val seat: SeatMap,
 	                                            private val ivSeat: ImageView, private val seatBitmap: Bitmap,
 	                                            private val mPickedSeatsIds: LinkedHashMap<*, *>) : View.OnClickListener {
 
@@ -502,20 +473,20 @@ class MapFragment : Fragment() {
 					ivSeat.setBackgroundResource(R.drawable.ic_seat_picked)
 					seat.pid?.let { onSelectSeat(seat.id, false, it) }
 					Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.id, seat.type, seat.name, seat.pid)
-					seatName.setTextColor(Color.WHITE)
-					seatName.setTypeface(null, Typeface.BOLD)
+					seatNumber.setTextColor(Color.WHITE)
+					seatNumber.setTypeface(null, Typeface.BOLD)
 				} else {
-					rootLayout!!.removeView(ivSeat)
+					mapLayout!!.removeView(ivSeat)
 					setImage(ivSeat, seat)
-					rotateSeat(seatBitmap, seat, ivSeat)
-					rootLayout!!.addView(ivSeat)
+					setSeat(seatBitmap, seat, ivSeat)
+					mapLayout!!.addView(ivSeat)
 					seat.pid?.let { onSelectSeat(seat.id, true, it) }
-					seatName.setTextColor(ContextCompat.getColor(activity!!, R.color.label_gray))
+					seatNumber.setTextColor(ContextCompat.getColor(activity!!, R.color.label_gray))
 				}
 			} else {
 				Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.id, seat.type, seat.name, seat.pid)
 				animateView(ivSeat)
-				seatName.setTypeface(null, Typeface.NORMAL)
+				seatNumber.setTypeface(null, Typeface.NORMAL)
 			}
 		}
 	}
@@ -547,7 +518,7 @@ class MapFragment : Fragment() {
 	}
 
 	private fun initSnackBar() {
-/*		snackbar = Snackbar.make(rootLayout!!, "", Snackbar.LENGTH_INDEFINITE)
+/*		snackbar = Snackbar.make(mapLayout!!, "", Snackbar.LENGTH_INDEFINITE)
 		snackbar!!.view.setBackgroundColor(Color.TRANSPARENT)
 		snackbar!!.view.setBackgroundResource(R.drawable.btn_bukking)
 		val layoutInflater = this.layoutInflater

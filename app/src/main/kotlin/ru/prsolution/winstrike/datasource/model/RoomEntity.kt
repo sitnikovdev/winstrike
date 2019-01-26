@@ -8,14 +8,14 @@ import ru.prsolution.winstrike.domain.models.Seat
 import ru.prsolution.winstrike.domain.models.Wall
 
 class RoomEntity(
+		@field:Json(name = "name")
+		val name: String? = null,
+
 		@field:Json(name = "create_at")
 		val createAt: String? = null,
 
 		@field:Json(name = "labels")
 		val labels: List<LabelEntity>? = null,
-
-		@field:Json(name = "name")
-		val name: String? = null,
 
 		@field:Json(name = "places")
 		val places: List<PlaceEntity>? = null,

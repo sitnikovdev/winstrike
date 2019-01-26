@@ -6,6 +6,8 @@ data class SeatMap(val coors: Coors?, var pid: String?, var seatType: String?, v
 	var id: String
 	var dx: Double = 0.0
 	var dy: Double = 0.0
+	var numberDeltaX: Int? = 0
+	var numberDeltaY: Int? = 0
 	var angle: Double = 0.0
 	var type: SeatType
 
@@ -13,12 +15,17 @@ data class SeatMap(val coors: Coors?, var pid: String?, var seatType: String?, v
 		val id = coors?.id
 		val x = coors?.x
 		val y = coors?.y
+		val xn = coors?.xn
+		val yn = coors?.yn
+
 		val angle = coors?.angle
 		val type = SeatType[seatType]
 
 		this.id = id.toString()
 		this.dx = x!!.toDouble()
 		this.dy = y!!.toDouble()
+		this.numberDeltaX = xn
+		this.numberDeltaY = yn
 		this.angle = angle!!
 		this.type = type!!
 	}

@@ -6,11 +6,19 @@ import ru.prsolution.winstrike.datasource.model.WallEntity
 
 class ArenaMap(room: Room?) {
 
+	var name: String?
 	var walls: MutableList<WallModel> = mutableListOf()
 	var labels: MutableList<LabelRoom> = mutableListOf()
 	var seats: MutableList<SeatMap> = mutableListOf()
+	var arenaSchema: ArenaSchema = ArenaSchema.WINSTRIKE
 
 	init {
+		this.name = room?.name
+		when {
+			this.name?.contains("Winstrike Arena 1")!! -> arenaSchema = ArenaSchema.WINSTRIKE
+			this.name?.contains("Schema 2")!! -> arenaSchema = ArenaSchema.CORNER
+			this.name?.contains("Серпухов")!! -> arenaSchema = ArenaSchema.SERPUCHOV
+		}
 		val seats = room?.seats
 		if (seats != null) {
 			for (seat in seats) {
@@ -68,4 +76,8 @@ class WallModel(wall: Wall) {
 		this.start = Point(sx!!, sy!!)
 		this.end = Point(ex!!, ey!!)
 	}
+}
+
+enum class ArenaSchema {
+	WINSTRIKE, CORNER, SERPUCHOV
 }

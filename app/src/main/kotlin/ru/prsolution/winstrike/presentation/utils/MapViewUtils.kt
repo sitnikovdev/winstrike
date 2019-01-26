@@ -146,10 +146,10 @@ class MapViewUtils() {
         fun getLabelOffsetYArena1(label: String?): Int {
             return when (label) {
                 "ЗАЛ" -> 0
-                "HP STAGE 1" -> 10
-                "HP STAGE 2" -> 10
-                "SENNHEISER" -> 25
-                "LG ROOM" -> 25
+                "HP STAGE 1" -> 8
+                "HP STAGE 2" -> 8
+                "SENNHEISER" -> 8
+                "LG ROOM" -> 8
                 else -> 0
             }
         }
