@@ -14,14 +14,11 @@ import kotlinx.android.synthetic.main.fmt_pay.progressBar
 import kotlinx.android.synthetic.main.fmt_pay.toolbar
 import kotlinx.android.synthetic.main.fmt_pay.toolbar_text
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.common.BackButtonListener
-import ru.prsolution.winstrike.networking.Service
 import ru.prsolution.winstrike.presentation.utils.Constants
 import timber.log.Timber
 
-class PayScreenFragment : Fragment(),  BackButtonListener {
+class PayScreenFragment : Fragment() {
 
-	internal var service: Service? = null
 
 	internal var presenter: PayPresenter? = null
 
@@ -81,9 +78,6 @@ class PayScreenFragment : Fragment(),  BackButtonListener {
 		}
 	}
 
-	override fun onBackPressed(): Boolean {
-		return false
-	}
 
 	 fun showWait() {
 		progressBar!!.visibility = View.VISIBLE

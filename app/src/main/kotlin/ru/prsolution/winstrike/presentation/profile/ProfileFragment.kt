@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fmt_profile_prof.et_password
 import kotlinx.android.synthetic.main.fmt_profile_prof.fio
 import kotlinx.android.synthetic.main.fmt_profile_prof.next_button
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.UserEntity
+import ru.prsolution.winstrike.domain.models.login.UserEntity
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 /*

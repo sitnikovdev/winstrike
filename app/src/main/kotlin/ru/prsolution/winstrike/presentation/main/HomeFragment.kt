@@ -24,10 +24,10 @@ import kotlinx.android.synthetic.main.fmt_home.view_pager_seat
 import org.jetbrains.anko.imageURI
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.datasource.model.Room
-import ru.prsolution.winstrike.datasource.model.RoomType
+import ru.prsolution.winstrike.datasource.model.ArenaEntity
+import ru.prsolution.winstrike.datasource.model.ArenaType
 import ru.prsolution.winstrike.domain.models.RoomSeatType
-import ru.prsolution.winstrike.domain.models.SeatModel
+import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_350
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_450
@@ -97,7 +97,7 @@ class HomeFragment : Fragment() {
 		initAnimArenaRV() // Arena select transitions animations
 	}
 
-	private fun updateArenaInfo(room: Room?) {
+	private fun updateArenaInfo(room: ArenaEntity?) {
 		tvArenaTitle.text = room?.name
 		arena_description.text = room?.description
 		head_image.imageURI = Uri.parse(room?.imageUrl)
@@ -110,11 +110,11 @@ class HomeFragment : Fragment() {
 			addItemDecoration(RecyclerViewMargin(24, 1))
 			layoutManager = LinearLayoutManager(activity)
 			adapter = arenaListAdapter
-			adapter!!.notifyDataSetChanged()
+			adapter?.notifyDataSetChanged()
 		}
 	}
 
-	private val onArenaClickItem: (Room, Int) -> Unit = { room, position ->
+	private val onArenaClickItem: (ArenaEntity, Int) -> Unit = { room, position ->
 		TransitionManager.beginDelayedTransition(root)
 		arenaUpConstraintSet.applyTo(root)
 		PrefUtils.selectedArena = position
@@ -150,11 +150,11 @@ class HomeFragment : Fragment() {
 	}
 
 	/** Seat type carousel */
-	private fun updateCarouselView(room: Room?) {
-		var roomType: RoomType = RoomType.COMMON
+	private fun updateCarouselView(room: ArenaEntity?) {
+		var roomType: ArenaType = ArenaType.COMMON
 
 		val widthPx = PrefUtils.displayWidhtPx
-		val seatMap: MutableMap<RoomSeatType, SeatModel> = mutableMapOf()
+		val seatMap: MutableMap<RoomSeatType, SeatCarousel> = mutableMapOf()
 
 		if (
 				(!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription)))
@@ -162,24 +162,24 @@ class HomeFragment : Fragment() {
 				(!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
 
 		) {
-			roomType = RoomType.TWOROOMS
+			roomType = ArenaType.TWOROOMS
 		} else if (!TextUtils.isEmpty(room?.commonDescription)) {
-			roomType = RoomType.COMMON
+			roomType = ArenaType.COMMON
 		} else if (!TextUtils.isEmpty(room?.vipDescription)) {
-			roomType = RoomType.VIP
+			roomType = ArenaType.VIP
 		}
 
 		when (roomType) {
-			RoomType.TWOROOMS -> {
+			ArenaType.TWOROOMS -> {
 
-				seatMap[RoomSeatType.COMMON] = SeatModel(
+				seatMap[RoomSeatType.COMMON] = SeatCarousel(
 						type = RoomSeatType.COMMON,
 						imageUrl = room?.commonImageUrl,
 						description = room?.commonDescription
 
 				)
 
-				seatMap[RoomSeatType.VIP] = SeatModel(
+				seatMap[RoomSeatType.VIP] = SeatCarousel(
 						type = RoomSeatType.VIP,
 						imageUrl = room?.vipImageUrl,
 						description = room?.vipDescription
@@ -192,8 +192,8 @@ class HomeFragment : Fragment() {
 					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 1)
 				}
 			}
-			RoomType.COMMON -> {
-				seatMap[RoomSeatType.COMMON] = SeatModel(
+			ArenaType.COMMON -> {
+				seatMap[RoomSeatType.COMMON] = SeatCarousel(
 						type = RoomSeatType.COMMON,
 						imageUrl = room?.commonImageUrl,
 						description = room?.commonDescription
@@ -205,9 +205,9 @@ class HomeFragment : Fragment() {
 					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
 				}
 			}
-			RoomType.VIP -> {
+			ArenaType.VIP -> {
 
-				seatMap[RoomSeatType.VIP] = SeatModel(
+				seatMap[RoomSeatType.VIP] = SeatCarousel(
 						type = RoomSeatType.VIP,
 						imageUrl = room?.vipImageUrl,
 						description = room?.vipDescription
@@ -240,7 +240,7 @@ class HomeFragment : Fragment() {
 	}
 
 	/** click on seat in carousel view */
-	fun onSeatClick(seat: SeatModel) {
+	fun onSeatClick(seat: SeatCarousel) {
 		TimeDataModel.clearPids()
 //		showFragmentHolderContainer(true)
 		// TODO: remove this!!! Use ViewModel

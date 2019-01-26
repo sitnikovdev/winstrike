@@ -1,16 +1,13 @@
 package ru.prsolution.winstrike.presentation.profile
 
 
-import ru.prsolution.winstrike.ui.Screens
-import ru.prsolution.winstrike.networking.Service
 import rx.subscriptions.CompositeSubscription
 
 /**
  * Created by oleg 24.01.2019
  */
 
-class ProfilePresenter(private val service: Service,
-                       private val number: Int)  {
+class ProfilePresenter(private val number: Int)  {
 	private val subscriptions: CompositeSubscription? = null
 
 

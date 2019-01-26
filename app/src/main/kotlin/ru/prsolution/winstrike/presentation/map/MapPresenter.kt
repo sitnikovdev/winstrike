@@ -1,21 +1,14 @@
 package ru.prsolution.winstrike.presentation.map
 
-import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.datasource.model.PaymentModel
-import ru.prsolution.winstrike.datasource.model.PaymentResponse
-import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
-import ru.prsolution.winstrike.domain.models.GameRoom
+import ru.prsolution.winstrike.domain.payment.PaymentModel
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
-import ru.prsolution.winstrike.networking.NetworkError
-import ru.prsolution.winstrike.networking.Service
-import rx.subscriptions.CompositeSubscription
 
 /**
  * Created by oleg 24.01.2019
  */
 
-class MapPresenter(private val service: Service?, private val fragment: MapFragment) {
+class MapPresenter() {
 
 
 	/**
@@ -31,12 +24,13 @@ class MapPresenter(private val service: Service?, private val fragment: MapFragm
 
 		val token = "Bearer " + PrefUtils.token
 		getPayment(token, payModel)
-		fragment.onSnackBarHide()
+//		fragment.onSnackBarHide()
 	}
 
 
 	fun getPayment(token: String, paymentModel: PaymentModel) {
 
+/*
 		service?.getPayment(object : Service.PaymentCallback {
 			override fun onSuccess(authResponse: PaymentResponse) {
 				fragment.onGetPaymentResponseSuccess(authResponse)
@@ -47,6 +41,7 @@ class MapPresenter(private val service: Service?, private val fragment: MapFragm
 			}
 
 		}, token, paymentModel)
+*/
 
 	}
 

@@ -10,20 +10,21 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
-import ru.prsolution.winstrike.datasource.model.Arenas
-import ru.prsolution.winstrike.datasource.model.AuthResponse
-import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
-import ru.prsolution.winstrike.datasource.model.NewPasswordModel
-import ru.prsolution.winstrike.datasource.model.Orders
-import ru.prsolution.winstrike.datasource.model.PaymentModel
-import ru.prsolution.winstrike.datasource.model.PaymentResponse
-import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
-import ru.prsolution.winstrike.domain.models.ConfirmModel
-import ru.prsolution.winstrike.domain.models.FCMModel
-import ru.prsolution.winstrike.domain.models.LoginModel
-import ru.prsolution.winstrike.domain.models.LoginViewModel
-import ru.prsolution.winstrike.domain.models.MessageResponse
-import ru.prsolution.winstrike.domain.models.ProfileModel
+import ru.prsolution.winstrike.datasource.model.ArenasEntity
+import ru.prsolution.winstrike.datasource.model.login.AuthResponse
+import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
+import ru.prsolution.winstrike.datasource.model.login.NewPasswordModel
+import ru.prsolution.winstrike.datasource.model.OrdersEntity
+import ru.prsolution.winstrike.datasource.model.RoomEntity
+import ru.prsolution.winstrike.domain.payment.PaymentModel
+import ru.prsolution.winstrike.domain.payment.PaymentResponse
+import ru.prsolution.winstrike.datasource.model.RoomsEntity
+import ru.prsolution.winstrike.domain.models.login.ConfirmModel
+import ru.prsolution.winstrike.domain.models.common.FCMModel
+import ru.prsolution.winstrike.domain.models.login.LoginModel
+import ru.prsolution.winstrike.domain.models.login.LoginViewModel
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.domain.models.login.ProfileModel
 
 interface RetrofitService {
 
@@ -33,7 +34,7 @@ interface RetrofitService {
 
 	// Получение списка арен (новый API)
 	@get:GET("rooms")
-	val arenaList: Deferred<Response<Arenas>>
+	val arenaList: Deferred<Response<ArenasEntity>>
 
 /*	// Получение списка мест по  arena id (дефолтный диапазон времени на 30 мин)
 	@GET("room_layouts/{active_layout_pid}")
@@ -42,7 +43,8 @@ interface RetrofitService {
 	//Получение арены по  id  и диапазону времени
 	@GET("room_layouts/{active_layout_pid}")
 	fun arenaAsync(@Path(
-			"active_layout_pid") active_layout_pid: String?, @QueryMap time: Map<String, String>): Deferred<Response<RoomLayoutFactory>>
+			"active_layout_pid") active_layout_pid: String?, @QueryMap time: Map<String, String>):
+			Deferred<Response<RoomsEntity>>
 
 	// Авторизация пользователя
 	@POST("login")
@@ -85,5 +87,5 @@ interface RetrofitService {
 
 	// Получение списка оплаченных мест пользователя
 	@GET("orders")
-	fun getOrders(@Header("authorization") token: String): Deferred<Response<Orders>>
+	fun getOrders(@Header("authorization") token: String): Deferred<Response<OrdersEntity>>
 }

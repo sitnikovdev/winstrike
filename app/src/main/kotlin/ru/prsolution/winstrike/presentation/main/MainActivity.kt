@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.ac_mainscreen.navigation
 import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.SeatModel
+import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.map.MapFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.setup.SetupFragment
@@ -21,6 +21,13 @@ class MainActivity : FragmentActivity(),
                      SetupFragment.MapShowListener,
                      CarouselFragment.OnSeatClickListener {
 
+	private lateinit var mVm: MainViewModel
+
+	private val mapFragment = MapFragment()
+	private val homeFragment = HomeFragment()
+	private val setupFragment = SetupFragment()
+	private val fm: FragmentManager = supportFragmentManager
+	var active: Fragment = homeFragment
 
 	override fun onMapShow() {
 		Timber.d("On map show listener")
@@ -31,11 +38,10 @@ class MainActivity : FragmentActivity(),
 				.addToBackStack(null)
 				.show(mapFragment)
 				.commit()
-//		active = mapFragment
 		mVm.active.value = mapFragment
 	}
 
-	override fun onSeatClick(seat: SeatModel?) {
+	override fun onSeatClick(seat: SeatCarousel?) {
 		mVm.currentSeat.postValue(seat)
 		showHome(isVisible = true)
 		navigation.visibility = View.GONE
@@ -45,16 +51,8 @@ class MainActivity : FragmentActivity(),
 				.show(setupFragment)
 				.commit()
 		mVm.active.value = setupFragment
-//		active = setupFragment
 	}
 
-
-	fun setActive() {
-		mVm.active.postValue(homeFragment)
-/*		showHome(isVisible = false)
-		navigation.visibility = View.VISIBLE
-		this.active = homeFragment*/
-	}
 
 	override fun onBackPressed() {
 		// TODO get by instance
@@ -75,18 +73,10 @@ class MainActivity : FragmentActivity(),
 
 	override fun onStart() {
 		super.onStart()
-		// TODO use listener
+		// TODO use listener (Fix logout!!!)
 		PrefUtils.isLogout = false
 	}
 
-
-	private lateinit var mVm: MainViewModel
-
-	private val mapFragment = MapFragment()
-	private val homeFragment = HomeFragment()
-	private val setupFragment = SetupFragment()
-	private val fm: FragmentManager = supportFragmentManager
-	var active: Fragment = homeFragment
 
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -102,8 +92,6 @@ class MainActivity : FragmentActivity(),
 			}
 		})
 
-		// Toolbar
-		showHome(isVisible = false)
 
 		mVm.active.observe(this, Observer { activeFragment ->
 			Timber.d("active is ${activeFragment.javaClass.simpleName}")
@@ -115,7 +103,6 @@ class MainActivity : FragmentActivity(),
 				showHome(isVisible = true)
 				navigation.visibility = View.GONE
 			}
-
 		})
 
 		toolbar?.setNavigationOnClickListener {
@@ -156,6 +143,7 @@ class MainActivity : FragmentActivity(),
 		}
 		initFCM() // FCM push notifications
 	}
+
 
 
 	private fun clearData() {

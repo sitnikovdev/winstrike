@@ -1,8 +1,5 @@
 package ru.prsolution.winstrike.datasource.remote
 
-import ru.prsolution.winstrike.datasource.model.User
-import rx.Single
-
 class UserRemoteDataSourceImpl constructor(
     private val api: UsersApi
 )   {

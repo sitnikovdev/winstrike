@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.presentation.payment
 
-import ru.prsolution.winstrike.networking.Service
 import rx.subscriptions.CompositeSubscription
 
 /**
@@ -20,7 +19,7 @@ class PayPresenter
             toolbar.setTitle(R.string.arena_name);
         }
 */
-(private val service: Service, internal var url: String)  {
+  {
 	private val subscriptions: CompositeSubscription
 
 	init {

@@ -11,7 +11,7 @@ import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.datasource.model.OrderModel
+import ru.prsolution.winstrike.domain.models.orders.OrderModel
 
 class PlacesAdapter(private val context: Context,
                     internal var payList: List<OrderModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

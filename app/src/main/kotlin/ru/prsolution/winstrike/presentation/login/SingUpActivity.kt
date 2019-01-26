@@ -13,18 +13,17 @@ import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.common.utils.TextFormat
-import ru.prsolution.winstrike.domain.models.LoginModel
-import ru.prsolution.winstrike.domain.models.MessageResponse
-import ru.prsolution.winstrike.domain.models.UserEntity
-import ru.prsolution.winstrike.networking.Service
+import ru.prsolution.winstrike.presentation.utils.TextFormat
+import ru.prsolution.winstrike.domain.models.login.LoginModel
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.domain.models.login.UserEntity
 import timber.log.Timber
 
-import ru.prsolution.winstrike.common.utils.TextFormat.formatPhone
-import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot1Color
-import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot2Color
-import ru.prsolution.winstrike.datasource.model.AuthResponse
-import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
+import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
+import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
+import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
+import ru.prsolution.winstrike.datasource.model.login.AuthResponse
+import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 
 /*
@@ -34,7 +33,6 @@ import ru.prsolution.winstrike.presentation.utils.Constants
 class SingUpActivity : AppCompatActivity() {
 
 
-	var service: Service? = null
 
 	private var presenter: RegisterPresenter? = null
 	private var user: LoginModel? = null
@@ -44,7 +42,7 @@ class SingUpActivity : AppCompatActivity() {
 
 		renderView()
 		init()
-		presenter = RegisterPresenter(service)
+		presenter = RegisterPresenter()
 	}
 
 	fun init() {

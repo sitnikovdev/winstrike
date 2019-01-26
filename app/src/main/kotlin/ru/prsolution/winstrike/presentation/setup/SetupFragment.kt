@@ -27,10 +27,9 @@ import kotlinx.android.synthetic.main.frm_choose.tv_date
 import kotlinx.android.synthetic.main.frm_choose.tv_time
 import kotlinx.android.synthetic.main.frm_choose.v_date_tap
 import kotlinx.android.synthetic.main.frm_choose.v_time_tap
-import ru.prsolution.winstrike.datasource.model.Room
-import ru.prsolution.winstrike.domain.models.SeatModel
+import ru.prsolution.winstrike.datasource.model.ArenaEntity
+import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import java.text.DateFormatSymbols
 import timber.log.Timber
@@ -40,7 +39,7 @@ class SetupFragment : Fragment(),
                       DatePickerDialog.OnDateSetListener,
                       TimePickerDialog.OnTimeSetListener {
 
-	private var rooms: List<Room>? = null
+	private var rooms: List<ArenaEntity>? = null
 
 	/**
 	 * route show map to main presenter in MainScreenActivity
@@ -97,8 +96,7 @@ class SetupFragment : Fragment(),
 				tv_time.text = time
 			})
 			mVm?.arena?.observe(it, Observer { arena ->
-				Timber.d("arena room pid: ${arena.data?.roomLayout?.publicId}")
-				// TODO: Open MapFragment here
+				Timber.d("arena room pid: ${arena.data?.roomPid}")
 				onMapShowListener?.onMapShow()
 			})
 		}
@@ -114,23 +112,12 @@ class SetupFragment : Fragment(),
 		val time = mutableMapOf<String, String>()
 //		time["start_at"] = TimeDataModel.start
 //		time["end_at"] = TimeDataModel.end
-		time["start_at"] = "2019-01-25T16:00:00"
-		time["end_at"] = "2019-01-25T17:00:00"
+		time["start_at"] = "2019-01-26T20:00:00"
+		time["end_at"] = "2019-01-26T21:00:00"
 		mVm?.getArena(activePid, time)
 
-		saveTimeAndPid(time, activePid)
 	}
 
-	private fun saveTimeAndPid(time: MutableMap<String, String>,
-	                           activePid: String?) {
-/*		PrefUtils.startTime = time["start_at"]
-		PrefUtils.endTime = time["end_at"]
-		PrefUtils.arenaPid = activePid*/
-
-		mVm?.startTime = time["start_at"]
-		mVm?.endTime = time["end_at"]
-		mVm?.arenaPid = activePid
-	}
 
 	override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
 		mVm?.currentDate?.value = "$day ${DateFormatSymbols().months[month]} $year"
@@ -165,7 +152,7 @@ class SetupFragment : Fragment(),
 		}
 	}
 
-	private fun updateSeatInfo(seat: SeatModel?) {
+	private fun updateSeatInfo(seat: SeatCarousel?) {
 		seat_title.text = seat?.title
 		head_image.setImageURI(Uri.parse(seat?.imageUrl))
 		cpu.text = seat?.description.let { it?.replace(oldValue = "\\", newValue = "") }

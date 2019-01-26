@@ -4,7 +4,7 @@ package ru.prsolution.winstrike.presentation.utils.vpadapter
 import androidx.annotation.Nullable
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.datasource.model.OrderModel
+import ru.prsolution.winstrike.domain.models.orders.OrderModel
 
 
 class SeatAdapter(orders: List<OrderModel>) : ViewModelAdapter() {

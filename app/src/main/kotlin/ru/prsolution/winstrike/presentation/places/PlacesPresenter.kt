@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.presentation.places
 
-import ru.prsolution.winstrike.datasource.model.OrderModel
-import ru.prsolution.winstrike.networking.Service
+import ru.prsolution.winstrike.domain.models.orders.OrderModel
 import rx.subscriptions.CompositeSubscription
 import java.util.ArrayList
 
@@ -9,8 +8,7 @@ import java.util.ArrayList
  * Created by oleg 24.01.2019
  */
 
-class PlacesPresenter(private val service: Service,
-                      private val orderModels: ArrayList<OrderModel>)  {
+class PlacesPresenter(private val orderModels: ArrayList<OrderModel>)  {
 	private val subscriptions: CompositeSubscription
 
 	val orders: List<OrderModel>

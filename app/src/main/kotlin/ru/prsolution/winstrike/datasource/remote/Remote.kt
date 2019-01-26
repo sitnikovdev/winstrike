@@ -1,11 +1,5 @@
 package ru.prsolution.winstrike.datasource.remote
 
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import ru.prsolution.winstrike.domain.models.UserEntity
-import rx.Single
-
 interface PostsApi {
 
 /*    @GET("posts/")

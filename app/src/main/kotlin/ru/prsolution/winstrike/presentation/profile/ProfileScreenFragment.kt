@@ -17,8 +17,7 @@ import android.widget.TextView
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.ProfileModel
-import ru.prsolution.winstrike.networking.Service
+import ru.prsolution.winstrike.domain.models.login.ProfileModel
 import ru.prsolution.winstrike.presentation.splash.SplashActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -26,7 +25,6 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 class ProfileScreenFragment : Fragment() {
 
-	var service: Service? = null
 	var presenter: ProfilePresenter? = null
 
 	private var mDlgSingOut: Dialog? = null

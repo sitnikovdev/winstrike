@@ -13,11 +13,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProviders
 import com.facebook.drawee.view.SimpleDraweeView
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.RoomSeatType
-import ru.prsolution.winstrike.domain.models.SeatModel
+import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.utils.custom.ChooseSeatLinearLayout
 import timber.log.Timber
 
@@ -26,13 +25,13 @@ class CarouselFragment : Fragment() {
 
 	lateinit var mListener: OnSeatClickListener
 	private var itemSeat: View? = null
-	private var mSeat: SeatModel? = null
+	private var mSeat: SeatCarousel? = null
 	private var mMainActivity: MainActivity? = null
 
 
 	interface OnSeatClickListener {
 
-		fun onSeatClick(seat: SeatModel?)
+		fun onSeatClick(seat: SeatCarousel?)
 	}
 
 	override fun onAttach(context: Context?) {
@@ -50,7 +49,7 @@ class CarouselFragment : Fragment() {
 		super.onCreate(savedInstanceState)
 
 		try {
-			mSeat = arguments?.getSerializable("room") as SeatModel
+			mSeat = arguments?.getSerializable("room") as SeatCarousel
 		} catch (e: Exception) {
 			Timber.e(e)
 		}
@@ -94,7 +93,7 @@ class CarouselFragment : Fragment() {
 
 	companion object {
 
-		fun newInstance(activity: FragmentActivity?, room: SeatModel): Fragment {
+		fun newInstance(activity: FragmentActivity?, room: SeatCarousel): Fragment {
 			val bundle = Bundle()
 			bundle.putSerializable("room", room)
 			return Fragment.instantiate(activity, CarouselFragment::class.java.name, bundle)

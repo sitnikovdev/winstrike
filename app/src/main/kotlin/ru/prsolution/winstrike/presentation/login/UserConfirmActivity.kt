@@ -28,17 +28,16 @@ import kotlinx.android.synthetic.main.ac_confsmscode.v_send_code_again
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.domain.models.ConfirmModel
-import ru.prsolution.winstrike.domain.models.MessageResponse
-import ru.prsolution.winstrike.domain.models.ProfileModel
-import ru.prsolution.winstrike.domain.models.TimerViewModel
-import ru.prsolution.winstrike.networking.Service
+import ru.prsolution.winstrike.domain.models.login.ConfirmModel
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.domain.models.login.ProfileModel
+import ru.prsolution.winstrike.domain.models.common.TimerViewModel
 import timber.log.Timber
 
-import ru.prsolution.winstrike.common.utils.TextFormat.setTextColor
-import ru.prsolution.winstrike.common.utils.TextFormat.simplePhoneFormat
-import ru.prsolution.winstrike.common.utils.Utils.setBtnEnable
-import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
+import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextColor
+import ru.prsolution.winstrike.presentation.utils.TextFormat.simplePhoneFormat
+import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
+import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 
 /**
  * Created by oleg on 15/03/2018.
@@ -47,7 +46,6 @@ import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
 class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
 
-	var service: Service? = null
 
 	private var presenter: UserConfirmPresenter? = null
 	private var user: ConfirmModel? = null
@@ -75,7 +73,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		presenter = UserConfirmPresenter(service)
+		presenter = UserConfirmPresenter()
 
 
 		renderView()
@@ -152,8 +150,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 				imm.hideSoftInputFromWindow(view.windowToken, 0)
 			}
 
-			user = ConfirmModel()
-			user!!.phone = phone
+			user = ConfirmModel(phone)
 			presenter!!.confirmUser(sms_code, user!!)
 		}
 

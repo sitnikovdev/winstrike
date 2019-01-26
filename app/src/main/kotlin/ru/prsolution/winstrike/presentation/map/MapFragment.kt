@@ -13,7 +13,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.VectorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -27,24 +26,20 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
 import kotlinx.android.synthetic.main.frm_map.rootMap
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.common.utils.MapViewUtils
-import ru.prsolution.winstrike.common.utils.Utils
-import ru.prsolution.winstrike.datasource.model.PaymentResponse
-import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
-import ru.prsolution.winstrike.domain.models.GameRoom
-import ru.prsolution.winstrike.domain.models.Seat
+import ru.prsolution.winstrike.presentation.utils.MapViewUtils
+import ru.prsolution.winstrike.presentation.utils.Utils
+import ru.prsolution.winstrike.domain.payment.PaymentResponse
+import ru.prsolution.winstrike.domain.models.ArenaMap
+import ru.prsolution.winstrike.domain.models.Room
+import ru.prsolution.winstrike.domain.models.SeatMap
 import ru.prsolution.winstrike.domain.models.SeatType
-import ru.prsolution.winstrike.domain.models.Wall
-import ru.prsolution.winstrike.presentation.main.MainActivity
+import ru.prsolution.winstrike.domain.models.WallModel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
@@ -76,9 +71,9 @@ class MapFragment : Fragment() {
 
 
 	var mVm: MainViewModel? = null
-	private var mRoom: GameRoom? = null
+	private var mRoom: ArenaMap? = null
 	private var tvDivParam: RelativeLayout.LayoutParams? = null
-	private var roomLayoutFactory: RoomLayoutFactory? = null
+	private var room: Room? = null
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,59 +98,34 @@ class MapFragment : Fragment() {
 
 //		initSnackBar()
 
-/*		require(!TextUtils.isEmpty(mVm?.startTime)) { " +++ Arena pid  must not be empty. +++" }
-		require(!TextUtils.isEmpty(mVm?.endTime)) { " +++ Start time must not be empty. +++" }
-		require(!TextUtils.isEmpty(mVm?.arenaPid)) { " +++ End time must not be empty. +++" }*/
-
-		val time = mutableMapOf<String, String>()
-
-
-		if (savedInstanceState == null) {
-/*			if (!TextUtils.isEmpty(mVm?.startTime)
-					&&
-					!TextUtils.isEmpty(mVm?.endTime)
-					&&
-					!TextUtils.isEmpty(mVm?.arenaPid)
-			) {
-				time["start_at"] = mVm?.startTime ?: ""
-				time["end_at"] = mVm?.endTime ?: ""
-				mVm?.getArena(mVm?.arenaPid, time)
-			}*/
-		}
-
 		activity?.let {
 			mVm?.arena?.observe(it, Observer {
-				this.roomLayoutFactory = it.data
+				this.room = it.data
 				readMap()
 			})
 		}
 
-/*		if (roomLayoutFactory != null) {
-		}*/
 	}
 
 	fun readMap() {
-		requireNotNull(roomLayoutFactory)
+		requireNotNull(room)
 		{ "++++ RoomLayoutFactory must be init. ++++" }
+
+		val room = ArenaMap(room)
 		rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
 		rootLayout = rootMap
-		// init arena:
-//		val roomLayoutFactory = RoomLayoutFactory(WinstrikeApp.instance.roomLayout)
-
-		// init models:
-		val room = GameRoom(roomLayoutFactory?.roomLayout)
 
 		showSeat(room)
 	}
 
 
-	fun showSeat(room: GameRoom) {
+	fun showSeat(room: ArenaMap) {
 		this.mRoom = room
 		drawSeat(mRoom)
 	}
 
-	fun drawSeat(room: GameRoom?) {
-		val mWall: Wall?
+	fun drawSeat(room: ArenaMap?) {
+		val mWall: WallModel?
 
 
 		if (room!!.walls.size > 0) {
@@ -288,7 +258,7 @@ class MapFragment : Fragment() {
 
 			ivSeat.layoutParams = seatParams
 
-			val mSeatViewOnClickListener = mSeatViewOnClickListener(textView, seat, ivSeat, seatBitmap, mPickedSeatsIds)
+			val mSeatViewOnClickListener = SeatViewOnClickListener(textView, seat, ivSeat, seatBitmap, mPickedSeatsIds)
 			ivSeat.setOnClickListener(mSeatViewOnClickListener)
 			rootLayout!!.addView(ivSeat)
 		}
@@ -299,12 +269,14 @@ class MapFragment : Fragment() {
 			var dx: Int?
 			var dy: Int?
 
-			dx = ((label.dx - MapViewUtils.getLabelOffsetXArena1(text)) * mXScaleFactor!!).toInt()
-			dy = ((label.dy + MapViewUtils.getLabelOffsetYArena1(text)) * mYScaleFactor!!).toInt()
+			dx = ((label.dx?.minus(
+					MapViewUtils.getLabelOffsetXArena1(text)))?.times(mXScaleFactor!!))?.toInt()
+			dy = ((label.dy?.plus(
+					MapViewUtils.getLabelOffsetYArena1(text)))?.times(mYScaleFactor!!))?.toInt()
 
 			tvParams = RelativeLayout.LayoutParams(RLW, RLW)
-			tvParams!!.leftMargin = dx
-			tvParams!!.topMargin = dy
+			tvParams!!.leftMargin = dx!!
+			tvParams!!.topMargin = dy!!
 			if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
 				tvParams!!.topMargin = dy - 5
 			}
@@ -319,11 +291,13 @@ class MapFragment : Fragment() {
 			textView.layoutParams = tvParams
 			// Add horizontal line
 			if (text == "HP STAGE 1") {
-				dx = ((label.dx - MapViewUtils.getLabelOffsetXArena1(text)) * mXScaleFactor!!).toInt()
-				dy = ((label.dy - MapViewUtils.getLabelOffsetYArena1(text)) * mYScaleFactor!!).toInt()
+				dx = ((label.dx?.minus(
+						MapViewUtils.getLabelOffsetXArena1(text)))?.times(mXScaleFactor!!))?.toInt()
+				dy = ((label.dy?.minus(
+						MapViewUtils.getLabelOffsetYArena1(text)))?.times(mYScaleFactor!!))?.toInt()
 				tvDivParam = RelativeLayout.LayoutParams(RLW, RLW)
-				tvDivParam!!.leftMargin = dx
-				tvDivParam!!.topMargin = dy
+				tvDivParam!!.leftMargin = dx!!
+				tvDivParam!!.topMargin = dy!!
 			}
 
 			rootLayout!!.addView(textView)
@@ -381,7 +355,7 @@ class MapFragment : Fragment() {
 		seatView.startAnimation(animation1)
 	}
 
-	private fun rotateSeat(seatBitmap: Bitmap, seat: Seat, ivSeat: ImageView) {
+	private fun rotateSeat(seatBitmap: Bitmap, seat: SeatMap, ivSeat: ImageView) {
 		seatParams = RelativeLayout.LayoutParams(RLW, RLW)
 		seatParams!!.leftMargin = ((seat.dx - MapViewUtils.getSeatOffsetXArena1(seat)) * mXScaleFactor!!).toInt()
 		seatParams!!.topMargin = ((seat.dy + MapViewUtils.getSeatOffsetYArena1(seat)) * mYScaleFactor!!).toInt()
@@ -395,12 +369,12 @@ class MapFragment : Fragment() {
 		ivSeat.rotation = angle
 	}
 
-	private fun radianToDegrees(seat: Seat): Float {
+	private fun radianToDegrees(seat: SeatMap): Float {
 		return Math.toDegrees(seat.angle).toFloat()
 	}
 
 
-	private fun setImage(seatImg: ImageView, seat: Seat) {
+	private fun setImage(seatImg: ImageView, seat: SeatMap) {
 		when (seat.type) {
 			SeatType.FREE -> {
 				seatImg.setBackgroundResource(R.drawable.ic_seat_gray)
@@ -518,16 +492,16 @@ class MapFragment : Fragment() {
 	}
 
 
-	private inner class mSeatViewOnClickListener(private val seatName: TextView, private val seat: Seat,
-	                                             private val ivSeat: ImageView, private val seatBitmap: Bitmap,
-	                                             private val mPickedSeatsIds: LinkedHashMap<*, *>) : View.OnClickListener {
+	private inner class SeatViewOnClickListener(private val seatName: TextView, private val seat: SeatMap,
+	                                            private val ivSeat: ImageView, private val seatBitmap: Bitmap,
+	                                            private val mPickedSeatsIds: LinkedHashMap<*, *>) : View.OnClickListener {
 
 		override fun onClick(v: View) {
 			if (seat.type === SeatType.FREE || seat.type === SeatType.VIP) {
 				if (!mPickedSeatsIds.containsKey(Integer.parseInt(seat.id))) {
 					ivSeat.setBackgroundResource(R.drawable.ic_seat_picked)
-					onSelectSeat(seat.id, false, seat.publicPid)
-					Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.id, seat.type, seat.pcname, seat.publicPid)
+					seat.pid?.let { onSelectSeat(seat.id, false, it) }
+					Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.id, seat.type, seat.name, seat.pid)
 					seatName.setTextColor(Color.WHITE)
 					seatName.setTypeface(null, Typeface.BOLD)
 				} else {
@@ -535,11 +509,11 @@ class MapFragment : Fragment() {
 					setImage(ivSeat, seat)
 					rotateSeat(seatBitmap, seat, ivSeat)
 					rootLayout!!.addView(ivSeat)
-					onSelectSeat(seat.id, true, seat.publicPid)
+					seat.pid?.let { onSelectSeat(seat.id, true, it) }
 					seatName.setTextColor(ContextCompat.getColor(activity!!, R.color.label_gray))
 				}
 			} else {
-				Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.id, seat.type, seat.pcname, seat.publicPid)
+				Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.id, seat.type, seat.name, seat.pid)
 				animateView(ivSeat)
 				seatName.setTypeface(null, Typeface.NORMAL)
 			}

@@ -2,31 +2,21 @@ package ru.prsolution.winstrike
 
 import android.app.Application
 import com.facebook.drawee.backends.pipeline.Fresco
-import java.io.File
 
-import ru.prsolution.winstrike.datasource.model.Room
-import ru.prsolution.winstrike.datasource.model.RoomLayout
-import ru.prsolution.winstrike.di.module.NetworkModule
-import ru.prsolution.winstrike.domain.models.SeatModel
-import ru.prsolution.winstrike.domain.models.UserEntity
-import ru.prsolution.winstrike.networking.Service
+import ru.prsolution.winstrike.datasource.model.ArenaEntity
+import ru.prsolution.winstrike.datasource.model.RoomEntity
+import ru.prsolution.winstrike.domain.models.SeatCarousel
+import ru.prsolution.winstrike.domain.models.login.UserEntity
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 
 class WinstrikeApp : Application() {
 	val user: UserEntity? = null
-	var seat: SeatModel? = null
-	var roomLayout: RoomLayout? = null
-	var rooms: List<Room>? = null
+	var seat: SeatCarousel? = null
+	var roomLayout: RoomEntity? = null
+	var rooms: List<ArenaEntity>? = null
 
 
-	val service: Service
-		get() {
-			val cacheFile = File(cacheDir, "responses")
-			val networkModule = NetworkModule(cacheFile, applicationContext)
-			val retrofit = networkModule.provideCall()
-			return Service(networkModule.providesNetworkService(retrofit))
-		}
 
 
 	val displayWidhtDp: Float

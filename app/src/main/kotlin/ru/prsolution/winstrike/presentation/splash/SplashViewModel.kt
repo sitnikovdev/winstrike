@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
-import ru.prsolution.winstrike.domain.models.MessageResponse
+import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.presentation.utils.resouces.Resource
 import ru.prsolution.winstrike.presentation.utils.setSuccess

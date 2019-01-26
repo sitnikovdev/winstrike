@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.common.BackButtonListener
-import ru.prsolution.winstrike.datasource.model.OrderModel
+import ru.prsolution.winstrike.domain.models.orders.OrderModel
 import ru.prsolution.winstrike.presentation.utils.vpadapter.SeatAdapter
-import ru.prsolution.winstrike.networking.Service
 import java.util.ArrayList
 
 
-class PlaceScreenFragment : Fragment(),  BackButtonListener {
+class PlaceScreenFragment : Fragment() {
 	private val mPayList = ArrayList<OrderModel>()
 
 
@@ -22,7 +20,6 @@ class PlaceScreenFragment : Fragment(),  BackButtonListener {
 
 	var rv_pay: RecyclerView? = null
 
-	var service: Service? = null
 
 	var presenter: PlacesPresenter? = null
 
@@ -69,10 +66,6 @@ class PlaceScreenFragment : Fragment(),  BackButtonListener {
 	}
 
 
-	override fun onBackPressed(): Boolean {
-		//    startActivity(new Intent(getActivity(), MainScreenActivity.class));
-		return true
-	}
 
 
 	override fun onStop() {

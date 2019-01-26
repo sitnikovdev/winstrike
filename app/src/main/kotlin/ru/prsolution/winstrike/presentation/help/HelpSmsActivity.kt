@@ -28,19 +28,16 @@ import kotlinx.android.synthetic.main.ac_smshelp.tv_code
 import kotlinx.android.synthetic.main.ac_smshelp.v_pass
 import kotlinx.android.synthetic.main.inc_main_toolbar.toolbar_title
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.domain.models.MessageResponse
-import ru.prsolution.winstrike.common.utils.TextFormat
-import ru.prsolution.winstrike.networking.NetworkError
-import ru.prsolution.winstrike.networking.Service
-import ru.prsolution.winstrike.domain.models.TimerViewModel
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.presentation.utils.TextFormat
+import ru.prsolution.winstrike.domain.models.common.TimerViewModel
 import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
 
-import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot1Color
-import ru.prsolution.winstrike.common.utils.TextFormat.setTextFoot2Color
-import ru.prsolution.winstrike.datasource.model.ConfirmSmsModel
-import ru.prsolution.winstrike.datasource.model.NewPasswordModel
+import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
+import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
+import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
+import ru.prsolution.winstrike.datasource.model.login.NewPasswordModel
 import ru.prsolution.winstrike.presentation.login.SignInActivity
 
 /**
@@ -51,7 +48,6 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 	private var dialog: Dialog? = null
 	private var subscriptions: CompositeSubscription? = null
 
-	var service: Service? = null
 
 
 	private var timer: TimerViewModel? = null
@@ -285,7 +281,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
 	fun sendSms(smsModel: ConfirmSmsModel) {
 
-		val subscription = service!!.sendSmsByUserRequest(object : Service.SmsCallback {
+/*		val subscription = service!!.sendSmsByUserRequest(object : Service.SmsCallback {
 			override fun onSuccess(authResponse: MessageResponse) {
 				onSendSmsSuccess(authResponse)
 			}
@@ -296,7 +292,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
 		}, smsModel)
 
-		subscriptions!!.add(subscription)
+		subscriptions!!.add(subscription)*/
 	}
 
 	private fun onAuthFailure(appErrorMessage: String) {
@@ -336,7 +332,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 	fun refreshPassword(smsModel: NewPasswordModel, smsCode: String) {
 		//        getViewState().showWait();
 
-		val subscription = service!!.refreshPassword(object : Service.RefressPasswordCallback {
+/*		val subscription = service!!.refreshPassword(object : Service.RefressPasswordCallback {
 			override fun onSuccess(authResponse: MessageResponse) {
 				onRefreshPasswordSuccess(authResponse)
 			}
@@ -347,7 +343,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
 		}, smsModel, smsCode)
 
-		subscriptions!!.add(subscription)
+		subscriptions!!.add(subscription)*/
 	}
 
 	private fun onRefressPasswordFailure(appErrorMessage: String) {

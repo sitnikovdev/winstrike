@@ -6,11 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import ru.prsolution.winstrike.datasource.model.Room
-import ru.prsolution.winstrike.datasource.model.RoomLayoutFactory
-import ru.prsolution.winstrike.domain.models.FCMModel
-import ru.prsolution.winstrike.domain.models.MessageResponse
-import ru.prsolution.winstrike.domain.models.SeatModel
+import ru.prsolution.winstrike.datasource.model.ArenaEntity
+import ru.prsolution.winstrike.datasource.model.RoomsEntity
+import ru.prsolution.winstrike.datasource.model.mapRoomToDomain
+import ru.prsolution.winstrike.domain.models.Room
+import ru.prsolution.winstrike.domain.models.common.FCMModel
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.presentation.utils.resouces.Resource
 import ru.prsolution.winstrike.presentation.utils.setError
@@ -29,18 +31,14 @@ class MainViewModel : ViewModel() {
 	val fcmResponse = MutableLiveData<Resource<MessageResponse>>()
 
 	// Список арен
-	val rooms = MutableLiveData<Resource<List<Room>>>()
+	val rooms = MutableLiveData<Resource<List<ArenaEntity>>>()
 	// Выбранная пользователем арена по времени
-	val arena = MutableLiveData<Resource<RoomLayoutFactory>>()
+	val arena = MutableLiveData<Resource<Room?>>()
 
 	val currentArena = MutableLiveData<Resource<Int>>()
-	val currentSeat = MutableLiveData<SeatModel>()
+	val currentSeat = MutableLiveData<SeatCarousel>()
 	val currentDate = MutableLiveData<String>()
 	val currentTime = MutableLiveData<String>()
-
-	var startTime: String? = null
-	var endTime: String? = null
-	var arenaPid: String? = null
 
 
 	// Получение списка арен (новый API)
@@ -62,7 +60,8 @@ class MainViewModel : ViewModel() {
 			val request = retrofitService.arenaAsync(arenaPid, time)
 			try {
 				val response = request.await()
-				response.body()?.let { arena.setSuccess(it) }
+//				Timber.d("response: ${response.body()}")
+				response.body()?.let { arena.setSuccess(it.roomLayout?.mapRoomToDomain()) }
 			} catch (e: Throwable) {
 				arena.setError(e.message)
 				Timber.e(e)
