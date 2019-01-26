@@ -136,6 +136,7 @@
         style="@style/StemMedium15Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="48dp"
         android:text="@string/seatdetail_category"
         app:layout_constraintEnd_toEndOf="@id/line_end"
@@ -146,13 +147,10 @@
         android:id="@+id/view_pager_seat"
         android:layout_width="0dp"
         android:layout_height="300dp"
+        android:layout_marginTop="10dp"
         android:overScrollMode="never"
-        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/seat_cat"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
+        app:layout_constraintTop_toBottomOf="@id/seat_cat" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
