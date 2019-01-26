@@ -96,7 +96,7 @@ class SetupFragment : Fragment(),
 				tv_time.text = time
 			})
 			mVm?.arena?.observe(it, Observer { arena ->
-				Timber.d("arena room pid: ${arena.data?.roomPid}")
+				Timber.tag("@@@").d("arena: ${arena.data?.name}")
 				onMapShowListener?.onMapShow()
 			})
 		}

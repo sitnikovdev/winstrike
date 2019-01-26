@@ -86,6 +86,7 @@ class MapFragment : Fragment() {
 
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
 		return inflater.inflate(R.layout.frm_map, container, false)
 	}
 
@@ -100,6 +101,7 @@ class MapFragment : Fragment() {
 		activity?.let {
 			mVm?.arena?.observe(it, Observer {
 				this.room = it.data
+				mapLayout = view.findViewById(R.id.rootMap)
 				readMap()
 			})
 		}
@@ -112,7 +114,8 @@ class MapFragment : Fragment() {
 
 		val room = ArenaMap(room)
 		rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
-		mapLayout = rootMap
+		requireNotNull(mapLayout)
+		{ "++++ Map Fragment root layout must not be null. ++++" }
 
 		showSeat(room)
 	}

@@ -34,9 +34,9 @@ class MainActivity : FragmentActivity(),
 		showHome(isVisible = true)
 		navigation.visibility = View.GONE
 		fm.beginTransaction()
-				.hide(active)
+				.hide(setupFragment)
 				.addToBackStack(null)
-				.show(mapFragment)
+				.attach(mapFragment)
 				.commit()
 		mVm.active.value = mapFragment
 	}
@@ -134,7 +134,7 @@ class MainActivity : FragmentActivity(),
 					.commit()
 			beginTransaction()
 					.add(R.id.main_container, mapFragment, mapFragment.javaClass.name)
-					.hide(mapFragment)
+					.detach(mapFragment)
 					.commit()
 			beginTransaction()
 					.add(R.id.main_container, homeFragment, homeFragment.javaClass.name)
