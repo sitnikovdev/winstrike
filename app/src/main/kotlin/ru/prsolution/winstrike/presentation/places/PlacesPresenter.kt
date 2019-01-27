@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.presentation.places
 
 import ru.prsolution.winstrike.domain.models.orders.OrderModel
-import rx.subscriptions.CompositeSubscription
 import java.util.ArrayList
 
 /**
@@ -9,13 +8,11 @@ import java.util.ArrayList
  */
 
 class PlacesPresenter(private val orderModels: ArrayList<OrderModel>)  {
-	private val subscriptions: CompositeSubscription
 
 	val orders: List<OrderModel>
 		get() = orderModels
 
 	init {
-		this.subscriptions = CompositeSubscription()
 	}
 
 
@@ -24,6 +21,5 @@ class PlacesPresenter(private val orderModels: ArrayList<OrderModel>)  {
 	}
 
 	fun onStop() {
-		subscriptions.unsubscribe()
 	}
 }

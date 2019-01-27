@@ -199,11 +199,6 @@ class MainActivity : FragmentActivity(),
 				.commit()
 		mVm.active.value = yandexFragment
 
-		// TODO Fix it!!!
-//		val intent = Intent(activity, YandexWebView::class.java)
-//		intent.putExtra("url", testUrl)
-//		startActivity(intent)
-
 	}
 
 }

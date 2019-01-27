@@ -4,16 +4,13 @@ package ru.prsolution.winstrike.presentation.login
 import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 import ru.prsolution.winstrike.domain.models.login.ConfirmModel
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
-import rx.subscriptions.CompositeSubscription
 
 /**
  * Created by ennur on 6/25/16.
  */
 class UserConfirmPresenter() {
-	private val subscriptions: CompositeSubscription
 
 	init {
-		this.subscriptions = CompositeSubscription()
 	}
 
 	fun confirmUser(sms_code: String, confirmPhone: ConfirmModel) {
@@ -81,6 +78,5 @@ class UserConfirmPresenter() {
 
 
 	fun onStop() {
-		subscriptions.unsubscribe()
 	}
 }

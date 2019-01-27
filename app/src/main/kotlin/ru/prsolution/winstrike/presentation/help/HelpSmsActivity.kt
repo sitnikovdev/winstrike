@@ -31,7 +31,6 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.utils.TextFormat
 import ru.prsolution.winstrike.domain.models.common.TimerViewModel
-import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
 
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
@@ -46,7 +45,6 @@ import ru.prsolution.winstrike.presentation.login.SignInActivity
 
 class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 	private var dialog: Dialog? = null
-	private var subscriptions: CompositeSubscription? = null
 
 
 
@@ -83,7 +81,6 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
 		toolbar_title!!.setText(R.string.help_menu_sms)
 
-		this.subscriptions = CompositeSubscription()
 		//        apiService = ApiServiceImpl.getNewInstance(this).getApi();
 
 		setConfirmVisible(false)
@@ -379,7 +376,6 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
 	override fun onStop() {
 		super.onStop()
-		this.subscriptions!!.unsubscribe()
 	}
 }
 

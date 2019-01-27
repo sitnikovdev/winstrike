@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.presentation.payment
 
-import rx.subscriptions.CompositeSubscription
 
 /**
  * Created by ennur on 6/25/16.
@@ -20,14 +19,11 @@ class PayPresenter
         }
 */
   {
-	private val subscriptions: CompositeSubscription
 
 	init {
-		this.subscriptions = CompositeSubscription()
 	}
 
 	fun onStop() {
-		subscriptions.unsubscribe()
 	}
 
 	fun loadUrl() {

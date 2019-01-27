@@ -2,13 +2,10 @@ package ru.prsolution.winstrike.presentation.login
 
 import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 import ru.prsolution.winstrike.domain.models.login.LoginModel
-import rx.subscriptions.CompositeSubscription
 
 class RegisterPresenter() {
-	private val subscriptions: CompositeSubscription
 
 	init {
-		this.subscriptions = CompositeSubscription()
 	}
 
 	fun createUser(user: LoginModel) {
@@ -50,7 +47,6 @@ class RegisterPresenter() {
 
 
 	fun onStop() {
-		subscriptions.unsubscribe()
 	}
 
 }

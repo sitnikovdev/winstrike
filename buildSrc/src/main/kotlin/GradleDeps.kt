@@ -8,7 +8,7 @@ object Modules {
 
 object Release {
     val versionCode = 50
-    val versionName = "v1.50.16"
+    val versionName = "v1.50.17"
 }
 
 object Versions {
@@ -57,13 +57,13 @@ object Versions {
 
 object Libraries {
     val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    val androidx = "androidx.appcompat:appcompat:${Versions.androidx}"
 
-    val appCompat = "com.android.support:appcompat-v7:${Versions.appCompat}"
     val ktx = "androidx.core:core-ktx:${Versions.ktx}"
-    val constraintLayout = "com.android.support.constraint:constraint-layout:1.1.3"
-    val recyclerView = "com.android.support:recyclerview-v7:${Versions.appCompat}"
-    val cardView = "com.android.support:cardview-v7:${Versions.appCompat}"
-    val design = "com.android.support:design:${Versions.appCompat}"
+//    val constraintLayout = "com.android.support.constraint:constraint-layout:1.1.3"
+    val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
+//    val cardView = "com.android.support:cardview-v7:${Versions.appCompat}"
+//    val design = "com.android.support:design:${Versions.appCompat}"
     val fresco = "com.facebook.fresco:fresco:1.11.0"
     val lifecycle = "android.arch.lifecycle:extensions:${Versions.lifecycle}"
 
@@ -75,10 +75,6 @@ object Libraries {
 
     // networking
     val retrofit = "com.squareup.retrofit2:retrofit:2.5.0"
-    val retrofitAdapterrxJava  = "com.squareup.retrofit2:adapter-rxjava:2.3.0"
-    val retrofitGson = "com.squareup.retrofit2:converter-gson:2.5.0"
-    val gson = "com.google.code.gson:gson:2.8.5"
-    val retrofitConverterScalars = "com.squareup.retrofit2:converter-scalars:2.1.0"
     val retrofitCoroutines = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
     val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0"
     val moshi = "com.squareup.retrofit2:converter-moshi:2.5.0"
@@ -88,8 +84,6 @@ object Libraries {
 
     val anko = "org.jetbrains.anko:anko:0.10.8"
 
-
-    val rxAndroid = "io.reactivex:rxandroid:1.2.1"
     val butterKnife = "com.jakewharton:butterknife:8.8.1"
     val butterKnifeCompiler =  "com.jakewharton:butterknife-compiler:8.8.1"
     val timber =  "com.jakewharton.timber:timber:4.7.1"
@@ -108,7 +102,6 @@ object Libraries {
 }
 
 object SupportLibraries {
-    val androidx = "androidx.appcompat:appcompat:${Versions.androidx}"
 }
 
 object Constants {

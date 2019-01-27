@@ -48,74 +48,55 @@ android {
 }
 
 dependencies {
+
     implementation(project(":preference"))
-    /** kotlin */
+
+    /** Kotlin */
     implementation(Libraries.kotlin)
 
-    /** Android AppCompat*/
-    implementation(Libraries.appCompat)
-    implementation(SupportLibraries.androidx)
+    /** AndroidX JetPack */
+    implementation(Libraries.androidx)
     implementation(Libraries.lifecycle)
 
-    /**  constraint layout */
+    /** Constraint Layout */
     implementation(Libraries.constraintLayout)
 
-    /** recyclerview */
-    implementation(Libraries.recyclerView)
-
-    /** cardview */
-    implementation(Libraries.cardView)
-
-    /** material desing */
-    implementation(Libraries.design)
-
-    /** fresco */
+	/** Design */
+    // Fresco
     implementation(Libraries.fresco)
-
-    /** lottie */
+    // Lottie
     implementation(Libraries.lottie)
 
-    /** phone mask */
-    implementation(Libraries.decoro)
-
-    /** password */
-    implementation(Libraries.showhidepasswordedittext)
-
-    /** gson */
-    implementation(Libraries.gson)
-
-    /** Retrofit  */
+	/** Networkin */
+    // Coroutines
+    implementation(Libraries.coroutines)
+    // Retrofit
     implementation(Libraries.retrofit)
-    implementation(Libraries.retrofitAdapterrxJava)
-    implementation(Libraries.retrofitGson)
-    implementation(Libraries.retrofitConverterScalars)
     implementation(Libraries.retrofitCoroutines)
-
-    /** moshi */
-    implementation(Libraries.moshi)
-
-    /** okhttp */
+    // OkHttp
     implementation(Libraries.okhttp)
     implementation(Libraries.okhttpLoging)
+    // Moshi
+    implementation(Libraries.moshi)
 
-    /** coroutines */
-    implementation(Libraries.coroutines)
-
-    /** anko from jetbrain */
+	/** Utils */
+    // Anko from jetbrain
     implementation(Libraries.anko)
 
-    /** Rx Java 1 */
-    implementation(Libraries.rxAndroid)
-
-    /** timber log */
-    implementation(Libraries.timber)
-
-    /** fcm */
+    /** FCM */
     implementation(Libraries.fireBase)
     implementation(Libraries.fireBaseMessaging)
 
-    /** chuck */
+	/** Logs */
+    // Timber
+    implementation(Libraries.timber)
+    // Chuck
     debugImplementation(Libraries.chuck)
     releaseImplementation(Libraries.chuckRelease)
 
+    /** 3-trd party libraries */
+    // phone mask
+    implementation(Libraries.decoro)
+    // password
+    implementation(Libraries.showhidepasswordedittext)
 }

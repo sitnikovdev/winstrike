@@ -1,14 +1,12 @@
 package ru.prsolution.winstrike.presentation.setup
 
-import rx.subscriptions.CompositeSubscription
 
 
 class ChooseScreenPresenter() {
-	private val subscriptions: CompositeSubscription
 
 
 	init {
-		this.subscriptions = CompositeSubscription()
+//		this.subscriptions = CompositeSubscription()
 	}
 
 

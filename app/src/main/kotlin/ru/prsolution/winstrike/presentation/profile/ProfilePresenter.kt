@@ -1,14 +1,12 @@
 package ru.prsolution.winstrike.presentation.profile
 
 
-import rx.subscriptions.CompositeSubscription
 
 /**
  * Created by oleg 24.01.2019
  */
 
 class ProfilePresenter(private val number: Int)  {
-	private val subscriptions: CompositeSubscription? = null
 
 
 	fun onForwardPressed() {
@@ -25,7 +23,6 @@ class ProfilePresenter(private val number: Int)  {
 	}
 
 	fun onStop() {
-		subscriptions!!.unsubscribe()
 	}
 
 }
