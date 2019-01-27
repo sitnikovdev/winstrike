@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.presentation.map
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -11,6 +12,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.VectorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
@@ -40,10 +42,12 @@ import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.SeatMap
 import ru.prsolution.winstrike.domain.models.SeatType
 import ru.prsolution.winstrike.domain.payment.PaymentModel
+import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
 import timber.log.Timber
 import java.util.LinkedHashMap
 
@@ -105,9 +109,9 @@ class MapFragment : Fragment() {
 				this.arena = it.data
 				readMap()
 			})
-			mVm?.paymentResponse?.observe(it, Observer {
+/*			mVm?.paymentResponse?.observe(it, Observer {
 				it.data?.let { response -> onGetPaymentResponseSuccess(response) }
-			})
+			})*/
 		}
 
 	}
@@ -209,7 +213,7 @@ class MapFragment : Fragment() {
 				setSeat(seatBitmap, seat, this)
 				this.layoutParams = seatParams
 
-				// On seat click listener
+				// On seat click mListener
 				this.setOnClickListener(SeatViewOnClickListener(numberTextView, seat, this, seatBitmap,
 				                                                mPickedSeatsIds))
 				mapLayout!!.addView(this)
@@ -526,31 +530,15 @@ class MapFragment : Fragment() {
 	fun onPaymentRequest() {
 		val payModel = PaymentModel()
 
-		// TODO: 12/05/2018 Replace with TimeDataModel.
 		payModel.startAt = TimeDataModel.start
 		payModel.end_at = TimeDataModel.end
 		payModel.setPlacesPid(TimeDataModel.pids)
 
 		val token = "Bearer " + PrefUtils.token
 		mVm?.getPayment(token, payModel)
+		// TODO: Clear payModel after payments!!!
+		TimeDataModel.pids.clear()
 		snackbar?.dismiss()
-	}
-
-	private fun onGetPaymentResponseSuccess(payResponse: PaymentResponse) {
-		Timber.tag("common").d("Pay successfully: %s", payResponse)
-
-		val url = payResponse.redirectUrl
-
-		// TODO Fix it!!!
-//		Intent intent = new Intent(this.getContext(), YandexWebView.class);
-//		intent.putExtra("url", url);
-
-/*		var intent = Intent()
-		intent.putExtra("payments", true)
-		startActivity(Intent(activity, MainActivity::class.java))
-
-		intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-		startActivity(intent)*/
 	}
 
 }

@@ -11,7 +11,9 @@ import kotlinx.android.synthetic.main.ac_mainscreen.navigation
 import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.SeatCarousel
+import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.presentation.map.MapFragment
+import ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.setup.SetupFragment
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -26,11 +28,12 @@ class MainActivity : FragmentActivity(),
 	private val mapFragment = MapFragment()
 	private val homeFragment = HomeFragment()
 	private val setupFragment = SetupFragment()
+	private val yandexFragment = YandexWebViewFragment()
 	private val fm: FragmentManager = supportFragmentManager
 	var active: Fragment = homeFragment
 
 	override fun onMapShow() {
-		Timber.d("On map show listener")
+		Timber.d("On map show mListener")
 		showHome(isVisible = true)
 		navigation.visibility = View.GONE
 		fm.beginTransaction()
@@ -73,7 +76,7 @@ class MainActivity : FragmentActivity(),
 
 	override fun onStart() {
 		super.onStart()
-		// TODO use listener (Fix logout!!!)
+		// TODO use mListener (Fix logout!!!)
 		PrefUtils.isLogout = false
 	}
 
@@ -90,6 +93,10 @@ class MainActivity : FragmentActivity(),
 					Timber.i("FCM token send to server. \n ${it.message} ")
 				}
 			}
+		})
+
+		mVm.paymentResponse.observe(this, Observer {
+			it.data?.let { response -> onPaymentShow(response) }
 		})
 
 
@@ -128,6 +135,10 @@ class MainActivity : FragmentActivity(),
 
 
 		with(fm) {
+			beginTransaction()
+					.add(R.id.main_container, yandexFragment, yandexFragment.javaClass.name)
+					.detach(yandexFragment)
+					.commit()
 			beginTransaction()
 					.add(R.id.main_container, setupFragment, setupFragment.javaClass.name)
 					.hide(setupFragment)
@@ -169,6 +180,29 @@ class MainActivity : FragmentActivity(),
 			toolbar.navigationIcon = null
 			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
 		}
+	}
+
+	private fun onPaymentShow(payResponse: PaymentResponse) {
+		Timber.tag("common").d("Pay successfully: %s", payResponse)
+
+		val url = payResponse.redirectUrl
+		val testUrl = "https://yandex.ru"
+
+		Timber.d("On yandex web view show mListener")
+		showHome(isVisible = true)
+		navigation.visibility = View.GONE
+		fm.beginTransaction()
+				.detach(mapFragment)
+				.addToBackStack(null)
+				.attach(yandexFragment)
+				.commit()
+		mVm.active.value = yandexFragment
+
+		// TODO Fix it!!!
+//		val intent = Intent(activity, YandexWebView::class.java)
+//		intent.putExtra("url", testUrl)
+//		startActivity(intent)
+
 	}
 
 }

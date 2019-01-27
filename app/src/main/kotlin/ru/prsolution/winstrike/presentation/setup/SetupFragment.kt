@@ -31,11 +31,8 @@ import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
-import java.text.DateFormatSymbols
 import timber.log.Timber
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
-
-
 
 
 class SetupFragment : Fragment(),
@@ -51,7 +48,7 @@ class SetupFragment : Fragment(),
 		fun onMapShow()
 	}
 
-	var onMapShowListener: MapShowListener? = null
+	var mListener: MapShowListener? = null
 	var mVm: MainViewModel? = null
 
 
@@ -59,7 +56,12 @@ class SetupFragment : Fragment(),
 		super.onAttach(context)
 		require(context is MapShowListener)
 		{ "++++ Must implements SetupFragment.MapShowListener. +++" }
-		onMapShowListener = context
+		mListener = context
+	}
+
+	override fun onDetach() {
+		super.onDetach()
+		mListener = null
 	}
 
 
@@ -100,7 +102,7 @@ class SetupFragment : Fragment(),
 			})
 			mVm?.arena?.observe(it, Observer { arena ->
 				Timber.tag("@@@").d("arena: ${arena.data?.name}")
-				onMapShowListener?.onMapShow()
+				mListener?.onMapShow()
 			})
 		}
 
@@ -138,7 +140,7 @@ class SetupFragment : Fragment(),
 	override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
 
 		val c = Calendar.getInstance()
-		val timeFrom ="$hourOfDay:$minute"
+		val timeFrom = "$hourOfDay:$minute"
 		val timeTo = "${hourOfDay + 1}:$minute"
 
 		mVm?.currentTime?.value = "$hourOfDay:$minute - ${hourOfDay + 1}:$minute"

@@ -1,3 +1,4 @@
+
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -16,7 +17,6 @@ android {
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
-
 
     buildTypes {
         getByName("debug") {
@@ -47,15 +47,14 @@ android {
 
 }
 
-
 dependencies {
-    implementation (project(":preference"))
+    implementation(project(":preference"))
     /** kotlin */
     implementation(Libraries.kotlin)
 
     /** Android AppCompat*/
     implementation(Libraries.appCompat)
-    implementation (SupportLibraries.androidx)
+    implementation(SupportLibraries.androidx)
     implementation(Libraries.lifecycle)
 
     /**  constraint layout */
@@ -82,12 +81,6 @@ dependencies {
     /** password */
     implementation(Libraries.showhidepasswordedittext)
 
-    /** calendar */
-//    implementation(Libraries.materialCalendarView)
-
-    /** bottom navigation bar */
-//    implementation(Libraries.ahbottomnavigation)
-
     /** gson */
     implementation(Libraries.gson)
 
@@ -111,26 +104,11 @@ dependencies {
     /** anko from jetbrain */
     implementation(Libraries.anko)
 
-
     /** Rx Java 1 */
     implementation(Libraries.rxAndroid)
 
-    /** butterknife */
-//    implementation(Libraries.butterKnife)
-//    annotationProcessor(Libraries.butterKnifeCompiler)
-
     /** timber log */
     implementation(Libraries.timber)
-
-    /** moxy & cicerone */
-//    implementation(Libraries.moxy)
-//    implementation(Libraries.moxyAppCompat)
-//    annotationProcessor(Libraries.moxyCompiler)
-//    implementation(Libraries.cicerone)
-
-    /** dagger2 */
-//    implementation(Libraries.dagger)
-//    annotationProcessor(Libraries.daggerCompiler)
 
     /** fcm */
     implementation(Libraries.fireBase)
@@ -141,4 +119,3 @@ dependencies {
     releaseImplementation(Libraries.chuckRelease)
 
 }
-
