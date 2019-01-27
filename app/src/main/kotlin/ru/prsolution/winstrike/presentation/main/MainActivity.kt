@@ -2,8 +2,8 @@ package ru.prsolution.winstrike.presentation.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,7 +19,7 @@ import ru.prsolution.winstrike.presentation.setup.SetupFragment
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
 
-class MainActivity : FragmentActivity(),
+class MainActivity : AppCompatActivity(),
                      SetupFragment.MapShowListener,
                      CarouselFragment.OnSeatClickListener {
 
@@ -111,6 +111,12 @@ class MainActivity : FragmentActivity(),
 				navigation.visibility = View.GONE
 			}
 		})
+
+
+		setSupportActionBar(toolbar)
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+		showHome(isVisible = false)
+
 
 		toolbar?.setNavigationOnClickListener {
 			supportFragmentManager.popBackStack()

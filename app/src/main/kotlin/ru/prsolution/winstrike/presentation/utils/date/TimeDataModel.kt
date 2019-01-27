@@ -39,6 +39,12 @@ object TimeDataModel {
 				end)
 	}
 
+
+	fun setDateFromCalendar(dateCal: String) {
+		selectDate = DateTransform.getSimpleDateFromCalendar(dateCal)
+		date =  DateTransform.getSimpleDateFromCalendar(selectDate)
+	}
+
 	fun setSelectDate(datetime: Date) {
 		selectDate = DateTransform.getSimpleDateFromCalendar(datetime)
         date  = selectDate

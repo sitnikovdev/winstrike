@@ -6,6 +6,7 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
@@ -33,6 +34,9 @@ import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import timber.log.Timber
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
+import java.time.Month
+import java.time.format.TextStyle
+import java.util.Locale
 
 
 class SetupFragment : Fragment(),
@@ -120,16 +124,16 @@ class SetupFragment : Fragment(),
 		time["start_at"] = "2019-01-26T20:00:00"
 		time["end_at"] = "2019-01-26T21:00:00"
 		mVm?.getArenaSchema(activePid, time)
-
 	}
 
 
 	@SuppressLint("NewApi")
 	override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
 
-		val c = Calendar.getInstance()
+		val monthLoc = Month.of(month + 1).getDisplayName(TextStyle.FULL, Locale("RU"))
+		val selectedDate = "$day $monthLoc $year"
 
-		TimeDataModel.setSelectDate(c.time)
+		TimeDataModel.setDateFromCalendar(selectedDate)
 		val date = TimeDataModel.selectDate
 
 		// update view model
@@ -139,7 +143,6 @@ class SetupFragment : Fragment(),
 	@SuppressLint("NewApi")
 	override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
 
-		val c = Calendar.getInstance()
 		val timeFrom = "$hourOfDay:$minute"
 		val timeTo = "${hourOfDay + 1}:$minute"
 
@@ -191,7 +194,7 @@ class SetupFragment : Fragment(),
 
 
 	private fun showDatePickerDialog(v: View) {
-		val newFragment = DatePickeFragment(this)
+		val newFragment = DatePickerFragment(this)
 		newFragment.show(activity?.supportFragmentManager, "datePicker")
 	}
 
@@ -203,7 +206,7 @@ class SetupFragment : Fragment(),
 
 }
 
-class DatePickeFragment(
+class DatePickerFragment(
 		private val listener: DatePickerDialog.OnDateSetListener) : DialogFragment() {
 
 	init {

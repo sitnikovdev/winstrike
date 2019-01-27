@@ -51,7 +51,8 @@ class YandexWebViewFragment : Fragment() {
 		mWebView = view.findViewById<View>(R.id.webView) as WebView
 		mWebView?.webViewClient = MyWebViewClient()
 		mWebView?.isHorizontalScrollBarEnabled = false
-		// включаем поддержку JavaScript (TODO: Remove if don't need it. Introduce XSS vulnerabilities.)
+		// включаем поддержку JavaScript
+		// (TODO: Remove if don't need it. Introduce XSS vulnerabilities.)
 		mWebView?.settings?.javaScriptEnabled = true
 		mWebView?.settings?.loadWithOverviewMode = true
 		mWebView?.settings?.useWideViewPort = true
