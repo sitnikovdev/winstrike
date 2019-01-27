@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.ac_mainscreen.toolbar_text
+import kotlinx.android.synthetic.main.ac_yandexpay.toolbar
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.login.SignInActivity
@@ -22,7 +23,6 @@ class YandexWebView : AppCompatActivity() {
 	private var mWebView: WebView? = null
 	private var url: String? = null
 	private var progressBar: ProgressBar? = null
-	private var toolbar: Toolbar? = null
 
 	private var confirmScreen: Intent? = null
 	private var mainScreen: Intent? = null
@@ -32,9 +32,9 @@ class YandexWebView : AppCompatActivity() {
 		setContentView(R.layout.ac_yandexpay)
 
 		progressBar = findViewById<View>(R.id.progressBar) as ProgressBar
-		toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+
 		setSupportActionBar(toolbar)
-		supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 		confirmScreen = Intent(this, SignInActivity::class.java)
 		mainScreen = Intent(this, MainActivity::class.java)
@@ -56,7 +56,7 @@ class YandexWebView : AppCompatActivity() {
 		}
 
 
-		toolbar!!.setNavigationOnClickListener {
+		toolbar?.setNavigationOnClickListener {
 			if (url!!.contains("politika.html") || url!!.contains("rules.html")) {
 				startActivity(confirmScreen)
 			} else {

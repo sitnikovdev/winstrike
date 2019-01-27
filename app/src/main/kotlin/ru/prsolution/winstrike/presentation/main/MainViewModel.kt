@@ -39,6 +39,7 @@ class MainViewModel : ViewModel() {
 
 	// Список имеющихся арен
 	val arenaList = MutableLiveData<Resource<List<Arena>>>()
+
 	// Выбранная  арена по времени
 	val arena = MutableLiveData<Resource<ArenaSchema?>>()
 
@@ -49,6 +50,9 @@ class MainViewModel : ViewModel() {
 
 	// Ответ от Яндекс Кассы
 	val paymentResponse = SingleLiveEvent<Resource<PaymentResponse>>()
+
+	// Url на страницу оплаты Яндекс кассы
+	val redirectUrl = SingleLiveEvent<String>()
 
 
 	// Получение списка имеющихся арен на сервере

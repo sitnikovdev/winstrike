@@ -187,6 +187,7 @@ class MainActivity : FragmentActivity(),
 
 		val url = payResponse.redirectUrl
 		val testUrl = "https://yandex.ru"
+		mVm.redirectUrl.value = testUrl
 
 		Timber.d("On yandex web view show mListener")
 		showHome(isVisible = true)
