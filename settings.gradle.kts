@@ -1,2 +1,1 @@
-include(":app")
-include(":preference")
+include(Modules.app, Modules.preference)

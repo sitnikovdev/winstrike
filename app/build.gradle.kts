@@ -24,7 +24,7 @@ android {
         }
         getByName("release") {
             buildConfigField("String", "BASEURL", Constants.BASEURL)
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
     }
 
@@ -54,7 +54,7 @@ dependencies {
     /** Kotlin */
     implementation(Libraries.kotlin)
 
-    /** AndroidX JetPack */
+
     implementation(Libraries.androidx)
     implementation(Libraries.lifecycle)
 
