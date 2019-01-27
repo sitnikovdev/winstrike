@@ -1,10 +1,12 @@
 package ru.prsolution.winstrike.datasource.model
 
 import com.squareup.moshi.Json
-import java.io.Serializable
+import ru.prsolution.winstrike.domain.models.Arena
 
 class ArenaEntity(
 		@field:Json(name = "public_id") val publicId: String? = null,
+		@field:Json(name = "active_layout_pid") val activeLayoutPid: String? = null,
+		@field:Json(name = "city_pid") val cityPid: String? = null,
 		@field:Json(name = "name") val name: String? = null,
 		@field:Json(name = "metro") val metro: String? = null,
 		@field:Json(name = "room_layout_pid") val roomLayoutPid: String? = null,
@@ -21,7 +23,21 @@ class ArenaEntity(
 )
 
 
-enum class ArenaType {
-	TWOROOMS, COMMON, VIP
-}
+fun ArenaEntity.mapToDomain(): Arena = Arena(
+		publicId,
+		activeLayoutPid,
+		cityPid,
+		name,
+		metro,
+		roomLayoutPid,
+		description,
+		imageUrl,
+		commonDescription,
+		vipDescription,
+		commonImageUrl,
+		vipImageUrl,
+		locale
+)
+
+fun List<ArenaEntity>.mapToDomain(): List<Arena> = map { it.mapToDomain()}
 

@@ -1,6 +1,6 @@
 package ru.prsolution.winstrike.domain.models
 
-class Room(
+class ArenaSchema(
 		val name: String? = null,
 		val roomPid: String? = null,
 		val createAt: String? = null,

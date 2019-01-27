@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import ru.prsolution.winstrike.datasource.model.ArenaEntity
-import ru.prsolution.winstrike.datasource.model.RoomsEntity
 import ru.prsolution.winstrike.datasource.model.mapRoomToDomain
-import ru.prsolution.winstrike.domain.models.Room
+import ru.prsolution.winstrike.datasource.model.mapToDomain
+import ru.prsolution.winstrike.domain.models.Arena
+import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.SeatCarousel
@@ -24,43 +24,48 @@ import timber.log.Timber
  */
 class MainViewModel : ViewModel() {
 
+	// TODO: Use Koin to decouple dependencies from here.
 	private val retrofitService = RetrofitFactory.makeRetrofitService()
 
+	// Активный фрагмент
 	var active = MutableLiveData<Fragment>()
 
+	// Ответ от FCM сервера на запрос токера
 	val fcmResponse = MutableLiveData<Resource<MessageResponse>>()
 
-	// Список арен
-	val rooms = MutableLiveData<Resource<List<ArenaEntity>>>()
-	// Выбранная пользователем арена по времени
-	val arena = MutableLiveData<Resource<Room?>>()
+	// Список имеющихся арен
+	val arenaList = MutableLiveData<Resource<List<Arena>>>()
+	// Выбранная  арена по времени
+	val arena = MutableLiveData<Resource<ArenaSchema?>>()
 
-	val currentArena = MutableLiveData<Resource<Int>>()
+	// Обновление информации о выбранном месте и времени
 	val currentSeat = MutableLiveData<SeatCarousel>()
 	val currentDate = MutableLiveData<String>()
 	val currentTime = MutableLiveData<String>()
 
 
-	// Получение списка арен (новый API)
-	fun getRooms() {
+	// Получение списка имеющихся арен на сервере
+	fun getArenaList() {
 		GlobalScope.launch {
-			val request = retrofitService.arenaList
+			val request = retrofitService.arenaListAsync()
 			try {
 				val response = request.await()
-				response.body()?.let { rooms.setSuccess(it.rooms) }
+				response.body()?.let { arenaList.setSuccess(it.rooms.mapToDomain())
+					Timber.tag("$$$").d("arena list: ${it.rooms.mapToDomain().size}")
+				}
 			} catch (e: Throwable) {
-				rooms.setError(e.message)
+				arenaList.setError(e.message)
 				Timber.e(e)
 			}
 		}
 	}
 
-	fun getArena(arenaPid: String?, time: Map<String, String>) {
+	// Получение схемы выбранной арены по пиду и времени
+	fun getArenaSchema(arenaPid: String?, time: Map<String, String>) {
 		GlobalScope.launch {
-			val request = retrofitService.arenaAsync(arenaPid, time)
+			val request = retrofitService.arenaSchemaAsync(arenaPid, time)
 			try {
 				val response = request.await()
-//				Timber.d("response: ${response.body()}")
 				response.body()?.let { arena.setSuccess(it.roomLayout?.mapRoomToDomain()) }
 			} catch (e: Throwable) {
 				arena.setError(e.message)
@@ -70,6 +75,7 @@ class MainViewModel : ViewModel() {
 	}
 
 
+	// Отправка токена FCM серверу
 	fun sendFCMToken(userToken: String, fcmBody: FCMModel) {
 		require(!TextUtils.isEmpty(userToken)) {
 			"User's token don't have to be empty."

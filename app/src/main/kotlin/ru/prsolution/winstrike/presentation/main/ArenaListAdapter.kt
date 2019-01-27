@@ -10,11 +10,12 @@ import kotlinx.android.synthetic.main.item_arena.view.address
 import kotlinx.android.synthetic.main.item_arena.view.iv_checked
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.datasource.model.ArenaEntity
+import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.setColor
 
-class ArenaListAdapter(private val itemClick: (ArenaEntity, Int) -> Unit) :
-		ListAdapter<ArenaEntity, ArenaListAdapter.ViewHolder>(PostDiffCallback()) {
+class ArenaListAdapter(private val itemClick: (Arena, Int) -> Unit) :
+		ListAdapter<Arena, ArenaListAdapter.ViewHolder>(PostDiffCallback()) {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
 			ViewHolder(parent)
@@ -25,7 +26,7 @@ class ArenaListAdapter(private val itemClick: (ArenaEntity, Int) -> Unit) :
 	inner class ViewHolder(parent: ViewGroup) :
 			RecyclerView.ViewHolder(parent.inflate(R.layout.item_arena)) {
 
-		fun bind(item: ArenaEntity) {
+		fun bind(item: Arena) {
 			itemView.title.text = item.name
 			itemView.address.text = item.metro
 			if (layoutPosition == SELECTED_ITEM) {
@@ -52,11 +53,11 @@ class ArenaListAdapter(private val itemClick: (ArenaEntity, Int) -> Unit) :
 	}
 }
 
-private class PostDiffCallback : DiffUtil.ItemCallback<ArenaEntity>() {
-	override fun areItemsTheSame(oldItem: ArenaEntity, newItem: ArenaEntity): Boolean =
+private class PostDiffCallback : DiffUtil.ItemCallback<Arena>() {
+	override fun areItemsTheSame(oldItem: Arena, newItem: Arena): Boolean =
 			oldItem.name == newItem.metro
 
-	override fun areContentsTheSame(oldItem: ArenaEntity, newItem: ArenaEntity): Boolean =
+	override fun areContentsTheSame(oldItem: Arena, newItem: Arena): Boolean =
 			oldItem.metro == newItem.metro &&
 					oldItem.name == newItem.name
 }

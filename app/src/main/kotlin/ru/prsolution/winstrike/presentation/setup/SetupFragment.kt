@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.frm_choose.tv_time
 import kotlinx.android.synthetic.main.frm_choose.v_date_tap
 import kotlinx.android.synthetic.main.frm_choose.v_time_tap
 import ru.prsolution.winstrike.datasource.model.ArenaEntity
+import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
@@ -39,7 +40,7 @@ class SetupFragment : Fragment(),
                       DatePickerDialog.OnDateSetListener,
                       TimePickerDialog.OnTimeSetListener {
 
-	private var rooms: List<ArenaEntity>? = null
+	private var rooms: List<Arena>? = null
 
 	/**
 	 * route show map to main presenter in MainScreenActivity
@@ -55,7 +56,7 @@ class SetupFragment : Fragment(),
 	override fun onAttach(context: Context?) {
 		super.onAttach(context)
 		require(context is MapShowListener)
-		{ "++++ Must implements onMapShowListener. +++" }
+		{ "++++ Must implements SetupFragment.MapShowListener. +++" }
 		onMapShowListener = context
 	}
 
@@ -65,7 +66,7 @@ class SetupFragment : Fragment(),
 		mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
 
 		if (savedInstanceState == null) {
-			mVm?.getRooms()
+			mVm?.getArenaList()
 		}
 	}
 
@@ -80,7 +81,7 @@ class SetupFragment : Fragment(),
 
 		activity?.let {
 			// arenaList
-			mVm?.rooms?.observe(it, Observer { response ->
+			mVm?.arenaList?.observe(it, Observer { response ->
 				this.rooms = response.data
 			})
 			// seat
@@ -114,7 +115,7 @@ class SetupFragment : Fragment(),
 //		time["end_at"] = TimeDataModel.end
 		time["start_at"] = "2019-01-26T20:00:00"
 		time["end_at"] = "2019-01-26T21:00:00"
-		mVm?.getArena(activePid, time)
+		mVm?.getArenaSchema(activePid, time)
 
 	}
 
@@ -173,8 +174,7 @@ class SetupFragment : Fragment(),
 }
 
 class DatePickeFragment(
-		listener: DatePickerDialog.OnDateSetListener) : DialogFragment() {
-	val listener = listener
+		private val listener: DatePickerDialog.OnDateSetListener) : DialogFragment() {
 
 	init {
 		requireNotNull(listener) { "+++++ Must implement DatePickerDialog.OnDateSetListener. +++++" }
@@ -193,8 +193,7 @@ class DatePickeFragment(
 
 }
 
-class TimePickerFragment(listener: TimePickerDialog.OnTimeSetListener) : DialogFragment() {
-	val listener = listener
+class TimePickerFragment(private val listener: TimePickerDialog.OnTimeSetListener) : DialogFragment() {
 
 	init {
 		requireNotNull(listener) { "+++++ Must implement TimePickerDialog.OnTimeSetListener. +++++" }

@@ -1,23 +1,21 @@
 package ru.prsolution.winstrike.domain.models
 
 import android.graphics.Point
-import ru.prsolution.winstrike.datasource.model.WallEntity
 
 
-class ArenaMap(room: Room?) {
+class ArenaMap(room: ArenaSchema?) {
 
-	var name: String?
+	var name: String? = room?.name
 	var walls: MutableList<WallModel> = mutableListOf()
 	var labels: MutableList<LabelRoom> = mutableListOf()
 	var seats: MutableList<SeatMap> = mutableListOf()
-	var arenaSchema: ArenaSchema = ArenaSchema.WINSTRIKE
+	var arenaSchema: ArenaSchemaName = ArenaSchemaName.WINSTRIKE
 
 	init {
-		this.name = room?.name
 		when {
-			this.name?.contains("Winstrike Arena 1")!! -> arenaSchema = ArenaSchema.WINSTRIKE
-			this.name?.contains("Schema 2")!! -> arenaSchema = ArenaSchema.CORNER
-			this.name?.contains("Серпухов")!! -> arenaSchema = ArenaSchema.SERPUCHOV
+			this.name?.contains("Winstrike Arena 1")!! -> arenaSchema = ArenaSchemaName.WINSTRIKE
+			this.name?.contains("Schema 2")!! -> arenaSchema = ArenaSchemaName.CORNER
+			this.name?.contains("Серпухов")!! -> arenaSchema = ArenaSchemaName.SERPUCHOV
 		}
 		val seats = room?.seats
 		if (seats != null) {
@@ -78,6 +76,6 @@ class WallModel(wall: Wall) {
 	}
 }
 
-enum class ArenaSchema {
+enum class ArenaSchemaName {
 	WINSTRIKE, CORNER, SERPUCHOV
 }

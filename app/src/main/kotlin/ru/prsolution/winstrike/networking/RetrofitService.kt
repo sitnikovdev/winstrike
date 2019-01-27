@@ -10,12 +10,11 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
-import ru.prsolution.winstrike.datasource.model.ArenasEntity
+import ru.prsolution.winstrike.datasource.model.ArenaListEntity
 import ru.prsolution.winstrike.datasource.model.login.AuthResponse
 import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 import ru.prsolution.winstrike.datasource.model.login.NewPasswordModel
 import ru.prsolution.winstrike.datasource.model.OrdersEntity
-import ru.prsolution.winstrike.datasource.model.RoomEntity
 import ru.prsolution.winstrike.domain.payment.PaymentModel
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.datasource.model.RoomsEntity
@@ -28,21 +27,13 @@ import ru.prsolution.winstrike.domain.models.login.ProfileModel
 
 interface RetrofitService {
 
-/*	// Получение списка ар
-	@get:GET("rooms")
-	val rooms: Deferred<Response<Rooms>>*/
-
-	// Получение списка арен (новый API)
-	@get:GET("rooms")
-	val arenaList: Deferred<Response<ArenasEntity>>
-
-/*	// Получение списка мест по  arena id (дефолтный диапазон времени на 30 мин)
-	@GET("room_layouts/{active_layout_pid}")
-	fun getArena(@Path("active_layout_pid") active_layout_pid: String): Deferred<Response<RoomLayoutFactory>>*/
+	// Получение  списка имеющихся арен
+	@GET("rooms")
+	fun arenaListAsync(): Deferred<Response<ArenaListEntity>>
 
 	//Получение арены по  id  и диапазону времени
 	@GET("room_layouts/{active_layout_pid}")
-	fun arenaAsync(@Path(
+	fun arenaSchemaAsync(@Path(
 			"active_layout_pid") active_layout_pid: String?, @QueryMap time: Map<String, String>):
 			Deferred<Response<RoomsEntity>>
 

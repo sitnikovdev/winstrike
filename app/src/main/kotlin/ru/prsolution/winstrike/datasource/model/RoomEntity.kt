@@ -1,11 +1,6 @@
 package ru.prsolution.winstrike.datasource.model
 
 import com.squareup.moshi.Json
-import ru.prsolution.winstrike.domain.models.Computer
-import ru.prsolution.winstrike.domain.models.Offer
-import ru.prsolution.winstrike.domain.models.Room
-import ru.prsolution.winstrike.domain.models.Seat
-import ru.prsolution.winstrike.domain.models.Wall
 
 class RoomEntity(
 		@field:Json(name = "name")

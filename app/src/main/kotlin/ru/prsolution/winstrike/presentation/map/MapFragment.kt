@@ -29,15 +29,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.frm_map.rootMap
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.MapViewUtils
 import ru.prsolution.winstrike.presentation.utils.Utils
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.domain.models.ArenaMap
+import ru.prsolution.winstrike.domain.models.ArenaSchemaName
 import ru.prsolution.winstrike.domain.models.ArenaSchema
-import ru.prsolution.winstrike.domain.models.Room
 import ru.prsolution.winstrike.domain.models.SeatMap
 import ru.prsolution.winstrike.domain.models.SeatType
 import ru.prsolution.winstrike.presentation.main.MainViewModel
@@ -71,9 +70,9 @@ class MapFragment : Fragment() {
 
 
 	var mVm: MainViewModel? = null
-	private var mRoom: ArenaMap? = null
+	private var mArenaMap: ArenaMap? = null
 	private var tvDivParam: RelativeLayout.LayoutParams? = null
-	private var room: Room? = null
+	private var arena: ArenaSchema? = null
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,7 +99,7 @@ class MapFragment : Fragment() {
 
 		activity?.let {
 			mVm?.arena?.observe(it, Observer {
-				this.room = it.data
+				this.arena = it.data
 				mapLayout = view.findViewById(R.id.rootMap)
 				readMap()
 			})
@@ -109,37 +108,40 @@ class MapFragment : Fragment() {
 	}
 
 	private fun readMap() {
-		requireNotNull(room)
+		requireNotNull(arena)
 		{ "++++ RoomLayoutFactory must be init. ++++" }
 
-		val room = ArenaMap(room)
+		val arenaMap = ArenaMap(arena)
 		rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
 		requireNotNull(mapLayout)
 		{ "++++ Map Fragment root layout must not be null. ++++" }
 
-		showSeat(room)
+		showSeat(arenaMap)
 	}
 
 
-	private fun showSeat(room: ArenaMap) {
-		this.mRoom = room
-		drawSeat(mRoom)
+	private fun showSeat(arenaMap: ArenaMap) {
+		this.mArenaMap = arenaMap
+		drawSeat(mArenaMap)
 	}
 
 	// TODO: Move this code in Interactor
-	private fun drawSeat(room: ArenaMap?) {
+	private fun drawSeat(arenaMap: ArenaMap?) {
 
-		val schema = room?.arenaSchema
+		val schema = arenaMap?.arenaSchema
 
 		mXScaleFactor = width / 358
 		mYScaleFactor = height / 421
 
-		if (schema == ArenaSchema.WINSTRIKE) {
-			mXScaleFactor = (width / 358) * 1
-			mYScaleFactor = (height / 421) * 1.5f
-		} else {
-			mXScaleFactor = width / 358
-			mYScaleFactor = height / 421
+		when (schema) {
+			ArenaSchemaName.WINSTRIKE -> {
+				mXScaleFactor = (width / 358) * 1
+				mYScaleFactor = (height / 421) * 1.5f
+			}
+			else -> {
+				mXScaleFactor = width / 358
+				mYScaleFactor = height / 421
+			}
 		}
 
 		val seatSize = Point()
@@ -147,7 +149,7 @@ class MapFragment : Fragment() {
 		val seatBitmap = getBitmap(context, R.drawable.ic_seat_gray)
 
 		seatSize.set(seatBitmap.width, seatBitmap.height)
-		val mScreenSize = MapViewUtils.calculateScreenSize(seatSize, room!!.seats, mXScaleFactor!! + 0.2f,
+		val mScreenSize = MapViewUtils.calculateScreenSize(seatSize, arenaMap!!.seats, mXScaleFactor!! + 0.2f,
 		                                                   mYScaleFactor!! - 1.5f)
 
 		val mapLP = mapLayout!!.layoutParams as FrameLayout.LayoutParams
@@ -168,7 +170,7 @@ class MapFragment : Fragment() {
 			mapLP.width = mScreenSize.x
 			mapLP.height = mScreenSize.y + 150
 			mYScaleFactor = mYScaleFactor!! - 3f
-			if (schema == ArenaSchema.WINSTRIKE) { // Winstrike Arena
+			if (schema == ArenaSchemaName.WINSTRIKE) {
 				mapLP.height = mScreenSize.y + 850
 				mapLP.width = mScreenSize.x + 500
 				mYScaleFactor = mYScaleFactor!! - 0f
@@ -185,7 +187,7 @@ class MapFragment : Fragment() {
 
 		// Draw seats and numbers
 
-		for (seat in room.seats) {
+		for (seat in arenaMap.seats) {
 
 			val numberTextView = TextView(context)
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -212,11 +214,11 @@ class MapFragment : Fragment() {
 
 		// Draw labels for halls
 
-		for (label in room.labels) {
+		for (label in arenaMap.labels) {
 			val text = label.text
 			var offsetY = -5
 
-			if (schema == ArenaSchema.WINSTRIKE) {
+			if (schema == ArenaSchemaName.WINSTRIKE) {
 				offsetY = 5
 			}
 
@@ -309,7 +311,7 @@ class MapFragment : Fragment() {
 
 		if (angleAbs != 90) { // horizontal seats
 			offsetX = 0
-		} else { // vertical seats
+		} else  { // vertical seats
 			if (seatNumber.length < 2) {
 				offsetX = 5
 			} else {
@@ -409,33 +411,17 @@ class MapFragment : Fragment() {
 		Timber.d("timeFrom: %s", timeFrom)
 		Timber.d("timeTo: %s", timeTo)
 
-		// TODO Replace with "when" construct
 		Timber.tag("common").w("Failure on pay: %s", appErrorMessage)
-		if (appErrorMessage.contains(getString(R.string.msg_server_500))) {
-			toast(getString(R.string.msg_server_internal_err))
-		}
-		if (appErrorMessage.contains(getString(R.string.msg_server_400))) {
-			toast(getString(R.string.msg_no_data))
-		}
-		if (appErrorMessage.contains(getString(R.string.msg_server_401))) {
-			toast(getString(R.string.msg_no_auth))
-		}
-		if (appErrorMessage.contains(getString(R.string.msg_serve_403))) {
-			toast(getString(R.string.msg_auth_err))
-		}
-		if (appErrorMessage.contains(getString(R.string.msg_server_404))) {
-			toast(getString(R.string.msg_no_seat_with_id))
-		}
-		if (appErrorMessage.contains(getString(R.string.msg_server_405))) {
-			toast(getString(R.string.msg_auth_error))
-		}
-		if (appErrorMessage.contains(getString(R.string.msg_server_424))) {
-			toast(getString(R.string.msg_date_error))
-		}
-		if (appErrorMessage.contains(getString(R.string.msg_server_416))) {
-			toast(getString(R.string.msg_booking_error))
-		} else {
-			toast(getString(R.string.msg_bookin_err))
+		when {
+			appErrorMessage.contains(getString(R.string.msg_server_500)) -> toast(getString(R.string.msg_server_internal_err))
+			appErrorMessage.contains(getString(R.string.msg_server_400)) -> toast(getString(R.string.msg_no_data))
+			appErrorMessage.contains(getString(R.string.msg_server_401)) -> toast(getString(R.string.msg_no_auth))
+			appErrorMessage.contains(getString(R.string.msg_serve_403)) -> toast(getString(R.string.msg_auth_err))
+			appErrorMessage.contains(getString(R.string.msg_server_404)) -> toast(getString(R.string.msg_no_seat_with_id))
+			appErrorMessage.contains(getString(R.string.msg_server_405)) -> toast(getString(R.string.msg_auth_error))
+			appErrorMessage.contains(getString(R.string.msg_server_424)) -> toast(getString(R.string.msg_date_error))
+			appErrorMessage.contains(getString(R.string.msg_server_416)) -> toast(getString(R.string.msg_booking_error))
+			else -> toast(getString(R.string.msg_bookin_err))
 		}
 	}
 
@@ -466,8 +452,10 @@ class MapFragment : Fragment() {
 	}
 
 
-	private inner class SeatViewOnClickListener(private val seatNumber: TextView, private val seat: SeatMap,
-	                                            private val ivSeat: ImageView, private val seatBitmap: Bitmap,
+	private inner class SeatViewOnClickListener(private val seatNumber: TextView,
+	                                            private val seat: SeatMap,
+	                                            private val ivSeat: ImageView,
+	                                            private val seatBitmap: Bitmap,
 	                                            private val mPickedSeatsIds: LinkedHashMap<*, *>) : View.OnClickListener {
 
 		override fun onClick(v: View) {

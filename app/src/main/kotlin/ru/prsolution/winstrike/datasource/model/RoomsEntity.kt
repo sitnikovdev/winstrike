@@ -6,7 +6,7 @@ import ru.prsolution.winstrike.domain.models.Coors
 import ru.prsolution.winstrike.domain.models.End
 import ru.prsolution.winstrike.domain.models.Label
 import ru.prsolution.winstrike.domain.models.Offer
-import ru.prsolution.winstrike.domain.models.Room
+import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.Seat
 import ru.prsolution.winstrike.domain.models.Start
 import ru.prsolution.winstrike.domain.models.Wall
@@ -49,8 +49,8 @@ fun LabelEntity.mapToDomain(): Label = Label(text, x, y)
 
 fun List<LabelEntity>.mapLabelsToDomain(): List<Label> = map { it.mapToDomain() }
 
-fun RoomEntity.mapRoomToDomain(): Room =
-		Room(
+fun RoomEntity.mapRoomToDomain(): ArenaSchema =
+		ArenaSchema(
 				name = name,
 				roomPid = roomPid,
 				createAt = createAt,

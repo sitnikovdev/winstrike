@@ -25,7 +25,8 @@ import org.jetbrains.anko.imageURI
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.datasource.model.ArenaEntity
-import ru.prsolution.winstrike.datasource.model.ArenaType
+import ru.prsolution.winstrike.domain.models.Arena
+import ru.prsolution.winstrike.domain.models.ArenaType
 import ru.prsolution.winstrike.domain.models.RoomSeatType
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
@@ -64,7 +65,7 @@ class HomeFragment : Fragment() {
 		carouselAdapter = CarouselAdapter(activity)
 
 		if (savedInstanceState == null) {
-			mVm.getRooms()
+			mVm.getArenaList()
 		}
 
 		liveSharedPreferences = LiveSharedPreferences(SharedPrefFactory.prefs)
@@ -79,7 +80,8 @@ class HomeFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 		arenaListAdapter = ArenaListAdapter(onArenaClickItem)
 
-		mVm.rooms.observe(this, Observer { resource ->
+		// TODO: Process error response and show some info message!!!
+		mVm.arenaList.observe(this, Observer { resource ->
 			resource.let {
 				it?.data?.let { arenaListAdapter.submitList(it) }
 				val room = resource?.data?.get(selectedArena)
@@ -97,7 +99,7 @@ class HomeFragment : Fragment() {
 		initAnimArenaRV() // Arena select transitions animations
 	}
 
-	private fun updateArenaInfo(room: ArenaEntity?) {
+	private fun updateArenaInfo(room: Arena?) { // TODO: Don't use datasource, use domain!!!
 		tvArenaTitle.text = room?.name
 		arena_description.text = room?.description
 		head_image.imageURI = Uri.parse(room?.imageUrl)
@@ -114,7 +116,7 @@ class HomeFragment : Fragment() {
 		}
 	}
 
-	private val onArenaClickItem: (ArenaEntity, Int) -> Unit = { room, position ->
+	private val onArenaClickItem: (Arena, Int) -> Unit = { room, position ->
 		TransitionManager.beginDelayedTransition(root)
 		arenaUpConstraintSet.applyTo(root)
 		PrefUtils.selectedArena = position
@@ -150,7 +152,7 @@ class HomeFragment : Fragment() {
 	}
 
 	/** Seat type carousel */
-	private fun updateCarouselView(room: ArenaEntity?) {
+	private fun updateCarouselView(room: Arena?) {
 		var roomType: ArenaType = ArenaType.COMMON
 
 		val widthPx = PrefUtils.displayWidhtPx
