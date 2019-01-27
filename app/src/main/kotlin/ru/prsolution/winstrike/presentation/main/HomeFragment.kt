@@ -24,9 +24,8 @@ import kotlinx.android.synthetic.main.fmt_home.view_pager_seat
 import org.jetbrains.anko.imageURI
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
-import ru.prsolution.winstrike.datasource.model.ArenaEntity
 import ru.prsolution.winstrike.domain.models.Arena
-import ru.prsolution.winstrike.domain.models.ArenaType
+import ru.prsolution.winstrike.domain.models.ArenaHallType
 import ru.prsolution.winstrike.domain.models.RoomSeatType
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
@@ -153,7 +152,7 @@ class HomeFragment : Fragment() {
 
 	/** Seat type carousel */
 	private fun updateCarouselView(room: Arena?) {
-		var roomType: ArenaType = ArenaType.COMMON
+		var roomType: ArenaHallType = ArenaHallType.COMMON
 
 		val widthPx = PrefUtils.displayWidhtPx
 		val seatMap: MutableMap<RoomSeatType, SeatCarousel> = mutableMapOf()
@@ -164,15 +163,15 @@ class HomeFragment : Fragment() {
 				(!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
 
 		) {
-			roomType = ArenaType.TWOROOMS
+			roomType = ArenaHallType.DOUBLE
 		} else if (!TextUtils.isEmpty(room?.commonDescription)) {
-			roomType = ArenaType.COMMON
+			roomType = ArenaHallType.COMMON
 		} else if (!TextUtils.isEmpty(room?.vipDescription)) {
-			roomType = ArenaType.VIP
+			roomType = ArenaHallType.VIP
 		}
 
 		when (roomType) {
-			ArenaType.TWOROOMS -> {
+			ArenaHallType.DOUBLE -> {
 
 				seatMap[RoomSeatType.COMMON] = SeatCarousel(
 						type = RoomSeatType.COMMON,
@@ -194,7 +193,7 @@ class HomeFragment : Fragment() {
 					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 1)
 				}
 			}
-			ArenaType.COMMON -> {
+			ArenaHallType.COMMON -> {
 				seatMap[RoomSeatType.COMMON] = SeatCarousel(
 						type = RoomSeatType.COMMON,
 						imageUrl = room?.commonImageUrl,
@@ -207,7 +206,7 @@ class HomeFragment : Fragment() {
 					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
 				}
 			}
-			ArenaType.VIP -> {
+			ArenaHallType.VIP -> {
 
 				seatMap[RoomSeatType.VIP] = SeatCarousel(
 						type = RoomSeatType.VIP,

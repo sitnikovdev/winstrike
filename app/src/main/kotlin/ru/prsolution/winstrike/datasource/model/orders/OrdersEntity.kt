@@ -1,6 +1,7 @@
-package ru.prsolution.winstrike.datasource.model
+package ru.prsolution.winstrike.datasource.model.orders
 
 import com.squareup.moshi.Json
+import ru.prsolution.winstrike.datasource.model.SeatEntity
 
 class OrdersEntity {
 	@field:Json(name = "orders")

@@ -14,7 +14,7 @@ import ru.prsolution.winstrike.datasource.model.ArenaListEntity
 import ru.prsolution.winstrike.datasource.model.login.AuthResponse
 import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 import ru.prsolution.winstrike.datasource.model.login.NewPasswordModel
-import ru.prsolution.winstrike.datasource.model.OrdersEntity
+import ru.prsolution.winstrike.datasource.model.orders.OrdersEntity
 import ru.prsolution.winstrike.domain.payment.PaymentModel
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.datasource.model.SchemaEntity

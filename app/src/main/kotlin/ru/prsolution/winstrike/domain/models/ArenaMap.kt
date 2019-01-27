@@ -1,12 +1,9 @@
 package ru.prsolution.winstrike.domain.models
 
-import android.graphics.Point
-
 
 class ArenaMap(room: ArenaSchema?) {
 
 	var name: String? = room?.name
-	var walls: MutableList<WallModel> = mutableListOf()
 	var labels: MutableList<Label> = mutableListOf()
 	var seats: MutableList<SeatMap> = mutableListOf()
 	var arenaSchema: ArenaSchemaName = ArenaSchemaName.WINSTRIKE
@@ -46,10 +43,6 @@ class ArenaMap(room: ArenaSchema?) {
 			}
 		}
 
-		for (wallData in room?.walls!!) {
-			this.walls.add(WallModel(wallData))
-		}
-
 	}
 }
 
@@ -60,22 +53,6 @@ class Label(
 		val y: Int? = null
 )
 
-
-class WallModel(wall: Wall) {
-	var start: Point
-	var end: Point
-
-	init {
-		val startP = wall.start
-		val endP = wall.end
-		val sx = startP?.x
-		val sy = startP?.y
-		val ex = endP?.x
-		val ey = endP?.y
-		this.start = Point(sx!!, sy!!)
-		this.end = Point(ex!!, ey!!)
-	}
-}
 
 enum class ArenaSchemaName {
 	WINSTRIKE, CORNER, SERPUCHOV

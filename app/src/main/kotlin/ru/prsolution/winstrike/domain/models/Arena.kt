@@ -17,7 +17,7 @@ class Arena(
 )
 
 
-enum class ArenaType {
-	TWOROOMS, COMMON, VIP
+enum class ArenaHallType {
+	DOUBLE, COMMON, VIP
 }
 
