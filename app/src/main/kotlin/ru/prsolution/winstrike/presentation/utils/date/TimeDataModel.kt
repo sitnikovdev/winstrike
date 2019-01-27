@@ -8,20 +8,18 @@ import kotlin.reflect.KProperty
 
 object TimeDataModel {
 
-	var pid: String = ""
 	var pids: LinkedHashMap<Int, String> = LinkedHashMap()
-	//var date: String  by observing("", didSet = { valideateDate() })
-//    var date: ObservableField<String> = ObservableField("Выберите дату")
-//    var time: ObservableField<String>  = ObservableField("Укажите диапазон времени")
+	var date: String = "" // by observing("", willSet = { validateDate() })
+	var time: String = "Укажите диапазон времени"
 	var selectDate: String = ""
 	var start: String = ""
 	var end: String = ""
 	var timeFrom: String = ""
 	var timeTo: String = ""
-	var isDateSelect = false;
+	var isDateSelect = false
 
 	fun setIsDateSelect(isSelect: Boolean) {
-		isDateSelect = isSelect;
+		isDateSelect = isSelect
 	}
 
 	fun getIsDateSelect(): Boolean {
@@ -43,21 +41,20 @@ object TimeDataModel {
 
 	fun setSelectDate(datetime: Date) {
 		selectDate = DateTransform.getSimpleDateFromCalendar(datetime)
-//        date.set(
-//                selectDate)
+        date  = selectDate
 	}
 
 
 	var startDate: Date by observing(Date()
 	                                                                                               , didSet = {
-		valideateDate()
+		validateDate()
 	})
 
 	var endDate: Date by observing(Date(), didSet = {
-		valideateDate()
+		validateDate()
 	})
 
-	fun valideateDate(stDate: String, edDate: String): Boolean {
+	fun validateDate(stDate: String, edDate: String): Boolean {
 		if (stDate.isEmpty() || edDate.isEmpty()) {
 			return false
 		}
@@ -68,7 +65,7 @@ object TimeDataModel {
 	}
 
 
-	fun valideateDate(): Boolean {
+	private fun validateDate(): Boolean {
 		val current = Date()
 		isDateValid = startDate < endDate && startDate >= current
 		return isDateValid

@@ -45,6 +45,13 @@ interface RetrofitService {
 	@POST("confirm_codes")
 	fun sendSmsByUserRequestAsync(@Body confirmModel: ConfirmSmsModel): Deferred<Response<MessageResponse>>
 
+	//  Создание платежа для указанных мест и диапазона времени.
+	//  В случае успеха в ответ приходит ссылка на Яндекс кассу для оплаты.
+	@POST("payments")
+	fun getPaymentAsync(@Header(
+			"authorization") token: String, @Body paymentModel: PaymentModel): Deferred<Response<PaymentResponse>>
+
+
 	// Повторная отправка пароля:
 	@POST("refresh_password/{confirm_code}")
 	fun refreshPassword(@Body confirmModel: NewPasswordModel, @Path(
@@ -61,7 +68,7 @@ interface RetrofitService {
 
 	// Send fcm tocken to server
 	@POST("fcm_codes")
-	fun sendTocken(@Header(
+	fun sendTockenAsync(@Header(
 			"authorization") token: String, @Body tokenModel: FCMModel): Deferred<Response<MessageResponse>>
 
 
@@ -69,11 +76,6 @@ interface RetrofitService {
 	@POST("confirm_user/{sms_code}")
 	fun confirmUser(@Path(
 			"sms_code") sms_code: String, @Body confirmModel: ConfirmModel): Deferred<Response<MessageResponse>>
-
-	//  Создание платежа
-	@POST("payments")
-	fun getPayment(@Header(
-			"authorization") token: String, @Body paymentModel: PaymentModel): Deferred<Response<PaymentResponse>>
 
 
 	// Получение списка оплаченных мест пользователя

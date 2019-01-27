@@ -39,6 +39,7 @@ import ru.prsolution.winstrike.domain.models.ArenaSchemaName
 import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.SeatMap
 import ru.prsolution.winstrike.domain.models.SeatType
+import ru.prsolution.winstrike.domain.payment.PaymentModel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
@@ -95,13 +96,17 @@ class MapFragment : Fragment() {
 		presenter!!.initScreen()
 		presenter!!.readMap()*/
 
-//		initSnackBar()
+		mapLayout = view.findViewById(R.id.rootMap)
+		initSnackBar()
+
 
 		activity?.let {
 			mVm?.arena?.observe(it, Observer {
 				this.arena = it.data
-				mapLayout = view.findViewById(R.id.rootMap)
 				readMap()
+			})
+			mVm?.paymentResponse?.observe(it, Observer {
+				it.data?.let { response -> onGetPaymentResponseSuccess(response) }
 			})
 		}
 
@@ -283,9 +288,9 @@ class MapFragment : Fragment() {
 
 	private fun onPickedSeatChanged() {
 		if (!mPickedSeatsIds.isEmpty()) {
-//			snackbar!!.show()
+			snackbar!!.show()
 		} else {
-//			snackbar!!.dismiss()
+			snackbar!!.dismiss()
 		}
 	}
 
@@ -311,7 +316,7 @@ class MapFragment : Fragment() {
 
 		if (angleAbs != 90) { // horizontal seats
 			offsetX = 0
-		} else  { // vertical seats
+		} else { // vertical seats
 			if (seatNumber.length < 2) {
 				offsetX = 5
 			} else {
@@ -376,8 +381,8 @@ class MapFragment : Fragment() {
 		override fun onClick(view: View) {
 			val timeFrom: String = TimeDataModel.start
 			val timeTo: String = TimeDataModel.end
-			if (Utils.valideateDate(timeFrom, timeTo)) {
-//				presenter!!.onBookingClick()
+			if (Utils.validateDate(timeFrom, timeTo)) {
+				onPaymentRequest()
 			} else {
 				toast(activity!!.resources.getString(R.string.toast_wrong_range))
 			}
@@ -385,22 +390,6 @@ class MapFragment : Fragment() {
 	}
 
 
-	fun onGetPaymentResponseSuccess(payResponse: PaymentResponse) {
-		Timber.tag("common").d("Pay successfully: %s", payResponse)
-
-		val url = payResponse.redirectUrl
-
-		// TODO Fix it!!!
-//		Intent intent = new Intent(this.getContext(), YandexWebView.class);
-//		intent.putExtra("url", url);
-
-/*		var intent = Intent()
-		intent.putExtra("payments", true)
-		startActivity(Intent(activity, MainActivity::class.java))
-
-		intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-		startActivity(intent)*/
-	}
 
 	/**
 	 * Something goes wrong, and we can't bye seat from Winstrike PC club. show user toast with description this fucking situation.
@@ -413,11 +402,13 @@ class MapFragment : Fragment() {
 
 		Timber.tag("common").w("Failure on pay: %s", appErrorMessage)
 		when {
-			appErrorMessage.contains(getString(R.string.msg_server_500)) -> toast(getString(R.string.msg_server_internal_err))
+			appErrorMessage.contains(getString(R.string.msg_server_500)) -> toast(
+					getString(R.string.msg_server_internal_err))
 			appErrorMessage.contains(getString(R.string.msg_server_400)) -> toast(getString(R.string.msg_no_data))
 			appErrorMessage.contains(getString(R.string.msg_server_401)) -> toast(getString(R.string.msg_no_auth))
 			appErrorMessage.contains(getString(R.string.msg_serve_403)) -> toast(getString(R.string.msg_auth_err))
-			appErrorMessage.contains(getString(R.string.msg_server_404)) -> toast(getString(R.string.msg_no_seat_with_id))
+			appErrorMessage.contains(getString(R.string.msg_server_404)) -> toast(
+					getString(R.string.msg_no_seat_with_id))
 			appErrorMessage.contains(getString(R.string.msg_server_405)) -> toast(getString(R.string.msg_auth_error))
 			appErrorMessage.contains(getString(R.string.msg_server_424)) -> toast(getString(R.string.msg_date_error))
 			appErrorMessage.contains(getString(R.string.msg_server_416)) -> toast(getString(R.string.msg_booking_error))
@@ -509,7 +500,7 @@ class MapFragment : Fragment() {
 	}
 
 	private fun initSnackBar() {
-/*		snackbar = Snackbar.make(mapLayout!!, "", Snackbar.LENGTH_INDEFINITE)
+		snackbar = Snackbar.make(mapLayout!!, "", Snackbar.LENGTH_INDEFINITE)
 		snackbar!!.view.setBackgroundColor(Color.TRANSPARENT)
 		snackbar!!.view.setBackgroundResource(R.drawable.btn_bukking)
 		val layoutInflater = this.layoutInflater
@@ -517,27 +508,49 @@ class MapFragment : Fragment() {
 		snackLayout = snackbar!!.view as Snackbar.SnackbarLayout
 		snackLayout!!.addView(snackView)
 		snackLayout!!.setOnClickListener(BookingBtnListener())
-		snackbar!!.dismiss()*/
+		snackbar!!.dismiss()
 	}
 
-	fun onSnackBarShow() {
-//		snackbar!!.show()
-	}
-
-	fun onSnackBarHide() {
-//		snackbar!!.dismiss()
-	}
 
 	override fun onStop() {
 		super.onStop()
-//		snackbar!!.dismiss()
+		snackbar!!.dismiss()
 	}
 
 
 	override fun onStart() {
 		super.onStart()
-//		snackbar!!.dismiss()
+		snackbar!!.dismiss()
 	}
 
+	fun onPaymentRequest() {
+		val payModel = PaymentModel()
+
+		// TODO: 12/05/2018 Replace with TimeDataModel.
+		payModel.startAt = TimeDataModel.start
+		payModel.end_at = TimeDataModel.end
+		payModel.setPlacesPid(TimeDataModel.pids)
+
+		val token = "Bearer " + PrefUtils.token
+		mVm?.getPayment(token, payModel)
+		snackbar?.dismiss()
+	}
+
+	private fun onGetPaymentResponseSuccess(payResponse: PaymentResponse) {
+		Timber.tag("common").d("Pay successfully: %s", payResponse)
+
+		val url = payResponse.redirectUrl
+
+		// TODO Fix it!!!
+//		Intent intent = new Intent(this.getContext(), YandexWebView.class);
+//		intent.putExtra("url", url);
+
+/*		var intent = Intent()
+		intent.putExtra("payments", true)
+		startActivity(Intent(activity, MainActivity::class.java))
+
+		intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+		startActivity(intent)*/
+	}
 
 }

@@ -189,7 +189,9 @@ fun List<WallEntity>.mapWallsToDomain(): List<Wall> = map { it.mapToDomain() }
 fun CoorsEntity.mapToDomain(): Coors = Coors(id, angle, type, x, y, xn, yn)
 
 
-fun SeatEntity.mapToDomain(): Seat = Seat(offerPid, isHidden, computer?.mapToDomain(),
+fun SeatEntity.mapToDomain(): Seat = Seat(offerPid,
+                                          isHidden,
+                                          computer?.mapToDomain(),
                                           publicId,
                                           offer?.mapToDomain(),
                                           computerPid,

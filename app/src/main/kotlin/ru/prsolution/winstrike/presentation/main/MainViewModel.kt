@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import ru.prsolution.winstrike.datasource.model.mapRoomToDomain
 import ru.prsolution.winstrike.datasource.model.mapToDomain
 import ru.prsolution.winstrike.domain.models.Arena
@@ -13,7 +14,10 @@ import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.SeatCarousel
+import ru.prsolution.winstrike.domain.payment.PaymentModel
+import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.networking.RetrofitFactory
+import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import ru.prsolution.winstrike.presentation.utils.resouces.Resource
 import ru.prsolution.winstrike.presentation.utils.setError
 import ru.prsolution.winstrike.presentation.utils.setSuccess
@@ -30,7 +34,7 @@ class MainViewModel : ViewModel() {
 	// Активный фрагмент
 	var active = MutableLiveData<Fragment>()
 
-	// Ответ от FCM сервера на запрос токера
+	// Ответ от FCM сервера на запрос токена
 	val fcmResponse = MutableLiveData<Resource<MessageResponse>>()
 
 	// Список имеющихся арен
@@ -42,6 +46,9 @@ class MainViewModel : ViewModel() {
 	val currentSeat = MutableLiveData<SeatCarousel>()
 	val currentDate = MutableLiveData<String>()
 	val currentTime = MutableLiveData<String>()
+
+	// Ответ от Яндекс Кассы
+	val paymentResponse = SingleLiveEvent<Resource<PaymentResponse>>()
 
 
 	// Получение списка имеющихся арен на сервере
@@ -74,6 +81,39 @@ class MainViewModel : ViewModel() {
 		}
 	}
 
+	// Оплата выбраных мест через Яндекс Кассу
+	fun getPayment(token: String, paymentModel: PaymentModel) {
+		GlobalScope.launch {
+			val request = retrofitService.getPaymentAsync(token, paymentModel)
+			try {
+				val response = request.await()
+				response.body()?.let {
+					Timber.tag("$$$").d("payment: ${it}")
+					paymentResponse.setSuccess(it)
+				}
+			} catch (e: HttpException) {
+				paymentResponse.setError(e.message)
+				Timber.e(e)
+			}
+		}
+
+/*
+		service?.getPayment(object : Service.PaymentCallback {
+			override fun onSuccess(authResponse: PaymentResponse) {
+				fragment.onGetPaymentResponseSuccess(authResponse)
+			}
+
+			override fun onError(networkError: NetworkError) {
+				fragment.onGetPaymentFailure(networkError.appErrorMessage)
+			}
+
+		}, token, paymentModel)
+*/
+
+	}
+
+
+
 
 	// Отправка токена FCM серверу
 	fun sendFCMToken(userToken: String, fcmBody: FCMModel) {
@@ -85,7 +125,7 @@ class MainViewModel : ViewModel() {
 		}
 
 		GlobalScope.launch {
-			val request = retrofitService.sendTocken(userToken, fcmBody)
+			val request = retrofitService.sendTockenAsync(userToken, fcmBody)
 			try {
 				val response = request.await()
 				response.body()?.let {

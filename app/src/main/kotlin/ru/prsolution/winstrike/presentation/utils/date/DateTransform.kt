@@ -1,25 +1,31 @@
 package ru.prsolution.winstrike.presentation.utils.date
 
+import android.text.TextUtils
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.date
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class DateTransform {
 
 	companion object {
 
 		fun getSimpleDateFromCalendar(date: Date): String {
-			val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("RU"))
+			val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("RU", "RU"))
 			return simpleDateFormat.format(date)
 		}
 
 
 		fun getFormattedDateWithTime(time: String): String {
-/*			var dateInStr = date.get()
+			require(!TextUtils.isEmpty(date)) {
+				"++++ Date must be set before time! ++++"
+			}
+			var dateInStr = date
 			var fmtDate = Date()
 			val date: String
 
-			dateInStr += 'T'.toString() + time + ":00"
-			val formatter = SimpleDateFormat("dd MMM yyyy'T'HH:mm:ss", Locale("RU"))
+			dateInStr += "T$time:00"
+			val formatter = SimpleDateFormat("dd MMM yyyy'T'HH:mm:ss", Locale("RU","RU"))
 			try {
 				fmtDate = formatter.parse(dateInStr)
 
@@ -27,14 +33,14 @@ class DateTransform {
 				e.printStackTrace()
 			}
 
-			date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(fmtDate)
-			return date*/
-			return ""
+			date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("RU", "RU")).format(fmtDate)
+			return date
 		}
 
 
 		fun getDateInUTC(time: String): Date {
-/*			var fmtDate = Date() val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+			var fmtDate = Date()
+			val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("RU", "RU"))
 			try {
 				fmtDate = formatter.parse(time)
 
@@ -42,8 +48,7 @@ class DateTransform {
 				e.printStackTrace()
 			}
 
-			return fmtDate*/
-			return Date()
+			return fmtDate
 		}
 
 	}

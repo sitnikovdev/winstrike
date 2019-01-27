@@ -27,13 +27,15 @@ import kotlinx.android.synthetic.main.frm_choose.tv_date
 import kotlinx.android.synthetic.main.frm_choose.tv_time
 import kotlinx.android.synthetic.main.frm_choose.v_date_tap
 import kotlinx.android.synthetic.main.frm_choose.v_time_tap
-import ru.prsolution.winstrike.datasource.model.ArenaEntity
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import java.text.DateFormatSymbols
 import timber.log.Timber
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
+
+
 
 
 class SetupFragment : Fragment(),
@@ -120,12 +122,38 @@ class SetupFragment : Fragment(),
 	}
 
 
+	@SuppressLint("NewApi")
 	override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
-		mVm?.currentDate?.value = "$day ${DateFormatSymbols().months[month]} $year"
+
+		val c = Calendar.getInstance()
+
+		TimeDataModel.setSelectDate(c.time)
+		val date = TimeDataModel.selectDate
+
+		// update view model
+		mVm?.currentDate?.value = date
 	}
 
+	@SuppressLint("NewApi")
 	override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
+
+		val c = Calendar.getInstance()
+		val timeFrom ="$hourOfDay:$minute"
+		val timeTo = "${hourOfDay + 1}:$minute"
+
 		mVm?.currentTime?.value = "$hourOfDay:$minute - ${hourOfDay + 1}:$minute"
+
+		val time = "$hourOfDay:$minute - ${hourOfDay + 1}:$minute"
+
+		TimeDataModel.time = time
+
+		TimeDataModel.timeFrom = timeFrom
+		TimeDataModel.timeTo = timeTo
+
+		TimeDataModel.setStartAt(timeFrom)
+		TimeDataModel.setEndAt(timeTo)
+
+
 	}
 
 

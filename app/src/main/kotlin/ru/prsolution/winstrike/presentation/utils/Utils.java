@@ -62,7 +62,7 @@ public class Utils {
     }
 
 
-    public static boolean valideateDate(String stDate, String edDate) {
+    public static boolean validateDate(String stDate, String edDate) {
         if (stDate.isEmpty() || edDate.isEmpty()) {
             return false;
         }
