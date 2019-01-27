@@ -11,9 +11,9 @@ import ru.prsolution.winstrike.domain.models.Seat
 import ru.prsolution.winstrike.domain.models.Start
 import ru.prsolution.winstrike.domain.models.Wall
 
-class RoomsEntity(
+class SchemaEntity(
 		@field:Json(name = "room_layout")
-		val roomLayout: RoomEntity? = null
+		val roomLayout: ArenaSchemaEntity? = null
 )
 
 fun ComputerEntity.mapToDomain(): Computer = Computer(active, name, publicId, createAt)
@@ -21,7 +21,7 @@ fun ComputerEntity.mapToDomain(): Computer = Computer(active, name, publicId, cr
 fun OfferEntity.mapToDomain(): Offer = Offer(name, cost, publicId, createAt)
 
 
-fun List<PlaceEntity>.mapToDomain(): List<Seat> = map { it.mapToDomain() }
+fun List<SeatEntity>.mapToDomain(): List<Seat> = map { it.mapToDomain() }
 
 fun StartEntity.mapToDomain(): Start = Start(x, y)
 
@@ -34,22 +34,22 @@ fun List<WallEntity>.mapWallsToDomain(): List<Wall> = map { it.mapToDomain() }
 fun CoorsEntity.mapToDomain(): Coors = Coors(id, angle, type, x, y, xn, yn)
 
 
-fun PlaceEntity.mapToDomain(): Seat = Seat(offerPid, isHidden, computer?.mapToDomain(),
-                                           publicId,
-                                           offer?.mapToDomain(),
-                                           computerPid,
-                                           roomLayoutPid,
-                                           name,
-                                           createAt,
-                                           coors?.mapToDomain(),
-                                           status
+fun SeatEntity.mapToDomain(): Seat = Seat(offerPid, isHidden, computer?.mapToDomain(),
+                                          publicId,
+                                          offer?.mapToDomain(),
+                                          computerPid,
+                                          roomLayoutPid,
+                                          name,
+                                          createAt,
+                                          coors?.mapToDomain(),
+                                          status
 )
 
 fun LabelEntity.mapToDomain(): Label = Label(text, x, y)
 
 fun List<LabelEntity>.mapLabelsToDomain(): List<Label> = map { it.mapToDomain() }
 
-fun RoomEntity.mapRoomToDomain(): ArenaSchema =
+fun ArenaSchemaEntity.mapRoomToDomain(): ArenaSchema =
 		ArenaSchema(
 				name = name,
 				roomPid = roomPid,

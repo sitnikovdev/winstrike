@@ -17,7 +17,7 @@ import ru.prsolution.winstrike.datasource.model.login.NewPasswordModel
 import ru.prsolution.winstrike.datasource.model.OrdersEntity
 import ru.prsolution.winstrike.domain.payment.PaymentModel
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
-import ru.prsolution.winstrike.datasource.model.RoomsEntity
+import ru.prsolution.winstrike.datasource.model.SchemaEntity
 import ru.prsolution.winstrike.domain.models.login.ConfirmModel
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.login.LoginModel
@@ -35,7 +35,7 @@ interface RetrofitService {
 	@GET("room_layouts/{active_layout_pid}")
 	fun arenaSchemaAsync(@Path(
 			"active_layout_pid") active_layout_pid: String?, @QueryMap time: Map<String, String>):
-			Deferred<Response<RoomsEntity>>
+			Deferred<Response<SchemaEntity>>
 
 	// Авторизация пользователя
 	@POST("login")

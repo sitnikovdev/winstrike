@@ -4,7 +4,7 @@ import android.app.Application
 import com.facebook.drawee.backends.pipeline.Fresco
 
 import ru.prsolution.winstrike.datasource.model.ArenaEntity
-import ru.prsolution.winstrike.datasource.model.RoomEntity
+import ru.prsolution.winstrike.datasource.model.ArenaSchemaEntity
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.domain.models.login.UserEntity
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -13,7 +13,7 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 class WinstrikeApp : Application() {
 	val user: UserEntity? = null
 	var seat: SeatCarousel? = null
-	var roomLayout: RoomEntity? = null
+	var roomLayout: ArenaSchemaEntity? = null
 	var rooms: List<ArenaEntity>? = null
 
 

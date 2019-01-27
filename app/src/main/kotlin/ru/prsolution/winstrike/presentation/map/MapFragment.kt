@@ -222,8 +222,8 @@ class MapFragment : Fragment() {
 				offsetY = 5
 			}
 
-			val dx: Int? = ((label.dx?.minus(0))?.times(mXScaleFactor!!))?.toInt()
-			val dy: Int? = ((label.dy?.plus(offsetY))?.times(mYScaleFactor!!))?.toInt()
+			val dx: Int? = ((label.x?.minus(0))?.times(mXScaleFactor!!))?.toInt()
+			val dy: Int? = ((label.y?.plus(offsetY))?.times(mYScaleFactor!!))?.toInt()
 
 			numberParams = RelativeLayout.LayoutParams(RLW, RLW)
 			numberParams!!.leftMargin = dx!!

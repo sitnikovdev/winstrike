@@ -7,7 +7,7 @@ class ArenaMap(room: ArenaSchema?) {
 
 	var name: String? = room?.name
 	var walls: MutableList<WallModel> = mutableListOf()
-	var labels: MutableList<LabelRoom> = mutableListOf()
+	var labels: MutableList<Label> = mutableListOf()
 	var seats: MutableList<SeatMap> = mutableListOf()
 	var arenaSchema: ArenaSchemaName = ArenaSchemaName.WINSTRIKE
 
@@ -42,7 +42,7 @@ class ArenaMap(room: ArenaSchema?) {
 				val dx = label.x
 				val dy = label.y
 
-				this.labels.add(LabelRoom(text, dx, dy))
+				this.labels.add(Label(text, dx, dy))
 			}
 		}
 
@@ -54,11 +54,12 @@ class ArenaMap(room: ArenaSchema?) {
 }
 
 
-class LabelRoom(
-		val text: String?,
-		val dx: Int?,
-		val dy: Int?
+class Label(
+		val text: String? = null,
+		val x: Int? = null,
+		val y: Int? = null
 )
+
 
 class WallModel(wall: Wall) {
 	var start: Point
