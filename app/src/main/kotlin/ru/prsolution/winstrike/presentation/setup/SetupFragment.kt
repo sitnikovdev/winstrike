@@ -38,6 +38,9 @@ import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import timber.log.Timber
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.time
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.timeFrom
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.timeTo
 import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import java.time.Month
 import java.time.format.TextStyle
@@ -168,10 +171,14 @@ class SetupFragment : Fragment(),
 	@SuppressLint("NewApi")
 	override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
 
-		val timeFrom = "$hourOfDay:$minute"
-		val timeTo = "${hourOfDay + 1}:$minute"
+		val calendar = Calendar.getInstance()
+		calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+		calendar.set(Calendar.MINUTE, minute)
+		val sdf = android.text.format.DateFormat.getTimeFormat(activity)
+		val timeFrom = sdf.format(calendar.time)
+		calendar.add(Calendar.HOUR_OF_DAY,1)
+		val timeTo = sdf.format(calendar.time)
 		val time = "$timeFrom - $timeTo"
-		TimeDataModel.time = time
 
 		TimeDataModel.timeFrom = timeFrom
 		TimeDataModel.timeTo = timeTo
@@ -249,8 +256,8 @@ class DatePickerFragment(
 
 //		return DatePickerDialog(activity, android.R.style.Theme_DeviceDefault_Dialog_Alert, listener, year,
 //		                        month, day)
-	val	dialog =  DatePickerDialog(activity, R.style.DatePickerDialogTheme, listener, year,
-		                        month, day).apply {requestWindowFeature(Window.FEATURE_NO_TITLE)}
+		val dialog = DatePickerDialog(activity, R.style.DatePickerDialogTheme, listener, year,
+		                              month, day).apply { requestWindowFeature(Window.FEATURE_NO_TITLE) }
 		return dialog
 	}
 
