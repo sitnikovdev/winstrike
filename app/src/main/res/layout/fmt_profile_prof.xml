@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:activity="ru.prsolution.winstrike.presentation.profile.ProfileFragment">
+    tools:activity="ru.prsolution.winstrike.presentation.profile.ProfileTabFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_start"
@@ -90,6 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/all_savebtn"
+        android:textColor="@color/color_white"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@id/next_button"
         app:layout_constraintEnd_toEndOf="@id/next_button"

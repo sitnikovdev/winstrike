@@ -20,7 +20,7 @@ import ru.prsolution.winstrike.R
  * Created by oleg on 03.02.2018.
  */
 
-class AppFragment : Fragment() {
+class AppTabFragment : Fragment() {
 
 
 	private var listener: OnAppButtonsClickListener? = null
@@ -101,8 +101,8 @@ class AppFragment : Fragment() {
 
 	companion object {
 
-		fun newInstance(): AppFragment {
-			return AppFragment()
+		fun newInstance(): AppTabFragment {
+			return AppTabFragment()
 		}
 	}
 

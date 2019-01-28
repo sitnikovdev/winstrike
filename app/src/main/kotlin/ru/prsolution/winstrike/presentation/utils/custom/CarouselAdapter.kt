@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.WinstrikeApp
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 /**
  * Created by oleg on 02/04/2018.
@@ -33,8 +34,8 @@ class CarouselAdapter(val context: FragmentActivity?) : FragmentPagerAdapter(
 
 	init {
 
-		dpHeight = WinstrikeApp.instance.displayHeightDp
-		dpWidth = WinstrikeApp.instance.displayWidhtDp
+		dpHeight = PrefUtils.displayHeightDp
+		dpWidth = PrefUtils.displayWidhtDp
 
 		if (dpWidth <= 360.0) {
 			BIG_SCALE = 0.9f
@@ -63,7 +64,6 @@ class CarouselAdapter(val context: FragmentActivity?) : FragmentPagerAdapter(
 
 	override fun transformPage(page: View, position: Float) {
 		val root = page.findViewById<ChooseSeatLinearLayout>(R.id.root)
-		val myLinearLayout = root
 		var scale = BIG_SCALE
 		if (scale != null) {
 			if (position > 0) {
@@ -77,7 +77,7 @@ class CarouselAdapter(val context: FragmentActivity?) : FragmentPagerAdapter(
 				scale = 0f
 			}
 		}
-		myLinearLayout.setScaleBoth(scale)
+		root.setScaleBoth(scale)
 	}
 
 }

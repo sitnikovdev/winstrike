@@ -18,6 +18,7 @@ import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.presentation.map.MapFragment
 import ru.prsolution.winstrike.presentation.orders.OrderFragment
 import ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment
+import ru.prsolution.winstrike.presentation.profile.ProfileFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.setup.SetupFragment
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(),
 	private val homeFragment = HomeFragment()
 	private val setupFragment = SetupFragment()
 	private val orderFragment = OrderFragment()
+	private val profileFragment = ProfileFragment()
 
 	private val yandexFragment = YandexWebViewFragment()
 	private val fm: FragmentManager = supportFragmentManager
@@ -196,19 +198,27 @@ class MainActivity : AppCompatActivity(),
 
 	private fun initFragments() {
 		with(fm) {
+			// yandex
 			beginTransaction().add(R.id.main_container, yandexFragment, yandexFragment.javaClass.name)
 					.detach(yandexFragment)
 					.commit()
+			// setup
 			beginTransaction()
 					.add(R.id.main_container, setupFragment, setupFragment.javaClass.name)
 					.hide(setupFragment)
 					.commit()
+			// map
 			beginTransaction()
 					.add(R.id.main_container, mapFragment, mapFragment.javaClass.name)
 					.detach(mapFragment)
 					.commit()
+			// orders
 			beginTransaction().add(R.id.main_container, orderFragment, orderFragment.javaClass.name)
 					.detach(orderFragment)
+					.commit()
+			// profile
+			beginTransaction().add(R.id.main_container, profileFragment, profileFragment.javaClass.name)
+					.detach(profileFragment)
 					.commit()
 			beginTransaction()
 					.add(R.id.main_container, homeFragment, homeFragment.javaClass.name)
@@ -280,16 +290,30 @@ class MainActivity : AppCompatActivity(),
 						return false
 					}
 					showHome(isVisible = true)
-					fm.beginTransaction().hide(active).attach(orderFragment).commit()
+					if (active is HomeFragment) {
+						fm.beginTransaction().hide(active).attach(orderFragment).commit()
+					} else if (active is ProfileFragment) {
+						fm.beginTransaction().detach(active).attach(orderFragment).commit()
+					}
 					active = orderFragment
 					return true
 				}
 
 				R.id.navigation_notifications -> {
-//					fm.beginTransaction().hide(active).show(fragment3).commit()
-//					active = fragment3
-					toast("В разработке")
-					return false
+//					toast("В разработке")
+//					return false
+					if (active is ProfileFragment) {
+						return false
+					}
+					showHome(isVisible = true)
+					if (active is HomeFragment) {
+						fm.beginTransaction().hide(active).attach(profileFragment).commit()
+					}
+					else if (active is OrderFragment) {
+						fm.beginTransaction().detach(active).attach(profileFragment).commit()
+					}
+					active = profileFragment
+					return true
 				}
 			}
 			return false

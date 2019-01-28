@@ -39,7 +39,7 @@ class MainViewModel : ViewModel() {
 	val fcmResponse = MutableLiveData<Resource<MessageResponse>>()
 
 	// Список имеющихся арен
-	val arenaList = MutableLiveData<Resource<List<Arena>>>()
+	val arenaList = SingleLiveEvent<Resource<List<Arena>>>()
 
 	// Выбранная  арена по времени
 	val arena = MutableLiveData<Resource<ArenaSchema?>>()
