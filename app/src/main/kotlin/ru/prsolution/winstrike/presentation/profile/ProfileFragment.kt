@@ -18,7 +18,6 @@ import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.frm_profile.viewPager
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
 import ru.prsolution.winstrike.presentation.splash.SplashActivity
@@ -61,8 +60,8 @@ class ProfileFragment : Fragment() {
 	private fun initAdapter() {
 		Timber.tag("$$$").d("Update profile adapter.")
 		adapter = TabAdapter(fragmentManager)
-		adapter.addFragments(Tab1Fragment(), "1")
-		adapter.addFragments(Tab2Fragment(), "2")
+		adapter.addFragments(ProfileTabFragment(), "Профиль")
+		adapter.addFragments(AppTabFragment(), "Приложение")
 		(vp as ViewPager).adapter = adapter
 		(tabLayout as TabLayout).setupWithViewPager(vp)
 

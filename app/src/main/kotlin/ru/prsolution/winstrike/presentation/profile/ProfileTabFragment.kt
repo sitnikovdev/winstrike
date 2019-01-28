@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.presentation.profile
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,31 +19,31 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 class ProfileTabFragment : Fragment() {
 	private var user: UserEntity? = null
 
-	lateinit var listener: OnProfileUpdateClickListener
+//	lateinit var listener: OnProfileUpdateClickListener
 
 	interface OnProfileUpdateClickListener {
 		// Update user profile data (name and password)
 		fun onProfileUpdate(name: String, passw: String)
 	}
 
-	override fun onAttach(context: Context?) {
+/*	override fun onAttach(context: Context?) {
 		super.onAttach(context)
 		if (context is OnProfileUpdateClickListener) {
 			listener = context
 		} else {
 			throw ClassCastException(context!!.toString() + " must implements OnProfileButtonsClickListener")
 		}
-	}
+	}*/
 
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val v = inflater.inflate(R.layout.fmt_profile_prof, container, false)
 		this.user = UserEntity()
-		next_button!!.setOnClickListener {
+
+		next_button?.setOnClickListener {
 			val name = fio!!.text.toString()
 			val passw = et_password!!.text.toString()
 			//                    setBtnEnable(next_button, false);
-			listener.onProfileUpdate(name, passw)
+//			listener.onProfileUpdate(name, passw)
 		}
 
 		if (PrefUtils.name != null) {
@@ -54,7 +53,7 @@ class ProfileTabFragment : Fragment() {
 			}*/
 		}
 
-		return v
+		return inflater.inflate(R.layout.fmt_profile_prof, container, false)
 	}
 
 
@@ -68,12 +67,4 @@ class ProfileTabFragment : Fragment() {
 		}
 	}
 
-	companion object {
-
-		private val TITLE = "Профиль"
-
-		fun newInstance(): ProfileTabFragment {
-			return ProfileTabFragment()
-		}
-	}
 }
