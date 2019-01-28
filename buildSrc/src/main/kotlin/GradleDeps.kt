@@ -1,6 +1,6 @@
 object Release {
+	const val versionName = "v1.50.30"
 	const val versionCode = 50
-	const val versionName = "v1.50.29"
 }
 
 object ApplicationId {

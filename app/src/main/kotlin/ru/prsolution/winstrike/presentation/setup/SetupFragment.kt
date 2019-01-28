@@ -14,6 +14,7 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
@@ -220,6 +221,10 @@ class SetupFragment : Fragment(),
 	}
 
 	private fun showTimePickerDialog(v: View) {
+		if (TextUtils.isEmpty(TimeDataModel.date)) {
+			toast("Сначала выберите дату")
+			return
+		}
 		val timePicker = TimePickerFragment(this)
 		timePicker.show(activity?.supportFragmentManager, "timePicker")
 	}
@@ -234,6 +239,7 @@ class DatePickerFragment(
 		requireNotNull(listener) { "+++++ Must implement DatePickerDialog.OnDateSetListener. +++++" }
 	}
 
+
 	@SuppressLint("NewApi")
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val c = Calendar.getInstance()
@@ -243,8 +249,9 @@ class DatePickerFragment(
 
 //		return DatePickerDialog(activity, android.R.style.Theme_DeviceDefault_Dialog_Alert, listener, year,
 //		                        month, day)
-		return DatePickerDialog(activity, R.style.DatePickerDialogTheme, listener, year,
-		                        month, day)
+	val	dialog =  DatePickerDialog(activity, R.style.DatePickerDialogTheme, listener, year,
+		                        month, day).apply {requestWindowFeature(Window.FEATURE_NO_TITLE)}
+		return dialog
 	}
 
 }

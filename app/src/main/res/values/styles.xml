@@ -25,6 +25,8 @@
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textAppearance">@style/MyDatePickerTextAppearance</item>
         <item name="android:textColorPrimary">@color/color_white</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:scaleWidth">10</item>
 
     </style>
 
