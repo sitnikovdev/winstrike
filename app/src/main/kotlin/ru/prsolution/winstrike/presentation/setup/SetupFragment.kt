@@ -6,7 +6,6 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
@@ -31,6 +30,7 @@ import kotlinx.android.synthetic.main.frm_choose.tv_time
 import kotlinx.android.synthetic.main.frm_choose.v_date_tap
 import kotlinx.android.synthetic.main.frm_choose.v_time_tap
 import org.jetbrains.anko.support.v4.toast
+import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
@@ -241,7 +241,9 @@ class DatePickerFragment(
 		val month = c.get(Calendar.MONTH)
 		val day = c.get(Calendar.DAY_OF_MONTH)
 
-		return DatePickerDialog(activity, AlertDialog.THEME_DEVICE_DEFAULT_DARK, listener, year,
+//		return DatePickerDialog(activity, android.R.style.Theme_DeviceDefault_Dialog_Alert, listener, year,
+//		                        month, day)
+		return DatePickerDialog(activity, R.style.DatePickerDialogTheme, listener, year,
 		                        month, day)
 	}
 

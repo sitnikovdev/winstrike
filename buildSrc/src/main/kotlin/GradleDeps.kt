@@ -1,11 +1,12 @@
+object Release {
+	const val versionCode = 50
+	const val versionName = "v1.50.29"
+}
+
 object ApplicationId {
 	const val id = "ru.prsolution.winstrike"
 }
 
-object Release {
-	const val versionCode = 50
-	const val versionName = "v1.50.28"
-}
 
 object Compile {
 	const val targetSdk = 28

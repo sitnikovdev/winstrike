@@ -9,6 +9,26 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyDatePickerTextAppearance" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <style name="DatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Dialog attributes -->
+        <item name="dialogCornerRadius">10dp</item>
+
+        <!-- Color palette -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/color_white</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorError">@color/colorPrimary</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textAppearance">@style/MyDatePickerTextAppearance</item>
+        <item name="android:textColorPrimary">@color/color_white</item>
+
+    </style>
+
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.TranslucentNavigation" parent="AppTheme">
