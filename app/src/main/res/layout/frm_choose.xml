@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <TextView
             android:id="@+id/seat_title"
@@ -48,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/head_image"
-            tools:text="ПК: Intel Core i5-8600K | 16GB DDR4 | 512 GB SSD NVMe &amp; 2TB 7200 | nVidia GTX 1070 8GB Монитор: LG 34 &quot; 34UC79G 144hz \\ LG 32 &quot; 32GK850G 144hz \\ LG 24 &quot; 24GM79G 144hz Гарнитура: Logitech G PRO \\ Logitech G231 \\ Logitech Headset G433 Клавиатура: Logitech G512 Carbon Mechanical GX Blue Мышь: Logitech G102 Prodigy \\ Logitech G403 Prodigy kkk" />
+            tools:text="ПК: Intel Core i5-8600K | 16GB DDR4 | 512 GB SSD NVMe &amp; 2TB 7200 | nVidia GTX 1070 8GB Монитор: LG 34 &quot; 34UC79G 144hz \\ LG 32 &quot; 32GK850G 144hz \\ LG 24 &quot; 24GM79G 144hz Гарнитура: Logitech G PRO \\ Logitech G231 \\ Logitech Headset G433 Клавиатура: Logitech G512 Carbon Mechanical GX Blue Мышь: Logitech G102 Prodigy \\ Logitech G403 Prodigy kkk ПК: Intel Core i5-8600K | 16GB DDR4 | 512 GB SSD NVMe &amp; 2TB 7200 | nVidia GTX 1070 8GB Монитор: LG 34 &quot; 34UC79G 144hz \\ LG 32 &quot; 32GK850G 144hz \\ LG 24 &quot; 24GM79G 144hz Гарнитура: Logitech G PRO \\ Logitech G231 \\ Logitech Headset G433 Клавиатура: Logitech G512 Carbon Mechanical GX Blue Мышь: Logitech G102 Prodigy \\ Logitech G403 Prodigy kkk sssssssssssss ssssssssssssss ssssssssssssss ssssssssssss" />
 
         <TextView
             android:id="@+id/tv_date"
@@ -129,6 +130,8 @@
             android:background="@drawable/button_bgr_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/spacer"
             app:layout_constraintTop_toBottomOf="@id/tv_time" />
 
         <TextView
@@ -145,7 +148,18 @@
             app:layout_constraintBottom_toBottomOf="@id/next_button"
             app:layout_constraintEnd_toEndOf="@id/next_button"
             app:layout_constraintStart_toStartOf="@id/next_button"
-            app:layout_constraintTop_toTopOf="@id/next_button" />
+            app:layout_constraintTop_toTopOf="@id/next_button"
+            />
+
+        <Space
+            android:id="@+id/spacer"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/next_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

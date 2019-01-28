@@ -66,13 +66,16 @@ class MainActivity : AppCompatActivity(),
 
 
 	override fun onBackPressed() {
-		// TODO get by instance
-		if (fm.backStackEntryCount == 1) {
-			showHome(isVisible = false)
-			mVm.active.value = homeFragment
-			super.onBackPressed()
-		} else if (fm.backStackEntryCount == 2) {
-			super.onBackPressed()
+		when (active) {
+			is SetupFragment -> {
+				showHome(isVisible = false)
+				navigation.visibility = View.VISIBLE
+				mVm.active.value = homeFragment
+				super.onBackPressed()
+			}
+//			is OrderFragment -> super.onBackPressed()
+			is MapFragment -> super.onBackPressed()
+			is YandexWebViewFragment -> super.onBackPressed()
 		}
 	}
 
@@ -104,7 +107,13 @@ class MainActivity : AppCompatActivity(),
 		})
 
 		mVm.paymentResponse.observe(this, Observer {
-			it.data?.let { response -> onPaymentShow(response) }
+			it.data?.let { response ->
+				onPaymentShow(response)
+			}
+			it.message?.let { error ->
+				Timber.tag("$$$").d("message: $error")
+				onPaymentError(error)
+			}
 		})
 
 
@@ -114,6 +123,7 @@ class MainActivity : AppCompatActivity(),
 			if (active is HomeFragment) {
 				showHome(isVisible = false)
 				navigation.visibility = View.VISIBLE
+				navigation.menu.getItem(0).isChecked = true
 			} else {
 				showHome(isVisible = true)
 				navigation.visibility = View.GONE
@@ -132,10 +142,17 @@ class MainActivity : AppCompatActivity(),
 		initFCM() // FCM push notifications
 	}
 
+	private fun onPaymentError(error: String) {
+		if (error.contains("different time")) {
+			toast("Не удается забронировать место на указанный интервал времени.")
+		} else {
+			toast("Не удается забронировать место.")
+		}
+	}
+
 
 	private fun initToolbar() {
 		toolbar?.setNavigationOnClickListener {
-			supportFragmentManager.popBackStack()
 			when (active) {
 				is HomeFragment -> {
 					showHome(isVisible = false)
@@ -146,13 +163,21 @@ class MainActivity : AppCompatActivity(),
 					navigation.visibility = View.VISIBLE
 					mVm.active.value = homeFragment
 				}
+				is OrderFragment -> {
+//					showHome(isVisible = false)
+					navigation.menu.getItem(1).isChecked = false
+
+					fm.beginTransaction().detach(orderFragment).show(homeFragment).commit()
+					mVm.active.value = homeFragment
+
+				}
 				is MapFragment -> {
 					showHome(isVisible = true)
 					navigation.visibility = View.GONE
 					mVm.active.value = setupFragment
 				}
 			}
-
+			supportFragmentManager.popBackStack()
 		}
 	}
 
@@ -241,6 +266,7 @@ class MainActivity : AppCompatActivity(),
 					if (active is OrderFragment) {
 						return false
 					}
+					showHome(isVisible = true)
 					fm.beginTransaction().hide(active).attach(orderFragment).commit()
 					active = orderFragment
 					return true

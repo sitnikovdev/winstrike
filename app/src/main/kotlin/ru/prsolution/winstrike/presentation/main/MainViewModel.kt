@@ -62,7 +62,8 @@ class MainViewModel : ViewModel() {
 			val request = retrofitService.arenaListAsync()
 			try {
 				val response = request.await()
-				response.body()?.let { arenaList.setSuccess(it.rooms.mapToDomain())
+				response.body()?.let {
+					arenaList.setSuccess(it.rooms.mapToDomain())
 					Timber.tag("$$$").d("arena list: ${it.rooms.mapToDomain().size}")
 				}
 			} catch (e: Throwable) {
@@ -93,17 +94,20 @@ class MainViewModel : ViewModel() {
 			try {
 				val response = request.await()
 				response.body()?.let {
-					Timber.tag("$$$").d("payment: ${it}")
+					Timber.tag("$$$").d("payment: $it")
 					paymentResponse.setSuccess(it)
+				}
+				response.errorBody()?.let {
+					paymentResponse.setError(it.string())
 				}
 			} catch (e: HttpException) {
 				paymentResponse.setError(e.message)
 				Timber.e(e)
+			} catch (e: Exception) {
+				Timber.e(e)
 			}
 		}
 	}
-
-
 
 
 	// Отправка токена FCM серверу

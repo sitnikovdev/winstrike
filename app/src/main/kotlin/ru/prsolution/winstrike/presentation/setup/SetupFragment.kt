@@ -10,6 +10,7 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ import kotlinx.android.synthetic.main.frm_choose.tv_date
 import kotlinx.android.synthetic.main.frm_choose.tv_time
 import kotlinx.android.synthetic.main.frm_choose.v_date_tap
 import kotlinx.android.synthetic.main.frm_choose.v_time_tap
+import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
@@ -116,13 +118,16 @@ class SetupFragment : Fragment(),
 	private fun getArenaByTime() {
 		requireNotNull(rooms)
 		{ "+++ Rooms must be initialized +++" }
+		if (TextUtils.isEmpty(TimeDataModel.start) || TextUtils.isEmpty(TimeDataModel.end)) {
+			toast("Не указана дата")
+			return
+		}
 		// get active arena pid
 		val activePid = rooms?.get(selectedArena)?.roomLayoutPid
 		val time = mutableMapOf<String, String>()
-//		time["start_at"] = TimeDataModel.start
-//		time["end_at"] = TimeDataModel.end
-		time["start_at"] = "2019-01-26T20:00:00"
-		time["end_at"] = "2019-01-26T21:00:00"
+		time["start_at"] = TimeDataModel.start
+		time["end_at"] = TimeDataModel.end
+//		time["start_at"] = "2019-01-26T20:00:00" //		time["end_at"] = "2019-01-26T21:00:00"
 		mVm?.getArenaSchema(activePid, time)
 	}
 
