@@ -4,7 +4,7 @@ object ApplicationId {
 
 object Release {
 	const val versionCode = 50
-	const val versionName = "v1.50.24"
+	const val versionName = "v1.50.25"
 }
 
 object Compile {

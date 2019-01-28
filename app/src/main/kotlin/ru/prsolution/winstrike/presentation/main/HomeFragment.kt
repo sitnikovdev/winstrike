@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fmt_home.tvArenaTitle
 import kotlinx.android.synthetic.main.fmt_home.view_pager_seat
 import org.jetbrains.anko.imageURI
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.WinstrikeApp
+import ru.prsolution.winstrike.App
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaHallType
 import ru.prsolution.winstrike.domain.models.RoomSeatType
@@ -245,7 +245,7 @@ class HomeFragment : Fragment() {
 		TimeDataModel.clearPids()
 //		showFragmentHolderContainer(true)
 		// TODO: remove this!!! Use ViewModel
-		WinstrikeApp.instance.seat = seat
+		App.instance.seat = seat
 //		presenter.onChooseScreenClick()
 	}
 

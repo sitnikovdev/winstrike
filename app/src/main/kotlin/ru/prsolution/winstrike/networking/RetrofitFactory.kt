@@ -8,7 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import ru.prsolution.winstrike.BuildConfig
-import ru.prsolution.winstrike.WinstrikeApp
+import ru.prsolution.winstrike.App
 import java.util.concurrent.TimeUnit
 
 /**
@@ -29,7 +29,7 @@ object RetrofitFactory {
     private fun makeOkHttpClient(): OkHttpClient {
         return OkHttpClient().newBuilder()
                 .addInterceptor(makeLoggingInterceptor())
-                .addInterceptor( ChuckInterceptor(WinstrikeApp.instance))
+                .addInterceptor( ChuckInterceptor(App.instance))
                 .connectTimeout(120, TimeUnit.SECONDS)
                 .readTimeout(120, TimeUnit.SECONDS)
                 .writeTimeout(90, TimeUnit.SECONDS)

@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.WinstrikeApp
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 /**

@@ -8,28 +8,27 @@
     android:orientation="vertical">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout_Profile"
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?android:actionBarSize"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabTextAppearance="@style/TabLayoutProfile" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:tabTextAppearance="@style/TabLayoutProfile"
+        />
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager_Profile"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-    <View
-        android:id="@+id/v_back"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:background="@color/color_white"
-
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tabs"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:visibility="visible"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

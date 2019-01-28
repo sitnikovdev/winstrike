@@ -10,7 +10,7 @@ import ru.prsolution.winstrike.domain.models.login.UserEntity
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 
-class WinstrikeApp : Application() {
+class App : Application() {
 	val user: UserEntity? = null
 	var seat: SeatCarousel? = null
 	var roomLayout: ArenaSchemaEntity? = null
@@ -66,6 +66,6 @@ class WinstrikeApp : Application() {
 	}
 
 	companion object {
-		lateinit var instance: WinstrikeApp
+		lateinit var instance: App
 	}
 }

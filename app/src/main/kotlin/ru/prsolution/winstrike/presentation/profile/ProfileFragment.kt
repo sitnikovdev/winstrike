@@ -16,11 +16,15 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.frm_profile.viewPager
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
 import ru.prsolution.winstrike.presentation.splash.SplashActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import timber.log.Timber
 
 
 class ProfileFragment : Fragment() {
@@ -35,9 +39,40 @@ class ProfileFragment : Fragment() {
 	}
 
 
+	private lateinit var adapter: TabAdapter
+
+	private  var  tabLayout: TabLayout? = null
+	private var vp: ViewPager? = null
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater.inflate(R.layout.frm_profile, container, false)
+		val view = inflater.inflate(R.layout.frm_profile, container, false)
+
+		 tabLayout = view.findViewById(R.id.tabs)
+		 vp = view.findViewById(R.id.viewPager)
+
+		return view
 	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		initAdapter()
+	}
+
+	private fun initAdapter() {
+		Timber.tag("$$$").d("Update profile adapter.")
+		adapter = TabAdapter(fragmentManager)
+		adapter.addFragments(Tab1Fragment(), "1")
+		adapter.addFragments(Tab2Fragment(), "2")
+		(vp as ViewPager).adapter = adapter
+		(tabLayout as TabLayout).setupWithViewPager(vp)
+
+	}
+
+	override fun onResume() {
+		super.onResume()
+		initAdapter()
+	}
+
 
 	// TODO Move in View Model
 	fun onProfileUpdate(name: String, password: String) {
@@ -65,7 +100,6 @@ class ProfileFragment : Fragment() {
 			}
 		}
 	}
-
 
 	// SignOut Dialog
 	private fun dlgProfileSingOut() {

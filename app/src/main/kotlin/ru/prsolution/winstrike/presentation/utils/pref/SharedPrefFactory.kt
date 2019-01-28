@@ -3,7 +3,7 @@ package ru.prsolution.winstrike.presentation.utils.pref
 import android.content.Context
 import android.content.SharedPreferences
 
-import ru.prsolution.winstrike.WinstrikeApp
+import ru.prsolution.winstrike.App
 
 
 /**
@@ -15,7 +15,7 @@ object SharedPrefFactory {
     private const val PREF_NAME = "winstrike_preferences"
 
     val prefs: SharedPreferences
-        get() = WinstrikeApp.instance.getSharedPreferences(
+        get() = App.instance.getSharedPreferences(
                 PREF_NAME, Context.MODE_PRIVATE)
 
     val editor: SharedPreferences.Editor
