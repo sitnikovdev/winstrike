@@ -161,5 +161,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-15dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:indeterminate="true"
+            app:layout_constraintTop_toBottomOf="@id/spacer"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -20,6 +20,7 @@ import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import ru.prsolution.winstrike.presentation.utils.resouces.Resource
 import ru.prsolution.winstrike.presentation.utils.setError
+import ru.prsolution.winstrike.presentation.utils.setLoading
 import ru.prsolution.winstrike.presentation.utils.setSuccess
 import timber.log.Timber
 
@@ -92,6 +93,7 @@ class MainViewModel : ViewModel() {
 		GlobalScope.launch {
 			val request = retrofitService.getPaymentAsync(token, paymentModel)
 			try {
+				paymentResponse.setLoading()
 				val response = request.await()
 				response.body()?.let {
 					Timber.tag("$$$").d("payment: $it")

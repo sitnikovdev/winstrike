@@ -3,7 +3,6 @@ package ru.prsolution.winstrike.presentation.main
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -21,8 +20,8 @@ import ru.prsolution.winstrike.presentation.orders.OrderFragment
 import ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.setup.SetupFragment
-import ru.prsolution.winstrike.presentation.utils.Utils.toast
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity(),
@@ -74,8 +73,14 @@ class MainActivity : AppCompatActivity(),
 				super.onBackPressed()
 			}
 //			is OrderFragment -> super.onBackPressed()
-			is MapFragment -> super.onBackPressed()
-			is YandexWebViewFragment -> super.onBackPressed()
+			is MapFragment -> {
+				mVm.active.value = setupFragment
+				super.onBackPressed()
+			}
+			is YandexWebViewFragment -> {
+				mVm.active.value = mapFragment
+				 super.onBackPressed()
+			}
 		}
 	}
 
@@ -107,11 +112,18 @@ class MainActivity : AppCompatActivity(),
 		})
 
 		mVm.paymentResponse.observe(this, Observer {
+			it.state.let { state ->
+				if (state == ResourceState.LOADING) {
+//					progressBar.visibility = View.VISIBLE
+				}
+			}
 			it.data?.let { response ->
 				onPaymentShow(response)
+//				progressBar.visibility = View.GONE
 			}
 			it.message?.let { error ->
 				Timber.tag("$$$").d("message: $error")
+//				progressBar.visibility = View.GONE
 				onPaymentError(error)
 			}
 		})
@@ -130,6 +142,7 @@ class MainActivity : AppCompatActivity(),
 			}
 		})
 
+//		progressBar?.visibility = View.VISIBLE
 
 		setSupportActionBar(toolbar)
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)

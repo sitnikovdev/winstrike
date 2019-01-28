@@ -4,7 +4,7 @@ object ApplicationId {
 
 object Release {
 	val versionCode = 50
-	val versionName = "v1.50.21"
+	val versionName = "v1.50.22"
 }
 
 object Constants {

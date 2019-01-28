@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.frm_choose.cpu
 import kotlinx.android.synthetic.main.frm_choose.head_image
 import kotlinx.android.synthetic.main.frm_choose.next_button
+import kotlinx.android.synthetic.main.frm_choose.progressBar
 import kotlinx.android.synthetic.main.frm_choose.seat_title
 import kotlinx.android.synthetic.main.frm_choose.tv_date
 import kotlinx.android.synthetic.main.frm_choose.tv_time
@@ -36,6 +37,7 @@ import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import timber.log.Timber
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
+import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import java.time.Month
 import java.time.format.TextStyle
 import java.util.Locale
@@ -88,6 +90,7 @@ class SetupFragment : Fragment(),
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		progressBar.visibility = View.INVISIBLE
 
 		activity?.let {
 			// arenaList
@@ -107,8 +110,24 @@ class SetupFragment : Fragment(),
 				tv_time.text = time
 			})
 			mVm?.arena?.observe(it, Observer { arena ->
-				Timber.tag("@@@").d("arena: ${arena.data?.name}")
-				mListener?.onMapShow()
+				arena.state.let { state ->
+					if (state == ResourceState.LOADING) {
+						progressBar.visibility = View.VISIBLE
+						Timber.tag("$$$").d("status is: $it")
+					}
+				}
+
+				arena.data?.let {
+					progressBar.visibility = View.INVISIBLE
+					Timber.tag("$$$").d("arena name: ${arena.data.name}")
+					mListener?.onMapShow()
+				}
+
+				arena.message?.let {
+					progressBar.visibility = View.INVISIBLE
+					Timber.tag("$$$").d("error message: $it")
+
+				}
 			})
 		}
 
@@ -183,7 +202,7 @@ class SetupFragment : Fragment(),
 
 		// next button
 		next_button.setOnClickListener {
-			// TODO getActiveArena
+			progressBar.visibility = View.VISIBLE
 			getArenaByTime()
 		}
 	}
