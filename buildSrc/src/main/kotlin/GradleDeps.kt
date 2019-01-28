@@ -1,5 +1,5 @@
 object Release {
-	const val versionName = "v1.50.31"
+	const val versionName = "v1.50.32"
 	const val versionCode = 50
 }
 
