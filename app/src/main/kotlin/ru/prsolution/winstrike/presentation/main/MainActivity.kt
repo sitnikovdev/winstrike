@@ -158,6 +158,7 @@ class MainActivity : AppCompatActivity(),
 	}
 
 	private fun onPaymentError(error: String) {
+		TimeDataModel.pids.clear()
 		if (error.contains("different time")) {
 			toast("Не удается забронировать место на указанный интервал времени.")
 		} else {
@@ -303,8 +304,6 @@ class MainActivity : AppCompatActivity(),
 				}
 
 				R.id.navigation_notifications -> {
-//					toast("В разработке")
-//					return false
 					if (active is ProfileFragment) {
 						return false
 					}
@@ -322,6 +321,5 @@ class MainActivity : AppCompatActivity(),
 			return false
 		}
 	}
-
 
 }

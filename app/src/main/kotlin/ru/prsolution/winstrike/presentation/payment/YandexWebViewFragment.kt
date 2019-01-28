@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import kotlinx.android.synthetic.main.fragment_yandex_web_view.pbar
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import timber.log.Timber
@@ -24,13 +26,15 @@ import timber.log.Timber
 class YandexWebViewFragment : Fragment() {
 	private var mWebView: WebView? = null
 	private var url: String? = null
-	var mVm: MainViewModel? = null
+	private var mVm: MainViewModel? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
 
 	}
+
+	private var pb: ProgressBar? = null
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
 	                          savedInstanceState: Bundle?): View? {
@@ -40,6 +44,7 @@ class YandexWebViewFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		pbar.visibility = View.VISIBLE
 
 		activity?.let {
 			mVm?.redirectUrl?.observe(it, Observer {
@@ -64,6 +69,13 @@ class YandexWebViewFragment : Fragment() {
 
 
 	private inner class MyWebViewClient : WebViewClient() {
+
+
+		override fun onPageFinished(view: WebView?, url: String?) {
+			super.onPageFinished(view, url)
+			pbar.visibility = View.GONE
+		}
+
 
 		override fun onLoadResource(view: WebView, url: String) {
 			super.onLoadResource(view, url)
