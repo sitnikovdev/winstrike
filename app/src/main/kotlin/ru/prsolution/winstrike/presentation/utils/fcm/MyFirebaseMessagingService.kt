@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package ru.prsolution.winstrike.presentation.utils.notifications
+package ru.prsolution.winstrike.presentation.utils.fcm
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

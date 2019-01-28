@@ -44,6 +44,7 @@ class MainViewModel : ViewModel() {
 	val arena = MutableLiveData<Resource<ArenaSchema?>>()
 
 	// Обновление информации о выбранном месте и времени
+	val currentArena = MutableLiveData<String>()
 	val currentSeat = MutableLiveData<SeatCarousel>()
 	val currentDate = MutableLiveData<String>()
 	val currentTime = MutableLiveData<String>()
@@ -100,20 +101,6 @@ class MainViewModel : ViewModel() {
 				Timber.e(e)
 			}
 		}
-
-/*
-		service?.getPayment(object : Service.PaymentCallback {
-			override fun onSuccess(authResponse: PaymentResponse) {
-				fragment.onGetPaymentResponseSuccess(authResponse)
-			}
-
-			override fun onError(networkError: NetworkError) {
-				fragment.onGetPaymentFailure(networkError.appErrorMessage)
-			}
-
-		}, token, paymentModel)
-*/
-
 	}
 
 

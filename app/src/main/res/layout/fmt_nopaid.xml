@@ -4,9 +4,10 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/height_edit_56dp"
-        tools:activity="ru.prsolution.winstrike.common.fragment.PlacesListFragment">
-        <!--By default, height of Toolbar and Bottom Navigation are equal-->
+        android:background="@color/color_white"
+        tools:activity=".MainActivity"
+        >
+
         <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="wrap_content"

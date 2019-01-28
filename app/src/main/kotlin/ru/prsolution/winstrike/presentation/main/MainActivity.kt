@@ -1,21 +1,27 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.ac_mainscreen.navigation
 import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
+import org.jetbrains.anko.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.presentation.map.MapFragment
+import ru.prsolution.winstrike.presentation.orders.OrderFragment
 import ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.setup.SetupFragment
+import ru.prsolution.winstrike.presentation.utils.Utils.toast
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
 
@@ -28,6 +34,8 @@ class MainActivity : AppCompatActivity(),
 	private val mapFragment = MapFragment()
 	private val homeFragment = HomeFragment()
 	private val setupFragment = SetupFragment()
+	private val orderFragment = OrderFragment()
+
 	private val yandexFragment = YandexWebViewFragment()
 	private val fm: FragmentManager = supportFragmentManager
 	var active: Fragment = homeFragment
@@ -117,7 +125,15 @@ class MainActivity : AppCompatActivity(),
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		showHome(isVisible = false)
 
+		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
+		initToolbar()
+		initFragments()
+		initFCM() // FCM push notifications
+	}
+
+
+	private fun initToolbar() {
 		toolbar?.setNavigationOnClickListener {
 			supportFragmentManager.popBackStack()
 			when (active) {
@@ -138,11 +154,11 @@ class MainActivity : AppCompatActivity(),
 			}
 
 		}
+	}
 
-
+	private fun initFragments() {
 		with(fm) {
-			beginTransaction()
-					.add(R.id.main_container, yandexFragment, yandexFragment.javaClass.name)
+			beginTransaction().add(R.id.main_container, yandexFragment, yandexFragment.javaClass.name)
 					.detach(yandexFragment)
 					.commit()
 			beginTransaction()
@@ -153,14 +169,15 @@ class MainActivity : AppCompatActivity(),
 					.add(R.id.main_container, mapFragment, mapFragment.javaClass.name)
 					.detach(mapFragment)
 					.commit()
+			beginTransaction().add(R.id.main_container, orderFragment, orderFragment.javaClass.name)
+					.detach(orderFragment)
+					.commit()
 			beginTransaction()
 					.add(R.id.main_container, homeFragment, homeFragment.javaClass.name)
 					.commit()
 
 		}
-		initFCM() // FCM push notifications
 	}
-
 
 
 	private fun clearData() {
@@ -206,5 +223,39 @@ class MainActivity : AppCompatActivity(),
 		mVm.active.value = yandexFragment
 
 	}
+
+	private val mOnNavigationItemSelectedListener = object : BottomNavigationView.OnNavigationItemSelectedListener {
+
+		override fun onNavigationItemSelected(item: MenuItem): Boolean {
+			when (item.itemId) {
+				R.id.navigation_home -> {
+					if (active is HomeFragment) {
+						return false
+					}
+					fm.beginTransaction().detach(active).show(homeFragment).commit()
+					active = homeFragment
+					return true
+				}
+
+				R.id.navigation_dashboard -> {
+					if (active is OrderFragment) {
+						return false
+					}
+					fm.beginTransaction().hide(active).attach(orderFragment).commit()
+					active = orderFragment
+					return true
+				}
+
+				R.id.navigation_notifications -> {
+//					fm.beginTransaction().hide(active).show(fragment3).commit()
+//					active = fragment3
+					toast("В разработке")
+					return false
+				}
+			}
+			return false
+		}
+	}
+
 
 }

@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.presentation.places
+package ru.prsolution.winstrike.presentation.orders
 
 /*
  * Created by oleg on 31.01.2018.
@@ -18,10 +18,9 @@ class PlacesAdapter(private val context: Context,
 
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-		val view: View
+		val view: View = LayoutInflater.from(context).inflate(R.layout.item_paid, parent, false)
 		val rvHolder: RecyclerView.ViewHolder
 
-		view = LayoutInflater.from(context).inflate(R.layout.item_paid, parent, false)
 		rvHolder = PayViewHolder(view)
 
 		return rvHolder

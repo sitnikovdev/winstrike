@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.presentation.utils.notifications;
+package ru.prsolution.winstrike.presentation.utils.fcm;
 
 import android.annotation.SuppressLint;
 import android.app.job.JobParameters;

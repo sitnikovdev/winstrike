@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.prsolution.winstrike.presentation.utils.notifications
+package ru.prsolution.winstrike.presentation.utils.fcm
 
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService

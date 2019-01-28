@@ -145,11 +145,7 @@ class SetupFragment : Fragment(),
 
 		val timeFrom = "$hourOfDay:$minute"
 		val timeTo = "${hourOfDay + 1}:$minute"
-
-		mVm?.currentTime?.value = "$hourOfDay:$minute - ${hourOfDay + 1}:$minute"
-
-		val time = "$hourOfDay:$minute - ${hourOfDay + 1}:$minute"
-
+		val time = "$timeFrom - $timeTo"
 		TimeDataModel.time = time
 
 		TimeDataModel.timeFrom = timeFrom
@@ -158,6 +154,7 @@ class SetupFragment : Fragment(),
 		TimeDataModel.setStartAt(timeFrom)
 		TimeDataModel.setEndAt(timeTo)
 
+		mVm?.currentTime?.value = time
 
 	}
 
