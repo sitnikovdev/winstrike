@@ -1,3 +1,5 @@
+import Release.versionCode
+import Release.versionName
 
 plugins {
     id("com.android.application")
@@ -7,11 +9,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Versions.targetSdk)
+    compileSdkVersion(Compile.targetSdk)
     defaultConfig {
         applicationId = ApplicationId.id
-        targetSdkVersion(Versions.targetSdk)
-        minSdkVersion(Versions.minSdk)
+        targetSdkVersion(Compile.targetSdk)
+        minSdkVersion(Compile.minSdk)
         versionCode = Release.versionCode
         versionName = Release.versionName
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"

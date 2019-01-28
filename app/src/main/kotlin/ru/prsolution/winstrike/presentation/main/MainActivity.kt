@@ -174,22 +174,24 @@ class MainActivity : AppCompatActivity(),
 					navigation.visibility = View.VISIBLE
 				}
 				is SetupFragment -> {
-					showHome(isVisible = false)
 					navigation.visibility = View.VISIBLE
 					mVm.active.value = homeFragment
 				}
 				is OrderFragment -> {
-//					showHome(isVisible = false)
 					navigation.menu.getItem(1).isChecked = false
-
 					fm.beginTransaction().detach(orderFragment).show(homeFragment).commit()
 					mVm.active.value = homeFragment
 
 				}
 				is MapFragment -> {
-					showHome(isVisible = true)
 					navigation.visibility = View.GONE
 					mVm.active.value = setupFragment
+				}
+
+				is ProfileFragment -> {
+					navigation.menu.getItem(2).isChecked = false
+					fm.beginTransaction().detach(profileFragment).show(homeFragment).commit()
+					mVm.active.value = homeFragment
 				}
 			}
 			supportFragmentManager.popBackStack()
@@ -256,6 +258,7 @@ class MainActivity : AppCompatActivity(),
 	private fun onPaymentShow(payResponse: PaymentResponse) {
 		Timber.tag("common").d("Pay successfully: %s", payResponse)
 
+		// TODO: Show progress bar when load web view.
 		val url = payResponse.redirectUrl
 		val testUrl = "https://yandex.ru"
 		mVm.redirectUrl.value = testUrl
