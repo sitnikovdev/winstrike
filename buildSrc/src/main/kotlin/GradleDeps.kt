@@ -29,7 +29,7 @@ object Versions {
 	const val googleServicies = "4.2.0"
 	const val kotlin = "1.3.20"
 	const val androidx = "1.0.2"
-	const val lifecycle = "1.1.1"
+	const val lifecycle = "2.0.0"
 	const val ktx = "1.0.0-alpha1"
 
 

@@ -1,12 +1,10 @@
-import Release.versionCode
-import Release.versionName
-
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
     kotlin("android")
     kotlin("android.extensions")
 }
+
 
 android {
     compileSdkVersion(Compile.targetSdk)
@@ -48,6 +46,8 @@ android {
     }
 
 }
+
+
 
 dependencies {
 
