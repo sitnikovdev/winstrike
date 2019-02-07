@@ -15,43 +15,42 @@ import ru.prsolution.winstrike.R
  */
 
 class GuideActivity : AppCompatActivity() {
-	private val pagerAdapter: PagerAdapter? = null
-	private val viewPager: ViewPager? = null
-	private val GUIDE_COUNT = 3
+    private val pagerAdapter: PagerAdapter? = null
+    private val viewPager: ViewPager? = null
+    private val GUIDE_COUNT = 3
 
-	fun getViewPager(): ViewPager? {
-		/*        ViewPagerCustomDuration vp = (ViewPagerCustomDuration) findViewById(R.id.vp_pager);
+    fun getViewPager(): ViewPager? {
+        /*        ViewPagerCustomDuration vp = (ViewPagerCustomDuration) findViewById(R.id.vp_pager);
         vp.setScrollDurationFactor(4.0); // make the animation twice as slow
         return vp;*/
-		return null
-	}
+        return null
+    }
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		setContentView(R.layout.fmt_guides)
-
-
-		//        pagerAdapter = new GuidesFragmentPagerAdapter(getSupportFragmentManager());
-		vp_pager!!.adapter = pagerAdapter
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fmt_guides)
 
 
-	}
-
-	private inner class GuidesFragmentPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-
-		override fun getItem(position: Int): Fragment? {
-			//            return GuideFragment.newInstance(position);
-			return null
-		}
+        //        pagerAdapter = new GuidesFragmentPagerAdapter(getSupportFragmentManager());
+        vp_pager!!.adapter = pagerAdapter
 
 
-		override fun getCount(): Int {
-			return GUIDE_COUNT
-		}
-	}
+    }
 
-	override fun onBackPressed() {
-		super.onBackPressed()
-		finish()
-	}
+    private inner class GuidesFragmentPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+
+        override fun getItem(position: Int): Fragment {
+            return GuideFragment.newInstance(position)
+        }
+
+
+        override fun getCount(): Int {
+            return GUIDE_COUNT
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 }

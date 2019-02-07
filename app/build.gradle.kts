@@ -1,5 +1,3 @@
-import Release.versionCode
-import Release.versionName
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
@@ -7,6 +5,7 @@ import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
+    id("com.github.ben-manes.versions") version "0.20.0" // use gradle depUp ; show old dependencies in terminal
     kotlin("android")
     kotlin("android.extensions")
 }

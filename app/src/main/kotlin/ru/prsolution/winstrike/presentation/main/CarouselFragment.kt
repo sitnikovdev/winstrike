@@ -34,13 +34,14 @@ class CarouselFragment : Fragment() {
 		fun onSeatClick(seat: SeatCarousel?)
 	}
 
-	override fun onAttach(context: Context?) {
+	override fun onAttach(context: Context) {
 		super.onAttach(context)
 		if (context is OnSeatClickListener) {
 			mListener = context
 		} else {
 			throw ClassCastException(
-					context!!.toString() + " must implements OnChoosePlaceButtonsClickListener ") as Throwable
+				"$context must implements OnChoosePlaceButtonsClickListener "
+			)
 		}
 	}
 
@@ -96,7 +97,7 @@ class CarouselFragment : Fragment() {
 		fun newInstance(activity: FragmentActivity?, room: SeatCarousel): Fragment {
 			val bundle = Bundle()
 			bundle.putSerializable("room", room)
-			return Fragment.instantiate(activity, CarouselFragment::class.java.name, bundle)
+			return Fragment.instantiate(activity!!, CarouselFragment::class.java.name, bundle)
 		}
 	}
 

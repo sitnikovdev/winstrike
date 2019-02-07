@@ -15,7 +15,7 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
  */
 
 class CarouselAdapter(val context: FragmentActivity?) : FragmentPagerAdapter(
-		context?.supportFragmentManager), ViewPager.PageTransformer {
+		context!!.supportFragmentManager), ViewPager.PageTransformer {
 
 	private val mFragmentList = ArrayList<Fragment>()
 	private var PAGES = 1

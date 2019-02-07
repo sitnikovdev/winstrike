@@ -9,7 +9,7 @@ import com.google.android.material.tabs.TabLayout
  * Created by Oleg Sitnikov on 2019-01-28
  */
 
-class TabAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
+class TabAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm!!) {
 	private val fragments = mutableListOf<Fragment>()
 	private val mFragmentTitleList = mutableListOf<String>()
 

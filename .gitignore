@@ -1,20 +1,24 @@
+# idea files
+.idea
 *.iml
+
+# gradle
 .gradle
 gradlew
 gradle
 gradlew.bat
-gradle.properties
-settings.gradle
-*.swp
-#build.gradle
-local.properties
-.idea
-.DS_Store
+
+# app
 build
-captures
-.externalNativeBuild
 app/*.iml
 app/libs
 app/proguard-rules.pro
 app/release/*
 app/release/output.json
+
+# others
+*.swp
+local.properties
+.DS_Store
+captures
+.externalNativeBuild

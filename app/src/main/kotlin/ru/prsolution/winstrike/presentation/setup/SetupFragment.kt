@@ -64,7 +64,7 @@ class SetupFragment : Fragment(),
 	var mVm: MainViewModel? = null
 
 
-	override fun onAttach(context: Context?) {
+	override fun onAttach(context: Context) {
 		super.onAttach(context)
 		require(context is MapShowListener)
 		{ "++++ Must implements SetupFragment.MapShowListener. +++" }
@@ -224,7 +224,7 @@ class SetupFragment : Fragment(),
 
 	private fun showDatePickerDialog(v: View) {
 		val newFragment = DatePickerFragment(this)
-		newFragment.show(activity?.supportFragmentManager, "datePicker")
+		activity?.supportFragmentManager?.let { newFragment.show(it, "datePicker") }
 	}
 
 	private fun showTimePickerDialog(v: View) {
@@ -233,7 +233,7 @@ class SetupFragment : Fragment(),
 			return
 		}
 		val timePicker = TimePickerFragment(this)
-		timePicker.show(activity?.supportFragmentManager, "timePicker")
+		activity?.supportFragmentManager?.let { timePicker.show(it, "timePicker") }
 	}
 
 
