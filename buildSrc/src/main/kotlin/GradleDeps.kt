@@ -1,6 +1,9 @@
-object Release {
-	const val versionName = "v1.50.32"
-	const val versionCode = 50
+object AppVersion {
+	// App version information
+	const val majorAppVersion = 0
+	const val minorAppVersion = 50
+	const val patchAppVersion = 0
+	const val buildAppVersion = 0
 }
 
 object ApplicationId {
@@ -13,29 +16,6 @@ object Android {
 	const val targetSdkVersion = 28
 }
 
-object AppVersion {
-	// App version information
-	const val majorAppVersion = 0
-	const val minorAppVersion = 50
-	const val patchAppVersion = 0
-	const val buildAppVersion = 0
-}
-
-object Compile {
-	const val targetSdk = 28
-	const val compileSdk = 28
-	const val minSdk = 21
-}
-
-object Constants {
-	const val DEBUGURL = "\"http://46.254.21.94:9000/api/v1/\""
-	const val BASEURL = "\"http://api.winstrike.ru:8000/api/v1/\""
-}
-
-object Modules {
-	const val app = ":app"
-	const val preference = ":preference"
-}
 
 object Versions {
 	const val gradle = "3.5.0-alpha03"
@@ -99,4 +79,14 @@ object Libraries {
 	const val chuckRelease = "com.readystatesoftware.chuck:library-no-op:${Versions.chuck}"
 }
 
+
+object Constants {
+	const val DEBUGURL = "\"http://46.254.21.94:9000/api/v1/\""
+	const val BASEURL = "\"http://api.winstrike.ru:8000/api/v1/\""
+}
+
+object Modules {
+	const val app = ":app"
+	const val preference = ":preference"
+}
 

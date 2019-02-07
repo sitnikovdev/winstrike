@@ -17,6 +17,7 @@ buildscript {
 		classpath("com.android.tools.build:gradle:${Versions.gradle}")
 		classpath("com.google.gms:google-services:${Versions.googleServicies}")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
+		classpath("com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6")
 	}
 }
 

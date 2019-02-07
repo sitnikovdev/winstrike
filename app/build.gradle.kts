@@ -5,22 +5,25 @@ import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
-    id("com.github.ben-manes.versions") version "0.20.0" // use gradle depUp ; show old dependencies in terminal
     kotlin("android")
     kotlin("android.extensions")
+    id("com.getkeepsafe.dexcount")
+    id("com.github.ben-manes.versions") version "0.20.0" // use gradle depUp ; show old dependencies in terminal
 }
 
 
+
 android {
-    compileSdkVersion(Compile.targetSdk)
+    compileSdkVersion(Android.compileSdkVersion)
     defaultConfig {
         applicationId = ApplicationId.id
-        targetSdkVersion(Compile.targetSdk)
-        minSdkVersion(Compile.minSdk)
+        targetSdkVersion(Android.targetSdkVersion)
+        minSdkVersion(Android.minSdkVersion)
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
-        versionCode = (AppVersion.majorAppVersion * 10_000) + (AppVersion.minorAppVersion * 1_000) + (AppVersion.patchAppVersion * 100)
+        versionCode =
+            (AppVersion.majorAppVersion * 10_000) + (AppVersion.minorAppVersion * 1_000) + (AppVersion.patchAppVersion * 100)
 
         versionName = "${AppVersion.majorAppVersion}" +
                 ".${AppVersion.minorAppVersion}" +
@@ -35,8 +38,8 @@ android {
 
                         val outputImpl = output as BaseVariantOutputImpl
                         val fileName = output.outputFileName
-                                .replace("-release", "-release-v$versionName-vc$versionCode")
-                                .replace("-debug", "-debug-v$versionName-vc$versionCode")
+                            .replace("-release", "-release-v$versionName-vc$versionCode")
+                            .replace("-debug", "-debug-v$versionName-vc$versionCode")
                         println("output file name: $fileName")
                         outputImpl.outputFileName = fileName
                     }
@@ -53,6 +56,7 @@ android {
         }
         getByName("release") {
             buildConfigField("String", "BASEURL", Constants.BASEURL)
+            isUseProguard = false // user R8 instead
             isMinifyEnabled = true
         }
     }
@@ -76,6 +80,21 @@ android {
 
 }
 
+dexcount {
+    format = "list"
+    includeClasses = false
+    includeClassCount = false
+    includeFieldCount = true
+    includeTotalMethodCount = false
+    orderByMethodCount = false
+    verbose = false
+    maxTreeDepth = Integer.MAX_VALUE
+    teamCityIntegration = false
+    teamCitySlug = null
+    runOnEachPackage = true
+    maxMethodCount = 100_000
+    enabled = true
+}
 
 
 dependencies {
