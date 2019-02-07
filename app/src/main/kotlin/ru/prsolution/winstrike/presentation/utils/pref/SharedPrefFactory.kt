@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 
 import ru.prsolution.winstrike.App
 
-
 /**
  * Date: 18.01.2016
  * Time: 15:01

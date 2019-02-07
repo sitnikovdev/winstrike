@@ -30,11 +30,8 @@ class GuideActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fmt_guides)
 
-
         //        pagerAdapter = new GuidesFragmentPagerAdapter(getSupportFragmentManager());
         vp_pager!!.adapter = pagerAdapter
-
-
     }
 
     private inner class GuidesFragmentPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
@@ -42,7 +39,6 @@ class GuideActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
             return GuideFragment.newInstance(position)
         }
-
 
         override fun getCount(): Int {
             return GUIDE_COUNT

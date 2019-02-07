@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.presentation.login
 
-
 import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 import ru.prsolution.winstrike.domain.models.login.ConfirmModel
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
@@ -10,11 +9,11 @@ import ru.prsolution.winstrike.domain.models.login.ProfileModel
  */
 class UserConfirmPresenter() {
 
-	init {
-	}
+    init {
+    }
 
-	fun confirmUser(sms_code: String, confirmPhone: ConfirmModel) {
-		//        view.showWait();
+    fun confirmUser(sms_code: String, confirmPhone: ConfirmModel) {
+        //        view.showWait();
 
 /*		val subscription = service?.confirmUser(object : Service.ConfirmCallback {
 			override fun onSuccess(authResponse: MessageResponse) {
@@ -30,13 +29,13 @@ class UserConfirmPresenter() {
 		}, sms_code, confirmPhone)
 
 		subscriptions.add(subscription)*/
-	}
+    }
 
-	/**
+    /**
 	 * Send code by tap on "Again button send"
 	 * @param smsModel
 	 */
-	fun sendSms(smsModel: ConfirmSmsModel) {
+    fun sendSms(smsModel: ConfirmSmsModel) {
 
 /*		val subscription = service.sendSmsByUserRequest(object : Service.SmsCallback {
 			override fun onSuccess(authResponse: MessageResponse) {
@@ -50,17 +49,16 @@ class UserConfirmPresenter() {
 		}, smsModel)
 
 		subscriptions.add(subscription)*/
-	}
+    }
 
-
-	/**
+    /**
 	 * Update user profile after successfully confirmed. Set user name.
 	 *
-	 * @param token  saved token
-	 * @param profile  profile user data
-	 * @param publicId  user public id
+	 * @param token saved token
+	 * @param profile profile user data
+	 * @param publicId user public id
 	 */
-	fun updateProfile(token: String, profile: ProfileModel, publicId: String) {
+    fun updateProfile(token: String, profile: ProfileModel, publicId: String) {
 
 /*		val subscription = service.updateUser(object : Service.ProfileCallback {
 			override fun onSuccess(authResponse: MessageResponse) {
@@ -74,9 +72,8 @@ class UserConfirmPresenter() {
 		}, token, profile, publicId)
 
 		subscriptions.add(subscription)*/
-	}
+    }
 
-
-	fun onStop() {
-	}
+    fun onStop() {
+    }
 }

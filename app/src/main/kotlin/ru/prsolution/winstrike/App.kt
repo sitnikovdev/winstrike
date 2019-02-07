@@ -2,6 +2,7 @@ package ru.prsolution.winstrike
 
 import android.app.Application
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.squareup.leakcanary.LeakCanary
 
 import ru.prsolution.winstrike.datasource.model.ArenaEntity
 import ru.prsolution.winstrike.datasource.model.ArenaSchemaEntity
@@ -9,63 +10,64 @@ import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.domain.models.login.UserEntity
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
-
 class App : Application() {
-	val user: UserEntity? = null
-	var seat: SeatCarousel? = null
-	var roomLayout: ArenaSchemaEntity? = null
-	var rooms: List<ArenaEntity>? = null
+    val user: UserEntity? = null
+    var seat: SeatCarousel? = null
+    var roomLayout: ArenaSchemaEntity? = null
+    var rooms: List<ArenaEntity>? = null
 
+    val displayWidhtDp: Float
+        get() {
+            val displayMetrics = this.resources.displayMetrics
+            val dpWidth = displayMetrics.widthPixels / displayMetrics.density
+            return dpWidth
+        }
 
+    val displayHeightDp: Float
+        get() {
+            val displayMetrics = this.resources.displayMetrics
+            val dpHeight = displayMetrics.heightPixels / displayMetrics.density
+            return dpHeight
+        }
 
+    val displayHeightPx: Float
+        get() {
+            val displayMetrics = this.resources.displayMetrics
+            val dpHeight = displayMetrics.heightPixels.toFloat()
+            return dpHeight
+        }
 
-	val displayWidhtDp: Float
-		get() {
-			val displayMetrics = this.resources.displayMetrics
-			val dpWidth = displayMetrics.widthPixels / displayMetrics.density
-			return dpWidth
-		}
+    val displayWidhtPx: Float
+        get() {
+            val displayMetrics = this.resources.displayMetrics
+            val dpWidth = displayMetrics.widthPixels.toFloat()
+            return dpWidth
+        }
 
-	val displayHeightDp: Float
-		get() {
-			val displayMetrics = this.resources.displayMetrics
-			val dpHeight = displayMetrics.heightPixels / displayMetrics.density
-			return dpHeight
-		}
+    override fun onCreate() {
+        super.onCreate()
+        when {
+            LeakCanary.isInAnalyzerProcess(this) -> return
+            // Report Leaks to Firebase Crashlytics? :thinking:
+            // https://github.com/square/leakcanary/wiki/Customizing-LeakCanary#uploading-to-a-server
+            else -> LeakCanary.install(this)
+        }
+        //        Fabric.with(this, new Crashlytics());
+        instance = this
 
-	val displayHeightPx: Float
-		get() {
-			val displayMetrics = this.resources.displayMetrics
-			val dpHeight = displayMetrics.heightPixels.toFloat()
-			return dpHeight
-		}
+        Fresco.initialize(this)
 
-	val displayWidhtPx: Float
-		get() {
-			val displayMetrics = this.resources.displayMetrics
-			val dpWidth = displayMetrics.widthPixels.toFloat()
-			return dpWidth
-		}
+        initScreenPref()
+    }
 
-	override fun onCreate() {
-		super.onCreate()
-		//        Fabric.with(this, new Crashlytics());
-		instance = this
+    private fun initScreenPref() {
+        PrefUtils.displayHeightPx = displayHeightPx
+        PrefUtils.displayWidhtPx = displayWidhtPx
+        PrefUtils.displayHeightDp = displayHeightDp
+        PrefUtils.displayWidhtDp = displayWidhtDp
+    }
 
-		Fresco.initialize(this)
-
-		initScreenPref()
-
-	}
-
-	private fun initScreenPref() {
-		PrefUtils.displayHeightPx = displayHeightPx
-		PrefUtils.displayWidhtPx = displayWidhtPx
-		PrefUtils.displayHeightDp = displayHeightDp
-		PrefUtils.displayWidhtDp = displayWidhtDp
-	}
-
-	companion object {
-		lateinit var instance: App
-	}
+    companion object {
+        lateinit var instance: App
+    }
 }

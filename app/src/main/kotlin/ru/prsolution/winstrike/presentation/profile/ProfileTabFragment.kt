@@ -17,14 +17,14 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
  */
 
 class ProfileTabFragment : Fragment() {
-	private var user: UserEntity? = null
+    private var user: UserEntity? = null
 
-//	lateinit var listener: OnProfileUpdateClickListener
+// 	lateinit var listener: OnProfileUpdateClickListener
 
-	interface OnProfileUpdateClickListener {
-		// Update user profile data (name and password)
-		fun onProfileUpdate(name: String, passw: String)
-	}
+    interface OnProfileUpdateClickListener {
+        // Update user profile data (name and password)
+        fun onProfileUpdate(name: String, passw: String)
+    }
 
 /*	override fun onAttach(context: Context?) {
 		super.onAttach(context)
@@ -35,36 +35,33 @@ class ProfileTabFragment : Fragment() {
 		}
 	}*/
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        this.user = UserEntity()
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		this.user = UserEntity()
+        next_button?.setOnClickListener {
+            val name = fio!!.text.toString()
+            val passw = et_password!!.text.toString()
+            //                    setBtnEnable(next_button, false);
+// 			listener.onProfileUpdate(name, passw)
+        }
 
-		next_button?.setOnClickListener {
-			val name = fio!!.text.toString()
-			val passw = et_password!!.text.toString()
-			//                    setBtnEnable(next_button, false);
-//			listener.onProfileUpdate(name, passw)
-		}
-
-		if (PrefUtils.name != null) {
+        if (PrefUtils.name != null) {
 /*			this.user?.name = (AuthUtils.name)
 			if (!TextUtils.isEmpty(user!!.getName())) {
 				fio!!.setText(user!!.getName())
 			}*/
-		}
+        }
 
-		return inflater.inflate(R.layout.fmt_profile_prof, container, false)
-	}
+        return inflater.inflate(R.layout.fmt_profile_prof, container, false)
+    }
 
-
-	private fun setBtnEnable(v: View, isEnable: Boolean) {
-		if (isEnable) {
-			v.alpha = 1f
-			v.isClickable = true
-		} else {
-			v.alpha = .5f
-			v.isClickable = false
-		}
-	}
-
+    private fun setBtnEnable(v: View, isEnable: Boolean) {
+        if (isEnable) {
+            v.alpha = 1f
+            v.isClickable = true
+        } else {
+            v.alpha = .5f
+            v.isClickable = false
+        }
+    }
 }

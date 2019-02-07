@@ -30,7 +30,7 @@ interface Timer {
     fun start(task: TimerTask)
     fun getElapsedTime(): Long
     fun updatePausedTime()
-    fun getPausedTime() : Long
+    fun getPausedTime(): Long
     fun resetStartTime()
     fun resetPauseTime()
 }
@@ -45,7 +45,7 @@ object DefaultTimer : Timer {
     private var startTime = System.currentTimeMillis()
     private var pauseTime = 0L
 
-    override fun getPausedTime() : Long = pauseTime - startTime
+    override fun getPausedTime(): Long = pauseTime - startTime
 
     override fun getElapsedTime() = System.currentTimeMillis() - startTime
 

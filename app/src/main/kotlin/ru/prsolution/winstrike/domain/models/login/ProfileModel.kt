@@ -5,8 +5,7 @@ package ru.prsolution.winstrike.domain.models.login
  */
 
 class ProfileModel(
-		val phone: String? = null,
-		val name: String? = null,
-		val password: String? = null
+    val phone: String? = null,
+    val name: String? = null,
+    val password: String? = null
 )
-

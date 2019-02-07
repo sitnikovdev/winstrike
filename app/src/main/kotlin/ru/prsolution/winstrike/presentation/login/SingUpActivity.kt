@@ -32,109 +32,102 @@ import ru.prsolution.winstrike.presentation.utils.Constants
 
 class SingUpActivity : AppCompatActivity() {
 
+    private var presenter: RegisterPresenter? = null
+    private var user: LoginModel? = null
 
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-	private var presenter: RegisterPresenter? = null
-	private var user: LoginModel? = null
+        renderView()
+        init()
+        presenter = RegisterPresenter()
+    }
 
-	public override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
+    fun init() {
+        next_button_phone!!.setOnClickListener {
+            // Создание пользователя и переход на страницу подтверждения пароля
+            user = LoginModel(
+                    phone = formatPhone(et_phone?.text.toString()),
+                    password = et_password?.text.toString()
+            )
 
-		renderView()
-		init()
-		presenter = RegisterPresenter()
-	}
+            presenter!!.createUser(user!!)
+        }
 
-	fun init() {
-		next_button_phone!!.setOnClickListener {
-			// Создание пользователя и переход на страницу подтверждения пароля
-			user = LoginModel(
-					phone = formatPhone(et_phone?.text.toString()),
-					password = et_password?.text.toString()
-			)
+        TextFormat.formatText(et_phone, Constants.PHONE_MASK)
 
-			presenter!!.createUser(user!!)
-		}
+        setFooter()
+    }
 
-		TextFormat.formatText(et_phone, Constants.PHONE_MASK)
+    fun onSendSmsSuccess(authResponse: MessageResponse) {
+        Timber.d("Sms send successfully: %s", authResponse.message)
+        toast("Код выслан")
+        val intent = Intent(this@SingUpActivity, UserConfirmActivity::class.java)
+        intent.putExtra("phone", user!!.phone)
+        startActivity(intent)
+    }
 
-		setFooter()
-	}
+    fun onSmsSendFailure(appErrorMessage: String) {
+        Timber.d("Sms send failure: %s", appErrorMessage)
+    }
 
-	fun onSendSmsSuccess(authResponse: MessageResponse) {
-		Timber.d("Sms send successfully: %s", authResponse.message)
-		toast("Код выслан")
-		val intent = Intent(this@SingUpActivity, UserConfirmActivity::class.java)
-		intent.putExtra("phone", user!!.phone)
-		startActivity(intent)
-	}
+    private fun getConfirmSmsModel(phone: String): ConfirmSmsModel {
+        val auth = ConfirmSmsModel()
+        auth.username = phone
+        return auth
+    }
 
-	fun onSmsSendFailure(appErrorMessage: String) {
-		Timber.d("Sms send failure: %s", appErrorMessage)
-	}
+    private fun setFooter() {
+        setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
+        setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
 
+        tv_register2!!.setOnClickListener { startActivity(Intent(this, SignInActivity::class.java)) }
+    }
 
-	private fun getConfirmSmsModel(phone: String): ConfirmSmsModel {
-		val auth = ConfirmSmsModel()
-		auth.username = phone
-		return auth
-	}
+    fun renderView() {
+        setContentView(R.layout.ac_registration)
+    }
 
-
-	private fun setFooter() {
-		setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
-		setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
-
-		tv_register2!!.setOnClickListener { startActivity(Intent(this, SignInActivity::class.java)) }
-	}
-
-
-	fun renderView() {
-		setContentView(R.layout.ac_registration)
-	}
-
-	/**
+    /**
 	 * Register new user and send him sms with confirm code.
 	 */
-	fun onRegisterSuccess(authResponse: AuthResponse) {
-		with(PrefUtils) {
-			token = authResponse.token
-			publicid = authResponse.user?.publicId!!
-			isConfirmed = false
-			phone = user?.phone
-			name = "NoName"
-		}
+    fun onRegisterSuccess(authResponse: AuthResponse) {
+        with(PrefUtils) {
+            token = authResponse.token
+            publicid = authResponse.user?.publicId!!
+            isConfirmed = false
+            phone = user?.phone
+            name = "NoName"
+        }
 
-		val userDb = UserEntity(
-				confirmed = false,
-				phone = user?.phone,
-				publickId = authResponse.user?.publicId,
-				token = authResponse.token
-		)
+        val userDb = UserEntity(
+                confirmed = false,
+                phone = user?.phone,
+                publickId = authResponse.user?.publicId,
+                token = authResponse.token
+        )
 
-		val intent = Intent(this@SingUpActivity, UserConfirmActivity::class.java)
-		intent.putExtra("phone", user!!.phone)
-		startActivity(intent)
-	}
+        val intent = Intent(this@SingUpActivity, UserConfirmActivity::class.java)
+        intent.putExtra("phone", user!!.phone)
+        startActivity(intent)
+    }
 
-	fun onRegisterFailure(appErrorMessage: String) {
-		Timber.d("Register failure: %s", appErrorMessage)
-		if (appErrorMessage.contains("409")) longToast("Пользователь уже существует")
-		if (appErrorMessage.contains("422")) longToast("Пароль слишком короткий.")
-		if (appErrorMessage.contains("413")) {
-			Timber.w("RegisterUser: Передан не правильный формат данных JSON")
-			longToast("Пользователь не создан")
-		}
-	}
+    fun onRegisterFailure(appErrorMessage: String) {
+        Timber.d("Register failure: %s", appErrorMessage)
+        if (appErrorMessage.contains("409")) longToast("Пользователь уже существует")
+        if (appErrorMessage.contains("422")) longToast("Пароль слишком короткий.")
+        if (appErrorMessage.contains("413")) {
+            Timber.w("RegisterUser: Передан не правильный формат данных JSON")
+            longToast("Пользователь не создан")
+        }
+    }
 
+    override fun onStop() {
+        super.onStop()
+        presenter!!.onStop()
+    }
 
-	override fun onStop() {
-		super.onStop()
-		presenter!!.onStop()
-	}
-
-
-	/*    protected void checkFieldEnabled(EditText et_phone, EditText et_pass, View button) {
+    /*    protected void checkFieldEnabled(EditText et_phone, EditText et_pass, View button) {
         Observable<TextViewTextChangeEvent> phoneObservable = RxTextView.textChangeEvents(et_phone);
         Observable<TextViewTextChangeEvent> et_passwordObservable = RxTextView.textChangeEvents(et_pass);
         Observable.combineLatest(phoneObservable, et_passwordObservable, (phoneSelected, et_passwordSelected) -> {
@@ -149,5 +142,4 @@ class SingUpActivity : AppCompatActivity() {
             }
         });
     }*/
-
 }

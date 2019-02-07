@@ -7,7 +7,6 @@ import com.squareup.moshi.Json
  */
 
 class LoginModel(
-		@field:Json(name = "phone") val phone: String? = null,
-		@field:Json(name = "password") val password: String? = null
+    @field:Json(name = "phone") val phone: String? = null,
+    @field:Json(name = "password") val password: String? = null
 )
-

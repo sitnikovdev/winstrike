@@ -29,297 +29,285 @@ class MainActivity : AppCompatActivity(),
                      SetupFragment.MapShowListener,
                      CarouselFragment.OnSeatClickListener {
 
-	private lateinit var mVm: MainViewModel
+    private lateinit var mVm: MainViewModel
 
-	private val mapFragment = MapFragment()
-	private val homeFragment = HomeFragment()
-	private val setupFragment = SetupFragment()
-	private val orderFragment = OrderFragment()
-	private val profileFragment = ProfileFragment()
+    private val mapFragment = MapFragment()
+    private val homeFragment = HomeFragment()
+    private val setupFragment = SetupFragment()
+    private val orderFragment = OrderFragment()
+    private val profileFragment = ProfileFragment()
 
-	private val yandexFragment = YandexWebViewFragment()
-	private val fm: FragmentManager = supportFragmentManager
-	var active: Fragment = homeFragment
+    private val yandexFragment = YandexWebViewFragment()
+    private val fm: FragmentManager = supportFragmentManager
+    var active: Fragment = homeFragment
 
-	override fun onMapShow() {
-		Timber.d("On map show mListener")
-		showHome(isVisible = true)
-		navigation.visibility = View.GONE
-		fm.beginTransaction()
-				.hide(setupFragment)
-				.addToBackStack(null)
-				.attach(mapFragment)
-				.commit()
-		mVm.active.value = mapFragment
-	}
+    override fun onMapShow() {
+        Timber.d("On map show mListener")
+        showHome(isVisible = true)
+        navigation.visibility = View.GONE
+        fm.beginTransaction()
+                .hide(setupFragment)
+                .addToBackStack(null)
+                .attach(mapFragment)
+                .commit()
+        mVm.active.value = mapFragment
+    }
 
-	override fun onSeatClick(seat: SeatCarousel?) {
-		mVm.currentSeat.postValue(seat)
-		showHome(isVisible = true)
-		navigation.visibility = View.GONE
-		fm.beginTransaction()
-				.hide(active)
-				.addToBackStack(null)
-				.show(setupFragment)
-				.commit()
-		mVm.active.value = setupFragment
-	}
+    override fun onSeatClick(seat: SeatCarousel?) {
+        mVm.currentSeat.postValue(seat)
+        showHome(isVisible = true)
+        navigation.visibility = View.GONE
+        fm.beginTransaction()
+                .hide(active)
+                .addToBackStack(null)
+                .show(setupFragment)
+                .commit()
+        mVm.active.value = setupFragment
+    }
 
+    override fun onBackPressed() {
+        when (active) {
+            is SetupFragment -> {
+                showHome(isVisible = false)
+                navigation.visibility = View.VISIBLE
+                mVm.active.value = homeFragment
+                super.onBackPressed()
+            }
+// 			is OrderFragment -> super.onBackPressed()
+            is MapFragment -> {
+                mVm.active.value = setupFragment
+                super.onBackPressed()
+            }
+            is YandexWebViewFragment -> {
+                mVm.active.value = mapFragment
+                 super.onBackPressed()
+            }
+        }
+    }
 
-	override fun onBackPressed() {
-		when (active) {
-			is SetupFragment -> {
-				showHome(isVisible = false)
-				navigation.visibility = View.VISIBLE
-				mVm.active.value = homeFragment
-				super.onBackPressed()
-			}
-//			is OrderFragment -> super.onBackPressed()
-			is MapFragment -> {
-				mVm.active.value = setupFragment
-				super.onBackPressed()
-			}
-			is YandexWebViewFragment -> {
-				mVm.active.value = mapFragment
-				 super.onBackPressed()
-			}
-		}
-	}
+    override fun onResume() {
+        super.onResume()
+        active = homeFragment
+    }
 
+    override fun onStart() {
+        super.onStart()
+        // TODO use mListener (Fix logout!!!)
+        PrefUtils.isLogout = false
+    }
 
-	override fun onResume() {
-		super.onResume()
-		active = homeFragment
-	}
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        clearData()
+        setContentView(R.layout.ac_mainscreen)
+        mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-	override fun onStart() {
-		super.onStart()
-		// TODO use mListener (Fix logout!!!)
-		PrefUtils.isLogout = false
-	}
+        mVm.fcmResponse.observe(this, Observer {
+            it.let {
+                it.data?.let {
+                    Timber.i("FCM token send to server. \n ${it.message} ")
+                }
+            }
+        })
 
+        mVm.paymentResponse.observe(this, Observer {
+            it.state.let { state ->
+                if (state == ResourceState.LOADING) {
+// 					progressBar.visibility = View.VISIBLE
+                }
+            }
+            it.data?.let { response ->
+                onPaymentShow(response)
+// 				progressBar.visibility = View.GONE
+            }
+            it.message?.let { error ->
+                Timber.tag("$$$").d("message: $error")
+// 				progressBar.visibility = View.GONE
+                onPaymentError(error)
+            }
+        })
 
-	public override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		clearData()
-		setContentView(R.layout.ac_mainscreen)
-		mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        mVm.active.observe(this, Observer { activeFragment ->
+            Timber.d("active is ${activeFragment.javaClass.simpleName}")
+            active = activeFragment
+            if (active is HomeFragment) {
+                showHome(isVisible = false)
+                navigation.visibility = View.VISIBLE
+                navigation.menu.getItem(0).isChecked = true
+            } else {
+                showHome(isVisible = true)
+                navigation.visibility = View.GONE
+            }
+        })
 
-		mVm.fcmResponse.observe(this, Observer {
-			it.let {
-				it.data?.let {
-					Timber.i("FCM token send to server. \n ${it.message} ")
-				}
-			}
-		})
+// 		progressBar?.visibility = View.VISIBLE
 
-		mVm.paymentResponse.observe(this, Observer {
-			it.state.let { state ->
-				if (state == ResourceState.LOADING) {
-//					progressBar.visibility = View.VISIBLE
-				}
-			}
-			it.data?.let { response ->
-				onPaymentShow(response)
-//				progressBar.visibility = View.GONE
-			}
-			it.message?.let { error ->
-				Timber.tag("$$$").d("message: $error")
-//				progressBar.visibility = View.GONE
-				onPaymentError(error)
-			}
-		})
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        showHome(isVisible = false)
 
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-		mVm.active.observe(this, Observer { activeFragment ->
-			Timber.d("active is ${activeFragment.javaClass.simpleName}")
-			active = activeFragment
-			if (active is HomeFragment) {
-				showHome(isVisible = false)
-				navigation.visibility = View.VISIBLE
-				navigation.menu.getItem(0).isChecked = true
-			} else {
-				showHome(isVisible = true)
-				navigation.visibility = View.GONE
-			}
-		})
+        initToolbar()
+        initFragments()
+        initFCM() // FCM push notifications
+    }
 
-//		progressBar?.visibility = View.VISIBLE
+    private fun onPaymentError(error: String) {
+        TimeDataModel.pids.clear()
+        if (error.contains("different time")) {
+            toast("Не удается забронировать место на указанный интервал времени.")
+        } else {
+            toast("Не удается забронировать место.")
+        }
+    }
 
-		setSupportActionBar(toolbar)
-		supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		showHome(isVisible = false)
+    private fun initToolbar() {
+        toolbar?.setNavigationOnClickListener {
+            when (active) {
+                is HomeFragment -> {
+                    showHome(isVisible = false)
+                    navigation.visibility = View.VISIBLE
+                }
+                is SetupFragment -> {
+                    navigation.visibility = View.VISIBLE
+                    mVm.active.value = homeFragment
+                }
+                is OrderFragment -> {
+                    navigation.menu.getItem(1).isChecked = false
+                    fm.beginTransaction().detach(orderFragment).show(homeFragment).commit()
+                    mVm.active.value = homeFragment
+                }
+                is MapFragment -> {
+                    navigation.visibility = View.GONE
+                    mVm.active.value = setupFragment
+                }
 
-		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+                is ProfileFragment -> {
+                    navigation.menu.getItem(2).isChecked = false
+                    fm.beginTransaction().detach(profileFragment).show(homeFragment).commit()
+                    mVm.active.value = homeFragment
+                }
+            }
+            supportFragmentManager.popBackStack()
+        }
+    }
 
-		initToolbar()
-		initFragments()
-		initFCM() // FCM push notifications
-	}
+    private fun initFragments() {
+        with(fm) {
+            // yandex
+            beginTransaction().add(R.id.main_container, yandexFragment, yandexFragment.javaClass.name)
+                    .detach(yandexFragment)
+                    .commit()
+            // setup
+            beginTransaction()
+                    .add(R.id.main_container, setupFragment, setupFragment.javaClass.name)
+                    .hide(setupFragment)
+                    .commit()
+            // map
+            beginTransaction()
+                    .add(R.id.main_container, mapFragment, mapFragment.javaClass.name)
+                    .detach(mapFragment)
+                    .commit()
+            // orders
+            beginTransaction().add(R.id.main_container, orderFragment, orderFragment.javaClass.name)
+                    .detach(orderFragment)
+                    .commit()
+            // profile
+            beginTransaction().add(R.id.main_container, profileFragment, profileFragment.javaClass.name)
+                    .detach(profileFragment)
+                    .commit()
+            beginTransaction()
+                    .add(R.id.main_container, homeFragment, homeFragment.javaClass.name)
+                    .commit()
+        }
+    }
 
-	private fun onPaymentError(error: String) {
-		TimeDataModel.pids.clear()
-		if (error.contains("different time")) {
-			toast("Не удается забронировать место на указанный интервал времени.")
-		} else {
-			toast("Не удается забронировать место.")
-		}
-	}
+    private fun clearData() {
+        TimeDataModel.clearPids()
+        TimeDataModel.clearDateTime()
+    }
 
+    private fun initFCM() {
+        val fcmToken = PrefUtils.fcmtoken
+        val userToken = PrefUtils.token
+        if (!fcmToken?.isEmpty()!!) {
+            // TODO fix it: server send "message": "Token is missing" (see logs). Try install chuck.
+// 			userToken?.let { vm.sendFCMToken(it, FCMModel(PrefUtils.fcmtoken)) }
+        }
+    }
 
-	private fun initToolbar() {
-		toolbar?.setNavigationOnClickListener {
-			when (active) {
-				is HomeFragment -> {
-					showHome(isVisible = false)
-					navigation.visibility = View.VISIBLE
-				}
-				is SetupFragment -> {
-					navigation.visibility = View.VISIBLE
-					mVm.active.value = homeFragment
-				}
-				is OrderFragment -> {
-					navigation.menu.getItem(1).isChecked = false
-					fm.beginTransaction().detach(orderFragment).show(homeFragment).commit()
-					mVm.active.value = homeFragment
+    private fun showHome(isVisible: Boolean) {
+        if (isVisible) {
+            toolbar.navigationIcon = getDrawable(R.drawable.ic_back_arrow)
+            toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
+        } else {
+            toolbar.navigationIcon = null
+            toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
+        }
+    }
 
-				}
-				is MapFragment -> {
-					navigation.visibility = View.GONE
-					mVm.active.value = setupFragment
-				}
+    private fun onPaymentShow(payResponse: PaymentResponse) {
+        Timber.tag("common").d("Pay successfully: %s", payResponse)
 
-				is ProfileFragment -> {
-					navigation.menu.getItem(2).isChecked = false
-					fm.beginTransaction().detach(profileFragment).show(homeFragment).commit()
-					mVm.active.value = homeFragment
-				}
-			}
-			supportFragmentManager.popBackStack()
-		}
-	}
+        // TODO: Show progress bar when load web view.
+        val url = payResponse.redirectUrl
+        val testUrl = "https://yandex.ru"
+        mVm.redirectUrl.value = testUrl
 
-	private fun initFragments() {
-		with(fm) {
-			// yandex
-			beginTransaction().add(R.id.main_container, yandexFragment, yandexFragment.javaClass.name)
-					.detach(yandexFragment)
-					.commit()
-			// setup
-			beginTransaction()
-					.add(R.id.main_container, setupFragment, setupFragment.javaClass.name)
-					.hide(setupFragment)
-					.commit()
-			// map
-			beginTransaction()
-					.add(R.id.main_container, mapFragment, mapFragment.javaClass.name)
-					.detach(mapFragment)
-					.commit()
-			// orders
-			beginTransaction().add(R.id.main_container, orderFragment, orderFragment.javaClass.name)
-					.detach(orderFragment)
-					.commit()
-			// profile
-			beginTransaction().add(R.id.main_container, profileFragment, profileFragment.javaClass.name)
-					.detach(profileFragment)
-					.commit()
-			beginTransaction()
-					.add(R.id.main_container, homeFragment, homeFragment.javaClass.name)
-					.commit()
+        Timber.d("On yandex web view show mListener")
+        showHome(isVisible = true)
+        navigation.visibility = View.GONE
+        fm.beginTransaction()
+                .detach(mapFragment)
+                .addToBackStack(null)
+                .attach(yandexFragment)
+                .commit()
+        mVm.active.value = yandexFragment
+    }
 
-		}
-	}
+    private val mOnNavigationItemSelectedListener = object : BottomNavigationView.OnNavigationItemSelectedListener {
 
+        override fun onNavigationItemSelected(item: MenuItem): Boolean {
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    if (active is HomeFragment) {
+                        return false
+                    }
+                    fm.beginTransaction().detach(active).show(homeFragment).commit()
+                    active = homeFragment
+                    return true
+                }
 
-	private fun clearData() {
-		TimeDataModel.clearPids()
-		TimeDataModel.clearDateTime()
-	}
+                R.id.navigation_dashboard -> {
+                    if (active is OrderFragment) {
+                        return false
+                    }
+                    showHome(isVisible = true)
+                    if (active is HomeFragment) {
+                        fm.beginTransaction().hide(active).attach(orderFragment).commit()
+                    } else if (active is ProfileFragment) {
+                        fm.beginTransaction().detach(active).attach(orderFragment).commit()
+                    }
+                    active = orderFragment
+                    return true
+                }
 
-
-	private fun initFCM() {
-		val fcmToken = PrefUtils.fcmtoken
-		val userToken = PrefUtils.token
-		if (!fcmToken?.isEmpty()!!) {
-			// TODO fix it: server send "message": "Token is missing" (see logs). Try install chuck.
-//			userToken?.let { vm.sendFCMToken(it, FCMModel(PrefUtils.fcmtoken)) }
-		}
-	}
-
-	private fun showHome(isVisible: Boolean) {
-		if (isVisible) {
-			toolbar.navigationIcon = getDrawable(R.drawable.ic_back_arrow)
-			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
-		} else {
-			toolbar.navigationIcon = null
-			toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
-		}
-	}
-
-	private fun onPaymentShow(payResponse: PaymentResponse) {
-		Timber.tag("common").d("Pay successfully: %s", payResponse)
-
-		// TODO: Show progress bar when load web view.
-		val url = payResponse.redirectUrl
-		val testUrl = "https://yandex.ru"
-		mVm.redirectUrl.value = testUrl
-
-		Timber.d("On yandex web view show mListener")
-		showHome(isVisible = true)
-		navigation.visibility = View.GONE
-		fm.beginTransaction()
-				.detach(mapFragment)
-				.addToBackStack(null)
-				.attach(yandexFragment)
-				.commit()
-		mVm.active.value = yandexFragment
-
-	}
-
-	private val mOnNavigationItemSelectedListener = object : BottomNavigationView.OnNavigationItemSelectedListener {
-
-		override fun onNavigationItemSelected(item: MenuItem): Boolean {
-			when (item.itemId) {
-				R.id.navigation_home -> {
-					if (active is HomeFragment) {
-						return false
-					}
-					fm.beginTransaction().detach(active).show(homeFragment).commit()
-					active = homeFragment
-					return true
-				}
-
-				R.id.navigation_dashboard -> {
-					if (active is OrderFragment) {
-						return false
-					}
-					showHome(isVisible = true)
-					if (active is HomeFragment) {
-						fm.beginTransaction().hide(active).attach(orderFragment).commit()
-					} else if (active is ProfileFragment) {
-						fm.beginTransaction().detach(active).attach(orderFragment).commit()
-					}
-					active = orderFragment
-					return true
-				}
-
-				R.id.navigation_notifications -> {
-					if (active is ProfileFragment) {
-						return false
-					}
-					showHome(isVisible = true)
-					if (active is HomeFragment) {
-						fm.beginTransaction().hide(active).attach(profileFragment).commit()
-					}
-					else if (active is OrderFragment) {
-						fm.beginTransaction().detach(active).attach(profileFragment).commit()
-					}
-					active = profileFragment
-					return true
-				}
-			}
-			return false
-		}
-	}
-
+                R.id.navigation_notifications -> {
+                    if (active is ProfileFragment) {
+                        return false
+                    }
+                    showHome(isVisible = true)
+                    if (active is HomeFragment) {
+                        fm.beginTransaction().hide(active).attach(profileFragment).commit()
+                    } else if (active is OrderFragment) {
+                        fm.beginTransaction().detach(active).attach(profileFragment).commit()
+                    }
+                    active = profileFragment
+                    return true
+                }
+            }
+            return false
+        }
+    }
 }

@@ -5,4 +5,3 @@ package ru.prsolution.winstrike.domain.models.common
  */
 
 class FCMModel(val token: String? = null)
-

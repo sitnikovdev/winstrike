@@ -19,104 +19,97 @@ import timber.log.Timber
 
 class PayScreenFragment : Fragment() {
 
+    internal var presenter: PayPresenter? = null
 
-	internal var presenter: PayPresenter? = null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fmt_pay, container, false)
+        toolbar_text.text = "Оплата"
+        initToolbar("Оплата", R.drawable.ic_back_arrow)
+        initWebView()
+        presenter!!.loadUrl()
+        return view
+    }
 
+    private fun initToolbar(s: String, navIcon: Int) {
+        if (navIcon != 0) {
+            toolbar!!.setNavigationIcon(navIcon)
+            toolbar!!.setContentInsetsAbsolute(0, toolbar!!.contentInsetStartWithNavigation)
+        }
+        toolbar_text!!.text = s
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val view = inflater.inflate(R.layout.fmt_pay, container, false)
-		toolbar_text.text = "Оплата"
-		initToolbar("Оплата", R.drawable.ic_back_arrow)
-		initWebView()
-		presenter!!.loadUrl()
-		return view
-	}
+        toolbar!!.setNavigationOnClickListener { view -> presenter!!.onBackPressed() }
+    }
 
-	private fun initToolbar(s: String, navIcon: Int) {
-		if (navIcon != 0) {
-			toolbar!!.setNavigationIcon(navIcon)
-			toolbar!!.setContentInsetsAbsolute(0, toolbar!!.contentInsetStartWithNavigation)
-		}
-		toolbar_text!!.text = s
+    private fun initWebView() {
+        webView!!.webViewClient = MyWebViewClient()
+        webView!!.isHorizontalScrollBarEnabled = false
+        webView!!.settings.javaScriptEnabled = true
+    }
 
-		toolbar!!.setNavigationOnClickListener { view -> presenter!!.onBackPressed() }
-	}
+    private inner class MyWebViewClient : WebViewClient() {
+        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+            view.loadUrl(url)
+            return true
+        }
 
+        override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+            super.onPageStarted(view, url, favicon)
+            presenter!!.showProgress()
+        }
 
-	private fun initWebView() {
-		webView!!.webViewClient = MyWebViewClient()
-		webView!!.isHorizontalScrollBarEnabled = false
-		webView!!.settings.javaScriptEnabled = true
-	}
+        override fun onPageFinished(view: WebView, url: String) {
+            super.onPageFinished(view, url)
+            presenter!!.hideProgress()
+        }
 
+        override fun onLoadResource(view: WebView, url: String) {
+            super.onLoadResource(view, url)
+            Timber.d("Load link: %s", url)
+            if (url == Constants.ORDER_URL) {
+                val intent = Intent()
+                intent.putExtra("payments", true)
+                //                startActivity(new Intent(getActivity(), MainScreenActivity.class));
+            }
+        }
+    }
 
-	private inner class MyWebViewClient : WebViewClient() {
-		override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-			view.loadUrl(url)
-			return true
-		}
+     fun showWait() {
+        progressBar!!.visibility = View.VISIBLE
+    }
 
-		override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
-			super.onPageStarted(view, url, favicon)
-			presenter!!.showProgress()
-		}
+     fun removeWait() {
+        progressBar!!.visibility = View.GONE
+    }
 
+     fun loadUrl(url: String) {
+        webView!!.loadUrl(url)
+    }
 
-		override fun onPageFinished(view: WebView, url: String) {
-			super.onPageFinished(view, url)
-			presenter!!.hideProgress()
-		}
+    override fun onStop() {
+        super.onStop()
+        presenter!!.onStop()
+    }
 
-		override fun onLoadResource(view: WebView, url: String) {
-			super.onLoadResource(view, url)
-			Timber.d("Load link: %s", url)
-			if (url == Constants.ORDER_URL) {
-				val intent = Intent()
-				intent.putExtra("payments", true)
-				//                startActivity(new Intent(getActivity(), MainScreenActivity.class));
-			}
-		}
-	}
+    companion object {
 
+        private val EXTRA_NAME = "extra_name"
+        private val URL = "mService url"
 
-	 fun showWait() {
-		progressBar!!.visibility = View.VISIBLE
-	}
-
-	 fun removeWait() {
-		progressBar!!.visibility = View.GONE
-	}
-
-	 fun loadUrl(url: String) {
-		webView!!.loadUrl(url)
-	}
-
-	override fun onStop() {
-		super.onStop()
-		presenter!!.onStop()
-	}
-
-	companion object {
-
-
-		private val EXTRA_NAME = "extra_name"
-		private val URL = "mService url"
-
-		//    @ProvidePresenter
-		/*    PayPresenter provideMainScreenPresenter() {
+        //    @ProvidePresenter
+        /*    PayPresenter provideMainScreenPresenter() {
         return new PayPresenter(service,
                 ((RouterProvider) getParentFragment()).getRouter(),
                 getArguments().getString(URL)
         );
     }*/
 
-		fun getNewInstance(name: String, url: String): PayScreenFragment {
-			val fragment = PayScreenFragment()
-			val arguments = Bundle()
-			arguments.putString(EXTRA_NAME, name)
-			arguments.putString(URL, url)
-			//        fragment.setArguments(arguments);
-			return fragment
-		}
-	}
+        fun getNewInstance(name: String, url: String): PayScreenFragment {
+            val fragment = PayScreenFragment()
+            val arguments = Bundle()
+            arguments.putString(EXTRA_NAME, name)
+            arguments.putString(URL, url)
+            //        fragment.setArguments(arguments);
+            return fragment
+        }
+    }
 }

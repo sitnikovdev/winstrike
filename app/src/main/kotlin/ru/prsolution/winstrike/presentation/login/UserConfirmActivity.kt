@@ -45,77 +45,71 @@ import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 
 class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
+    private var presenter: UserConfirmPresenter? = null
+    private var user: ConfirmModel? = null
+    private var phone: String? = null
+    private var timer: TimerViewModel? = null
 
+    override fun onTimeFinish() {
+        //        setBtnEnable(send_code_again,true);
+        timer!!.stopButtonClicked()
 
-	private var presenter: UserConfirmPresenter? = null
-	private var user: ConfirmModel? = null
-	private var phone: String? = null
-	private var timer: TimerViewModel? = null
+        runOnUiThread {
+            displayWorkTimeLeft!!.visibility = View.INVISIBLE
 
-	override fun onTimeFinish() {
-		//        setBtnEnable(send_code_again,true);
-		timer!!.stopButtonClicked()
+            v_send_code_again!!.visibility = View.VISIBLE
+            tv_send_code_again!!.visibility = View.VISIBLE
+        }
+    }
 
-		runOnUiThread {
-			displayWorkTimeLeft!!.visibility = View.INVISIBLE
+    override fun onStop() {
+        super.onStop()
+        presenter!!.onStop()
+    }
 
-			v_send_code_again!!.visibility = View.VISIBLE
-			tv_send_code_again!!.visibility = View.VISIBLE
-		}
-	}
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-	override fun onStop() {
-		super.onStop()
-		presenter!!.onStop()
-	}
+        presenter = UserConfirmPresenter()
 
+        renderView()
+        init()
+    }
 
-	public override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
+    private fun renderView() {
+        //        setContentView(R.layout.ac_confsmscode);
+        timer = TimerViewModel()
+        timer!!.listener = this
 
-		presenter = UserConfirmPresenter()
+        setContentView(R.layout.ac_confsmscode)
+    }
 
+    private fun init() {
 
-		renderView()
-		init()
+        phone = intent.getStringExtra("phone")
+        if (phone == null) {
+            phone = "9520757099"
+            PrefUtils.phone = phone as String
+        }
 
-	}
+        confirmFalse()
 
-	private fun renderView() {
-		//        setContentView(R.layout.ac_confsmscode);
-		timer = TimerViewModel()
-		timer!!.listener = this
+        setBtnEnable(v_nextbtn, false)
 
-		setContentView(R.layout.ac_confsmscode)
-	}
+        v_send_code_again!!.setOnClickListener { it ->
+            val smsModel = ConfirmSmsModel()
+            smsModel.username = PrefUtils.phone
+            presenter!!.sendSms(smsModel)
+        }
 
-	private fun init() {
+        tv_send_code_again!!.visibility = View.INVISIBLE
+        v_send_code_again!!.visibility = View.INVISIBLE
 
-		phone = intent.getStringExtra("phone")
-		if (phone == null) {
-			phone = "9520757099"
-			PrefUtils.phone = phone as String
-		}
+        displayWorkTimeLeft!!.visibility = View.VISIBLE
+        timer!!.startButtonClicked()
 
-		confirmFalse()
-
-		setBtnEnable(v_nextbtn, false)
-
-		v_send_code_again!!.setOnClickListener { it ->
-			val smsModel = ConfirmSmsModel()
-			smsModel.username = PrefUtils.phone
-			presenter!!.sendSms(smsModel)
-		}
-
-		tv_send_code_again!!.visibility = View.INVISIBLE
-		v_send_code_again!!.visibility = View.INVISIBLE
-
-		displayWorkTimeLeft!!.visibility = View.VISIBLE
-		timer!!.startButtonClicked()
-
-
-		// Меняем видимость кнопки  корректном вводе кода из смс
-		/*
+        // Меняем видимость кнопки  корректном вводе кода из смс
+        /*
         RxTextView.textChanges(et_code).subscribe(
                 it -> {
                     Boolean fieldOk = et_code.getText().length() >= 6;
@@ -128,53 +122,52 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
         );
 */
 
-		// Подтверждаем пользователя (отправляем серверу запрос с кодом введеным пользователем)
-		confirm_button!!.setOnClickListener { it ->
-			val sms_code = et_code!!.text.toString()
-			Timber.d("sms_code: %s", sms_code)
-			tv_send_code_again!!.visibility = View.GONE
-			v_send_code_again!!.visibility = View.GONE
+        // Подтверждаем пользователя (отправляем серверу запрос с кодом введеным пользователем)
+        confirm_button!!.setOnClickListener { it ->
+            val sms_code = et_code!!.text.toString()
+            Timber.d("sms_code: %s", sms_code)
+            tv_send_code_again!!.visibility = View.GONE
+            v_send_code_again!!.visibility = View.GONE
 
-			displayWorkTimeLeft!!.visibility = View.GONE
-			timer!!.stopButtonClicked()
+            displayWorkTimeLeft!!.visibility = View.GONE
+            timer!!.stopButtonClicked()
 
-			/*                    if (dpHeight < 600) {
+            /*                    if (dpHeight < 600) {
                         et_codeBackGround.setVisibility(View.GONE);
                         et_code.setVisibility(View.GONE);
                     }*/
 
-			// Hide keyboard
-			val view = this.currentFocus
-			if (view != null) {
-				val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-				imm.hideSoftInputFromWindow(view.windowToken, 0)
-			}
+            // Hide keyboard
+            val view = this.currentFocus
+            if (view != null) {
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
 
-			user = ConfirmModel(phone)
-			presenter!!.confirmUser(sms_code, user!!)
-		}
+            user = ConfirmModel(phone)
+            presenter!!.confirmUser(sms_code, user!!)
+        }
 
+        et_name!!.addTextChangedListener(object : TextWatcher {
 
-		et_name!!.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                val fieldOk = et_name!!.text.length >= 4
+                if (fieldOk) {
+                    // Update user profile - set name.
+                    val publicId = PrefUtils.publicid
+                    val token = "Bearer " + PrefUtils.token
 
-			override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-				val fieldOk = et_name!!.text.length >= 4
-				if (fieldOk) {
-					// Update user profile - set name.
-					val publicId = PrefUtils.publicid
-					val token = "Bearer " + PrefUtils.token
+                    val profile = ProfileModel(
+                            name = et_name!!.text.toString()
+                    )
+                    publicId?.let { presenter!!.updateProfile(token, profile, it) }
 
-					val profile = ProfileModel(
-							name = et_name!!.text.toString()
-					)
-					publicId?.let { presenter!!.updateProfile(token, profile, it) }
+                    setBtnEnable(v_nextbtn, true)
 
-					setBtnEnable(v_nextbtn, true)
-
-					tv_nextbtn_label!!.text = "Поехали!"
-					v_nextbtn!!.setOnClickListener {
-						// Save user in db (may be remove it?)
-						/*						with(AuthUtils) {
+                    tv_nextbtn_label!!.text = "Поехали!"
+                    v_nextbtn!!.setOnClickListener {
+                        // Save user in db (may be remove it?)
+                        /*						with(AuthUtils) {
 													val userDb = UserEntity(
 															confirmed = true,
 															phone = user?.phone,
@@ -185,136 +178,128 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 													AuthUtils.name = userDb.name
 												}*/
 
-						startActivity(Intent(this@UserConfirmActivity, SignInActivity::class.java))
-					}
-				} else {
-					setBtnEnable(confirm_button, false)
-					setBtnEnable(v_nextbtn, false)
-				}
+                        startActivity(Intent(this@UserConfirmActivity, SignInActivity::class.java))
+                    }
+                } else {
+                    setBtnEnable(confirm_button, false)
+                    setBtnEnable(v_nextbtn, false)
+                }
+            }
 
-			}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable) {}
+        })
 
-			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-			override fun afterTextChanged(s: Editable) {}
-		})
+        setTextColor(tv_hint!!, "Введите 6-значный код, который был\n" + "отправлен на номер",
+                     simplePhoneFormat(phone!!), "#9b9b9b", "#000000")
 
+        setFooter()
+    }
 
-		setTextColor(tv_hint!!, "Введите 6-значный код, который был\n" + "отправлен на номер",
-		             simplePhoneFormat(phone!!), "#9b9b9b", "#000000")
+    fun onUserConfirmSuccess(confirmModel: MessageResponse) {
+        Timber.d("UserEntity confirm successfully: %s", confirmModel.message)
+        //        toast("Пользователь подтвержден");
+        //        setBtnEnable(confirm_button, false);
+        // Restore token if user in logout state now
 
-		setFooter()
+        confirmSuccess()
+    }
 
-	}
+    fun onUserConfirmFailure(appErrorMessage: String) {
+        Timber.w("UserEntity confirm failure: %s", appErrorMessage)
+        if (appErrorMessage.contains("409")) toast("Не верный код")
+        if (appErrorMessage.contains("403")) toast("Пользователь уже поддвержден")
+        if (appErrorMessage.contains("404"))
+            toast("Ошибка регистрации! Возможно код неверен или пользователь уже существует")
+        if (appErrorMessage.contains("406")) toast("Код просрочен")
+        //        confirmFalse();
+        // TODO: 22/05/2018 Changed for test:
+        //        confirmSuccess();
+        confirmFalse()
+    }
 
-	fun onUserConfirmSuccess(confirmModel: MessageResponse) {
-		Timber.d("UserEntity confirm successfully: %s", confirmModel.message)
-		//        toast("Пользователь подтвержден");
-		//        setBtnEnable(confirm_button, false);
-		// Restore token if user in logout state now
+    fun onSendSmsSuccess(authResponse: MessageResponse) {
+        Timber.d("Sms send successfully: %s", authResponse.message)
+        toast("Код выслан")
 
-		confirmSuccess()
-	}
+        //        displayWorkTimeLeft.setVisibility(View.VISIBLE);
+    }
 
-	fun onUserConfirmFailure(appErrorMessage: String) {
-		Timber.w("UserEntity confirm failure: %s", appErrorMessage)
-		if (appErrorMessage.contains("409")) toast("Не верный код")
-		if (appErrorMessage.contains("403")) toast("Пользователь уже поддвержден")
-		if (appErrorMessage.contains("404"))
-			toast("Ошибка регистрации! Возможно код неверен или пользователь уже существует")
-		if (appErrorMessage.contains("406")) toast("Код просрочен")
-		//        confirmFalse();
-		// TODO: 22/05/2018 Changed for test:
-		//        confirmSuccess();
-		confirmFalse()
-	}
+    fun onSmsSendFailure(appErrorMessage: String) {
+        Timber.d("Sms send failure: %s", appErrorMessage)
+    }
 
+    protected fun toast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 
-	fun onSendSmsSuccess(authResponse: MessageResponse) {
-		Timber.d("Sms send successfully: %s", authResponse.message)
-		toast("Код выслан")
+    private fun confirmSuccess() {
+        confirm_button!!.visibility = View.GONE
+        tv_confirm_btn!!.visibility = View.INVISIBLE
 
-		//        displayWorkTimeLeft.setVisibility(View.VISIBLE);
+        et_name!!.visibility = View.VISIBLE
+        v_name!!.visibility = View.VISIBLE
+        v_nextbtn!!.visibility = View.VISIBLE
+        tv_nextbtn_label!!.visibility = View.VISIBLE
 
-	}
+        v_send_code_again!!.visibility = View.INVISIBLE
+        tv_send_code_again_timer!!.visibility = View.INVISIBLE
+    }
 
-	fun onSmsSendFailure(appErrorMessage: String) {
-		Timber.d("Sms send failure: %s", appErrorMessage)
-	}
+    private fun confirmFalse() {
+        confirm_button!!.visibility = View.VISIBLE
+        tv_confirm_btn!!.visibility = View.VISIBLE
 
+        et_name!!.visibility = View.INVISIBLE
+        v_name!!.visibility = View.INVISIBLE
 
-	protected fun toast(message: String) {
-		Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-	}
+        v_nextbtn!!.visibility = View.INVISIBLE
+        tv_nextbtn_label!!.visibility = View.INVISIBLE
 
-	private fun confirmSuccess() {
-		confirm_button!!.visibility = View.GONE
-		tv_confirm_btn!!.visibility = View.INVISIBLE
+        v_send_code_again!!.visibility = View.VISIBLE
+        tv_send_code_again_timer!!.visibility = View.VISIBLE
+        tv_send_code_again_timer!!.visibility = View.INVISIBLE
+    }
 
-		et_name!!.visibility = View.VISIBLE
-		v_name!!.visibility = View.VISIBLE
-		v_nextbtn!!.visibility = View.VISIBLE
-		tv_nextbtn_label!!.visibility = View.VISIBLE
+    // TODO Copy paste code - remove it
+    private fun setFooter() {
+        val mystring = "Условиями"
+        val content = SpannableString(mystring)
+        content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
+        tv_register2!!.text = content
 
-		v_send_code_again!!.visibility = View.INVISIBLE
-		tv_send_code_again_timer!!.visibility = View.INVISIBLE
-	}
+        tv_register2!!.setOnClickListener {
+            val browserIntent = Intent(this, YandexWebView::class.java)
+            val url = "file:///android_asset/rules.html"
+            browserIntent.putExtra("url", url)
+            startActivity(browserIntent)
+        }
 
-	private fun confirmFalse() {
-		confirm_button!!.visibility = View.VISIBLE
-		tv_confirm_btn!!.visibility = View.VISIBLE
+        tv_register4!!.setOnClickListener {
+            val browserIntent = Intent(this, YandexWebView::class.java)
+            //                    String url = "file:///android_asset/politika.html";
+            val url = "https://winstrike.gg/WinstrikePrivacyPolicy.pdf"
+            browserIntent.putExtra("url", url)
+            startActivity(browserIntent)
+        }
 
-		et_name!!.visibility = View.INVISIBLE
-		v_name!!.visibility = View.INVISIBLE
+        val textFooter = "Политикой конфиденциальности"
+        val content4 = SpannableString(textFooter)
+        content4.setSpan(UnderlineSpan(), 0, textFooter.length, 0)
+        tv_register4!!.text = content4
+    }
 
-		v_nextbtn!!.visibility = View.INVISIBLE
-		tv_nextbtn_label!!.visibility = View.INVISIBLE
+    fun showWait() {}
 
-		v_send_code_again!!.visibility = View.VISIBLE
-		tv_send_code_again_timer!!.visibility = View.VISIBLE
-		tv_send_code_again_timer!!.visibility = View.INVISIBLE
+    fun removeWait() {}
 
-	}
+    fun onProfileUpdateSuccessfully(authResponse: MessageResponse) {
+        Timber.d("Profile is updated")
+        //        Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
+    }
 
-	// TODO Copy paste code - remove it
-	private fun setFooter() {
-		val mystring = "Условиями"
-		val content = SpannableString(mystring)
-		content.setSpan(UnderlineSpan(), 0, mystring.length, 0)
-		tv_register2!!.text = content
-
-
-		tv_register2!!.setOnClickListener {
-			val browserIntent = Intent(this, YandexWebView::class.java)
-			val url = "file:///android_asset/rules.html"
-			browserIntent.putExtra("url", url)
-			startActivity(browserIntent)
-		}
-
-		tv_register4!!.setOnClickListener {
-			val browserIntent = Intent(this, YandexWebView::class.java)
-			//                    String url = "file:///android_asset/politika.html";
-			val url = "https://winstrike.gg/WinstrikePrivacyPolicy.pdf"
-			browserIntent.putExtra("url", url)
-			startActivity(browserIntent)
-		}
-
-		val textFooter = "Политикой конфиденциальности"
-		val content4 = SpannableString(textFooter)
-		content4.setSpan(UnderlineSpan(), 0, textFooter.length, 0)
-		tv_register4!!.text = content4
-	}
-
-	fun showWait() {}
-
-	fun removeWait() {}
-
-	fun onProfileUpdateSuccessfully(authResponse: MessageResponse) {
-		Timber.d("Profile is updated")
-		//        Toast.makeText(this, "Профиль успешно обновлен", Toast.LENGTH_LONG).show();
-	}
-
-	fun onFailtureUpdateProfile(appErrorMessage: String) {
-		Timber.d("Wrong update profile")
-		Toast.makeText(this, "Не удалось обновить профиль", Toast.LENGTH_LONG).show()
-	}
+    fun onFailtureUpdateProfile(appErrorMessage: String) {
+        Timber.d("Wrong update profile")
+        Toast.makeText(this, "Не удалось обновить профиль", Toast.LENGTH_LONG).show()
+    }
 }

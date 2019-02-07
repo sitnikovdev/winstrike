@@ -11,13 +11,12 @@ import timber.log.Timber
 
 class StartActivity : AppCompatActivity() {
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-		Timber.plant(Timber.DebugTree())
+        Timber.plant(Timber.DebugTree())
 
-		val splashActivity = Intent(this, SplashActivity::class.java)
-		startActivity(splashActivity)
-	}
-
+        val splashActivity = Intent(this, SplashActivity::class.java)
+        startActivity(splashActivity)
+    }
 }

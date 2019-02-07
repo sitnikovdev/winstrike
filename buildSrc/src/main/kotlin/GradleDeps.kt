@@ -45,6 +45,8 @@ object Versions {
 	const val firebase = "16.0.7"
 	const val firebaseMessaging = "17.3.4"
 	const val fabric = "1.27.0"
+
+	const val leakCanary = "1.6.3"
 }
 
 
@@ -77,6 +79,10 @@ object Libraries {
 
 	const val chuck = "com.readystatesoftware.chuck:library:${Versions.chuck}"
 	const val chuckRelease = "com.readystatesoftware.chuck:library-no-op:${Versions.chuck}"
+
+  	const val leakCanaryAndroid = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
+	val leakCanaryAndroidNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:${Versions.leakCanary}"
+	val leakCanaryAndroidSupportFragment = "com.squareup.leakcanary:leakcanary-support-fragment:${Versions.leakCanary}"
 }
 
 

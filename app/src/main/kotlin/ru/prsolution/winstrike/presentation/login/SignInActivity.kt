@@ -41,7 +41,7 @@ import timber.log.Timber
 // TODO: 13/05/2018 Reorder method call in this activity.
 class SignInActivity : AppCompatActivity() {
 
-	private var mProgressDialog: ProgressDialog? = null
+    private var mProgressDialog: ProgressDialog? = null
 
 /*
 	private val navigator = object : Navigator {
@@ -100,141 +100,132 @@ class SignInActivity : AppCompatActivity() {
 	}
 */
 
+    private lateinit var vm: SignInViewModel
 
-	private lateinit var vm: SignInViewModel
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.ac_login)
 
+        vm = ViewModelProviders.of(this)[SignInViewModel::class.java]
 
-	public override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		setContentView(R.layout.ac_login)
+        init()
 
-		vm = ViewModelProviders.of(this)[SignInViewModel::class.java]
+        vm.authResponse.observe(this, Observer {
+            it.let {
+                it?.data?.let { response ->
+                    onAuthResponseSuccess(response)
+                }
+            }
+        })
+    }
 
-		init()
+    fun init() {
+        TextFormat.formatText(et_phone, Constants.PHONE_MASK)
 
-		vm.authResponse.observe(this, Observer {
-			it.let {
-				it?.data?.let { response ->
-					onAuthResponseSuccess(response)
-				}
-			}
-		})
+        setBtnEnable(v_button, true)
 
+        v_button!!.setOnClickListener {
+            if (et_phone?.text?.length!! >= Constants.PHONE_LENGTH && et_password?.text?.length!! >= Constants.PASSWORD_LENGTH) {
 
-	}
+// 				loginViewModel!!.username = formatPhone(et_phone!!.text.toString())
+// 				loginViewModel!!.password = et_password!!.text.toString()
 
-	fun init() {
-		TextFormat.formatText(et_phone, Constants.PHONE_MASK)
+// 				AuthUtils.phone = loginViewModel!!.username.toString()
+// 				AuthUtils.password = loginViewModel!!.password.toString()
 
-		setBtnEnable(v_button, true)
+                vm.signIn()
+            } else if (TextUtils.isEmpty(et_phone!!.text)) {
+                longToast("Введите номер телефона")
+            } else if (TextUtils.isEmpty(et_password!!.text)) {
+                longToast("Пароль не должен быть пустым")
+            } else if (et_phone!!.text.length < Constants.PHONE_LENGTH) {
+                longToast("Номер телефона не верный")
+            } else if (et_password!!.text.length < Constants.PASSWORD_LENGTH) {
+                longToast("Длина пароля должна не менее 6 символов")
+            }
+        }
 
-		v_button!!.setOnClickListener {
-			if (et_phone?.text?.length!! >= Constants.PHONE_LENGTH && et_password?.text?.length!! >= Constants.PASSWORD_LENGTH) {
+        //        checkFieldEnabled(et_phone, et_password, v_button);
 
-//				loginViewModel!!.username = formatPhone(et_phone!!.text.toString())
-//				loginViewModel!!.password = et_password!!.text.toString()
+// 		text_button_title!!.setOnClickListener { startActivity(Intent(this, HelpActivity::class.java)) }
 
-//				AuthUtils.phone = loginViewModel!!.username.toString()
-//				AuthUtils.password = loginViewModel!!.password.toString()
+        setFooter()
+    }
 
-				vm.signIn()
-
-			} else if (TextUtils.isEmpty(et_phone!!.text)) {
-				longToast("Введите номер телефона")
-			} else if (TextUtils.isEmpty(et_password!!.text)) {
-				longToast("Пароль не должен быть пустым")
-			} else if (et_phone!!.text.length < Constants.PHONE_LENGTH) {
-				longToast("Номер телефона не верный")
-			} else if (et_password!!.text.length < Constants.PASSWORD_LENGTH) {
-				longToast("Длина пароля должна не менее 6 символов")
-			}
-		}
-
-		//        checkFieldEnabled(et_phone, et_password, v_button);
-
-//		text_button_title!!.setOnClickListener { startActivity(Intent(this, HelpActivity::class.java)) }
-
-		setFooter()
-	}
-
-	// TODO move in view model
-	/**
+    // TODO move in view model
+    /**
 	 * Success auth user. Save token
 	 *
 	 * @param authResponse - (token,isConfirmed)
 	 */
-	private fun onAuthResponseSuccess(authResponse: AuthResponse) {
-		val confirmed = authResponse.user?.confirmed
+    private fun onAuthResponseSuccess(authResponse: AuthResponse) {
+        val confirmed = authResponse.user?.confirmed
 
-		updateUser(authResponse)
+        updateUser(authResponse)
 
-		if (confirmed!!) {
-			startActivity(Intent(this, MainActivity::class.java))
-			Timber.d("Success signIn")
-		} else {
-			val smsModel = ConfirmSmsModel()
-			smsModel.username = authResponse.user!!.phone
-			vm.sendSms()
+        if (confirmed!!) {
+            startActivity(Intent(this, MainActivity::class.java))
+            Timber.d("Success signIn")
+        } else {
+            val smsModel = ConfirmSmsModel()
+            smsModel.username = authResponse.user!!.phone
+            vm.sendSms()
 
-			val intent = Intent(this, UserConfirmActivity::class.java)
-			intent.putExtra("phone", smsModel.username)
-			startActivity(intent)
-		}
+            val intent = Intent(this, UserConfirmActivity::class.java)
+            intent.putExtra("phone", smsModel.username)
+            startActivity(intent)
+        }
+    }
 
-	}
+    private fun updateUser(authResponse: AuthResponse) {
+        PrefUtils.name = authResponse.user?.name ?: ""
+        PrefUtils.token = authResponse.token ?: ""
+        PrefUtils.phone = authResponse.user?.phone ?: ""
+        PrefUtils.isConfirmed = authResponse.user?.confirmed ?: false
+        PrefUtils.publicid = authResponse.user?.publicId ?: ""
+    }
 
-	private fun updateUser(authResponse: AuthResponse) {
-		PrefUtils.name = authResponse.user?.name ?: ""
-		PrefUtils.token = authResponse.token ?: ""
-		PrefUtils.phone = authResponse.user?.phone ?: ""
-		PrefUtils.isConfirmed = authResponse.user?.confirmed ?: false
-		PrefUtils.publicid = authResponse.user?.publicId ?: ""
-	}
+    fun onAuthFailure(appErrorMessage: String) {
+        Timber.e("Error on auth: %s", appErrorMessage)
+        if (appErrorMessage.contains("403")) longToast("Неправильный пароль")
+        if (appErrorMessage.contains("404")) {
+            longToast("Пользователь не найден")
+        }
+        if (appErrorMessage.contains("502")) longToast("Ошибка сервера")
+        if (appErrorMessage.contains("No Internet Connection!"))
+            longToast("Интернет подключение не доступно!")
+    }
 
-	fun onAuthFailure(appErrorMessage: String) {
-		Timber.e("Error on auth: %s", appErrorMessage)
-		if (appErrorMessage.contains("403")) longToast("Неправильный пароль")
-		if (appErrorMessage.contains("404")) {
-			longToast("Пользователь не найден")
-		}
-		if (appErrorMessage.contains("502")) longToast("Ошибка сервера")
-		if (appErrorMessage.contains("No Internet Connection!"))
-			longToast("Интернет подключение не доступно!")
-	}
+    fun onSendSmsSuccess(confirmModel: MessageResponse) {
+        Timber.tag("common").d("Sms send success: %s", confirmModel.message)
+        //        toast("Код выслан повторно");
+    }
 
+    fun onSmsSendFailure(appErrorMessage: String) {
+        Timber.tag("common").w("Sms send error: %s", appErrorMessage)
+        if (appErrorMessage.contains("404"))
+            toast("Ошибка отправки кода! Нет пользователя с таким номером")
+        if (appErrorMessage.contains("409")) toast("Ошибка функции кодогенерации")
+        if (appErrorMessage.contains("422")) toast("Не указан номер телефона")
+    }
 
-	fun onSendSmsSuccess(confirmModel: MessageResponse) {
-		Timber.tag("common").d("Sms send success: %s", confirmModel.message)
-		//        toast("Код выслан повторно");
-	}
+    fun showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = ProgressDialog(this)
+            mProgressDialog!!.setMessage("Авторизация...")
+            mProgressDialog!!.isIndeterminate = true
+        }
 
-	fun onSmsSendFailure(appErrorMessage: String) {
-		Timber.tag("common").w("Sms send error: %s", appErrorMessage)
-		if (appErrorMessage.contains("404"))
-			toast("Ошибка отправки кода! Нет пользователя с таким номером")
-		if (appErrorMessage.contains("409")) toast("Ошибка функции кодогенерации")
-		if (appErrorMessage.contains("422")) toast("Не указан номер телефона")
-	}
+        mProgressDialog!!.show()
+    }
 
+    protected fun hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog!!.isShowing) {
+            mProgressDialog!!.dismiss()
+        }
+    }
 
-	fun showProgressDialog() {
-		if (mProgressDialog == null) {
-			mProgressDialog = ProgressDialog(this)
-			mProgressDialog!!.setMessage("Авторизация...")
-			mProgressDialog!!.isIndeterminate = true
-		}
-
-		mProgressDialog!!.show()
-	}
-
-	protected fun hideProgressDialog() {
-		if (mProgressDialog != null && mProgressDialog!!.isShowing) {
-			mProgressDialog!!.dismiss()
-		}
-	}
-
-
-	/*
+    /*
     protected void checkFieldEnabled(EditText et_phone, EditText et_pass, View button) {
         Observable<TextViewTextChangeEvent> phoneObservable = RxTextView.textChangeEvents(et_phone);
         Observable<TextViewTextChangeEvent> passwordObservable = RxTextView.textChangeEvents(et_pass);
@@ -252,63 +243,58 @@ class SignInActivity : AppCompatActivity() {
     }
 */
 
+    override fun onStop() {
+        super.onStop()
+        hideProgressDialog()
+    }
 
-	override fun onStop() {
-		super.onStop()
-		hideProgressDialog()
-	}
+    override fun onBackPressed() {
+        //        super.onBackPressed();
+        val intent = Intent(Intent.ACTION_MAIN)
+        intent.addCategory(Intent.CATEGORY_HOME)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+        val am = getSystemService(Activity.ACTIVITY_SERVICE) as ActivityManager
+        am.killBackgroundProcesses("ru.prsolution.winstrike")
+        finish()
+    }
 
-	override fun onBackPressed() {
-		//        super.onBackPressed();
-		val intent = Intent(Intent.ACTION_MAIN)
-		intent.addCategory(Intent.CATEGORY_HOME)
-		intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-		startActivity(intent)
-		val am = getSystemService(Activity.ACTIVITY_SERVICE) as ActivityManager
-		am.killBackgroundProcesses("ru.prsolution.winstrike")
-		finish()
-	}
+    private fun setFooter() {
+        setTextFoot1Color(tv_register!!, "Еще нет аккаунта?", "#9b9b9b")
+        setTextFoot2Color(tv_register2!!, " Зарегистрируйтесь", "#c9186c")
+        tv_register2!!.setOnClickListener { startActivity(Intent(this, SingUpActivity::class.java)) }
 
+        val textConditions = "Условиями"
+        val content = SpannableString(textConditions).apply {
+            setSpan(UnderlineSpan(), 0, textConditions.length, 0)
+        }
+        tv_conditions!!.text = content
 
-	private fun setFooter() {
-		setTextFoot1Color(tv_register!!, "Еще нет аккаунта?", "#9b9b9b")
-		setTextFoot2Color(tv_register2!!, " Зарегистрируйтесь", "#c9186c")
-		tv_register2!!.setOnClickListener { startActivity(Intent(this, SingUpActivity::class.java)) }
+        tv_conditions!!.setOnClickListener {
+            val browserIntent = Intent(this, YandexWebView::class.java)
+            val url = "file:///android_asset/rules.html"
+            browserIntent.putExtra("url", url)
+            startActivity(browserIntent)
+        }
 
-		val textConditions = "Условиями"
-		val content = SpannableString(textConditions).apply {
-			setSpan(UnderlineSpan(), 0, textConditions.length, 0)
-		}
-		tv_conditions!!.text = content
+        tv_politica4!!.setOnClickListener {
+            val browserIntent = Intent(this, YandexWebView::class.java)
+            val url = "file:///android_asset/politika.html"
+            browserIntent.putExtra("url", url)
+            startActivity(browserIntent)
+        }
 
+        val textFooter = "Политикой конфиденциальности"
+        val content4 = SpannableString(textFooter)
+        content4.setSpan(UnderlineSpan(), 0, textFooter.length, 0)
+        tv_politica4!!.text = content4
+    }
 
-		tv_conditions!!.setOnClickListener {
-			val browserIntent = Intent(this, YandexWebView::class.java)
-			val url = "file:///android_asset/rules.html"
-			browserIntent.putExtra("url", url)
-			startActivity(browserIntent)
-		}
+    fun onLogin(view: View) {
+        Timber.d("View on click fire")
+    }
 
-		tv_politica4!!.setOnClickListener {
-			val browserIntent = Intent(this, YandexWebView::class.java)
-			val url = "file:///android_asset/politika.html"
-			browserIntent.putExtra("url", url)
-			startActivity(browserIntent)
-		}
-
-		val textFooter = "Политикой конфиденциальности"
-		val content4 = SpannableString(textFooter)
-		content4.setSpan(UnderlineSpan(), 0, textFooter.length, 0)
-		tv_politica4!!.text = content4
-
-	}
-
-
-	fun onLogin(view: View) {
-		Timber.d("View on click fire")
-	}
-
-	/*    public class LoginHandler {
+    /*    public class LoginHandler {
 
      *//*        public LoginHandler(LoginPresenter presenter) {
             this.presenter = presenter;

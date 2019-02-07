@@ -6,7 +6,6 @@ package ru.prsolution.winstrike.domain.models.common
 
 class MessageResponse(val message: String? = null)
 
-
 enum class ErrorMessage {
-	ERROR_416
+    ERROR_416
 }

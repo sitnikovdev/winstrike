@@ -51,43 +51,42 @@ class MapViewUtils() {
                 value = 7
 
             // Rotated rows (66 - 41)
-             //Row: 66 - 45
+             // Row: 66 - 45
             } else if (y == 145.0) {
                 value = 15
-            //Row: 67 - 44
+            // Row: 67 - 44
             } else if (y == 181.0) {
                 value = 15
-            //Row: 68 - 43
+            // Row: 68 - 43
             } else if (y == 218.0) {
                 value = 15
-            //Row: 69 - 42
+            // Row: 69 - 42
             } else if (y == 254.0) {
                 value = 15
-            //Row: 70 - 41
+            // Row: 70 - 41
             } else if (y == 290.0) {
                 value = 15
 
-            //Row: 15 - 11 (right)
+            // Row: 15 - 11 (right)
             } else if (y == 154.0) {
                 value = 0
-            //Row: 16 - 20 (right)
+            // Row: 16 - 20 (right)
             } else if (y == 189.0) {
                 value = 8
 
-            //Row: 25 - 21 (right)
+            // Row: 25 - 21 (right)
             } else if (y == 244.0) {
                 value = 0
-            //Row: 26 - 30 (right)
+            // Row: 26 - 30 (right)
             } else if (y == 279.0) {
                 value = 7
 
-            //Row:  81 - 85 (left) && 35 - 31 (right)
+            // Row:  81 - 85 (left) && 35 - 31 (right)
             } else if (y == 336.0) {
                 value = 8
             // Row: 86 - 90 (left) &&  Row: 36 - 40 (right)
             } else if (y == 369.0) {
                 value = 15
-
 
             // HP STAGE 1 (left) (Row: 1 - 5) && HP STAGE 2 (right) (Row: 6 - 10)
             } else if (y == 455.0) {
@@ -101,7 +100,6 @@ class MapViewUtils() {
                 value = 35
             }
             return value
-
         }
 
         fun getSeatOffsetXArena1(seat: SeatMap): Int {
@@ -130,7 +128,6 @@ class MapViewUtils() {
             }*/
             return value
         }
-
 
         fun getLabelOffsetXArena1(label: String?): Int {
             return when (label) {

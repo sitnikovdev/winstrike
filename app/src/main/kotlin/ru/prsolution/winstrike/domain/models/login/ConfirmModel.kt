@@ -6,9 +6,7 @@ package ru.prsolution.winstrike.domain.models.login
 
 import com.squareup.moshi.Json
 
-class ConfirmModel (
-	@field:Json(name = "username")
-	val phone: String? = null
+class ConfirmModel(
+    @field:Json(name = "username")
+    val phone: String? = null
 )
-
-

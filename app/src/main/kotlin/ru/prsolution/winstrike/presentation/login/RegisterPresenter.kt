@@ -5,10 +5,10 @@ import ru.prsolution.winstrike.domain.models.login.LoginModel
 
 class RegisterPresenter() {
 
-	init {
-	}
+    init {
+    }
 
-	fun createUser(user: LoginModel) {
+    fun createUser(user: LoginModel) {
 
 /*		val subscription = service.createUser(object : Service.RegisterCallback {
 			override fun onSuccess(authResponse: AuthResponse) {
@@ -22,14 +22,13 @@ class RegisterPresenter() {
 		}, user)
 
 		subscriptions.add(subscription)*/
-	}
+    }
 
-
-	/**
+    /**
 	 * Send code by tap on "Again button send"
 	 * @param smsModel
 	 */
-	fun sendSms(smsModel: ConfirmSmsModel) {
+    fun sendSms(smsModel: ConfirmSmsModel) {
 
 /*		val subscription = service?.sendSmsByUserRequest(object : Service.SmsCallback {
 			override fun onSuccess(authResponse: MessageResponse) {
@@ -43,10 +42,8 @@ class RegisterPresenter() {
 		}, smsModel)
 
 		subscriptions.add(subscription)*/
-	}
+    }
 
-
-	fun onStop() {
-	}
-
+    fun onStop() {
+    }
 }

@@ -1,16 +1,12 @@
 package ru.prsolution.winstrike.presentation.setup
 
-
-
 class ChooseScreenPresenter() {
 
+    init {
+// 		this.subscriptions = CompositeSubscription()
+    }
 
-	init {
-//		this.subscriptions = CompositeSubscription()
-	}
-
-
-	fun getActiveArena(selectedArena: Int) {
+    fun getActiveArena(selectedArena: Int) {
 /*
 		fragment.showWait()
 
@@ -24,14 +20,12 @@ class ChooseScreenPresenter() {
 				fragment.onGetAcitivePidFailure(networkError.appErrorMessage)
 			}
 */
+        }
 
-		}
+// 		subscriptions.add(subscription)
+    }
 
-//		subscriptions.add(subscription)
-	}
-
-
-	fun getArenaByTimeRange(activeLayoutPid: String?, time: Map<String, String>) {
+    fun getArenaByTimeRange(activeLayoutPid: String?, time: Map<String, String>) {
 
 /*		val subscription = service.getArenaByTimeRange(object : Service.RoomLayoutByTimeCallback {
 			override fun onSuccess(authResponse: RoomLayoutFactory) {
@@ -53,5 +47,4 @@ class ChooseScreenPresenter() {
 	fun onStop() {
 		subscriptions.unsubscribe()
 	}*/
-
 }

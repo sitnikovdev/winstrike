@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.presentation.splash
 
-
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
@@ -15,27 +14,25 @@ import timber.log.Timber
 
 class SplashViewModel : ViewModel() {
 
-	private val retrofitService = RetrofitFactory.makeRetrofitService()
+    private val retrofitService = RetrofitFactory.makeRetrofitService()
 
-	val messageResponse = MutableLiveData<Resource<MessageResponse>>()
+    val messageResponse = MutableLiveData<Resource<MessageResponse>>()
 
+    fun sendSms(smsModel: ConfirmSmsModel) {
 
-	fun sendSms(smsModel: ConfirmSmsModel) {
-
-		GlobalScope.launch {
-			val request = retrofitService.sendSmsByUserRequestAsync(smsModel)
-			try {
-				val response = request.await()
-				response.body()?.let {
-					// activity.onSendSmsSuccess()
-					messageResponse.setSuccess(it)
-				}
-			} catch (e: HttpException) {
-				Timber.e(e.message())
-			} catch (e: Throwable) {
-				Timber.e(e)
-			}
-		}
-	}
-
+        GlobalScope.launch {
+            val request = retrofitService.sendSmsByUserRequestAsync(smsModel)
+            try {
+                val response = request.await()
+                response.body()?.let {
+                    // activity.onSendSmsSuccess()
+                    messageResponse.setSuccess(it)
+                }
+            } catch (e: HttpException) {
+                Timber.e(e.message())
+            } catch (e: Throwable) {
+                Timber.e(e)
+            }
+        }
+    }
 }

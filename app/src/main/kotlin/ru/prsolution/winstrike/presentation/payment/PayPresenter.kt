@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.presentation.payment
 
-
 /**
  * Created by ennur on 6/25/16.
  */
@@ -17,28 +16,27 @@ class PayPresenter
         } else {
             toolbar.setTitle(R.string.arena_name);
         }
-*/
-  {
+*/ {
 
-	init {
-	}
+    init {
+    }
 
-	fun onStop() {
-	}
+    fun onStop() {
+    }
 
-	fun loadUrl() {
-//		viewState.loadUrl(url)
-	}
+    fun loadUrl() {
+// 		viewState.loadUrl(url)
+    }
 
-	fun showProgress() {
-//		viewState.showWait()
-	}
+    fun showProgress() {
+// 		viewState.showWait()
+    }
 
-	fun hideProgress() {
-//		viewState.removeWait()
-	}
+    fun hideProgress() {
+// 		viewState.removeWait()
+    }
 
-	fun onBackPressed() {
-//		router.replaceScreen(Screens.MAP_SCREEN, 0)
-	}
+    fun onBackPressed() {
+// 		router.replaceScreen(Screens.MAP_SCREEN, 0)
+    }
 }

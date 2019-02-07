@@ -25,159 +25,150 @@ import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
 
-
 class ProfileFragment : Fragment() {
 
+    private var mDlgSingOut: Dialog? = null
 
-	private var mDlgSingOut: Dialog? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        dlgProfileSingOut()
+    }
 
+    private lateinit var adapter: TabAdapter
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		dlgProfileSingOut()
-	}
+    private var tabLayout: TabLayout? = null
+    private var vp: ViewPager? = null
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.frm_profile, container, false)
 
-	private lateinit var adapter: TabAdapter
+         tabLayout = view.findViewById(R.id.tabs)
+         vp = view.findViewById(R.id.viewPager)
 
-	private  var  tabLayout: TabLayout? = null
-	private var vp: ViewPager? = null
+        return view
+    }
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val view = inflater.inflate(R.layout.frm_profile, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initAdapter()
+    }
 
-		 tabLayout = view.findViewById(R.id.tabs)
-		 vp = view.findViewById(R.id.viewPager)
+    private fun initAdapter() {
+        Timber.tag("$$$").d("Update profile adapter.")
+        adapter = TabAdapter(fragmentManager)
+        adapter.addFragments(ProfileTabFragment(), "Профиль")
+        adapter.addFragments(AppTabFragment(), "Приложение")
+        (vp as ViewPager).adapter = adapter
+        (tabLayout as TabLayout).setupWithViewPager(vp)
+    }
 
-		return view
-	}
+    override fun onResume() {
+        super.onResume()
+        initAdapter()
+    }
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		initAdapter()
-	}
+    // TODO Move in View Model
+    fun onProfileUpdate(name: String, password: String) {
+        if (password.isEmpty()) {
+// 			Toast.makeText(this, R.string.message_password, Toast.LENGTH_LONG).show()
+        }
+        if (name.isEmpty()) {
+// 			Toast.makeText(this, R.string.message_username, Toast.LENGTH_LONG).show()
+        }
+        if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(name)) {
+            // call api for update profile here ...
+            val profile = ProfileModel(
+                    name = name,
+                    password = password
+            )
+            val publicId = PrefUtils.publicid
+            val token = Constants.TOKEN_TYPE_BEARER + PrefUtils.token
+// 			publicId?.let { mViewModel.updateProfile(token, profile, it) }
+            PrefUtils.name = name
+            var title: String? = getString(R.string.title_settings)
+            if (PrefUtils.name != null) {
+                if (!TextUtils.isEmpty(PrefUtils.name)) {
+                    title = PrefUtils.name
+                }
+            }
+        }
+    }
 
-	private fun initAdapter() {
-		Timber.tag("$$$").d("Update profile adapter.")
-		adapter = TabAdapter(fragmentManager)
-		adapter.addFragments(ProfileTabFragment(), "Профиль")
-		adapter.addFragments(AppTabFragment(), "Приложение")
-		(vp as ViewPager).adapter = adapter
-		(tabLayout as TabLayout).setupWithViewPager(vp)
+    // SignOut Dialog
+    private fun dlgProfileSingOut() {
+        mDlgSingOut = Dialog(activity, android.R.style.Theme_Dialog)
+        mDlgSingOut!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        mDlgSingOut!!.setContentView(R.layout.dlg_logout)
 
-	}
+        val cvBtnOk = mDlgSingOut!!.findViewById<TextView>(R.id.btn_ok)
+        val cvCancel = mDlgSingOut!!.findViewById<TextView>(R.id.btn_cancel)
 
-	override fun onResume() {
-		super.onResume()
-		initAdapter()
-	}
+        cvCancel.setOnClickListener { mDlgSingOut!!.dismiss() }
 
+        cvBtnOk.setOnClickListener {
+            PrefUtils.isLogout = true
+            PrefUtils.token = ""
+            startActivity(Intent(activity, SplashActivity::class.java))
+        }
 
-	// TODO Move in View Model
-	fun onProfileUpdate(name: String, password: String) {
-		if (password.isEmpty()) {
-//			Toast.makeText(this, R.string.message_password, Toast.LENGTH_LONG).show()
-		}
-		if (name.isEmpty()) {
-//			Toast.makeText(this, R.string.message_username, Toast.LENGTH_LONG).show()
-		}
-		if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(name)) {
-			// call api for update profile here ...
-			val profile = ProfileModel(
-					name = name,
-					password = password
-			)
-			val publicId = PrefUtils.publicid
-			val token = Constants.TOKEN_TYPE_BEARER + PrefUtils.token
-//			publicId?.let { mViewModel.updateProfile(token, profile, it) }
-			PrefUtils.name = name
-			var title: String? = getString(R.string.title_settings)
-			if (PrefUtils.name != null) {
-				if (!TextUtils.isEmpty(PrefUtils.name)) {
-					title = PrefUtils.name
-				}
-			}
-		}
-	}
+        mDlgSingOut!!.setCanceledOnTouchOutside(true)
+        mDlgSingOut!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mDlgSingOut!!.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-	// SignOut Dialog
-	private fun dlgProfileSingOut() {
-		mDlgSingOut = Dialog(activity, android.R.style.Theme_Dialog)
-		mDlgSingOut!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-		mDlgSingOut!!.setContentView(R.layout.dlg_logout)
+        val window = mDlgSingOut!!.window
+        val wlp = window!!.attributes
 
-		val cvBtnOk = mDlgSingOut!!.findViewById<TextView>(R.id.btn_ok)
-		val cvCancel = mDlgSingOut!!.findViewById<TextView>(R.id.btn_cancel)
+        wlp.gravity = Gravity.CENTER
+        wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
+        window.attributes = wlp
 
-		cvCancel.setOnClickListener { mDlgSingOut!!.dismiss() }
+        mDlgSingOut!!.window!!.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        mDlgSingOut!!.window!!.setDimAmount(0.5f)
 
-		cvBtnOk.setOnClickListener {
-			PrefUtils.isLogout = true
-			PrefUtils.token = ""
-			startActivity(Intent(activity, SplashActivity::class.java))
-		}
+        mDlgSingOut!!.setCanceledOnTouchOutside(false)
+        mDlgSingOut!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        mDlgSingOut!!.dismiss()
+    }
 
-		mDlgSingOut!!.setCanceledOnTouchOutside(true)
-		mDlgSingOut!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-		mDlgSingOut!!.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    // TODO: remove it !!!
+    // Social networks links block:
+    fun onGooglePlayButtonClick() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_GOOGLE_PLAY)))
+    }
 
-		val window = mDlgSingOut!!.window
-		val wlp = window!!.attributes
+    fun onVkClick() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_VK)))
+    }
 
-		wlp.gravity = Gravity.CENTER
-		wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
-		window.attributes = wlp
+    fun onInstagramClick() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM)))
+    }
 
-		mDlgSingOut!!.window!!.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-		mDlgSingOut!!.window!!.setDimAmount(0.5f)
+    fun onTweeterClick() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWEETER)))
+    }
 
-		mDlgSingOut!!.setCanceledOnTouchOutside(false)
-		mDlgSingOut!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-		mDlgSingOut!!.dismiss()
+    fun onFacebookClick() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK)))
+    }
 
-	}
+    fun onTwitchClick() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWITCH)))
+    }
 
-	// TODO: remove it !!!
-	// Social networks links block:
-	fun onGooglePlayButtonClick() {
-		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_GOOGLE_PLAY)))
-	}
+    fun onRecommendButtonClick() {
+        shareImgOnRecommendClick()
+    }
 
-	fun onVkClick() {
-		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_VK)))
-	}
-
-	fun onInstagramClick() {
-		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_INSTAGRAM)))
-	}
-
-	fun onTweeterClick() {
-		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWEETER)))
-	}
-
-	fun onFacebookClick() {
-		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_FACEBOOK)))
-	}
-
-	fun onTwitchClick() {
-		startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TWITCH)))
-	}
-
-	fun onRecommendButtonClick() {
-		shareImgOnRecommendClick()
-	}
-
-	// TODO replace packageName str with value
-	private fun shareImgOnRecommendClick() {
-		val attachedUri = Uri.parse(Constants.ANDROID_RESOURCES_PATH + "packageName"
-				                            + Constants.SHARE_DRAWABLE + Constants.SHARE_IMG)
-		val shareIntent = ShareCompat.IntentBuilder.from(activity)
-				.setType(Constants.IMAGE_TYPE)
-				.setStream(attachedUri)
-				.intent
-		shareIntent.putExtra(Intent.EXTRA_TEXT, R.string.message_share_images)
-		startActivity(Intent.createChooser(shareIntent, Constants.SHARE_IMG_TITLE))
-	}
-
-
+    // TODO replace packageName str with value
+    private fun shareImgOnRecommendClick() {
+        val attachedUri = Uri.parse(Constants.ANDROID_RESOURCES_PATH + "packageName" +
+                                            Constants.SHARE_DRAWABLE + Constants.SHARE_IMG)
+        val shareIntent = ShareCompat.IntentBuilder.from(activity)
+                .setType(Constants.IMAGE_TYPE)
+                .setStream(attachedUri)
+                .intent
+        shareIntent.putExtra(Intent.EXTRA_TEXT, R.string.message_share_images)
+        startActivity(Intent.createChooser(shareIntent, Constants.SHARE_IMG_TITLE))
+    }
 }

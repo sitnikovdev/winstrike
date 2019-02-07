@@ -13,26 +13,25 @@ import ru.prsolution.winstrike.R
 
 class AppTabFragment : Fragment() {
 
+// 	private var listener: OnAppButtonsClickListener? = null
 
-//	private var listener: OnAppButtonsClickListener? = null
+    interface OnAppButtonsClickListener {
+        fun onPushClick(isOn: String)
 
-	interface OnAppButtonsClickListener {
-		fun onPushClick(isOn: String)
+        fun onRecommendButtonClick()
 
-		fun onRecommendButtonClick()
+        fun onGooglePlayButtonClick()
 
-		fun onGooglePlayButtonClick()
+        fun onVkClick()
 
-		fun onVkClick()
+        fun onInstagramClick()
 
-		fun onInstagramClick()
+        fun onTweeterClick()
 
-		fun onTweeterClick()
+        fun onFacebookClick()
 
-		fun onFacebookClick()
-
-		fun onTwitchClick()
-	}
+        fun onTwitchClick()
+    }
 
 /*	override fun onAttach(context: Context?) {
 		super.onAttach(context)
@@ -43,10 +42,9 @@ class AppTabFragment : Fragment() {
 		}
 	}*/
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//		sw_note.textOn = "On" // displayed text of the Switch whenever it is in checked or on state
-//		sw_note.textOff = "Off" // displayed text of the Switch whenever it is in unchecked i.e. off state
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+// 		sw_note.textOn = "On" // displayed text of the Switch whenever it is in checked or on state
+// 		sw_note.textOff = "Off" // displayed text of the Switch whenever it is in unchecked i.e. off state
 
 /*		sw_note.setOnClickListener(View.OnClickListener {
 			if (sw_note.isChecked) {
@@ -55,8 +53,6 @@ class AppTabFragment : Fragment() {
 //				listener!!.onPushClick(sw_note.getTextOff().toString())
 			}
 		})*/
-
-
 
 /*		cv_recomend.setOnClickListener(
 				{ it -> listener!!.onRecommendButtonClick() }
@@ -86,8 +82,6 @@ class AppTabFragment : Fragment() {
 				{ it -> listener!!.onTwitchClick() }
 		)*/
 
-		return inflater.inflate(R.layout.fmt_profile_app, container, false)
-	}
-
-
+        return inflater.inflate(R.layout.fmt_profile_app, container, false)
+    }
 }

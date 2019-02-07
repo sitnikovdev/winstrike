@@ -16,26 +16,26 @@ import ru.prsolution.winstrike.R
 
 class HelpActivity : AppCompatActivity() {
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		setContentView(R.layout.ac_help)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.ac_help)
 
-		setSupportActionBar(toolbar)
-		supportActionBar?.setDisplayShowTitleEnabled(false)
-		toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
-//		        toolbar.setNavigationOnClickListener(
-//		                it -> startActivity(new Intent(this, SignInActivity.class))
-//		        );
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
+// 		        toolbar.setNavigationOnClickListener(
+// 		                it -> startActivity(new Intent(this, SignInActivity.class))
+// 		        );
 
-		toolbar_title.setText(R.string.help_title)
+        toolbar_title.setText(R.string.help_title)
 
-		tv_sms.setOnClickListener { startActivity(Intent(this, HelpSmsActivity::class.java)) }
+        tv_sms.setOnClickListener { startActivity(Intent(this, HelpSmsActivity::class.java)) }
 
-		tv_help_centr.setOnClickListener {
-			val url = "https://winstrike.gg"
-			val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-			startActivity(browserIntent)
-			//startActivity(new Intent(this, HelpPasswordActivity.class));
-		}
-	}
+        tv_help_centr.setOnClickListener {
+            val url = "https://winstrike.gg"
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(browserIntent)
+            // startActivity(new Intent(this, HelpPasswordActivity.class));
+        }
+    }
 }

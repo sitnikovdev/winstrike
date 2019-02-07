@@ -41,213 +41,205 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.SharedPrefFactory
 import timber.log.Timber
 
-
 /**
  * A main screen of Winstrike app.
  */
 class HomeFragment : Fragment() {
 
-	var selectedArena = 0
-	val arenaUpConstraintSet = ConstraintSet()
-	val arenaDownConstraintSet = ConstraintSet()
-	var isArenaShow: Boolean = false
-	lateinit var mVm: MainViewModel
-	lateinit var arenaListAdapter: ArenaListAdapter
-	lateinit var carouselAdapter: CarouselAdapter
-	lateinit var liveSharedPreferences: LiveSharedPreferences
+    var selectedArena = 0
+    val arenaUpConstraintSet = ConstraintSet()
+    val arenaDownConstraintSet = ConstraintSet()
+    var isArenaShow: Boolean = false
+    lateinit var mVm: MainViewModel
+    lateinit var arenaListAdapter: ArenaListAdapter
+    lateinit var carouselAdapter: CarouselAdapter
+    lateinit var liveSharedPreferences: LiveSharedPreferences
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
-		selectedArena = PrefUtils.selectedArena
-		ArenaListAdapter.SELECTED_ITEM = selectedArena
-		carouselAdapter = CarouselAdapter(activity)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
+        selectedArena = PrefUtils.selectedArena
+        ArenaListAdapter.SELECTED_ITEM = selectedArena
+        carouselAdapter = CarouselAdapter(activity)
 
-		if (savedInstanceState == null) {
-			mVm.getArenaList()
-		}
+        if (savedInstanceState == null) {
+            mVm.getArenaList()
+        }
 
-		liveSharedPreferences = LiveSharedPreferences(SharedPrefFactory.prefs)
+        liveSharedPreferences = LiveSharedPreferences(SharedPrefFactory.prefs)
+    }
 
-	}
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fmt_home, container, false)
+    }
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater.inflate(R.layout.fmt_home, container, false)
-	}
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arenaListAdapter = ArenaListAdapter(onArenaClickItem)
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		arenaListAdapter = ArenaListAdapter(onArenaClickItem)
+        // TODO: Process error response and show some info message!!!
+        mVm.arenaList.observe(this, Observer { resource ->
+            resource.let {
+                it?.data?.let { arenaListAdapter.submitList(it) }
+                val room = resource?.data?.get(selectedArena)
+                updateCarouselView(room)
+                updateArenaInfo(room)
+            }
+        })
 
-		// TODO: Process error response and show some info message!!!
-		mVm.arenaList.observe(this, Observer { resource ->
-			resource.let {
-				it?.data?.let { arenaListAdapter.submitList(it) }
-				val room = resource?.data?.get(selectedArena)
-				updateCarouselView(room)
-				updateArenaInfo(room)
-			}
-		})
+        liveSharedPreferences.getInt("selectedArena", 0).observe(this, Observer<Int> { value ->
+            Timber.tag("###").d(value.toString())
+        })
 
-		liveSharedPreferences.getInt("selectedArena", 0).observe(this, Observer<Int> { value ->
-			Timber.tag("###").d(value.toString())
-		})
+        initArenaRV(arenaListAdapter) // Arena select
+        initAnimArenaRV() // Arena select transitions animations
+    }
 
+    private fun updateArenaInfo(room: Arena?) { // TODO: Don't use datasource, use domain!!!
+        tvArenaTitle.text = room?.name
+        arena_description.text = room?.description
+        head_image.imageURI = Uri.parse(room?.imageUrl)
+    }
 
-		initArenaRV(arenaListAdapter) // Arena select
-		initAnimArenaRV() // Arena select transitions animations
-	}
+    /** Arena selected recycler view */
+    private fun initArenaRV(arenaListAdapter: ArenaListAdapter) {
+        with(rv_arena) {
+            bringToFront()
+            addItemDecoration(RecyclerViewMargin(24, 1))
+            layoutManager = LinearLayoutManager(activity)
+            adapter = arenaListAdapter
+            adapter?.notifyDataSetChanged()
+        }
+    }
 
-	private fun updateArenaInfo(room: Arena?) { // TODO: Don't use datasource, use domain!!!
-		tvArenaTitle.text = room?.name
-		arena_description.text = room?.description
-		head_image.imageURI = Uri.parse(room?.imageUrl)
-	}
+    private val onArenaClickItem: (Arena, Int) -> Unit = { room, position ->
+        TransitionManager.beginDelayedTransition(root)
+        arenaUpConstraintSet.applyTo(root)
+        PrefUtils.selectedArena = position
+        ArenaListAdapter.SELECTED_ITEM = position
+        this.selectedArena = position
+        this.isArenaShow = false
 
-	/** Arena selected recycler view */
-	private fun initArenaRV(arenaListAdapter: ArenaListAdapter) {
-		with(rv_arena) {
-			bringToFront()
-			addItemDecoration(RecyclerViewMargin(24, 1))
-			layoutManager = LinearLayoutManager(activity)
-			adapter = arenaListAdapter
-			adapter?.notifyDataSetChanged()
-		}
-	}
+        tvArenaTitle.text = room.name
 
-	private val onArenaClickItem: (Arena, Int) -> Unit = { room, position ->
-		TransitionManager.beginDelayedTransition(root)
-		arenaUpConstraintSet.applyTo(root)
-		PrefUtils.selectedArena = position
-		ArenaListAdapter.SELECTED_ITEM = position
-		this.selectedArena = position
-		this.isArenaShow = false
+        rv_arena.adapter!!.notifyDataSetChanged()
+        updateCarouselView(room)
+        updateArenaInfo(room)
+    }
 
-		tvArenaTitle.text = room.name
+    private fun initAnimArenaRV() {
+        arenaDownConstraintSet.clone(activity, R.layout.part_arena_down)
+        arenaUpConstraintSet.clone(activity, R.layout.part_arena_up)
+        arrowArena_Down.setOnClickListener {
+            TransitionManager.beginDelayedTransition(root)
+            if (!isArenaShow) {
+                isArenaShow = true
+                arenaDownConstraintSet.applyTo(root)
+            } else {
+                arenaUpConstraintSet.applyTo(root)
+                isArenaShow = false
+            }
+        }
 
-		rv_arena.adapter!!.notifyDataSetChanged()
-		updateCarouselView(room)
-		updateArenaInfo(room)
-	}
+        arrowArena_Up.setOnClickListener {
+            TransitionManager.beginDelayedTransition(root)
+            arenaUpConstraintSet.applyTo(root)
+        }
+    }
 
-	private fun initAnimArenaRV() {
-		arenaDownConstraintSet.clone(activity, R.layout.part_arena_down)
-		arenaUpConstraintSet.clone(activity, R.layout.part_arena_up)
-		arrowArena_Down.setOnClickListener {
-			TransitionManager.beginDelayedTransition(root)
-			if (!isArenaShow) {
-				isArenaShow = true
-				arenaDownConstraintSet.applyTo(root)
-			} else {
-				arenaUpConstraintSet.applyTo(root)
-				isArenaShow = false
-			}
-		}
+    /** Seat type carousel */
+    private fun updateCarouselView(room: Arena?) {
+        var roomType: ArenaHallType = ArenaHallType.COMMON
 
-		arrowArena_Up.setOnClickListener {
-			TransitionManager.beginDelayedTransition(root)
-			arenaUpConstraintSet.applyTo(root)
-		}
-	}
+        val widthPx = PrefUtils.displayWidhtPx
+        val seatMap: MutableMap<RoomSeatType, SeatCarousel> = mutableMapOf()
 
-	/** Seat type carousel */
-	private fun updateCarouselView(room: Arena?) {
-		var roomType: ArenaHallType = ArenaHallType.COMMON
+        if (
+                (!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription))) ||
+                (!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
 
-		val widthPx = PrefUtils.displayWidhtPx
-		val seatMap: MutableMap<RoomSeatType, SeatCarousel> = mutableMapOf()
+        ) {
+            roomType = ArenaHallType.DOUBLE
+        } else if (!TextUtils.isEmpty(room?.commonDescription)) {
+            roomType = ArenaHallType.COMMON
+        } else if (!TextUtils.isEmpty(room?.vipDescription)) {
+            roomType = ArenaHallType.VIP
+        }
 
-		if (
-				(!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription)))
-				||
-				(!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
+        when (roomType) {
+            ArenaHallType.DOUBLE -> {
 
-		) {
-			roomType = ArenaHallType.DOUBLE
-		} else if (!TextUtils.isEmpty(room?.commonDescription)) {
-			roomType = ArenaHallType.COMMON
-		} else if (!TextUtils.isEmpty(room?.vipDescription)) {
-			roomType = ArenaHallType.VIP
-		}
+                seatMap[RoomSeatType.COMMON] = SeatCarousel(
+                        type = RoomSeatType.COMMON,
+                        imageUrl = room?.commonImageUrl,
+                        description = room?.commonDescription
 
-		when (roomType) {
-			ArenaHallType.DOUBLE -> {
+                )
 
-				seatMap[RoomSeatType.COMMON] = SeatCarousel(
-						type = RoomSeatType.COMMON,
-						imageUrl = room?.commonImageUrl,
-						description = room?.commonDescription
+                seatMap[RoomSeatType.VIP] = SeatCarousel(
+                        type = RoomSeatType.VIP,
+                        imageUrl = room?.vipImageUrl,
+                        description = room?.vipDescription
+                )
 
-				)
+                with(carouselAdapter) {
+                    setPagesCount(2)
+                    addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
+                    addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 1)
+                }
+            }
+            ArenaHallType.COMMON -> {
+                seatMap[RoomSeatType.COMMON] = SeatCarousel(
+                        type = RoomSeatType.COMMON,
+                        imageUrl = room?.commonImageUrl,
+                        description = room?.commonDescription
 
-				seatMap[RoomSeatType.VIP] = SeatCarousel(
-						type = RoomSeatType.VIP,
-						imageUrl = room?.vipImageUrl,
-						description = room?.vipDescription
-				)
+                )
 
+                with(carouselAdapter) {
+                    setPagesCount(1)
+                    addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
+                }
+            }
+            ArenaHallType.VIP -> {
 
-				with(carouselAdapter) {
-					setPagesCount(2)
-					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
-					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 1)
-				}
-			}
-			ArenaHallType.COMMON -> {
-				seatMap[RoomSeatType.COMMON] = SeatCarousel(
-						type = RoomSeatType.COMMON,
-						imageUrl = room?.commonImageUrl,
-						description = room?.commonDescription
+                seatMap[RoomSeatType.VIP] = SeatCarousel(
+                        type = RoomSeatType.VIP,
+                        imageUrl = room?.vipImageUrl,
+                        description = room?.vipDescription
+                )
 
-				)
+                with(carouselAdapter) {
+                    setPagesCount(1)
+                    addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 0)
+                }
+            }
+        }
 
-				with(carouselAdapter) {
-					setPagesCount(1)
-					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
-				}
-			}
-			ArenaHallType.VIP -> {
+        with(view_pager_seat) {
+            adapter = carouselAdapter
+            currentItem = 0
+            offscreenPageLimit = 2
+            setPageTransformer(false, carouselAdapter)
+        }
 
-				seatMap[RoomSeatType.VIP] = SeatCarousel(
-						type = RoomSeatType.VIP,
-						imageUrl = room?.vipImageUrl,
-						description = room?.vipDescription
-				)
+        with(view_pager_seat) {
+            pageMargin = when {
+                widthPx <= SCREEN_WIDTH_PX_720 -> SCREEN_MARGIN_350
+                widthPx <= SCREEN_WIDTH_PX_1080 -> SCREEN_MARGIN_450
+                widthPx <= SCREEN_WIDTH_PX_1440 -> SCREEN_MARGIN_600
+                else -> SCREEN_MARGIN_450
+            }
+        }
+        carouselAdapter.notifyDataSetChanged()
+    }
 
-				with(carouselAdapter) {
-					setPagesCount(1)
-					addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 0)
-				}
-			}
-		}
-
-
-		with(view_pager_seat) {
-			adapter = carouselAdapter
-			currentItem = 0
-			offscreenPageLimit = 2
-			setPageTransformer(false, carouselAdapter)
-		}
-
-		with(view_pager_seat) {
-			pageMargin = when {
-				widthPx <= SCREEN_WIDTH_PX_720 -> SCREEN_MARGIN_350
-				widthPx <= SCREEN_WIDTH_PX_1080 -> SCREEN_MARGIN_450
-				widthPx <= SCREEN_WIDTH_PX_1440 -> SCREEN_MARGIN_600
-				else -> SCREEN_MARGIN_450
-			}
-		}
-		carouselAdapter.notifyDataSetChanged()
-	}
-
-	/** click on seat in carousel view */
-	fun onSeatClick(seat: SeatCarousel) {
-		TimeDataModel.clearPids()
-//		showFragmentHolderContainer(true)
-		// TODO: remove this!!! Use ViewModel
-		App.instance.seat = seat
-//		presenter.onChooseScreenClick()
-	}
-
-
+    /** click on seat in carousel view */
+    fun onSeatClick(seat: SeatCarousel) {
+        TimeDataModel.clearPids()
+// 		showFragmentHolderContainer(true)
+        // TODO: remove this!!! Use ViewModel
+        App.instance.seat = seat
+// 		presenter.onChooseScreenClick()
+    }
 }

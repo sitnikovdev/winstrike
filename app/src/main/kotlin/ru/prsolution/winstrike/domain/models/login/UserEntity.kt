@@ -17,10 +17,10 @@
 package ru.prsolution.winstrike.domain.models.login
 
 data class UserEntity(
-		val id: Int = 0,
-		val name: String? ="NoName",
-		val phone: String? = null,
-		val publickId: String? = null,
-		val token: String? = null,
-		val confirmed: Boolean? = null
+    val id: Int = 0,
+    val name: String? = "NoName",
+    val phone: String? = null,
+    val publickId: String? = null,
+    val token: String? = null,
+    val confirmed: Boolean? = null
 )
