@@ -1,3 +1,9 @@
+import Release.versionCode
+import Release.versionName
+import com.android.build.gradle.api.ApplicationVariant
+import com.android.build.gradle.api.BaseVariantOutput
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -12,10 +18,34 @@ android {
         applicationId = ApplicationId.id
         targetSdkVersion(Compile.targetSdk)
         minSdkVersion(Compile.minSdk)
-        versionCode = Release.versionCode
-        versionName = Release.versionName
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
+        versionCode = (AppVersion.majorAppVersion * 10_000) + (AppVersion.minorAppVersion * 1_000) + (AppVersion.patchAppVersion * 100)
+
+        versionName = "${AppVersion.majorAppVersion}" +
+                ".${AppVersion.minorAppVersion}" +
+                ".${AppVersion.patchAppVersion}"
+
+
+        applicationVariants.all(object : Action<ApplicationVariant> {
+            override fun execute(variant: ApplicationVariant) {
+                println("variant: $variant")
+                variant.outputs.all(object : Action<BaseVariantOutput> {
+                    override fun execute(output: BaseVariantOutput) {
+
+                        val outputImpl = output as BaseVariantOutputImpl
+                        val fileName = output.outputFileName
+                                .replace("-release", "-release-v$versionName-vc$versionCode")
+                                .replace("-debug", "-debug-v$versionName-vc$versionCode")
+                        println("output file name: $fileName")
+                        outputImpl.outputFileName = fileName
+                    }
+                })
+            }
+        })
+
+
     }
 
     buildTypes {
@@ -63,13 +93,13 @@ dependencies {
     /** Constraint Layout */
     implementation(Libraries.constraintLayout)
 
-	/** Design */
+    /** Design */
     // Fresco
     implementation(Libraries.fresco)
     // Lottie
     implementation(Libraries.lottie)
 
-	/** Networkin */
+    /** Networkin */
     // Coroutines
     implementation(Libraries.coroutines)
     // Retrofit
@@ -81,7 +111,7 @@ dependencies {
     // Moshi
     implementation(Libraries.moshi)
 
-	/** Utils */
+    /** Utils */
     // Anko from jetbrain
     implementation(Libraries.anko)
 
@@ -89,7 +119,7 @@ dependencies {
     implementation(Libraries.fireBase)
     implementation(Libraries.fireBaseMessaging)
 
-	/** Logs */
+    /** Logs */
     // Timber
     implementation(Libraries.timber)
     // Chuck

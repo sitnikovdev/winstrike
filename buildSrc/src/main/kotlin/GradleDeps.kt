@@ -7,6 +7,22 @@ object ApplicationId {
 	const val id = "ru.prsolution.winstrike"
 }
 
+object Android {
+	const val compileSdkVersion = 28
+	const val minSdkVersion = 21
+	const val targetSdkVersion = 28
+}
+
+object AppVersion {
+	const val versionCode = 1
+	const val versionName = "1.0"
+
+	// App version information
+	const val majorAppVersion = 1
+	const val minorAppVersion = 1
+	const val patchAppVersion = 0
+	const val buildAppVersion = 0
+}
 
 object Compile {
 	const val targetSdk = 28
