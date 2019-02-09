@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.facebook.drawee.view.SimpleDraweeView
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.RoomSeatType
@@ -77,10 +77,15 @@ class CarouselFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(activity: FragmentActivity?, room: SeatCarousel): Fragment {
+        fun newInstance(fm: FragmentManager?, room: SeatCarousel?): Fragment? {
             val bundle = Bundle()
             bundle.putSerializable("room", room)
-            return Fragment.instantiate(activity!!, CarouselFragment::class.java.name, bundle)
+
+            return fm?.fragmentFactory?.instantiate(
+                ClassLoader.getSystemClassLoader(),
+                CarouselFragment::class.java.name,
+                bundle
+            )
         }
     }
 }

@@ -159,8 +159,8 @@ class HomeFragment : Fragment() {
         val seatMap: MutableMap<RoomSeatType, SeatCarousel> = mutableMapOf()
 
         if (
-                (!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription))) ||
-                (!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
+            (!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription))) ||
+            (!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
 
         ) {
             roomType = ArenaHallType.DOUBLE
@@ -174,45 +174,63 @@ class HomeFragment : Fragment() {
             ArenaHallType.DOUBLE -> {
 
                 seatMap[RoomSeatType.COMMON] = SeatCarousel(
-                        type = RoomSeatType.COMMON,
-                        imageUrl = room?.commonImageUrl,
-                        description = room?.commonDescription
+                    type = RoomSeatType.COMMON,
+                    imageUrl = room?.commonImageUrl,
+                    description = room?.commonDescription
 
                 )
 
                 seatMap[RoomSeatType.VIP] = SeatCarousel(
-                        type = RoomSeatType.VIP,
-                        imageUrl = room?.vipImageUrl,
-                        description = room?.vipDescription
+                    type = RoomSeatType.VIP,
+                    imageUrl = room?.vipImageUrl,
+                    description = room?.vipDescription
                 )
 
                 with(carouselAdapter) {
-                    addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
-                    addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 1)
+                    CarouselFragment.newInstance(
+                        activity?.supportFragmentManager,
+                        seatMap[RoomSeatType.COMMON]!!
+                    )?.let {
+                        addFragment(it, 0)
+                    }
+                    CarouselFragment.newInstance(
+                        activity?.supportFragmentManager,
+                        seatMap[RoomSeatType.VIP]!!
+                    )?.let { addFragment(it, 1) }
                 }
             }
             ArenaHallType.COMMON -> {
                 seatMap[RoomSeatType.COMMON] = SeatCarousel(
-                        type = RoomSeatType.COMMON,
-                        imageUrl = room?.commonImageUrl,
-                        description = room?.commonDescription
+                    type = RoomSeatType.COMMON,
+                    imageUrl = room?.commonImageUrl,
+                    description = room?.commonDescription
 
                 )
 
                 with(carouselAdapter) {
-                    addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
+                    CarouselFragment.newInstance(
+                        activity?.supportFragmentManager,
+                        seatMap[RoomSeatType.COMMON]
+                    )?.let {
+                        addFragment(it, 0)
+                    }
                 }
             }
             ArenaHallType.VIP -> {
 
                 seatMap[RoomSeatType.VIP] = SeatCarousel(
-                        type = RoomSeatType.VIP,
-                        imageUrl = room?.vipImageUrl,
-                        description = room?.vipDescription
+                    type = RoomSeatType.VIP,
+                    imageUrl = room?.vipImageUrl,
+                    description = room?.vipDescription
                 )
 
                 with(carouselAdapter) {
-                    addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 0)
+                    CarouselFragment.newInstance(
+                        activity?.supportFragmentManager,
+                        seatMap[RoomSeatType.VIP]
+                    )?.let {
+                        addFragment(it, 0)
+                    }
                 }
             }
         }
