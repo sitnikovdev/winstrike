@@ -85,6 +85,15 @@ class SetupFragment : Fragment(),
         return inflater.inflate(ru.prsolution.winstrike.R.layout.frm_setup, container, false)
     }
 
+    private var mSeat: SeatCarousel? = null
+
+    override fun onResume() {
+        super.onResume()
+        mSeat?.let {
+            updateSeatInfo(it)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -99,8 +108,9 @@ class SetupFragment : Fragment(),
             mVm?.arenaList?.observe(it, Observer { response ->
                 this.rooms = response.data
             })
-            // seat
+            // mSeat
             mVm?.currentSeat?.observe(it, Observer { seat ->
+                this.mSeat = seat
                 updateSeatInfo(seat)
             })
             // date

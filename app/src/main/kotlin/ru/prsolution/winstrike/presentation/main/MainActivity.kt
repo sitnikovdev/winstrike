@@ -57,18 +57,7 @@ class MainActivity : AppCompatActivity(),
 //        action.seat = seat
         mVm.currentSeat.postValue(seat)
         findNavController(R.id.nav_host_fragment).navigate(action)
-/*
-        mVm.currentSeat.postValue(seat)
-        showHome(isVisible = true)
-        bottomNavigation.visibility = View.GONE
-        fm.beginTransaction()
-            .hide(active)
-            .addToBackStack(null)
-            .show(setupFragment)
-            .commit()
-        mVm.active.value = setupFragment*/
     }
-
 
     override fun onStart() {
         super.onStart()
