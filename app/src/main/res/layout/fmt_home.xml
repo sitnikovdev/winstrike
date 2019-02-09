@@ -104,6 +104,8 @@
         app:layout_constraintTop_toBottomOf="@id/v_spinner"
         fresco:placeholderImage="@drawable/head_img" />
 
+    <!--Arena selected combobox-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_arena"
         android:layout_width="244dp"
@@ -115,6 +117,8 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/v_spinner"
         app:layout_constraintTop_toBottomOf="@id/v_spinner" />
+
+    <!--Arena descriptions-->
 
     <TextView
         android:id="@+id/arena_description"
@@ -143,6 +147,8 @@
         app:layout_constraintStart_toStartOf="@id/line_start"
         app:layout_constraintTop_toBottomOf="@id/arena_description" />
 
+    <!--Carousel fragment: seats of arena-->
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager_seat"
         android:layout_width="0dp"
@@ -152,5 +158,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/seat_cat" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

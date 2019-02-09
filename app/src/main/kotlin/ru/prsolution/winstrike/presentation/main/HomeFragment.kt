@@ -35,11 +35,11 @@ import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_600
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_WIDTH_PX_1080
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_WIDTH_PX_1440
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_WIDTH_PX_720
-import ru.prsolution.winstrike.presentation.utils.custom.CarouselAdapter
+import ru.prsolution.winstrike.presentation.main.carousel.CarouselAdapter
+import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.custom.RecyclerViewMargin
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.SharedPrefFactory
-import timber.log.Timber
 
 /**
  * A main screen of Winstrike app.
@@ -49,6 +49,7 @@ class HomeFragment : Fragment() {
     var selectedArena = 0
     val arenaUpConstraintSet = ConstraintSet()
     val arenaDownConstraintSet = ConstraintSet()
+
     var isArenaShow: Boolean = false
     lateinit var mVm: MainViewModel
     lateinit var arenaListAdapter: ArenaListAdapter
@@ -60,7 +61,8 @@ class HomeFragment : Fragment() {
         mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
         selectedArena = PrefUtils.selectedArena
         ArenaListAdapter.SELECTED_ITEM = selectedArena
-        carouselAdapter = CarouselAdapter(activity)
+
+        carouselAdapter = CarouselAdapter(activity?.supportFragmentManager)
 
         if (savedInstanceState == null) {
             mVm.getArenaList()
@@ -87,9 +89,9 @@ class HomeFragment : Fragment() {
             }
         })
 
-        liveSharedPreferences.getInt("selectedArena", 0).observe(this, Observer<Int> { value ->
+/*        liveSharedPreferences.getInt("selectedArena", 0).observe(this, Observer<Int> { value ->
             Timber.tag("###").d(value.toString())
-        })
+        })*/
 
         initArenaRV(arenaListAdapter) // Arena select
         initAnimArenaRV() // Arena select transitions animations
@@ -102,6 +104,7 @@ class HomeFragment : Fragment() {
     }
 
     /** Arena selected recycler view */
+
     private fun initArenaRV(arenaListAdapter: ArenaListAdapter) {
         with(rv_arena) {
             bringToFront()
@@ -148,6 +151,7 @@ class HomeFragment : Fragment() {
     }
 
     /** Seat type carousel */
+
     private fun updateCarouselView(room: Arena?) {
         var roomType: ArenaHallType = ArenaHallType.COMMON
 
@@ -183,7 +187,6 @@ class HomeFragment : Fragment() {
                 )
 
                 with(carouselAdapter) {
-                    setPagesCount(2)
                     addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
                     addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 1)
                 }
@@ -197,7 +200,6 @@ class HomeFragment : Fragment() {
                 )
 
                 with(carouselAdapter) {
-                    setPagesCount(1)
                     addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.COMMON]!!), 0)
                 }
             }
@@ -210,7 +212,6 @@ class HomeFragment : Fragment() {
                 )
 
                 with(carouselAdapter) {
-                    setPagesCount(1)
                     addFragment(CarouselFragment.newInstance(activity, seatMap[RoomSeatType.VIP]!!), 0)
                 }
             }
@@ -235,6 +236,7 @@ class HomeFragment : Fragment() {
     }
 
     /** click on seat in carousel view */
+
     fun onSeatClick(seat: SeatCarousel) {
         TimeDataModel.clearPids()
 // 		showFragmentHolderContainer(true)

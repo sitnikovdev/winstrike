@@ -25,11 +25,11 @@ import kotlinx.android.synthetic.main.frm_choose.cpu
 import kotlinx.android.synthetic.main.frm_choose.head_image
 import kotlinx.android.synthetic.main.frm_choose.next_button
 import kotlinx.android.synthetic.main.frm_choose.progressBar
-import kotlinx.android.synthetic.main.frm_choose.seat_title
 import kotlinx.android.synthetic.main.frm_choose.tv_date
 import kotlinx.android.synthetic.main.frm_choose.tv_time
 import kotlinx.android.synthetic.main.frm_choose.v_date_tap
 import kotlinx.android.synthetic.main.frm_choose.v_time_tap
+import kotlinx.android.synthetic.main.item_carousel.*
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.Arena
@@ -38,9 +38,6 @@ import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import timber.log.Timber
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
-import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.time
-import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.timeFrom
-import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.timeTo
 import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import java.time.Month
 import java.time.format.TextStyle
@@ -206,7 +203,7 @@ class SetupFragment : Fragment(),
     }
 
     private fun updateSeatInfo(seat: SeatCarousel?) {
-        seat_title.text = seat?.title
+        seat_name_tv.text = seat?.title
         head_image.setImageURI(Uri.parse(seat?.imageUrl))
         cpu.text = seat?.description.let { it?.replace(oldValue = "\\", newValue = "") }
     }

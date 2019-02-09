@@ -2,7 +2,6 @@ package ru.prsolution.winstrike
 
 import android.app.Application
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.squareup.leakcanary.LeakCanary
 
 import ru.prsolution.winstrike.datasource.model.ArenaEntity
 import ru.prsolution.winstrike.datasource.model.ArenaSchemaEntity
@@ -46,12 +45,12 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        when {
+/*        when {
             LeakCanary.isInAnalyzerProcess(this) -> return
             // Report Leaks to Firebase Crashlytics? :thinking:
             // https://github.com/square/leakcanary/wiki/Customizing-LeakCanary#uploading-to-a-server
             else -> LeakCanary.install(this)
-        }
+        }*/
         //        Fabric.with(this, new Crashlytics());
         instance = this
 

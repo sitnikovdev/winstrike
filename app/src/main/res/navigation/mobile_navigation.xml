@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/mobile_navigation" app:startDestination="@id/homeFragment">
+            android:id="@+id/mobile_navigation"
+            app:startDestination="@id/navigation_home">
 
-    <fragment android:id="@+id/homeFragment" android:name="ru.prsolution.winstrike.presentation.main.HomeFragment"
+    <!--Home-->
+
+    <fragment android:id="@+id/navigation_home"
+              android:name="ru.prsolution.winstrike.presentation.main.HomeFragment"
               android:label="HomeFragment"/>
+
+    <!--Orders-->
+
+    <fragment android:id="@+id/navigation_order"
+              android:name="ru.prsolution.winstrike.presentation.orders.OrderFragment"
+              android:label="OrderFragment"/>
+
+    <!--Profile-->
+
+    <fragment android:id="@+id/navigation_profile"
+              android:name="ru.prsolution.winstrike.presentation.profile.ProfileFragment"
+              android:label="ProfileFragment"/>
 </navigation>

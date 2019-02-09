@@ -58,10 +58,10 @@
                 android:src="@drawable/main_screen"
                 app:layout_constraintEnd_toEndOf="@id/line_end"
                 app:layout_constraintStart_toStartOf="@id/line_start"
-                app:layout_constraintTop_toBottomOf="@id/seat_title" />
+                app:layout_constraintTop_toBottomOf="@id/seat_name_tv" />
 
             <TextView
-                android:id="@+id/seat_title"
+                android:id="@+id/seat_name_tv"
                 style="@style/StemMedium15Black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

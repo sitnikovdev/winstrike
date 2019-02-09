@@ -8,12 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import org.jetbrains.anko.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
+import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.map.MapFragment
 import ru.prsolution.winstrike.presentation.orders.OrderFragment
 import ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment
@@ -30,11 +34,12 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var mVm: MainViewModel
 
-    private val mapFragment = MapFragment()
     private val homeFragment = HomeFragment()
-    private val setupFragment = SetupFragment()
     private val orderFragment = OrderFragment()
     private val profileFragment = ProfileFragment()
+
+    private val setupFragment = SetupFragment()
+    private val mapFragment = MapFragment()
 
     private val yandexFragment = YandexWebViewFragment()
     private val fm: FragmentManager = supportFragmentManager
@@ -100,15 +105,6 @@ class MainActivity : AppCompatActivity(),
         clearData()
         setContentView(R.layout.ac_mainscreen)
         mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
-        mVm.fcmResponse.observe(this, Observer {
-            it.let {
-                it.data?.let {
-                    Timber.i("FCM token send to server. \n ${it.message} ")
-                }
-            }
-        })
-
         mVm.paymentResponse.observe(this, Observer {
             it.state.let { state ->
                 if (state == ResourceState.LOADING) {
@@ -123,7 +119,15 @@ class MainActivity : AppCompatActivity(),
             }
         })
 
-        mVm.active.observe(this, Observer { activeFragment ->
+/*        mVm.fcmResponse.observe(this, Observer {
+            it.let {
+                it.data?.let {
+                    Timber.i("FCM token send to server. \n ${it.message} ")
+                }
+            }
+        })*/
+
+/*        mVm.active.observe(this, Observer { activeFragment ->
             Timber.d("active is ${activeFragment.javaClass.simpleName}")
             active = activeFragment
             if (active is HomeFragment) {
@@ -134,30 +138,38 @@ class MainActivity : AppCompatActivity(),
                 showHome(isVisible = true)
                 bottomNavigation.visibility = View.GONE
             }
-        })
+        })*/
 
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        showHome(isVisible = false)
+        val navController  = Navigation.findNavController(this, R.id.nav_host_fragment)
 
-        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+//        setupActionBar(navController)
+        setupBottomNavMenu(navController)
+
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        showHome(isVisible = false)
+
+//        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
 //        initToolbar()
 //        initFragments()
 //        initFCM() // FCM push notifications
     }
 
-    private fun onPaymentError(error: String) {
-        TimeDataModel.pids.clear()
-        if (error.contains("different time")) {
-            toast("Не удается забронировать место на указанный интервал времени.")
-        } else {
-            toast("Не удается забронировать место.")
+    private fun setupActionBar(navController: NavController) {
+        NavigationUI.setupActionBarWithNavController(this, navController)
+    }
+
+
+    private fun setupBottomNavMenu(navController: NavController) {
+        bottomNavigation?.let {
+            NavigationUI.setupWithNavController(it, navController)
         }
     }
 
-    private fun nitToolbar() {
+
+    private fun initToolbar() {
         toolbar?.setNavigationOnClickListener {
             when (active) {
                 is HomeFragment -> {
@@ -218,20 +230,6 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    private fun clearData() {
-        TimeDataModel.clearPids()
-        TimeDataModel.clearDateTime()
-    }
-
-    private fun initFCM() {
-        val fcmToken = PrefUtils.fcmtoken
-        val userToken = PrefUtils.token
-        if (!fcmToken?.isEmpty()!!) {
-            // TODO fix it: server send "message": "Token is missing" (see logs). Try install chuck.
-// 			userToken?.let { vm.sendFCMToken(it, FCMModel(PrefUtils.fcmtoken)) }
-        }
-    }
-
     private fun showHome(isVisible: Boolean) {
         if (isVisible) {
             toolbar.navigationIcon = getDrawable(R.drawable.ic_back_arrow)
@@ -261,6 +259,15 @@ class MainActivity : AppCompatActivity(),
         mVm.active.value = yandexFragment
     }
 
+    private fun onPaymentError(error: String) {
+        TimeDataModel.pids.clear()
+        if (error.contains("different time")) {
+            toast("Не удается забронировать место на указанный интервал времени.")
+        } else {
+            toast("Не удается забронировать место.")
+        }
+    }
+
     private val mOnNavigationItemSelectedListener = object : BottomNavigationView.OnNavigationItemSelectedListener {
 
         override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -274,7 +281,7 @@ class MainActivity : AppCompatActivity(),
                     return true
                 }
 
-                R.id.navigation_dashboard -> {
+                R.id.navigation_order -> {
                     if (active is OrderFragment) {
                         return false
                     }
@@ -288,7 +295,7 @@ class MainActivity : AppCompatActivity(),
                     return true
                 }
 
-                R.id.navigation_notifications -> {
+                R.id.navigation_profile -> {
                     if (active is ProfileFragment) {
                         return false
                     }
@@ -304,5 +311,19 @@ class MainActivity : AppCompatActivity(),
             }
             return false
         }
+    }
+
+    private fun initFCM() {
+        val fcmToken = PrefUtils.fcmtoken
+        val userToken = PrefUtils.token
+        if (!fcmToken?.isEmpty()!!) {
+            // TODO fix it: server send "message": "Token is missing" (see logs). Try install chuck.
+// 			userToken?.let { vm.sendFCMToken(it, FCMModel(PrefUtils.fcmtoken)) }
+        }
+    }
+
+    private fun clearData() {
+        TimeDataModel.clearPids()
+        TimeDataModel.clearDateTime()
     }
 }

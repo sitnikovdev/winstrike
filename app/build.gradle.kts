@@ -163,9 +163,9 @@ dependencies {
     releaseImplementation(Libraries.chuckRelease)
 
 
-    debugImplementation(Libraries.leakCanaryAndroid)
+/*    debugImplementation(Libraries.leakCanaryAndroid)
     releaseImplementation(Libraries.leakCanaryAndroidNoOp)
-    debugImplementation(Libraries.leakCanaryAndroidSupportFragment)
+    debugImplementation(Libraries.leakCanaryAndroidSupportFragment)*/
 
     /** 3-trd party libraries */
     // phone mask
