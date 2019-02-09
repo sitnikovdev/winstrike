@@ -7,6 +7,8 @@ plugins {
     id("com.google.gms.google-services")
     kotlin("android")
     kotlin("android.extensions")
+//    apply plugin: 'androidx.navigation.safeargs'
+    id("androidx.navigation.safeargs")
     id("com.getkeepsafe.dexcount")
     id("com.github.ben-manes.versions") version "0.20.0" // uses gradle depUp ; show old dependencies in terminal
 //    id ("org.jlleitschuh.gradle.ktlint-idea") version "7.1.0" // Gradle plugin that automatically creates check and format tasks for project Kotlin sources
@@ -28,8 +30,8 @@ android {
             (AppVersion.majorAppVersion * 10_000) + (AppVersion.minorAppVersion * 1_000) + (AppVersion.patchAppVersion * 100)
 
         versionName = "${AppVersion.majorAppVersion}" +
-                ".${AppVersion.minorAppVersion}" +
-                ".${AppVersion.patchAppVersion}"
+            ".${AppVersion.minorAppVersion}" +
+            ".${AppVersion.patchAppVersion}"
 
 
         applicationVariants.all(object : Action<ApplicationVariant> {
@@ -121,6 +123,10 @@ dependencies {
     implementation(Libraries.androidx)
     implementation(Libraries.lifecycle)
 
+    /** Navigation */
+    implementation (Libraries.navigationFragment)
+    implementation (Libraries.navigationUI)
+
     /** Constraint Layout */
     implementation(Libraries.constraintLayout)
 
@@ -167,4 +173,5 @@ dependencies {
     implementation(Libraries.decoro)
     // password
     implementation(Libraries.showhidepasswordedittext)
+
 }

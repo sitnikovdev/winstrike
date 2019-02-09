@@ -22,9 +22,11 @@ object Versions {
 	const val googleServicies = "4.2.0"
 	const val kotlin = "1.3.21"
     const val anko = "0.10.8"
-	const val androidx = "1.1.0-alpha01"
+	const val androidx = "1.1.0-alpha02"
 	const val lifecycle = "2.0.0"
 	const val ktx = "1.0.0-alpha1"
+
+	const val navigation = "1.0.0-beta01"
 
 	const val constraintLayout = "2.0.0-alpha3"
 
@@ -56,6 +58,10 @@ object Libraries {
 	const val ktx = "androidx.core:core-ktx:${Versions.ktx}"
 	const val lifecycle = "android.arch.lifecycle:extensions:${Versions.lifecycle}"
 
+    const val navigationFragment ="android.arch.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    const val navigationUI =  "android.arch.navigation:navigation-ui-ktx:${Versions.navigation}"
+
+
 	const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 	const val fresco = "com.facebook.fresco:fresco:${Versions.fresco}"
 
@@ -81,8 +87,8 @@ object Libraries {
 	const val chuckRelease = "com.readystatesoftware.chuck:library-no-op:${Versions.chuck}"
 
   	const val leakCanaryAndroid = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
-	val leakCanaryAndroidNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:${Versions.leakCanary}"
-	val leakCanaryAndroidSupportFragment = "com.squareup.leakcanary:leakcanary-support-fragment:${Versions.leakCanary}"
+	const val leakCanaryAndroidNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:${Versions.leakCanary}"
+	const val leakCanaryAndroidSupportFragment = "com.squareup.leakcanary:leakcanary-support-fragment:${Versions.leakCanary}"
 }
 
 
