@@ -105,7 +105,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Timber.d("On resume HomeFragment")
+        // fix bag with not visible carousel
         mCarouselAdapter?.notifyDataSetChanged()
     }
 
@@ -232,6 +232,7 @@ class HomeFragment : Fragment() {
         }
 
         mCarouselAdapter?.notifyDataSetChanged()
+        setupViewPager()
     }
 
     private fun setupViewPager() {

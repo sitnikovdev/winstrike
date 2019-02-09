@@ -46,12 +46,14 @@ class CarouselAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(
         }
 
         diffScale = bigScale - smallScale
+
     }
 
     override fun getItem(position: Int): Fragment {
         return mFragmentList[position]
     }
 
+    // fix bag with not visible carousel
     override fun getItemPosition(`object`: Any): Int {
         return PagerAdapter.POSITION_NONE
     }
