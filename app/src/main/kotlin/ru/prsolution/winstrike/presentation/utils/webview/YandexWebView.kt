@@ -9,7 +9,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.ac_mainscreen.toolbar_text
 import kotlinx.android.synthetic.main.ac_yandexpay.toolbar
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -112,7 +111,7 @@ class YandexWebView : AppCompatActivity() {
         setSupportActionBar(toolbar)
         invalidateOptionsMenu() // now onCreateOptionsMenu(...) is called again
         toolbar!!.setNavigationIcon(R.drawable.ic_back_arrow)
-        toolbar_text!!.text = title
+//        toolbar_text!!.text = title
         toolbar!!.setNavigationIcon(R.drawable.ic_back_arrow)
         toolbar!!.setContentInsetsAbsolute(0, toolbar!!.contentInsetStartWithNavigation)
         supportActionBar!!.setDisplayShowTitleEnabled(false)

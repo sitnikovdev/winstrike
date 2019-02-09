@@ -1,17 +1,17 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import org.jetbrains.anko.toast
 import ru.prsolution.winstrike.R
@@ -19,9 +19,7 @@ import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.map.MapFragment
-import ru.prsolution.winstrike.presentation.orders.OrderFragment
 import ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment
-import ru.prsolution.winstrike.presentation.profile.ProfileFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.setup.SetupFragment
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -29,70 +27,48 @@ import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity(),
-                     SetupFragment.MapShowListener,
-                     CarouselFragment.OnSeatClickListener {
+    SetupFragment.MapShowListener,
+    CarouselFragment.OnSeatClickListener {
+
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private lateinit var mVm: MainViewModel
 
-    private val homeFragment = HomeFragment()
-    private val orderFragment = OrderFragment()
-    private val profileFragment = ProfileFragment()
-
-    private val setupFragment = SetupFragment()
     private val mapFragment = MapFragment()
 
     private val yandexFragment = YandexWebViewFragment()
+
     private val fm: FragmentManager = supportFragmentManager
-    var active: Fragment = homeFragment
 
     override fun onMapShow() {
-        Timber.d("On map show mListener")
+/*        Timber.d("On map show mListener")
         showHome(isVisible = true)
         bottomNavigation.visibility = View.GONE
         fm.beginTransaction()
-                .hide(setupFragment)
-                .addToBackStack(null)
-                .attach(mapFragment)
-                .commit()
-        mVm.active.value = mapFragment
+            .hide(setupFragment)
+            .addToBackStack(null)
+            .attach(mapFragment)
+            .commit()
+        mVm.active.value = mapFragment*/
     }
 
     override fun onSeatClick(seat: SeatCarousel?) {
+        val action = HomeFragmentDirections.nextAction()
+//        action.seat = seat
+        mVm.currentSeat.postValue(seat)
+        findNavController(R.id.nav_host_fragment).navigate(action)
+/*
         mVm.currentSeat.postValue(seat)
         showHome(isVisible = true)
         bottomNavigation.visibility = View.GONE
         fm.beginTransaction()
-                .hide(active)
-                .addToBackStack(null)
-                .show(setupFragment)
-                .commit()
-        mVm.active.value = setupFragment
+            .hide(active)
+            .addToBackStack(null)
+            .show(setupFragment)
+            .commit()
+        mVm.active.value = setupFragment*/
     }
 
-    override fun onBackPressed() {
-        when (active) {
-            is SetupFragment -> {
-                showHome(isVisible = false)
-                bottomNavigation.visibility = View.VISIBLE
-                mVm.active.value = homeFragment
-                super.onBackPressed()
-            }
-// 			is OrderFragment -> super.onBackPressed()
-            is MapFragment -> {
-                mVm.active.value = setupFragment
-                super.onBackPressed()
-            }
-            is YandexWebViewFragment -> {
-                mVm.active.value = mapFragment
-                 super.onBackPressed()
-            }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        active = homeFragment
-    }
 
     override fun onStart() {
         super.onStart()
@@ -119,48 +95,23 @@ class MainActivity : AppCompatActivity(),
             }
         })
 
-/*        mVm.fcmResponse.observe(this, Observer {
-            it.let {
-                it.data?.let {
-                    Timber.i("FCM token send to server. \n ${it.message} ")
-                }
-            }
-        })*/
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
-/*        mVm.active.observe(this, Observer { activeFragment ->
-            Timber.d("active is ${activeFragment.javaClass.simpleName}")
-            active = activeFragment
-            if (active is HomeFragment) {
-                showHome(isVisible = false)
-                bottomNavigation.visibility = View.VISIBLE
-                bottomNavigation.menu.getItem(0).isChecked = true
-            } else {
-                showHome(isVisible = true)
-                bottomNavigation.visibility = View.GONE
-            }
-        })*/
+        appBarConfiguration = AppBarConfiguration(navController.graph)
 
-
-        val navController  = Navigation.findNavController(this, R.id.nav_host_fragment)
-
-//        setupActionBar(navController)
+        setSupportActionBar(toolbar)
+        setupActionBar(navController, appBarConfiguration)
         setupBottomNavMenu(navController)
 
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        showHome(isVisible = false)
-
-//        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-//        initToolbar()
-//        initFragments()
 //        initFCM() // FCM push notifications
     }
 
-    private fun setupActionBar(navController: NavController) {
-        NavigationUI.setupActionBarWithNavController(this, navController)
+    private fun setupActionBar(
+        navController: NavController,
+        appBarConfig: AppBarConfiguration
+    ) {
+        setupActionBarWithNavController(navController, appBarConfig)
     }
-
 
     private fun setupBottomNavMenu(navController: NavController) {
         bottomNavigation?.let {
@@ -168,66 +119,8 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-
-    private fun initToolbar() {
-        toolbar?.setNavigationOnClickListener {
-            when (active) {
-                is HomeFragment -> {
-                    showHome(isVisible = false)
-                    bottomNavigation.visibility = View.VISIBLE
-                }
-                is SetupFragment -> {
-                    bottomNavigation.visibility = View.VISIBLE
-                    mVm.active.value = homeFragment
-                }
-                is OrderFragment -> {
-                    bottomNavigation.menu.getItem(1).isChecked = false
-                    fm.beginTransaction().detach(orderFragment).show(homeFragment).commit()
-                    mVm.active.value = homeFragment
-                }
-                is MapFragment -> {
-                    bottomNavigation.visibility = View.GONE
-                    mVm.active.value = setupFragment
-                }
-
-                is ProfileFragment -> {
-                    bottomNavigation.menu.getItem(2).isChecked = false
-                    fm.beginTransaction().detach(profileFragment).show(homeFragment).commit()
-                    mVm.active.value = homeFragment
-                }
-            }
-            supportFragmentManager.popBackStack()
-        }
-    }
-
-    private fun initFragments() {
-        with(fm) {
-            // yandex
-            beginTransaction().add(R.id.main_container, yandexFragment, yandexFragment.javaClass.name)
-                    .detach(yandexFragment)
-                    .commit()
-            // setup
-            beginTransaction()
-                    .add(R.id.main_container, setupFragment, setupFragment.javaClass.name)
-                    .hide(setupFragment)
-                    .commit()
-            // map
-            beginTransaction()
-                    .add(R.id.main_container, mapFragment, mapFragment.javaClass.name)
-                    .detach(mapFragment)
-                    .commit()
-            // orders
-            beginTransaction().add(R.id.main_container, orderFragment, orderFragment.javaClass.name)
-                    .detach(orderFragment)
-                    .commit()
-            // profile
-            beginTransaction().add(R.id.main_container, profileFragment, profileFragment.javaClass.name)
-                    .detach(profileFragment)
-                    .commit()
-            beginTransaction()
-                    .add(R.id.main_container, homeFragment, homeFragment.javaClass.name)
-                    .commit()
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment), appBarConfiguration)
     }
 
     private fun showHome(isVisible: Boolean) {
@@ -252,10 +145,10 @@ class MainActivity : AppCompatActivity(),
         showHome(isVisible = true)
         bottomNavigation.visibility = View.GONE
         fm.beginTransaction()
-                .detach(mapFragment)
-                .addToBackStack(null)
-                .attach(yandexFragment)
-                .commit()
+            .detach(mapFragment)
+            .addToBackStack(null)
+            .attach(yandexFragment)
+            .commit()
         mVm.active.value = yandexFragment
     }
 
@@ -265,51 +158,6 @@ class MainActivity : AppCompatActivity(),
             toast("Не удается забронировать место на указанный интервал времени.")
         } else {
             toast("Не удается забронировать место.")
-        }
-    }
-
-    private val mOnNavigationItemSelectedListener = object : BottomNavigationView.OnNavigationItemSelectedListener {
-
-        override fun onNavigationItemSelected(item: MenuItem): Boolean {
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    if (active is HomeFragment) {
-                        return false
-                    }
-                    fm.beginTransaction().detach(active).show(homeFragment).commit()
-                    active = homeFragment
-                    return true
-                }
-
-                R.id.navigation_order -> {
-                    if (active is OrderFragment) {
-                        return false
-                    }
-                    showHome(isVisible = true)
-                    if (active is HomeFragment) {
-                        fm.beginTransaction().hide(active).attach(orderFragment).commit()
-                    } else if (active is ProfileFragment) {
-                        fm.beginTransaction().detach(active).attach(orderFragment).commit()
-                    }
-                    active = orderFragment
-                    return true
-                }
-
-                R.id.navigation_profile -> {
-                    if (active is ProfileFragment) {
-                        return false
-                    }
-                    showHome(isVisible = true)
-                    if (active is HomeFragment) {
-                        fm.beginTransaction().hide(active).attach(profileFragment).commit()
-                    } else if (active is OrderFragment) {
-                        fm.beginTransaction().detach(active).attach(profileFragment).commit()
-                    }
-                    active = profileFragment
-                    return true
-                }
-            }
-            return false
         }
     }
 

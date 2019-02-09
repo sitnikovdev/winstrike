@@ -46,7 +46,7 @@ class MainViewModel : ViewModel() {
 
     // Обновление информации о выбранном месте и времени
     val currentArena = MutableLiveData<String>()
-    val currentSeat = MutableLiveData<SeatCarousel>()
+    val currentSeat = SingleLiveEvent<SeatCarousel>()
     val currentDate = MutableLiveData<String>()
     val currentTime = MutableLiveData<String>()
 

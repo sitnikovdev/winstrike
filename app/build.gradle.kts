@@ -50,6 +50,7 @@ android {
             }
         })
 
+
         dexOptions {
             preDexLibraries = false
             javaMaxHeapSize = "4g" // 2g should be also OK
@@ -83,6 +84,10 @@ android {
 
     sourceSets {
         getByName("main").java.srcDirs("src/main/kotlin")
+    }
+
+    androidExtensions {
+        isExperimental = true
     }
 
 }
@@ -123,8 +128,8 @@ dependencies {
     implementation(Libraries.lifecycle)
 
     /** Navigation */
-    implementation (Libraries.navigationFragment)
-    implementation (Libraries.navigationUI)
+    implementation(Libraries.navigationFragment)
+    implementation(Libraries.navigationUI)
 
     /** Constraint Layout */
     implementation(Libraries.constraintLayout)
@@ -161,7 +166,6 @@ dependencies {
     // Chuck
     debugImplementation(Libraries.chuck)
     releaseImplementation(Libraries.chuckRelease)
-
 
 /*    debugImplementation(Libraries.leakCanaryAndroid)
     releaseImplementation(Libraries.leakCanaryAndroidNoOp)

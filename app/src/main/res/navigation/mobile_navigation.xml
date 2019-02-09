@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/mobile_navigation"
             app:startDestination="@id/navigation_home">
 
@@ -8,12 +8,17 @@
 
     <fragment android:id="@+id/navigation_home"
               android:name="ru.prsolution.winstrike.presentation.main.HomeFragment"
-              android:label="HomeFragment"/>
+              tools:layout="@layout/fmt_home"
+              android:label="HomeFragment">
+        <action android:id="@+id/next_action"
+                app:destination="@id/navigation_setup"/>
+    </fragment>
 
     <!--Orders-->
 
     <fragment android:id="@+id/navigation_order"
               android:name="ru.prsolution.winstrike.presentation.orders.OrderFragment"
+              tools:layout="@layout/fmt_nopaid"
               android:label="OrderFragment"/>
 
     <!--Profile-->
@@ -21,4 +26,14 @@
     <fragment android:id="@+id/navigation_profile"
               android:name="ru.prsolution.winstrike.presentation.profile.ProfileFragment"
               android:label="ProfileFragment"/>
+
+    <!--SetUp -->
+
+    <fragment android:id="@+id/navigation_setup"
+              android:name="ru.prsolution.winstrike.presentation.setup.SetupFragment"
+              tools:layout="@layout/frm_setup"
+              android:label="SetupFragment">
+        <argument android:name="seat" app:argType="ru.prsolution.winstrike.domain.models.SeatCarousel"
+                  app:nullable="true" android:defaultValue="@null"/>
+    </fragment>
 </navigation>

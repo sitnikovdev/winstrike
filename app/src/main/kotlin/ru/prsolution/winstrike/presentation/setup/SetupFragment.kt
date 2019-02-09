@@ -16,20 +16,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.DatePicker
+import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.frm_choose.cpu
-import kotlinx.android.synthetic.main.frm_choose.head_image
-import kotlinx.android.synthetic.main.frm_choose.next_button
-import kotlinx.android.synthetic.main.frm_choose.progressBar
-import kotlinx.android.synthetic.main.frm_choose.tv_date
-import kotlinx.android.synthetic.main.frm_choose.tv_time
-import kotlinx.android.synthetic.main.frm_choose.v_date_tap
-import kotlinx.android.synthetic.main.frm_choose.v_time_tap
-import kotlinx.android.synthetic.main.item_carousel.*
+import com.facebook.drawee.view.SimpleDraweeView
+import kotlinx.android.synthetic.main.frm_setup.next_button
+import kotlinx.android.synthetic.main.frm_setup.progressBar
+import kotlinx.android.synthetic.main.frm_setup.tv_date
+import kotlinx.android.synthetic.main.frm_setup.tv_time
+import kotlinx.android.synthetic.main.frm_setup.v_date_tap
+import kotlinx.android.synthetic.main.frm_setup.v_time_tap
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.Arena
@@ -44,14 +43,17 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 class SetupFragment : Fragment(),
-                      DatePickerDialog.OnDateSetListener,
-                      TimePickerDialog.OnTimeSetListener {
+    DatePickerDialog.OnDateSetListener,
+    TimePickerDialog.OnTimeSetListener {
 
     private var rooms: List<Arena>? = null
+    private var seatName: TextView? = null
+    private var cpuDescription: TextView? = null
+    private var seatImage: SimpleDraweeView? = null
 
     /**
-	 * route show map to main presenter in MainScreenActivity
-	 */
+     * route show map to main presenter in MainScreenActivity
+     */
     interface MapShowListener {
         fun onMapShow()
     }
@@ -80,11 +82,15 @@ class SetupFragment : Fragment(),
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(ru.prsolution.winstrike.R.layout.frm_choose, container, false)
+        return inflater.inflate(ru.prsolution.winstrike.R.layout.frm_setup, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        seatName = view.findViewById<TextView>(R.id.seat_name_tv)
+        cpuDescription = view.findViewById<TextView>(R.id.cpu)
+        seatImage = view.findViewById<SimpleDraweeView>(R.id.head_image)
 
         progressBar.visibility = View.INVISIBLE
 
@@ -203,9 +209,9 @@ class SetupFragment : Fragment(),
     }
 
     private fun updateSeatInfo(seat: SeatCarousel?) {
-        seat_name_tv.text = seat?.title
-        head_image.setImageURI(Uri.parse(seat?.imageUrl))
-        cpu.text = seat?.description.let { it?.replace(oldValue = "\\", newValue = "") }
+        seatName?.text = seat?.title
+        seatImage?.setImageURI(Uri.parse(seat?.imageUrl))
+        cpuDescription?.text = seat?.description.let { it?.replace(oldValue = "\\", newValue = "") }
     }
 
     private fun showDatePickerDialog(v: View) {
@@ -240,8 +246,10 @@ class DatePickerFragment(
 
 // 		return DatePickerDialog(activity, android.R.style.Theme_DeviceDefault_Dialog_Alert, listener, year,
 // 		                        month, day)
-        val dialog = DatePickerDialog(activity, R.style.DatePickerDialogTheme, listener, year,
-                                      month, day).apply { requestWindowFeature(Window.FEATURE_NO_TITLE) }
+        val dialog = DatePickerDialog(
+            activity, R.style.DatePickerDialogTheme, listener, year,
+            month, day
+        ).apply { requestWindowFeature(Window.FEATURE_NO_TITLE) }
         return dialog
     }
 }
@@ -258,7 +266,9 @@ class TimePickerFragment(private val listener: TimePickerDialog.OnTimeSetListene
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
 
-        return TimePickerDialog(activity, AlertDialog.THEME_HOLO_DARK, listener, hour, minute,
-                                DateFormat.is24HourFormat(activity))
+        return TimePickerDialog(
+            activity, AlertDialog.THEME_HOLO_DARK, listener, hour, minute,
+            DateFormat.is24HourFormat(activity)
+        )
     }
 }
