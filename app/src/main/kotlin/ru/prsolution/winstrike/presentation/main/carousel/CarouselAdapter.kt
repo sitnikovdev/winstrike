@@ -17,16 +17,22 @@ class CarouselAdapter(fm: FragmentManager?) : FragmentPagerAdapter(
     fm!!
 ), ViewPager.PageTransformer {
 
+    private var root: CarouselLinearLayout? = null
+
     private val mFragmentList = mutableListOf<Fragment>()
+
 
     var dpHeight: Float = 0f
     var dpWidth: Float = 0f
 
+    private var scale: Float = 0.0f
     private var bigScale: Float = 0f
     private var smallScale: Float = 0f
     private var diffScale: Float = 0f
 
     init {
+
+        this.mFragmentList.clear()
 
         dpHeight = PrefUtils.displayHeightDp
         dpWidth = PrefUtils.displayWidhtDp
@@ -46,17 +52,19 @@ class CarouselAdapter(fm: FragmentManager?) : FragmentPagerAdapter(
         return mFragmentList[position]
     }
 
-    fun addFragment(fragment: Fragment, position: Int) {
-        mFragmentList.add(position, fragment)
+    fun addFragment(fragment: Fragment) {
+        mFragmentList.add(fragment)
+        root?.setScaleBoth(scale)
     }
 
     override fun getCount(): Int {
         return mFragmentList.size
     }
 
+
     override fun transformPage(page: View, position: Float) {
-        val root = page.findViewById<CarouselLinearLayout>(R.id.root)
-        var scale = bigScale
+         root = page.findViewById(R.id.root)
+         scale = bigScale
 
         if (position > 0) {
             scale -= position * diffScale
@@ -67,6 +75,11 @@ class CarouselAdapter(fm: FragmentManager?) : FragmentPagerAdapter(
             scale = 0f
         }
 
-        root.setScaleBoth(scale)
+        root?.setScaleBoth(scale)
+    }
+
+    fun clear(): Boolean {
+        mFragmentList.clear()
+        return mFragmentList.isEmpty()
     }
 }

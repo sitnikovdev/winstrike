@@ -55,10 +55,14 @@ class CarouselFragment : Fragment() {
 
         val seatTitle = view!!.findViewById<TextView>(R.id.seat_name_tv)
 
-        val seatImage = view.findViewById<SimpleDraweeView>(R.id.seat_image_iv)
+        val seatImage: SimpleDraweeView = view.findViewById(R.id.seat_image_iv)
 
-        val uri = Uri.parse(mSeat?.imageUrl)
-        seatImage.setImageURI(uri)
+        seatImage.setOnClickListener {
+            mListener.onSeatClick(mSeat)
+        }
+
+        val imageUri = Uri.parse(mSeat?.imageUrl)
+        seatImage.setImageURI(imageUri)
 
         if (mSeat?.type == RoomSeatType.COMMON) {
             seatTitle.text = getString(R.string.common_hall)
@@ -66,12 +70,6 @@ class CarouselFragment : Fragment() {
             seatTitle.text = getString(R.string.vip_hall)
         }
 
-        val root = view.findViewById<CarouselLinearLayout>(R.id.root)
-        val scale = this.arguments!!.getFloat("scale")
-        root.setScaleBoth(scale)
-        seatImage.setOnClickListener {
-            mListener.onSeatClick(mSeat)
-        }
         return view
     }
 

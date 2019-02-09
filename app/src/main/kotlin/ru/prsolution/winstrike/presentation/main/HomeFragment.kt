@@ -38,6 +38,7 @@ import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_WIDTH_PX_720
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselAdapter
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.custom.RecyclerViewMargin
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.date
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.SharedPrefFactory
 
@@ -93,6 +94,8 @@ class HomeFragment : Fragment() {
             Timber.tag("###").d(value.toString())
         })*/
 
+        setupViewPager()
+
         initArenaRV(arenaListAdapter) // Arena select
         initAnimArenaRV() // Arena select transitions animations
     }
@@ -125,9 +128,11 @@ class HomeFragment : Fragment() {
 
         tvArenaTitle.text = room.name
 
-        rv_arena.adapter!!.notifyDataSetChanged()
-        updateCarouselView(room)
+        rv_arena.adapter?.notifyDataSetChanged()
+
         updateArenaInfo(room)
+
+        updateCarouselView(room)
     }
 
     private fun initAnimArenaRV() {
@@ -153,11 +158,13 @@ class HomeFragment : Fragment() {
     /** Seat type carousel */
 
     private fun updateCarouselView(room: Arena?) {
+        require(carouselAdapter.clear()) {
+            "++++ Adapter must be empty! ++++"
+        }
+        val seatMap: MutableMap<RoomSeatType, SeatCarousel> = mutableMapOf()
         var roomType: ArenaHallType = ArenaHallType.COMMON
 
-        val widthPx = PrefUtils.displayWidhtPx
-        val seatMap: MutableMap<RoomSeatType, SeatCarousel> = mutableMapOf()
-
+        // Define room type ( double(common & vip), common, vip)
         if (
             (!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription))) ||
             (!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
@@ -171,13 +178,12 @@ class HomeFragment : Fragment() {
         }
 
         when (roomType) {
-            ArenaHallType.DOUBLE -> {
+            ArenaHallType.DOUBLE -> { // create two room: COMMON and VIP
 
                 seatMap[RoomSeatType.COMMON] = SeatCarousel(
                     type = RoomSeatType.COMMON,
                     imageUrl = room?.commonImageUrl,
                     description = room?.commonDescription
-
                 )
 
                 seatMap[RoomSeatType.VIP] = SeatCarousel(
@@ -185,64 +191,43 @@ class HomeFragment : Fragment() {
                     imageUrl = room?.vipImageUrl,
                     description = room?.vipDescription
                 )
-
-                with(carouselAdapter) {
-                    CarouselFragment.newInstance(
-                        activity?.supportFragmentManager,
-                        seatMap[RoomSeatType.COMMON]!!
-                    )?.let {
-                        addFragment(it, 0)
-                    }
-                    CarouselFragment.newInstance(
-                        activity?.supportFragmentManager,
-                        seatMap[RoomSeatType.VIP]!!
-                    )?.let { addFragment(it, 1) }
-                }
             }
             ArenaHallType.COMMON -> {
                 seatMap[RoomSeatType.COMMON] = SeatCarousel(
                     type = RoomSeatType.COMMON,
                     imageUrl = room?.commonImageUrl,
                     description = room?.commonDescription
-
                 )
-
-                with(carouselAdapter) {
-                    CarouselFragment.newInstance(
-                        activity?.supportFragmentManager,
-                        seatMap[RoomSeatType.COMMON]
-                    )?.let {
-                        addFragment(it, 0)
-                    }
-                }
             }
-            ArenaHallType.VIP -> {
+            ArenaHallType.VIP -> { // Create VIP room
 
                 seatMap[RoomSeatType.VIP] = SeatCarousel(
                     type = RoomSeatType.VIP,
                     imageUrl = room?.vipImageUrl,
                     description = room?.vipDescription
                 )
-
-                with(carouselAdapter) {
-                    CarouselFragment.newInstance(
-                        activity?.supportFragmentManager,
-                        seatMap[RoomSeatType.VIP]
-                    )?.let {
-                        addFragment(it, 0)
-                    }
-                }
             }
         }
 
+        with(carouselAdapter) {
+            seatMap.forEach {
+                CarouselFragment.newInstance(
+                    activity?.supportFragmentManager,
+                    it.value
+                )?.let { addFragment(fragment = it) }
+            }
+        }
+
+        carouselAdapter.notifyDataSetChanged()
+    }
+
+    private fun setupViewPager() {
+        val widthPx = PrefUtils.displayWidhtPx
         with(view_pager_seat) {
             adapter = carouselAdapter
             currentItem = 0
             offscreenPageLimit = 2
             setPageTransformer(false, carouselAdapter)
-        }
-
-        with(view_pager_seat) {
             pageMargin = when {
                 widthPx <= SCREEN_WIDTH_PX_720 -> SCREEN_MARGIN_350
                 widthPx <= SCREEN_WIDTH_PX_1080 -> SCREEN_MARGIN_450
@@ -250,7 +235,6 @@ class HomeFragment : Fragment() {
                 else -> SCREEN_MARGIN_450
             }
         }
-        carouselAdapter.notifyDataSetChanged()
     }
 
     /** click on seat in carousel view */
