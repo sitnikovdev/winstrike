@@ -40,7 +40,6 @@ import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.custom.RecyclerViewMargin
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.SharedPrefFactory
-import timber.log.Timber
 
 /**
  * A main screen of Winstrike app.
@@ -77,7 +76,6 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fmt_home, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arenaListAdapter = ArenaListAdapter(onArenaClickItem)
@@ -100,7 +98,6 @@ class HomeFragment : Fragment() {
 /*        liveSharedPreferences.getInt("selectedArena", 0).observe(this, Observer<Int> { value ->
             Timber.tag("###").d(value.toString())
         })*/
-
     }
 
     override fun onResume() {
@@ -231,8 +228,8 @@ class HomeFragment : Fragment() {
             }
         }
 
+        view_pager_seat.adapter = mCarouselAdapter
         mCarouselAdapter?.notifyDataSetChanged()
-        setupViewPager()
     }
 
     private fun setupViewPager() {
