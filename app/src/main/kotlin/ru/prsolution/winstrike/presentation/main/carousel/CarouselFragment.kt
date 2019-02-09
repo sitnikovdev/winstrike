@@ -13,15 +13,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProviders
 import com.facebook.drawee.view.SimpleDraweeView
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.RoomSeatType
 import ru.prsolution.winstrike.domain.models.SeatCarousel
+import ru.prsolution.winstrike.presentation.main.MainViewModel
 
 class CarouselFragment : Fragment() {
 
     lateinit var mListener: OnSeatClickListener
     private var mSeat: SeatCarousel? = null
+    lateinit var mVm: MainViewModel
 
     interface OnSeatClickListener {
 
@@ -41,7 +44,11 @@ class CarouselFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
 
+        if (savedInstanceState == null) {
+            mVm.getArenaList()
+        }
         try {
             mSeat = arguments?.getSerializable("room") as SeatCarousel
         } catch (e: Exception) {
@@ -53,7 +60,7 @@ class CarouselFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.item_carousel, container, false)
 
-        val seatTitle = view!!.findViewById<TextView>(R.id.seat_name_tv)
+        val seatTitle: TextView = view!!.findViewById(R.id.seat_name_tv)
 
         val seatImage: SimpleDraweeView = view.findViewById(R.id.seat_image_iv)
 
@@ -61,6 +68,13 @@ class CarouselFragment : Fragment() {
             mListener.onSeatClick(mSeat)
         }
 
+        updateSeat(seatImage, seatTitle)
+
+        return view
+    }
+
+
+    private fun updateSeat(seatImage: SimpleDraweeView, seatTitle: TextView) {
         val imageUri = Uri.parse(mSeat?.imageUrl)
         seatImage.setImageURI(imageUri)
 
@@ -69,8 +83,6 @@ class CarouselFragment : Fragment() {
         } else {
             seatTitle.text = getString(R.string.vip_hall)
         }
-
-        return view
     }
 
     companion object {
@@ -78,6 +90,7 @@ class CarouselFragment : Fragment() {
         fun newInstance(fm: FragmentManager?, room: SeatCarousel?): Fragment? {
             val bundle = Bundle()
             bundle.putSerializable("room", room)
+
 
             return fm?.fragmentFactory?.instantiate(
                 ClassLoader.getSystemClassLoader(),

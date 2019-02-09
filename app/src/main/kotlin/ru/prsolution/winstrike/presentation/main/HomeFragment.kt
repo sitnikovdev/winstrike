@@ -38,9 +38,9 @@ import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_WIDTH_PX_720
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselAdapter
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.custom.RecyclerViewMargin
-import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.date
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.SharedPrefFactory
+import timber.log.Timber
 
 /**
  * A main screen of Winstrike app.
@@ -50,11 +50,12 @@ class HomeFragment : Fragment() {
     var selectedArena = 0
     val arenaUpConstraintSet = ConstraintSet()
     val arenaDownConstraintSet = ConstraintSet()
+    private var room: Arena? = null
 
     var isArenaShow: Boolean = false
     lateinit var mVm: MainViewModel
     lateinit var arenaListAdapter: ArenaListAdapter
-    lateinit var carouselAdapter: CarouselAdapter
+    var mCarouselAdapter: CarouselAdapter? = null
     lateinit var liveSharedPreferences: LiveSharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +64,7 @@ class HomeFragment : Fragment() {
         selectedArena = PrefUtils.selectedArena
         ArenaListAdapter.SELECTED_ITEM = selectedArena
 
-        carouselAdapter = CarouselAdapter(activity?.supportFragmentManager)
+        mCarouselAdapter = CarouselAdapter(activity?.supportFragmentManager)
 
         if (savedInstanceState == null) {
             mVm.getArenaList()
@@ -76,6 +77,7 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fmt_home, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arenaListAdapter = ArenaListAdapter(onArenaClickItem)
@@ -84,20 +86,27 @@ class HomeFragment : Fragment() {
         mVm.arenaList.observe(this, Observer { resource ->
             resource.let {
                 it?.data?.let { arenaListAdapter.submitList(it) }
-                val room = resource?.data?.get(selectedArena)
+                room = resource?.data?.get(selectedArena)
                 updateCarouselView(room)
                 updateArenaInfo(room)
             }
         })
 
-/*        liveSharedPreferences.getInt("selectedArena", 0).observe(this, Observer<Int> { value ->
-            Timber.tag("###").d(value.toString())
-        })*/
-
         setupViewPager()
 
         initArenaRV(arenaListAdapter) // Arena select
         initAnimArenaRV() // Arena select transitions animations
+
+/*        liveSharedPreferences.getInt("selectedArena", 0).observe(this, Observer<Int> { value ->
+            Timber.tag("###").d(value.toString())
+        })*/
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.d("On resume HomeFragment")
+        mCarouselAdapter?.notifyDataSetChanged()
     }
 
     private fun updateArenaInfo(room: Arena?) { // TODO: Don't use datasource, use domain!!!
@@ -133,6 +142,7 @@ class HomeFragment : Fragment() {
         updateArenaInfo(room)
 
         updateCarouselView(room)
+
     }
 
     private fun initAnimArenaRV() {
@@ -158,10 +168,13 @@ class HomeFragment : Fragment() {
     /** Seat type carousel */
 
     private fun updateCarouselView(room: Arena?) {
-        require(carouselAdapter.clear()) {
-            "++++ Adapter must be empty! ++++"
+        mCarouselAdapter?.clear()?.let {
+            require(it) {
+                "++++ Adapter must be empty! ++++"
+            }
         }
         val seatMap: MutableMap<RoomSeatType, SeatCarousel> = mutableMapOf()
+
         var roomType: ArenaHallType = ArenaHallType.COMMON
 
         // Define room type ( double(common & vip), common, vip)
@@ -209,25 +222,25 @@ class HomeFragment : Fragment() {
             }
         }
 
-        with(carouselAdapter) {
+        with(mCarouselAdapter) {
             seatMap.forEach {
                 CarouselFragment.newInstance(
                     activity?.supportFragmentManager,
                     it.value
-                )?.let { addFragment(fragment = it) }
+                )?.let { this?.addFragment(fragment = it) }
             }
         }
 
-        carouselAdapter.notifyDataSetChanged()
+        mCarouselAdapter?.notifyDataSetChanged()
     }
 
     private fun setupViewPager() {
         val widthPx = PrefUtils.displayWidhtPx
         with(view_pager_seat) {
-            adapter = carouselAdapter
+            adapter = mCarouselAdapter
             currentItem = 0
             offscreenPageLimit = 2
-            setPageTransformer(false, carouselAdapter)
+            setPageTransformer(false, mCarouselAdapter)
             pageMargin = when {
                 widthPx <= SCREEN_WIDTH_PX_720 -> SCREEN_MARGIN_350
                 widthPx <= SCREEN_WIDTH_PX_1080 -> SCREEN_MARGIN_450

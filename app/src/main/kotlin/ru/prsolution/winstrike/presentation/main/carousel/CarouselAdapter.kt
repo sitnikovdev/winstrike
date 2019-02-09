@@ -4,7 +4,8 @@ import android.view.View
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -13,7 +14,7 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
  * Created by oleg on 02/04/2018.
  */
 
-class CarouselAdapter(fm: FragmentManager?) : FragmentPagerAdapter(
+class CarouselAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(
     fm!!
 ), ViewPager.PageTransformer {
 
@@ -25,7 +26,6 @@ class CarouselAdapter(fm: FragmentManager?) : FragmentPagerAdapter(
     var dpHeight: Float = 0f
     var dpWidth: Float = 0f
 
-    private var scale: Float = 0.0f
     private var bigScale: Float = 0f
     private var smallScale: Float = 0f
     private var diffScale: Float = 0f
@@ -52,9 +52,12 @@ class CarouselAdapter(fm: FragmentManager?) : FragmentPagerAdapter(
         return mFragmentList[position]
     }
 
+    override fun getItemPosition(`object`: Any): Int {
+        return PagerAdapter.POSITION_NONE
+    }
+
     fun addFragment(fragment: Fragment) {
         mFragmentList.add(fragment)
-        root?.setScaleBoth(scale)
     }
 
     override fun getCount(): Int {
@@ -64,15 +67,12 @@ class CarouselAdapter(fm: FragmentManager?) : FragmentPagerAdapter(
 
     override fun transformPage(page: View, position: Float) {
          root = page.findViewById(R.id.root)
-         scale = bigScale
+         var scale = bigScale
 
         if (position > 0) {
             scale -= position * diffScale
         } else {
             scale += position * diffScale
-        }
-        if (scale < 0) {
-            scale = 0f
         }
 
         root?.setScaleBoth(scale)
