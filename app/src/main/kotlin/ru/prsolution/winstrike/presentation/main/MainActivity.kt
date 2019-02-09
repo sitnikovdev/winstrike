@@ -9,8 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.ac_mainscreen.navigation
-import kotlinx.android.synthetic.main.ac_mainscreen.toolbar
+import kotlinx.android.synthetic.main.ac_mainscreen.*
 import org.jetbrains.anko.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.SeatCarousel
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity(),
     override fun onMapShow() {
         Timber.d("On map show mListener")
         showHome(isVisible = true)
-        navigation.visibility = View.GONE
+        bottomNavigation.visibility = View.GONE
         fm.beginTransaction()
                 .hide(setupFragment)
                 .addToBackStack(null)
@@ -56,7 +55,7 @@ class MainActivity : AppCompatActivity(),
     override fun onSeatClick(seat: SeatCarousel?) {
         mVm.currentSeat.postValue(seat)
         showHome(isVisible = true)
-        navigation.visibility = View.GONE
+        bottomNavigation.visibility = View.GONE
         fm.beginTransaction()
                 .hide(active)
                 .addToBackStack(null)
@@ -69,7 +68,7 @@ class MainActivity : AppCompatActivity(),
         when (active) {
             is SetupFragment -> {
                 showHome(isVisible = false)
-                navigation.visibility = View.VISIBLE
+                bottomNavigation.visibility = View.VISIBLE
                 mVm.active.value = homeFragment
                 super.onBackPressed()
             }
@@ -113,16 +112,13 @@ class MainActivity : AppCompatActivity(),
         mVm.paymentResponse.observe(this, Observer {
             it.state.let { state ->
                 if (state == ResourceState.LOADING) {
-// 					progressBar.visibility = View.VISIBLE
                 }
             }
             it.data?.let { response ->
                 onPaymentShow(response)
-// 				progressBar.visibility = View.GONE
             }
             it.message?.let { error ->
                 Timber.tag("$$$").d("message: $error")
-// 				progressBar.visibility = View.GONE
                 onPaymentError(error)
             }
         })
@@ -132,21 +128,20 @@ class MainActivity : AppCompatActivity(),
             active = activeFragment
             if (active is HomeFragment) {
                 showHome(isVisible = false)
-                navigation.visibility = View.VISIBLE
-                navigation.menu.getItem(0).isChecked = true
+                bottomNavigation.visibility = View.VISIBLE
+                bottomNavigation.menu.getItem(0).isChecked = true
             } else {
                 showHome(isVisible = true)
-                navigation.visibility = View.GONE
+                bottomNavigation.visibility = View.GONE
             }
         })
 
-// 		progressBar?.visibility = View.VISIBLE
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         showHome(isVisible = false)
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
 //        initToolbar()
 //        initFragments()
@@ -162,29 +157,29 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    private fun initToolbar() {
+    private fun nitToolbar() {
         toolbar?.setNavigationOnClickListener {
             when (active) {
                 is HomeFragment -> {
                     showHome(isVisible = false)
-                    navigation.visibility = View.VISIBLE
+                    bottomNavigation.visibility = View.VISIBLE
                 }
                 is SetupFragment -> {
-                    navigation.visibility = View.VISIBLE
+                    bottomNavigation.visibility = View.VISIBLE
                     mVm.active.value = homeFragment
                 }
                 is OrderFragment -> {
-                    navigation.menu.getItem(1).isChecked = false
+                    bottomNavigation.menu.getItem(1).isChecked = false
                     fm.beginTransaction().detach(orderFragment).show(homeFragment).commit()
                     mVm.active.value = homeFragment
                 }
                 is MapFragment -> {
-                    navigation.visibility = View.GONE
+                    bottomNavigation.visibility = View.GONE
                     mVm.active.value = setupFragment
                 }
 
                 is ProfileFragment -> {
-                    navigation.menu.getItem(2).isChecked = false
+                    bottomNavigation.menu.getItem(2).isChecked = false
                     fm.beginTransaction().detach(profileFragment).show(homeFragment).commit()
                     mVm.active.value = homeFragment
                 }
@@ -257,7 +252,7 @@ class MainActivity : AppCompatActivity(),
 
         Timber.d("On yandex web view show mListener")
         showHome(isVisible = true)
-        navigation.visibility = View.GONE
+        bottomNavigation.visibility = View.GONE
         fm.beginTransaction()
                 .detach(mapFragment)
                 .addToBackStack(null)
