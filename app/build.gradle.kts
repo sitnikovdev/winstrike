@@ -7,9 +7,8 @@ plugins {
     id("com.google.gms.google-services")
     kotlin("android")
     kotlin("android.extensions")
-//    apply plugin: 'androidx.navigation.safeargs'
     id("androidx.navigation.safeargs")
-    id("com.getkeepsafe.dexcount")
+//    id("com.getkeepsafe.dexcount")
     id("com.github.ben-manes.versions") version "0.20.0" // uses gradle depUp ; show old dependencies in terminal
 //    id ("org.jlleitschuh.gradle.ktlint-idea") version "7.1.0" // Gradle plugin that automatically creates check and format tasks for project Kotlin sources
     id("org.jmailen.kotlinter") version "1.21.0"
@@ -95,7 +94,7 @@ kotlinter {
     reporter = listOf("checkstyle", "plain").toString()
 }
 
-dexcount {
+/*dexcount {
     format = "list"
     includeClasses = false
     includeClassCount = false
@@ -109,7 +108,7 @@ dexcount {
     runOnEachPackage = true
     maxMethodCount = 100_000
     enabled = true
-}
+}*/
 
 
 dependencies {

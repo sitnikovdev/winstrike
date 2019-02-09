@@ -18,7 +18,7 @@ buildscript {
 		classpath("com.google.gms:google-services:${Versions.googleServicies}")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
 		classpath("android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}")
-		classpath("com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6")
+//		classpath("com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6")
 	}
 }
 

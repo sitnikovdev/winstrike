@@ -9,6 +9,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.TranslucentNavigation" parent="AppTheme">
+        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <!--    <style name="MainToolBarTheme" parent="@style/AppBase">
+            <item name="colorControlHighlight">@color/color_ripple</item>
+        </style>-->
+
+
     <style name="MyDatePickerTextAppearance" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/color_white</item>
     </style>
@@ -30,17 +42,6 @@
 
     </style>
 
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.TranslucentNavigation" parent="AppTheme">
-        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
-        <item name="android:fitsSystemWindows">true</item>
-    </style>
-
-<!--    <style name="MainToolBarTheme" parent="@style/AppBase">
-        <item name="colorControlHighlight">@color/color_ripple</item>
-    </style>-->
 
     <!--Views-->
     <style name="TabLayoutProfile" parent="TextAppearance.Design.Tab">

@@ -148,9 +148,9 @@ class MainActivity : AppCompatActivity(),
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        initToolbar()
-        initFragments()
-        initFCM() // FCM push notifications
+//        initToolbar()
+//        initFragments()
+//        initFCM() // FCM push notifications
     }
 
     private fun onPaymentError(error: String) {
