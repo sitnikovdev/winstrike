@@ -15,7 +15,6 @@ plugins {
 }
 
 
-
 android {
     compileSdkVersion(Android.compileSdkVersion)
     defaultConfig {

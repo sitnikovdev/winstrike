@@ -54,8 +54,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onSeatClick(seat: SeatCarousel?) {
         val action = HomeFragmentDirections.nextAction()
-//        action.seat = seat
-        mVm.currentSeat.postValue(seat)
+        action.seat = seat
         findNavController(R.id.nav_host_fragment).navigate(action)
     }
 

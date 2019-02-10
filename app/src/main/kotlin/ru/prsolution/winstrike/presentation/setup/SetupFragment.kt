@@ -85,14 +85,7 @@ class SetupFragment : Fragment(),
         return inflater.inflate(ru.prsolution.winstrike.R.layout.frm_setup, container, false)
     }
 
-    private var mSeat: SeatCarousel? = null
 
-    override fun onResume() {
-        super.onResume()
-        mSeat?.let {
-            updateSeatInfo(it)
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -103,6 +96,12 @@ class SetupFragment : Fragment(),
 
         progressBar.visibility = View.INVISIBLE
 
+        arguments?.let {
+            val safeArgs = SetupFragmentArgs.fromBundle(it)
+
+            updateSeatInfo(safeArgs.seat)
+        }
+
         activity?.let {
             // arenaList
             mVm?.arenaList?.observe(it, Observer { response ->
@@ -110,7 +109,6 @@ class SetupFragment : Fragment(),
             })
             // mSeat
             mVm?.currentSeat?.observe(it, Observer { seat ->
-                this.mSeat = seat
                 updateSeatInfo(seat)
             })
             // date
