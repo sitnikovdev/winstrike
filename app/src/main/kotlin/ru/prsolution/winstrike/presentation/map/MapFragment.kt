@@ -178,7 +178,8 @@ class MapFragment : Fragment() {
 
             setNumber(seat, numberTextView)
 
-            // Visualize seat
+            // Draw one seat
+            // TODO: make it custom view
             ImageView(context).apply {
 
                 setImage(this, seat)
