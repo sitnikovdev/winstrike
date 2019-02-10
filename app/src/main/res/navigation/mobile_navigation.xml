@@ -45,5 +45,18 @@
 
     <fragment android:id="@+id/navigation_map"
               android:name="ru.prsolution.winstrike.presentation.map.MapFragment"
-              android:label="MapFragment"/>
+              android:label="MapFragment">
+        <action android:id="@+id/next_action"
+                app:destination="@id/navigation_yandex"/>
+    </fragment>
+
+    <!--Yandex WebView-->
+
+    <fragment android:id="@+id/navigation_yandex"
+              tools:layout="@layout/fragment_yandex_web_view"
+              android:label="YandexWebView"
+              android:name="ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment">
+        <argument android:name="url" app:argType="string" app:nullable="true"/>
+    </fragment>
+
 </navigation>

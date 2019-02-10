@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_yandex_web_view.pbar
 import ru.prsolution.winstrike.R
@@ -30,8 +28,6 @@ class YandexWebViewFragment : Fragment() {
         mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
     }
 
-    private var pb: ProgressBar? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,12 +41,17 @@ class YandexWebViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         pbar.visibility = View.VISIBLE
 
-        activity?.let {
+        arguments?.let {
+            val safeArgs = YandexWebViewFragmentArgs.fromBundle(it)
+            url = safeArgs.url
+        }
+
+/*        activity?.let {
             mVm?.redirectUrl?.observe(it, Observer {
                 Timber.d("url: $url")
                 url = it
             })
-        }
+        }*/
 
         mWebView = view.findViewById<View>(R.id.webView) as WebView
         mWebView?.webViewClient = MyWebViewClient()

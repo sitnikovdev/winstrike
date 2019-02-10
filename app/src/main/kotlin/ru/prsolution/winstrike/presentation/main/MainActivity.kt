@@ -1,9 +1,7 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -18,8 +16,7 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
-import ru.prsolution.winstrike.presentation.map.MapFragment
-import ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment
+import ru.prsolution.winstrike.presentation.map.MapFragmentDirections
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.setup.SetupFragment
 import ru.prsolution.winstrike.presentation.setup.SetupFragmentDirections
@@ -35,17 +32,27 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var mVm: MainViewModel
 
-    private val mapFragment = MapFragment()
 
-    private val yandexFragment = YandexWebViewFragment()
+    // Open Yandex WebView on payment response from MapFragment
+    private fun onPaymentShow(payResponse: PaymentResponse) {
+//        Timber.tag("common").d("Pay successfully: %s", payResponse)
+        // TODO: Show progress bar when load web view.
+        val url = payResponse.redirectUrl
+        val testUrl = "https://yandex.ru"
+        val action = MapFragmentDirections.nextAction(testUrl)
+        findNavController(R.id.nav_host_fragment).navigate(action)
 
-    private val fm: FragmentManager = supportFragmentManager
+//        mVm.redirectUrl.value = testUrl
+    }
 
+
+    // Show map fragment after user select date and time in SetupFragment
     override fun onMapShow() {
         val action = SetupFragmentDirections.nextAction()
         findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
+    // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
         val action = HomeFragmentDirections.nextAction()
         action.seat = seat
@@ -118,26 +125,6 @@ class MainActivity : AppCompatActivity(),
             toolbar.navigationIcon = null
             toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
         }
-    }
-
-    // Open Yandex WebView on payment response from MapFragment
-    private fun onPaymentShow(payResponse: PaymentResponse) {
-        Timber.tag("common").d("Pay successfully: %s", payResponse)
-
-        // TODO: Show progress bar when load web view.
-        val url = payResponse.redirectUrl
-        val testUrl = "https://yandex.ru"
-        mVm.redirectUrl.value = testUrl
-
-/*        Timber.d("On yandex web view show mListener")
-        showHome(isVisible = true)
-        bottomNavigation.visibility = View.GONE
-        fm.beginTransaction()
-            .detach(mapFragment)
-            .addToBackStack(null)
-            .attach(yandexFragment)
-            .commit()
-        mVm.active.value = yandexFragment*/
     }
 
     private fun onPaymentError(error: String) {

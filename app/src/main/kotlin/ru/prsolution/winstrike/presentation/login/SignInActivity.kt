@@ -32,7 +32,6 @@ import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
-import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
 import timber.log.Timber
 
 /*
@@ -271,17 +270,17 @@ class SignInActivity : AppCompatActivity() {
         tv_conditions!!.text = content
 
         tv_conditions!!.setOnClickListener {
-            val browserIntent = Intent(this, YandexWebView::class.java)
-            val url = "file:///android_asset/rules.html"
-            browserIntent.putExtra("url", url)
-            startActivity(browserIntent)
+//            val browserIntent = Intent(this, YandexWebView::class.java)
+//            val url = "file:///android_asset/rules.html"
+//            browserIntent.putExtra("url", url)
+//            startActivity(browserIntent)
         }
 
         tv_politica4!!.setOnClickListener {
-            val browserIntent = Intent(this, YandexWebView::class.java)
-            val url = "file:///android_asset/politika.html"
-            browserIntent.putExtra("url", url)
-            startActivity(browserIntent)
+//            val browserIntent = Intent(this, YandexWebView::class.java)
+//            val url = "file:///android_asset/politika.html"
+//            browserIntent.putExtra("url", url)
+//            startActivity(browserIntent)
         }
 
         val textFooter = "Политикой конфиденциальности"

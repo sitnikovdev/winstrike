@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.ac_confsmscode.v_name
 import kotlinx.android.synthetic.main.ac_confsmscode.v_nextbtn
 import kotlinx.android.synthetic.main.ac_confsmscode.v_send_code_again
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.utils.webview.YandexWebView
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.domain.models.login.ConfirmModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
@@ -269,18 +268,18 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
         tv_register2!!.text = content
 
         tv_register2!!.setOnClickListener {
-            val browserIntent = Intent(this, YandexWebView::class.java)
-            val url = "file:///android_asset/rules.html"
-            browserIntent.putExtra("url", url)
-            startActivity(browserIntent)
+//            val browserIntent = Intent(this, YandexWebView::class.java)
+//            val url = "file:///android_asset/rules.html"
+//            browserIntent.putExtra("url", url)
+//            startActivity(browserIntent)
         }
 
         tv_register4!!.setOnClickListener {
-            val browserIntent = Intent(this, YandexWebView::class.java)
-            //                    String url = "file:///android_asset/politika.html";
-            val url = "https://winstrike.gg/WinstrikePrivacyPolicy.pdf"
-            browserIntent.putExtra("url", url)
-            startActivity(browserIntent)
+//            val browserIntent = Intent(this, YandexWebView::class.java)
+//                                String url = "file:///android_asset/politika.html";
+//            val url = "https://winstrike.gg/WinstrikePrivacyPolicy.pdf"
+//            browserIntent.putExtra("url", url)
+//            startActivity(browserIntent)
         }
 
         val textFooter = "Политикой конфиденциальности"
