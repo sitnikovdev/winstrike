@@ -37,7 +37,7 @@ class CarouselFragment : Fragment() {
             mListener = context
         } else {
             throw ClassCastException(
-                "$context must implements OnChoosePlaceButtonsClickListener "
+                "$context must implements CarouselFragment.OnSeatClickListener "
             )
         }
     }

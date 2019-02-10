@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
@@ -13,7 +12,6 @@ import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
-import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.domain.payment.PaymentModel
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.networking.RetrofitFactory
@@ -32,31 +30,16 @@ class MainViewModel : ViewModel() {
     // TODO: Use Koin to decouple dependencies from here.
     private val retrofitService = RetrofitFactory.makeRetrofitService()
 
-    // Активный фрагмент
-    var active = MutableLiveData<Fragment>()
-
-    // Ответ от FCM сервера на запрос токена
-    val fcmResponse = MutableLiveData<Resource<MessageResponse>>()
-
     // Список имеющихся арен
     val arenaList = SingleLiveEvent<Resource<List<Arena>>>()
 
     // Выбранная  арена по времени
-//    val arena = MutableLiveData<Resource<ArenaSchema?>>()
     val arena = SingleLiveEvent<Resource<ArenaSchema?>>()
     val mapArena = SingleLiveEvent<Resource<ArenaSchema?>>()
-
-    // Обновление информации о выбранном месте и времени
-    val currentArena = MutableLiveData<String>()
-    val currentSeat = SingleLiveEvent<SeatCarousel>()
-    val currentDate = SingleLiveEvent<String>()
-    val currentTime = SingleLiveEvent<String>()
+    val arenaPid = SingleLiveEvent<String?>()
 
     // Ответ от Яндекс Кассы
     val paymentResponse = SingleLiveEvent<Resource<PaymentResponse>>()
-
-    // Url на страницу оплаты Яндекс кассы
-    val redirectUrl = SingleLiveEvent<String>()
 
     // Получение списка имеющихся арен на сервере
     fun getArenaList() {
@@ -111,6 +94,10 @@ class MainViewModel : ViewModel() {
             }
         }
     }
+
+    // Ответ от FCM сервера на запрос токена
+    val fcmResponse = MutableLiveData<Resource<MessageResponse>>()
+
 
     // Отправка токена FCM серверу
     fun sendFCMToken(userToken: String, fcmBody: FCMModel) {

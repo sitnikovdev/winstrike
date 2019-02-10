@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fmt_home.rv_arena
 import kotlinx.android.synthetic.main.fmt_home.tvArenaTitle
 import kotlinx.android.synthetic.main.fmt_home.view_pager_seat
 import org.jetbrains.anko.imageURI
-import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.App
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaHallType
@@ -40,16 +39,18 @@ import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.custom.RecyclerViewMargin
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.SharedPrefFactory
+import android.os.Handler
 
 /**
  * A main screen of Winstrike app.
  */
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment()
+{
 
     var selectedArena = 0
     val arenaUpConstraintSet = ConstraintSet()
     val arenaDownConstraintSet = ConstraintSet()
-    private var room: Arena? = null
+    private var mArena: Arena? = null
 
     var isArenaShow: Boolean = false
     lateinit var mVm: MainViewModel
@@ -73,8 +74,10 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fmt_home, container, false)
+        return inflater.inflate(ru.prsolution.winstrike.R.layout.fmt_home, container, false)
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,9 +87,11 @@ class HomeFragment : Fragment() {
         mVm.arenaList.observe(this, Observer { resource ->
             resource.let {
                 it?.data?.let { arenaListAdapter.submitList(it) }
-                room = resource?.data?.get(selectedArena)
-                updateCarouselView(room)
-                updateArenaInfo(room)
+                mArena = resource?.data?.get(selectedArena)
+//                mVm.arenaPid.postValue(mArena?.activeLayoutPid)
+//                this.mArenaPid = mArena?.activeLayoutPid
+                updateCarouselView(mArena)
+                updateArenaInfo(mArena)
             }
         })
 
@@ -103,7 +108,10 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // fix bag with not visible carousel
-        mCarouselAdapter?.notifyDataSetChanged()
+        val handler = Handler()
+        handler.post(Runnable {
+            mCarouselAdapter?.notifyDataSetChanged()
+        })
     }
 
     private fun updateArenaInfo(room: Arena?) { // TODO: Don't use datasource, use domain!!!
@@ -143,8 +151,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun initAnimArenaRV() {
-        arenaDownConstraintSet.clone(activity, R.layout.part_arena_down)
-        arenaUpConstraintSet.clone(activity, R.layout.part_arena_up)
+        arenaDownConstraintSet.clone(activity, ru.prsolution.winstrike.R.layout.part_arena_down)
+        arenaUpConstraintSet.clone(activity, ru.prsolution.winstrike.R.layout.part_arena_up)
         arrowArena_Down.setOnClickListener {
             TransitionManager.beginDelayedTransition(root)
             if (!isArenaShow) {
@@ -174,7 +182,7 @@ class HomeFragment : Fragment() {
 
         var roomType: ArenaHallType = ArenaHallType.COMMON
 
-        // Define room type ( double(common & vip), common, vip)
+        // Define mArena type ( double(common & vip), common, vip)
         if (
             (!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription))) ||
             (!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
@@ -188,7 +196,7 @@ class HomeFragment : Fragment() {
         }
 
         when (roomType) {
-            ArenaHallType.DOUBLE -> { // create two room: COMMON and VIP
+            ArenaHallType.DOUBLE -> { // create two mArena: COMMON and VIP
 
                 seatMap[RoomSeatType.COMMON] = SeatCarousel(
                     type = RoomSeatType.COMMON,
@@ -209,7 +217,7 @@ class HomeFragment : Fragment() {
                     description = room?.commonDescription
                 )
             }
-            ArenaHallType.VIP -> { // Create VIP room
+            ArenaHallType.VIP -> { // Create VIP mArena
 
                 seatMap[RoomSeatType.VIP] = SeatCarousel(
                     type = RoomSeatType.VIP,

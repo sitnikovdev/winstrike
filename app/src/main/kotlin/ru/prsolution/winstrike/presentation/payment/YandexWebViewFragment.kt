@@ -46,13 +46,6 @@ class YandexWebViewFragment : Fragment() {
             url = safeArgs.url
         }
 
-/*        activity?.let {
-            mVm?.redirectUrl?.observe(it, Observer {
-                Timber.d("url: $url")
-                url = it
-            })
-        }*/
-
         mWebView = view.findViewById<View>(R.id.webView) as WebView
         mWebView?.webViewClient = MyWebViewClient()
         mWebView?.isHorizontalScrollBarEnabled = false

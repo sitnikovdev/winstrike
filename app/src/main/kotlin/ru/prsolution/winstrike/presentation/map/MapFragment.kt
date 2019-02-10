@@ -43,6 +43,7 @@ import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import timber.log.Timber
 import java.util.LinkedHashMap
 
@@ -90,14 +91,47 @@ class MapFragment : Fragment() {
 		presenter!!.initScreen()
 		presenter!!.readMap()*/
 
+        arguments?.let {
+            //            val safeArgs =
+        }
+
         mapLayout = view.findViewById(R.id.rootMap)
         initSnackBar()
 
         activity?.let {
             mVm?.mapArena?.observe(it, Observer { arena ->
-                this.arena = arena.data
-                readMap()
+                /*                this.arena = arena.data
+                                readMap()*/
             })
+
+            // mArenaPid
+            mVm?.arena?.observe(it, Observer { arena ->
+
+                // loading
+                arena.state.let { state ->
+                    if (state == ResourceState.LOADING) {
+//                        progressBar.visibility = View.VISIBLE
+                        Timber.tag("$$$").d("status is: $it")
+                    }
+                }
+
+                // data
+                arena.data?.let {
+                    //                    progressBar.visibility = View.INVISIBLE
+                    Timber.tag("$$$").d("mArenaPid name: ${arena.data.name}")
+//                    mVm?.mapArena?.postValue(arena)
+//                    onMapShow(arena.data)
+                    this.arena = arena.data
+                    readMap()
+                }
+
+                // error
+                arena.message?.let {
+                    //                    progressBar.visibility = View.INVISIBLE
+                    Timber.tag("$$$").d("error message: $it")
+                }
+            })
+
 /*			mVm?.paymentResponse?.observe(it, Observer {
 				it.data?.let { response -> onGetPaymentResponseSuccess(response) }
 			})*/
@@ -143,8 +177,10 @@ class MapFragment : Fragment() {
         val seatBitmap = getBitmap(context, R.drawable.ic_seat_gray)
 
         seatSize.set(seatBitmap.width, seatBitmap.height)
-        val mScreenSize = MapViewUtils.calculateScreenSize(seatSize, arenaMap?.seats, mXScaleFactor!! + 0.2f,
-                                                           mYScaleFactor!! - 1.5f)
+        val mScreenSize = MapViewUtils.calculateScreenSize(
+            seatSize, arenaMap?.seats, mXScaleFactor!! + 0.2f,
+            mYScaleFactor!! - 1.5f
+        )
 
         val mapLP = mapLayout!!.layoutParams as FrameLayout.LayoutParams
         mapLP.setMargins(-65, -80, 100, 80)
@@ -198,8 +234,12 @@ class MapFragment : Fragment() {
                 this.layoutParams = seatParams
 
                 // On seat click mListener
-                this.setOnClickListener(SeatViewOnClickListener(numberTextView, seat, this, seatBitmap,
-                                                                mPickedSeatsIds))
+                this.setOnClickListener(
+                    SeatViewOnClickListener(
+                        numberTextView, seat, this, seatBitmap,
+                        mPickedSeatsIds
+                    )
+                )
                 mapLayout?.addView(this)
             }
         }
@@ -250,12 +290,12 @@ class MapFragment : Fragment() {
     }
 
     /**
-	 * Save selected seat's pids in db. For offline mode compatibility.
-	 *
-	 * @param id - seat id
-	 * @param unselect - is seat selected
-	 * @param publicPid - pid of selected seat
-	 */
+     * Save selected seat's pids in db. For offline mode compatibility.
+     *
+     * @param id - seat id
+     * @param unselect - is seat selected
+     * @param publicPid - pid of selected seat
+     */
 
     private fun onSelectSeat(id: String, unselect: Boolean, publicPid: String) {
 
@@ -308,9 +348,11 @@ class MapFragment : Fragment() {
         }
 
         numberParams?.leftMargin = ((seat.numberDeltaX?.plus(offsetX))?.times(
-                mXScaleFactor!!))?.toInt()
+            mXScaleFactor!!
+        ))?.toInt()
         numberParams?.topMargin = ((seat.numberDeltaY?.plus(0))?.times(
-                mYScaleFactor!!))?.toInt()
+            mYScaleFactor!!
+        ))?.toInt()
 
         numberTextView.layoutParams = numberParams
         mapLayout?.addView(numberTextView)
@@ -369,8 +411,8 @@ class MapFragment : Fragment() {
     }
 
     /**
-	 * Something goes wrong, and we can't bye seat from Winstrike PC club. show user toast with description this fucking situation.
-	 */
+     * Something goes wrong, and we can't bye seat from Winstrike PC club. show user toast with description this fucking situation.
+     */
     fun onGetPaymentFailure(appErrorMessage: String) {
         val timeFrom = TimeDataModel.start
         val timeTo = TimeDataModel.end
@@ -380,12 +422,14 @@ class MapFragment : Fragment() {
         Timber.tag("common").w("Failure on pay: %s", appErrorMessage)
         when {
             appErrorMessage.contains(getString(R.string.msg_server_500)) -> toast(
-                    getString(R.string.msg_server_internal_err))
+                getString(R.string.msg_server_internal_err)
+            )
             appErrorMessage.contains(getString(R.string.msg_server_400)) -> toast(getString(R.string.msg_no_data))
             appErrorMessage.contains(getString(R.string.msg_server_401)) -> toast(getString(R.string.msg_no_auth))
             appErrorMessage.contains(getString(R.string.msg_serve_403)) -> toast(getString(R.string.msg_auth_err))
             appErrorMessage.contains(getString(R.string.msg_server_404)) -> toast(
-                    getString(R.string.msg_no_seat_with_id))
+                getString(R.string.msg_no_seat_with_id)
+            )
             appErrorMessage.contains(getString(R.string.msg_server_405)) -> toast(getString(R.string.msg_auth_error))
             appErrorMessage.contains(getString(R.string.msg_server_424)) -> toast(getString(R.string.msg_date_error))
             appErrorMessage.contains(getString(R.string.msg_server_416)) -> toast(getString(R.string.msg_booking_error))
@@ -394,8 +438,10 @@ class MapFragment : Fragment() {
     }
 
     private fun getBitmap(vectorDrawable: VectorDrawable): Bitmap {
-        val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth,
-                                         vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
+        )
         val canvas = Canvas(bitmap)
         vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
         vectorDrawable.draw(canvas)

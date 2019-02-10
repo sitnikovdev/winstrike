@@ -39,6 +39,7 @@
                   android:defaultValue="@null"/>
         <action android:id="@+id/next_action"
                 app:destination="@id/navigation_map"/>
+        <argument android:name="arenaPid" app:argType="string" android:defaultValue='""'/>
     </fragment>
 
     <!--Map-->

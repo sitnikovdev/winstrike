@@ -18,37 +18,26 @@ import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.map.MapFragmentDirections
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
-import ru.prsolution.winstrike.presentation.setup.SetupFragment
-import ru.prsolution.winstrike.presentation.setup.SetupFragmentDirections
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity(),
-    SetupFragment.MapShowListener,
     CarouselFragment.OnSeatClickListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private lateinit var mVm: MainViewModel
 
+    private var mArenaPid: String = ""
 
     // Open Yandex WebView on payment response from MapFragment
     private fun onPaymentShow(payResponse: PaymentResponse) {
-//        Timber.tag("common").d("Pay successfully: %s", payResponse)
         // TODO: Show progress bar when load web view.
         val url = payResponse.redirectUrl
         val testUrl = "https://yandex.ru"
         val action = MapFragmentDirections.nextAction(testUrl)
-        findNavController(R.id.nav_host_fragment).navigate(action)
-
-//        mVm.redirectUrl.value = testUrl
-    }
-
-
-    // Show map fragment after user select date and time in SetupFragment
-    override fun onMapShow() {
-        val action = SetupFragmentDirections.nextAction()
         findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
@@ -56,6 +45,7 @@ class MainActivity : AppCompatActivity(),
     override fun onCarouselClick(seat: SeatCarousel?) {
         val action = HomeFragmentDirections.nextAction()
         action.seat = seat
+        action.arenaPid = this.mArenaPid
         findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
@@ -65,11 +55,26 @@ class MainActivity : AppCompatActivity(),
         PrefUtils.isLogout = false
     }
 
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         clearData()
         setContentView(R.layout.ac_mainscreen)
         mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        if (savedInstanceState == null) {
+            mVm.getArenaList()
+        }
+
+        mVm.arenaList.observe(this, Observer { resource ->
+            resource.let {
+                val arena = resource?.data?.get(selectedArena)
+                if (arena != null) {
+                    this.mArenaPid = arena.activeLayoutPid!!
+                }
+            }
+        })
+
 
         // payment response from map fragment:
         mVm.paymentResponse.observe(this, Observer {

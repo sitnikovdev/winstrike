@@ -20,8 +20,8 @@ import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.facebook.drawee.view.SimpleDraweeView
 import kotlinx.android.synthetic.main.frm_setup.next_button
 import kotlinx.android.synthetic.main.frm_setup.progressBar
@@ -31,13 +31,9 @@ import kotlinx.android.synthetic.main.frm_setup.v_date_tap
 import kotlinx.android.synthetic.main.frm_setup.v_time_tap
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
-import timber.log.Timber
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
-import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import java.time.Month
 import java.time.format.TextStyle
 import java.util.Locale
@@ -46,30 +42,30 @@ class SetupFragment : Fragment(),
     DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
 
-    private var rooms: List<Arena>? = null
-    private var seatName: TextView? = null
-    private var cpuDescription: TextView? = null
-    private var seatImage: SimpleDraweeView? = null
+    private var mArenaPid: String? = null
+    private var mSeatName: TextView? = null
+    private var mCpuDescription: TextView? = null
+    private var mSeatImage: SimpleDraweeView? = null
 
     /**
      * route show map to main presenter in MainScreenActivity
      */
-    interface MapShowListener {
-        fun onMapShow()
-    }
-
-    var mListener: MapShowListener? = null
+///*    interface MapShowListener {
+//        fun onMapShow()
+//    }*/
+//
+//    var mListener: MapShowListener? = null
     var mVm: MainViewModel? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        require(context is MapShowListener) { "++++ Must implements SetupFragment.MapShowListener. +++" }
-        mListener = context
+//        require(context is MapShowListener) { "++++ Must implements SetupFragment.MapShowListener. +++" }
+//        mListener = context
     }
 
     override fun onDetach() {
         super.onDetach()
-        mListener = null
+//        mListener = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,80 +84,48 @@ class SetupFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        seatName = view.findViewById<TextView>(R.id.seat_name_tv)
-        cpuDescription = view.findViewById<TextView>(R.id.cpu)
-        seatImage = view.findViewById<SimpleDraweeView>(R.id.head_image)
+        mSeatName = view.findViewById(R.id.seat_name_tv)
+        mCpuDescription = view.findViewById(R.id.cpu)
+        mSeatImage = view.findViewById(R.id.head_image)
 
         progressBar.visibility = View.INVISIBLE
 
         arguments?.let {
             val safeArgs = SetupFragmentArgs.fromBundle(it)
-
+            this.mArenaPid = safeArgs.arenaPid
             updateSeatInfo(safeArgs.seat)
         }
 
         activity?.let {
 
             // arenaList
-            mVm?.arenaList?.observe(it, Observer { response ->
-                this.rooms = response.data
-            })
-
 /*
-            // mSeat
-            mVm?.currentSeat?.observe(it, Observer { seat ->
-                updateSeatInfo(seat)
+            mVm?.arenaPid?.observe(it, Observer { response ->
+                this.mArenaPid = response
+                Timber.d(mArenaPid)
             })
 */
 
-            // date
-            mVm?.currentDate?.observe(it, Observer { date ->
-                tv_date.text = date
-            })
-
-            // time
-            mVm?.currentTime?.observe(it, Observer { time ->
-                tv_time.text = time
-            })
-
-           // arena
-            mVm?.arena?.observe(it, Observer { arena ->
-
-                // loading
-                arena.state.let { state ->
-                    if (state == ResourceState.LOADING) {
-                        progressBar.visibility = View.VISIBLE
-                        Timber.tag("$$$").d("status is: $it")
-                    }
-                }
-
-                // data
-                arena.data?.let {
-                    progressBar.visibility = View.INVISIBLE
-                    Timber.tag("$$$").d("arena name: ${arena.data.name}")
-                    mVm?.mapArena?.postValue(arena)
-                    mListener?.onMapShow()
-                }
-
-                // error
-                arena.message?.let {
-                    progressBar.visibility = View.INVISIBLE
-                    Timber.tag("$$$").d("error message: $it")
-                }
-            })
         }
 
         initListeners()
     }
 
-    private fun getArenaByTime() {
-        requireNotNull(rooms) { "+++ Rooms must be initialized +++" }
+    // Show map fragment after user select date and time in SetupFragment
+    private fun onMapShow() {
+        val action = SetupFragmentDirections.nextAction()
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+    }
+
+    private fun getArenaByTime(activePid: String?) {
+        requireNotNull(activePid) { "+++ Rooms must be initialized +++" }
+
         if (TextUtils.isEmpty(TimeDataModel.start) || TextUtils.isEmpty(TimeDataModel.end)) {
             toast("Не указана дата")
             return
         }
-        // get active arena pid
-        val activePid = rooms?.get(selectedArena)?.roomLayoutPid
+        // get active mArenaPid pid
+//        val activePid = mArenaPid?.get(selectedArena)?.roomLayoutPid
         val time = mutableMapOf<String, String>()
         time["start_at"] = TimeDataModel.start
         time["end_at"] = TimeDataModel.end
@@ -179,7 +143,8 @@ class SetupFragment : Fragment(),
         val date = TimeDataModel.selectDate
 
         // update view model
-        mVm?.currentDate?.value = date
+        tv_date.text = date
+//        mVm?.currentDate?.value = date
     }
 
     @SuppressLint("NewApi")
@@ -200,7 +165,8 @@ class SetupFragment : Fragment(),
         TimeDataModel.setStartAt(timeFrom)
         TimeDataModel.setEndAt(timeTo)
 
-        mVm?.currentTime?.value = time
+        tv_time.text = time
+//        mVm?.currentTime?.value = time
     }
 
     private fun initListeners() {
@@ -223,14 +189,15 @@ class SetupFragment : Fragment(),
         // next button
         next_button.setOnClickListener {
             progressBar.visibility = View.VISIBLE
-            getArenaByTime()
+            getArenaByTime(mArenaPid)
+            onMapShow()
         }
     }
 
     private fun updateSeatInfo(seat: SeatCarousel?) {
-        seatName?.text = seat?.title
-        seatImage?.setImageURI(Uri.parse(seat?.imageUrl))
-        cpuDescription?.text = seat?.description.let { it?.replace(oldValue = "\\", newValue = "") }
+        mSeatName?.text = seat?.title
+        mSeatImage?.setImageURI(Uri.parse(seat?.imageUrl))
+        mCpuDescription?.text = seat?.description.let { it?.replace(oldValue = "\\", newValue = "") }
     }
 
     private fun showDatePickerDialog(v: View) {
