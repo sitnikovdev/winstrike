@@ -28,7 +28,7 @@ class CarouselFragment : Fragment() {
 
     interface OnSeatClickListener {
 
-        fun onSeatClick(seat: SeatCarousel?)
+        fun onCarouselClick(seat: SeatCarousel?)
     }
 
     override fun onAttach(context: Context) {
@@ -65,7 +65,7 @@ class CarouselFragment : Fragment() {
         val seatImage: SimpleDraweeView = view.findViewById(R.id.seat_image_iv)
 
         seatImage.setOnClickListener {
-            mListener.onSeatClick(mSeat)
+            mListener.onCarouselClick(mSeat)
         }
 
         updateSeat(seatImage, seatTitle)

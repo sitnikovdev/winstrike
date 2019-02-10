@@ -85,8 +85,6 @@ class SetupFragment : Fragment(),
         return inflater.inflate(ru.prsolution.winstrike.R.layout.frm_setup, container, false)
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -103,23 +101,33 @@ class SetupFragment : Fragment(),
         }
 
         activity?.let {
+
             // arenaList
             mVm?.arenaList?.observe(it, Observer { response ->
                 this.rooms = response.data
             })
+
+/*
             // mSeat
             mVm?.currentSeat?.observe(it, Observer { seat ->
                 updateSeatInfo(seat)
             })
+*/
+
             // date
             mVm?.currentDate?.observe(it, Observer { date ->
                 tv_date.text = date
             })
+
             // time
             mVm?.currentTime?.observe(it, Observer { time ->
                 tv_time.text = time
             })
+
+           // arena
             mVm?.arena?.observe(it, Observer { arena ->
+
+                // loading
                 arena.state.let { state ->
                     if (state == ResourceState.LOADING) {
                         progressBar.visibility = View.VISIBLE
@@ -127,12 +135,15 @@ class SetupFragment : Fragment(),
                     }
                 }
 
+                // data
                 arena.data?.let {
                     progressBar.visibility = View.INVISIBLE
                     Timber.tag("$$$").d("arena name: ${arena.data.name}")
+                    mVm?.mapArena?.postValue(arena)
                     mListener?.onMapShow()
                 }
 
+                // error
                 arena.message?.let {
                     progressBar.visibility = View.INVISIBLE
                     Timber.tag("$$$").d("error message: $it")
@@ -159,7 +170,7 @@ class SetupFragment : Fragment(),
     }
 
     @SuppressLint("NewApi")
-    override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
+    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
 
         val monthLoc = Month.of(month + 1).getDisplayName(TextStyle.FULL, Locale("RU"))
         val selectedDate = "$day $monthLoc $year"
@@ -172,7 +183,7 @@ class SetupFragment : Fragment(),
     }
 
     @SuppressLint("NewApi")
-    override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
+    override fun onTimeSet(timePicker: TimePicker?, hourOfDay: Int, minute: Int) {
 
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)

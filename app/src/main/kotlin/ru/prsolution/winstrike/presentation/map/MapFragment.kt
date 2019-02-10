@@ -94,7 +94,7 @@ class MapFragment : Fragment() {
         initSnackBar()
 
         activity?.let {
-            mVm?.arena?.observe(it, Observer {
+            mVm?.mapArena?.observe(it, Observer {
                 this.arena = it.data
                 readMap()
             })

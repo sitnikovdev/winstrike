@@ -42,13 +42,15 @@ class MainViewModel : ViewModel() {
     val arenaList = SingleLiveEvent<Resource<List<Arena>>>()
 
     // Выбранная  арена по времени
-    val arena = MutableLiveData<Resource<ArenaSchema?>>()
+//    val arena = MutableLiveData<Resource<ArenaSchema?>>()
+    val arena = SingleLiveEvent<Resource<ArenaSchema?>>()
+    val mapArena = SingleLiveEvent<Resource<ArenaSchema?>>()
 
     // Обновление информации о выбранном месте и времени
     val currentArena = MutableLiveData<String>()
     val currentSeat = SingleLiveEvent<SeatCarousel>()
-    val currentDate = MutableLiveData<String>()
-    val currentTime = MutableLiveData<String>()
+    val currentDate = SingleLiveEvent<String>()
+    val currentTime = SingleLiveEvent<String>()
 
     // Ответ от Яндекс Кассы
     val paymentResponse = SingleLiveEvent<Resource<PaymentResponse>>()

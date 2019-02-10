@@ -22,6 +22,7 @@ import ru.prsolution.winstrike.presentation.map.MapFragment
 import ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.setup.SetupFragment
+import ru.prsolution.winstrike.presentation.setup.SetupFragmentDirections
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import timber.log.Timber
@@ -41,18 +42,11 @@ class MainActivity : AppCompatActivity(),
     private val fm: FragmentManager = supportFragmentManager
 
     override fun onMapShow() {
-/*        Timber.d("On map show mListener")
-        showHome(isVisible = true)
-        bottomNavigation.visibility = View.GONE
-        fm.beginTransaction()
-            .hide(setupFragment)
-            .addToBackStack(null)
-            .attach(mapFragment)
-            .commit()
-        mVm.active.value = mapFragment*/
+        val action = SetupFragmentDirections.nextAction()
+        findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
-    override fun onSeatClick(seat: SeatCarousel?) {
+    override fun onCarouselClick(seat: SeatCarousel?) {
         val action = HomeFragmentDirections.nextAction()
         action.seat = seat
         findNavController(R.id.nav_host_fragment).navigate(action)
