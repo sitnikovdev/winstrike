@@ -63,14 +63,19 @@ class MainActivity : AppCompatActivity(),
         clearData()
         setContentView(R.layout.ac_mainscreen)
         mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        // payment response from map fragment:
         mVm.paymentResponse.observe(this, Observer {
+            // load
             it.state.let { state ->
                 if (state == ResourceState.LOADING) {
                 }
             }
+            // data
             it.data?.let { response ->
                 onPaymentShow(response)
             }
+            // error
             it.message?.let { error ->
                 Timber.tag("$$$").d("message: $error")
                 onPaymentError(error)
@@ -115,6 +120,7 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    // Open Yandex WebView on payment response from MapFragment
     private fun onPaymentShow(payResponse: PaymentResponse) {
         Timber.tag("common").d("Pay successfully: %s", payResponse)
 
@@ -123,7 +129,7 @@ class MainActivity : AppCompatActivity(),
         val testUrl = "https://yandex.ru"
         mVm.redirectUrl.value = testUrl
 
-        Timber.d("On yandex web view show mListener")
+/*        Timber.d("On yandex web view show mListener")
         showHome(isVisible = true)
         bottomNavigation.visibility = View.GONE
         fm.beginTransaction()
@@ -131,7 +137,7 @@ class MainActivity : AppCompatActivity(),
             .addToBackStack(null)
             .attach(yandexFragment)
             .commit()
-        mVm.active.value = yandexFragment
+        mVm.active.value = yandexFragment*/
     }
 
     private fun onPaymentError(error: String) {

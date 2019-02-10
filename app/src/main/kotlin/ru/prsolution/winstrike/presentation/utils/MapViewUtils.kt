@@ -14,9 +14,9 @@ class MapViewUtils() {
             return d
         }
 
-        fun calculateScreenSize(seatSize: Point, seats: List<SeatMap>, mXScaleFactor: Float, mYScaleFactor: Float): Point {
+        fun calculateScreenSize(seatSize: Point, seats: MutableList<SeatMap>?, mXScaleFactor: Float, mYScaleFactor: Float): Point {
             val mSeats = seats
-            val farthestSeat = mSeats.maxWith(Comparator<SeatMap> { p1, p2 ->
+            val farthestSeat = mSeats?.maxWith(Comparator<SeatMap> { p1, p2 ->
                 when {
                     getDist(Point(p1.dx.toInt(),
                                                                                                     p1.dy.toInt())) > getDist(

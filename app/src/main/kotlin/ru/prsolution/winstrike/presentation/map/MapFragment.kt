@@ -94,8 +94,8 @@ class MapFragment : Fragment() {
         initSnackBar()
 
         activity?.let {
-            mVm?.mapArena?.observe(it, Observer {
-                this.arena = it.data
+            mVm?.mapArena?.observe(it, Observer { arena ->
+                this.arena = arena.data
                 readMap()
             })
 /*			mVm?.paymentResponse?.observe(it, Observer {
@@ -143,7 +143,7 @@ class MapFragment : Fragment() {
         val seatBitmap = getBitmap(context, R.drawable.ic_seat_gray)
 
         seatSize.set(seatBitmap.width, seatBitmap.height)
-        val mScreenSize = MapViewUtils.calculateScreenSize(seatSize, arenaMap!!.seats, mXScaleFactor!! + 0.2f,
+        val mScreenSize = MapViewUtils.calculateScreenSize(seatSize, arenaMap?.seats, mXScaleFactor!! + 0.2f,
                                                            mYScaleFactor!! - 1.5f)
 
         val mapLP = mapLayout!!.layoutParams as FrameLayout.LayoutParams
@@ -176,11 +176,11 @@ class MapFragment : Fragment() {
             mapLP.height = mScreenSize.y + 250
             mYScaleFactor = mYScaleFactor!! - 1.5f
         }
-        mapLayout!!.layoutParams = mapLP
+        mapLayout?.layoutParams = mapLP
 
         // Draw seats and numbers
 
-        for (seat in arenaMap.seats) {
+        for (seat in arenaMap?.seats!!) {
 
             val numberTextView = TextView(context)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -200,7 +200,7 @@ class MapFragment : Fragment() {
                 // On seat click mListener
                 this.setOnClickListener(SeatViewOnClickListener(numberTextView, seat, this, seatBitmap,
                                                                 mPickedSeatsIds))
-                mapLayout!!.addView(this)
+                mapLayout?.addView(this)
             }
         }
 
@@ -218,11 +218,11 @@ class MapFragment : Fragment() {
             val dy: Int? = ((label.y?.plus(offsetY))?.times(mYScaleFactor!!))?.toInt()
 
             numberParams = RelativeLayout.LayoutParams(RLW, RLW)
-            numberParams!!.leftMargin = dx!!
-            numberParams!!.topMargin = dy!!
+            numberParams?.leftMargin = dx!!
+            numberParams?.topMargin = dy!!
 
             if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
-                numberParams!!.topMargin = dy - 5
+                numberParams?.topMargin = dy - 5
             }
 
             val textView = TextView(context)
@@ -234,15 +234,15 @@ class MapFragment : Fragment() {
             }
 
             textView.layoutParams = numberParams
-            mapLayout!!.addView(textView)
+            mapLayout?.addView(textView)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        snackLayout!!.setOnClickListener(null)
-        for (i in 0 until mapLayout!!.childCount) {
-            val v = mapLayout!!.getChildAt(i)
+        snackLayout?.setOnClickListener(null)
+        for (i in 0 until mapLayout?.childCount!!) {
+            val v = mapLayout?.getChildAt(i)
             if (v is ImageView) {
                 v.setOnClickListener(null)
             }
@@ -272,9 +272,9 @@ class MapFragment : Fragment() {
 
     private fun onPickedSeatChanged() {
         if (!mPickedSeatsIds.isEmpty()) {
-            snackbar!!.show()
+            snackbar?.show()
         } else {
-            snackbar!!.dismiss()
+            snackbar?.dismiss()
         }
     }
 
@@ -318,8 +318,8 @@ class MapFragment : Fragment() {
 
     private fun setSeat(seatBitmap: Bitmap, seat: SeatMap, ivSeat: ImageView) {
         seatParams = RelativeLayout.LayoutParams(RLW, RLW)
-        seatParams!!.leftMargin = ((seat.dx.minus(0)) * mXScaleFactor!!).toInt()
-        seatParams!!.topMargin = ((seat.dy.plus(0)) * mYScaleFactor!!).toInt()
+        seatParams?.leftMargin = ((seat.dx.minus(0)) * mXScaleFactor!!).toInt()
+        seatParams?.topMargin = ((seat.dy.plus(0)) * mYScaleFactor!!).toInt()
 
         val angle = radianToDegrees(seat)
 // 		Timber.tag("@@@").d("name: ${seat.name} -  angle: $angle")
@@ -363,7 +363,7 @@ class MapFragment : Fragment() {
             if (Utils.validateDate(timeFrom, timeTo)) {
                 onPaymentRequest()
             } else {
-                toast(activity!!.resources.getString(R.string.toast_wrong_range))
+                activity?.resources?.getString(R.string.toast_wrong_range)?.let { toast(it) }
             }
         }
     }
@@ -435,10 +435,10 @@ class MapFragment : Fragment() {
                     seatNumber.setTextColor(Color.WHITE)
                     seatNumber.setTypeface(null, Typeface.BOLD)
                 } else {
-                    mapLayout!!.removeView(ivSeat)
+                    mapLayout?.removeView(ivSeat)
                     setImage(ivSeat, seat)
                     setSeat(seatBitmap, seat, ivSeat)
-                    mapLayout!!.addView(ivSeat)
+                    mapLayout?.addView(ivSeat)
                     seat.pid?.let { onSelectSeat(seat.id, true, it) }
                     seatNumber.setTextColor(ContextCompat.getColor(activity!!, R.color.label_gray))
                 }
@@ -453,48 +453,48 @@ class MapFragment : Fragment() {
     // TODO: remove this Map actions block:
     private fun dlgMapLegend() {
         mDlgMapLegend = Dialog(activity, android.R.style.Theme_Dialog)
-        mDlgMapLegend!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        mDlgMapLegend!!.setContentView(R.layout.dlg_legend)
-        val tvSee = mDlgMapLegend!!.findViewById<TextView>(R.id.tv_see)
+        mDlgMapLegend?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        mDlgMapLegend?.setContentView(R.layout.dlg_legend)
+        val tvSee = mDlgMapLegend?.findViewById<TextView>(R.id.tv_see)
 
-        tvSee.setOnClickListener { mDlgMapLegend!!.dismiss() }
+        tvSee?.setOnClickListener { mDlgMapLegend?.dismiss() }
 
-        mDlgMapLegend!!.setCanceledOnTouchOutside(true)
-        mDlgMapLegend!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        mDlgMapLegend!!.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        val window = mDlgMapLegend!!.window
-        val wlp = window!!.attributes
+        mDlgMapLegend?.setCanceledOnTouchOutside(true)
+        mDlgMapLegend?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mDlgMapLegend?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val window = mDlgMapLegend?.window
+        val wlp = window?.attributes
 
-        wlp.gravity = Gravity.TOP
-        wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
-        wlp.y = Constants.LEGEND_MAP_TOP_MARGIN
-        window.attributes = wlp
+        wlp?.gravity = Gravity.TOP
+        wlp?.flags = wlp?.flags?.and(WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv())
+        wlp?.y = Constants.LEGEND_MAP_TOP_MARGIN
+        window?.attributes = wlp
 
-        mDlgMapLegend!!.setCanceledOnTouchOutside(false)
-        mDlgMapLegend!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-        mDlgMapLegend!!.dismiss()
+        mDlgMapLegend?.setCanceledOnTouchOutside(false)
+        mDlgMapLegend?.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        mDlgMapLegend?.dismiss()
     }
 
     private fun initSnackBar() {
         snackbar = Snackbar.make(mapLayout!!, "", Snackbar.LENGTH_INDEFINITE)
-        snackbar!!.view.setBackgroundColor(Color.TRANSPARENT)
-        snackbar!!.view.setBackgroundResource(R.drawable.btn_bukking)
+        snackbar?.view?.setBackgroundColor(Color.TRANSPARENT)
+        snackbar?.view?.setBackgroundResource(R.drawable.btn_bukking)
         val layoutInflater = this.layoutInflater
         val snackView = layoutInflater.inflate(R.layout.my_snackbar, null)
-        snackLayout = snackbar!!.view as Snackbar.SnackbarLayout
-        snackLayout!!.addView(snackView)
-        snackLayout!!.setOnClickListener(BookingBtnListener())
-        snackbar!!.dismiss()
+        snackLayout = snackbar?.view as Snackbar.SnackbarLayout
+        snackLayout?.addView(snackView)
+        snackLayout?.setOnClickListener(BookingBtnListener())
+        snackbar?.dismiss()
     }
 
     override fun onStop() {
         super.onStop()
-        snackbar!!.dismiss()
+        snackbar?.dismiss()
     }
 
     override fun onStart() {
         super.onStart()
-        snackbar!!.dismiss()
+        snackbar?.dismiss()
     }
 
     fun onPaymentRequest() {
