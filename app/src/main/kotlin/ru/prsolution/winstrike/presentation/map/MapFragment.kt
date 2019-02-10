@@ -69,7 +69,6 @@ class MapFragment : Fragment() {
     var mYScaleFactor: Float? = null
 
     var mVm: MainViewModel? = null
-    private var mArenaMap: ArenaMap? = null
     private var arena: ArenaSchema? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -132,13 +131,11 @@ class MapFragment : Fragment() {
     private fun initMap() {
         requireNotNull(arena) { "++++ RoomLayoutFactory must be init. ++++" }
 
-//        val arenaMap = ArenaMap(arena)
 
         rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
 
         requireNotNull(mapLayout) { "++++ Map Fragment root layout must not be null. ++++" }
 
-//        this.mArenaMap = arenaMap
 
         drawSeat(ArenaMap(arena))
     }
@@ -149,73 +146,30 @@ class MapFragment : Fragment() {
 
         val schema = arenaMap?.arenaSchema
 
-        mXScaleFactor = width / 358
-        mYScaleFactor = height / 421
-
-        when (schema) {
-            ArenaSchemaName.WINSTRIKE -> {
-                mXScaleFactor = (width / 358) * 1
-                mYScaleFactor = (height / 421) * 1.5f
-            }
-            else -> {
-                mXScaleFactor = width / 358
-                mYScaleFactor = height / 421
-            }
-        }
+        calculateMapSize(schema)
 
         val seatSize = Point()
 
         val seatBitmap = getBitmap(requireContext(), R.drawable.ic_seat_gray)
 
         seatSize.set(seatBitmap.width, seatBitmap.height)
+
         val mScreenSize = MapViewUtils.calculateScreenSize(
             seatSize, arenaMap?.seats, mXScaleFactor!! + 0.2f,
             mYScaleFactor!! - 1.5f
         )
 
-        val mapLP = mapLayout!!.layoutParams as FrameLayout.LayoutParams
-        mapLP.setMargins(-65, -80, 100, 80)
 
         // Calculate  width and height for different Android screen sizes
 
-        when {
-            height <= Constants.SCREEN_HEIGHT_PX_1280 -> {
-                mapLP.width = mScreenSize.x
-                mapLP.height = mScreenSize.y + 250
-                mYScaleFactor = mYScaleFactor!! - 1.5f
-            }
-            height <= Constants.SCREEN_HEIGHT_PX_1920 -> {
-                mapLP.setMargins(-35, -80, 100, 80)
-                mapLP.width = mScreenSize.x
-                mapLP.height = mScreenSize.y + 380
-                mYScaleFactor = mYScaleFactor!! - 2.0f
-            }
-            height <= Constants.SCREEN_HEIGHT_PX_2560 -> { // Samsung GX-7
-                mapLP.width = mScreenSize.x
-                mapLP.height = mScreenSize.y + 150
-                mYScaleFactor = mYScaleFactor!! - 3f
-                if (schema == ArenaSchemaName.WINSTRIKE) {
-                    mapLP.height = mScreenSize.y + 850
-                    mapLP.width = mScreenSize.x + 500
-                    mYScaleFactor = mYScaleFactor!! - 0f
-                    mXScaleFactor = mXScaleFactor!! - 0.2f
-                    mapLP.setMargins(0, -250, 0, 80)
-                }
-            }
-            else -> {
-                mapLP.width = mScreenSize.x
-                mapLP.height = mScreenSize.y + 250
-                mYScaleFactor = mYScaleFactor!! - 1.5f
-            }
-        }
-
-        mapLayout?.layoutParams = mapLP
+        calculateMapLayout(mScreenSize, schema)
 
         // Draw seats and numbers
 
         for (seat in arenaMap?.seats!!) {
 
             val numberTextView = TextView(context)
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 numberTextView.setTextAppearance(R.style.StemRegular10Gray)
             } else {
@@ -226,8 +180,11 @@ class MapFragment : Fragment() {
 
             // Visualize seat
             ImageView(context).apply {
+
                 setImage(this, seat)
+
                 setSeat(seatBitmap, seat, this)
+
                 this.layoutParams = seatParams
 
                 // On seat click mListener
@@ -237,6 +194,7 @@ class MapFragment : Fragment() {
                         mPickedSeatsIds
                     )
                 )
+
                 mapLayout?.addView(this)
             }
         }
@@ -272,6 +230,67 @@ class MapFragment : Fragment() {
 
             textView.layoutParams = numberParams
             mapLayout?.addView(textView)
+        }
+    }
+
+    private fun calculateMapLayout(
+        mScreenSize: Point,
+        schema: ArenaSchemaName?
+    ) {
+        val mapLP = mapLayout?.layoutParams as FrameLayout.LayoutParams
+        mapLP.setMargins(-65, -80, 100, 80)
+        when {
+
+            height <= Constants.SCREEN_HEIGHT_PX_1280 -> {
+                mapLP.width = mScreenSize.x
+                mapLP.height = mScreenSize.y + 250
+                mYScaleFactor = mYScaleFactor!! - 1.5f
+            }
+
+            height <= Constants.SCREEN_HEIGHT_PX_1920 -> {
+                mapLP.setMargins(-35, -80, 100, 80)
+                mapLP.width = mScreenSize.x
+                mapLP.height = mScreenSize.y + 380
+                mYScaleFactor = mYScaleFactor!! - 2.0f
+            }
+
+            height <= Constants.SCREEN_HEIGHT_PX_2560 -> { // Samsung GX-7
+                mapLP.width = mScreenSize.x
+                mapLP.height = mScreenSize.y + 150
+                mYScaleFactor = mYScaleFactor!! - 3f
+
+                if (schema == ArenaSchemaName.WINSTRIKE) {
+                    mapLP.height = mScreenSize.y + 850
+                    mapLP.width = mScreenSize.x + 500
+                    mYScaleFactor = mYScaleFactor!! - 0f
+                    mXScaleFactor = mXScaleFactor!! - 0.2f
+                    mapLP.setMargins(0, -250, 0, 80)
+                }
+            }
+
+            else -> {
+                mapLP.width = mScreenSize.x
+                mapLP.height = mScreenSize.y + 250
+                mYScaleFactor = mYScaleFactor!! - 1.5f
+            }
+        }
+
+        mapLayout?.layoutParams = mapLP
+    }
+
+    private fun calculateMapSize(schema: ArenaSchemaName?) {
+        mXScaleFactor = width / 358
+        mYScaleFactor = height / 421
+
+        when (schema) {
+            ArenaSchemaName.WINSTRIKE -> {
+                mXScaleFactor = (width / 358) * 1
+                mYScaleFactor = (height / 421) * 1.5f
+            }
+            else -> {
+                mXScaleFactor = width / 358
+                mYScaleFactor = height / 421
+            }
         }
     }
 
