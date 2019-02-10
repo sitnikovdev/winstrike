@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
@@ -50,28 +49,14 @@ class SetupFragment : Fragment(),
     /**
      * route show map to main presenter in MainScreenActivity
      */
-///*    interface MapShowListener {
-//        fun onMapShow()
-//    }*/
-//
-//    var mListener: MapShowListener? = null
     var mVm: MainViewModel? = null
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-//        require(context is MapShowListener) { "++++ Must implements SetupFragment.MapShowListener. +++" }
-//        mListener = context
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-//        mListener = null
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
 
+        // Get list of arenas
         if (savedInstanceState == null) {
             mVm?.getArenaList()
         }
@@ -96,18 +81,6 @@ class SetupFragment : Fragment(),
             updateSeatInfo(safeArgs.seat)
         }
 
-        activity?.let {
-
-            // arenaList
-/*
-            mVm?.arenaPid?.observe(it, Observer { response ->
-                this.mArenaPid = response
-                Timber.d(mArenaPid)
-            })
-*/
-
-        }
-
         initListeners()
     }
 
@@ -124,8 +97,6 @@ class SetupFragment : Fragment(),
             toast("Не указана дата")
             return
         }
-        // get active mArenaPid pid
-//        val activePid = mArenaPid?.get(selectedArena)?.roomLayoutPid
         val time = mutableMapOf<String, String>()
         time["start_at"] = TimeDataModel.start
         time["end_at"] = TimeDataModel.end
@@ -144,7 +115,6 @@ class SetupFragment : Fragment(),
 
         // update view model
         tv_date.text = date
-//        mVm?.currentDate?.value = date
     }
 
     @SuppressLint("NewApi")
@@ -166,7 +136,6 @@ class SetupFragment : Fragment(),
         TimeDataModel.setEndAt(timeTo)
 
         tv_time.text = time
-//        mVm?.currentTime?.value = time
     }
 
     private fun initListeners() {

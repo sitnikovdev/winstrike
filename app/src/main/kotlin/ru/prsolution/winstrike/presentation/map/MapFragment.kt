@@ -70,7 +70,6 @@ class MapFragment : Fragment() {
 
     var mVm: MainViewModel? = null
     private var mArenaMap: ArenaMap? = null
-    private var tvDivParam: RelativeLayout.LayoutParams? = null
     private var arena: ArenaSchema? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,18 +90,10 @@ class MapFragment : Fragment() {
 		presenter!!.initScreen()
 		presenter!!.readMap()*/
 
-        arguments?.let {
-            //            val safeArgs =
-        }
-
         mapLayout = view.findViewById(R.id.rootMap)
         initSnackBar()
 
         activity?.let {
-            mVm?.mapArena?.observe(it, Observer { arena ->
-                /*                this.arena = arena.data
-                                readMap()*/
-            })
 
             // mArenaPid
             mVm?.arena?.observe(it, Observer { arena ->
@@ -118,9 +109,6 @@ class MapFragment : Fragment() {
                 // data
                 arena.data?.let {
                     //                    progressBar.visibility = View.INVISIBLE
-                    Timber.tag("$$$").d("mArenaPid name: ${arena.data.name}")
-//                    mVm?.mapArena?.postValue(arena)
-//                    onMapShow(arena.data)
                     this.arena = arena.data
                     readMap()
                 }
@@ -174,7 +162,7 @@ class MapFragment : Fragment() {
 
         val seatSize = Point()
 
-        val seatBitmap = getBitmap(context, R.drawable.ic_seat_gray)
+        val seatBitmap = getBitmap(activity, R.drawable.ic_seat_gray)
 
         seatSize.set(seatBitmap.width, seatBitmap.height)
         val mScreenSize = MapViewUtils.calculateScreenSize(

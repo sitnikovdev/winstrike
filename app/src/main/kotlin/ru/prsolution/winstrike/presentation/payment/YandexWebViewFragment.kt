@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.fragment_yandex_web_view.pbar
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import timber.log.Timber
@@ -22,6 +22,7 @@ class YandexWebViewFragment : Fragment() {
     private var mWebView: WebView? = null
     private var url: String? = null
     private var mVm: MainViewModel? = null
+    private var progressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +34,15 @@ class YandexWebViewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_yandex_web_view, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pbar.visibility = View.VISIBLE
+        progressBar = view.findViewById(R.id.progressBar)
+        progressBar?.visibility = View.VISIBLE
 
         arguments?.let {
             val safeArgs = YandexWebViewFragmentArgs.fromBundle(it)
@@ -64,7 +67,7 @@ class YandexWebViewFragment : Fragment() {
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            pbar.visibility = View.GONE
+            progressBar?.visibility = View.GONE
         }
 
         override fun onLoadResource(view: WebView, url: String) {

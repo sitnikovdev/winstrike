@@ -87,6 +87,7 @@ class HomeFragment : Fragment()
         mVm.arenaList.observe(this, Observer { resource ->
             resource.let {
                 it?.data?.let { arenaListAdapter.submitList(it) }
+                // TODO: save it in preferences
                 mArena = resource?.data?.get(selectedArena)
 //                mVm.arenaPid.postValue(mArena?.activeLayoutPid)
 //                this.mArenaPid = mArena?.activeLayoutPid

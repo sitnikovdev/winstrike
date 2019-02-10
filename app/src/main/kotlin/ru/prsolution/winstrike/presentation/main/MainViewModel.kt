@@ -35,8 +35,6 @@ class MainViewModel : ViewModel() {
 
     // Выбранная  арена по времени
     val arena = SingleLiveEvent<Resource<ArenaSchema?>>()
-    val mapArena = SingleLiveEvent<Resource<ArenaSchema?>>()
-    val arenaPid = SingleLiveEvent<String?>()
 
     // Ответ от Яндекс Кассы
     val paymentResponse = SingleLiveEvent<Resource<PaymentResponse>>()
