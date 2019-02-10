@@ -88,7 +88,7 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 /*		this.presenter = MapPresenter(service, this)
 		presenter!!.initScreen()
-		presenter!!.readMap()*/
+		presenter!!.initMap()*/
 
         mapLayout = view.findViewById(R.id.rootMap)
         initSnackBar()
@@ -110,7 +110,10 @@ class MapFragment : Fragment() {
                 arena.data?.let {
                     //                    progressBar.visibility = View.INVISIBLE
                     this.arena = arena.data
-                    readMap()
+                    activity?.let {
+                        if (isAdded)
+                            initMap()
+                    }
                 }
 
                 // error
@@ -126,20 +129,22 @@ class MapFragment : Fragment() {
         }
     }
 
-    private fun readMap() {
+    private fun initMap() {
         requireNotNull(arena) { "++++ RoomLayoutFactory must be init. ++++" }
 
         val arenaMap = ArenaMap(arena)
+
         rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
+
         requireNotNull(mapLayout) { "++++ Map Fragment root layout must not be null. ++++" }
 
-        showSeat(arenaMap)
-    }
+//        showSeat(arenaMap)
 
-    private fun showSeat(arenaMap: ArenaMap) {
         this.mArenaMap = arenaMap
+
         drawSeat(mArenaMap)
     }
+
 
     // TODO: Move this code in Interactor
     private fun drawSeat(arenaMap: ArenaMap?) {
@@ -162,7 +167,7 @@ class MapFragment : Fragment() {
 
         val seatSize = Point()
 
-        val seatBitmap = getBitmap(activity, R.drawable.ic_seat_gray)
+        val seatBitmap = getBitmap(requireContext(), R.drawable.ic_seat_gray)
 
         seatSize.set(seatBitmap.width, seatBitmap.height)
         val mScreenSize = MapViewUtils.calculateScreenSize(
@@ -175,31 +180,37 @@ class MapFragment : Fragment() {
 
         // Calculate  width and height for different Android screen sizes
 
-        if (height <= Constants.SCREEN_HEIGHT_PX_1280) {
-            mapLP.width = mScreenSize.x
-            mapLP.height = mScreenSize.y + 250
-            mYScaleFactor = mYScaleFactor!! - 1.5f
-        } else if (height <= Constants.SCREEN_HEIGHT_PX_1920) {
-            mapLP.setMargins(-35, -80, 100, 80)
-            mapLP.width = mScreenSize.x
-            mapLP.height = mScreenSize.y + 380
-            mYScaleFactor = mYScaleFactor!! - 2.0f
-        } else if (height <= Constants.SCREEN_HEIGHT_PX_2560) { // Samsung GX-7
-            mapLP.width = mScreenSize.x
-            mapLP.height = mScreenSize.y + 150
-            mYScaleFactor = mYScaleFactor!! - 3f
-            if (schema == ArenaSchemaName.WINSTRIKE) {
-                mapLP.height = mScreenSize.y + 850
-                mapLP.width = mScreenSize.x + 500
-                mYScaleFactor = mYScaleFactor!! - 0f
-                mXScaleFactor = mXScaleFactor!! - 0.2f
-                mapLP.setMargins(0, -250, 0, 80)
+        when {
+            height <= Constants.SCREEN_HEIGHT_PX_1280 -> {
+                mapLP.width = mScreenSize.x
+                mapLP.height = mScreenSize.y + 250
+                mYScaleFactor = mYScaleFactor!! - 1.5f
             }
-        } else {
-            mapLP.width = mScreenSize.x
-            mapLP.height = mScreenSize.y + 250
-            mYScaleFactor = mYScaleFactor!! - 1.5f
+            height <= Constants.SCREEN_HEIGHT_PX_1920 -> {
+                mapLP.setMargins(-35, -80, 100, 80)
+                mapLP.width = mScreenSize.x
+                mapLP.height = mScreenSize.y + 380
+                mYScaleFactor = mYScaleFactor!! - 2.0f
+            }
+            height <= Constants.SCREEN_HEIGHT_PX_2560 -> { // Samsung GX-7
+                mapLP.width = mScreenSize.x
+                mapLP.height = mScreenSize.y + 150
+                mYScaleFactor = mYScaleFactor!! - 3f
+                if (schema == ArenaSchemaName.WINSTRIKE) {
+                    mapLP.height = mScreenSize.y + 850
+                    mapLP.width = mScreenSize.x + 500
+                    mYScaleFactor = mYScaleFactor!! - 0f
+                    mXScaleFactor = mXScaleFactor!! - 0.2f
+                    mapLP.setMargins(0, -250, 0, 80)
+                }
+            }
+            else -> {
+                mapLP.width = mScreenSize.x
+                mapLP.height = mScreenSize.y + 250
+                mYScaleFactor = mYScaleFactor!! - 1.5f
+            }
         }
+
         mapLayout?.layoutParams = mapLP
 
         // Draw seats and numbers
@@ -268,7 +279,11 @@ class MapFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        // Clear listeners
+
         snackLayout?.setOnClickListener(null)
+
         for (i in 0 until mapLayout?.childCount!!) {
             val v = mapLayout?.getChildAt(i)
             if (v is ImageView) {
@@ -433,21 +448,17 @@ class MapFragment : Fragment() {
         val canvas = Canvas(bitmap)
         vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
         vectorDrawable.draw(canvas)
-        Timber.d("getBitmap: 1")
         return bitmap
     }
 
     private fun getBitmap(context: Context?, drawableId: Int?): Bitmap {
-        Timber.d("getBitmap: 2")
         val drawable = ContextCompat.getDrawable(context!!, drawableId!!)
         val bitmap: Bitmap
 
-        if (drawable is BitmapDrawable) {
-            return BitmapFactory.decodeResource(context.resources, drawableId)
-        } else if (drawable is VectorDrawable) {
-            bitmap = getBitmap((drawable as VectorDrawable?)!!)
-        } else {
-            throw IllegalArgumentException("unsupported drawable type")
+        when (drawable) {
+            is BitmapDrawable -> return BitmapFactory.decodeResource(context.resources, drawableId)
+            is VectorDrawable -> bitmap = getBitmap((drawable as VectorDrawable?)!!)
+            else -> throw IllegalArgumentException("unsupported drawable type")
         }
         return bitmap
     }

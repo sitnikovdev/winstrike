@@ -159,6 +159,7 @@ class SetupFragment : Fragment(),
         next_button.setOnClickListener {
             progressBar.visibility = View.VISIBLE
             getArenaByTime(mArenaPid)
+            activity?.supportFragmentManager?.executePendingTransactions()
             onMapShow()
         }
     }
