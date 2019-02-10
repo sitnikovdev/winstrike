@@ -132,17 +132,15 @@ class MapFragment : Fragment() {
     private fun initMap() {
         requireNotNull(arena) { "++++ RoomLayoutFactory must be init. ++++" }
 
-        val arenaMap = ArenaMap(arena)
+//        val arenaMap = ArenaMap(arena)
 
         rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
 
         requireNotNull(mapLayout) { "++++ Map Fragment root layout must not be null. ++++" }
 
-//        showSeat(arenaMap)
+//        this.mArenaMap = arenaMap
 
-        this.mArenaMap = arenaMap
-
-        drawSeat(mArenaMap)
+        drawSeat(ArenaMap(arena))
     }
 
 
