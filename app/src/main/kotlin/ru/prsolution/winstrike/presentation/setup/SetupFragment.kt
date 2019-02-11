@@ -102,44 +102,36 @@ class SetupFragment : Fragment(),
             updateSeatInfo(safeArgs.seat)
         }
 
-        activity?.let {
 
-            // mArenaPid
-            mVm?.arena?.observe(it, Observer { arena ->
+        // mArenaPid
+        mVm?.arena?.observe(this@SetupFragment, Observer { arena ->
 
-                // loading
-                arena.state.let { state ->
-                    if (state == ResourceState.LOADING) {
+            // loading
+            arena.state.let { state ->
+                if (state == ResourceState.LOADING) {
 //                        progressBar.visibility = View.VISIBLE
-                        Timber.tag("$$$").d("status is: $it")
-                    }
+//                        Timber.tag("$$$").d("status is: $it")
                 }
+            }
 
-                // data
-                arena.data?.let {
-                    //                    progressBar.visibility = View.INVISIBLE
-                    this.mArena = arena.data
-                    mArena?.let {
-                        val action = SetupFragmentDirections.nextAction(mArena)
-                        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
-                    }
-                    activity?.let {
-                        /*                        if (isAdded) {
-                                                    initMap()
-                                                } else {
-                                                    Timber.d("Fragment is not added!!!")
-                                                }*/
-                    }
+            // data
+            arena.data?.let {
+                //                    progressBar.visibility = View.INVISIBLE
+                this.mArena = arena.data
+                mArena?.let {
+                    require(isAdded) { "+++ SetupFragment not attached to an activity. +++" }
+                    val action = SetupFragmentDirections.nextAction(mArena)
+                    Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
                 }
+            }
 
-                // error
-                arena.message?.let {
-                    //                    progressBar.visibility = View.INVISIBLE
-                    Timber.tag("$$$").d("error message: $it")
-                }
-            })
+            // error
+            arena.message?.let {
+                //                    progressBar.visibility = View.INVISIBLE
+                Timber.tag("$$$").d("error message: $it")
+            }
+        })
 
-        }
 
         initListeners()
     }

@@ -12,17 +12,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.ac_mainscreen.*
-import org.jetbrains.anko.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.SeatCarousel
-import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
-import ru.prsolution.winstrike.presentation.map.MapFragmentDirections
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
-import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity(),
     CarouselFragment.OnSeatClickListener {
@@ -34,15 +29,6 @@ class MainActivity : AppCompatActivity(),
     private var mArenaPid: String = ""
     val EXIT_DURATION = 1L
     val ENTER_DURATION = 1L
-
-    // Open Yandex WebView on payment response from MapFragment
-    private fun onPaymentShow(payResponse: PaymentResponse) {
-        // TODO: Show progress bar when load web view.
-        val url = payResponse.redirectUrl
-        val testUrl = "https://yandex.ru"
-        val action = MapFragmentDirections.nextAction(testUrl)
-        findNavController(R.id.nav_host_fragment).navigate(action)
-    }
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
@@ -94,24 +80,6 @@ class MainActivity : AppCompatActivity(),
         })
 
 
-        // payment response from map fragment:
-        mVm.paymentResponse.observe(this, Observer {
-            // load
-            it.state.let { state ->
-                if (state == ResourceState.LOADING) {
-                }
-            }
-            // data
-            it.data?.let { response ->
-                onPaymentShow(response)
-            }
-            // error
-            it.message?.let { error ->
-                Timber.tag("$$$").d("message: $error")
-                onPaymentError(error)
-            }
-        })
-
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -147,15 +115,6 @@ class MainActivity : AppCompatActivity(),
         } else {
             toolbar.navigationIcon = null
             toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
-        }
-    }
-
-    private fun onPaymentError(error: String) {
-        TimeDataModel.pids.clear()
-        if (error.contains("different time")) {
-            toast("Не удается забронировать место на указанный интервал времени.")
-        } else {
-            toast("Не удается забронировать место.")
         }
     }
 

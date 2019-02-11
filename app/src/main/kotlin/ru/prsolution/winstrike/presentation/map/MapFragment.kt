@@ -26,7 +26,9 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
@@ -38,17 +40,23 @@ import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.SeatMap
 import ru.prsolution.winstrike.domain.models.SeatType
 import ru.prsolution.winstrike.domain.payment.PaymentModel
+import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import timber.log.Timber
 import java.util.LinkedHashMap
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Created by oleg 24.01.2019
  */
 class MapFragment : Fragment() {
+
+    //TODO: fix it
+    private val pending = AtomicBoolean(false)
 
     private var mDlgMapLegend: Dialog? = null
     var mapLayout: RelativeLayout? = null
@@ -124,12 +132,34 @@ class MapFragment : Fragment() {
             initMap()
         }
 
-        activity?.let {
+        // payment response from map fragment:
+        mVm?.paymentResponse?.observe(this@MapFragment, Observer {
+            // load
+            it.state.let { state ->
+                if (state == ResourceState.LOADING) {
+                }
+            }
+            // data
+            it.data?.let { response ->
+                // TODO: call twice!!! fix it!!!
+                if (pending.compareAndSet(true, false)) {
+                    Timber.tag("$$$").d("already pending")
+                } else {
+                    onPaymentShow(response)
+                    pending.set(true)
+                }
+            }
+            // error
+            it.message?.let { error ->
+                Timber.tag("$$$").d("message: $error")
+                onPaymentError(error)
+            }
+        })
+
 
 /*			mVm?.paymentResponse?.observe(it, Observer {
 				it.data?.let { response -> onGetPaymentResponseSuccess(response) }
 			})*/
-        }
     }
 
     private fun initMap() {
@@ -564,6 +594,17 @@ class MapFragment : Fragment() {
         snackbar?.dismiss()
     }
 
+    // Open Yandex WebView on payment response from MapFragment
+    private fun onPaymentShow(payResponse: PaymentResponse) {
+        // TODO: Show progress bar when load web view.
+        val url = payResponse.redirectUrl
+        val testUrl = "https://yandex.ru"
+        val action = MapFragmentDirections.nextAction(testUrl)
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+//        findNavController(R.id.nav_host_fragment).navigate(action)
+    }
+
+
     fun onPaymentRequest() {
         val payModel = PaymentModel()
 
@@ -577,4 +618,14 @@ class MapFragment : Fragment() {
         TimeDataModel.pids.clear()
         snackbar?.dismiss()
     }
+
+    private fun onPaymentError(error: String) {
+        TimeDataModel.pids.clear()
+        if (error.contains("different time")) {
+            toast("Не удается забронировать место на указанный интервал времени.")
+        } else {
+            toast("Не удается забронировать место.")
+        }
+    }
+
 }
