@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,7 @@ import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.facebook.drawee.view.SimpleDraweeView
@@ -30,9 +32,13 @@ import kotlinx.android.synthetic.main.frm_setup.v_date_tap
 import kotlinx.android.synthetic.main.frm_setup.v_time_tap
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
+import timber.log.Timber
 import java.time.Month
 import java.time.format.TextStyle
 import java.util.Locale
@@ -45,6 +51,7 @@ class SetupFragment : Fragment(),
     private var mSeatName: TextView? = null
     private var mCpuDescription: TextView? = null
     private var mSeatImage: SimpleDraweeView? = null
+    private var mArena: ArenaSchema? = null
 
     /**
      * route show map to main presenter in MainScreenActivity
@@ -52,13 +59,27 @@ class SetupFragment : Fragment(),
     var mVm: MainViewModel? = null
 
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (isAdded) {
+            Timber.d("fragment is added")
+        } else {
+            Timber.d("fragment is not added")
+        }
+        if (context != null) {
+            Timber.d("on Attach context not null")
+        } else {
+            Timber.d("on Attach context is null")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
 
         // Get list of arenas
         if (savedInstanceState == null) {
-            mVm?.getArenaList()
+//            mVm?.getArenaList()
         }
     }
 
@@ -81,13 +102,55 @@ class SetupFragment : Fragment(),
             updateSeatInfo(safeArgs.seat)
         }
 
+        activity?.let {
+
+            // mArenaPid
+            mVm?.arena?.observe(it, Observer { arena ->
+
+                // loading
+                arena.state.let { state ->
+                    if (state == ResourceState.LOADING) {
+//                        progressBar.visibility = View.VISIBLE
+                        Timber.tag("$$$").d("status is: $it")
+                    }
+                }
+
+                // data
+                arena.data?.let {
+                    //                    progressBar.visibility = View.INVISIBLE
+                    this.mArena = arena.data
+                    mArena?.let {
+                        val action = SetupFragmentDirections.nextAction(mArena)
+                        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+                    }
+                    activity?.let {
+                        /*                        if (isAdded) {
+                                                    initMap()
+                                                } else {
+                                                    Timber.d("Fragment is not added!!!")
+                                                }*/
+                    }
+                }
+
+                // error
+                arena.message?.let {
+                    //                    progressBar.visibility = View.INVISIBLE
+                    Timber.tag("$$$").d("error message: $it")
+                }
+            })
+
+        }
+
         initListeners()
     }
 
     // Show map fragment after user select date and time in SetupFragment
     private fun onMapShow() {
-        val action = SetupFragmentDirections.nextAction()
-        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+        mVm?.getArenaList()
+/*        mArena?.let {
+            val action = SetupFragmentDirections.nextAction()
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+        }*/
     }
 
     private fun getArenaByTime(activePid: String?) {

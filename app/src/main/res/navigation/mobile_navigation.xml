@@ -49,6 +49,8 @@
               android:label="MapFragment">
         <action android:id="@+id/next_action"
                 app:destination="@id/navigation_yandex"/>
+        <argument android:name="arena" app:argType="ru.prsolution.winstrike.domain.models.ArenaSchema"
+                  app:nullable="true"/>
     </fragment>
 
     <!--Yandex WebView-->

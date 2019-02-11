@@ -1,6 +1,7 @@
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
 
 plugins {
     id("com.android.application")
@@ -14,6 +15,12 @@ plugins {
     id("org.jmailen.kotlinter") version "1.21.0"
 }
 
+
+androidExtensions {
+    configure(delegateClosureOf<AndroidExtensionsExtension> {
+        isExperimental = true
+    })
+}
 
 android {
     compileSdkVersion(Android.compileSdkVersion)

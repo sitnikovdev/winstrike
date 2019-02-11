@@ -1,14 +1,21 @@
 package ru.prsolution.winstrike.domain.models
 
-class ArenaSchema(
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
+
+
+// TODO: Use another solution for this instead Parcelable
+@Parcelize
+data class ArenaSchema(
     val name: String? = null,
     val roomPid: String? = null,
     val createAt: String? = null,
     val publicId: String? = null,
-    val seats: List<Seat>? = null,
-    val walls: List<Wall>? = null,
-    val labels: List<Label>? = null
-)
+    val seats: @RawValue List<Seat>? = null,
+    val walls: @RawValue List<Wall>? = null,
+    val labels: @RawValue List<Label>? = null
+) : Parcelable
 
 class Seat(
     val offerPid: String? = null,

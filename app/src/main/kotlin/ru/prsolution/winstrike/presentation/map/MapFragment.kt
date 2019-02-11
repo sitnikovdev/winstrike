@@ -26,8 +26,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
@@ -43,7 +41,6 @@ import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 import timber.log.Timber
 import java.util.LinkedHashMap
 
@@ -69,18 +66,36 @@ class MapFragment : Fragment() {
     var mYScaleFactor: Float? = null
 
     var mVm: MainViewModel? = null
-    private var arena: ArenaSchema? = null
+    private var mArena: ArenaSchema? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dlgMapLegend()
 
-        mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
+//        mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.frm_map, container, false)
+    }
+
+    private var mContext: Context? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (isAdded) {
+            Timber.d("fragment is added")
+        } else {
+            Timber.d("fragment is not added")
+        }
+        if (context != null) {
+            Timber.d("on Attach context not null")
+            this.mContext = context
+        } else {
+            Timber.d("on Attach context is null")
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,35 +107,23 @@ class MapFragment : Fragment() {
         mapLayout = view.findViewById(R.id.rootMap)
         initSnackBar()
 
+
+        arguments?.let {
+            val safeArgs = MapFragmentArgs.fromBundle(it)
+            this.mArena = safeArgs.arena
+        }
+
+        if (isAdded) {
+            Timber.d("fragment is added")
+        } else {
+            Timber.d("fragment is not added")
+        }
+
+        mArena?.let {
+            initMap()
+        }
+
         activity?.let {
-
-            // mArenaPid
-            mVm?.arena?.observe(it, Observer { arena ->
-
-                // loading
-                arena.state.let { state ->
-                    if (state == ResourceState.LOADING) {
-//                        progressBar.visibility = View.VISIBLE
-                        Timber.tag("$$$").d("status is: $it")
-                    }
-                }
-
-                // data
-                arena.data?.let {
-                    //                    progressBar.visibility = View.INVISIBLE
-                    this.arena = arena.data
-                    activity?.let {
-                        if (isAdded)
-                            initMap()
-                    }
-                }
-
-                // error
-                arena.message?.let {
-                    //                    progressBar.visibility = View.INVISIBLE
-                    Timber.tag("$$$").d("error message: $it")
-                }
-            })
 
 /*			mVm?.paymentResponse?.observe(it, Observer {
 				it.data?.let { response -> onGetPaymentResponseSuccess(response) }
@@ -129,7 +132,7 @@ class MapFragment : Fragment() {
     }
 
     private fun initMap() {
-        requireNotNull(arena) { "++++ RoomLayoutFactory must be init. ++++" }
+        requireNotNull(mArena) { "++++ RoomLayoutFactory must be init. ++++" }
 
 
         rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
@@ -137,7 +140,7 @@ class MapFragment : Fragment() {
         requireNotNull(mapLayout) { "++++ Map Fragment root layout must not be null. ++++" }
 
 
-        drawSeat(ArenaMap(arena))
+        drawSeat(ArenaMap(mArena))
     }
 
 
@@ -150,7 +153,7 @@ class MapFragment : Fragment() {
 
         val seatSize = Point()
 
-        val seatBitmap = getBitmap(requireContext(), R.drawable.ic_seat_gray)
+        val seatBitmap = getBitmap(mContext, R.drawable.ic_seat_gray)
 
         seatSize.set(seatBitmap.width, seatBitmap.height)
 
@@ -168,19 +171,19 @@ class MapFragment : Fragment() {
 
         for (seat in arenaMap?.seats!!) {
 
-            val numberTextView = TextView(context)
+            val numberTextView = TextView(mContext)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 numberTextView.setTextAppearance(R.style.StemRegular10Gray)
             } else {
-                numberTextView.setTextAppearance(context, R.style.StemRegular10Gray)
+                numberTextView.setTextAppearance(mContext, R.style.StemRegular10Gray)
             }
 
             setNumber(seat, numberTextView)
 
             // Draw one seat
             // TODO: make it custom view
-            ImageView(context).apply {
+            ImageView(mContext).apply {
 
                 setImage(this, seat)
 
@@ -221,12 +224,12 @@ class MapFragment : Fragment() {
                 numberParams?.topMargin = dy - 5
             }
 
-            val textView = TextView(context)
+            val textView = TextView(mContext)
             textView.text = text
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 textView.setTextAppearance(R.style.StemMedium15Primary)
             } else {
-                textView.setTextAppearance(context, R.style.StemMedium15Primary)
+                textView.setTextAppearance(mContext, R.style.StemMedium15Primary)
             }
 
             textView.layoutParams = numberParams
@@ -470,11 +473,11 @@ class MapFragment : Fragment() {
     }
 
     private fun getBitmap(context: Context?, drawableId: Int?): Bitmap {
-        val drawable = ContextCompat.getDrawable(context!!, drawableId!!)
+        val drawable = mContext?.getDrawable(drawableId!!)
         val bitmap: Bitmap
 
         when (drawable) {
-            is BitmapDrawable -> return BitmapFactory.decodeResource(context.resources, drawableId)
+            is BitmapDrawable -> return BitmapFactory.decodeResource(context?.resources, drawableId!!)
             is VectorDrawable -> bitmap = getBitmap((drawable as VectorDrawable?)!!)
             else -> throw IllegalArgumentException("unsupported drawable type")
         }
