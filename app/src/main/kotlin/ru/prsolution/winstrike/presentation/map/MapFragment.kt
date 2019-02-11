@@ -26,6 +26,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
@@ -72,7 +73,7 @@ class MapFragment : Fragment() {
         super.onCreate(savedInstanceState)
         dlgMapLegend()
 
-//        mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
+        mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
