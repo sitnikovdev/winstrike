@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(),
             mVm.getArenaList()
         }
 
-        mVm.arenaList.observe(this, Observer { resource ->
+        mVm.arenaList.observe(this@MainActivity, Observer { resource ->
             resource.let {
                 val arena = resource?.data?.get(selectedArena)
                 if (arena != null) {

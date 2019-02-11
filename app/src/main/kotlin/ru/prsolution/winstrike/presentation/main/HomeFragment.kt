@@ -84,7 +84,7 @@ class HomeFragment : Fragment()
         arenaListAdapter = ArenaListAdapter(onArenaClickItem)
 
         // TODO: Process error response and show some info message!!!
-        mVm.arenaList.observe(this, Observer { resource ->
+        mVm.arenaList.observe(this@HomeFragment, Observer { resource ->
             resource.let {
                 it?.data?.let { arenaListAdapter.submitList(it) }
                 // TODO: save it in preferences
