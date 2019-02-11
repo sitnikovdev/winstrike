@@ -10,7 +10,9 @@ import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import kotlinx.android.synthetic.main.ac_mainscreen.*
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import timber.log.Timber
 
@@ -43,6 +45,7 @@ class YandexWebViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         progressBar = view.findViewById(R.id.progressBar)
         progressBar?.visibility = View.VISIBLE
+
 
         arguments?.let {
             val safeArgs = YandexWebViewFragmentArgs.fromBundle(it)

@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity(),
     private lateinit var mVm: MainViewModel
 
     private var mArenaPid: String = ""
+    val EXIT_DURATION = 1L
+    val ENTER_DURATION = 1L
 
     // Open Yandex WebView on payment response from MapFragment
     private fun onPaymentShow(payResponse: PaymentResponse) {
@@ -61,6 +64,21 @@ class MainActivity : AppCompatActivity(),
         clearData()
         setContentView(R.layout.ac_mainscreen)
         mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+
+        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_home,R.id.navigation_order, R.id.navigation_profile -> showBottomNavigation()
+                else -> hideBottomNavigation()
+            }
+        }
+
+/*    findNavController(R.id.nav_host_fragment).addOnNavigatedListener { _, destination ->
+        when (destination.id) {
+            R.id.dashboardFragment -> showBottomNavigation()
+            else -> hideBottomNavigation()
+        }
+    }*/
 
         if (savedInstanceState == null) {
             mVm.getArenaList()
@@ -153,5 +171,30 @@ class MainActivity : AppCompatActivity(),
     private fun clearData() {
         TimeDataModel.clearPids()
         TimeDataModel.clearDateTime()
+    }
+
+
+
+
+    private fun hideBottomNavigation() {
+        // bottom_navigation is BottomNavigationView
+        with(bottomNavigation) {
+            if (visibility == View.VISIBLE && alpha == 1f) {
+                animate()
+                    .alpha(0f)
+                    .withEndAction { visibility = View.GONE }
+                    .duration = EXIT_DURATION
+            }
+        }
+    }
+
+    private fun showBottomNavigation() {
+        // bottom_navigation is BottomNavigationView
+        with(bottomNavigation) {
+            visibility = View.VISIBLE
+            animate()
+                .alpha(1f)
+                .duration =  ENTER_DURATION
+        }
     }
 }
