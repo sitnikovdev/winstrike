@@ -27,13 +27,13 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var mVm: MainViewModel
 
-    private var mArenaPid: String = ""
+    private var mArenaPid: String?  = ""
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
         val action = HomeFragmentDirections.nextAction()
         action.seat = seat
-        action.arenaPid = this.mArenaPid
+        action.arenaPid = this.mArenaPid.toString()
         findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
@@ -75,13 +75,10 @@ class MainActivity : AppCompatActivity(),
         }
 
 
-        // get active arena pid to pass it in SetupFragment
+        // get active arena pid to pass it in SetupFragment when click on carousel item
         mVm.arenaList.observe(this@MainActivity, Observer { resource ->
             resource.let {
-                val arena = resource?.data?.get(selectedArena)
-                if (arena != null) {
-                    this.mArenaPid = arena.activeLayoutPid!!
-                }
+                mArenaPid = resource?.data?.get(selectedArena)?.activeLayoutPid
             }
         })
 

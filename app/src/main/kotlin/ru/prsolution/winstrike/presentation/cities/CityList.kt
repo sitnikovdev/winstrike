@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import ru.prsolution.winstrike.R
 
 /**
@@ -15,5 +17,14 @@ class CityList : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fmt_city_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        view.findViewById<TextView>(R.id.city_list_tv).setOnClickListener {
+
+            val action = CityListDirections.nextAction()
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+        }
     }
 }
