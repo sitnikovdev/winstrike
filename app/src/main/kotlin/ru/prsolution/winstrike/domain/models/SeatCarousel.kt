@@ -2,7 +2,6 @@ package ru.prsolution.winstrike.domain.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.io.Serializable
 
 /*
  * Created by oleg on 01.02.2018.
@@ -22,7 +21,7 @@ data class SeatCarousel(
 
     val imageUrl: String?,
     val description: String?
-) : Serializable, Parcelable
+) : Parcelable
 
 enum class RoomSeatType {
     COMMON, VIP

@@ -50,7 +50,7 @@ class CarouselFragment : Fragment() {
             mVm.getArenaList()
         }
         try {
-            mSeat = arguments?.getSerializable("room") as SeatCarousel
+            mSeat = arguments?.getParcelable("seat") as SeatCarousel
         } catch (e: Exception) {
             mSeat = null
         }
@@ -87,9 +87,9 @@ class CarouselFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(fm: FragmentManager?, room: SeatCarousel?): Fragment? {
+        fun newInstance(fm: FragmentManager?, seat: SeatCarousel?): Fragment? {
             val bundle = Bundle()
-            bundle.putSerializable("room", room)
+            bundle.putParcelable("seat", seat)
 
 
             return fm?.fragmentFactory?.instantiate(
