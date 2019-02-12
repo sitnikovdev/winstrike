@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
-import com.ositnikov.preference.LiveSharedPreferences
 import kotlinx.android.synthetic.main.fmt_home.arena_description
 import kotlinx.android.synthetic.main.fmt_home.arrowArena_Down
 import kotlinx.android.synthetic.main.fmt_home.arrowArena_Up
@@ -56,7 +55,6 @@ class HomeFragment : Fragment() {
     lateinit var mVm: MainViewModel
     lateinit var arenaListAdapter: ArenaListAdapter
     var mCarouselAdapter: CarouselAdapter? = null
-    lateinit var liveSharedPreferences: LiveSharedPreferences
 
     private val seatMap: MutableMap<Type, SeatCarousel> = mutableMapOf()
     var hallType: ArenaHallType = ArenaHallType.COMMON
@@ -73,7 +71,6 @@ class HomeFragment : Fragment() {
             mVm.getArenaList()
         }
 
-        liveSharedPreferences = LiveSharedPreferences(SharedPrefFactory.prefs)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -23,7 +23,7 @@ class CityListFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.city_list_tv).setOnClickListener {
 
-            val action = CityListDirections.nextAction()
+            val action = CityListFragmentDirections.nextAction()
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
         }
     }

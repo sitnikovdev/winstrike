@@ -124,7 +124,6 @@ kotlinter {
 
 dependencies {
 
-    implementation(project(":preference"))
 
     /** Kotlin */
     implementation(Libraries.kotlin)
