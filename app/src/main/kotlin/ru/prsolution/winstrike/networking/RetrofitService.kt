@@ -17,6 +17,7 @@ import ru.prsolution.winstrike.datasource.model.orders.OrdersEntity
 import ru.prsolution.winstrike.domain.payment.PaymentModel
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.datasource.model.SchemaEntity
+import ru.prsolution.winstrike.datasource.model.city.CityListEntity
 import ru.prsolution.winstrike.domain.models.login.ConfirmModel
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.login.LoginModel
@@ -25,6 +26,10 @@ import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
 
 interface RetrofitService {
+
+    // Получение  списка городов
+    @GET("cities")
+    fun cityListAsync(): Deferred<Response<CityListEntity>>
 
     // Получение  списка имеющихся арен
     @GET("rooms")

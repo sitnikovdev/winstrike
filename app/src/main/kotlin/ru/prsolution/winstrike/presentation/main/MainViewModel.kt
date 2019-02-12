@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import ru.prsolution.winstrike.datasource.model.city.mapToDomain
 import ru.prsolution.winstrike.datasource.model.mapRoomToDomain
 import ru.prsolution.winstrike.datasource.model.mapToDomain
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaSchema
+import ru.prsolution.winstrike.domain.models.city.City
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.payment.PaymentModel
@@ -30,6 +32,9 @@ class MainViewModel : ViewModel() {
     // TODO: Use Koin to decouple dependencies from here.
     private val retrofitService = RetrofitFactory.makeRetrofitService()
 
+    // Список городов
+    val cityList = SingleLiveEvent<Resource<List<City>>>()
+
     // Список имеющихся арен
     val arenaList = SingleLiveEvent<Resource<List<Arena>>>()
 
@@ -38,6 +43,23 @@ class MainViewModel : ViewModel() {
 
     // Ответ от Яндекс Кассы
     val paymentResponse = SingleLiveEvent<Resource<PaymentResponse>>()
+
+    // Получение списка городов
+    fun getCity() {
+        GlobalScope.launch {
+            val request = retrofitService.cityListAsync()
+            try {
+                val response = request.await()
+                response.body()?.let {
+                    cityList.setSuccess(it.cities.mapToDomain())
+                    Timber.tag("$$$").d("arena list: ${it.cities.mapToDomain().size}")
+                }
+            } catch (e: Throwable) {
+                arenaList.setError(e.message)
+                Timber.e(e)
+            }
+        }
+    }
 
     // Получение списка имеющихся арен на сервере
     fun getArenaList() {
