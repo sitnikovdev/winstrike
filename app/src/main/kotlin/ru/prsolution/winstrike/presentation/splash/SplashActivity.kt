@@ -44,7 +44,7 @@ open class SplashActivity : AppCompatActivity() {
             override fun onAnimationRepeat(animation: Animator) {}
         })
 
-        val vm: SplashViewModel = ViewModelProviders.of(this)[SplashViewModel::class.java]
+//        val vm: SplashViewModel = ViewModelProviders.of(this)[SplashViewModel::class.java]
 
         if (savedInstanceState == null) {
 // 			vm.get()
