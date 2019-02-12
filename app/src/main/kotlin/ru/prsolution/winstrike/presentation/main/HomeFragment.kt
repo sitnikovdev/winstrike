@@ -39,7 +39,6 @@ import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.custom.RecyclerViewMargin
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.SharedPrefFactory
-import android.os.Handler
 
 /**
  * A main screen of Winstrike app.
@@ -58,7 +57,7 @@ class HomeFragment : Fragment() {
     var mCarouselAdapter: CarouselAdapter? = null
     lateinit var liveSharedPreferences: LiveSharedPreferences
 
-    val seatMap: MutableMap<Type, SeatCarousel> = mutableMapOf()
+    private val seatMap: MutableMap<Type, SeatCarousel> = mutableMapOf()
     var hallType: ArenaHallType = ArenaHallType.COMMON
 
 
