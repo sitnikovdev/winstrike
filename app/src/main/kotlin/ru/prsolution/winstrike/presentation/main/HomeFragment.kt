@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.presentation.main
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -60,7 +61,6 @@ class HomeFragment : Fragment() {
     private val seatMap: MutableMap<Type, SeatCarousel> = mutableMapOf()
     var hallType: ArenaHallType = ArenaHallType.COMMON
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
@@ -107,7 +107,10 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mCarouselAdapter?.notifyDataSetChanged()
+        val handler = Handler()
+        handler.post {
+            mCarouselAdapter?.notifyDataSetChanged()
+        }
     }
 
     private fun updateArenaInfo(room: Arena?) { // TODO: Don't use datasource, use domain!!!

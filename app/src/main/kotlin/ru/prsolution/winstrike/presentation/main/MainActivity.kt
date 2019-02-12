@@ -1,6 +1,8 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var mVm: MainViewModel
 
-    private var mArenaPid: String?  = ""
+    private var mArenaPid: String? = ""
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
@@ -43,6 +45,8 @@ class MainActivity : AppCompatActivity(),
         PrefUtils.isLogout = false
     }
 
+    private lateinit var navController: NavController
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.ac_mainscreen)
 
 //        Navigation
-        val navController = Navigation.findNavController(this@MainActivity, R.id.nav_host_fragment)
+        navController = Navigation.findNavController(this@MainActivity, R.id.nav_host_fragment)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -74,14 +78,12 @@ class MainActivity : AppCompatActivity(),
             mVm.getArenaList()
         }
 
-
         // get active arena pid to pass it in SetupFragment when click on carousel item
         mVm.arenaList.observe(this@MainActivity, Observer { resource ->
             resource.let {
                 mArenaPid = resource?.data?.get(selectedArena)?.activeLayoutPid
             }
         })
-
 
 //        initFCM() // FCM push notifications
     }
@@ -100,7 +102,18 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment), appBarConfiguration)
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        return NavigationUI.onNavDestinationSelected(item!!, navController) ||
+            super.onOptionsItemSelected(item)
     }
 
     private fun showHome(isVisible: Boolean) {
@@ -126,5 +139,4 @@ class MainActivity : AppCompatActivity(),
         TimeDataModel.clearPids()
         TimeDataModel.clearDateTime()
     }
-
 }
