@@ -2,14 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/mobile_navigation"
-            app:startDestination="@id/navigation_city_list">
+            app:startDestination="@id/navigation_home" android:label="Профиль">
 
     <!--Home-->
 
     <fragment android:id="@+id/navigation_home"
               android:name="ru.prsolution.winstrike.presentation.main.HomeFragment"
               tools:layout="@layout/fmt_home"
-              android:label="HomeFragment">
+              android:label="Winstrike">
         <action android:id="@+id/next_action"
                 app:destination="@id/navigation_setup"/>
     </fragment>
@@ -19,20 +19,20 @@
     <fragment android:id="@+id/navigation_order"
               android:name="ru.prsolution.winstrike.presentation.orders.OrderFragment"
               tools:layout="@layout/fmt_nopaid"
-              android:label="OrderFragment"/>
+              android:label="Оплаченные места"/>
 
     <!--Profile-->
 
     <fragment android:id="@+id/navigation_profile"
               android:name="ru.prsolution.winstrike.presentation.profile.ProfileFragment"
-              android:label="ProfileFragment"/>
+              android:label="Профиль"/>
 
     <!--SetUp -->
 
     <fragment android:id="@+id/navigation_setup"
               android:name="ru.prsolution.winstrike.presentation.setup.SetupFragment"
               tools:layout="@layout/frm_setup"
-              android:label="SetupFragment">
+              android:label="Выберите время">
         <argument android:name="seat"
                   app:argType="ru.prsolution.winstrike.domain.models.SeatCarousel"
                   app:nullable="true"
@@ -46,7 +46,7 @@
 
     <fragment android:id="@+id/navigation_map"
               android:name="ru.prsolution.winstrike.presentation.map.MapFragment"
-              android:label="MapFragment">
+              android:label="Забронируйте место">
         <action android:id="@+id/next_action"
                 app:destination="@id/navigation_yandex"/>
         <argument android:name="arena" app:argType="ru.prsolution.winstrike.domain.models.ArenaSchema"
@@ -57,7 +57,7 @@
 
     <fragment android:id="@+id/navigation_yandex"
               tools:layout="@layout/fmt_yandex_web_view"
-              android:label="YandexWebView"
+              android:label="Оплата"
               android:name="ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment">
         <argument android:name="url" app:argType="string" app:nullable="true"/>
     </fragment>
