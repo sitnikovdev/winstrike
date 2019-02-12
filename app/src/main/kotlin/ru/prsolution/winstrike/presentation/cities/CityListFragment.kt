@@ -10,20 +10,20 @@ import androidx.navigation.Navigation
 import ru.prsolution.winstrike.R
 
 /**
- * Created by Oleg Sitnikov on 2019-02-11
+ * Created by Oleg Sitnikov on 2019-02-12
  */
 
-class City : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+class CityListFragment : Fragment() {
 
-        return inflater.inflate(R.layout.fmt_city, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fmt_city_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        view.findViewById<TextView>(R.id.city_tv).setOnClickListener {
+        view.findViewById<TextView>(R.id.city_list_tv).setOnClickListener {
 
-            val action = CityDirections.nextAction()
+            val action = CityListDirections.nextAction()
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
         }
     }
