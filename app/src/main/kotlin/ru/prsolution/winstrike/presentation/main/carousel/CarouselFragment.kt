@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import com.facebook.drawee.view.SimpleDraweeView
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.RoomSeatType
+import ru.prsolution.winstrike.domain.models.Type
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 
@@ -78,7 +78,7 @@ class CarouselFragment : Fragment() {
         val imageUri = Uri.parse(mSeat?.imageUrl)
         seatImage.setImageURI(imageUri)
 
-        if (mSeat?.type == RoomSeatType.COMMON) {
+        if (mSeat?.type == Type.COMMON) {
             seatTitle.text = getString(R.string.common_hall)
         } else {
             seatTitle.text = getString(R.string.vip_hall)

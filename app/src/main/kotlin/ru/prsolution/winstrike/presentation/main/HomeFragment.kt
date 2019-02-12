@@ -25,7 +25,7 @@ import org.jetbrains.anko.imageURI
 import ru.prsolution.winstrike.App
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaHallType
-import ru.prsolution.winstrike.domain.models.RoomSeatType
+import ru.prsolution.winstrike.domain.models.Type
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_350
@@ -44,12 +44,13 @@ import android.os.Handler
 /**
  * A main screen of Winstrike app.
  */
+
 class HomeFragment : Fragment()
 {
 
     var selectedArena = 0
-    val arenaUpConstraintSet = ConstraintSet()
-    val arenaDownConstraintSet = ConstraintSet()
+    private val arenaUpConstraintSet = ConstraintSet()
+    private val arenaDownConstraintSet = ConstraintSet()
     private var mArena: Arena? = null
 
     var isArenaShow: Boolean = false
@@ -179,9 +180,9 @@ class HomeFragment : Fragment()
                 "++++ Adapter must be empty! ++++"
             }
         }
-        val seatMap: MutableMap<RoomSeatType, SeatCarousel> = mutableMapOf()
+        val seatMap: MutableMap<Type, SeatCarousel> = mutableMapOf()
 
-        var roomType: ArenaHallType = ArenaHallType.COMMON
+        var hallType: ArenaHallType = ArenaHallType.COMMON
 
         // Define mArena type ( double(common & vip), common, vip)
         if (
@@ -189,39 +190,39 @@ class HomeFragment : Fragment()
             (!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
 
         ) {
-            roomType = ArenaHallType.DOUBLE
+            hallType = ArenaHallType.DOUBLE
         } else if (!TextUtils.isEmpty(room?.commonDescription)) {
-            roomType = ArenaHallType.COMMON
+            hallType = ArenaHallType.COMMON
         } else if (!TextUtils.isEmpty(room?.vipDescription)) {
-            roomType = ArenaHallType.VIP
+            hallType = ArenaHallType.VIP
         }
 
-        when (roomType) {
+        when (hallType) {
             ArenaHallType.DOUBLE -> { // create two mArena: COMMON and VIP
 
-                seatMap[RoomSeatType.COMMON] = SeatCarousel(
-                    type = RoomSeatType.COMMON,
+                seatMap[Type.COMMON] = SeatCarousel(
+                    type = Type.COMMON,
                     imageUrl = room?.commonImageUrl,
                     description = room?.commonDescription
                 )
 
-                seatMap[RoomSeatType.VIP] = SeatCarousel(
-                    type = RoomSeatType.VIP,
+                seatMap[Type.VIP] = SeatCarousel(
+                    type = Type.VIP,
                     imageUrl = room?.vipImageUrl,
                     description = room?.vipDescription
                 )
             }
             ArenaHallType.COMMON -> {
-                seatMap[RoomSeatType.COMMON] = SeatCarousel(
-                    type = RoomSeatType.COMMON,
+                seatMap[Type.COMMON] = SeatCarousel(
+                    type = Type.COMMON,
                     imageUrl = room?.commonImageUrl,
                     description = room?.commonDescription
                 )
             }
             ArenaHallType.VIP -> { // Create VIP mArena
 
-                seatMap[RoomSeatType.VIP] = SeatCarousel(
-                    type = RoomSeatType.VIP,
+                seatMap[Type.VIP] = SeatCarousel(
+                    type = Type.VIP,
                     imageUrl = room?.vipImageUrl,
                     description = room?.vipDescription
                 )

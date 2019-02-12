@@ -9,12 +9,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class SeatCarousel(
-    val type: RoomSeatType = RoomSeatType.COMMON,
+    val type: Type = Type.COMMON,
     val title: String = when (type) {
-        RoomSeatType.COMMON -> {
+        Type.COMMON -> {
             "Вы выбрали: Общий зал"
         }
-        RoomSeatType.VIP -> {
+        Type.VIP -> {
             "Вы выбрали: VIP"
         }
     },
@@ -23,6 +23,6 @@ data class SeatCarousel(
     val description: String?
 ) : Parcelable
 
-enum class RoomSeatType {
+enum class Type {
     COMMON, VIP
 }
