@@ -80,7 +80,7 @@ class CarouselAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(
         root?.setScaleBoth(scale)
     }
 
-    fun clear(): Boolean {
+    fun isClear(): Boolean {
         mFragmentList.clear()
         return mFragmentList.isEmpty()
     }

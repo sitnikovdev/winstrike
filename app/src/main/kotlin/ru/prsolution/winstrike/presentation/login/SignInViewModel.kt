@@ -38,7 +38,7 @@ class SignInViewModel : ViewModel() {
                     authResponse.setSuccess(it)
                 }
             } catch (e: HttpException) {
-                // TODO: make it more clear
+                // TODO: make it more isClear
                 Timber.e(e.message())
             } catch (e: Throwable) {
                 Timber.e(e)

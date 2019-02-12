@@ -45,8 +45,7 @@ import android.os.Handler
  * A main screen of Winstrike app.
  */
 
-class HomeFragment : Fragment()
-{
+class HomeFragment : Fragment() {
 
     var selectedArena = 0
     private val arenaUpConstraintSet = ConstraintSet()
@@ -58,6 +57,10 @@ class HomeFragment : Fragment()
     lateinit var arenaListAdapter: ArenaListAdapter
     var mCarouselAdapter: CarouselAdapter? = null
     lateinit var liveSharedPreferences: LiveSharedPreferences
+
+    val seatMap: MutableMap<Type, SeatCarousel> = mutableMapOf()
+    var hallType: ArenaHallType = ArenaHallType.COMMON
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,8 +81,6 @@ class HomeFragment : Fragment()
         return inflater.inflate(ru.prsolution.winstrike.R.layout.fmt_home, container, false)
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arenaListAdapter = ArenaListAdapter(onArenaClickItem)
@@ -90,8 +91,6 @@ class HomeFragment : Fragment()
                 it?.data?.let { arenaListAdapter.submitList(it) }
                 // TODO: save it in preferences
                 mArena = resource?.data?.get(selectedArena)
-//                mVm.arenaPid.postValue(mArena?.activeLayoutPid)
-//                this.mArenaPid = mArena?.activeLayoutPid
                 updateCarouselView(mArena)
                 updateArenaInfo(mArena)
             }
@@ -109,11 +108,7 @@ class HomeFragment : Fragment()
 
     override fun onResume() {
         super.onResume()
-        // fix bag with not visible carousel
-        val handler = Handler()
-        handler.post(Runnable {
-            mCarouselAdapter?.notifyDataSetChanged()
-        })
+        mCarouselAdapter?.notifyDataSetChanged()
     }
 
     private fun updateArenaInfo(room: Arena?) { // TODO: Don't use datasource, use domain!!!
@@ -172,18 +167,14 @@ class HomeFragment : Fragment()
         }
     }
 
-    /** Seat type carousel */
+// Carousel view initiated
 
     private fun updateCarouselView(room: Arena?) {
-        mCarouselAdapter?.clear()?.let {
+        mCarouselAdapter?.isClear()?.let {
             require(it) {
                 "++++ Adapter must be empty! ++++"
             }
         }
-        val seatMap: MutableMap<Type, SeatCarousel> = mutableMapOf()
-
-        var hallType: ArenaHallType = ArenaHallType.COMMON
-
         // Define mArena type ( double(common & vip), common, vip)
         if (
             (!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription))) ||
