@@ -11,7 +11,7 @@ import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_city_list.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.city.City
-import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
+import ru.prsolution.winstrike.data.repository.resouces.ResourceState
 import ru.prsolution.winstrike.viewmodel.CityViewModel
 
 /**

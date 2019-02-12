@@ -45,7 +45,7 @@ import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
+import ru.prsolution.winstrike.data.repository.resouces.ResourceState
 import timber.log.Timber
 import java.util.LinkedHashMap
 import java.util.concurrent.atomic.AtomicBoolean

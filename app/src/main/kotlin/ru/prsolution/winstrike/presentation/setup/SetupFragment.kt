@@ -37,7 +37,7 @@ import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
+import ru.prsolution.winstrike.data.repository.resouces.ResourceState
 import timber.log.Timber
 import java.time.Month
 import java.time.format.TextStyle

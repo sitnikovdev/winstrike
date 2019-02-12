@@ -18,7 +18,7 @@ import ru.prsolution.winstrike.domain.payment.PaymentModel
 import ru.prsolution.winstrike.domain.payment.PaymentResponse
 import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
-import ru.prsolution.winstrike.presentation.utils.resouces.Resource
+import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.presentation.utils.setError
 import ru.prsolution.winstrike.presentation.utils.setLoading
 import ru.prsolution.winstrike.presentation.utils.setSuccess

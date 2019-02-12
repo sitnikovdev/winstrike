@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.presentation.utils.resouces
+package ru.prsolution.winstrike.data.repository.resouces
 
 sealed class ResourceState {
     object LOADING : ResourceState()

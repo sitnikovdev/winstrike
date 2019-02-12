@@ -1,6 +1,8 @@
 package ru.prsolution.winstrike.data.repository
 
 import retrofit2.Response
+import ru.prsolution.winstrike.data.repository.resouces.Resource
+import ru.prsolution.winstrike.data.repository.resouces.ResourceState
 import timber.log.Timber
 import java.io.IOException
 
@@ -12,14 +14,14 @@ open class BaseRepository{
 
     suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>, errorMessage: String): T? {
 
-        val result : Result<T> = safeApiResult(call,errorMessage)
+        val result : Resource<T> = safeApiResource(call,errorMessage)
         var data : T? = null
 
-        when(result) {
-            is Result.Success ->
+        when(result.state) {
+            is ResourceState.SUCCESS ->
                 data = result.data
-            is Result.Error -> {
-                Timber.tag("$$$").d( "$errorMessage & Exception - ${result.exception}")
+            is ResourceState.ERROR -> {
+                Timber.tag("$$$").d( "$errorMessage & Exception - ${result.message}")
             }
         }
 
@@ -28,11 +30,11 @@ open class BaseRepository{
 
     }
 
-    private suspend fun <T: Any> safeApiResult(call: suspend ()-> Response<T>, errorMessage: String) : Result<T>{
+    private suspend fun <T: Any> safeApiResource(call: suspend ()-> Response<T>, errorMessage: String) : Resource<T> {
         val response = call.invoke()
-        if(response.isSuccessful) return Result.Success(response.body()!!)
+        if(response.isSuccessful) return Resource(ResourceState.SUCCESS,response.body())
 
-        return Result.Error(IOException("Error Occurred during getting safe Api result, Custom ERROR - $errorMessage"))
+        return Resource(ResourceState.ERROR,null, "Error Occurred during getting safe Api result, Custom ERROR - $errorMessage")
     }
 }
 

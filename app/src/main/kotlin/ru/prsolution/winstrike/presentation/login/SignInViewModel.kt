@@ -10,7 +10,7 @@ import ru.prsolution.winstrike.domain.models.login.LoginViewModel
 import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.networking.RetrofitFactory
-import ru.prsolution.winstrike.presentation.utils.resouces.Resource
+import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.presentation.utils.setSuccess
 import timber.log.Timber
 import java.lang.Exception

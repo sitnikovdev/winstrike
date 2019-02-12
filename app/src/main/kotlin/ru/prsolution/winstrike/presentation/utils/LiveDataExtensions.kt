@@ -1,8 +1,8 @@
 package ru.prsolution.winstrike.presentation.utils
 
 import androidx.lifecycle.MutableLiveData
-import ru.prsolution.winstrike.presentation.utils.resouces.Resource
-import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
+import ru.prsolution.winstrike.data.repository.resouces.Resource
+import ru.prsolution.winstrike.data.repository.resouces.ResourceState
 
 fun <T> MutableLiveData<Resource<T>>.setSuccess(data: T) =
     postValue(Resource(
