@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(),
     override fun onStart() {
         super.onStart()
         // TODO use mListener (Fix logout!!!)
-        PrefUtils.isLogout = false
+//        PrefUtils.isLogout = false
     }
 
 
@@ -58,13 +58,6 @@ class MainActivity : AppCompatActivity(),
                 else -> hideBottomNavigation()
             }
         }
-
-/*    findNavController(R.id.nav_host_fragment).addOnNavigatedListener { _, destination ->
-        when (destination.id) {
-            R.id.dashboardFragment -> showBottomNavigation()
-            else -> hideBottomNavigation()
-        }
-    }*/
 
         if (savedInstanceState == null) {
             mVm.getArenaList()

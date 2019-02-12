@@ -10,9 +10,7 @@ import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.ac_mainscreen.*
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.main.MainViewModel
 import timber.log.Timber
 
@@ -38,7 +36,7 @@ class YandexWebViewFragment : Fragment() {
     ): View? {
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_yandex_web_view, container, false)
+        return inflater.inflate(R.layout.fmt_yandex_web_view, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

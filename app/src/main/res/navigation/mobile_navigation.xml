@@ -56,10 +56,24 @@
     <!--Yandex WebView-->
 
     <fragment android:id="@+id/navigation_yandex"
-              tools:layout="@layout/fragment_yandex_web_view"
+              tools:layout="@layout/fmt_yandex_web_view"
               android:label="YandexWebView"
               android:name="ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment">
         <argument android:name="url" app:argType="string" app:nullable="true"/>
     </fragment>
+
+    <!--City-->
+
+    <fragment android:id="@+id/navigation_city"
+              android:name="ru.prsolution.winstrike.presentation.cities.City"
+              tools:layout="@layout/fmt_city"
+              android:label="City"/>
+
+    <!--CityList-->
+
+    <fragment android:id="@+id/navigation_city_list"
+              android:name="ru.prsolution.winstrike.presentation.cities.CityList"
+              tools:layout="@layout/fmt_city_list"
+              android:label="CityList"/>
 
 </navigation>
