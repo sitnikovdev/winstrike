@@ -7,9 +7,9 @@ import android.text.TextUtils
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.ac_splash.animation_view
 import org.jetbrains.anko.longToast
+import org.jetbrains.anko.startActivity
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.main.MainActivity
@@ -18,6 +18,7 @@ import ru.prsolution.winstrike.presentation.login.SignInActivity
 open class SplashActivity : AppCompatActivity() {
 
     private var mainIntent: Intent? = null
+    private var signIntent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,7 @@ open class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.ac_splash)
 
         mainIntent = Intent(this@SplashActivity, MainActivity::class.java)
+        signIntent = Intent(Intent(this@SplashActivity, SignInActivity::class.java))
 
         animation_view.imageAssetsFolder = "images"
         animation_view.setAnimation("data.json")
@@ -35,7 +37,8 @@ open class SplashActivity : AppCompatActivity() {
 
         animation_view.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationEnd(animation: Animator) {
-                openMainActivity()
+                isCheckLogin()
+//                openMainActivity()
                 finish()
             }
 
@@ -44,21 +47,16 @@ open class SplashActivity : AppCompatActivity() {
             override fun onAnimationRepeat(animation: Animator) {}
         })
 
-//        val vm: SplashViewModel = ViewModelProviders.of(this)[SplashViewModel::class.java]
-
-        if (savedInstanceState == null) {
-// 			vm.get()
-        }
     }
 
     private fun isCheckLogin() {
         // If user is signOut from App: go to SingIn screen. Else: check if user is exist on server and if Ok -- go to Main screen.
         if (PrefUtils.isLogout) {
-            startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
+            startActivity(signIntent)
         } else if (!PrefUtils.token?.isEmpty()!!) {
             startActivity(mainIntent)
         } else {
-            startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
+            startActivity(signIntent)
         }
     }
 

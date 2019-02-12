@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,8 +15,10 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
+import ru.prsolution.winstrike.presentation.utils.hide
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
+import ru.prsolution.winstrike.presentation.utils.show
 
 class MainActivity : AppCompatActivity(),
     CarouselFragment.OnSeatClickListener {
@@ -27,8 +28,6 @@ class MainActivity : AppCompatActivity(),
     private lateinit var mVm: MainViewModel
 
     private var mArenaPid: String = ""
-    val EXIT_DURATION = 1L
-    val ENTER_DURATION = 1L
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
@@ -41,28 +40,42 @@ class MainActivity : AppCompatActivity(),
     override fun onStart() {
         super.onStart()
         // TODO use mListener (Fix logout!!!)
-//        PrefUtils.isLogout = false
+        PrefUtils.isLogout = false
     }
-
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         clearData()
+
         setContentView(R.layout.ac_mainscreen)
-        mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
+//        Navigation
+        val navController = Navigation.findNavController(this@MainActivity, R.id.nav_host_fragment)
 
-        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_home,R.id.navigation_order, R.id.navigation_profile -> showBottomNavigation()
-                else -> hideBottomNavigation()
+                R.id.navigation_home, R.id.navigation_order, R.id.navigation_profile -> bottomNavigation.show()
+                else -> bottomNavigation.hide()
             }
         }
+
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+
+        setSupportActionBar(toolbar)
+        setupActionBar(navController, appBarConfiguration)
+        setupBottomNavMenu(navController)
+
+//        ViewModel
+
+        mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         if (savedInstanceState == null) {
             mVm.getArenaList()
         }
 
+
+        // get active arena pid to pass it in SetupFragment
         mVm.arenaList.observe(this@MainActivity, Observer { resource ->
             resource.let {
                 val arena = resource?.data?.get(selectedArena)
@@ -72,14 +85,6 @@ class MainActivity : AppCompatActivity(),
             }
         })
 
-
-        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-
-        setSupportActionBar(toolbar)
-        setupActionBar(navController, appBarConfiguration)
-        setupBottomNavMenu(navController)
 
 //        initFCM() // FCM push notifications
     }
@@ -125,28 +130,4 @@ class MainActivity : AppCompatActivity(),
         TimeDataModel.clearDateTime()
     }
 
-
-
-
-    private fun hideBottomNavigation() {
-        // bottom_navigation is BottomNavigationView
-        with(bottomNavigation) {
-            if (visibility == View.VISIBLE && alpha == 1f) {
-                animate()
-                    .alpha(0f)
-                    .withEndAction { visibility = View.GONE }
-                    .duration = EXIT_DURATION
-            }
-        }
-    }
-
-    private fun showBottomNavigation() {
-        // bottom_navigation is BottomNavigationView
-        with(bottomNavigation) {
-            visibility = View.VISIBLE
-            animate()
-                .alpha(1f)
-                .duration =  ENTER_DURATION
-        }
-    }
 }

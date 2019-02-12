@@ -24,6 +24,10 @@ object Constants {
     const val SHARE_IMG_TITLE = "Send"
     const val ANDROID_RESOURCES_PATH = "android.resource://"
 
+    // UI
+    const val EXIT_DURATION = 1L
+    const val ENTER_DURATION = 1L
+
     // Screen width in px:
     const val SCREEN_WIDTH_PX_720 = 720
     const val SCREEN_WIDTH_PX_1080 = 1080

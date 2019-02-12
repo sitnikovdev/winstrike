@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import ru.prsolution.winstrike.presentation.utils.Constants.ENTER_DURATION
+import ru.prsolution.winstrike.presentation.utils.Constants.EXIT_DURATION
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -36,4 +39,24 @@ fun TextView.setColor(color: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION_C
     this.setTextColor(context.getColor(color))
 } else {
     TODO("VERSION.SDK_INT < M")
+}
+
+ fun BottomNavigationView.hide() {
+    with(this) {
+        if (visibility == View.VISIBLE && alpha == 1f) {
+            animate()
+                .alpha(0f)
+                .withEndAction { visibility = View.GONE }
+                .duration = EXIT_DURATION
+        }
+    }
+}
+
+ fun BottomNavigationView.show() {
+    with(this) {
+        visibility = View.VISIBLE
+        animate()
+            .alpha(1f)
+            .duration = ENTER_DURATION
+    }
 }
