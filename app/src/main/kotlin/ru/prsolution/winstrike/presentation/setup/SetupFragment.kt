@@ -34,9 +34,8 @@ import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.SeatCarousel
-import ru.prsolution.winstrike.presentation.main.MainViewModel
+import ru.prsolution.winstrike.viewmodel.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.data.repository.resouces.ResourceState
 import timber.log.Timber
 import java.time.Month

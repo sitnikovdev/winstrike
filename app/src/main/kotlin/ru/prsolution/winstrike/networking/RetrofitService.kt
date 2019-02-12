@@ -27,9 +27,9 @@ import ru.prsolution.winstrike.domain.models.login.ProfileModel
 
 interface RetrofitService {
 
-    // Получение  списка городов
+/*    // Получение  списка городов
     @GET("cities")
-    fun cityListAsync(): Deferred<Response<CityListEntity>>
+    fun cityListAsync(): Deferred<Response<CityListEntity>>*/
 
     // Получение  списка имеющихся арен
     @GET("rooms")

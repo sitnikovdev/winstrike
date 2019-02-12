@@ -9,6 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import ru.prsolution.winstrike.App
 import ru.prsolution.winstrike.BuildConfig
+import ru.prsolution.winstrike.datasource.remote.ArenaApi
 import ru.prsolution.winstrike.datasource.remote.CityApi
 import java.util.concurrent.TimeUnit
 
@@ -61,6 +62,8 @@ object ApiFactory{
 
 
     val cityApi : CityApi = retrofit().create(CityApi::class.java)
+
+    val arenaApi : ArenaApi = retrofit().create(ArenaApi::class.java)
 
 }
 

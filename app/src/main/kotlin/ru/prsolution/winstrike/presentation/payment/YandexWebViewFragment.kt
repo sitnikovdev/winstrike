@@ -11,7 +11,7 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.main.MainViewModel
+import ru.prsolution.winstrike.viewmodel.MainViewModel
 import timber.log.Timber
 
 /**

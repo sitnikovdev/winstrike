@@ -9,9 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_city_list.*
+import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.city.City
 import ru.prsolution.winstrike.data.repository.resouces.ResourceState
+import ru.prsolution.winstrike.datasource.cache.CityCacheDataSourceImpl
+import ru.prsolution.winstrike.presentation.injectFeature
+import ru.prsolution.winstrike.presentation.utils.cache.Cache
 import ru.prsolution.winstrike.viewmodel.CityViewModel
 
 /**
@@ -20,6 +24,7 @@ import ru.prsolution.winstrike.viewmodel.CityViewModel
 
 class CityListFragment : Fragment() {
 
+    private val mVm: CityViewModel by viewModel()
 
     private val itemClick: (City) -> Unit =
             {
@@ -34,18 +39,22 @@ class CityListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val mVm = activity?.let { ViewModelProviders.of(this@CityListFragment)[CityViewModel::class.java] }
+        injectFeature()
+
+//        val mVm = activity?.let { ViewModelProviders.of(this@CityListFragment)[CityViewModel::class.java] }
 
         city_rv.adapter = adapter
 
         if (savedInstanceState == null) {
-            mVm?.fetchCities()
+            mVm.fetchCities()
         }
 
-        mVm?.cityList?.observe(this@CityListFragment, Observer { cities ->
+
+        mVm.cityList.observe(this@CityListFragment, Observer { cities ->
 
             cities?.let {
                 updateCities(it)
+//                cache.set(it)
             }
 
         })

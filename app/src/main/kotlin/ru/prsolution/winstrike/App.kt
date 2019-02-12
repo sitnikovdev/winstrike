@@ -2,11 +2,15 @@ package ru.prsolution.winstrike
 
 import android.app.Application
 import com.facebook.drawee.backends.pipeline.Fresco
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import ru.prsolution.winstrike.datasource.cache.CityCacheDataSourceImpl
 
 import ru.prsolution.winstrike.datasource.model.ArenaEntity
 import ru.prsolution.winstrike.datasource.model.ArenaSchemaEntity
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.domain.models.login.UserEntity
+import ru.prsolution.winstrike.presentation.utils.cache.Cache
 import ru.prsolution.winstrike.presentation.utils.cache.CacheLibrary
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
@@ -57,6 +61,9 @@ class App : Application() {
 
         // Unique initialization of Cache library to allow saving into device
         CacheLibrary.init(this)
+
+        // Unique initialization of Dependency Injection library to allow the use of application context
+        startKoin { androidContext(this@App) }
 
         Fresco.initialize(this)
 

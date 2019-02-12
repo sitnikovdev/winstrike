@@ -18,7 +18,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.Type
 import ru.prsolution.winstrike.domain.models.SeatCarousel
-import ru.prsolution.winstrike.presentation.main.MainViewModel
+import ru.prsolution.winstrike.viewmodel.MainViewModel
 
 class CarouselFragment : Fragment() {
 

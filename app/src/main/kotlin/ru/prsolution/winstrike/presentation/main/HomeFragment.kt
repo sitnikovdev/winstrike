@@ -38,7 +38,7 @@ import ru.prsolution.winstrike.presentation.main.carousel.CarouselAdapter
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.custom.RecyclerViewMargin
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.pref.SharedPrefFactory
+import ru.prsolution.winstrike.viewmodel.MainViewModel
 
 /**
  * A main screen of Winstrike app.

@@ -2,8 +2,8 @@ package ru.prsolution.winstrike.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
-import ru.prsolution.winstrike.data.repository.CityRepository
-import ru.prsolution.winstrike.domain.models.city.City
+import ru.prsolution.winstrike.data.repository.ArenaRepository
+import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.networking.ApiFactory
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import kotlin.coroutines.CoroutineContext
@@ -14,9 +14,7 @@ import kotlin.coroutines.CoroutineContext
 
 
 
-class CityViewModel : ViewModel(){
-
-//    val cityCache = CityCacheDataSourceImpl(Cache())
+class ArenaViewModel : ViewModel(){
 
     private val parentJob = Job()
 
@@ -25,15 +23,16 @@ class CityViewModel : ViewModel(){
 
     private val scope = CoroutineScope(coroutineContext)
 
-    private val cityRepository : CityRepository = CityRepository(ApiFactory.cityApi)
+    private val arenaRepository : ArenaRepository = ArenaRepository(ApiFactory.arenaApi)
 
 
-    val cityList = SingleLiveEvent<List<City>>()
+    // Список имеющихся арен
+    val arenaList = SingleLiveEvent<List<Arena>>()
 
-    fun fetchCities(){
+    fun fetchArenas(){
         scope.launch {
-            val cities = cityRepository.get()
-            cityList.postValue(cities)
+            val arenas = arenaRepository.get()
+            arenaList.postValue(arenas)
         }
     }
 

@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.presentation.main
+package ru.prsolution.winstrike.viewmodel
 
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
@@ -45,7 +45,7 @@ class MainViewModel : ViewModel() {
     val paymentResponse = SingleLiveEvent<Resource<PaymentResponse>>()
 
     // Получение списка городов
-    fun getCity() {
+/*    fun getCity() {
         GlobalScope.launch {
             val request = retrofitService.cityListAsync()
             try {
@@ -59,7 +59,7 @@ class MainViewModel : ViewModel() {
                 Timber.e(e)
             }
         }
-    }
+    }*/
 
     // Получение списка имеющихся арен на сервере
     fun getArenaList() {

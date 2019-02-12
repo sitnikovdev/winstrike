@@ -185,4 +185,8 @@ dependencies {
 
     // rxpaper
     implementation(Libraries.rxpaper)
+
+    // koin android
+    implementation( Libraries.koinAndroid)
+    implementation( Libraries.koinViewModel)
 }

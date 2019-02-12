@@ -51,6 +51,8 @@ object Versions {
 	const val leakCanary = "1.6.3"
 
 	const val rxpaper = "1.3.0"
+
+	const val koin = "2.0.0-alpha-6"
 }
 
 
@@ -93,6 +95,9 @@ object Libraries {
 	const val leakCanaryAndroidSupportFragment = "com.squareup.leakcanary:leakcanary-support-fragment:${Versions.leakCanary}"
 
 	const val rxpaper = "com.github.pakoito:RxPaper2:${Versions.rxpaper}"
+
+	const val koinAndroid = "org.koin:koin-android:${Versions.koin}"
+	const val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
 }
 
 
