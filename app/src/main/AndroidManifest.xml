@@ -15,7 +15,7 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <activity android:name=".presentation.splash.StartActivity">
+        <activity android:name=".presentation.splash.SplashActivity">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -27,10 +27,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".presentation.splash.SplashActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.guides.GuideActivity"
             android:configChanges="keyboardHidden|orientation"
