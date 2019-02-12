@@ -1,12 +1,21 @@
 package ru.prsolution.winstrike.datasource.remote
 
-interface PostsApi {
+import kotlinx.coroutines.Deferred
+import retrofit2.Response
+import retrofit2.http.GET
+import ru.prsolution.winstrike.datasource.model.city.CityListEntity
+
+interface CityApi {
+
+    // Получение  списка городов
+    @GET("cities")
+    fun getCityAsync(): Deferred<Response<CityListEntity>>
 
 /*    @GET("posts/")
-    fun getPosts(): Single<List<PostEntity>>
+    fun getCitys(): Single<List<CityEntity>>
 
     @GET("posts/{id}")
-    fun getPost(@Path("id") postId: String): Single<PostEntity>*/
+    fun getCity(@Path("id") postId: String): Single<CityEntity>*/
 }
 
 interface UsersApi {

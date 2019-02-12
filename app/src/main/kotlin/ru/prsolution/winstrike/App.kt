@@ -7,6 +7,7 @@ import ru.prsolution.winstrike.datasource.model.ArenaEntity
 import ru.prsolution.winstrike.datasource.model.ArenaSchemaEntity
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.domain.models.login.UserEntity
+import ru.prsolution.winstrike.presentation.utils.cache.CacheLibrary
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 class App : Application() {
@@ -53,6 +54,9 @@ class App : Application() {
         }*/
         //        Fabric.with(this, new Crashlytics());
         instance = this
+
+        // Unique initialization of Cache library to allow saving into device
+        CacheLibrary.init(this)
 
         Fresco.initialize(this)
 

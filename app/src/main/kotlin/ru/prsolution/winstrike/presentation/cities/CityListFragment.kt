@@ -11,9 +11,8 @@ import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_city_list.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.city.City
-import ru.prsolution.winstrike.presentation.main.MainViewModel
-import ru.prsolution.winstrike.presentation.utils.resouces.Resource
 import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
+import ru.prsolution.winstrike.viewmodel.CityViewModel
 
 /**
  * Created by Oleg Sitnikov on 2019-02-12
@@ -21,11 +20,10 @@ import ru.prsolution.winstrike.presentation.utils.resouces.ResourceState
 
 class CityListFragment : Fragment() {
 
-    var mVm: MainViewModel? = null
 
     private val itemClick: (City) -> Unit =
             {
-                val action = CityListFragmentDirections.nextAction()
+                val action = CityListFragmentDirections.nextAction(it.publicId)
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
             }
     private val adapter = CityListAdapter(itemClick)
@@ -36,12 +34,12 @@ class CityListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
+        val mVm = activity?.let { ViewModelProviders.of(this@CityListFragment)[CityViewModel::class.java] }
 
         city_rv.adapter = adapter
 
         if (savedInstanceState == null) {
-            mVm?.getCity()
+            mVm?.fetchCities()
         }
 
         mVm?.cityList?.observe(this@CityListFragment, Observer { cities ->
@@ -55,20 +53,9 @@ class CityListFragment : Fragment() {
 
     }
 
-    private fun updateCities(resource: Resource<List<City>>?) {
-        resource?.let {
-            when (it.state) {
-                ResourceState.LOADING -> {
-                }
-                ResourceState.SUCCESS -> {
-                }
-                ResourceState.ERROR -> {
-                }
-            }
-
-            it.data?.let {
-                 adapter.submitList(it)
-            }
+    private fun updateCities(resource: List<City>) {
+        resource.let {
+            adapter.submitList(it)
         }
     }
 }

@@ -66,11 +66,15 @@
 
     <fragment android:id="@+id/navigation_city"
               android:name="ru.prsolution.winstrike.presentation.cities.CityFragment"
-              tools:layout="@layout/fmt_city"
+              tools:layout="@layout/fmt_city_detail"
               android:label="City">
         <action
           android:id="@+id/next_action"
           app:destination="@id/navigation_home"/>
+        <argument
+          android:name="cityPid"
+          app:argType="string"
+          />
     </fragment>
 
     <!--CityList-->

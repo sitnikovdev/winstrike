@@ -49,6 +49,8 @@ object Versions {
 	const val fabric = "1.27.0"
 
 	const val leakCanary = "1.6.3"
+
+	const val rxpaper = "1.3.0"
 }
 
 
@@ -89,6 +91,8 @@ object Libraries {
   	const val leakCanaryAndroid = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
 	const val leakCanaryAndroidNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:${Versions.leakCanary}"
 	const val leakCanaryAndroidSupportFragment = "com.squareup.leakcanary:leakcanary-support-fragment:${Versions.leakCanary}"
+
+	const val rxpaper = "com.github.pakoito:RxPaper2:${Versions.rxpaper}"
 }
 
 

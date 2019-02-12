@@ -32,6 +32,7 @@ allprojects {
 			url = uri("https://jitpack.io")
 			content {
 				includeGroup("com.github.scottyab")
+				includeGroup("com.github.pakoito")
 			}
 		}
 	}

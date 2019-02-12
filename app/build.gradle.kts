@@ -182,4 +182,7 @@ dependencies {
     // password
     implementation(Libraries.showhidepasswordedittext)
 
+
+    // rxpaper
+    implementation(Libraries.rxpaper)
 }
