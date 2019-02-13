@@ -9,9 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import kotlinx.android.synthetic.main.ac_mainscreen.*
 import kotlinx.android.synthetic.main.fmt_home.*
 import org.jetbrains.anko.imageURI
 import org.koin.androidx.viewmodel.ext.viewModel
+import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaHallType
 import ru.prsolution.winstrike.domain.models.Type
@@ -58,7 +61,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        updateCarouselView(mArena)
+
         arguments?.let {
             val safeArgs = HomeFragmentArgs.fromBundle(it)
             this.mArenaPid = safeArgs.arenaPID
@@ -90,7 +93,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun updateArenaInfo(arena: ArenaItem?) { // TODO: Don't use domain (datasource), use (domain) Presentation Layer!!!
+    private fun updateArenaInfo(arena: ArenaItem?) {
         metro_tv.text = arena?.metro
         arena_description.text = arena?.description
         head_image.imageURI = Uri.parse(arena?.imageUrl)

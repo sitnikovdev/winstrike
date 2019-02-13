@@ -37,6 +37,7 @@ class CityFragment : Fragment() {
                 PrefUtils.arenaPid = arena.publicId
 
                 val action = CityFragmentDirections.nextAction(arena.publicId!!)
+                action.title = arena.name!!
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
             }
 
