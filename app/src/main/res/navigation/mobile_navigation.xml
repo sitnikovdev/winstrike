@@ -12,6 +12,9 @@
               android:label="Winstrike">
         <action android:id="@+id/next_action"
                 app:destination="@id/navigation_setup"/>
+        <argument
+          android:name="arenaPID"
+          app:argType="string"/>
     </fragment>
 
     <!--Orders-->

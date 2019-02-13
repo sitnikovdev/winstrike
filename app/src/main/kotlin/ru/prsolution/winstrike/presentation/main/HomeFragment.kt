@@ -38,6 +38,7 @@ import ru.prsolution.winstrike.presentation.main.carousel.CarouselAdapter
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.custom.RecyclerViewMargin
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import ru.prsolution.winstrike.viewmodel.MainViewModel
 
 /**
@@ -46,7 +47,7 @@ import ru.prsolution.winstrike.viewmodel.MainViewModel
 
 class HomeFragment : Fragment() {
 
-    var selectedArena = 0
+//    var selectedArena = 0
     private val arenaUpConstraintSet = ConstraintSet()
     private val arenaDownConstraintSet = ConstraintSet()
     private var mArena: Arena? = null
@@ -62,8 +63,9 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
-        selectedArena = PrefUtils.selectedArena
-        ArenaListAdapter.SELECTED_ITEM = selectedArena
+
+//        selectedArena = PrefUtils.selectedArena
+//        ArenaListAdapter.SELECTED_ITEM = selectedArena
 
         mCarouselAdapter = CarouselAdapter(activity?.supportFragmentManager)
 

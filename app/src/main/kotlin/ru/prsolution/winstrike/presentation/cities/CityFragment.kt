@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_city_detail.*
 import kotlinx.android.synthetic.main.fmt_city_list.*
 import org.koin.androidx.viewmodel.ext.viewModel
@@ -34,10 +35,9 @@ class CityFragment : Fragment() {
     private val itemClick: (ArenaItem) -> Unit =
             { arena ->
                 PrefUtils.arenaPid = arena.publicId
-                adapter.notifyDataSetChanged()
 
-                //                val action = ArenaListFragmentDirections.nextAction(it.id,it.name)
-//                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+                val action = CityFragmentDirections.nextAction(arena.publicId!!)
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
             }
 
     private val adapter = ArenaListAdapter(itemClick)
