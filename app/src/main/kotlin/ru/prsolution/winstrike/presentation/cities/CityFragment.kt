@@ -1,23 +1,22 @@
 package ru.prsolution.winstrike.presentation.cities
 
-import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fmt_city_list.*
-import kotlinx.android.synthetic.main.item_home.*
+import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.datasource.cache.CityCacheDataSourceImpl
-import ru.prsolution.winstrike.domain.models.Arena
-import ru.prsolution.winstrike.domain.models.city.City
-import ru.prsolution.winstrike.presentation.utils.cache.Cache
-import ru.prsolution.winstrike.viewmodel.CityViewModel
-import ru.prsolution.winstrike.viewmodel.MainViewModel
-import timber.log.Timber
+import ru.prsolution.winstrike.presentation.model.ArenaItem
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
+import ru.prsolution.winstrike.viewmodel.ArenaViewModel
 
 /**
  * Created by Oleg Sitnikov on 2019-02-11
@@ -25,52 +24,52 @@ import timber.log.Timber
 
 class CityFragment : Fragment() {
 
+    private val mVm: ArenaViewModel by viewModel()
+
     private var mCityPid = ""
-    private var mArenaList: List<Arena>? = null
+    private var mCityName = ""
+    private var mArenaList: List<ArenaItem>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.fmt_city_detail, container, false)
     }
 
-    @SuppressLint("CheckResult")
+    private var mArenaActivePid: String? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-//        val mVm = activity?.let { ViewModelProviders.of(this@CityFragment)[CityViewModel::class.java] }
-
-
-        var city:List<City>? = null
-
-//        mVm?.cityCache?.get()?.subscribe { it ->
-//                city = it
-//        }
-
-//        Timber.d("cities: ${city?.size}")
-
-
-        if (savedInstanceState == null) {
-//            mVm?.getArenaList()
-        }
-
-/*        mVm?.arenaList?.observe(this@CityFragment, Observer { arenas ->
-
-            arenas?.let {
-//                updateCities(it)
-                Timber.tag("$$$").d("arena list size: ${arenas.data?.size}")
-                mArenaList = arenas.data
-                Timber.tag("$$$").d("arena contains city: ${arenas.data?.find { it.cityPid == mCityPid }}")
-//                Timber.d("city name: ${arenas.data?.find { it.cityPid == mCityPid }}")
-            }
-
-        })*/
-
 
         arguments?.let {
             val safeArgs = CityFragmentArgs.fromBundle(it)
             this.mCityPid = safeArgs.cityPid
+            this.mCityName = safeArgs.cityName
         }
 
-        title_tv.text = mCityPid
+        val spannable = SpannableString("Ваш регион: ${mCityName}")
+
+        spannable.setSpan(
+                ForegroundColorSpan(resources.getColor(R.color.colorAccent)),
+                12, spannable.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        title_tv.text = spannable
+
+        if (savedInstanceState == null) {
+            mVm.fetchArenaList()
+        }
+
+        mVm.arenaList.observe(this@CityFragment, Observer { arenas ->
+
+            arenas?.let {
+                mArenaList = arenas.filter { it.cityPid == mCityPid }
+                mArenaActivePid = arenas[selectedArena].activeLayoutPid
+                PrefUtils.arenaPid = mArenaActivePid
+            }
+
+        })
+
+
 
 /*        view.findViewById<TextView>(R.id.city_tv).setOnClickListener {
 

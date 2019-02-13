@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(),
         mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         if (savedInstanceState == null) {
-            mVm.getArenaList()
+//            mVm.getArenaList()
         }
 
 

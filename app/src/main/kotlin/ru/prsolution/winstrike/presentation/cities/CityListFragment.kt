@@ -25,7 +25,7 @@ class CityListFragment : Fragment() {
 
     private val itemClick: (CityItem) -> Unit =
             {
-                val action = CityListFragmentDirections.nextAction(it.id)
+                val action = CityListFragmentDirections.nextAction(it.id,it.name)
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
             }
     private val adapter = CityListAdapter(itemClick)

@@ -75,6 +75,9 @@
           android:name="cityPid"
           app:argType="string"
           />
+        <argument
+          android:name="cityName"
+          app:argType="string"/>
     </fragment>
 
     <!--CityList-->

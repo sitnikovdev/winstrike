@@ -2,9 +2,9 @@ package ru.prsolution.winstrike.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
-import ru.prsolution.winstrike.data.repository.ArenaRepository
-import ru.prsolution.winstrike.domain.models.Arena
-import ru.prsolution.winstrike.networking.ApiFactory
+import ru.prsolution.winstrike.domain.usecases.ArenaUseCase
+import ru.prsolution.winstrike.presentation.model.ArenaItem
+import ru.prsolution.winstrike.presentation.model.mapToPresentation
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import kotlin.coroutines.CoroutineContext
 
@@ -13,8 +13,8 @@ import kotlin.coroutines.CoroutineContext
  */
 
 
+class ArenaViewModel constructor(val arenaUseCase: ArenaUseCase) : ViewModel() {
 
-class ArenaViewModel : ViewModel(){
 
     private val parentJob = Job()
 
@@ -23,20 +23,21 @@ class ArenaViewModel : ViewModel(){
 
     private val scope = CoroutineScope(coroutineContext)
 
-    private val arenaRepository : ArenaRepository = ArenaRepository(ApiFactory.arenaApi)
+    val arenaList = SingleLiveEvent<List<ArenaItem>>()
 
-
-    // Список имеющихся арен
-    val arenaList = SingleLiveEvent<List<Arena>>()
-
-    fun fetchArenas(){
+    fun fetchArenaList() {
         scope.launch {
-            val arenas = arenaRepository.get()
-            arenaList.postValue(arenas)
+            val cities = arenaUseCase.get(refresh = true)
+            arenaList.postValue(cities?.mapToPresentation())
         }
     }
 
 
-    fun cancelAllRequests() = coroutineContext.cancel()
+    private fun cancelAllRequests() = coroutineContext.cancel()
+
+    override fun onCleared() {
+        super.onCleared()
+        cancelAllRequests()
+    }
 
 }
