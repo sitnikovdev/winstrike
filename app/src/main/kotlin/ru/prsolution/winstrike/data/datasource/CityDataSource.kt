@@ -13,7 +13,6 @@ interface CityCacheDataSource {
 
 interface CityRemoteDataSource {
 
-    fun get(): Single<List<City>>
+   suspend fun get(): List<City>?
 
-    fun get(postId: String): Single<City>
 }

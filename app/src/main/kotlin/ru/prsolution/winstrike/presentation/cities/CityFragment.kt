@@ -36,7 +36,7 @@ class CityFragment : Fragment() {
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val mVm = activity?.let { ViewModelProviders.of(this@CityFragment)[CityViewModel::class.java] }
+//        val mVm = activity?.let { ViewModelProviders.of(this@CityFragment)[CityViewModel::class.java] }
 
 
         var city:List<City>? = null

@@ -7,11 +7,9 @@ import ru.prsolution.winstrike.datasource.model.ArenaListEntity
 import ru.prsolution.winstrike.datasource.model.city.CityListEntity
 
 interface CityApi {
-
     // Получение  списка городов
     @GET("cities")
     fun getCityAsync(): Deferred<Response<CityListEntity>>
-
 }
 
 interface ArenaApi {
@@ -20,9 +18,3 @@ interface ArenaApi {
     fun getArenaAsync(): Deferred<Response<ArenaListEntity>>
 }
 
-interface UsersApi {
-
-}
-
-interface CommentsApi {
-}

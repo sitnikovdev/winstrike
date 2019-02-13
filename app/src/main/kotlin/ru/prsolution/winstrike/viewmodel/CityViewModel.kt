@@ -2,9 +2,8 @@ package ru.prsolution.winstrike.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
-import ru.prsolution.winstrike.data.repository.CityRepository
 import ru.prsolution.winstrike.domain.models.city.City
-import ru.prsolution.winstrike.networking.ApiFactory
+import ru.prsolution.winstrike.domain.usecases.CityUseCase
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import kotlin.coroutines.CoroutineContext
 
@@ -13,10 +12,8 @@ import kotlin.coroutines.CoroutineContext
  */
 
 
+class CityViewModel constructor(val cityUseCase: CityUseCase) : ViewModel() {
 
-class CityViewModel : ViewModel(){
-
-//    val cityCache = CityCacheDataSourceImpl(Cache())
 
     private val parentJob = Job()
 
@@ -25,19 +22,21 @@ class CityViewModel : ViewModel(){
 
     private val scope = CoroutineScope(coroutineContext)
 
-    private val cityRepository : CityRepository = CityRepository(ApiFactory.cityApi)
-
-
     val cityList = SingleLiveEvent<List<City>>()
 
-    fun fetchCities(){
+    fun fetchCities() {
         scope.launch {
-            val cities = cityRepository.get()
+            val cities = cityUseCase.get()
             cityList.postValue(cities)
         }
     }
 
 
-    fun cancelAllRequests() = coroutineContext.cancel()
+    private fun cancelAllRequests() = coroutineContext.cancel()
+
+    override fun onCleared() {
+        super.onCleared()
+        cancelAllRequests()
+    }
 
 }

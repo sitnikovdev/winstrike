@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.domain.payment
+package ru.prsolution.winstrike.datasource.model.payment
 
 /**
  * Created by oleg on 07/03/2018.

@@ -39,8 +39,8 @@ import ru.prsolution.winstrike.domain.models.ArenaSchemaName
 import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.SeatMap
 import ru.prsolution.winstrike.domain.models.SeatType
-import ru.prsolution.winstrike.domain.payment.PaymentModel
-import ru.prsolution.winstrike.domain.payment.PaymentResponse
+import ru.prsolution.winstrike.datasource.model.payment.PaymentModel
+import ru.prsolution.winstrike.datasource.model.payment.PaymentResponse
 import ru.prsolution.winstrike.viewmodel.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel

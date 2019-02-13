@@ -14,8 +14,8 @@ import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.city.City
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
-import ru.prsolution.winstrike.domain.payment.PaymentModel
-import ru.prsolution.winstrike.domain.payment.PaymentResponse
+import ru.prsolution.winstrike.datasource.model.payment.PaymentModel
+import ru.prsolution.winstrike.datasource.model.payment.PaymentResponse
 import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import ru.prsolution.winstrike.data.repository.resouces.Resource
