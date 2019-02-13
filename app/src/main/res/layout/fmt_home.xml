@@ -37,61 +37,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_goneMarginBottom="24dp" />
 
-    <TextView
-        android:id="@+id/tvArenaTitle"
-        style="@style/StemBold15Accent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="24dp"
-        android:text="Выбрать арену"
-        android:textColor="@color/color_black"
-        app:layout_constraintBottom_toBottomOf="@id/v_spinner"
-        app:layout_constraintEnd_toStartOf="@+id/arrowArena_Down"
-        app:layout_constraintStart_toStartOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/v_spinner" />
-
-    <View
-        android:id="@+id/arrowArena_Down"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:clickable="true"
-        android:foreground="@drawable/ripple_effect"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/v_spinner" />
-
-    <View
-        android:id="@+id/arrowArena_Up"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:clickable="true"
-        android:foreground="@drawable/ripple_effect"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/v_spinner" />
-
-    <ImageView
-        android:id="@+id/iv_down_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="21dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ic_down_arrow"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/tvArenaTitle" />
-
-    <ImageView
-        android:id="@+id/iv_up_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="21dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ic_up_arrow"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/v_spinner"
-        app:layout_constraintTop_toTopOf="@id/tvArenaTitle" />
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/head_image"

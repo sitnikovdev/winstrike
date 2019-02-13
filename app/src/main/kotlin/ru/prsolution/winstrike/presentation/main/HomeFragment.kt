@@ -7,27 +7,17 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.fmt_home.arena_description
-import kotlinx.android.synthetic.main.fmt_home.arrowArena_Down
-import kotlinx.android.synthetic.main.fmt_home.arrowArena_Up
 import kotlinx.android.synthetic.main.fmt_home.head_image
-import kotlinx.android.synthetic.main.fmt_home.root
-import kotlinx.android.synthetic.main.fmt_home.rv_arena
-import kotlinx.android.synthetic.main.fmt_home.tvArenaTitle
 import kotlinx.android.synthetic.main.fmt_home.view_pager_seat
 import org.jetbrains.anko.imageURI
-import ru.prsolution.winstrike.App
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaHallType
 import ru.prsolution.winstrike.domain.models.Type
 import ru.prsolution.winstrike.domain.models.SeatCarousel
-import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_350
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_450
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_600
@@ -36,7 +26,7 @@ import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_WIDTH_PX_1440
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_WIDTH_PX_720
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselAdapter
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
-import ru.prsolution.winstrike.presentation.utils.custom.RecyclerViewMargin
+import ru.prsolution.winstrike.presentation.model.ArenaItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import ru.prsolution.winstrike.viewmodel.MainViewModel
@@ -78,7 +68,7 @@ class HomeFragment : Fragment() {
                 // TODO: use arena pid!!!
                 mArena = resource?.data?.get(selectedArena)
                 updateCarouselView(mArena)
-                updateArenaInfo(mArena)
+//                updateArenaInfo(mArena)
             }
         })
 
@@ -94,10 +84,10 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun updateArenaInfo(room: Arena?) { // TODO: Don't use datasource, use domain!!!
-        tvArenaTitle.text = room?.name
-        arena_description.text = room?.description
-        head_image.imageURI = Uri.parse(room?.imageUrl)
+    private fun updateArenaInfo(arena: ArenaItem?) { // TODO: Don't use domain (datasource), use (domain) Presentation Layer!!!
+//        tvArenaTitle.text = arena?.name
+        arena_description.text = arena?.description
+        head_image.imageURI = Uri.parse(arena?.imageUrl)
     }
 
 // Carousel view initiated
