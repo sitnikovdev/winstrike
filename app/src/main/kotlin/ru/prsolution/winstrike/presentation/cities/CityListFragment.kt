@@ -14,6 +14,7 @@ import ru.prsolution.winstrike.presentation.injectFeature
 import ru.prsolution.winstrike.presentation.model.CityItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.CityViewModel
+import timber.log.Timber
 
 /**
  * Created by Oleg Sitnikov on 2019-02-12
@@ -28,8 +29,8 @@ class CityListFragment : Fragment() {
                 city ->
 
                 PrefUtils.cityPid = city.id
-                CityListAdapter.SELECTED_ITEM = city.id
-                adapter.notifyDataSetChanged()
+
+                Timber.tag("$$$").d("Selected city id: ${PrefUtils.cityPid}")
 
                 val action = CityListFragmentDirections.nextAction(city.id,city.name)
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)

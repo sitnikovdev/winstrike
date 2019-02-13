@@ -1,18 +1,15 @@
 package ru.prsolution.winstrike.presentation.cities
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_city.view.*
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.textColor
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.model.CityItem
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import timber.log.Timber
 
 /**
  * Created by Oleg Sitnikov on 2019-02-12
@@ -20,6 +17,9 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 class CityListAdapter constructor(private val itemClick: (CityItem) -> Unit) :
         ListAdapter<CityItem, CityListAdapter.ViewHolder>(CityItemDiffCallback()) {
+    init {
+        Timber.tag("$$$").d("Selected city id: ${PrefUtils.cityPid}")
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
@@ -34,7 +34,7 @@ class CityListAdapter constructor(private val itemClick: (CityItem) -> Unit) :
         fun bind(item: CityItem) {
             itemView.name_tv.text = item.name
 
-            if (SELECTED_ITEM == item.id) {
+            if (item.id.contains(PrefUtils.cityPid.toString())) {
                 with(itemView) {
                    card_view.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
 
@@ -47,9 +47,6 @@ class CityListAdapter constructor(private val itemClick: (CityItem) -> Unit) :
         }
     }
 
-    companion object {
-        var SELECTED_ITEM: String? = PrefUtils.cityPid
-    }
 }
 
 

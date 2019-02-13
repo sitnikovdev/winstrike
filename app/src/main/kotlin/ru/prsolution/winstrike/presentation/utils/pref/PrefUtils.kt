@@ -21,7 +21,7 @@ object PrefUtils {
 
     private const val ARENAPID = "arenaPid"
 
-    private const val CITYPID = "arenaPid"
+    private const val CITYPID = "cityPid"
 
 
     var cityPid: String?
