@@ -21,6 +21,15 @@ object PrefUtils {
 
     private const val ARENAPID = "arenaPid"
 
+    private const val CITYPID = "arenaPid"
+
+
+    var cityPid: String?
+        get() = SharedPrefFactory.prefs.getString(CITYPID, "")
+        set(cityPid) {
+            SharedPrefFactory.editor.putString(CITYPID, cityPid).commit()
+        }
+
     var arenaPid: String?
         get() = SharedPrefFactory.prefs.getString(ARENAPID, "")
         set(arenaPid) {

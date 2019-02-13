@@ -14,7 +14,7 @@ import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.setColor
 
 class ArenaListAdapter(private val itemClick: (Arena, Int) -> Unit) :
-        ListAdapter<Arena, ArenaListAdapter.ViewHolder>(PostDiffCallback()) {
+        ListAdapter<Arena, ArenaListAdapter.ViewHolder>(ArenaDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(parent)
@@ -43,7 +43,7 @@ class ArenaListAdapter(private val itemClick: (Arena, Int) -> Unit) :
                 }
             }
 
-            itemView.setOnClickListener { itemClick.invoke(item, position) }
+            itemView.setOnClickListener { itemClick.invoke(item, layoutPosition) }
         }
     }
 
@@ -52,7 +52,7 @@ class ArenaListAdapter(private val itemClick: (Arena, Int) -> Unit) :
     }
 }
 
-private class PostDiffCallback : DiffUtil.ItemCallback<Arena>() {
+private class ArenaDiffCallback : DiffUtil.ItemCallback<Arena>() {
     override fun areItemsTheSame(oldItem: Arena, newItem: Arena): Boolean =
             oldItem.name == newItem.metro
 

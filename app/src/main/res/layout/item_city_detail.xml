@@ -19,7 +19,7 @@
 
     <!--City name-->
     <TextView
-      android:id="@+id/name_tv"
+      android:id="@+id/city_tv"
       style="@style/StemMedium20Black"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -34,15 +34,16 @@
       tools:textColor="@color/color_white"/>
 
     <TextView
-      android:id="@+id/arena_tv"
+      android:id="@+id/metro_tv"
       style="@style/StemMedium15Black"
-      android:textColor="@color/color_white"
+      android:textColor="@color/color_black"
+      tools:textColor="@color/color_white"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="32dp"
       tools:text="ЦДМ, м.Лубянка"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/name_tv"
+      app:layout_constraintTop_toBottomOf="@id/city_tv"
       />
 
 

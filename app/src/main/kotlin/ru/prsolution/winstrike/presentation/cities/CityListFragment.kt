@@ -12,6 +12,7 @@ import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.injectFeature
 import ru.prsolution.winstrike.presentation.model.CityItem
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.CityViewModel
 
 /**
@@ -22,12 +23,18 @@ class CityListFragment : Fragment() {
 
     private val mVm: CityViewModel by viewModel()
 
-
     private val itemClick: (CityItem) -> Unit =
             {
-                val action = CityListFragmentDirections.nextAction(it.id,it.name)
+                city ->
+
+                PrefUtils.cityPid = city.id
+                CityListAdapter.SELECTED_ITEM = city.id
+                adapter.notifyDataSetChanged()
+
+                val action = CityListFragmentDirections.nextAction(city.id,city.name)
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
             }
+
     private val adapter = CityListAdapter(itemClick)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
