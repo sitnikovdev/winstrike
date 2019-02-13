@@ -9,13 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.ac_mainscreen.*
+import kotlinx.android.synthetic.main.fmt_city_list.*
 import kotlinx.android.synthetic.main.fmt_home.*
 import org.jetbrains.anko.imageURI
 import org.koin.androidx.viewmodel.ext.viewModel
-import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaHallType
 import ru.prsolution.winstrike.domain.models.Type
 import ru.prsolution.winstrike.domain.models.SeatCarousel
@@ -30,7 +27,6 @@ import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.model.ArenaItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.ArenaViewModel
-import timber.log.Timber
 
 /**
  * Created by Oleg Sitnikov on 2019-02-13
@@ -41,7 +37,7 @@ class HomeFragment : Fragment() {
 
     private val mVm: ArenaViewModel by viewModel()
 
-    private var mArenaPid: String = ""
+    private var mArenaPid: String? = ""
     private var mArena: ArenaItem? = null
 
     var mCarouselAdapter: CarouselAdapter? = null
@@ -59,12 +55,33 @@ class HomeFragment : Fragment() {
     }
 
 
+    private var mArenaName: String? = "No Arena"
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
             val safeArgs = HomeFragmentArgs.fromBundle(it)
-            this.mArenaPid = safeArgs.arenaPID
+            when (safeArgs.arenaPID) {
+                "0" -> {
+                    this.mArenaPid = PrefUtils.arenaPid
+                }
+                else -> {
+                    mArenaPid = safeArgs.arenaPID
+                    PrefUtils.arenaPid = mArenaPid
+                }
+            }
+
+            when (safeArgs.title) {
+                "No Arena" -> {
+                    mArenaName = PrefUtils.arenaName
+                }
+                else -> {
+                    mArenaName = safeArgs.title
+                    PrefUtils.arenaName = mArenaName
+                }
+            }
         }
 
         if (savedInstanceState == null) {
@@ -73,11 +90,13 @@ class HomeFragment : Fragment() {
 
         // TODO: Process error response and show some info message!!!
         mVm.arenaList.observe(this@HomeFragment, Observer {
-            it.let {
-                // TODO: use arena pid!!!
-                mArena = it.find { it.publicId!!.contains(mArenaPid) }
-                updateArenaInfo(mArena)
-                updateCarouselView(mArena)
+            it.let { arenaList ->
+
+                mArenaPid?.let { arenaPid ->
+                    mArena = arenaList.find { it.publicId!!.contains(arenaPid) }
+                    updateArenaInfo(mArena)
+                    updateCarouselView(mArena)
+                }
             }
         })
 

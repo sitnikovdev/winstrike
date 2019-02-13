@@ -18,7 +18,8 @@
       app:destination="@id/navigation_setup"/>
     <argument
       android:name="arenaPID"
-      app:argType="string"/>
+      app:argType="string"
+      android:defaultValue= "0" />
     <argument
       android:defaultValue = "No Arena"
       android:name="title"
@@ -38,7 +39,8 @@
   <fragment
     android:id="@+id/navigation_profile"
     android:label="Профиль"
-    android:name="ru.prsolution.winstrike.presentation.profile.ProfileFragment"/>
+    android:name="ru.prsolution.winstrike.presentation.profile.ProfileFragment">
+  </fragment>
 
   <!--SetUp -->
 
