@@ -5,6 +5,6 @@ import ru.prsolution.winstrike.domain.repository.CityRepository
 
 class CityUseCase constructor(private val cityRepository: CityRepository) {
 
-    suspend fun get(): List<City>? =
-        cityRepository.get()
+    suspend fun get(refresh: Boolean): List<City>? =
+        cityRepository.get(refresh)
 }

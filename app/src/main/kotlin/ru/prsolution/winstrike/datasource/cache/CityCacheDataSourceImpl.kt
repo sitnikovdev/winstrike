@@ -13,7 +13,7 @@ class CityCacheDataSourceImpl constructor(
     override fun get(): Single<List<City>> =
         cache.load(key)
 
-    override fun set(list: List<City>): Single<List<City>> =
+    override fun set(list: List<City>?): Single<List<City>> =
         cache.save(key, list)
 
 }

@@ -21,6 +21,6 @@ class Cache<T> {
 
     fun load(key: String): Single<T> = book.read(key)
 
-    fun save(key: String, anyObject: T): Single<T> =
+    fun save(key: String, anyObject: T?): Single<T> =
         book.write(key, anyObject).toSingleDefault(anyObject)
 }

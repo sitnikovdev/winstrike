@@ -4,5 +4,5 @@ import ru.prsolution.winstrike.domain.models.city.City
 
 interface CityRepository {
 
-   suspend fun get(): List<City>?
+   suspend fun get(refresh: Boolean): List<City>?
 }

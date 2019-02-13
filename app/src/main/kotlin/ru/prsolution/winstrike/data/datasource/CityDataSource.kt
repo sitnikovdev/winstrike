@@ -7,7 +7,7 @@ interface CityCacheDataSource {
 
     fun get(): Single<List<City>>
 
-    fun set(list: List<City>): Single<List<City>>
+    fun set(list: List<City>?): Single<List<City>>
 
 }
 

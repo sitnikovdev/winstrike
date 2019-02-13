@@ -10,8 +10,8 @@ class CityRepositoryImpl constructor(
         private val remoteDataSource: CityRemoteDataSource
 ) : CityRepository {
 
-    override suspend fun get(): List<City>? {
-        return remoteDataSource.get()
-    }
 
+    override suspend fun get(refresh: Boolean): List<City>? =
+            remoteDataSource.get()
 }
+

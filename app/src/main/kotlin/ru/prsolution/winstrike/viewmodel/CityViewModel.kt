@@ -28,7 +28,7 @@ class CityViewModel constructor(val cityUseCase: CityUseCase) : ViewModel() {
 
     fun fetchCities() {
         scope.launch {
-            val cities = cityUseCase.get()
+            val cities = cityUseCase.get(true)
             cityList.postValue(cities?.mapToPresentation())
         }
     }
