@@ -9,11 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fmt_home.arena_description
 import kotlinx.android.synthetic.main.fmt_home.head_image
 import kotlinx.android.synthetic.main.fmt_home.view_pager_seat
 import org.jetbrains.anko.imageURI
+import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaHallType
 import ru.prsolution.winstrike.domain.models.Type
@@ -28,16 +28,21 @@ import ru.prsolution.winstrike.presentation.main.carousel.CarouselAdapter
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.model.ArenaItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
-import ru.prsolution.winstrike.viewmodel.MainViewModel
+import ru.prsolution.winstrike.viewmodel.ArenaViewModel
+import timber.log.Timber
 
 /**
- * A main screen of Winstrike app.
+ * Created by Oleg Sitnikov on 2019-02-13
  */
+
 
 class HomeFragment : Fragment() {
 
-    private var mArena: Arena? = null
+    private val mVm: ArenaViewModel by viewModel()
+
+    private var mArenaPid: String = ""
+    private var mArena: ArenaItem? = null
+
     var mCarouselAdapter: CarouselAdapter? = null
 
     private val seatMap: MutableMap<Type, SeatCarousel> = mutableMapOf()
@@ -52,22 +57,26 @@ class HomeFragment : Fragment() {
         return inflater.inflate(ru.prsolution.winstrike.R.layout.fmt_home, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        updateCarouselView(mArena)
-
-        val mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
+        arguments?.let {
+            val safeArgs = HomeFragmentArgs.fromBundle(it)
+            this.mArenaPid = safeArgs.arenaPID
+        }
 
         if (savedInstanceState == null) {
-            mVm.getArenaList()
+            mVm.fetchArenaList()
         }
 
         // TODO: Process error response and show some info message!!!
-        mVm.arenaList.observe(this@HomeFragment, Observer { resource ->
-            resource.let {
+        mVm.arenaList.observe(this@HomeFragment, Observer {
+            it.let {
                 // TODO: use arena pid!!!
-                mArena = resource?.data?.get(selectedArena)
+                mArena = it.find { it.publicId!!.contains(mArenaPid) }
                 updateCarouselView(mArena)
+//                Timber.tag("$$$").d("arena is ${it}")
 //                updateArenaInfo(mArena)
             }
         })
@@ -92,7 +101,7 @@ class HomeFragment : Fragment() {
 
 // Carousel view initiated
 
-    private fun updateCarouselView(room: Arena?) {
+    private fun updateCarouselView(arenaItem: ArenaItem?) {
         mCarouselAdapter?.isClear()?.let {
             require(it) {
                 "++++ Adapter must be empty! ++++"
@@ -100,14 +109,14 @@ class HomeFragment : Fragment() {
         }
         // Define mArena type ( double(common & vip), common, vip)
         if (
-                (!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription))) ||
-                (!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
+                (!TextUtils.isEmpty(arenaItem?.commonDescription) && (!TextUtils.isEmpty(arenaItem?.vipDescription))) ||
+                (!TextUtils.isEmpty(arenaItem?.commonImageUrl) && (!TextUtils.isEmpty(arenaItem?.vipImageUrl)))
 
         ) {
             hallType = ArenaHallType.DOUBLE
-        } else if (!TextUtils.isEmpty(room?.commonDescription)) {
+        } else if (!TextUtils.isEmpty(arenaItem?.commonDescription)) {
             hallType = ArenaHallType.COMMON
-        } else if (!TextUtils.isEmpty(room?.vipDescription)) {
+        } else if (!TextUtils.isEmpty(arenaItem?.vipDescription)) {
             hallType = ArenaHallType.VIP
         }
 
@@ -116,29 +125,29 @@ class HomeFragment : Fragment() {
 
                 seatMap[Type.COMMON] = SeatCarousel(
                         type = Type.COMMON,
-                        imageUrl = room?.commonImageUrl,
-                        description = room?.commonDescription
+                        imageUrl = arenaItem?.commonImageUrl,
+                        description = arenaItem?.commonDescription
                 )
 
                 seatMap[Type.VIP] = SeatCarousel(
                         type = Type.VIP,
-                        imageUrl = room?.vipImageUrl,
-                        description = room?.vipDescription
+                        imageUrl = arenaItem?.vipImageUrl,
+                        description = arenaItem?.vipDescription
                 )
             }
             ArenaHallType.COMMON -> {
                 seatMap[Type.COMMON] = SeatCarousel(
                         type = Type.COMMON,
-                        imageUrl = room?.commonImageUrl,
-                        description = room?.commonDescription
+                        imageUrl = arenaItem?.commonImageUrl,
+                        description = arenaItem?.commonDescription
                 )
             }
             ArenaHallType.VIP -> { // Create VIP mArena
 
                 seatMap[Type.VIP] = SeatCarousel(
                         type = Type.VIP,
-                        imageUrl = room?.vipImageUrl,
-                        description = room?.vipDescription
+                        imageUrl = arenaItem?.vipImageUrl,
+                        description = arenaItem?.vipDescription
                 )
             }
         }
