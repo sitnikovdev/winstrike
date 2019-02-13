@@ -47,14 +47,7 @@ import ru.prsolution.winstrike.viewmodel.MainViewModel
 
 class HomeFragment : Fragment() {
 
-//    var selectedArena = 0
-    private val arenaUpConstraintSet = ConstraintSet()
-    private val arenaDownConstraintSet = ConstraintSet()
     private var mArena: Arena? = null
-
-    var isArenaShow: Boolean = false
-    lateinit var mVm: MainViewModel
-    lateinit var arenaListAdapter: ArenaListAdapter
     var mCarouselAdapter: CarouselAdapter? = null
 
     private val seatMap: MutableMap<Type, SeatCarousel> = mutableMapOf()
@@ -62,17 +55,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
-
-//        selectedArena = PrefUtils.selectedArena
-//        ArenaListAdapter.SELECTED_ITEM = selectedArena
-
         mCarouselAdapter = CarouselAdapter(activity?.supportFragmentManager)
-
-        if (savedInstanceState == null) {
-            mVm.getArenaList()
-        }
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -81,13 +64,18 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arenaListAdapter = ArenaListAdapter(onArenaClickItem)
+//        updateCarouselView(mArena)
+
+        val mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
+
+        if (savedInstanceState == null) {
+            mVm.getArenaList()
+        }
 
         // TODO: Process error response and show some info message!!!
         mVm.arenaList.observe(this@HomeFragment, Observer { resource ->
             resource.let {
-                it?.data?.let { arenaListAdapter.submitList(it) }
-                // TODO: save it in preferences
+                // TODO: use arena pid!!!
                 mArena = resource?.data?.get(selectedArena)
                 updateCarouselView(mArena)
                 updateArenaInfo(mArena)
@@ -96,12 +84,6 @@ class HomeFragment : Fragment() {
 
         setupViewPager()
 
-        initArenaRV(arenaListAdapter) // Arena select
-        initAnimArenaRV() // Arena select transitions animations
-
-/*        liveSharedPreferences.getInt("selectedArena", 0).observe(this, Observer<Int> { value ->
-            Timber.tag("###").d(value.toString())
-        })*/
     }
 
     override fun onResume() {
@@ -118,56 +100,6 @@ class HomeFragment : Fragment() {
         head_image.imageURI = Uri.parse(room?.imageUrl)
     }
 
-    /** Arena selected recycler view */
-
-    private fun initArenaRV(arenaListAdapter: ArenaListAdapter) {
-        with(rv_arena) {
-            bringToFront()
-            addItemDecoration(RecyclerViewMargin(24, 1))
-            layoutManager = LinearLayoutManager(activity)
-            adapter = arenaListAdapter
-            adapter?.notifyDataSetChanged()
-        }
-    }
-
-    private val onArenaClickItem: (Arena, Int) -> Unit = { room, position ->
-        TransitionManager.beginDelayedTransition(root)
-        arenaUpConstraintSet.applyTo(root)
-        PrefUtils.selectedArena = position
-        ArenaListAdapter.SELECTED_ITEM = position
-        this.selectedArena = position
-        this.isArenaShow = false
-
-        tvArenaTitle.text = room.name
-
-        rv_arena.adapter?.notifyDataSetChanged()
-
-        updateArenaInfo(room)
-
-        updateCarouselView(room)
-
-    }
-
-    private fun initAnimArenaRV() {
-        arenaDownConstraintSet.clone(activity, ru.prsolution.winstrike.R.layout.part_arena_down)
-        arenaUpConstraintSet.clone(activity, ru.prsolution.winstrike.R.layout.part_arena_up)
-        arrowArena_Down.setOnClickListener {
-            TransitionManager.beginDelayedTransition(root)
-            if (!isArenaShow) {
-                isArenaShow = true
-                arenaDownConstraintSet.applyTo(root)
-            } else {
-                arenaUpConstraintSet.applyTo(root)
-                isArenaShow = false
-            }
-        }
-
-        arrowArena_Up.setOnClickListener {
-            TransitionManager.beginDelayedTransition(root)
-            arenaUpConstraintSet.applyTo(root)
-        }
-    }
-
 // Carousel view initiated
 
     private fun updateCarouselView(room: Arena?) {
@@ -178,8 +110,8 @@ class HomeFragment : Fragment() {
         }
         // Define mArena type ( double(common & vip), common, vip)
         if (
-            (!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription))) ||
-            (!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
+                (!TextUtils.isEmpty(room?.commonDescription) && (!TextUtils.isEmpty(room?.vipDescription))) ||
+                (!TextUtils.isEmpty(room?.commonImageUrl) && (!TextUtils.isEmpty(room?.vipImageUrl)))
 
         ) {
             hallType = ArenaHallType.DOUBLE
@@ -193,30 +125,30 @@ class HomeFragment : Fragment() {
             ArenaHallType.DOUBLE -> { // create two mArena: COMMON and VIP
 
                 seatMap[Type.COMMON] = SeatCarousel(
-                    type = Type.COMMON,
-                    imageUrl = room?.commonImageUrl,
-                    description = room?.commonDescription
+                        type = Type.COMMON,
+                        imageUrl = room?.commonImageUrl,
+                        description = room?.commonDescription
                 )
 
                 seatMap[Type.VIP] = SeatCarousel(
-                    type = Type.VIP,
-                    imageUrl = room?.vipImageUrl,
-                    description = room?.vipDescription
+                        type = Type.VIP,
+                        imageUrl = room?.vipImageUrl,
+                        description = room?.vipDescription
                 )
             }
             ArenaHallType.COMMON -> {
                 seatMap[Type.COMMON] = SeatCarousel(
-                    type = Type.COMMON,
-                    imageUrl = room?.commonImageUrl,
-                    description = room?.commonDescription
+                        type = Type.COMMON,
+                        imageUrl = room?.commonImageUrl,
+                        description = room?.commonDescription
                 )
             }
             ArenaHallType.VIP -> { // Create VIP mArena
 
                 seatMap[Type.VIP] = SeatCarousel(
-                    type = Type.VIP,
-                    imageUrl = room?.vipImageUrl,
-                    description = room?.vipDescription
+                        type = Type.VIP,
+                        imageUrl = room?.vipImageUrl,
+                        description = room?.vipDescription
                 )
             }
         }
@@ -224,8 +156,8 @@ class HomeFragment : Fragment() {
         with(mCarouselAdapter) {
             seatMap.forEach {
                 CarouselFragment.newInstance(
-                    activity?.supportFragmentManager,
-                    it.value
+                        activity?.supportFragmentManager,
+                        it.value
                 )?.let { this?.addFragment(fragment = it) }
             }
         }
@@ -250,13 +182,4 @@ class HomeFragment : Fragment() {
         }
     }
 
-    /** click on seat in carousel view */
-
-    fun onSeatClick(seat: SeatCarousel) {
-        TimeDataModel.clearPids()
-// 		showFragmentHolderContainer(true)
-        // TODO: remove this!!! Use ViewModel
-        App.instance.seat = seat
-// 		presenter.onChooseScreenClick()
-    }
 }
