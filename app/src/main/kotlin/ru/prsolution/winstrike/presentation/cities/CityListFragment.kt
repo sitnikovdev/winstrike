@@ -10,8 +10,8 @@ import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_city_list.*
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.city.City
 import ru.prsolution.winstrike.presentation.injectFeature
+import ru.prsolution.winstrike.presentation.model.CityItem
 import ru.prsolution.winstrike.viewmodel.CityViewModel
 
 /**
@@ -23,9 +23,9 @@ class CityListFragment : Fragment() {
     private val mVm: CityViewModel by viewModel()
 
 
-    private val itemClick: (City) -> Unit =
+    private val itemClick: (CityItem) -> Unit =
             {
-                val action = CityListFragmentDirections.nextAction(it.publicId)
+                val action = CityListFragmentDirections.nextAction(it.id)
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
             }
     private val adapter = CityListAdapter(itemClick)
@@ -57,7 +57,7 @@ class CityListFragment : Fragment() {
 
     }
 
-    private fun updateCities(resource: List<City>) {
+    private fun updateCities(resource: List<CityItem>) {
         resource.let {
             adapter.submitList(it)
         }

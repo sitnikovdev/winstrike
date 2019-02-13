@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import ru.prsolution.winstrike.domain.models.city.City
 import ru.prsolution.winstrike.domain.usecases.CityUseCase
+import ru.prsolution.winstrike.presentation.model.CityItem
+import ru.prsolution.winstrike.presentation.model.mapToPresentation
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import kotlin.coroutines.CoroutineContext
 
@@ -22,12 +24,12 @@ class CityViewModel constructor(val cityUseCase: CityUseCase) : ViewModel() {
 
     private val scope = CoroutineScope(coroutineContext)
 
-    val cityList = SingleLiveEvent<List<City>>()
+    val cityList = SingleLiveEvent<List<CityItem>>()
 
     fun fetchCities() {
         scope.launch {
             val cities = cityUseCase.get()
-            cityList.postValue(cities)
+            cityList.postValue(cities?.mapToPresentation())
         }
     }
 

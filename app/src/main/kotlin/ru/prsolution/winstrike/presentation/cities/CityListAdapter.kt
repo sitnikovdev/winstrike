@@ -6,15 +6,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_city.view.*
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.city.City
+import ru.prsolution.winstrike.presentation.model.CityItem
 import ru.prsolution.winstrike.presentation.utils.inflate
 
 /**
  * Created by Oleg Sitnikov on 2019-02-12
  */
 
-class CityListAdapter constructor(private val itemClick: (City) -> Unit) :
-        ListAdapter<City, CityListAdapter.ViewHolder>(CityDiffCallback()) {
+class CityListAdapter constructor(private val itemClick: (CityItem) -> Unit) :
+        ListAdapter<CityItem, CityListAdapter.ViewHolder>(CityItemDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
@@ -26,17 +26,17 @@ class CityListAdapter constructor(private val itemClick: (City) -> Unit) :
     inner class ViewHolder(parent: ViewGroup) :
             RecyclerView.ViewHolder(parent.inflate(R.layout.item_city)) {
 
-        fun bind(item: City) {
+        fun bind(item: CityItem) {
             itemView.name_tv.text = item.name
             itemView.setOnClickListener { itemClick.invoke(item) }
         }
     }
 }
 
-private class CityDiffCallback : DiffUtil.ItemCallback<City>() {
-    override fun areItemsTheSame(oldItem: City, newItem: City): Boolean =
-            oldItem.publicId == newItem.publicId
+private class CityItemDiffCallback : DiffUtil.ItemCallback<CityItem>() {
+    override fun areItemsTheSame(oldItem: CityItem, newItem: CityItem): Boolean =
+            oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: City, newItem: City): Boolean =
+    override fun areContentsTheSame(oldItem: CityItem, newItem: CityItem): Boolean =
             oldItem.name == newItem.name
 }
