@@ -21,6 +21,8 @@ object PrefUtils {
 
     private const val ARENAPID = "arenaPid"
 
+    private const val ACTIVEARENAPID = "activeArenaPid"
+
     private const val CITYPID = "cityPid"
 
 
@@ -34,6 +36,12 @@ object PrefUtils {
         get() = SharedPrefFactory.prefs.getString(ARENAPID, "")
         set(arenaPid) {
             SharedPrefFactory.editor.putString(ARENAPID, arenaPid).commit()
+        }
+
+    var acitveArenaPid: String?
+        get() = SharedPrefFactory.prefs.getString(ACTIVEARENAPID, "")
+        set(acitveArenaPid) {
+            SharedPrefFactory.editor.putString(ACTIVEARENAPID, acitveArenaPid).commit()
         }
 
     var startTime: String?

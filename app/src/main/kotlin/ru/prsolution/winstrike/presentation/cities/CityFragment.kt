@@ -32,7 +32,10 @@ class CityFragment : Fragment() {
     private var mArenaList: List<ArenaItem>? = null
 
     private val itemClick: (ArenaItem) -> Unit =
-            {
+            { arena ->
+                PrefUtils.arenaPid = arena.publicId
+                adapter.notifyDataSetChanged()
+
                 //                val action = ArenaListFragmentDirections.nextAction(it.id,it.name)
 //                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
             }
@@ -75,7 +78,7 @@ class CityFragment : Fragment() {
             arenas?.let {
                 mArenaList = arenas.filter { it.cityPid == mCityPid }
                 mArenaActivePid = arenas[selectedArena].activeLayoutPid
-                PrefUtils.arenaPid = mArenaActivePid
+                PrefUtils.acitveArenaPid = mArenaActivePid
                 updateArenaList(mArenaList)
             }
 

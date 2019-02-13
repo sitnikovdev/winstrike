@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.item_city_detail.view.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.model.ArenaItem
 import ru.prsolution.winstrike.presentation.utils.inflate
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 /**
  * Created by Oleg Sitnikov on 2019-02-12
@@ -32,12 +33,26 @@ class ArenaListAdapter constructor(private val itemClick: (ArenaItem) -> Unit) :
             itemView.city_tv.text = item.name
             itemView.metro_tv.text = item.metro
             itemView.setOnClickListener { itemClick.invoke(item) }
+
+            if (item.publicId?.contains(PrefUtils.arenaPid.toString())!!) {
+                with(itemView) {
+                    city_tv.setTextColor(resources.getColor(R.color.color_white))
+                    metro_tv.setTextColor(resources.getColor(R.color.color_white))
+                    card_v.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
+                    check_box_iv.setImageResource(R.drawable.ic_check_white)
+                }
+            } else {
+                with(itemView) {
+                    city_tv.setTextColor(resources.getColor(R.color.color_black))
+                    metro_tv.setTextColor(resources.getColor(R.color.color_black))
+                    card_v.setCardBackgroundColor(resources.getColor(R.color.color_white))
+                    check_box_iv.setImageResource(R.drawable.ic_check_white)
+                }
+
+            }
         }
     }
 
-    companion object {
-        var SELECTED_ITEM: String = ""
-    }
 }
 
 private class ArenaItemDiffCallback : DiffUtil.ItemCallback<ArenaItem>() {

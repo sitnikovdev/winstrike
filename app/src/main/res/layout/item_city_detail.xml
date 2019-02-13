@@ -3,6 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/card_v"
   android:layout_width="match_parent"
   android:layout_height="72dp"
   android:layout_gravity="center"
@@ -50,7 +51,7 @@
     <!--Checkbox-->
 
     <ImageView
-      android:id="@+id/checkbox"
+      android:id="@+id/check_box_iv"
       android:layout_width="18dp"
       android:layout_height="12dp"
       android:layout_marginTop="8dp"

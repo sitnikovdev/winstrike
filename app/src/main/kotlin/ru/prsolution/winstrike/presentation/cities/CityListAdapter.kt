@@ -17,9 +17,6 @@ import timber.log.Timber
 
 class CityListAdapter constructor(private val itemClick: (CityItem) -> Unit) :
         ListAdapter<CityItem, CityListAdapter.ViewHolder>(CityItemDiffCallback()) {
-    init {
-        Timber.tag("$$$").d("Selected city id: ${PrefUtils.cityPid}")
-    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
@@ -36,13 +33,19 @@ class CityListAdapter constructor(private val itemClick: (CityItem) -> Unit) :
 
             if (item.id.contains(PrefUtils.cityPid.toString())) {
                 with(itemView) {
-                   card_view.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
-
-                   name_tv.setTextColor(resources.getColor(R.color.color_white))
-
+                    card_view.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
+                    name_tv.setTextColor(resources.getColor(R.color.color_white))
+                    checkbox_iv.setImageResource(R.drawable.ic_check_white)
+                }
+            } else {
+                with(itemView) {
+                    card_view.setCardBackgroundColor(resources.getColor(R.color.color_white))
+                    name_tv.setTextColor(resources.getColor(R.color.color_black))
                     checkbox_iv.setImageResource(R.drawable.ic_check_white)
                 }
             }
+
+
             itemView.setOnClickListener { itemClick.invoke(item) }
         }
     }
