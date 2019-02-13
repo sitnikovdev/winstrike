@@ -9,9 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.fmt_home.arena_description
-import kotlinx.android.synthetic.main.fmt_home.head_image
-import kotlinx.android.synthetic.main.fmt_home.view_pager_seat
+import kotlinx.android.synthetic.main.fmt_home.*
 import org.jetbrains.anko.imageURI
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.domain.models.Arena
@@ -75,9 +73,8 @@ class HomeFragment : Fragment() {
             it.let {
                 // TODO: use arena pid!!!
                 mArena = it.find { it.publicId!!.contains(mArenaPid) }
+                updateArenaInfo(mArena)
                 updateCarouselView(mArena)
-//                Timber.tag("$$$").d("arena is ${it}")
-//                updateArenaInfo(mArena)
             }
         })
 
@@ -94,7 +91,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateArenaInfo(arena: ArenaItem?) { // TODO: Don't use domain (datasource), use (domain) Presentation Layer!!!
-//        tvArenaTitle.text = arena?.name
+        metro_tv.text = arena?.metro
         arena_description.text = arena?.description
         head_image.imageURI = Uri.parse(arena?.imageUrl)
     }

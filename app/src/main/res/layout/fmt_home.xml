@@ -37,7 +37,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_goneMarginBottom="24dp"
-    android:text="ЦДМ на Лубянке"
+    tools:text="ЦДМ на Лубянке"
     />
 
 
