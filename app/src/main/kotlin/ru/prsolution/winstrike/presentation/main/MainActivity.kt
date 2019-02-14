@@ -67,28 +67,13 @@ class MainActivity : AppCompatActivity(),
             }
         }
 
+
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         setSupportActionBar(toolbar)
         setupActionBar(navController, appBarConfiguration)
         setupBottomNavMenu(navController)
 
-//        ViewModel
-
-        mVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
-        if (savedInstanceState == null) {
-//            mVm.getArenaList()
-        }
-
-
-        // get active arena pid to pass it in SetupFragment when click on carousel item
-        mVm.arenaList.observe(this@MainActivity, Observer { resource ->
-            resource.let {
-                mArenaPid = resource?.data?.get(selectedArena)?.activeLayoutPid
-
-            }
-        })
 
 //        initFCM() // FCM push notifications
     }
@@ -121,15 +106,6 @@ class MainActivity : AppCompatActivity(),
             super.onOptionsItemSelected(item)
     }
 
-    private fun showHome(isVisible: Boolean) {
-        if (isVisible) {
-            toolbar.navigationIcon = getDrawable(R.drawable.ic_back_arrow)
-            toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStartWithNavigation)
-        } else {
-            toolbar.navigationIcon = null
-            toolbar.setContentInsetsAbsolute(0, toolbar.contentInsetStart)
-        }
-    }
 
     private fun initFCM() {
         val fcmToken = PrefUtils.fcmtoken

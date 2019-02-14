@@ -16,6 +16,7 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.CityViewModel
 import timber.log.Timber
 
+
 /**
  * Created by Oleg Sitnikov on 2019-02-12
  */
