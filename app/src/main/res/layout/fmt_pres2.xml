@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@+id/text_header"
-        style="@style/StemMedium20Black"
+        style="@style/StemMedium20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -55,7 +55,7 @@
 
     <TextView
         android:id="@+id/text_detail"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"

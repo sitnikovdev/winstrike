@@ -21,7 +21,7 @@
     <!--City name-->
     <TextView
       android:id="@+id/city_tv"
-      style="@style/StemMedium20Black"
+      style="@style/StemMedium20"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
@@ -36,7 +36,7 @@
 
     <TextView
       android:id="@+id/metro_tv"
-      style="@style/StemMedium15Black"
+      style="@style/StemMedium15"
       android:textColor="@color/black"
       tools:textColor="@color/white"
       android:layout_width="wrap_content"

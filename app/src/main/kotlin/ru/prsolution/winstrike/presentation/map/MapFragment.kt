@@ -258,9 +258,9 @@ class MapFragment : Fragment() {
             val textView = TextView(mContext)
             textView.text = text
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                textView.setTextAppearance(R.style.StemMedium15Primary)
+                textView.setTextAppearance(R.style.StemMedium15Accent)
             } else {
-                textView.setTextAppearance(mContext, R.style.StemMedium15Primary)
+                textView.setTextAppearance(mContext, R.style.StemMedium15Accent)
             }
 
             textView.layoutParams = numberParams

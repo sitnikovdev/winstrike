@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/bonus_activity"
-            style="@style/StemMedium15Black"
+            style="@style/StemMedium15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
@@ -97,7 +97,7 @@
 
         <TextView
             android:id="@+id/fav_activity"
-            style="@style/StemMedium15Black"
+            style="@style/StemMedium15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -131,7 +131,7 @@
 
     <TextView
         android:id="@+id/text_social"
-        style="@style/StemMedium15Black"
+        style="@style/StemMedium15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="180dp"

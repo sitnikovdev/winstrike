@@ -50,7 +50,7 @@
 
     <TextView
         android:id="@+id/tv_country"
-        style="@style/StemRegular15Base04"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -83,7 +83,7 @@
 
     <EditText
         android:id="@+id/et_phone"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -108,7 +108,7 @@
 
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
         android:id="@+id/et_password"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -137,7 +137,7 @@
 
     <TextView
         android:id="@+id/text_button_title"
-        style="@style/StemMedium15Primary"
+        style="@style/StemMedium15Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login_enterbtn"
@@ -160,7 +160,7 @@
 
     <TextView
         android:id="@+id/text_help_link"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
@@ -181,7 +181,7 @@
 
     <TextView
         android:id="@+id/text_enter_social"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -298,7 +298,7 @@
 
     <TextView
         android:id="@+id/tv_conditions"
-        style="@style/StemRegular12Red"
+        style="@style/StemRegular12Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -324,7 +324,7 @@
 
     <TextView
         android:id="@+id/tv_politica4"
-        style="@style/StemRegular12Red"
+        style="@style/StemRegular12Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -339,7 +339,7 @@
 
     <TextView
         android:id="@+id/tv_register"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
@@ -354,7 +354,7 @@
 
     <TextView
         android:id="@+id/tv_register2"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"

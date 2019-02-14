@@ -12,7 +12,7 @@
 
     <TextView
         android:id="@+id/title"
-        style="@style/StemMedium17Black"
+        style="@style/StemMedium17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
@@ -54,7 +54,7 @@
 
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
         android:id="@+id/et_password_first"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -72,7 +72,7 @@
 
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
         android:id="@+id/et_password_second"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -101,7 +101,7 @@
 
     <TextView
         android:id="@+id/text_button_title"
-        style="@style/StemMedium15Primary"
+        style="@style/StemMedium15Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/all_savebtn"

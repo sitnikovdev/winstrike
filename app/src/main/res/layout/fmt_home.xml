@@ -24,7 +24,7 @@
 
   <TextView
     android:id="@+id/metro_tv"
-    style="@style/StemRegular18Black"
+    style="@style/StemRegular18"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="32dp"
@@ -70,7 +70,7 @@
 
   <TextView
     android:id="@+id/arena_description"
-    style="@style/StemRegular14Black"
+    style="@style/StemRegular14"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
@@ -85,7 +85,7 @@
 
   <TextView
     android:id="@+id/seat_cat"
-    style="@style/StemMedium15Black"
+    style="@style/StemMedium15"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="48dp"

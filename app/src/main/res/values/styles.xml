@@ -37,43 +37,38 @@
 
   <!--Fonts-->
 
-  <style name="StemRegular17White">
+  <style name="StemRegular17OnPrimary">
     <item name="android:textSize">17sp</item>
     <item name="android:textColor">?themeContentTextColoOnPrimary</item>
   </style>
 
-  <style name="StemRegular14Black">
+  <style name="StemRegular14">
     <item name="android:textSize">14sp</item>
     <item name="android:textColor">?themeContentTextColor</item>
   </style>
 
-  <style name="StemMedium17Black">
+  <style name="StemMedium17">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">17sp</item>
     <item name="android:textColor">?themeContentTextColor</item>
   </style>
 
-  <style name="StemMedium15Black">
+  <style name="StemMedium15">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">15sp</item>
     <item name="android:textColor">?themeContentTextColor</item>
   </style>
 
-  <style name="StemRegular15Base04">
+  <style name="StemRegular15">
     <item name="android:textSize">15sp</item>
     <item name="android:alpha">.4</item>
-    <item name="android:textColor">@color/colorPrimaryDark</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
 
-  <style name="StemMedium20Black">
+  <style name="StemMedium20">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">20sp</item>
     <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemRegular35White">
-    <item name="android:textSize">35sp</item>
-    <item name="android:textColor">?themeContentTextColoOnPrimary</item>
   </style>
 
   <style name="StemRegular13Gray">
@@ -91,25 +86,20 @@
     <item name="android:textSize">12sp</item>
   </style>
 
-  <style name="StemRegular12Red">
-    <item name="android:textColor">@color/colorAccent</item>
+  <style name="StemRegular12Accent">
+    <item name="android:textColor">?themeAccent</item>
     <item name="android:textSize">12sp</item>
   </style>
 
-  <style name="StemRegular17Base">
+  <style name="StemRegular17">
     <item name="android:textSize">17sp</item>
     <item name="android:textColor">@color/colorPrimaryDark</item>
   </style>
 
-  <style name="StemRegular19Withe06">
+  <style name="StemRegular19OnPrimaryAlpha06">
     <item name="android:textSize">19sp</item>
     <item name="android:alpha">.6</item>
     <item name="android:textColor">?themeContentTextColoOnPrimary</item>
-  </style>
-
-  <style name="StemRegular15Base">
-    <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/colorPrimaryDark</item>
   </style>
 
   <style name="StemMediumBlue17">
@@ -118,22 +108,18 @@
     <item name="android:textColor">@color/blue</item>
   </style>
 
-  <style name="StemRegular15Black">
-    <item name="android:textSize">15sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
 
-  <style name="StemRegular18Black">
+  <style name="StemRegular18">
     <item name="android:textSize">18sp</item>
     <item name="android:textColor">?themeContentTextColor</item>
   </style>
 
-  <style name="StemRegular13Black">
+  <style name="StemRegular13">
     <item name="android:textSize">15sp</item>
     <item name="android:textColor">?themeContentTextColor</item>
   </style>
 
-  <style name="StemBold17Black">
+  <style name="StemBold17">
     <item name="android:fontFamily">@fontFamily/stem_bold</item>
     <item name="android:textSize">17sp</item>
     <item name="android:textColor">?themeContentTextColor</item>
@@ -142,13 +128,13 @@
   <style name="StemBold15Accent">
     <item name="android:fontFamily">@fontFamily/stem_bold</item>
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/colorAccent</item>
+    <item name="android:textColor">?themeAccent</item>
   </style>
 
   <style name="StemMedium12Accent">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">12sp</item>
-    <item name="android:textColor">@color/colorAccent</item>
+    <item name="android:textColor">?themeAccent</item>
   </style>
 
   <style name="StemRegular15Gray06">
@@ -157,7 +143,7 @@
     <item name="android:textColor">@color/grey</item>
   </style>
 
-  <style name="StemMedium15White">
+  <style name="StemMedium15OnPrimary">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">15sp</item>
     <item name="android:textColor">?themeContentTextColoOnPrimary</item>
@@ -169,22 +155,22 @@
     <item name="android:textColor">@color/greyLight</item>
   </style>
 
-  <style name="StemRegular12Black">
+  <style name="StemRegular12">
     <item name="android:textSize">12sp</item>
     <item name="android:textColor">?themeContentTextColor</item>
   </style>
 
-  <style name="StemMedium15Black04">
+  <style name="StemMedium15Alpha04">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">15sp</item>
     <item name="android:alpha">.4</item>
     <item name="android:textColor">?themeContentTextColor</item>
   </style>
 
-  <style name="StemMedium17Primary">
+  <style name="StemMedium17Accent">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">17sp</item>
-    <item name="android:textColor">@color/colorAccent</item>
+    <item name="android:textColor">?themeAccent</item>
   </style>
 
   <style name="StemRegular17Gray">
@@ -192,10 +178,10 @@
     <item name="android:textColor">@color/greyLight</item>
   </style>
 
-  <style name="StemMedium15Primary">
+  <style name="StemMedium15Accent">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/colorAccent</item>
+    <item name="android:textColor">?themeAccent</item>
   </style>
 
   <style name="StemRegular20">
@@ -214,7 +200,7 @@
   <style name="DateDialog" parent="Theme.AppCompat.Dialog">
     <item name="dialogCornerRadius">10dp</item>
     <item name="android:background">@color/colorPrimaryDark</item>
-    <item name="colorAccent">@color/colorAccent</item>
+    <item name="colorAccent">?themeAccent</item>
     <item name="windowActionBar">false</item>
   </style>
 

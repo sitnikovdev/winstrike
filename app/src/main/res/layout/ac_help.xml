@@ -39,7 +39,7 @@
 
     <TextView
         android:id="@+id/tv_access"
-        style="@style/StemMedium17Black"
+        style="@style/StemMedium17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/help_account_title"
@@ -63,7 +63,7 @@
 
         <TextView
             android:id="@+id/tv_sms"
-            style="@style/StemRegular15Black"
+            style="@style/StemRegular15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/help_menu_title"
@@ -79,7 +79,7 @@
 
     <TextView
         android:id="@+id/tv_help"
-        style="@style/StemMedium17Black"
+        style="@style/StemMedium17"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/help_center_title"
@@ -99,7 +99,7 @@
 
         <TextView
             android:id="@+id/tv_help_centr"
-            style="@style/StemRegular15Base"
+            style="@style/StemRegular15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/help_winstrike_title"

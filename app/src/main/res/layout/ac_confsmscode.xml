@@ -54,7 +54,7 @@
 
     <TextView
         android:id="@+id/tv_phone"
-        style="@style/StemMedium15Black"
+        style="@style/StemMedium15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -65,7 +65,7 @@
 
     <TextView
         android:id="@+id/tv_hint"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="297dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
@@ -86,7 +86,7 @@
 
     <EditText
         android:id="@+id/et_code"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marging_edit_24dp"
@@ -111,7 +111,7 @@
 
     <TextView
         android:id="@+id/tv_confirm_btn"
-        style="@style/StemMedium15Primary"
+        style="@style/StemMedium15Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Далее"
@@ -134,7 +134,7 @@
 
     <EditText
         android:id="@+id/et_name"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marging_edit_24dp"
@@ -163,7 +163,7 @@
 
     <TextView
         android:id="@+id/tv_send_code_again"
-        style="@style/StemMedium15Primary"
+        style="@style/StemMedium15Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Отправить код повторно"
@@ -187,7 +187,7 @@
 
     <TextView
         android:id="@+id/tv_nextbtn_label"
-        style="@style/StemMedium15Primary"
+        style="@style/StemMedium15Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Поехали"
@@ -245,7 +245,7 @@
 
     <TextView
         android:id="@+id/tv_register2"
-        style="@style/StemRegular12Red"
+        style="@style/StemRegular12Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -272,7 +272,7 @@
 
     <TextView
         android:id="@+id/tv_register4"
-        style="@style/StemRegular12Red"
+        style="@style/StemRegular12Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"

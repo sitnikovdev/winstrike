@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/tv_legend"
-        style="@style/StemMedium17Black"
+        style="@style/StemMedium17"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
@@ -40,7 +40,7 @@
 
     <TextView
         android:id="@+id/tv_vip"
-        style="@style/StemRegular15Black"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -63,7 +63,7 @@
 
     <TextView
         android:id="@+id/tv_lockyou"
-        style="@style/StemRegular15Black"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -86,7 +86,7 @@
 
     <TextView
         android:id="@+id/tv_locked"
-        style="@style/StemRegular15Black"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -108,7 +108,7 @@
 
     <TextView
         android:id="@+id/tv_free"
-        style="@style/StemRegular15Black"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -119,7 +119,7 @@
 
     <TextView
         android:id="@+id/tv_see"
-        style="@style/StemMedium17Black"
+        style="@style/StemMedium17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

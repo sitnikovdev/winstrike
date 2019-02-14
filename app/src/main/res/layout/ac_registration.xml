@@ -63,7 +63,7 @@
 
     <TextView
         android:id="@+id/tv_title_phone"
-        style="@style/StemMedium15Black"
+        style="@style/StemMedium15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -74,7 +74,7 @@
 
     <TextView
         android:id="@+id/tv_country"
-        style="@style/StemRegular15Base04"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -104,7 +104,7 @@
 
     <EditText
         android:id="@+id/et_phone"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -131,7 +131,7 @@
 
     <TextView
         android:id="@+id/tv_passw"
-        style="@style/StemMedium15Black"
+        style="@style/StemMedium15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -152,7 +152,7 @@
 
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
         android:id="@+id/et_password"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -180,7 +180,7 @@
 
     <TextView
         android:id="@+id/text_button_title"
-        style="@style/StemMedium15Primary"
+        style="@style/StemMedium15Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/all_nextbtn"
@@ -191,7 +191,7 @@
 
     <TextView
         android:id="@+id/tv_register"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
@@ -206,7 +206,7 @@
 
     <TextView
         android:id="@+id/tv_register2"
-        style="@style/StemRegular15Base"
+        style="@style/StemRegular15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"

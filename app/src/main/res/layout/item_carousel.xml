@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/seat_name_tv"
-                style="@style/StemRegular17White"
+                style="@style/StemRegular17OnPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Обычные"
@@ -45,7 +45,7 @@
                 app:layout_constraintStart_toStartOf="@id/seat_image_iv"
                 app:layout_constraintTop_toTopOf="@id/seat_image_iv"
                 app:layout_constraintVertical_bias=".85"
-                tools:textColor="@color/black" />
+              />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ru.prsolution.winstrike.presentation.main.carousel.CarouselLinearLayout>
 </LinearLayout>

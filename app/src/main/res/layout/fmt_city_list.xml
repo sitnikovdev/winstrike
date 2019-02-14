@@ -10,7 +10,7 @@
 
     <TextView
       android:id="@+id/title_tv"
-      style="@style/StemMedium20Black"
+      style="@style/StemMedium20"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Выберите свой город"

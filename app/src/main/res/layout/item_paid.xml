@@ -62,7 +62,7 @@
 
             <TextView
                 android:id="@+id/seat_name_tv"
-                style="@style/StemMedium15Black"
+                style="@style/StemMedium15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="vm.arenaName"
@@ -75,7 +75,7 @@
 
             <TextView
                 android:id="@+id/tv_date_tt"
-                style="@style/StemMedium15Black"
+                style="@style/StemMedium15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
@@ -85,7 +85,7 @@
 
             <TextView
                 android:id="@+id/tv_date"
-                style="@style/StemRegular15Black"
+                style="@style/StemRegular15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -97,7 +97,7 @@
 
             <TextView
                 android:id="@+id/tv_time_tt"
-                style="@style/StemMedium15Black"
+                style="@style/StemMedium15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -107,7 +107,7 @@
 
             <TextView
                 android:id="@+id/tv_time"
-                style="@style/StemRegular15Black"
+                style="@style/StemRegular15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -119,7 +119,7 @@
 
             <TextView
                 android:id="@+id/tv_pc_tt"
-                style="@style/StemMedium15Black"
+                style="@style/StemMedium15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -129,7 +129,7 @@
 
             <TextView
                 android:id="@+id/tv_pc"
-                style="@style/StemRegular15Black"
+                style="@style/StemRegular15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -141,7 +141,7 @@
 
             <TextView
                 android:id="@+id/tv_pccode_tt"
-                style="@style/StemMedium15Black"
+                style="@style/StemMedium15"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:layout_marginTop="15dp"
@@ -151,7 +151,7 @@
 
             <TextView
                 android:id="@+id/tv_pccode"
-                style="@style/StemRegular15Black"
+                style="@style/StemRegular15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
