@@ -510,7 +510,7 @@ class MapFragment : Fragment() {
         when (drawable) {
             is BitmapDrawable -> return BitmapFactory.decodeResource(context?.resources, drawableId!!)
             is VectorDrawable -> bitmap = getBitmap((drawable as VectorDrawable?)!!)
-            else -> throw IllegalArgumentException("unsupported drawable type")
+            else -> throw IllegalArgumentException("unsupported drawable type") as Throwable
         }
         return bitmap
     }
@@ -537,7 +537,7 @@ class MapFragment : Fragment() {
                     setSeat(seatBitmap, seat, ivSeat)
                     mapLayout?.addView(ivSeat)
                     seat.pid?.let { onSelectSeat(seat.id, true, it) }
-                    seatNumber.setTextColor(ContextCompat.getColor(activity!!, R.color.label_gray))
+                    seatNumber.setTextColor(ContextCompat.getColor(activity!!, R.color.grey))
                 }
             } else {
                 Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.id, seat.type, seat.name, seat.pid)

@@ -79,7 +79,7 @@
 
   <style name="StemMediumBlue17">
     <item name="android:textSize">17sp</item>
-    <item name="android:textColor">@color/ios_ok</item>
+    <item name="android:textColor">@color/blue</item>
   </style>
 
   <style name="StemRegular15Black">
@@ -115,7 +115,7 @@
   <style name="StemRegular15Gray06">
     <item name="android:textSize">15sp</item>
     <item name="android:alpha">.6</item>
-    <item name="android:textColor">@color/color_grey</item>
+    <item name="android:textColor">@color/grey</item>
   </style>
 
   <style name="StemMedium15White">
@@ -125,7 +125,7 @@
 
   <style name="StemMedium15LightGrey">
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/wnsLightGrey</item>
+    <item name="android:textColor">@color/greyLight</item>
   </style>
 
   <style name="StemRegular14Black">
@@ -151,7 +151,7 @@
 
   <style name="StemRegular17Gray">
     <item name="android:textSize">17sp</item>
-    <item name="android:textColor">@color/wnsLightGrey</item>
+    <item name="android:textColor">@color/greyLight</item>
   </style>
 
   <style name="StemMedium15Primary">
