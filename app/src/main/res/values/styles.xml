@@ -3,7 +3,7 @@
   <!--Main theme-->
   <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <!-- Customize your theme here. -->
-    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorAccent">@color/colorAccent</item>
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="colorAccent">@color/colorAccent</item>
   </style>
@@ -19,7 +19,7 @@
   <style name="DateDialog" parent="Theme.AppCompat.Dialog">
     <item name="dialogCornerRadius">10dp</item>
     <item name="android:background">@color/colorPrimaryDark</item>
-    <item name="colorAccent">@color/colorPrimary</item>
+    <item name="colorAccent">@color/colorAccent</item>
     <item name="windowActionBar">false</item>
   </style>
 
@@ -47,7 +47,7 @@
   </style>
 
   <style name="StemRegular12Red">
-    <item name="android:textColor">@color/color_accent</item>
+    <item name="android:textColor">@color/colorAccent</item>
     <item name="android:textSize">12sp</item>
   </style>
 
@@ -58,7 +58,7 @@
 
   <style name="StemRegular17Base">
     <item name="android:textSize">17sp</item>
-    <item name="android:textColor">@color/color_primary_dark</item>
+    <item name="android:textColor">@color/colorPrimaryDark</item>
   </style>
 
   <style name="StemRegular19Withe06">
@@ -69,12 +69,12 @@
 
   <style name="StemRegular15Base">
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/color_primary_dark</item>
+    <item name="android:textColor">@color/colorPrimaryDark</item>
   </style>
 
   <style name="StemRegular20">
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/color_primary_dark</item>
+    <item name="android:textColor">@color/colorPrimaryDark</item>
   </style>
 
   <style name="StemMediumBlue17">
@@ -104,12 +104,12 @@
 
   <style name="StemBold15Accent">
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/color_accent</item>
+    <item name="android:textColor">@color/colorAccent</item>
   </style>
 
   <style name="StemMedium12Accent">
     <item name="android:textSize">12sp</item>
-    <item name="android:textColor">@color/color_accent</item>
+    <item name="android:textColor">@color/colorAccent</item>
   </style>
 
   <style name="StemRegular15Gray06">
@@ -146,7 +146,7 @@
 
   <style name="StemMedium17Primary">
     <item name="android:textSize">17sp</item>
-    <item name="android:textColor">@color/color_primary</item>
+    <item name="android:textColor">@color/colorAccent</item>
   </style>
 
   <style name="StemRegular17Gray">
@@ -156,7 +156,7 @@
 
   <style name="StemMedium15Primary">
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/color_primary</item>
+    <item name="android:textColor">@color/colorAccent</item>
   </style>
 
   <style name="StemRegular35White">
@@ -172,7 +172,7 @@
   <style name="StemRegular15Base04">
     <item name="android:textSize">15sp</item>
     <item name="android:alpha">.4</item>
-    <item name="android:textColor">@color/color_primary_dark</item>
+    <item name="android:textColor">@color/colorPrimaryDark</item>
   </style>
 
   <style name="StemMedium15Black">

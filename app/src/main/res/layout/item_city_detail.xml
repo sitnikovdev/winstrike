@@ -7,7 +7,7 @@
   android:layout_width="match_parent"
   android:layout_height="72dp"
   android:layout_gravity="center"
-  tools:backgroundTint="@color/color_accent"
+  tools:backgroundTint="@color/colorAccent"
   android:foreground="?selectableItemBackground"
   android:orientation="horizontal">
 

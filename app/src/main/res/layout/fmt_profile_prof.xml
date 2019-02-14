@@ -39,7 +39,7 @@
         android:background="@android:color/transparent"
         android:hint="@string/all_fio"
         android:paddingBottom="5dp"
-        android:textColorHint="@color/color_primary_dark"
+        android:textColorHint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="@id/fio_bgr"
         app:layout_constraintStart_toStartOf="@id/fio_bgr"
         app:layout_constraintTop_toTopOf="@id/fio_bgr" />
@@ -64,14 +64,14 @@
         android:hint="@string/all_password_old"
         android:inputType="textPassword"
         android:paddingBottom="5dp"
-        android:textColorHint="@color/color_primary_dark"
+        android:textColorHint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="@id/password_bgr"
         app:layout_constraintStart_toStartOf="@id/password_bgr"
         app:layout_constraintTop_toTopOf="@id/password_bgr"
         app:additionalTouchTargetSize="80dp"
         app:drawable_hide="@mipmap/ic_hide_eye"
         app:drawable_show="@mipmap/ic_show_eye"
-        app:tint_color="@color/color_accent" />
+        app:tint_color="@color/colorAccent" />
 
     <View
         android:id="@+id/next_button"

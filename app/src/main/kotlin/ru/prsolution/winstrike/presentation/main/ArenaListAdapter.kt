@@ -30,8 +30,8 @@ class ArenaListAdapter(private val itemClick: (Arena, Int) -> Unit) :
             itemView.address.text = item.metro
             if (layoutPosition == SELECTED_ITEM) {
                 with(itemView) {
-                    title.setColor(R.color.color_accent)
-                    address.setColor(R.color.color_accent)
+                    title.setColor(R.color.colorAccent)
+                    address.setColor(R.color.colorAccent)
                     iv_checked.setImageResource(R.drawable.ic_checked)
                     iv_checked.visibility = View.VISIBLE
                 }

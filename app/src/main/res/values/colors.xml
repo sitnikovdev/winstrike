@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">@color/color_primary</color>
-    <color name="colorPrimaryDark">@color/color_primary_dark</color>
-    <color name="colorAccent">@color/color_accent</color>
+    <color name="colorPrimary">@color/magenta</color>
+    <color name="colorPrimaryDark">@color/black</color>
+    <color name="colorAccent">@color/magenta</color>
 
-    <color name="color_primary">#ffc9186c</color>
-    <color name="color_accent">#ffc9186c</color>
-    <color name="color_primary_dark">#ff161715</color>
-
+    <color name="magenta">#ffc9186c</color>
     <color name="black">#ff1f1f1f</color>
     <color name="white">#ffffff</color>
     <color name="grey">#ff9b9b9b</color>

@@ -217,7 +217,7 @@
         app:layout_constraintEnd_toEndOf="@id/v_pass"
         app:layout_constraintStart_toStartOf="@id/v_pass"
         app:layout_constraintTop_toTopOf="@id/v_pass"
-        app:tint_color="@color/color_accent" />
+        app:tint_color="@color/colorAccent" />
 
     <View
         android:id="@+id/next_button_confirm"

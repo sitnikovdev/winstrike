@@ -166,7 +166,7 @@
         app:additionalTouchTargetSize="80dp"
         app:drawable_hide="@mipmap/ic_hide_eye"
         app:drawable_show="@mipmap/ic_show_eye"
-        app:tint_color="@color/color_accent" />
+        app:tint_color="@color/colorAccent" />
 
     <View
         android:id="@+id/next_button_phone"
