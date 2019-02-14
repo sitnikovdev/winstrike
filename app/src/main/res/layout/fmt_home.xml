@@ -5,7 +5,7 @@
   android:id="@+id/root"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:background="@color/color_white"
+  android:background="@color/white"
   tools:activity=".presentation.main.MainScreenActivity">
 
   <androidx.constraintlayout.widget.Guideline

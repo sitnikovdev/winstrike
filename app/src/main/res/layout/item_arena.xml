@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:textColor="@color/color_black"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Winstrike Arena" />
@@ -25,7 +25,7 @@
         android:layout_marginBottom="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
-        android:textColor="@color/color_black"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
         tools:text="Лубянка" />

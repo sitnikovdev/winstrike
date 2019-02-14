@@ -3,22 +3,22 @@
     <style name="StemRegular17White">
         <item name="android:font">@font/stem_regular</item>
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textColor">@color/white</item>
     </style>
     <style name="StemRegular14Black">
         <item name="android:font">@font/stem_regular</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="StemMedium17Black">
         <item name="android:font">@font/stem_medium</item>
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="StemMedium15Black">
         <item name="android:font">@font/stem_medium</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="StemRegular15Base04">
         <item name="android:font">@font/stem_regular</item>
@@ -29,12 +29,12 @@
     <style name="StemMedium20Black">
         <item name="android:font">@font/stem_medium</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="StemRegular35White">
         <item name="android:font">@font/stem_regular</item>
         <item name="android:textSize">35sp</item>
-        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textColor">@color/white</item>
     </style>
     <style name="TabLayoutProfile" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">17sp</item>
@@ -70,7 +70,7 @@
         <item name="android:font">@font/stem_regular</item>
         <item name="android:textSize">19sp</item>
         <item name="android:alpha">.6</item>
-        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textColor">@color/white</item>
     </style>
     <style name="StemRegular15Base">
         <item name="android:font">@font/stem_regular</item>
@@ -85,22 +85,22 @@
     <style name="StemRegular15Black">
         <item name="android:font">@font/stem_regular</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="StemRegular18Black">
         <item name="android:font">@font/stem_regular</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="StemRegular13Black">
         <item name="android:font">@font/stem_regular</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="StemBold17Black">
         <item name="android:font">@font/stem_bold</item>
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="StemBold15Accent">
         <item name="android:font">@font/stem_bold</item>
@@ -121,7 +121,7 @@
     <style name="StemMedium15White">
         <item name="android:font">@font/stem_medium</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textColor">@color/white</item>
     </style>
     <style name="StemMedium15LightGrey">
         <item name="android:font">@font/stem_medium</item>
@@ -131,13 +131,13 @@
     <style name="StemRegular12Black">
         <item name="android:font">@font/stem_regular</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="StemMedium15Black04">
         <item name="android:font">@font/stem_medium</item>
         <item name="android:textSize">15sp</item>
         <item name="android:alpha">.4</item>
-        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="StemMedium17Primary">
         <item name="android:font">@font/stem_medium</item>
@@ -157,6 +157,6 @@
     <style name="StemRegular20">
         <item name="android:textSize">20sp</item>
         <item name="android:font">@font/stem_regular</item>
-        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

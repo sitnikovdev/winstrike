@@ -34,13 +34,13 @@ class CityListAdapter constructor(private val itemClick: (CityItem) -> Unit) :
             if (item.id.contains(PrefUtils.cityPid.toString())) {
                 with(itemView) {
                     card_view.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
-                    name_tv.setTextColor(resources.getColor(R.color.color_white))
+                    name_tv.setTextColor(resources.getColor(R.color.white))
                     checkbox_iv.setImageResource(R.drawable.ic_check_white)
                 }
             } else {
                 with(itemView) {
-                    card_view.setCardBackgroundColor(resources.getColor(R.color.color_white))
-                    name_tv.setTextColor(resources.getColor(R.color.color_black))
+                    card_view.setCardBackgroundColor(resources.getColor(R.color.white))
+                    name_tv.setTextColor(resources.getColor(R.color.black))
                     checkbox_iv.setImageResource(R.drawable.ic_check_white)
                 }
             }

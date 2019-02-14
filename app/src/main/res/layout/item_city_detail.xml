@@ -28,17 +28,17 @@
       android:layout_marginStart="32dp"
       android:maxLines="1"
       android:textAlignment="center"
-      android:textColor="@color/color_black"
+      android:textColor="@color/black"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       tools:text="Москва"
-      tools:textColor="@color/color_white"/>
+      tools:textColor="@color/white"/>
 
     <TextView
       android:id="@+id/metro_tv"
       style="@style/StemMedium15Black"
-      android:textColor="@color/color_black"
-      tools:textColor="@color/color_white"
+      android:textColor="@color/black"
+      tools:textColor="@color/white"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="32dp"

@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/color_black"
+            app:contentScrim="@color/black"
             app:expandedTitleMarginEnd="0dp"
             app:expandedTitleMarginStart="250dp"
             app:expandedTitleTextAppearance="@android:color/transparent"

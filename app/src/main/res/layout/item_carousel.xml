@@ -45,7 +45,7 @@
                 app:layout_constraintStart_toStartOf="@id/seat_image_iv"
                 app:layout_constraintTop_toTopOf="@id/seat_image_iv"
                 app:layout_constraintVertical_bias=".85"
-                tools:textColor="@color/color_black" />
+                tools:textColor="@color/black" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ru.prsolution.winstrike.presentation.main.carousel.CarouselLinearLayout>
 </LinearLayout>

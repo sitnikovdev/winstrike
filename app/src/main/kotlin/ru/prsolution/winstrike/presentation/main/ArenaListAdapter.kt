@@ -37,8 +37,8 @@ class ArenaListAdapter(private val itemClick: (Arena, Int) -> Unit) :
                 }
             } else {
                 with(itemView) {
-                    title.setColor(R.color.color_black)
-                    address.setColor(R.color.color_black)
+                    title.setColor(R.color.black)
+                    address.setColor(R.color.black)
                     iv_checked.visibility = View.GONE
                 }
             }
