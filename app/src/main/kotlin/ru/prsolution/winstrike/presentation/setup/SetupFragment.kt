@@ -11,10 +11,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.text.format.DateFormat
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
+import android.view.Window.FEATURE_NO_TITLE
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.TimePicker
@@ -43,8 +41,8 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 class SetupFragment : Fragment(),
-    DatePickerDialog.OnDateSetListener,
-    TimePickerDialog.OnTimeSetListener {
+        DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener {
 
     private var mArenaPid: String? = null
     private var mSeatName: TextView? = null
@@ -240,7 +238,7 @@ class SetupFragment : Fragment(),
 }
 
 class DatePickerFragment(
-    private val listener: DatePickerDialog.OnDateSetListener
+        private val listener: DatePickerDialog.OnDateSetListener
 ) : DialogFragment() {
 
     init {
@@ -254,13 +252,8 @@ class DatePickerFragment(
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-// 		return DatePickerDialog(activity, android.R.style.Theme_DeviceDefault_Dialog_Alert, listener, year,
-// 		                        month, day)
-        val dialog = DatePickerDialog(
-            activity, R.style.DatePickerDialogTheme, listener, year,
-            month, day
-        ).apply { requestWindowFeature(Window.FEATURE_NO_TITLE) }
-        return dialog
+        return DatePickerDialog(context, R.style.DateDialog, listener, year,
+                month, day)
     }
 }
 
@@ -279,6 +272,9 @@ class TimePickerFragment(private val listener: TimePickerDialog.OnTimeSetListene
         return TimePickerDialog(
             activity, AlertDialog.THEME_HOLO_DARK, listener, hour, minute,
             DateFormat.is24HourFormat(activity)
+/*        return TimePickerDialog(
+                activity, R.style.TimeDialog, listener, hour, minute,
+                DateFormat.is24HourFormat(activity)*/
         )
     }
 }
