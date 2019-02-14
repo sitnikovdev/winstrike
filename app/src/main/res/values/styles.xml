@@ -12,174 +12,213 @@
     <item name="windowActionBar">false</item>
     <item name="windowNoTitle">true</item>
   </style>
-  
+
   <style name="AppTheme.NoActionBar.WinstrikeApp">
     <item name="themePrimary">@color/magenta</item>
     <item name="themePrimaryDark">@color/black</item>
     <item name="themeAccent">@color/magenta</item>
     <item name="themeContentBackground">@color/white</item>
+
     <item name="themeContentTextColor">@color/black</item>
     <item name="themeContentTextColoOnPrimary">@color/white</item>
-
     <item name="android:fontFamily">@font/stem_regular</item>
+
+    <item name="android:textViewStyle">@style/Widget.WinstrikeApp.TextView</item>
+
   </style>
 
+  <style name="Widget.WinstrikeApp.TextView" parent="Widget.AppCompat.TextView">
+    <item name="android:textAppearance">@style/TextAppearance.WinstrikeApp.Content</item>
+  </style>
+
+  <style name="TextAppearance.WinstrikeApp.Content" parent="TextAppearance.AppCompat.Body1">
+    <item name="android:textColor">?themeContentTextColor</item>
+  </style>
 
   <!--Fonts-->
 
   <style name="StemRegular17White">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">17sp</item>
-    <item name="android:textColor">@color/white</item>
+    <item name="android:textColor">?themeContentTextColoOnPrimary</item>
   </style>
+
   <style name="StemRegular14Black">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">14sp</item>
-    <item name="android:textColor">@color/black</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
+
   <style name="StemMedium17Black">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">17sp</item>
-    <item name="android:textColor">@color/black</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
+
   <style name="StemMedium15Black">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/black</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
+
   <style name="StemRegular15Base04">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">15sp</item>
     <item name="android:alpha">.4</item>
     <item name="android:textColor">@color/colorPrimaryDark</item>
   </style>
+
   <style name="StemMedium20Black">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">20sp</item>
-    <item name="android:textColor">@color/black</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
+
   <style name="StemRegular35White">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">35sp</item>
-    <item name="android:textColor">@color/white</item>
+    <item name="android:textColor">?themeContentTextColoOnPrimary</item>
   </style>
+
   <style name="StemRegular13Gray">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textColor">#bbbbbb</item>
     <item name="android:textSize">13sp</item>
   </style>
+
   <style name="StemRegular10Gray">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textColor">#bbbbbb</item>
     <item name="android:textSize">10sp</item>
   </style>
+
   <style name="StemRegular12Gray">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textColor">#bbbbbb</item>
     <item name="android:textSize">12sp</item>
   </style>
+
   <style name="StemRegular12Red">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textColor">@color/colorAccent</item>
     <item name="android:textSize">12sp</item>
   </style>
+
   <style name="StemRegular17Base">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">17sp</item>
     <item name="android:textColor">@color/colorPrimaryDark</item>
   </style>
+
   <style name="StemRegular19Withe06">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">19sp</item>
     <item name="android:alpha">.6</item>
-    <item name="android:textColor">@color/white</item>
+    <item name="android:textColor">?themeContentTextColoOnPrimary</item>
   </style>
+
   <style name="StemRegular15Base">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">15sp</item>
     <item name="android:textColor">@color/colorPrimaryDark</item>
   </style>
+
   <style name="StemMediumBlue17">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">17sp</item>
     <item name="android:textColor">@color/blue</item>
   </style>
+
   <style name="StemRegular15Black">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/black</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
+
   <style name="StemRegular18Black">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">18sp</item>
-    <item name="android:textColor">@color/black</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
+
   <style name="StemRegular13Black">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/black</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
+
   <style name="StemBold17Black">
     <item name="android:fontFamily">@fontFamily/stem_bold</item>
     <item name="android:textSize">17sp</item>
-    <item name="android:textColor">@color/black</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
+
   <style name="StemBold15Accent">
     <item name="android:fontFamily">@fontFamily/stem_bold</item>
     <item name="android:textSize">15sp</item>
     <item name="android:textColor">@color/colorAccent</item>
   </style>
+
   <style name="StemMedium12Accent">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">12sp</item>
     <item name="android:textColor">@color/colorAccent</item>
   </style>
+
   <style name="StemRegular15Gray06">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">15sp</item>
     <item name="android:alpha">.6</item>
     <item name="android:textColor">@color/grey</item>
   </style>
+
   <style name="StemMedium15White">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/white</item>
+    <item name="android:textColor">?themeContentTextColoOnPrimary</item>
   </style>
+
   <style name="StemMedium15LightGrey">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">15sp</item>
     <item name="android:textColor">@color/greyLight</item>
   </style>
+
   <style name="StemRegular12Black">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">12sp</item>
-    <item name="android:textColor">@color/black</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
+
   <style name="StemMedium15Black04">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">15sp</item>
     <item name="android:alpha">.4</item>
-    <item name="android:textColor">@color/black</item>
+    <item name="android:textColor">?themeContentTextColor</item>
   </style>
+
   <style name="StemMedium17Primary">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">17sp</item>
     <item name="android:textColor">@color/colorAccent</item>
   </style>
+
   <style name="StemRegular17Gray">
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
     <item name="android:textSize">17sp</item>
     <item name="android:textColor">@color/greyLight</item>
   </style>
+
   <style name="StemMedium15Primary">
     <item name="android:fontFamily">@fontFamily/stem_medium</item>
     <item name="android:textSize">15sp</item>
     <item name="android:textColor">@color/colorAccent</item>
   </style>
+
   <style name="StemRegular20">
     <item name="android:textSize">20sp</item>
     <item name="android:fontFamily">@fontFamily/stem_regular</item>
-    <item name="android:textColor">@color/white</item>
+    <item name="android:textColor">?themeContentTextColoOnPrimary</item>
   </style>
 
   <!--Toolbar theme-->
