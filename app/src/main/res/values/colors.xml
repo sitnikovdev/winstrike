@@ -9,8 +9,8 @@
     <color name="black">#ff1f1f1f</color>
     <color name="white">#ffffff</color>
     <color name="grey">#ff9b9b9b</color>
-    <color name="darkGray">#424242</color>
     <color name="greyLight">#A9A9A9</color>
+    <color name="darkGray">#424242</color>
     <color name="red">#db486e</color>
     <color name="yellow">#F8C742</color>
     <color name="purple">#6768E2</color>
