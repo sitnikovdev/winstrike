@@ -13,7 +13,7 @@ import kotlin.coroutines.CoroutineContext
  */
 
 
-class ArenaViewModel constructor(val arenaUseCase: ArenaUseCase) : ViewModel() {
+class CityItemViewModel constructor(val arenaUseCase: ArenaUseCase) : ViewModel() {
 
 
     private val parentJob = Job()

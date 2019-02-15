@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.fmt_city_list.*
 import kotlinx.android.synthetic.main.fmt_home.*
 import org.jetbrains.anko.imageURI
 import org.koin.androidx.viewmodel.ext.viewModel
@@ -26,7 +25,7 @@ import ru.prsolution.winstrike.presentation.main.carousel.CarouselAdapter
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.model.ArenaItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.viewmodel.ArenaViewModel
+import ru.prsolution.winstrike.viewmodel.CityItemViewModel
 
 /**
  * Created by Oleg Sitnikov on 2019-02-13
@@ -35,7 +34,7 @@ import ru.prsolution.winstrike.viewmodel.ArenaViewModel
 
 class HomeFragment : Fragment() {
 
-    private val mVm: ArenaViewModel by viewModel()
+    private val mVm: CityItemViewModel by viewModel()
 
     private var mArenaPid: String? = ""
     private var mArena: ArenaItem? = null
@@ -94,6 +93,7 @@ class HomeFragment : Fragment() {
 
                 mArenaPid?.let { arenaPid ->
                     mArena = arenaList.find { it.publicId!!.contains(arenaPid) }
+                    (activity as MainActivity).mArenaActiveLayoutPid = mArena?.activeLayoutPid
                     updateArenaInfo(mArena)
                     updateCarouselView(mArena)
                 }

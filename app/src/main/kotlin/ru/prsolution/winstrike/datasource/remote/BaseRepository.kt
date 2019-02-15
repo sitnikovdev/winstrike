@@ -1,10 +1,9 @@
-package ru.prsolution.winstrike.data.repository
+package ru.prsolution.winstrike.datasource.remote
 
 import retrofit2.Response
 import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.data.repository.resouces.ResourceState
 import timber.log.Timber
-import java.io.IOException
 
 /**
  * Created by Oleg Sitnikov on 2019-02-12
@@ -24,8 +23,6 @@ open class BaseRepository{
                 Timber.tag("$$$").d( "$errorMessage & Exception - ${result.message}")
             }
         }
-
-
         return data
 
     }

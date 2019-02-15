@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.data.datasource
 
 import io.reactivex.Single
 import ru.prsolution.winstrike.domain.models.Arena
+import ru.prsolution.winstrike.domain.models.ArenaSchema
 
 interface ArenaCacheDataSource {
 
@@ -13,6 +14,8 @@ interface ArenaCacheDataSource {
 
 interface ArenaRemoteDataSource {
 
-   suspend fun get(): List<Arena>?
+   suspend fun getArenas(): List<Arena>?
+
+   suspend fun getSchema(arenaPid: String?, time: Map<String, String>): ArenaSchema?
 
 }

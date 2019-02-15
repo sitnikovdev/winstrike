@@ -18,4 +18,3 @@ data class CityItem(
 fun List<City>.mapToPresentation(): List<CityItem> =
         map { CityItem(it.publicId, it.name) }
 
-//fun List<City>.mapToPresentation(): List<CityItem> = map { it.mapToPresentation() }

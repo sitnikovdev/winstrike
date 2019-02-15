@@ -17,15 +17,15 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.model.ArenaItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
-import ru.prsolution.winstrike.viewmodel.ArenaViewModel
+import ru.prsolution.winstrike.viewmodel.CityItemViewModel
 
 /**
  * Created by Oleg Sitnikov on 2019-02-11
  */
 
-class CityFragment : Fragment() {
+class CityItemFragment : Fragment() {
 
-    private val mVm: ArenaViewModel by viewModel()
+    private val mVm: CityItemViewModel by viewModel()
 
     private var mCityPid = ""
     private var mCityName = ""
@@ -35,7 +35,7 @@ class CityFragment : Fragment() {
             { arena ->
                 PrefUtils.arenaPid = arena.publicId
 
-                val action = CityFragmentDirections.nextAction()
+                val action = CityItemFragmentDirections.nextAction()
                 action.title = arena.name!!
                 action.arenaPID = arena.publicId!!
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
@@ -54,7 +54,7 @@ class CityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         arguments?.let {
-            val safeArgs = CityFragmentArgs.fromBundle(it)
+            val safeArgs = CityItemFragmentArgs.fromBundle(it)
             this.mCityPid = safeArgs.cityPid
             this.mCityName = safeArgs.cityName
             PrefUtils.cityPid = this.mCityPid
@@ -74,7 +74,7 @@ class CityFragment : Fragment() {
             mVm.fetchArenaList()
         }
 
-        mVm.arenaList.observe(this@CityFragment, Observer { arenas ->
+        mVm.arenaList.observe(this@CityItemFragment, Observer { arenas ->
 
             arenas?.let {
                 mArenaList = arenas.filter { it.cityPid == mCityPid }

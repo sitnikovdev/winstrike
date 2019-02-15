@@ -1,125 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/mobile_navigation"
-  android:label="Профиль"
-  app:startDestination="@id/navigation_city_list">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mobile_navigation"
+            android:label="Профиль"
+            app:startDestination="@id/navigation_city_list">
 
-  <!--Home-->
+    <!--Home-->
 
-  <fragment
-    android:id="@+id/navigation_home"
-    android:label="{title}"
-    android:name="ru.prsolution.winstrike.presentation.main.HomeFragment"
-    tools:layout="@layout/fmt_home">
-    <action
-      android:id="@+id/next_action"
-      app:destination="@id/navigation_setup"/>
-    <argument
-      android:name="arenaPID"
-      app:argType="string"
-      android:defaultValue= "0" />
-    <argument
-      android:defaultValue = "No Arena"
-      android:name="title"
-      app:argType="string"/>
-  </fragment>
+    <fragment
+            android:id="@+id/navigation_home"
+            android:label="{title}"
+            android:name="ru.prsolution.winstrike.presentation.main.HomeFragment"
+            tools:layout="@layout/fmt_home">
+        <action
+                android:id="@+id/next_action"
+                app:destination="@id/navigation_setup"/>
+        <argument
+                android:name="arenaPID"
+                app:argType="string"
+                android:defaultValue="0"/>
+        <argument
+                android:defaultValue="No Arena"
+                android:name="title"
+                app:argType="string"/>
+    </fragment>
 
-  <!--Orders-->
+    <!--Orders-->
 
-  <fragment
-    android:id="@+id/navigation_order"
-    android:label="Оплаченные места"
-    android:name="ru.prsolution.winstrike.presentation.orders.OrderFragment"
-    tools:layout="@layout/fmt_nopaid"/>
+    <fragment
+            android:id="@+id/navigation_order"
+            android:label="Оплаченные места"
+            android:name="ru.prsolution.winstrike.presentation.orders.OrderFragment"
+            tools:layout="@layout/fmt_nopaid"/>
 
-  <!--Profile-->
+    <!--Profile-->
 
-  <fragment
-    android:id="@+id/navigation_profile"
-    android:label="Профиль"
-    android:name="ru.prsolution.winstrike.presentation.profile.ProfileFragment">
-  </fragment>
+    <fragment
+            android:id="@+id/navigation_profile"
+            android:label="Профиль"
+            android:name="ru.prsolution.winstrike.presentation.profile.ProfileFragment">
+    </fragment>
 
-  <!--SetUp -->
+    <!--SetUp -->
 
-  <fragment
-    android:id="@+id/navigation_setup"
-    android:label="Выберите время"
-    android:name="ru.prsolution.winstrike.presentation.setup.SetupFragment"
-    tools:layout="@layout/frm_setup">
-    <argument
-      android:defaultValue="@null"
-      android:name="seat"
-      app:argType="ru.prsolution.winstrike.domain.models.SeatCarousel"
-      app:nullable="true"/>
-    <action
-      android:id="@+id/next_action"
-      app:destination="@id/navigation_map"/>
-    <argument
-      android:defaultValue='""'
-      android:name="arenaPid"
-      app:argType="string"/>
-  </fragment>
+    <fragment
+            android:id="@+id/navigation_setup"
+            android:label="Выберите время"
+            android:name="ru.prsolution.winstrike.presentation.setup.SetupFragment"
+            tools:layout="@layout/frm_setup">
+        <argument
+                android:name="seat"
+                android:defaultValue="@null"
+                app:argType="ru.prsolution.winstrike.domain.models.SeatCarousel"
+                app:nullable="true"/>
 
-  <!--Map-->
+        <argument
+                android:name="activeLayoutPid"
+                app:argType="string"
+                android:defaultValue="0"/>
+        <action
+                android:id="@+id/next_action"
+                app:destination="@id/navigation_map"/>
+    </fragment>
 
-  <fragment
-    android:id="@+id/navigation_map"
-    android:label="Забронируйте место"
-    android:name="ru.prsolution.winstrike.presentation.map.MapFragment">
-    <action
-      android:id="@+id/next_action"
-      app:destination="@id/navigation_yandex"/>
-    <argument
-      android:name="arena"
-      app:argType="ru.prsolution.winstrike.domain.models.ArenaSchema"
-      app:nullable="true"/>
-  </fragment>
+    <!--Map-->
 
-  <!--Yandex WebView-->
+    <fragment
+            android:id="@+id/navigation_map"
+            android:label="Забронируйте место"
+            android:name="ru.prsolution.winstrike.presentation.map.MapFragment">
+        <action
+                android:id="@+id/next_action"
+                app:destination="@id/navigation_yandex"/>
+        <argument
+                android:name="schema"
+                app:argType="ru.prsolution.winstrike.presentation.model.SchemaItem"
+                app:nullable="true"/>
+    </fragment>
 
-  <fragment
-    android:id="@+id/navigation_yandex"
-    android:label="Оплата"
-    android:name="ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment"
-    tools:layout="@layout/fmt_yandex_web_view">
-    <argument
-      android:name="url"
-      app:argType="string"
-      app:nullable="true"/>
-  </fragment>
+    <!--Yandex WebView-->
 
-  <!--City-->
+    <fragment
+            android:id="@+id/navigation_yandex"
+            android:label="Оплата"
+            android:name="ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment"
+            tools:layout="@layout/fmt_yandex_web_view">
+        <argument
+                android:name="url"
+                app:argType="string"
+                app:nullable="true"/>
+    </fragment>
 
-  <fragment
-    android:id="@+id/navigation_city"
-    android:label="City"
-    android:name="ru.prsolution.winstrike.presentation.cities.CityFragment"
-    tools:layout="@layout/fmt_city_detail">
-    <action
-      android:id="@+id/next_action"
-      app:destination="@id/navigation_home"/>
-    <argument
-      android:name="cityPid"
-      app:argType="string"
-      />
-    <argument
-      android:name="cityName"
-      app:argType="string"/>
-  </fragment>
+    <!--City-->
 
-  <!--CityList-->
+    <fragment
+            android:id="@+id/navigation_city"
+            android:label="City"
+            android:name="ru.prsolution.winstrike.presentation.cities.CityItemFragment"
+            tools:layout="@layout/fmt_city_detail">
+        <action
+                android:id="@+id/next_action"
+                app:destination="@id/navigation_home"/>
+        <argument
+                android:name="cityPid"
+                app:argType="string"
+        />
+        <argument
+                android:name="cityName"
+                app:argType="string"/>
+    </fragment>
 
-  <fragment
-    android:id="@+id/navigation_city_list"
-    android:label="CityList"
-    android:name="ru.prsolution.winstrike.presentation.cities.CityListFragment"
-    tools:layout="@layout/fmt_city_list">
-    <action
-      android:id="@+id/next_action"
-      app:destination="@id/navigation_city"/>
-  </fragment>
+    <!--CityList-->
+
+    <fragment
+            android:id="@+id/navigation_city_list"
+            android:label="CityList"
+            android:name="ru.prsolution.winstrike.presentation.cities.CityListFragment"
+            tools:layout="@layout/fmt_city_list">
+        <action
+                android:id="@+id/next_action"
+                app:destination="@id/navigation_city"/>
+    </fragment>
 
 </navigation>

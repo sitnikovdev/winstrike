@@ -41,8 +41,7 @@ interface RetrofitService {
         @Path(
 "active_layout_pid") active_layout_pid: String?,
         @QueryMap time: Map<String, String>
-    ):
-            Deferred<Response<SchemaEntity>>
+    ): Deferred<Response<SchemaEntity>>
 
     // Авторизация пользователя
     @POST("login")

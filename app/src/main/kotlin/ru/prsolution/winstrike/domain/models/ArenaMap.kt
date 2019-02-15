@@ -1,8 +1,8 @@
 package ru.prsolution.winstrike.domain.models
 
-class ArenaMap(room: ArenaSchema?) {
+class ArenaMap(schema: ArenaSchema?) {
 
-    var name: String? = room?.name
+    var name: String? = schema?.name
     var labels: MutableList<Label> = mutableListOf()
     var seats: MutableList<SeatMap> = mutableListOf()
     var arenaSchema: ArenaSchemaName = ArenaSchemaName.WINSTRIKE
@@ -13,7 +13,7 @@ class ArenaMap(room: ArenaSchema?) {
             this.name?.contains("Schema 2")!! -> arenaSchema = ArenaSchemaName.CORNER
             this.name?.contains("Серпухов")!! -> arenaSchema = ArenaSchemaName.SERPUCHOV
         }
-        val seats = room?.seats
+        val seats = schema?.seats
         if (seats != null) {
             for (seat in seats) {
 
@@ -31,7 +31,7 @@ class ArenaMap(room: ArenaSchema?) {
             }
         }
 
-        val labels = room?.labels
+        val labels = schema?.labels
         if (labels != null) {
             for (label in labels) {
                 val text = label.text

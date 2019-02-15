@@ -18,7 +18,8 @@ object Android {
 
 
 object Versions {
-	const val gradle = "3.5.0-alpha03"
+	const val gradle = "3.5.0-alpha04"
+
 	const val googleServicies = "4.2.0"
 	const val kotlin = "1.3.21"
     const val anko = "0.10.8"
@@ -26,7 +27,7 @@ object Versions {
 	const val lifecycle = "2.0.0"
 	const val ktx = "1.0.0-alpha1"
 
-	const val navigation = "1.0.0-beta01"
+	const val navigation = "1.0.0-beta02"
 
 	const val constraintLayout = "2.0.0-alpha3"
 
@@ -50,9 +51,9 @@ object Versions {
 
 	const val leakCanary = "1.6.3"
 
-	const val rxpaper = "1.3.0"
+	const val rxpaper = "1.4.0"
 
-	const val koin = "2.0.0-alpha-6"
+	const val koin = "2.0.0-beta-1"
 }
 
 
@@ -100,7 +101,7 @@ object Libraries {
 	const val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
 }
 
-
+// API URL
 object Constants {
 	const val DEBUGURL = "\"http://46.254.21.94:9000/api/v1/\""
 	const val BASEURL = "\"http://api.winstrike.ru:8000/api/v1/\""

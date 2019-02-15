@@ -25,8 +25,9 @@ import ru.prsolution.winstrike.domain.usecases.ArenaUseCase
 import ru.prsolution.winstrike.domain.usecases.CityUseCase
 import ru.prsolution.winstrike.networking.createNetworkClient
 import ru.prsolution.winstrike.presentation.utils.cache.Cache
-import ru.prsolution.winstrike.viewmodel.ArenaViewModel
-import ru.prsolution.winstrike.viewmodel.CityViewModel
+import ru.prsolution.winstrike.viewmodel.CityItemViewModel
+import ru.prsolution.winstrike.viewmodel.CityListViewModel
+import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 
 fun injectFeature() = loadFeature
 
@@ -42,8 +43,9 @@ private val loadFeature by lazy {
 }
 
 val viewModelModule: Module = module {
-    viewModel { CityViewModel(cityUseCase = get()) }
-    viewModel { ArenaViewModel(arenaUseCase = get()) }
+    viewModel { CityListViewModel(cityUseCase = get()) }
+    viewModel { CityItemViewModel(arenaUseCase = get()) }
+    viewModel { SetUpViewModel(arenaUseCase = get()) }
 }
 
 val useCaseModule: Module = module {

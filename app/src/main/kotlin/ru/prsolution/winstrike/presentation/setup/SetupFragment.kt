@@ -12,14 +12,12 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.text.format.DateFormat
 import android.view.*
-import android.view.Window.FEATURE_NO_TITLE
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.facebook.drawee.view.SimpleDraweeView
 import kotlinx.android.synthetic.main.frm_setup.next_button
@@ -29,12 +27,13 @@ import kotlinx.android.synthetic.main.frm_setup.tv_time
 import kotlinx.android.synthetic.main.frm_setup.v_date_tap
 import kotlinx.android.synthetic.main.frm_setup.v_time_tap
 import org.jetbrains.anko.support.v4.toast
+import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.SeatCarousel
-import ru.prsolution.winstrike.viewmodel.MainViewModel
+import ru.prsolution.winstrike.presentation.model.SchemaItem
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
-import ru.prsolution.winstrike.data.repository.resouces.ResourceState
+import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 import timber.log.Timber
 import java.time.Month
 import java.time.format.TextStyle
@@ -44,39 +43,23 @@ class SetupFragment : Fragment(),
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
+    private val mVm: SetUpViewModel by viewModel()
+
     private var mArenaPid: String? = null
+    private var mArenaActivePid: String? = null
     private var mSeatName: TextView? = null
     private var mCpuDescription: TextView? = null
     private var mSeatImage: SimpleDraweeView? = null
-    private var mArena: ArenaSchema? = null
-
-    /**
-     * route show map to main presenter in MainScreenActivity
-     */
-    var mVm: MainViewModel? = null
+    private var mArenaSchema: SchemaItem? = null
 
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (isAdded) {
-            Timber.d("fragment is added")
-        } else {
-            Timber.d("fragment is not added")
-        }
-        if (context != null) {
-            Timber.d("on Attach context not null")
-        } else {
-            Timber.d("on Attach context is null")
-        }
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
 
         // Get list of arenas
         if (savedInstanceState == null) {
-//            mVm?.getArenaList()
         }
     }
 
@@ -95,38 +78,25 @@ class SetupFragment : Fragment(),
 
         arguments?.let {
             val safeArgs = SetupFragmentArgs.fromBundle(it)
-            this.mArenaPid = safeArgs.arenaPid
+            this.mArenaActivePid = safeArgs.activeLayoutPid
+
             updateSeatInfo(safeArgs.seat)
         }
 
 
         // mArenaPid
-        mVm?.arena?.observe(this@SetupFragment, Observer { arena ->
-
-            // loading
-            arena.state.let { state ->
-                if (state == ResourceState.LOADING) {
-//                        progressBar.visibility = View.VISIBLE
-//                        Timber.tag("$$$").d("status is: $it")
-                }
-            }
+        mVm.arenaSchema.observe(this@SetupFragment, Observer { schema ->
 
             // data
-            arena.data?.let {
-                //                    progressBar.visibility = View.INVISIBLE
-                this.mArena = arena.data
-                mArena?.let {
+            schema?.let {
+                this.mArenaSchema = schema
+                mArenaSchema?.let {
                     require(isAdded) { "+++ SetupFragment not attached to an activity. +++" }
-                    val action = SetupFragmentDirections.nextAction(mArena)
+                    val action = SetupFragmentDirections.nextAction(mArenaSchema)
                     Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
                 }
             }
 
-            // error
-            arena.message?.let {
-                //                    progressBar.visibility = View.INVISIBLE
-                Timber.tag("$$$").d("error message: $it")
-            }
         })
 
 
@@ -135,15 +105,15 @@ class SetupFragment : Fragment(),
 
     // Show map fragment after user select date and time in SetupFragment
     private fun onMapShow() {
-        mVm?.getArenaList()
-/*        mArena?.let {
+//        mVm?.getArenaList()
+/*        mArenaSchema?.let {
             val action = SetupFragmentDirections.nextAction()
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
         }*/
     }
 
     private fun getArenaByTime(activePid: String?) {
-        requireNotNull(activePid) { "+++ Rooms must be initialized +++" }
+        require(!TextUtils.isEmpty(activePid) ) { "+++ Arena active pid must be set. +++" }
 
         if (TextUtils.isEmpty(TimeDataModel.start) || TextUtils.isEmpty(TimeDataModel.end)) {
             toast("Не указана дата")
@@ -153,7 +123,7 @@ class SetupFragment : Fragment(),
         time["start_at"] = TimeDataModel.start
         time["end_at"] = TimeDataModel.end
 // 		time["start_at"] = "2019-01-26T20:00:00" //		time["end_at"] = "2019-01-26T21:00:00"
-        mVm?.getArenaSchema(activePid, time)
+        mVm.fetchSchema(activePid, time)
     }
 
     @SuppressLint("NewApi")
@@ -210,9 +180,9 @@ class SetupFragment : Fragment(),
         // next button
         next_button.setOnClickListener {
             progressBar.visibility = View.VISIBLE
-            getArenaByTime(mArenaPid)
+            getArenaByTime(mArenaActivePid)
             activity?.supportFragmentManager?.executePendingTransactions()
-            onMapShow()
+//            onMapShow()
         }
     }
 

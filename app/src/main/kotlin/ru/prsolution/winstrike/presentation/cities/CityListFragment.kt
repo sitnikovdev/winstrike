@@ -13,7 +13,7 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.injectFeature
 import ru.prsolution.winstrike.presentation.model.CityItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.viewmodel.CityViewModel
+import ru.prsolution.winstrike.viewmodel.CityListViewModel
 import timber.log.Timber
 
 
@@ -23,7 +23,7 @@ import timber.log.Timber
 
 class CityListFragment : Fragment() {
 
-    private val mVm: CityViewModel by viewModel()
+    private val mVm: CityListViewModel by viewModel()
 
     private val itemClick: (CityItem) -> Unit =
             {

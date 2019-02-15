@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -14,14 +12,11 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.data.datasource.CityCacheDataSource
-import ru.prsolution.winstrike.datasource.cache.CityCacheDataSourceImpl
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.hide
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import ru.prsolution.winstrike.presentation.utils.show
 import ru.prsolution.winstrike.viewmodel.MainViewModel
 
@@ -33,12 +28,13 @@ class MainActivity : AppCompatActivity(),
     private lateinit var mVm: MainViewModel
 
     private var mArenaPid: String? = ""
+    var mArenaActiveLayoutPid: String? = ""
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
         val action = HomeFragmentDirections.nextAction()
         action.seat = seat
-        action.arenaPid = this.mArenaPid.toString()
+        action.activeLayoutPid = this.mArenaActiveLayoutPid.toString()
         findNavController(R.id.nav_host_fragment).navigate(action)
     }
 

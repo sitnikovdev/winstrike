@@ -36,7 +36,6 @@ import ru.prsolution.winstrike.presentation.utils.MapViewUtils
 import ru.prsolution.winstrike.presentation.utils.Utils
 import ru.prsolution.winstrike.domain.models.ArenaMap
 import ru.prsolution.winstrike.domain.models.ArenaSchemaName
-import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.SeatMap
 import ru.prsolution.winstrike.domain.models.SeatType
 import ru.prsolution.winstrike.datasource.model.payment.PaymentModel
@@ -46,6 +45,8 @@ import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.data.repository.resouces.ResourceState
+import ru.prsolution.winstrike.presentation.model.SchemaItem
+import ru.prsolution.winstrike.presentation.model.mapToDomain
 import timber.log.Timber
 import java.util.LinkedHashMap
 import java.util.concurrent.atomic.AtomicBoolean
@@ -75,7 +76,7 @@ class MapFragment : Fragment() {
     var mYScaleFactor: Float? = null
 
     var mVm: MainViewModel? = null
-    private var mArena: ArenaSchema? = null
+    private var mSchema: SchemaItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,17 +110,15 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-/*		this.presenter = MapPresenter(service, this)
-		presenter!!.initScreen()
-		presenter!!.initMap()*/
 
         mapLayout = view.findViewById(R.id.rootMap)
         initSnackBar()
 
 
+        //TODO: use anather solutuion instead parcebale
         arguments?.let {
             val safeArgs = MapFragmentArgs.fromBundle(it)
-            this.mArena = safeArgs.arena
+            this.mSchema = safeArgs.schema
         }
 
         if (isAdded) {
@@ -128,7 +127,7 @@ class MapFragment : Fragment() {
             Timber.d("fragment is not added")
         }
 
-        mArena?.let {
+        mSchema?.let {
             initMap()
         }
 
@@ -163,7 +162,7 @@ class MapFragment : Fragment() {
     }
 
     private fun initMap() {
-        requireNotNull(mArena) { "++++ RoomLayoutFactory must be init. ++++" }
+        requireNotNull(mSchema) { "++++ RoomLayoutFactory must be init. ++++" }
 
 
         rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
@@ -171,7 +170,7 @@ class MapFragment : Fragment() {
         requireNotNull(mapLayout) { "++++ Map Fragment root layout must not be null. ++++" }
 
 
-        drawSeat(ArenaMap(mArena))
+        drawSeat(ArenaMap(mSchema!!.mapToDomain()))
     }
 
 
