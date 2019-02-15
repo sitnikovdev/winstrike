@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity(),
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     var mArenaActiveLayoutPid: String? = ""
-    var mArenaSchema: ArenaSchema? = null
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
@@ -55,9 +54,13 @@ class MainActivity : AppCompatActivity(),
 //        Navigation
         navController = Navigation.findNavController(this@MainActivity, R.id.nav_host_fragment)
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { nav, destination, _ ->
             when (destination.id) {
-                R.id.navigation_home, R.id.navigation_order, R.id.navigation_profile -> bottomNavigation.show()
+                R.id.navigation_home -> {bottomNavigation.show()
+                   destination.label = PrefUtils.arenaName
+                }
+                R.id.navigation_order,
+                R.id.navigation_profile -> bottomNavigation.show()
                 else -> bottomNavigation.hide()
             }
         }

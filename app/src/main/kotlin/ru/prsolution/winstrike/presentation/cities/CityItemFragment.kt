@@ -32,14 +32,19 @@ class CityItemFragment : Fragment() {
     private var mArenaList: List<ArenaItem>? = null
 
     private val itemClick: (ArenaItem) -> Unit =
-            { arena ->
-                PrefUtils.arenaPid = arena.publicId
+        { arena ->
+            PrefUtils.arenaPid = arena.publicId
 
-                val action = CityItemFragmentDirections.nextAction()
-                action.title = arena.name!!
-                action.arenaPID = arena.publicId!!
-                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+            val action = CityItemFragmentDirections.nextAction()
+            arena.name?.let {
+                action.title = it
+                PrefUtils.arenaName = it
             }
+            arena.publicId?.let {
+                action.arenaPID = it
+            }
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+        }
 
     private val adapter = ArenaListAdapter(itemClick)
 
@@ -63,9 +68,9 @@ class CityItemFragment : Fragment() {
         val spannable = SpannableString("Ваш регион: ${mCityName}")
 
         spannable.setSpan(
-                ForegroundColorSpan(resources.getColor(R.color.colorAccent)),
-                12, spannable.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(resources.getColor(R.color.colorAccent)),
+            12, spannable.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
         view.findViewById<TextView>(R.id.title_tv).text = spannable
@@ -86,12 +91,6 @@ class CityItemFragment : Fragment() {
         })
 
         arena_rv.adapter = adapter
-
-/*        view.findViewById<TextView>(R.id.city_tv).setOnClickListener {
-
-            val action = CityFragmentDirections.nextAction()
-            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
-        }*/
     }
 
     private fun updateArenaList(arenaList: List<ArenaItem>?) {
