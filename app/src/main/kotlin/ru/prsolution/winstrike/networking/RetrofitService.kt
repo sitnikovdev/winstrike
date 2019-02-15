@@ -9,14 +9,14 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
-import ru.prsolution.winstrike.datasource.model.ArenaListEntity
+import ru.prsolution.winstrike.datasource.model.arena.ArenaListEntity
 import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
 import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 import ru.prsolution.winstrike.datasource.model.login.PasswordEntity
 import ru.prsolution.winstrike.datasource.model.orders.OrdersEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
 import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
-import ru.prsolution.winstrike.datasource.model.SchemaEntity
+import ru.prsolution.winstrike.datasource.model.arena.SchemaEntity
 import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.login.LoginModel

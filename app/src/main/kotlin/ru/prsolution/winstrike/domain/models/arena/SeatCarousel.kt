@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.domain.models
+package ru.prsolution.winstrike.domain.models.arena
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

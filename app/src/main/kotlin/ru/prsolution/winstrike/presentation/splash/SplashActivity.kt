@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.ac_splash.animation_view
 import org.jetbrains.anko.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.presentation.injectFeature
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.login.SignInActivity
@@ -29,6 +30,7 @@ open class SplashActivity : AppCompatActivity() {
                         WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.ac_splash)
 
+        injectFeature()
 
         mainIntent = Intent(this@SplashActivity, MainActivity::class.java)
         signIntent = Intent(Intent(this@SplashActivity, SignInActivity::class.java))
@@ -54,13 +56,14 @@ open class SplashActivity : AppCompatActivity() {
 
     private fun isCheckLogin() {
         // If user is signOut from App: go to SingIn screen. Else: check if user is exist on server and if Ok -- go to Main screen.
-        if (PrefUtils.isLogout) {
+        startActivity(signIntent)
+/*        if (PrefUtils.isLogout) {
             startActivity(signIntent)
         } else if (!PrefUtils.token?.isEmpty()!!) {
             startActivity(mainIntent)
         } else {
             startActivity(signIntent)
-        }
+        }*/
     }
 
     fun onSendSmsSuccess() {

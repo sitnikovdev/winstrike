@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fmt_city_list.*
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.injectFeature
-import ru.prsolution.winstrike.presentation.model.CityItem
+import ru.prsolution.winstrike.presentation.model.arena.CityItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.CityListViewModel
 import timber.log.Timber

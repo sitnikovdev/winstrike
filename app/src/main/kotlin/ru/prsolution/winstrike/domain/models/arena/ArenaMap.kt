@@ -1,17 +1,21 @@
-package ru.prsolution.winstrike.domain.models
+package ru.prsolution.winstrike.domain.models.arena
 
 class ArenaMap(schema: ArenaSchema?) {
 
     var name: String? = schema?.name
     var labels: MutableList<Label> = mutableListOf()
     var seats: MutableList<SeatMap> = mutableListOf()
-    var arenaSchema: ArenaSchemaName = ArenaSchemaName.WINSTRIKE
+    var arenaSchema: ArenaSchemaName =
+        ArenaSchemaName.WINSTRIKE
 
     init {
         when {
-            this.name?.contains("Winstrike Arena 1")!! -> arenaSchema = ArenaSchemaName.WINSTRIKE
-            this.name?.contains("Schema 2")!! -> arenaSchema = ArenaSchemaName.CORNER
-            this.name?.contains("Серпухов")!! -> arenaSchema = ArenaSchemaName.SERPUCHOV
+            this.name?.contains("Winstrike Arena 1")!! -> arenaSchema =
+                ArenaSchemaName.WINSTRIKE
+            this.name?.contains("Schema 2")!! -> arenaSchema =
+                ArenaSchemaName.CORNER
+            this.name?.contains("Серпухов")!! -> arenaSchema =
+                ArenaSchemaName.SERPUCHOV
         }
         val seats = schema?.seats
         if (seats != null) {
@@ -26,8 +30,12 @@ class ArenaMap(schema: ArenaSchema?) {
                     }
                 }
 
-                this.seats.add(SeatMap(coors, seat.publicId, type, computer?.name,
-                                       computer?.active))
+                this.seats.add(
+                    SeatMap(
+                        coors, seat.publicId, type, computer?.name,
+                        computer?.active
+                    )
+                )
             }
         }
 

@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.presentation.model
+package ru.prsolution.winstrike.presentation.model.arena
 
 import ru.prsolution.winstrike.domain.models.city.City
 

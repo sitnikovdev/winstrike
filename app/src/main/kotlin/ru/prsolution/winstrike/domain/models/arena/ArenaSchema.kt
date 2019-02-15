@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.domain.models
+package ru.prsolution.winstrike.domain.models.arena
 
 class ArenaSchema(
     val name: String? = null,

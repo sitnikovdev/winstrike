@@ -3,8 +3,8 @@ package ru.prsolution.winstrike.datasource.remote
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.*
-import ru.prsolution.winstrike.datasource.model.ArenaListEntity
-import ru.prsolution.winstrike.datasource.model.SchemaEntity
+import ru.prsolution.winstrike.datasource.model.arena.ArenaListEntity
+import ru.prsolution.winstrike.datasource.model.arena.SchemaEntity
 import ru.prsolution.winstrike.datasource.model.city.CityListEntity
 import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
 import ru.prsolution.winstrike.datasource.model.login.SmsEntity

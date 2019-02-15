@@ -3,8 +3,8 @@ package ru.prsolution.winstrike.viewmodel
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import ru.prsolution.winstrike.domain.usecases.ArenaUseCase
-import ru.prsolution.winstrike.presentation.model.SchemaItem
-import ru.prsolution.winstrike.presentation.model.mapToPresentation
+import ru.prsolution.winstrike.presentation.model.arena.SchemaItem
+import ru.prsolution.winstrike.presentation.model.arena.mapToPresentation
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import kotlin.coroutines.CoroutineContext
 

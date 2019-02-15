@@ -1,6 +1,9 @@
-package ru.prsolution.winstrike.presentation.model
+package ru.prsolution.winstrike.presentation.model.arena
 
-import ru.prsolution.winstrike.domain.models.*
+import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
+import ru.prsolution.winstrike.domain.models.arena.Label
+import ru.prsolution.winstrike.domain.models.arena.Seat
+import ru.prsolution.winstrike.domain.models.arena.Wall
 
 data class SchemaItem(
     val name: String? = null,

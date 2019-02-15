@@ -14,7 +14,7 @@ import ru.prsolution.winstrike.datasource.cache.ArenaCacheDataSourceImpl
 import ru.prsolution.winstrike.datasource.cache.CityCacheDataSourceImpl
 import ru.prsolution.winstrike.datasource.cache.LoginCacheDataSourceImpl
 import ru.prsolution.winstrike.datasource.remote.*
-import ru.prsolution.winstrike.domain.models.Arena
+import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.domain.models.city.City
 import ru.prsolution.winstrike.domain.models.login.UserModel
 import ru.prsolution.winstrike.domain.repository.ArenaRepository

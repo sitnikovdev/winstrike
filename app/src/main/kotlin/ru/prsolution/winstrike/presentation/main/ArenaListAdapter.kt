@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.dlg_logout.view.title
 import kotlinx.android.synthetic.main.item_arena.view.address
 import kotlinx.android.synthetic.main.item_arena.view.iv_checked
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.Arena
+import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.setColor
 

@@ -1,7 +1,7 @@
-package ru.prsolution.winstrike.datasource.model
+package ru.prsolution.winstrike.datasource.model.arena
 
 import com.squareup.moshi.Json
-import ru.prsolution.winstrike.domain.models.Arena
+import ru.prsolution.winstrike.domain.models.arena.Arena
 
 class ArenaListEntity(var rooms: List<ArenaEntity>)
 
@@ -23,7 +23,8 @@ class ArenaEntity(
     @field:Json(name = "locale") val locale: String? = null
 )
 
-fun ArenaEntity.mapToDomain(): Arena = Arena(
+fun ArenaEntity.mapToDomain(): Arena =
+    Arena(
         publicId,
         activeLayoutPid,
         cityPid,
@@ -37,6 +38,6 @@ fun ArenaEntity.mapToDomain(): Arena = Arena(
         commonImageUrl,
         vipImageUrl,
         locale
-)
+    )
 
 fun List<ArenaEntity>.mapToDomain(): List<Arena> = map { it.mapToDomain() }

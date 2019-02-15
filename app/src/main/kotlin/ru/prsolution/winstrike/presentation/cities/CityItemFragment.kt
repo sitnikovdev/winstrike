@@ -14,7 +14,7 @@ import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_city_detail.*
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.model.ArenaItem
+import ru.prsolution.winstrike.presentation.model.arena.ArenaItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
 import ru.prsolution.winstrike.viewmodel.CityItemViewModel

@@ -2,10 +2,9 @@ package ru.prsolution.winstrike.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
-import ru.prsolution.winstrike.domain.models.city.City
 import ru.prsolution.winstrike.domain.usecases.CityUseCase
-import ru.prsolution.winstrike.presentation.model.CityItem
-import ru.prsolution.winstrike.presentation.model.mapToPresentation
+import ru.prsolution.winstrike.presentation.model.arena.CityItem
+import ru.prsolution.winstrike.presentation.model.arena.mapToPresentation
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import kotlin.coroutines.CoroutineContext
 

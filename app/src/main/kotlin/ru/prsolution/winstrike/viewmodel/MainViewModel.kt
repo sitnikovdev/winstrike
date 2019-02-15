@@ -5,20 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import ru.prsolution.winstrike.datasource.model.mapToDomain
-import ru.prsolution.winstrike.domain.models.Arena
-import ru.prsolution.winstrike.domain.models.ArenaSchema
-import ru.prsolution.winstrike.domain.models.city.City
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
-import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
-import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
 import ru.prsolution.winstrike.networking.RetrofitFactory
-import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import ru.prsolution.winstrike.data.repository.resouces.Resource
-import ru.prsolution.winstrike.presentation.utils.setError
-import ru.prsolution.winstrike.presentation.utils.setLoading
 import ru.prsolution.winstrike.presentation.utils.setSuccess
 import timber.log.Timber
 

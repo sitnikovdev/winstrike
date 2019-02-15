@@ -52,7 +52,7 @@
         <argument
                 android:name="seat"
                 android:defaultValue="@null"
-                app:argType="ru.prsolution.winstrike.domain.models.SeatCarousel"
+                app:argType="ru.prsolution.winstrike.domain.models.arena.SeatCarousel"
                 app:nullable="true"/>
 
         <argument

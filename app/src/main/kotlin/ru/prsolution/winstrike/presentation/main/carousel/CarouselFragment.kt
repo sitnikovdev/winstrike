@@ -15,8 +15,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.facebook.drawee.view.SimpleDraweeView
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.Type
-import ru.prsolution.winstrike.domain.models.SeatCarousel
+import ru.prsolution.winstrike.domain.models.arena.Type
+import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 
 class CarouselFragment : Fragment() {
 

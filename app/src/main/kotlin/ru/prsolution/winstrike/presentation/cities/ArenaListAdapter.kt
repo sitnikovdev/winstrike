@@ -4,11 +4,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_arena.view.*
-import kotlinx.android.synthetic.main.item_city.view.*
 import kotlinx.android.synthetic.main.item_city_detail.view.*
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.model.ArenaItem
+import ru.prsolution.winstrike.presentation.model.arena.ArenaItem
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 

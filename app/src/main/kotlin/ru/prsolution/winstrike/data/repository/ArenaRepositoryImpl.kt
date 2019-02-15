@@ -2,13 +2,11 @@ package ru.prsolution.winstrike.data.repository
 
 import ru.prsolution.winstrike.data.datasource.ArenaCacheDataSource
 import ru.prsolution.winstrike.data.datasource.ArenaRemoteDataSource
-import ru.prsolution.winstrike.domain.models.Arena
-import ru.prsolution.winstrike.domain.models.ArenaSchema
+import ru.prsolution.winstrike.domain.models.arena.Arena
+import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
 import ru.prsolution.winstrike.domain.models.payment.Payment
 import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
 import ru.prsolution.winstrike.domain.repository.ArenaRepository
-import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.time
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.arenaPid
 
 class ArenaRepositoryImpl constructor(
     private val cacheDataSource: ArenaCacheDataSource,

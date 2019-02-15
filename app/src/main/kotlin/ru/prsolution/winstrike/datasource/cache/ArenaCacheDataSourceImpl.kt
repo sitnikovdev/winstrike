@@ -2,7 +2,7 @@ package ru.prsolution.winstrike.datasource.cache
 
 import io.reactivex.Single
 import ru.prsolution.winstrike.data.datasource.ArenaCacheDataSource
-import ru.prsolution.winstrike.domain.models.Arena
+import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.presentation.utils.cache.Cache
 
 class ArenaCacheDataSourceImpl constructor(

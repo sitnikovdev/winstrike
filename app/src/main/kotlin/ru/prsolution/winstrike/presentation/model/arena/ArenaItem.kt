@@ -1,6 +1,6 @@
-package ru.prsolution.winstrike.presentation.model
+package ru.prsolution.winstrike.presentation.model.arena
 
-import ru.prsolution.winstrike.domain.models.Arena
+import ru.prsolution.winstrike.domain.models.arena.Arena
 
 data class ArenaItem(
         val activeLayoutPid: String?,
@@ -28,20 +28,20 @@ data class ArenaItem(
 
 fun List<Arena>.mapToPresentation(): List<ArenaItem> =
         map {
-            ArenaItem(
-                    activeLayoutPid = it.activeLayoutPid,
-                    cityPid = it.cityPid,
-                    description = it.description,
-                    imageUrl = it.imageUrl,
-                    name = it.name,
-                    metro = it.metro,
-                    locale = it.locale,
-                    publicId = it.publicId,
-                    roomLayoutPid = it.roomLayoutPid,
-                    commonDescription = it.commonDescription,
-                    commonImageUrl = it.commonImageUrl,
-                    vipDescription = it.vipDescription,
-                    vipImageUrl = it.vipImageUrl
-            )
+                ArenaItem(
+                        activeLayoutPid = it.activeLayoutPid,
+                        cityPid = it.cityPid,
+                        description = it.description,
+                        imageUrl = it.imageUrl,
+                        name = it.name,
+                        metro = it.metro,
+                        locale = it.locale,
+                        publicId = it.publicId,
+                        roomLayoutPid = it.roomLayoutPid,
+                        commonDescription = it.commonDescription,
+                        commonImageUrl = it.commonImageUrl,
+                        vipDescription = it.vipDescription,
+                        vipImageUrl = it.vipImageUrl
+                )
         }
 

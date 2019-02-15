@@ -12,14 +12,12 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.ArenaSchema
-import ru.prsolution.winstrike.domain.models.SeatCarousel
+import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.hide
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.show
-import ru.prsolution.winstrike.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity(),
     CarouselFragment.OnSeatClickListener {

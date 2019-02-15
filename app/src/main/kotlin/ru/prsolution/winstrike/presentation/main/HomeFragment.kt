@@ -12,9 +12,9 @@ import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fmt_home.*
 import org.jetbrains.anko.imageURI
 import org.koin.androidx.viewmodel.ext.viewModel
-import ru.prsolution.winstrike.domain.models.ArenaHallType
-import ru.prsolution.winstrike.domain.models.Type
-import ru.prsolution.winstrike.domain.models.SeatCarousel
+import ru.prsolution.winstrike.domain.models.arena.ArenaHallType
+import ru.prsolution.winstrike.domain.models.arena.Type
+import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_350
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_450
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_MARGIN_600
@@ -23,7 +23,7 @@ import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_WIDTH_PX_1440
 import ru.prsolution.winstrike.presentation.utils.Constants.SCREEN_WIDTH_PX_720
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselAdapter
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
-import ru.prsolution.winstrike.presentation.model.ArenaItem
+import ru.prsolution.winstrike.presentation.model.arena.ArenaItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.CityItemViewModel
 
@@ -142,32 +142,36 @@ class HomeFragment : Fragment() {
         when (hallType) {
             ArenaHallType.DOUBLE -> { // create two mArena: COMMON and VIP
 
-                seatMap[Type.COMMON] = SeatCarousel(
+                seatMap[Type.COMMON] =
+                    SeatCarousel(
                         type = Type.COMMON,
                         imageUrl = arenaItem?.commonImageUrl,
                         description = arenaItem?.commonDescription
-                )
+                    )
 
-                seatMap[Type.VIP] = SeatCarousel(
+                seatMap[Type.VIP] =
+                    SeatCarousel(
                         type = Type.VIP,
                         imageUrl = arenaItem?.vipImageUrl,
                         description = arenaItem?.vipDescription
-                )
+                    )
             }
             ArenaHallType.COMMON -> {
-                seatMap[Type.COMMON] = SeatCarousel(
+                seatMap[Type.COMMON] =
+                    SeatCarousel(
                         type = Type.COMMON,
                         imageUrl = arenaItem?.commonImageUrl,
                         description = arenaItem?.commonDescription
-                )
+                    )
             }
             ArenaHallType.VIP -> { // Create VIP mArena
 
-                seatMap[Type.VIP] = SeatCarousel(
+                seatMap[Type.VIP] =
+                    SeatCarousel(
                         type = Type.VIP,
                         imageUrl = arenaItem?.vipImageUrl,
                         description = arenaItem?.vipDescription
-                )
+                    )
             }
         }
 

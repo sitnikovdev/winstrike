@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
@@ -20,7 +19,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.facebook.drawee.view.SimpleDraweeView
-import com.readystatesoftware.chuck.internal.ui.MainActivity
 import kotlinx.android.synthetic.main.frm_setup.next_button
 import kotlinx.android.synthetic.main.frm_setup.progressBar
 import kotlinx.android.synthetic.main.frm_setup.tv_date
@@ -30,12 +28,10 @@ import kotlinx.android.synthetic.main.frm_setup.v_time_tap
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.ArenaSchema
-import ru.prsolution.winstrike.domain.models.SeatCarousel
-import ru.prsolution.winstrike.presentation.model.SchemaItem
+import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
+import ru.prsolution.winstrike.presentation.model.arena.SchemaItem
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
-import timber.log.Timber
 import java.time.Month
 import java.time.format.TextStyle
 import java.util.Locale

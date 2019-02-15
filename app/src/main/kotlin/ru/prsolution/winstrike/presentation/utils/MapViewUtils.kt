@@ -1,7 +1,7 @@
 package ru.prsolution.winstrike.presentation.utils
 
 import android.graphics.Point
-import ru.prsolution.winstrike.domain.models.SeatMap
+import ru.prsolution.winstrike.domain.models.arena.SeatMap
 import timber.log.Timber
 
 class MapViewUtils() {

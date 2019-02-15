@@ -5,9 +5,9 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-import ru.prsolution.winstrike.datasource.model.ArenaEntity
-import ru.prsolution.winstrike.datasource.model.ArenaSchemaEntity
-import ru.prsolution.winstrike.domain.models.SeatCarousel
+import ru.prsolution.winstrike.datasource.model.arena.ArenaEntity
+import ru.prsolution.winstrike.datasource.model.arena.ArenaSchemaEntity
+import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.domain.models.login.UserModel
 import ru.prsolution.winstrike.presentation.utils.cache.CacheLibrary
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils

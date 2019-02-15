@@ -13,7 +13,7 @@ import kotlin.coroutines.CoroutineContext
  */
 
 
-class LoginViewModel constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginViewModel constructor(val loginUseCase: LoginUseCase) : ViewModel() {
 
 
     private val parentJob = Job()

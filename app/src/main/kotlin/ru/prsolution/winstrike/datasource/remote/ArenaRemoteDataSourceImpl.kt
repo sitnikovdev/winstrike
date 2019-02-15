@@ -1,11 +1,11 @@
 package ru.prsolution.winstrike.datasource.remote
 
 import ru.prsolution.winstrike.data.datasource.ArenaRemoteDataSource
-import ru.prsolution.winstrike.datasource.model.mapRoomToDomain
-import ru.prsolution.winstrike.datasource.model.mapToDomain
+import ru.prsolution.winstrike.datasource.model.arena.mapRoomToDomain
+import ru.prsolution.winstrike.datasource.model.arena.mapToDomain
 import ru.prsolution.winstrike.datasource.model.payment.mapToDomain
-import ru.prsolution.winstrike.domain.models.Arena
-import ru.prsolution.winstrike.domain.models.ArenaSchema
+import ru.prsolution.winstrike.domain.models.arena.Arena
+import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
 import ru.prsolution.winstrike.domain.models.payment.Payment
 import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
 

@@ -6,10 +6,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_city.view.*
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.model.CityItem
+import ru.prsolution.winstrike.presentation.model.arena.CityItem
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import timber.log.Timber
 
 /**
  * Created by Oleg Sitnikov on 2019-02-12
