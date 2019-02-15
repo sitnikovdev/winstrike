@@ -23,22 +23,24 @@ import ru.prsolution.winstrike.domain.repository.ArenaRepository
 import ru.prsolution.winstrike.domain.repository.CityRepository
 import ru.prsolution.winstrike.domain.usecases.ArenaUseCase
 import ru.prsolution.winstrike.domain.usecases.CityUseCase
+import ru.prsolution.winstrike.domain.usecases.PaymentUseCase
 import ru.prsolution.winstrike.networking.createNetworkClient
 import ru.prsolution.winstrike.presentation.utils.cache.Cache
 import ru.prsolution.winstrike.viewmodel.CityItemViewModel
 import ru.prsolution.winstrike.viewmodel.CityListViewModel
+import ru.prsolution.winstrike.viewmodel.MapViewModel
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 
 fun injectFeature() = loadFeature
 
 private val loadFeature by lazy {
     loadKoinModules(
-            viewModelModule,
-            useCaseModule,
-            repositoryModule,
-            dataSourceModule,
-            networkModule,
-            cacheModule
+        viewModelModule,
+        useCaseModule,
+        repositoryModule,
+        dataSourceModule,
+        networkModule,
+        cacheModule
     )
 }
 
@@ -46,11 +48,13 @@ val viewModelModule: Module = module {
     viewModel { CityListViewModel(cityUseCase = get()) }
     viewModel { CityItemViewModel(arenaUseCase = get()) }
     viewModel { SetUpViewModel(arenaUseCase = get()) }
+    viewModel { MapViewModel(paymentUseCase = get()) }
 }
 
 val useCaseModule: Module = module {
     factory { CityUseCase(cityRepository = get()) }
     factory { ArenaUseCase(arenaRepository = get()) }
+    factory { PaymentUseCase(arenaRepository = get()) }
 }
 
 val repositoryModule: Module = module {

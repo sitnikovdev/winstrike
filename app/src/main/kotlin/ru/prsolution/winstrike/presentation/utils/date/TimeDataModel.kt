@@ -74,7 +74,7 @@ object TimeDataModel {
 
     var isDateValid: Boolean by observing(false, {
         Timber.d(
-                "dates: valid $isDateValid, startAt: $start, endAt: $end")
+                "dates: valid $isDateValid, start_at: $start, endAt: $end")
     })
 
     fun clearPids() {

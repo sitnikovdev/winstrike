@@ -14,10 +14,9 @@ import ru.prsolution.winstrike.datasource.model.login.AuthResponse
 import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 import ru.prsolution.winstrike.datasource.model.login.NewPasswordModel
 import ru.prsolution.winstrike.datasource.model.orders.OrdersEntity
-import ru.prsolution.winstrike.datasource.model.payment.PaymentModel
-import ru.prsolution.winstrike.datasource.model.payment.PaymentResponse
+import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
+import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
 import ru.prsolution.winstrike.datasource.model.SchemaEntity
-import ru.prsolution.winstrike.datasource.model.city.CityListEntity
 import ru.prsolution.winstrike.domain.models.login.ConfirmModel
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.login.LoginModel
@@ -57,8 +56,8 @@ interface RetrofitService {
     fun getPaymentAsync(
         @Header(
 "authorization") token: String,
-        @Body paymentModel: PaymentModel
-    ): Deferred<Response<PaymentResponse>>
+        @Body paymentModel: PaymentEntity
+    ): Deferred<Response<PaymentResponseItem>>
 
     // Повторная отправка пароля:
     @POST("refresh_password/{confirm_code}")

@@ -1,0 +1,25 @@
+package ru.prsolution.winstrike.datasource.model.payment
+
+/**
+ * Created by oleg on 07/03/2018.
+ */
+
+import com.squareup.moshi.Json
+import ru.prsolution.winstrike.domain.models.payment.Payment
+
+class PaymentEntity(
+    @field:Json(name = "start_at")
+    val startAt: String? = null,
+    @field:Json(name = "end_at")
+    val end_at: String? = null,
+    @field:Json(name = "places")
+    val placesPid: List<String>? = null
+)
+
+fun PaymentEntity.mapToDomain(): Payment = Payment(
+    start_at = this.startAt,
+    end_at = this.end_at,
+    places = this.placesPid
+)
+
+

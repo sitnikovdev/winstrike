@@ -5,6 +5,10 @@ import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 import ru.prsolution.winstrike.domain.models.*
 
+// TODO: Replace with no parcebale
+/*Parcel: unable to marshal value ru.prsolution.winstrike.domain.models.Seat@3189b34
+at android.os.Parcel.writeValue(Parcel.java:1736)
+at ru.prsolution.winstrike.presentation.model.SchemaItem.writeToParcel(Unknown Source:57)*/
 @Parcelize
 data class SchemaItem(
     val name: String? = null,

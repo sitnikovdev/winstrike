@@ -3,8 +3,11 @@ package ru.prsolution.winstrike.datasource.remote
 import ru.prsolution.winstrike.data.datasource.ArenaRemoteDataSource
 import ru.prsolution.winstrike.datasource.model.mapRoomToDomain
 import ru.prsolution.winstrike.datasource.model.mapToDomain
+import ru.prsolution.winstrike.datasource.model.payment.mapToDomain
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaSchema
+import ru.prsolution.winstrike.domain.models.payment.Payment
+import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
 
 class ArenaRemoteDataSourceImpl constructor(
     private val api: ArenaApi
@@ -28,5 +31,15 @@ class ArenaRemoteDataSourceImpl constructor(
 
         return response?.roomLayout?.mapRoomToDomain()
     }
+
+    override suspend fun getPayment(token: String, payment: Payment): PaymentResponse? {
+        val response = safeApiCall(
+            call = { api.getPaymentAsync(token, payment).await() },
+            errorMessage = "Error get payment response"
+        )
+
+        return response?.mapToDomain()
+    }
+
 
 }

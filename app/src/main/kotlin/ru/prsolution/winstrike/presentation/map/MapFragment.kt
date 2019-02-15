@@ -31,6 +31,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.support.v4.toast
+import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.MapViewUtils
 import ru.prsolution.winstrike.presentation.utils.Utils
@@ -38,15 +39,19 @@ import ru.prsolution.winstrike.domain.models.ArenaMap
 import ru.prsolution.winstrike.domain.models.ArenaSchemaName
 import ru.prsolution.winstrike.domain.models.SeatMap
 import ru.prsolution.winstrike.domain.models.SeatType
-import ru.prsolution.winstrike.datasource.model.payment.PaymentModel
-import ru.prsolution.winstrike.datasource.model.payment.PaymentResponse
+import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
+import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
 import ru.prsolution.winstrike.viewmodel.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.data.repository.resouces.ResourceState
+import ru.prsolution.winstrike.domain.models.payment.Payment
+import ru.prsolution.winstrike.domain.models.payment.setPlacesPid
 import ru.prsolution.winstrike.presentation.model.SchemaItem
 import ru.prsolution.winstrike.presentation.model.mapToDomain
+import ru.prsolution.winstrike.presentation.model.payment.PaymentItem
+import ru.prsolution.winstrike.viewmodel.MapViewModel
 import timber.log.Timber
 import java.util.LinkedHashMap
 import java.util.concurrent.atomic.AtomicBoolean
@@ -55,6 +60,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * Created by oleg 24.01.2019
  */
 class MapFragment : Fragment() {
+    private val mVm: MapViewModel by viewModel()
 
     //TODO: fix it
     private val pending = AtomicBoolean(false)
@@ -75,14 +81,11 @@ class MapFragment : Fragment() {
     var mXScaleFactor: Float? = null
     var mYScaleFactor: Float? = null
 
-    var mVm: MainViewModel? = null
     private var mSchema: SchemaItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dlgMapLegend()
-
-        mVm = activity?.let { ViewModelProviders.of(it)[MainViewModel::class.java] }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -132,15 +135,9 @@ class MapFragment : Fragment() {
         }
 
         // payment response from map fragment:
-        mVm?.paymentResponse?.observe(this@MapFragment, Observer {
-            // load
-            it.state.let { state ->
-                if (state == ResourceState.LOADING) {
-                }
-            }
-            // data
-            it.data?.let { response ->
-                // TODO: call twice!!! fix it!!!
+
+        mVm.paymentResponse.observe(this@MapFragment, Observer {
+            it?.let { response ->
                 if (pending.compareAndSet(true, false)) {
                     Timber.tag("$$$").d("already pending")
                 } else {
@@ -148,17 +145,8 @@ class MapFragment : Fragment() {
                     pending.set(true)
                 }
             }
-            // error
-            it.message?.let { error ->
-                Timber.tag("$$$").d("message: $error")
-                onPaymentError(error)
-            }
         })
 
-
-/*			mVm?.paymentResponse?.observe(it, Observer {
-				it.data?.let { response -> onGetPaymentResponseSuccess(response) }
-			})*/
     }
 
     private fun initMap() {
@@ -594,25 +582,27 @@ class MapFragment : Fragment() {
     }
 
     // Open Yandex WebView on payment response from MapFragment
-    private fun onPaymentShow(payResponse: PaymentResponse) {
+    private fun onPaymentShow(payResponse: PaymentResponseItem) {
         // TODO: Show progress bar when load web view.
         val url = payResponse.redirectUrl
         val testUrl = "https://yandex.ru"
         val action = MapFragmentDirections.nextAction(testUrl)
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
-//        findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
 
     fun onPaymentRequest() {
-        val payModel = PaymentModel()
+        val payModel = Payment(
+            TimeDataModel.start,
+            TimeDataModel.end,
+            null
+        )
 
-        payModel.startAt = TimeDataModel.start
-        payModel.end_at = TimeDataModel.end
         payModel.setPlacesPid(TimeDataModel.pids)
 
         val token = "Bearer " + PrefUtils.token
-        mVm?.getPayment(token, payModel)
+        mVm.getPayment(token, payModel)
+
         // TODO: Clear payModel after payments!!!
         TimeDataModel.pids.clear()
         snackbar?.dismiss()

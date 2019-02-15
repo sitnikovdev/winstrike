@@ -6,16 +6,14 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import ru.prsolution.winstrike.datasource.model.city.mapToDomain
-import ru.prsolution.winstrike.datasource.model.mapRoomToDomain
 import ru.prsolution.winstrike.datasource.model.mapToDomain
 import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.city.City
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
-import ru.prsolution.winstrike.datasource.model.payment.PaymentModel
-import ru.prsolution.winstrike.datasource.model.payment.PaymentResponse
+import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
+import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
 import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import ru.prsolution.winstrike.data.repository.resouces.Resource
@@ -42,24 +40,7 @@ class MainViewModel : ViewModel() {
     val arena = SingleLiveEvent<Resource<ArenaSchema?>>()
 
     // Ответ от Яндекс Кассы
-    val paymentResponse = SingleLiveEvent<Resource<PaymentResponse>>()
-
-    // Получение списка городов
-/*    fun getCity() {
-        GlobalScope.launch {
-            val request = retrofitService.cityListAsync()
-            try {
-                val response = request.await()
-                response.body()?.let {
-                    cityList.setSuccess(it.cities.mapToDomain())
-                    Timber.tag("$$$").d("arena list: ${it.cities.mapToDomain().size}")
-                }
-            } catch (e: Throwable) {
-                arenaList.setError(e.message)
-                Timber.e(e)
-            }
-        }
-    }*/
+    val paymentResponse = SingleLiveEvent<Resource<PaymentResponseItem>>()
 
     // Получение списка имеющихся арен на сервере
     fun getArenaList() {
@@ -78,22 +59,8 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    // Получение схемы выбранной арены по пиду и времени
-    fun getArenaSchema(arenaPid: String?, time: Map<String, String>) {
-        GlobalScope.launch {
-            val request = retrofitService.arenaSchemaAsync(arenaPid, time)
-            try {
-                val response = request.await()
-                response.body()?.let { arena.setSuccess(it.roomLayout?.mapRoomToDomain()) }
-            } catch (e: Throwable) {
-                arena.setError(e.message)
-                Timber.e(e)
-            }
-        }
-    }
-
     // Оплата выбраных мест через Яндекс Кассу
-    fun getPayment(token: String, paymentModel: PaymentModel) {
+    fun getPayment(token: String, paymentModel: PaymentEntity) {
         GlobalScope.launch {
             val request = retrofitService.getPaymentAsync(token, paymentModel)
             try {
