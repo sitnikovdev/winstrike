@@ -27,10 +27,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
-import com.readystatesoftware.chuck.internal.ui.MainActivity
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
@@ -40,19 +38,14 @@ import ru.prsolution.winstrike.domain.models.ArenaMap
 import ru.prsolution.winstrike.domain.models.ArenaSchemaName
 import ru.prsolution.winstrike.domain.models.SeatMap
 import ru.prsolution.winstrike.domain.models.SeatType
-import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
 import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
-import ru.prsolution.winstrike.viewmodel.MainViewModel
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.data.repository.resouces.ResourceState
 import ru.prsolution.winstrike.domain.models.payment.Payment
 import ru.prsolution.winstrike.domain.models.payment.setPlacesPid
 import ru.prsolution.winstrike.presentation.model.SchemaItem
 import ru.prsolution.winstrike.presentation.model.mapToDomain
-import ru.prsolution.winstrike.presentation.model.payment.PaymentItem
-import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.time
 import ru.prsolution.winstrike.viewmodel.MapViewModel
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 import timber.log.Timber
@@ -85,7 +78,6 @@ class MapFragment : Fragment() {
     var mXScaleFactor: Float? = null
     var mYScaleFactor: Float? = null
 
-    private var mSchema: SchemaItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,7 +124,6 @@ class MapFragment : Fragment() {
             time["end_at"] = TimeDataModel.end
             mSetUpVm.fetchSchema(mActiveLayoutPid, time)
 
-//            this.mSchema = safeArgs.schema
         }
 
         if (isAdded) {
@@ -142,18 +133,13 @@ class MapFragment : Fragment() {
         }
 
         mSetUpVm.arenaSchema.observe(this@MapFragment, Observer {
-            it.let {
-                mSchema = it
-                initMap()
+            it?.let {
+                initMap(it)
             }
-
         })
-/*        mSchema?.let {
-            initMap()
-        }*/
+
 
         // payment response from map fragment:
-
         mVm.paymentResponse.observe(this@MapFragment, Observer {
             it?.let { response ->
                 if (pending.compareAndSet(true, false)) {
@@ -167,8 +153,8 @@ class MapFragment : Fragment() {
 
     }
 
-    private fun initMap() {
-        requireNotNull(mSchema) { "++++ RoomLayoutFactory must be init. ++++" }
+    private fun initMap(schema: SchemaItem?) {
+        requireNotNull(schema) { "++++ RoomLayoutFactory must be init. ++++" }
 
 
         rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
@@ -176,7 +162,7 @@ class MapFragment : Fragment() {
         requireNotNull(mapLayout) { "++++ Map Fragment root layout must not be null. ++++" }
 
 
-        drawSeat(ArenaMap(mSchema!!.mapToDomain()))
+        drawSeat(ArenaMap(schema!!.mapToDomain()))
     }
 
 
