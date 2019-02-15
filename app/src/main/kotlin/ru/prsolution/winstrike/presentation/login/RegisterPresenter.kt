@@ -1,6 +1,6 @@
 package ru.prsolution.winstrike.presentation.login
 
-import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
+import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 import ru.prsolution.winstrike.domain.models.login.LoginModel
 
 class RegisterPresenter() {
@@ -28,7 +28,7 @@ class RegisterPresenter() {
 	 * Send code by tap on "Again button send"
 	 * @param smsModel
 	 */
-    fun sendSms(smsModel: ConfirmSmsModel) {
+    fun sendSms(smsModel: SmsEntity) {
 
 /*		val subscription = service?.sendSmsByUserRequest(object : Service.SmsCallback {
 			override fun onSuccess(authResponse: MessageResponse) {

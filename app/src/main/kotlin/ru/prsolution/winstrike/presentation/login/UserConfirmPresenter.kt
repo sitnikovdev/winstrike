@@ -1,7 +1,7 @@
 package ru.prsolution.winstrike.presentation.login
 
-import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
-import ru.prsolution.winstrike.domain.models.login.ConfirmModel
+import ru.prsolution.winstrike.datasource.model.login.SmsEntity
+import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
 
 /**
@@ -12,7 +12,7 @@ class UserConfirmPresenter() {
     init {
     }
 
-    fun confirmUser(sms_code: String, confirmPhone: ConfirmModel) {
+    fun confirmUser(sms_code: String, confirmPhone: SmsModel) {
         //        view.showWait();
 
 /*		val subscription = service?.confirmUser(object : Service.ConfirmCallback {
@@ -35,7 +35,7 @@ class UserConfirmPresenter() {
 	 * Send code by tap on "Again button send"
 	 * @param smsModel
 	 */
-    fun sendSms(smsModel: ConfirmSmsModel) {
+    fun sendSms(smsModel: SmsModel) {
 
 /*		val subscription = service.sendSmsByUserRequest(object : Service.SmsCallback {
 			override fun onSuccess(authResponse: MessageResponse) {

@@ -16,15 +16,16 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.TextFormat
 import ru.prsolution.winstrike.domain.models.login.LoginModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
-import ru.prsolution.winstrike.domain.models.login.UserEntity
+import ru.prsolution.winstrike.domain.models.login.UserModel
 import timber.log.Timber
-
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
-import ru.prsolution.winstrike.datasource.model.login.AuthResponse
-import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
+import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
+import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.presentation.utils.Constants
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.phone
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.token
 
 /*
  * Created by oleg on 31.01.2018.
@@ -47,8 +48,8 @@ class SingUpActivity : AppCompatActivity() {
         next_button_phone!!.setOnClickListener {
             // Создание пользователя и переход на страницу подтверждения пароля
             user = LoginModel(
-                    phone = formatPhone(et_phone?.text.toString()),
-                    password = et_password?.text.toString()
+                phone = formatPhone(et_phone?.text.toString()),
+                password = et_password?.text.toString()
             )
 
             presenter!!.createUser(user!!)
@@ -71,10 +72,8 @@ class SingUpActivity : AppCompatActivity() {
         Timber.d("Sms send failure: %s", appErrorMessage)
     }
 
-    private fun getConfirmSmsModel(phone: String): ConfirmSmsModel {
-        val auth = ConfirmSmsModel()
-        auth.username = phone
-        return auth
+    private fun getConfirmSmsModel(phone: String): SmsModel {
+        return SmsModel(phone)
     }
 
     private fun setFooter() {
@@ -89,9 +88,9 @@ class SingUpActivity : AppCompatActivity() {
     }
 
     /**
-	 * Register new user and send him sms with confirm code.
-	 */
-    fun onRegisterSuccess(authResponse: AuthResponse) {
+     * Register new user and send him sms with confirm code.
+     */
+    fun onRegisterSuccess(authResponse: AuthResponseEntity) {
         with(PrefUtils) {
             token = authResponse.token
             publicid = authResponse.user?.publicId!!
@@ -100,11 +99,12 @@ class SingUpActivity : AppCompatActivity() {
             name = "NoName"
         }
 
-        val userDb = UserEntity(
-                confirmed = false,
-                phone = user?.phone,
-                publickId = authResponse.user?.publicId,
-                token = authResponse.token
+        val userDb = UserModel(
+            id = null,
+            confirmed = false,
+            phone = user?.phone,
+            publickId = authResponse.user?.publicId,
+            token = authResponse.token
         )
 
         val intent = Intent(this@SingUpActivity, UserConfirmActivity::class.java)

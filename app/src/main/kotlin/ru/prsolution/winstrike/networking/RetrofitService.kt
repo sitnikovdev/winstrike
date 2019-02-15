@@ -10,17 +10,16 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.prsolution.winstrike.datasource.model.ArenaListEntity
-import ru.prsolution.winstrike.datasource.model.login.AuthResponse
-import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
-import ru.prsolution.winstrike.datasource.model.login.NewPasswordModel
+import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
+import ru.prsolution.winstrike.datasource.model.login.SmsEntity
+import ru.prsolution.winstrike.datasource.model.login.PasswordEntity
 import ru.prsolution.winstrike.datasource.model.orders.OrdersEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
 import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
 import ru.prsolution.winstrike.datasource.model.SchemaEntity
-import ru.prsolution.winstrike.domain.models.login.ConfirmModel
+import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.login.LoginModel
-import ru.prsolution.winstrike.domain.models.login.LoginViewModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
 
@@ -42,13 +41,15 @@ interface RetrofitService {
         @QueryMap time: Map<String, String>
     ): Deferred<Response<SchemaEntity>>
 
+/*
     // Авторизация пользователя
     @POST("login")
     fun authUserAsync(@Body loginViewModel: LoginViewModel?): Deferred<Response<AuthResponse>>
+*/
 
     // Отправка смс c кодом подтверждения
     @POST("confirm_codes")
-    fun sendSmsByUserRequestAsync(@Body confirmModel: ConfirmSmsModel): Deferred<Response<MessageResponse>>
+    fun sendSmsByUserRequestAsync(@Body confirmModel: SmsEntity): Deferred<Response<MessageResponse>>
 
     //  Создание платежа для указанных мест и диапазона времени.
     //  В случае успеха в ответ приходит ссылка на Яндекс кассу для оплаты.
@@ -62,14 +63,14 @@ interface RetrofitService {
     // Повторная отправка пароля:
     @POST("refresh_password/{confirm_code}")
     fun refreshPassword(
-        @Body confirmModel: NewPasswordModel,
+        @Body confirmModel: PasswordEntity,
         @Path(
                     "confirm_code") confirm_code: String
     ): Deferred<Response<MessageResponse>>
 
     // Создание пользователя
     @POST("users")
-    fun createUser(@Body loginModel: LoginModel): Deferred<Response<AuthResponse>>
+    fun createUser(@Body loginModel: LoginModel): Deferred<Response<AuthResponseEntity>>
 
     // Update user profile
     @PUT("users/{public_id}")
@@ -93,7 +94,7 @@ interface RetrofitService {
     fun confirmUser(
         @Path(
 "sms_code") sms_code: String,
-        @Body confirmModel: ConfirmModel
+        @Body confirmModel: SmsModel
     ): Deferred<Response<MessageResponse>>
 
     // Получение списка оплаченных мест пользователя

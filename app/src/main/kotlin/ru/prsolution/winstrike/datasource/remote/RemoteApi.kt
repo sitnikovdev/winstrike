@@ -6,12 +6,13 @@ import retrofit2.http.*
 import ru.prsolution.winstrike.datasource.model.ArenaListEntity
 import ru.prsolution.winstrike.datasource.model.SchemaEntity
 import ru.prsolution.winstrike.datasource.model.city.CityListEntity
-import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
+import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
+import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentResponseEntity
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.domain.models.login.LoginModel
 import ru.prsolution.winstrike.domain.models.payment.Payment
-import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
 
 interface CityApi {
     // Получение  списка городов
@@ -49,9 +50,22 @@ interface ArenaApi {
     @POST("fcm_codes")
     fun sendTockenAsync(
         @Header(
-            "authorization") token: String,
+            "authorization"
+        ) token: String,
         @Body tokenModel: FCMModel
     ): Deferred<Response<MessageResponse>>
+
+}
+
+interface UserApi {
+
+    // Авторизация пользователя
+    @POST("login")
+    fun getLogin(@Body loginModel: LoginModel): Deferred<Response<AuthResponseEntity>>
+
+    // Отправка смс c кодом подтверждения
+    @POST("confirm_codes")
+    fun sendSms(@Body confirmModel: SmsEntity): Deferred<Response<MessageResponse>>
 
 }
 

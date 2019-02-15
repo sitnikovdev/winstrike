@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.fmt_profile_prof.et_password
 import kotlinx.android.synthetic.main.fmt_profile_prof.fio
 import kotlinx.android.synthetic.main.fmt_profile_prof.next_button
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.login.UserEntity
+import ru.prsolution.winstrike.domain.models.login.UserModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 /*
@@ -17,7 +17,7 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
  */
 
 class ProfileTabFragment : Fragment() {
-    private var user: UserEntity? = null
+    private var user: UserModel? = null
 
 // 	lateinit var listener: OnProfileUpdateClickListener
 
@@ -36,7 +36,7 @@ class ProfileTabFragment : Fragment() {
 	}*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        this.user = UserEntity()
+//        this.user = UserModel()
 
         next_button?.setOnClickListener {
             val name = fio!!.text.toString()

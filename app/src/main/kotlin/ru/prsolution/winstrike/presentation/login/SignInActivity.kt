@@ -27,9 +27,10 @@ import ru.prsolution.winstrike.presentation.utils.TextFormat
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
 import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
-import ru.prsolution.winstrike.datasource.model.login.AuthResponse
-import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
+import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
+import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
 import timber.log.Timber
@@ -132,7 +133,7 @@ class SignInActivity : AppCompatActivity() {
 // 				AuthUtils.phone = loginViewModel!!.username.toString()
 // 				AuthUtils.password = loginViewModel!!.password.toString()
 
-                vm.signIn()
+//                vm.signIn()
             } else if (TextUtils.isEmpty(et_phone!!.text)) {
                 longToast("Введите номер телефона")
             } else if (TextUtils.isEmpty(et_password!!.text)) {
@@ -153,11 +154,11 @@ class SignInActivity : AppCompatActivity() {
 
     // TODO move in view model
     /**
-	 * Success auth user. Save token
-	 *
-	 * @param authResponse - (token,isConfirmed)
-	 */
-    private fun onAuthResponseSuccess(authResponse: AuthResponse) {
+     * Success auth user. Save token
+     *
+     * @param authResponse - (token,isConfirmed)
+     */
+    private fun onAuthResponseSuccess(authResponse: AuthResponseEntity) {
         val confirmed = authResponse.user?.confirmed
 
         updateUser(authResponse)
@@ -166,17 +167,16 @@ class SignInActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             Timber.d("Success signIn")
         } else {
-            val smsModel = ConfirmSmsModel()
-            smsModel.username = authResponse.user!!.phone
+            val username = authResponse.user.phone
             vm.sendSms()
 
             val intent = Intent(this, UserConfirmActivity::class.java)
-            intent.putExtra("phone", smsModel.username)
+            intent.putExtra("phone", username)
             startActivity(intent)
         }
     }
 
-    private fun updateUser(authResponse: AuthResponse) {
+    private fun updateUser(authResponse: AuthResponseEntity) {
         PrefUtils.name = authResponse.user?.name ?: ""
         PrefUtils.token = authResponse.token ?: ""
         PrefUtils.phone = authResponse.user?.phone ?: ""
@@ -270,14 +270,14 @@ class SignInActivity : AppCompatActivity() {
         tv_conditions!!.text = content
 
         tv_conditions!!.setOnClickListener {
-//            val browserIntent = Intent(this, YandexWebView::class.java)
+            //            val browserIntent = Intent(this, YandexWebView::class.java)
 //            val url = "file:///android_asset/rules.html"
 //            browserIntent.putExtra("url", url)
 //            startActivity(browserIntent)
         }
 
         tv_politica4!!.setOnClickListener {
-//            val browserIntent = Intent(this, YandexWebView::class.java)
+            //            val browserIntent = Intent(this, YandexWebView::class.java)
 //            val url = "file:///android_asset/politika.html"
 //            browserIntent.putExtra("url", url)
 //            startActivity(browserIntent)

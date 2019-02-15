@@ -6,10 +6,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import ru.prsolution.winstrike.BuildConfig
-import ru.prsolution.winstrike.data.datasource.ArenaCacheDataSource
-import ru.prsolution.winstrike.data.datasource.ArenaRemoteDataSource
-import ru.prsolution.winstrike.data.datasource.CityCacheDataSource
-import ru.prsolution.winstrike.data.datasource.CityRemoteDataSource
+import ru.prsolution.winstrike.data.datasource.*
 import ru.prsolution.winstrike.data.repository.ArenaRepositoryImpl
 import ru.prsolution.winstrike.data.repository.CityRepositoryImpl
 import ru.prsolution.winstrike.datasource.cache.ArenaCacheDataSourceImpl

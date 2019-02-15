@@ -34,8 +34,8 @@ import timber.log.Timber
 
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
-import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
-import ru.prsolution.winstrike.datasource.model.login.NewPasswordModel
+import ru.prsolution.winstrike.domain.models.login.PasswordModel
+import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.presentation.login.SignInActivity
 
 /**
@@ -47,13 +47,10 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
     private var timer: TimerViewModel? = null
 
-    private val confirmSmsModel: ConfirmSmsModel
+    private val confirmSmsModel: SmsModel
         get() {
-            val auth = ConfirmSmsModel()
             val phone = TextFormat.formatPhone(et_phone!!.text.toString())
-            // TODO make model immutable
-            auth.username = phone
-            return auth
+            return SmsModel(phone)
         }
 
     override fun onTimeFinish() {
@@ -103,13 +100,11 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
         next_button_confirm!!.setOnClickListener { it ->
             if (!TextUtils.isEmpty(et_code!!.text) && et_code!!.text.length >= 4) {
-                val passw = NewPasswordModel()
                 val phone = TextFormat.formatPhone(et_phone!!.text.toString())
                 val smsCode = et_code!!.text.toString()
                 // TODO make model immutable
-                passw.username = phone
                 // Показываем диалог для смены пароля:
-                dlgRefreshPassword(passw, smsCode)
+                dlgRefreshPassword(PasswordModel(phone, ""), smsCode)
             } else {
                 toast("Введите код подтверждения!")
             }
@@ -210,7 +205,8 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
         dialog!!.show()
     }
 
-    private fun dlgRefreshPassword(passw: NewPasswordModel, smsCode: String) {
+    private fun dlgRefreshPassword(passw: PasswordModel, smsCode: String) {
+        val phone = passw.username
         dialog = Dialog(this, android.R.style.Theme_Dialog)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.setContentView(R.layout.dlg_refresh_passw)
@@ -229,9 +225,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
                 }
                 if (passTexOne == passTexTwo) {
 
-                    // TODO make model immutable
-                    passw.new_password = passTexOne
-                    refreshPassword(passw, smsCode)
+                    refreshPassword(PasswordModel(phone, passTexOne), smsCode)
                     dialog!!.dismiss()
                 } else {
                     toast("Пароли не совпадают")
@@ -257,7 +251,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
         dialog!!.show()
     }
 
-    fun sendSms(smsModel: ConfirmSmsModel) {
+    fun sendSms(smsModel: SmsModel) {
 
 /*		val subscription = service!!.sendSmsByUserRequest(object : Service.SmsCallback {
 			override fun onSuccess(authResponse: MessageResponse) {
@@ -306,7 +300,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
         setConfirmVisible(true)
     }
 
-    fun refreshPassword(smsModel: NewPasswordModel, smsCode: String) {
+    fun refreshPassword(smsModel: PasswordModel, smsCode: String) {
         //        getViewState().showWait();
 
 /*		val subscription = service!!.refreshPassword(object : Service.RefressPasswordCallback {

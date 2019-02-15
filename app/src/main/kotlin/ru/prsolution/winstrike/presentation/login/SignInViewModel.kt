@@ -4,28 +4,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import ru.prsolution.winstrike.datasource.model.login.AuthResponse
-import ru.prsolution.winstrike.domain.models.login.LoginViewModel
-import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
+import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.data.repository.resouces.Resource
-import ru.prsolution.winstrike.presentation.utils.setSuccess
-import timber.log.Timber
-import java.lang.Exception
 
 class SignInViewModel : ViewModel() {
 
     private val retrofitService = RetrofitFactory.makeRetrofitService()
 
-    private val userConfidence: LoginViewModel? = LoginViewModel(
-            "+79520757099", "123456")
-    private val smsModel: ConfirmSmsModel? = ConfirmSmsModel(
-            userConfidence?.username)
-    val authResponse = MutableLiveData<Resource<AuthResponse>>()
+/*    private val userConfidence: LoginViewModel? = LoginViewModel(
+            "+79520757099", "123456")*/
+
+/*    private val smsModel: ConfirmSmsModel? = ConfirmSmsModel(
+            userConfidence?.username)*/
+
+    val authResponse = MutableLiveData<Resource<AuthResponseEntity>>()
+
     val messageResponse = MutableLiveData<Resource<MessageResponse>>()
 
+/*
     fun signIn() {
         checkNotNull(userConfidence)
 
@@ -47,23 +45,24 @@ class SignInViewModel : ViewModel() {
             }
         }
     }
+*/
 
     fun sendSms() {
-        checkNotNull(smsModel)
+//        checkNotNull(smsModel)
 
         GlobalScope.launch {
-            val request = retrofitService.sendSmsByUserRequestAsync(smsModel)
-            try {
-                val response = request.await()
-                response.body()?.let {
-                    // activity.onSendSmsSuccess()
-                    messageResponse.setSuccess(it)
-                }
-            } catch (e: HttpException) {
-                Timber.e(e.message())
-            } catch (e: Throwable) {
-                Timber.e(e)
-            }
+            /*            val request = retrofitService.sendSmsByUserRequestAsync(smsModel)
+                        try {
+                            val response = request.await()
+                            response.body()?.let {
+                                // activity.onSendSmsSuccess()
+                                messageResponse.setSuccess(it)
+                            }
+                        } catch (e: HttpException) {
+                            Timber.e(e.message())
+                        } catch (e: Throwable) {
+                            Timber.e(e)
+                        }*/
         }
     }
 /*	fun sendSms(smsModel: ConfirmSmsModel) {

@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.ac_confsmscode.v_nextbtn
 import kotlinx.android.synthetic.main.ac_confsmscode.v_send_code_again
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.domain.models.login.ConfirmModel
+import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
 import ru.prsolution.winstrike.domain.models.common.TimerViewModel
@@ -36,7 +36,7 @@ import timber.log.Timber
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextColor
 import ru.prsolution.winstrike.presentation.utils.TextFormat.simplePhoneFormat
 import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
-import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
+import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 
 /**
  * Created by oleg on 15/03/2018.
@@ -45,7 +45,7 @@ import ru.prsolution.winstrike.datasource.model.login.ConfirmSmsModel
 class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
     private var presenter: UserConfirmPresenter? = null
-    private var user: ConfirmModel? = null
+    private var user: SmsModel? = null
     private var phone: String? = null
     private var timer: TimerViewModel? = null
 
@@ -96,9 +96,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
         setBtnEnable(v_nextbtn, false)
 
         v_send_code_again!!.setOnClickListener { it ->
-            val smsModel = ConfirmSmsModel()
-            smsModel.username = PrefUtils.phone
-            presenter!!.sendSms(smsModel)
+            presenter!!.sendSms(SmsModel(PrefUtils.phone))
         }
 
         tv_send_code_again!!.visibility = View.INVISIBLE
@@ -143,7 +141,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
                 imm.hideSoftInputFromWindow(view.windowToken, 0)
             }
 
-            user = ConfirmModel(phone)
+            user = SmsModel(phone)
             presenter!!.confirmUser(sms_code, user!!)
         }
 

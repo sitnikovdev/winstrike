@@ -16,8 +16,8 @@
 
 package ru.prsolution.winstrike.domain.models.login
 
-data class UserEntity(
-    val id: Int = 0,
+data class UserModel(
+    val id: String?,
     val name: String? = "NoName",
     val phone: String? = null,
     val publickId: String? = null,
