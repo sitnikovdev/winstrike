@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.ac_login.tv_conditions
 import kotlinx.android.synthetic.main.ac_login.v_button
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
+import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.TextFormat
@@ -30,9 +31,11 @@ import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
 import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
 import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
+import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import timber.log.Timber
 
 /*
@@ -41,78 +44,24 @@ import timber.log.Timber
 // TODO: 13/05/2018 Reorder method call in this activity.
 class SignInActivity : AppCompatActivity() {
 
+    private val mVm: LoginViewModel by viewModel()
+
     private var mProgressDialog: ProgressDialog? = null
-
-/*
-	private val navigator = object : Navigator {
-
-		override fun applyCommands(commands: Array<Command>) {
-			for (command in commands) applyCommand(command)
-		}
-
-		private fun applyCommand(command: Command) {
-			if (command is Forward) {
-				forward(command)
-			} else if (command is Replace) {
-				replace(command)
-			} else if (command is Back) {
-				back()
-			} else if (command is SystemMessage) {
-				//                Toast.makeText(StartActivity.this, ((SystemMessage) command).getMessage(), Toast.LENGTH_SHORT).show();
-			} else {
-				Log.e("Cicerone", "Illegal command for this screen: " + command.javaClass.simpleName)
-			}
-		}
-
-		private fun forward(command: Forward) {
-			when (command.screenKey) {
-
-			}*/
-/*                case Screens.START_ACTIVITY_SCREEN:
-                    startActivity(new Intent(StartActivity.this, StartActivity.class));
-                    break;
-                case Screens.MAIN_ACTIVITY_SCREEN:
-                    startActivity(new Intent(StartActivity.this, MainActivity.class));
-                    break;
-                case Screens.BOTTOM_NAVIGATION_ACTIVITY_SCREEN:
-                    startActivity(new Intent(StartActivity.this, BottomNavigationActivity.class));
-                    break;
-                case Screens.PROFILE_SCREEN:
-                    startActivity(new Intent(StartActivity.this, ProfileActivity.class));
-                    break;
-                default:
-                    Log.e("Cicerone", "Unknown screen: " + command.getScreenKey());
-                    break;*//*
-
-		}
-
-		private fun replace(command: Replace) {
-			if (command.screenKey == Screens.START_SCREEN) {
-				startActivity(Intent(this@SignInActivity, MainScreenActivity::class.java))
-			} else {
-				Log.e("Cicerone", "Unknown screen: " + command.screenKey)
-			}
-		}
-
-		private fun back() {
-			finish()
-		}
-	}
-*/
-
-    private lateinit var vm: SignInViewModel
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ac_login)
 
-        vm = ViewModelProviders.of(this)[SignInViewModel::class.java]
+        if (savedInstanceState == null) {
+            mVm.getUser()
+        }
+
 
         init()
 
-        vm.authResponse.observe(this, Observer {
+        mVm.authResponse.observe(this@SignInActivity, Observer {
             it.let {
-                it?.data?.let { response ->
+                it?.let { response ->
                     onAuthResponseSuccess(response)
                 }
             }
@@ -158,7 +107,7 @@ class SignInActivity : AppCompatActivity() {
      *
      * @param authResponse - (token,isConfirmed)
      */
-    private fun onAuthResponseSuccess(authResponse: AuthResponseEntity) {
+    private fun onAuthResponseSuccess(authResponse: AuthResponse) {
         val confirmed = authResponse.user?.confirmed
 
         updateUser(authResponse)
@@ -168,7 +117,8 @@ class SignInActivity : AppCompatActivity() {
             Timber.d("Success signIn")
         } else {
             val username = authResponse.user.phone
-            vm.sendSms()
+            //TODO: Fix it!!!
+//            mVm.sendSms()
 
             val intent = Intent(this, UserConfirmActivity::class.java)
             intent.putExtra("phone", username)
@@ -176,7 +126,7 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUser(authResponse: AuthResponseEntity) {
+    private fun updateUser(authResponse: AuthResponse) {
         PrefUtils.name = authResponse.user?.name ?: ""
         PrefUtils.token = authResponse.token ?: ""
         PrefUtils.phone = authResponse.user?.phone ?: ""
@@ -289,25 +239,4 @@ class SignInActivity : AppCompatActivity() {
         tv_politica4!!.text = content4
     }
 
-    fun onLogin(view: View) {
-        Timber.d("View on click fire")
-    }
-
-    /*    public class LoginHandler {
-
-     *//*        public LoginHandler(LoginPresenter presenter) {
-            this.presenter = presenter;
-        }*//*
-
-        public View.OnClickListener onLogin(final LoginViewModel viewModel) {
-            return new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    presenter.login(viewModel);
-                    Timber.d("View on click fire");
-                }
-            };
-        }
-
-    }*/
 }

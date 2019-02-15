@@ -9,13 +9,15 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ac_splash.animation_view
 import org.jetbrains.anko.longToast
-import org.jetbrains.anko.startActivity
+import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.login.SignInActivity
+import ru.prsolution.winstrike.viewmodel.LoginViewModel
 
 open class SplashActivity : AppCompatActivity() {
+
 
     private var mainIntent: Intent? = null
     private var signIntent: Intent? = null
@@ -26,6 +28,7 @@ open class SplashActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                         WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.ac_splash)
+
 
         mainIntent = Intent(this@SplashActivity, MainActivity::class.java)
         signIntent = Intent(Intent(this@SplashActivity, SignInActivity::class.java))

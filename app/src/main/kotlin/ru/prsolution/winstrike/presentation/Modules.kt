@@ -9,24 +9,24 @@ import ru.prsolution.winstrike.BuildConfig
 import ru.prsolution.winstrike.data.datasource.*
 import ru.prsolution.winstrike.data.repository.ArenaRepositoryImpl
 import ru.prsolution.winstrike.data.repository.CityRepositoryImpl
+import ru.prsolution.winstrike.data.repository.LoginRepositoryImpl
 import ru.prsolution.winstrike.datasource.cache.ArenaCacheDataSourceImpl
 import ru.prsolution.winstrike.datasource.cache.CityCacheDataSourceImpl
-import ru.prsolution.winstrike.datasource.remote.ArenaApi
-import ru.prsolution.winstrike.datasource.remote.ArenaRemoteDataSourceImpl
-import ru.prsolution.winstrike.datasource.remote.CityApi
-import ru.prsolution.winstrike.datasource.remote.CityRemoteDataSourceImpl
+import ru.prsolution.winstrike.datasource.cache.LoginCacheDataSourceImpl
+import ru.prsolution.winstrike.datasource.remote.*
+import ru.prsolution.winstrike.domain.models.Arena
 import ru.prsolution.winstrike.domain.models.city.City
+import ru.prsolution.winstrike.domain.models.login.UserModel
 import ru.prsolution.winstrike.domain.repository.ArenaRepository
 import ru.prsolution.winstrike.domain.repository.CityRepository
+import ru.prsolution.winstrike.domain.repository.LoginRepository
 import ru.prsolution.winstrike.domain.usecases.ArenaUseCase
 import ru.prsolution.winstrike.domain.usecases.CityUseCase
+import ru.prsolution.winstrike.domain.usecases.LoginUseCase
 import ru.prsolution.winstrike.domain.usecases.PaymentUseCase
 import ru.prsolution.winstrike.networking.createNetworkClient
 import ru.prsolution.winstrike.presentation.utils.cache.Cache
-import ru.prsolution.winstrike.viewmodel.CityItemViewModel
-import ru.prsolution.winstrike.viewmodel.CityListViewModel
-import ru.prsolution.winstrike.viewmodel.MapViewModel
-import ru.prsolution.winstrike.viewmodel.SetUpViewModel
+import ru.prsolution.winstrike.viewmodel.*
 
 fun injectFeature() = loadFeature
 
@@ -46,33 +46,43 @@ val viewModelModule: Module = module {
     viewModel { CityItemViewModel(arenaUseCase = get()) }
     viewModel { SetUpViewModel(arenaUseCase = get()) }
     viewModel { MapViewModel(paymentUseCase = get()) }
+    viewModel { LoginViewModel(loginUseCase = get()) }
 }
 
 val useCaseModule: Module = module {
     factory { CityUseCase(cityRepository = get()) }
     factory { ArenaUseCase(arenaRepository = get()) }
     factory { PaymentUseCase(arenaRepository = get()) }
+    factory { LoginUseCase(loginRepository = get()) }
 }
 
 val repositoryModule: Module = module {
     single { CityRepositoryImpl(cacheDataSource = get(), remoteDataSource = get()) as CityRepository }
     single { ArenaRepositoryImpl(cacheDataSource = get(), remoteDataSource = get()) as ArenaRepository }
+    single { LoginRepositoryImpl(cacheDataSource = get(), remoteDataSource = get()) as LoginRepository }
 }
 
 val dataSourceModule: Module = module {
     single { CityCacheDataSourceImpl(cache = get(CITY_CACHE)) as CityCacheDataSource }
     single { CityRemoteDataSourceImpl(api = cityApi) as CityRemoteDataSource }
 
-    single { ArenaCacheDataSourceImpl(cache = get(CITY_CACHE)) as ArenaCacheDataSource }
+    single { ArenaCacheDataSourceImpl(cache = get(ARENA_CACHE)) as ArenaCacheDataSource }
     single { ArenaRemoteDataSourceImpl(api = arenaApi) as ArenaRemoteDataSource }
+
+    single { LoginCacheDataSourceImpl(cache = get(LOGIN_CACHE)) as LoginCacheDataSource }
+    single { LoginRemoteDataSourceImpl(api = userApi) as LoginRemoteDataSource }
 }
 
 val networkModule: Module = module {
     single { cityApi }
+    single { arenaApi }
+    single { userApi }
 }
 
 val cacheModule: Module = module {
     single(name = CITY_CACHE) { Cache<List<City>>() }
+    single(name = ARENA_CACHE) { Cache<List<Arena>>() }
+    single(name = LOGIN_CACHE) { Cache<UserModel>() }
 }
 
 private const val BASE_URL = BuildConfig.DEBUGURL
@@ -81,5 +91,8 @@ private val retrofit: Retrofit = createNetworkClient(BASE_URL, BuildConfig.DEBUG
 
 private val cityApi: CityApi = retrofit.create(CityApi::class.java)
 private val arenaApi: ArenaApi = retrofit.create(ArenaApi::class.java)
+private val userApi: UserApi = retrofit.create(UserApi::class.java)
 
 private const val CITY_CACHE = "CITY_CACHE"
+private const val ARENA_CACHE = "ARENA_CACHE"
+private const val LOGIN_CACHE = "LOGIN_CACHE"
