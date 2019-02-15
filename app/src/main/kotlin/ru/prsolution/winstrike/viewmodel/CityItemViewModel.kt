@@ -25,6 +25,7 @@ class CityItemViewModel constructor(val arenaUseCase: ArenaUseCase) : ViewModel(
 
     val arenaList = SingleLiveEvent<List<ArenaItem>>()
 
+    // Получение списка имеющихся арен на сервере
     fun fetchArenaList() {
         scope.launch {
             val cities = arenaUseCase.get(refresh = true)

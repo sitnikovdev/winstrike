@@ -30,58 +30,6 @@ class MainViewModel : ViewModel() {
     // TODO: Use Koin to decouple dependencies from here.
     private val retrofitService = RetrofitFactory.makeRetrofitService()
 
-    // Список городов
-    val cityList = SingleLiveEvent<Resource<List<City>>>()
-
-    // Список имеющихся арен
-    val arenaList = SingleLiveEvent<Resource<List<Arena>>>()
-
-    // Выбранная  арена по времени
-    val arena = SingleLiveEvent<Resource<ArenaSchema?>>()
-
-    // Ответ от Яндекс Кассы
-    val paymentResponse = SingleLiveEvent<Resource<PaymentResponseItem>>()
-
-    // Получение списка имеющихся арен на сервере
-    fun getArenaList() {
-        GlobalScope.launch {
-            val request = retrofitService.arenaListAsync()
-            try {
-                val response = request.await()
-                response.body()?.let {
-                    arenaList.setSuccess(it.rooms.mapToDomain())
-                    Timber.tag("$$$").d("arena list: ${it.rooms.mapToDomain().size}")
-                }
-            } catch (e: Throwable) {
-                arenaList.setError(e.message)
-                Timber.e(e)
-            }
-        }
-    }
-
-    // Оплата выбраных мест через Яндекс Кассу
-    fun getPayment(token: String, paymentModel: PaymentEntity) {
-        GlobalScope.launch {
-            val request = retrofitService.getPaymentAsync(token, paymentModel)
-            try {
-                paymentResponse.setLoading()
-                val response = request.await()
-                response.body()?.let {
-                    Timber.tag("$$$").d("payment: $it")
-                    paymentResponse.setSuccess(it)
-                }
-                response.errorBody()?.let {
-                    paymentResponse.setError(it.string())
-                }
-            } catch (e: HttpException) {
-                paymentResponse.setError(e.message)
-                Timber.e(e)
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-        }
-    }
-
     // Ответ от FCM сервера на запрос токена
     val fcmResponse = MutableLiveData<Resource<MessageResponse>>()
 

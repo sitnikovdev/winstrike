@@ -8,6 +8,8 @@ import ru.prsolution.winstrike.datasource.model.SchemaEntity
 import ru.prsolution.winstrike.datasource.model.city.CityListEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentResponseEntity
+import ru.prsolution.winstrike.domain.models.common.FCMModel
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.payment.Payment
 import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
 
@@ -41,6 +43,15 @@ interface ArenaApi {
         ) token: String,
         @Body payment: Payment
     ): Deferred<Response<PaymentResponseEntity>>
+
+
+    // Send fcm tocken to server
+    @POST("fcm_codes")
+    fun sendTockenAsync(
+        @Header(
+            "authorization") token: String,
+        @Body tokenModel: FCMModel
+    ): Deferred<Response<MessageResponse>>
 
 }
 

@@ -13,18 +13,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProviders
 import com.facebook.drawee.view.SimpleDraweeView
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.Type
 import ru.prsolution.winstrike.domain.models.SeatCarousel
-import ru.prsolution.winstrike.viewmodel.MainViewModel
 
 class CarouselFragment : Fragment() {
 
+
     lateinit var mListener: OnSeatClickListener
     private var mSeat: SeatCarousel? = null
-    lateinit var mVm: MainViewModel
 
     interface OnSeatClickListener {
 
@@ -44,11 +42,7 @@ class CarouselFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mVm = ViewModelProviders.of(this)[MainViewModel::class.java]
 
-        if (savedInstanceState == null) {
-            mVm.getArenaList()
-        }
         try {
             mSeat = arguments?.getParcelable("seat") as SeatCarousel
         } catch (e: Exception) {
