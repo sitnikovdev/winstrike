@@ -74,9 +74,9 @@
                 android:id="@+id/next_action"
                 app:destination="@id/navigation_yandex"/>
         <argument
-                android:name="schema"
-                app:argType="ru.prsolution.winstrike.presentation.model.SchemaItem"
-                app:nullable="true"/>
+                android:name="acitveLayoutPID"
+                app:argType="string"
+                app:nullable="true" android:defaultValue="0"/>
     </fragment>
 
     <!--Yandex WebView-->

@@ -30,6 +30,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
+import com.readystatesoftware.chuck.internal.ui.MainActivity
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
@@ -51,7 +52,9 @@ import ru.prsolution.winstrike.domain.models.payment.setPlacesPid
 import ru.prsolution.winstrike.presentation.model.SchemaItem
 import ru.prsolution.winstrike.presentation.model.mapToDomain
 import ru.prsolution.winstrike.presentation.model.payment.PaymentItem
+import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.time
 import ru.prsolution.winstrike.viewmodel.MapViewModel
+import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 import timber.log.Timber
 import java.util.LinkedHashMap
 import java.util.concurrent.atomic.AtomicBoolean
@@ -61,6 +64,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class MapFragment : Fragment() {
     private val mVm: MapViewModel by viewModel()
+    private val mSetUpVm: SetUpViewModel by viewModel()
 
     //TODO: fix it
     private val pending = AtomicBoolean(false)
@@ -121,7 +125,14 @@ class MapFragment : Fragment() {
         //TODO: use anather solutuion instead parcebale
         arguments?.let {
             val safeArgs = MapFragmentArgs.fromBundle(it)
-            this.mSchema = safeArgs.schema
+            val mActiveLayoutPid = safeArgs.acitveLayoutPID
+
+            val time = mutableMapOf<String, String>()
+            time["start_at"] = TimeDataModel.start
+            time["end_at"] = TimeDataModel.end
+            mSetUpVm.fetchSchema(mActiveLayoutPid, time)
+
+//            this.mSchema = safeArgs.schema
         }
 
         if (isAdded) {
@@ -130,9 +141,16 @@ class MapFragment : Fragment() {
             Timber.d("fragment is not added")
         }
 
-        mSchema?.let {
+        mSetUpVm.arenaSchema.observe(this@MapFragment, Observer {
+            it.let {
+                mSchema = it
+                initMap()
+            }
+
+        })
+/*        mSchema?.let {
             initMap()
-        }
+        }*/
 
         // payment response from map fragment:
 

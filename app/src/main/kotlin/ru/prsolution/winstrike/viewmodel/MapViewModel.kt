@@ -24,6 +24,8 @@ class MapViewModel constructor(val paymentUseCase: PaymentUseCase) : ViewModel()
 
     private val scope = CoroutineScope(coroutineContext)
 
+
+
     // Ответ от Яндекс Кассы
     val paymentResponse = SingleLiveEvent<PaymentResponseItem>()
 

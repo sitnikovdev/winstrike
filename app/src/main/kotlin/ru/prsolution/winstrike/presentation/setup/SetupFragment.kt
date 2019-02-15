@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.facebook.drawee.view.SimpleDraweeView
+import com.readystatesoftware.chuck.internal.ui.MainActivity
 import kotlinx.android.synthetic.main.frm_setup.next_button
 import kotlinx.android.synthetic.main.frm_setup.progressBar
 import kotlinx.android.synthetic.main.frm_setup.tv_date
@@ -45,7 +46,6 @@ class SetupFragment : Fragment(),
 
     private val mVm: SetUpViewModel by viewModel()
 
-    private var mArenaPid: String? = null
     private var mArenaActivePid: String? = null
     private var mSeatName: TextView? = null
     private var mCpuDescription: TextView? = null
@@ -92,24 +92,15 @@ class SetupFragment : Fragment(),
                 this.mArenaSchema = schema
                 mArenaSchema?.let {
                     require(isAdded) { "+++ SetupFragment not attached to an activity. +++" }
-                    val action = SetupFragmentDirections.nextAction(mArenaSchema)
+                    val action = SetupFragmentDirections.nextAction()
+                    action.acitveLayoutPID = mArenaActivePid
                     Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
                 }
             }
 
         })
 
-
         initListeners()
-    }
-
-    // Show map fragment after user select date and time in SetupFragment
-    private fun onMapShow() {
-//        mVm?.getArenaList()
-/*        mArenaSchema?.let {
-            val action = SetupFragmentDirections.nextAction()
-            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
-        }*/
     }
 
     private fun getArenaByTime(activePid: String?) {
@@ -119,6 +110,7 @@ class SetupFragment : Fragment(),
             toast("Не указана дата")
             return
         }
+
         val time = mutableMapOf<String, String>()
         time["start_at"] = TimeDataModel.start
         time["end_at"] = TimeDataModel.end

@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.domain.models.ArenaSchema
 import ru.prsolution.winstrike.domain.models.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
@@ -25,10 +26,8 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private lateinit var mVm: MainViewModel
-
-    private var mArenaPid: String? = ""
     var mArenaActiveLayoutPid: String? = ""
+    var mArenaSchema: ArenaSchema? = null
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
