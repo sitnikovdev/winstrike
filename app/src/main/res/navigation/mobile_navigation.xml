@@ -96,7 +96,7 @@
 
     <fragment
             android:id="@+id/navigation_city"
-            android:label="City"
+            android:label="Выберите арену"
             android:name="ru.prsolution.winstrike.presentation.cities.CityItemFragment"
             tools:layout="@layout/fmt_city_detail">
         <action
@@ -115,7 +115,7 @@
 
     <fragment
             android:id="@+id/navigation_city_list"
-            android:label="CityList"
+            android:label="Выберите город"
             android:name="ru.prsolution.winstrike.presentation.cities.CityListFragment"
             tools:layout="@layout/fmt_city_list">
         <action
