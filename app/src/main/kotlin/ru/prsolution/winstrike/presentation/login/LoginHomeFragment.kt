@@ -1,68 +1,63 @@
 package ru.prsolution.winstrike.presentation.login
 
-import android.app.Activity
-import android.app.ActivityManager
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
-import androidx.appcompat.app.AppCompatActivity
+import android.text.style.ClickableSpan
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.ac_login.et_password
-import kotlinx.android.synthetic.main.ac_login.et_phone
-import kotlinx.android.synthetic.main.ac_login.tv_register
-import kotlinx.android.synthetic.main.ac_login.tv_conditions
-import kotlinx.android.synthetic.main.ac_login.login_button
-import org.jetbrains.anko.longToast
-import org.jetbrains.anko.toast
+import kotlinx.android.synthetic.main.ac_login.*
+import kotlinx.android.synthetic.main.fmt_login.*
+import org.jetbrains.anko.support.v4.longToast
+import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.viewModel
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.TextFormat
-import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
+import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
+import ru.prsolution.winstrike.presentation.login.register.UserConfirmActivity
 import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
+import ru.prsolution.winstrike.presentation.utils.TextFormat
+import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import timber.log.Timber
-import android.text.style.ClickableSpan
-import android.view.View
 
-
-/*
- * Created by oleg on 31.01.2018.
+/**
+ * Created by Oleg Sitnikov on 2019-02-16
  */
-// TODO: 13/05/2018 Reorder method call in this activity.
-class SignInActivity : AppCompatActivity() {
+
+class LoginHomeFragment : Fragment() {
 
     private val mVm: LoginViewModel by viewModel()
 
-    private var mProgressDialog: ProgressDialog? = null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(ru.prsolution.winstrike.R.layout.ac_login)
+        return inflater.inflate(R.layout.fmt_login, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             mVm.getUser()
         }
 
-
-        init()
-
-        mVm.authResponse.observe(this@SignInActivity, Observer {
+        mVm.authResponse.observe(this@LoginHomeFragment, Observer {
             it.let {
                 it?.let { response ->
                     onAuthResponseSuccess(response)
                 }
             }
         })
+        initView()
     }
 
-    fun init() {
+    fun initView() {
         TextFormat.formatText(et_phone, Constants.PHONE_MASK)
 
         setBtnEnable(login_button, true)
@@ -78,13 +73,13 @@ class SignInActivity : AppCompatActivity() {
 
 //                vm.signIn()
             } else if (TextUtils.isEmpty(et_phone!!.text)) {
-                longToast("Введите номер телефона")
+                longToast(getString(R.string.ac_login_message_phone_hint))
             } else if (TextUtils.isEmpty(et_password!!.text)) {
-                longToast("Пароль не должен быть пустым")
+                longToast(getString(R.string.ac_login_error_password))
             } else if (et_phone!!.text.length < Constants.PHONE_LENGTH) {
-                longToast("Номер телефона не верный")
+                longToast(getString(R.string.ac_login_error_phone))
             } else if (et_password!!.text.length < Constants.PASSWORD_LENGTH) {
-                longToast("Длина пароля должна не менее 6 символов")
+                longToast(getString(R.string.ac_login_error_password_lengh))
             }
         }
 
@@ -95,26 +90,20 @@ class SignInActivity : AppCompatActivity() {
         setFooter()
     }
 
-    // TODO move in view model
-    /**
-     * Success auth user. Save token
-     *
-     * @param authResponse - (token,isConfirmed)
-     */
     private fun onAuthResponseSuccess(authResponse: AuthResponse) {
         val confirmed = authResponse.user?.confirmed
 
         updateUser(authResponse)
 
         if (confirmed!!) {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(requireActivity(), MainActivity::class.java))
             Timber.d("Success signIn")
         } else {
             val username = authResponse.user.phone
             //TODO: Fix it!!!
 //            mVm.sendSms()
 
-            val intent = Intent(this, UserConfirmActivity::class.java)
+            val intent = Intent(requireActivity(), UserConfirmActivity::class.java)
             intent.putExtra("phone", username)
             startActivity(intent)
         }
@@ -132,7 +121,7 @@ class SignInActivity : AppCompatActivity() {
         Timber.e("Error on auth: %s", appErrorMessage)
         if (appErrorMessage.contains("403")) longToast("Неправильный пароль")
         if (appErrorMessage.contains("404")) {
-            longToast("Пользователь не найден")
+            longToast(getString(R.string.ac_login_error_user_not_found))
         }
         if (appErrorMessage.contains("502")) longToast("Ошибка сервера")
         if (appErrorMessage.contains("No Internet Connection!"))
@@ -152,37 +141,6 @@ class SignInActivity : AppCompatActivity() {
         if (appErrorMessage.contains("422")) toast("Не указан номер телефона")
     }
 
-    fun showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = ProgressDialog(this)
-            mProgressDialog!!.setMessage("Авторизация...")
-            mProgressDialog!!.isIndeterminate = true
-        }
-
-        mProgressDialog!!.show()
-    }
-
-    protected fun hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog!!.isShowing) {
-            mProgressDialog!!.dismiss()
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        hideProgressDialog()
-    }
-
-    override fun onBackPressed() {
-        //        super.onBackPressed();
-        val intent = Intent(Intent.ACTION_MAIN)
-        intent.addCategory(Intent.CATEGORY_HOME)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
-        val am = getSystemService(Activity.ACTIVITY_SERVICE) as ActivityManager
-        am.killBackgroundProcesses("ru.prsolution.winstrike")
-        finish()
-    }
 
     private fun setFooter() {
 
@@ -224,5 +182,6 @@ class SignInActivity : AppCompatActivity() {
 
 
     }
+
 
 }

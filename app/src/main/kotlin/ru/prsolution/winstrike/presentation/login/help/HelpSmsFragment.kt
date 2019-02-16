@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.presentation.help
+package ru.prsolution.winstrike.presentation.login.help
 
 import android.app.Dialog
 import android.content.Intent
@@ -6,43 +6,34 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.ac_smshelp.displayWorkTimeLeft
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.ac_smshelp.et_code
 import kotlinx.android.synthetic.main.ac_smshelp.et_phone
 import kotlinx.android.synthetic.main.ac_smshelp.next_button_confirm
 import kotlinx.android.synthetic.main.ac_smshelp.next_button_phone
 import kotlinx.android.synthetic.main.ac_smshelp.tv_register
 import kotlinx.android.synthetic.main.ac_smshelp.tv_register2
-import kotlinx.android.synthetic.main.ac_smshelp.tv_bntc
-import kotlinx.android.synthetic.main.ac_smshelp.tv_code
-import kotlinx.android.synthetic.main.ac_smshelp.v_pass
-import kotlinx.android.synthetic.main.inc_main_toolbar.toolbar_title
+import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.utils.TextFormat
 import ru.prsolution.winstrike.domain.models.common.TimerViewModel
 import timber.log.Timber
-
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
 import ru.prsolution.winstrike.domain.models.login.PasswordModel
 import ru.prsolution.winstrike.domain.models.login.SmsModel
-import ru.prsolution.winstrike.presentation.login.SignInActivity
+import ru.prsolution.winstrike.presentation.login.LoginActivity
+import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
 
 /**
  * Created by oleg on 15/03/2018.
  */
 
-class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
+class HelpSmsFragment : Fragment() {
     private var dialog: Dialog? = null
 
     private var timer: TimerViewModel? = null
@@ -53,33 +44,11 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
             return SmsModel(phone)
         }
 
-    override fun onTimeFinish() {
-        setBtnEnable(next_button_phone, true)
-        timer!!.stopButtonClicked()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.ac_smshelp, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        timer = TimerViewModel()
-        timer!!.listener = this
-
-        setContentView(R.layout.ac_smshelp)
-
-// 		setSupportActionBar(toolbar)
-// 		supportActionBar!!.setDisplayShowTitleEnabled(false)
-// 		toolbar!!.setNavigationIcon(R.drawable.ic_back_arrow)
-// 		toolbar!!.setNavigationOnClickListener { it -> startActivity(Intent(this, HelpActivity::class.java)) }
-
-        toolbar_title!!.setText(R.string.help_menu_sms)
-
-        //        apiService = ApiServiceImpl.getNewInstance(this).getApi();
-
-        setConfirmVisible(false)
-
-        setBtnEnable(next_button_phone, true)
-        setBtnEnable(next_button_confirm, true)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Высылаем код
         next_button_phone!!.setOnClickListener { view ->
             if (!TextUtils.isEmpty(et_phone!!.text) && et_phone!!.text.length >= 14) {
@@ -139,45 +108,13 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
         setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
         setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
 
-        tv_register2!!.setOnClickListener { it -> startActivity(Intent(this, SignInActivity::class.java)) }
+//        tv_register2!!.setOnClickListener { it -> startActivity(Intent(this@HelpSmsFragment, SignInActivity::class.java)) }
+
     }
 
-    private fun setConfirmVisible(isEnabled: Boolean) {
-        if (isEnabled) {
-            next_button_confirm!!.visibility = View.VISIBLE
-            tv_bntc!!.visibility = View.VISIBLE
-            et_code!!.visibility = View.VISIBLE
-            tv_code!!.visibility = View.VISIBLE
-            v_pass!!.visibility = View.VISIBLE
-        } else {
-            next_button_confirm!!.visibility = View.GONE
-            tv_bntc!!.visibility = View.GONE
-            et_code!!.visibility = View.GONE
-            tv_code!!.visibility = View.GONE
-            v_pass!!.visibility = View.GONE
-        }
-    }
-
-    private fun setBtnEnable(v: View?, isEnable: Boolean?) {
-        runOnUiThread {
-            if (isEnable!!) {
-                v!!.alpha = 1f
-                v.isClickable = true
-                displayWorkTimeLeft!!.visibility = View.INVISIBLE
-            } else {
-                v!!.alpha = .5f
-                v.isClickable = false
-                displayWorkTimeLeft!!.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun toast(message: String) {
-        runOnUiThread { Toast.makeText(this, message, Toast.LENGTH_SHORT).show() }
-    }
 
     private fun dlgSendSMS() {
-        dialog = Dialog(this, android.R.style.Theme_Dialog)
+        dialog = Dialog(requireContext(), android.R.style.Theme_Dialog)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.setContentView(R.layout.dlg_send_sms)
 
@@ -207,7 +144,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
     private fun dlgRefreshPassword(passw: PasswordModel, smsCode: String) {
         val phone = passw.username
-        dialog = Dialog(this, android.R.style.Theme_Dialog)
+        dialog = Dialog(requireContext(), android.R.style.Theme_Dialog)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.setContentView(R.layout.dlg_refresh_passw)
 
@@ -297,7 +234,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
         Timber.d("SMS код выслан")
         // Show dialog, that sms succesfully send
         dlgSendSMS()
-        setConfirmVisible(true)
+//        setConfirmVisible(true)
     }
 
     fun refreshPassword(smsModel: PasswordModel, smsCode: String) {
@@ -345,7 +282,7 @@ class HelpSmsActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
 
     private fun onRefreshPasswordSuccess(authResponse: MessageResponse) {
         toast("Новый пароль успешно сохранен")
-        startActivity(Intent(this, SignInActivity::class.java))
+        startActivity(Intent(requireActivity(), LoginActivity::class.java))
     }
 
     override fun onStop() {

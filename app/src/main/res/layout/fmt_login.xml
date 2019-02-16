@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+>
+
+    <!--Guide lines-->
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/line_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/spacing_14"
+    />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/line_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="44dp"
+    />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/line_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="44dp"
+    />
+
+    <!--Logo -->
+    <ImageView
+            android:id="@+id/image_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_logo_login"
+            android:src="@drawable/winstrike_logo"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toTopOf="@id/line_status"
+    />
+
+
+    <!--User phone -->
+    <!--TODO: Make it by custom view-->
+    <View
+            android:id="@+id/phone_v"
+            android:layout_width="294dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/spacing_lang_loging"
+            android:background="@drawable/edit_text_shape"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/image_logo"
+    />
+
+    <!--Country code-->
+    <TextView
+            android:id="@+id/tv_country"
+            style="@style/StemRegular15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/start_edit_24dp"
+            android:text="@string/all_phonemaskru"
+            app:layout_constraintBottom_toBottomOf="@id/phone_v"
+            app:layout_constraintStart_toStartOf="@id/phone_v"
+            app:layout_constraintTop_toTopOf="@id/phone_v"
+    />
+
+    <!--Divider line-->
+    <View
+            android:id="@+id/divider_v"
+            android:layout_width="1dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="15dp"
+            android:alpha=".2"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/phone_v"
+            app:layout_constraintStart_toEndOf="@id/tv_country"
+            app:layout_constraintTop_toTopOf="@id/phone_v"
+    />
+
+    <ImageView
+            android:id="@+id/img_div"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/spacing_14"
+            android:background="@drawable/div_line"
+            app:layout_constraintBottom_toBottomOf="@id/phone_v"
+            app:layout_constraintStart_toEndOf="@id/tv_country"
+            app:layout_constraintTop_toTopOf="@id/phone_v"
+    />
+
+    <!--Phone number-->
+    <EditText
+            android:id="@+id/et_phone"
+            style="@style/StemRegular15"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_15"
+            android:background="@null"
+            android:inputType="phone"
+            android:text="9520757099"
+            android:textColorHint="@color/grey"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/phone_v"
+            app:layout_constraintStart_toStartOf="@id/img_div"
+            app:layout_constraintTop_toTopOf="@id/phone_v"
+    />
+
+    <!--User password -->
+    <View
+            android:id="@+id/end_at"
+            android:layout_width="288dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/spacing_21"
+            android:background="@drawable/edit_text_shape"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/phone_v"
+    />
+
+    <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
+            android:id="@+id/et_password"
+            style="@style/StemRegular15"
+            android:layout_width="235dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/login_password_hint"
+            android:inputType="textPassword"
+            android:text="123456"
+            android:textColorHint="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@id/end_at"
+            app:layout_constraintEnd_toEndOf="@id/end_at"
+            app:layout_constraintStart_toStartOf="@id/end_at"
+            app:layout_constraintTop_toTopOf="@id/end_at"
+            app:additionalTouchTargetSize="44dp"
+            app:drawable_hide="@mipmap/ic_hide_eye"
+            app:drawable_show="@mipmap/ic_show_eye"
+            app:tint_color="@color/colorAccent"
+    />
+
+    <!--Login button -->
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/login_button"
+            android:layout_width="160dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/spacing_32"
+            android:text="@string/login_enterbtn"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/end_at"
+            style="@style/Widget.Winstrike.Button"
+    />
+
+    <!--Hint text-->
+    <TextView
+            android:id="@+id/hint_login_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_hint"
+            android:layout_marginTop="@dimen/spacing_20"
+            app:layout_constraintBottom_toTopOf="@id/help_link_tv"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/login_button"
+            style="@style/StemRegular13Gray"
+    />
+
+    <!--Help link -->
+    <TextView
+            android:id="@+id/help_link_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_7"
+            android:layout_marginTop="@dimen/spacing_20"
+            android:background="?selectableItemBackground"
+            android:text="@string/login_helplink"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/hint_login_tv"
+            style="@style/StemRegular15"
+    />
+
+    <TextView
+            android:id="@+id/text_enter_social"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/login_entersocial"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/help_link_tv"
+            style="@style/StemRegular15"
+    />
+
+    <!--SingUp text link-->
+    <TextView
+            android:id="@+id/tv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_15"
+            android:layout_marginEnd="@dimen/spacing_10"
+            android:layout_marginStart="@dimen/spacing_10"
+            tools:text="Еще нет аккаунта? Зарегистрируйтесь"
+            android:background="?selectableItemBackground"
+            app:layout_constraintBottom_toTopOf="@id/politica_hint_tv"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            style="@style/StemRegular15"
+    />
+
+
+    <!--Politica text-->
+    <TextView
+            android:id="@+id/politica_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_2"
+            android:layout_marginStart="@dimen/spacing_0"
+            android:text="@string/ac_login_hint_register"
+            app:layout_constraintBottom_toTopOf="@id/tv_conditions"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            style="@style/StemRegular12Gray"
+    />
+
+    <!--Politica condition-->
+    <TextView
+            android:id="@+id/tv_conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_8"
+            android:layout_marginStart="@dimen/spacing_8"
+            android:background="?selectableItemBackground"
+            tools:text="Условиями и Политикой конфиденциальности"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            style="@style/StemRegular12"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

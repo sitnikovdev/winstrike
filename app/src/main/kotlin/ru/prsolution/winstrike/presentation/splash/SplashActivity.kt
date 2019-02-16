@@ -9,13 +9,11 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ac_splash.animation_view
 import org.jetbrains.anko.longToast
-import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.injectFeature
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.main.MainActivity
-import ru.prsolution.winstrike.presentation.login.SignInActivity
-import ru.prsolution.winstrike.viewmodel.LoginViewModel
+import ru.prsolution.winstrike.presentation.login.LoginActivity
 
 open class SplashActivity : AppCompatActivity() {
 
@@ -33,7 +31,7 @@ open class SplashActivity : AppCompatActivity() {
         injectFeature()
 
         mainIntent = Intent(this@SplashActivity, MainActivity::class.java)
-        signIntent = Intent(Intent(this@SplashActivity, SignInActivity::class.java))
+        signIntent = Intent(Intent(this@SplashActivity, LoginActivity::class.java))
 
         animation_view.imageAssetsFolder = "images"
         animation_view.setAnimation("data.json")

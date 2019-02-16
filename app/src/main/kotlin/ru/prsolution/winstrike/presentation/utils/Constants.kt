@@ -5,6 +5,7 @@ object Constants {
     const val TOKEN_TYPE_BEARER = "Bearer "
     const val URL_WINSTRIKE_HOST = "winstrike.ru"
 
+    const val URL_WINSTRIKE = "https://winstrike.gg"
     const val URL_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=ru.prsolution.winstrike"
     const val URL_VK = "https://vk.com/winstrikearena"
     const val URL_INSTAGRAM = "https://www.instagram.com/winstrikearena/"

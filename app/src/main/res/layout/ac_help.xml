@@ -1,114 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:activity="ru.prsolution.winstrike.presentation.help.HelpActivity">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:activity="ru.prsolution.winstrike.presentation.login.help.HelpCenterFragment">
+
+    <!--GuideLines-->
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/line_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="48dp"
+    />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="48dp" />
+            android:id="@+id/line_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="24dp"
+    />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="24dp" />
+            android:id="@+id/line_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="75dp"
+    />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_head"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="75dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="14dp" />
-
-    <include layout="@layout/inc_main_toolbar"/>
-
+    <!--Title-->
     <TextView
-        android:id="@+id/tv_access"
-        style="@style/StemMedium17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/help_account_title"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/line_head"
-        android:visibility="visible"
-        tools:visibility="visible"
-        />
+            android:id="@+id/tv_access"
+            style="@style/StemMedium17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_account_title"
+            android:layout_marginTop="@dimen/spacing_10"
+            android:layout_marginStart="@dimen/spacing_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/line_head"
+    />
 
-        <ImageView
+    <!--Restore password icon-->
+    <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_mobile"
             app:layout_constraintStart_toStartOf="@id/line_start"
             app:layout_constraintTop_toTopOf="@id/tv_sms"
-            android:visibility="visible"
-            tools:visibility="visible"
-            />
+    />
 
-        <TextView
+    <!--Restore password title-->
+    <TextView
             android:id="@+id/tv_sms"
-            style="@style/StemRegular15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/help_menu_title"
-            android:background="@drawable/ripple_effect_title_click"
-            android:clickable="true"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="42dp"
+            android:background="?selectableItemBackground"
+            android:layout_marginTop="@dimen/spacing_24"
+            android:layout_marginStart="@dimen/spacing_42"
             app:layout_constraintStart_toStartOf="@id/line_start"
             app:layout_constraintTop_toBottomOf="@id/tv_access"
-            android:visibility="visible"
-            tools:visibility="visible"
-            />
+            style="@style/StemRegular15"
+    />
 
+    <!--Help center title-->
     <TextView
-        android:id="@+id/tv_help"
-        style="@style/StemMedium17"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/help_center_title"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_sms"
-        />
+            android:id="@+id/tv_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/help_center_title"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_sms"
+            style="@style/StemMedium17"
+    />
 
-        <ImageView
+    <!--Help center Winstrike icon-->
+    <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_book"
             app:layout_constraintStart_toStartOf="@id/line_start"
             app:layout_constraintTop_toTopOf="@id/tv_help_centr"
-            />
+    />
 
-        <TextView
+    <!--Help center Winstrike title-->
+    <TextView
             android:id="@+id/tv_help_centr"
-            style="@style/StemRegular15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/help_winstrike_title"
             android:background="@drawable/ripple_effect_title_click"
-            android:clickable="true"
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/spacing_42"
+            android:layout_marginTop="@dimen/spacing_24"
             app:layout_constraintStart_toStartOf="@id/line_start"
             app:layout_constraintTop_toBottomOf="@id/tv_help"
-            />
+            style="@style/StemRegular15"
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

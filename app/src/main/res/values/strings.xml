@@ -159,4 +159,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ac_login_hint_register">Регистрируясь, вы соглашаетесь с нашими</string>
+    <string name="ac_login_message_phone_hint">Введите номер телефона</string>
+    <string name="ac_login_error_password">Пароль не должен быть пустым</string>
+    <string name="ac_login_error_phone">Номер телефона не верный</string>
+    <string name="ac_login_error_password_lengh">Длина пароля должна не менее 6 символов</string>
+    <string name="ac_login_error_user_not_found">Пользователь не найден</string>
 </resources>

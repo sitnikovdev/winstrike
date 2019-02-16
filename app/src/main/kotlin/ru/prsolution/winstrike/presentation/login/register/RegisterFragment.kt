@@ -1,16 +1,19 @@
-package ru.prsolution.winstrike.presentation.login
+package ru.prsolution.winstrike.presentation.login.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.ac_registration.et_password
 import kotlinx.android.synthetic.main.ac_registration.et_phone
 import kotlinx.android.synthetic.main.ac_registration.next_button_phone
 import kotlinx.android.synthetic.main.ac_registration.tv_register
 import kotlinx.android.synthetic.main.ac_registration.tv_register2
-import org.jetbrains.anko.longToast
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.support.v4.longToast
+import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.TextFormat
@@ -23,23 +26,23 @@ import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
 import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
 import ru.prsolution.winstrike.domain.models.login.SmsModel
+import ru.prsolution.winstrike.presentation.login.LoginActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.phone
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.token
 
 /*
  * Created by oleg on 31.01.2018.
  */
 
-class SingUpActivity : AppCompatActivity() {
+class RegisterFragment : Fragment() {
 
     private var presenter: RegisterPresenter? = null
     private var user: LoginModel? = null
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.ac_registration, container, false)
+    }
 
-        renderView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
         presenter = RegisterPresenter()
     }
@@ -63,7 +66,7 @@ class SingUpActivity : AppCompatActivity() {
     fun onSendSmsSuccess(authResponse: MessageResponse) {
         Timber.d("Sms send successfully: %s", authResponse.message)
         toast("Код выслан")
-        val intent = Intent(this@SingUpActivity, UserConfirmActivity::class.java)
+        val intent = Intent(requireActivity(), UserConfirmActivity::class.java)
         intent.putExtra("phone", user!!.phone)
         startActivity(intent)
     }
@@ -80,11 +83,10 @@ class SingUpActivity : AppCompatActivity() {
         setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
         setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
 
-        tv_register2!!.setOnClickListener { startActivity(Intent(this, SignInActivity::class.java)) }
+        tv_register2!!.setOnClickListener { startActivity(Intent(requireActivity(), LoginActivity::class.java)) }
     }
 
     fun renderView() {
-        setContentView(R.layout.ac_registration)
     }
 
     /**
@@ -107,7 +109,7 @@ class SingUpActivity : AppCompatActivity() {
             token = authResponse.token
         )
 
-        val intent = Intent(this@SingUpActivity, UserConfirmActivity::class.java)
+        val intent = Intent(requireActivity(), UserConfirmActivity::class.java)
         intent.putExtra("phone", user!!.phone)
         startActivity(intent)
     }
@@ -127,19 +129,4 @@ class SingUpActivity : AppCompatActivity() {
         presenter!!.onStop()
     }
 
-    /*    protected void checkFieldEnabled(EditText et_phone, EditText et_pass, View button) {
-        Observable<TextViewTextChangeEvent> phoneObservable = RxTextView.textChangeEvents(et_phone);
-        Observable<TextViewTextChangeEvent> et_passwordObservable = RxTextView.textChangeEvents(et_pass);
-        Observable.combineLatest(phoneObservable, et_passwordObservable, (phoneSelected, et_passwordSelected) -> {
-            boolean phoneCheck = phoneSelected.text().length() >= 14;
-            boolean et_passwordCheck = et_passwordSelected.text().length() >= 4;
-            return phoneCheck && et_passwordCheck;
-        }).subscribe(aBoolean -> {
-            if (aBoolean) {
-                setBtnEnable(button, true);
-            } else {
-                setBtnEnable(button, false);
-            }
-        });
-    }*/
 }

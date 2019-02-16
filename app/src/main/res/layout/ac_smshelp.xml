@@ -1,271 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/phone_root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:activity="ru.prsolution.winstrike.presentation.help.HelpSmsActivity">
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:activity="ru.prsolution.winstrike.presentation.login.help.HelpSmsFragment"
+>
 
+    <!--Guilde lines-->
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/keyline_40dp" />
-
+            android:id="@+id/line_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/keyline_40dp"
+    />
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/keyline_40dp" />
+            android:id="@+id/line_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/keyline_40dp"
+    />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="186dp" />
+    <!--Title head-->
+    <TextView
+            android:id="@+id/tv_title_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/padding_standart_16dp"
+            android:text="Реальный номер телефона"
+            app:layout_constraintBottom_toTopOf="@id/v_code"
+            app:layout_constraintStart_toStartOf="@id/v_code"
+            style="@style/StemMedium15"
+    />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_head"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="56dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="14dp" />
-
-    <include layout="@layout/inc_main_toolbar" />
-
+    <!--User phone -->
+    <!--TODO: Make it by custom view-->
+    <!--Phone edit text -->
     <View
-        android:id="@+id/v_code"
-        android:layout_width="@dimen/width_edit_294dp"
-        android:layout_height="@dimen/height_edit_48dp"
-        android:layout_marginTop="54dp"
-        android:background="@drawable/edit_text_shape"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
-        app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toBottomOf="@id/line_head" />
+            android:id="@+id/v_code"
+            android:layout_width="@dimen/width_edit_294dp"
+            android:layout_height="@dimen/height_edit_48dp"
+            android:layout_marginTop="54dp"
+            android:background="@drawable/edit_text_shape"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toTopOf="parent"
+    />
 
     <TextView
-        android:id="@+id/tv_title_phone"
-        style="@style/StemMedium15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="@dimen/padding_standart_16dp"
-        android:text="Реальный номер телефона"
-        app:layout_constraintBottom_toTopOf="@id/v_code"
-        app:layout_constraintStart_toStartOf="@id/v_code" />
-
-    <TextView
-        android:id="@+id/tv_country"
-        style="@style/StemRegular15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/start_edit_24dp"
-        android:text="@string/all_phonemaskru"
-        app:layout_constraintBottom_toBottomOf="@id/v_code"
-        app:layout_constraintStart_toStartOf="@id/v_code"
-        app:layout_constraintTop_toTopOf="@id/v_code" />
+            android:id="@+id/tv_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/start_edit_24dp"
+            android:text="@string/all_phonemaskru"
+            app:layout_constraintBottom_toBottomOf="@id/v_code"
+            app:layout_constraintStart_toStartOf="@id/v_code"
+            app:layout_constraintTop_toTopOf="@id/v_code"
+            style="@style/StemRegular15"
+    />
 
     <View
-        android:id="@+id/img_div"
-        android:layout_width="1dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="15dp"
-        android:alpha=".2"
-        android:background="#000000"
-        app:layout_constraintBottom_toBottomOf="@id/v_code"
-        app:layout_constraintStart_toEndOf="@id/tv_country"
-        app:layout_constraintTop_toTopOf="@id/v_code" />
+            android:id="@+id/img_div"
+            android:layout_width="1dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="15dp"
+            android:alpha=".2"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/v_code"
+            app:layout_constraintStart_toEndOf="@id/tv_country"
+            app:layout_constraintTop_toTopOf="@id/v_code"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="60dp" />
 
     <EditText
-        android:id="@+id/et_phone"
-        style="@style/StemRegular15"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:background="@null"
-        android:inputType="phone"
-        android:textColorHint="@color/grey"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/v_code"
-        app:layout_constraintStart_toStartOf="@id/img_div"
-        app:layout_constraintTop_toTopOf="@id/v_code" />
+            android:id="@+id/et_phone"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:background="@null"
+            android:inputType="phone"
+            tools:text="952 075 70 99"
+            android:textColorHint="@color/grey"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/v_code"
+            app:layout_constraintStart_toStartOf="@id/img_div"
+            app:layout_constraintTop_toTopOf="@id/v_code"
+            style="@style/StemRegular15"
+    />
+
+    <!--Phone hint text-->
+    <TextView
+            android:id="@+id/tv_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_standarthalf_8dp"
+            android:text="@string/reg_codehint"
+            app:layout_constraintEnd_toEndOf="@id/v_code"
+            app:layout_constraintStart_toStartOf="@id/v_code"
+            app:layout_constraintTop_toBottomOf="@id/v_code"
+            style="@style/StemRegular13Gray"
+    />
+
+    <!--Phone next button-->
+    <View
+            android:id="@+id/next_button_phone"
+            android:layout_width="@dimen/spacing_160"
+            android:layout_height="@dimen/spacing_48"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:background="@drawable/button_bgr_24dp"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_hint"/>
 
     <TextView
-        android:id="@+id/tv_hint"
-        style="@style/StemRegular13Gray"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_standarthalf_8dp"
-        android:text="@string/reg_codehint"
-        app:layout_constraintEnd_toEndOf="@id/v_code"
-        app:layout_constraintStart_toStartOf="@id/v_code"
-        app:layout_constraintTop_toBottomOf="@id/v_code" />
+            android:id="@+id/text_button_title"
+            style="@style/StemMedium15Accent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Отправить код"
+            app:layout_constraintBottom_toBottomOf="@id/next_button_phone"
+            app:layout_constraintEnd_toEndOf="@id/next_button_phone"
+            app:layout_constraintStart_toStartOf="@id/next_button_phone"
+            app:layout_constraintTop_toTopOf="@id/next_button_phone"/>
+
+    <!--Sms code send hint text 30 sec-->
+    <TextView
+            android:id="@+id/displayWorkTimeLeft"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="@dimen/spacing_8"
+            android:layout_marginStart="@dimen/spacing_8"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintTop_toBottomOf="@id/next_button_phone"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            tools:text="@string/helpsms_hintsend"
+            style="@style/StemRegular13Gray"
+    />
+
+    <!--Sms code confirm title-->
+    <TextView
+            android:id="@+id/tv_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="8dp"
+            android:text="Введите код подтверждения"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/v_code"
+            app:layout_constraintTop_toBottomOf="@+id/displayWorkTimeLeft"
+            style="@style/StemMedium15"
+    />
 
     <View
-        android:id="@+id/next_button_phone"
-        android:layout_width="160dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/button_bgr_24dp"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
-        app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_hint" />
+            android:id="@+id/v_pass"
+            android:layout_width="288dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/padding_standart_16dp"
+            android:background="@drawable/edit_text_shape"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_code"
+    />
 
-    <TextView
-        android:id="@+id/text_button_title"
-        style="@style/StemMedium15Accent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Отправить код"
-        app:layout_constraintBottom_toBottomOf="@id/next_button_phone"
-        app:layout_constraintEnd_toEndOf="@id/next_button_phone"
-        app:layout_constraintStart_toStartOf="@id/next_button_phone"
-        app:layout_constraintTop_toTopOf="@id/next_button_phone" />
-
-    <TextView
-        android:id="@+id/tv_hint_code"
-        style="@style/StemRegular13Gray"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:text="@string/helpsms_hintsend"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/next_button_phone"
-        app:layout_constraintStart_toStartOf="@id/next_button_phone"
-        app:layout_constraintTop_toBottomOf="@id/next_button_phone"
-        tools:visibility="gone" />
-
-    <TextView
-        android:id="@+id/displayWorkTimeLeft"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text=""
-        android:textAlignment="center"
-        style="@style/StemRegular13Gray"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/next_button_phone"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintVertical_chainStyle="spread_inside"
-        tools:text="*Отправить код повторно через 30 сек" />
-
-    <TextView
-        android:id="@+id/tv_code"
-        style="@style/StemMedium15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
-        android:text="Введите код подтверждения"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/v_code"
-        app:layout_constraintTop_toBottomOf="@+id/displayWorkTimeLeft" />
-
-    <View
-        android:id="@+id/v_pass"
-        android:layout_width="288dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="@dimen/padding_standart_16dp"
-        android:background="@drawable/edit_text_shape"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
-        app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toBottomOf="@id/tv_code" />
-
+    <!--Sms code edit text-->
     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
-        android:id="@+id/et_code"
-        style="@style/StemRegular15"
-        android:layout_width="235dp"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="@string/all_hintcode"
-        android:inputType="textPassword"
-        android:textColorHint="@color/grey"
-        app:additionalTouchTargetSize="80dp"
-        app:drawable_hide="@mipmap/ic_hide_eye"
-        app:drawable_show="@mipmap/ic_show_eye"
-        app:layout_constraintBottom_toBottomOf="@id/v_pass"
-        app:layout_constraintEnd_toEndOf="@id/v_pass"
-        app:layout_constraintStart_toStartOf="@id/v_pass"
-        app:layout_constraintTop_toTopOf="@id/v_pass"
-        app:tint_color="@color/colorAccent" />
+            android:id="@+id/et_code"
+            android:layout_width="@dimen/spacing_235"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/all_hintcode"
+            android:inputType="textPassword"
+            android:textColorHint="@color/grey"
+            app:additionalTouchTargetSize="@dimen/spacing_80"
+            app:drawable_hide="@mipmap/ic_hide_eye"
+            app:drawable_show="@mipmap/ic_show_eye"
+            app:layout_constraintBottom_toBottomOf="@id/v_pass"
+            app:layout_constraintEnd_toEndOf="@id/v_pass"
+            app:layout_constraintStart_toStartOf="@id/v_pass"
+            app:layout_constraintTop_toTopOf="@id/v_pass"
+            app:tint_color="@color/colorAccent"
+            style="@style/StemRegular15"
+    />
 
+    <!--Send sms code button-->
     <View
-        android:id="@+id/next_button_confirm"
-        android:layout_width="160dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="@dimen/margingtop_button_32dp"
-        android:background="@drawable/button_bgr_24dp"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
-        app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toBottomOf="@id/v_pass" />
+            android:id="@+id/next_button_confirm"
+            android:layout_width="@dimen/spacing_160"
+            android:layout_height="@dimen/spacing_48"
+            android:layout_marginTop="@dimen/margingtop_button_32dp"
+            android:background="@drawable/button_bgr_24dp"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            app:layout_constraintTop_toBottomOf="@id/v_pass"/>
 
     <TextView
-        android:id="@+id/tv_bntc"
-        style="@style/StemMedium15Accent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Подтвердить"
-        app:layout_constraintBottom_toBottomOf="@+id/next_button_confirm"
-        app:layout_constraintEnd_toEndOf="@+id/next_button_confirm"
-        app:layout_constraintStart_toStartOf="@+id/next_button_confirm"
-        app:layout_constraintTop_toTopOf="@+id/next_button_confirm" />
+            android:id="@+id/tv_bntc"
+            style="@style/StemMedium15Accent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Подтвердить"
+            app:layout_constraintBottom_toBottomOf="@+id/next_button_confirm"
+            app:layout_constraintEnd_toEndOf="@+id/next_button_confirm"
+            app:layout_constraintStart_toStartOf="@+id/next_button_confirm"
+            app:layout_constraintTop_toTopOf="@+id/next_button_confirm"
+    />
+
+    <!--Footer text-->
+    <!--TODO: make it spannable-->
+    <TextView
+            android:id="@+id/tv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_10"
+            android:layout_marginEnd="@dimen/spacing_10"
+            android:layout_marginBottom="@dimen/spacing_15"
+            android:text="Уже есть аккаунт?"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_register2"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/line_start"
+            style="@style/StemRegular15"
+    />
 
     <TextView
-        android:id="@+id/tv_register"
-        style="@style/StemRegular15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="15dp"
-        android:clickable="true"
-        android:text="Уже есть аккаунт?"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_register2"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@id/line_start" />
-
-    <TextView
-        android:id="@+id/tv_register2"
-        style="@style/StemRegular15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/ripple_effect_title_click"
-        android:clickable="true"
-        android:text="Войдите"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
-        app:layout_constraintStart_toEndOf="@id/tv_register" />
+            android:id="@+id/tv_register2"
+            style="@style/StemRegular15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_15"
+            android:background="@drawable/ripple_effect_title_click"
+            android:text="Войдите"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line_end"
+            app:layout_constraintStart_toEndOf="@id/tv_register"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

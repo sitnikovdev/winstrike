@@ -154,7 +154,7 @@ class MapFragment : Fragment() {
     }
 
     private fun initMap(schema: SchemaItem?) {
-        requireNotNull(schema) { "++++ RoomLayoutFactory must be init. ++++" }
+        requireNotNull(schema) { "++++ RoomLayoutFactory must be initView. ++++" }
 
 
         rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)

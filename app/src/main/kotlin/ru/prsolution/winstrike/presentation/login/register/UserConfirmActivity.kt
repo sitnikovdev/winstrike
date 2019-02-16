@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.presentation.login
+package ru.prsolution.winstrike.presentation.login.register
 
 import android.content.Context
 import android.content.Intent
@@ -31,12 +31,12 @@ import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
 import ru.prsolution.winstrike.domain.models.common.TimerViewModel
+import ru.prsolution.winstrike.presentation.login.LoginActivity
 import timber.log.Timber
 
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextColor
 import ru.prsolution.winstrike.presentation.utils.TextFormat.simplePhoneFormat
 import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
-import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 
 /**
  * Created by oleg on 15/03/2018.
@@ -68,6 +68,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.ac_confsmscode)
 
         presenter = UserConfirmPresenter()
 
@@ -76,11 +77,9 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
     }
 
     private fun renderView() {
-        //        setContentView(R.layout.ac_confsmscode);
         timer = TimerViewModel()
         timer!!.listener = this
 
-        setContentView(R.layout.ac_confsmscode)
     }
 
     private fun init() {
@@ -175,7 +174,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 													AuthUtils.name = userDb.name
 												}*/
 
-                        startActivity(Intent(this@UserConfirmActivity, SignInActivity::class.java))
+                        startActivity(Intent(this@UserConfirmActivity, LoginActivity::class.java))
                     }
                 } else {
                     setBtnEnable(confirm_button, false)

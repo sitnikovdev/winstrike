@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.presentation.login
+package ru.prsolution.winstrike.presentation.login.register
 
 import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 import ru.prsolution.winstrike.domain.models.login.LoginModel

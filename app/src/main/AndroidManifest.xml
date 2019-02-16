@@ -33,23 +33,23 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.login.SignInActivity"
+            android:name=".presentation.login.LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.login.SingUpActivity"
+            android:name=".presentation.login.register.RegisterFragment"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.help.HelpActivity"
+            android:name=".presentation.login.help.HelpCenterFragment"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.login.UserConfirmActivity"
+            android:name=".presentation.login.register.UserConfirmActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.help.HelpSmsActivity"
+            android:name=".presentation.login.help.HelpSmsFragment"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
