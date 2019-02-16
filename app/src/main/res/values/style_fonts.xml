@@ -28,6 +28,12 @@
         <item name="android:textColor">?themeContentTextColor</item>
     </style>
 
+    <style name="StemBold15">
+        <item name="android:fontFamily">@fontFamily/stem_bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">?themeContentTextColor</item>
+    </style>
+
     <style name="StemRegular15Alpha04">
         <item name="android:textSize">15sp</item>
         <item name="android:alpha">.4</item>

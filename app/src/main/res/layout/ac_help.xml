@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="@string/help_account_title"
             android:layout_marginTop="@dimen/spacing_10"
-            android:layout_marginStart="@dimen/spacing_24"
+            android:layout_marginStart="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/line_head"
     />

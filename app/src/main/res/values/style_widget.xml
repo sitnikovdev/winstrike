@@ -1,19 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Toolbar: uses in layout: ac_mainscreen.xml -->
+    <!--Toolbar: uses in layout: ac_mainscreen.xml and ac_login.xml -->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <!--TextView-->
+    <!-- *********************  Text ********************************************* -->
+
     <style name="Widget.WinstrikeApp.TextView" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">@fontFamily/stem_regular</item>
     </style>
 
-    <!--Buttons-->
+    <!--Title -->
+    <style name="TextAppearance.Winstrike.Title" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/stem_medium</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!--Content-->
+    <style name="TextAppearance.Winstrike.Content" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/stem_regular</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="TextAppearance.Winstrike.Content.Small" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/stem_regular</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--Hint-->
+    <style name="TextAppearance.Winstrike.Hint" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/stem_regular</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="TextAppearance.Winstrike.Hint.Small" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/stem_regular</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+
+    <!-- ******************* Buttons ************************************************** -->
     <style name="Widget.Winstrike.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textAppearance">@style/TextAppearance.Winstrike.Button</item>
-        <item name="cornerRadius">16dp</item>
-        <item name="android:inset">4dp</item>
+        <item name="android:layout_width">160dp</item>
+        <item name="android:layout_height">48dp</item>
         <item name="android:background">@drawable/gradient_btn</item>
     </style>
     <style name="TextAppearance.Winstrike.Button" parent="TextAppearance.MaterialComponents.Button">
@@ -23,6 +53,12 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <!--Phone and Password edit text fields-->
+<style name="Widget.Winstrike.EditView" parent="Widget.AppCompat.TextView">
+   <item name="android:layout_width">288dp</item>
+    <item name="android:layout_height">48dp</item>
+    <item name="android:background"> @drawable/edit_text_shape </item>
+</style>
 
     <!--DatePickerDialog-->
     <style name="DateDialog" parent="Theme.AppCompat.Dialog">
