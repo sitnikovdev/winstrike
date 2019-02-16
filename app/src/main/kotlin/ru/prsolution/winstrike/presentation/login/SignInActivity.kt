@@ -5,26 +5,22 @@ import android.app.ActivityManager
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
-import android.text.style.UnderlineSpan
+import android.text.method.LinkMovementMethod
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.ac_login.et_password
 import kotlinx.android.synthetic.main.ac_login.et_phone
 import kotlinx.android.synthetic.main.ac_login.tv_register
-import kotlinx.android.synthetic.main.ac_login.tv_register2
-import kotlinx.android.synthetic.main.ac_login.tv_politica4
 import kotlinx.android.synthetic.main.ac_login.tv_conditions
-import kotlinx.android.synthetic.main.ac_login.v_button
+import kotlinx.android.synthetic.main.ac_login.login_button
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.viewModel
-import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.TextFormat
-import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
-import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
 import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
@@ -32,6 +28,9 @@ import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import timber.log.Timber
+import android.text.style.ClickableSpan
+import android.view.View
+
 
 /*
  * Created by oleg on 31.01.2018.
@@ -45,7 +44,7 @@ class SignInActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ac_login)
+        setContentView(ru.prsolution.winstrike.R.layout.ac_login)
 
         if (savedInstanceState == null) {
             mVm.getUser()
@@ -66,9 +65,9 @@ class SignInActivity : AppCompatActivity() {
     fun init() {
         TextFormat.formatText(et_phone, Constants.PHONE_MASK)
 
-        setBtnEnable(v_button, true)
+        setBtnEnable(login_button, true)
 
-        v_button!!.setOnClickListener {
+        login_button!!.setOnClickListener {
             if (et_phone?.text?.length!! >= Constants.PHONE_LENGTH && et_password?.text?.length!! >= Constants.PASSWORD_LENGTH) {
 
 // 				loginViewModel!!.username = formatPhone(et_phone!!.text.toString())
@@ -89,7 +88,7 @@ class SignInActivity : AppCompatActivity() {
             }
         }
 
-        //        checkFieldEnabled(et_phone, et_password, v_button);
+        //        checkFieldEnabled(et_phone, et_password, login_button);
 
 // 		text_button_title!!.setOnClickListener { startActivity(Intent(this, HelpActivity::class.java)) }
 
@@ -169,24 +168,6 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    /*
-    protected void checkFieldEnabled(EditText et_phone, EditText et_pass, View button) {
-        Observable<TextViewTextChangeEvent> phoneObservable = RxTextView.textChangeEvents(et_phone);
-        Observable<TextViewTextChangeEvent> passwordObservable = RxTextView.textChangeEvents(et_pass);
-        Observable.combineLatest(phoneObservable, passwordObservable, (phoneSelected, passwordSelected) -> {
-            boolean phoneCheck = phoneSelected.text().length() >= 14;
-            boolean passwordCheck = passwordSelected.text().length() >= 4;
-            return phoneCheck && passwordCheck;
-        }).subscribe(aBoolean -> {
-            if (aBoolean) {
-                setBtnEnable(button, true);
-            } else {
-                setBtnEnable(button, false);
-            }
-        });
-    }
-*/
-
     override fun onStop() {
         super.onStop()
         hideProgressDialog()
@@ -204,34 +185,44 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun setFooter() {
-        setTextFoot1Color(tv_register!!, "Еще нет аккаунта?", "#9b9b9b")
-        setTextFoot2Color(tv_register2!!, " Зарегистрируйтесь", "#c9186c")
-        tv_register2!!.setOnClickListener { startActivity(Intent(this, SingUpActivity::class.java)) }
 
-        val textConditions = "Условиями"
-        val content = SpannableString(textConditions).apply {
-            setSpan(UnderlineSpan(), 0, textConditions.length, 0)
+        val register = SpannableString("Еще нет аккаунта? Зарегистрируйтесь")
+        val registerClick = object : ClickableSpan() {
+            override fun onClick(v: View) {
+                longToast("textview clicked")
+//                startActivity(Intent(this@SignInActivity, SingUpActivity::class.java))
+            }
         }
-        tv_conditions!!.text = content
+        register.setSpan(registerClick, 18, register.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_register.movementMethod = LinkMovementMethod.getInstance()
+        tv_register.text = register
 
-        tv_conditions!!.setOnClickListener {
-            //            val browserIntent = Intent(this, YandexWebView::class.java)
+
+        val textCondAndPolicy = SpannableString("Условиями и Политикой конфиденциальности")
+        val conditionClick = object : ClickableSpan() {
+            override fun onClick(v: View) {
+                longToast("condition click")
+//            val browserIntent = Intent(this, YandexWebView::class.java)
 //            val url = "file:///android_asset/rules.html"
 //            browserIntent.putExtra("url", url)
 //            startActivity(browserIntent)
+            }
         }
-
-        tv_politica4!!.setOnClickListener {
-            //            val browserIntent = Intent(this, YandexWebView::class.java)
+        val politicaClick = object : ClickableSpan() {
+            override fun onClick(v: View) {
+                longToast("politica click")
+//            val browserIntent = Intent(this, YandexWebView::class.java)
 //            val url = "file:///android_asset/politika.html"
 //            browserIntent.putExtra("url", url)
 //            startActivity(browserIntent)
+            }
         }
+        textCondAndPolicy.setSpan(conditionClick, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        textCondAndPolicy.setSpan(politicaClick, 12, textCondAndPolicy.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_conditions.movementMethod = LinkMovementMethod.getInstance()
+        tv_conditions.text = textCondAndPolicy
 
-        val textFooter = "Политикой конфиденциальности"
-        val content4 = SpannableString(textFooter)
-        content4.setSpan(UnderlineSpan(), 0, textFooter.length, 0)
-        tv_politica4!!.text = content4
+
     }
 
 }

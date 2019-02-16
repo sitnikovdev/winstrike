@@ -1,215 +1,26 @@
 <resources>
 
-  <!--Main theme-->
-  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="colorPrimary">?themePrimary</item>
-    <item name="colorPrimaryDark">?themePrimaryDark</item>
-    <item name="colorAccent">?themeAccent</item>
-  </style>
+    <!--Base theme-->
+    <style name="BaseAppTheme" parent="Theme.Design.Light.NoActionBar">
+        <item name="colorPrimary">?themePrimary</item>
+        <item name="colorPrimaryDark">?themePrimaryDark</item>
+        <item name="colorAccent">?themeAccent</item>
+    </style>
 
-  <style name="AppTheme.NoActionBar">
-    <item name="windowActionBar">false</item>
-    <item name="windowNoTitle">true</item>
-  </style>
+    <!--Custom  theme-->
+    <style name="BaseAppTheme.WinstrikeApp">
+        <item name="themePrimary">@color/magenta</item>
+        <item name="themePrimaryDark">@color/black</item>
+        <item name="themeAccent">@color/magenta</item>
+        <item name="themeContentBackground">@color/white</item>
 
-  <style name="AppTheme.NoActionBar.WinstrikeApp">
-    <item name="themePrimary">@color/magenta</item>
-    <item name="themePrimaryDark">@color/black</item>
-    <item name="themeAccent">@color/magenta</item>
-    <item name="themeContentBackground">@color/white</item>
+        <!--Base colors-->
+        <item name="themeContentTextColor">@color/black</item>
+        <item name="themeContentTextColoOnPrimary">@color/white</item>
 
-    <item name="themeContentTextColor">@color/black</item>
-    <item name="themeContentTextColoOnPrimary">@color/white</item>
-    <item name="android:fontFamily">@font/stem_regular</item>
+        <!--TextView -->
+        <item name="android:textViewStyle">@style/Widget.WinstrikeApp.TextView</item>
 
-    <item name="android:textViewStyle">@style/Widget.WinstrikeApp.TextView</item>
-
-  </style>
-
-  <style name="Widget.WinstrikeApp.TextView" parent="Widget.AppCompat.TextView">
-    <item name="android:fontFamily">@fontFamily/stem_regular</item>
-  </style>
-
-  <!--Fonts-->
-
-  <style name="StemRegular17OnPrimary">
-    <item name="android:textSize">17sp</item>
-    <item name="android:textColor">?themeContentTextColoOnPrimary</item>
-  </style>
-
-  <style name="StemRegular14">
-    <item name="android:textSize">14sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemMedium17">
-    <item name="android:fontFamily">@fontFamily/stem_medium</item>
-    <item name="android:textSize">17sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemMedium15">
-    <item name="android:fontFamily">@fontFamily/stem_medium</item>
-    <item name="android:textSize">15sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemRegular15">
-    <item name="android:textSize">15sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemRegular15Alpha04">
-    <item name="android:textSize">15sp</item>
-    <item name="android:alpha">.4</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemMedium20">
-    <item name="android:fontFamily">@fontFamily/stem_medium</item>
-    <item name="android:textSize">20sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemRegular13Gray">
-    <item name="android:textColor">@color/grey</item>
-    <item name="android:textSize">13sp</item>
-  </style>
-
-  <style name="StemRegular10Gray">
-    <item name="android:textColor">@color/greyLight</item>
-    <item name="android:textSize">10sp</item>
-  </style>
-
-  <style name="StemRegular12Gray">
-    <item name="android:textColor">@color/greyLight</item>
-    <item name="android:textSize">12sp</item>
-  </style>
-
-  <style name="StemRegular12Accent">
-    <item name="android:textColor">?themeAccent</item>
-    <item name="android:textSize">12sp</item>
-  </style>
-
-  <style name="StemRegular17">
-    <item name="android:textSize">17sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemRegular19OnPrimaryAlpha06">
-    <item name="android:textSize">19sp</item>
-    <item name="android:alpha">.6</item>
-    <item name="android:textColor">?themeContentTextColoOnPrimary</item>
-  </style>
-
-  <style name="StemMediumBlue17">
-    <item name="android:fontFamily">@fontFamily/stem_medium</item>
-    <item name="android:textSize">17sp</item>
-    <item name="android:textColor">@color/blue</item>
-  </style>
-
-
-  <style name="StemRegular18">
-    <item name="android:textSize">18sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemRegular13">
-    <item name="android:textSize">15sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemBold17">
-    <item name="android:fontFamily">@fontFamily/stem_bold</item>
-    <item name="android:textSize">17sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemBold15Accent">
-    <item name="android:fontFamily">@fontFamily/stem_bold</item>
-    <item name="android:textSize">15sp</item>
-    <item name="android:textColor">?themeAccent</item>
-  </style>
-
-  <style name="StemMedium12Accent">
-    <item name="android:fontFamily">@fontFamily/stem_medium</item>
-    <item name="android:textSize">12sp</item>
-    <item name="android:textColor">?themeAccent</item>
-  </style>
-
-  <style name="StemRegular15Gray06">
-    <item name="android:textSize">15sp</item>
-    <item name="android:alpha">.6</item>
-    <item name="android:textColor">@color/grey</item>
-  </style>
-
-  <style name="StemMedium15OnPrimary">
-    <item name="android:fontFamily">@fontFamily/stem_medium</item>
-    <item name="android:textSize">15sp</item>
-    <item name="android:textColor">?themeContentTextColoOnPrimary</item>
-  </style>
-
-  <style name="StemMedium15LightGrey">
-    <item name="android:fontFamily">@fontFamily/stem_medium</item>
-    <item name="android:textSize">15sp</item>
-    <item name="android:textColor">@color/greyLight</item>
-  </style>
-
-  <style name="StemRegular12">
-    <item name="android:textSize">12sp</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemMedium15Alpha04">
-    <item name="android:fontFamily">@fontFamily/stem_medium</item>
-    <item name="android:textSize">15sp</item>
-    <item name="android:alpha">.4</item>
-    <item name="android:textColor">?themeContentTextColor</item>
-  </style>
-
-  <style name="StemMedium17Accent">
-    <item name="android:fontFamily">@fontFamily/stem_medium</item>
-    <item name="android:textSize">17sp</item>
-    <item name="android:textColor">?themeAccent</item>
-  </style>
-
-  <style name="StemRegular17Gray">
-    <item name="android:textSize">17sp</item>
-    <item name="android:textColor">@color/greyLight</item>
-  </style>
-
-  <style name="StemMedium15Accent">
-    <item name="android:fontFamily">@fontFamily/stem_medium</item>
-    <item name="android:textSize">15sp</item>
-    <item name="android:textColor">?themeAccent</item>
-  </style>
-
-  <style name="StemRegular20">
-    <item name="android:textSize">20sp</item>
-    <item name="android:textColor">?themeContentTextColoOnPrimary</item>
-  </style>
-
-  <!--Toolbar theme-->
-  <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-  <!--Toolbar overlay menu theme-->
-  <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-
-  <!--DatePickerDialog-->
-  <style name="DateDialog" parent="Theme.AppCompat.Dialog">
-    <item name="dialogCornerRadius">10dp</item>
-    <item name="android:background">@color/colorPrimaryDark</item>
-    <item name="colorAccent">?themeAccent</item>
-    <item name="windowActionBar">false</item>
-  </style>
-
-
-  <!-- Profile fragment: Tab layout theme-->
-  <style name="TabLayoutProfile" parent="TextAppearance.Design.Tab">
-    <item name="android:textSize">17sp</item>
-    <item name="textAllCaps">false</item>
-  </style>
-
+    </style>
 
 </resources>
