@@ -6,14 +6,9 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
-import kotlinx.android.synthetic.main.ac_login.*
-import kotlinx.android.synthetic.main.ac_mainscreen.*
+import kotlinx.android.synthetic.main.toolbar.*
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.utils.hide
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.show
 
 /*
  * Created by oleg on 31.01.2018.
@@ -44,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
-        setSupportActionBar(login_toolbar)
+        setSupportActionBar(toolbar)
         setupActionBar(navController, appBarConfiguration)
     }
 

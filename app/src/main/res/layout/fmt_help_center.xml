@@ -24,26 +24,19 @@
             app:layout_constraintGuide_end="24dp"
     />
 
-    <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/line_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="75dp"
-    />
 
 
     <!--Title-->
     <TextView
             android:id="@+id/tv_access"
-            style="@style/StemMedium17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/help_account_title"
-            android:layout_marginTop="@dimen/spacing_10"
-            android:layout_marginStart="24dp"
+            android:layout_marginTop="@dimen/spacing_24"
+            android:layout_marginStart="@dimen/spacing_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/line_head"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAppearance="@style/TextAppearance.Winstrike.Title.Large"
     />
 
     <!--Restore password icon-->

@@ -68,11 +68,16 @@ class LoginHomeFragment : Fragment() {
 
                     mVm.getUser(loginModel)
                 }
-                et_phone.text.isEmpty() -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_message_phone_hint))
-                et_phone.text.length < PHONE_LENGTH -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_phone))
-                et_password.text.isEmpty() -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_password))
-                et_password.text.length < PASSWORD_LENGTH -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_password_lengh))
+//                et_phone.text.isEmpty() -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_message_phone_hint))
+//                et_phone.text.length < PHONE_LENGTH -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_phone))
+//                et_password.text.isEmpty() -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_password))
+//                et_password.text.length < PASSWORD_LENGTH -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_password_lengh))
             }
+        }
+
+        help_link_tv.setOnClickListener {
+            val action = LoginHomeFragmentDirections.nextActionHelp()
+            Navigation.findNavController(requireActivity(),R.id.login_host_fragment).navigate(action)
         }
 
         setFooter()
@@ -122,7 +127,7 @@ class LoginHomeFragment : Fragment() {
         val textCondAndPolicy = SpannableString(getString(R.string.fmt_login_politika_footer))
         val conditionClick = object : ClickableSpan() {
             override fun onClick(v: View) {
-                val action = LoginHomeFragmentDirections.nextAction(URL_CONDITION)
+                val action = LoginHomeFragmentDirections.nextActionPolitika(URL_CONDITION)
                 action.title = getString(R.string.fmt_title_condition)
                 Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
 
@@ -130,7 +135,7 @@ class LoginHomeFragment : Fragment() {
         }
         val politicaClick = object : ClickableSpan() {
             override fun onClick(v: View) {
-                val action = LoginHomeFragmentDirections.nextAction(URL_POLITIKA)
+                val action = LoginHomeFragmentDirections.nextActionPolitika(URL_POLITIKA)
                 action.title = getString(R.string.fmt_login_title_politika)
                 Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
             }

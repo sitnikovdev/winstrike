@@ -9,8 +9,10 @@
               tools:layout="@layout/fmt_login"
               android:label="@string/app_name"
     >
-        <action android:id="@+id/next_action"
+        <action android:id="@+id/next_action_politika"
                 app:destination="@id/navigation_politika"/>
+        <action android:id="@+id/next_action_help"
+                app:destination="@id/navigation_help_center"/>
     </fragment>
 
 
@@ -26,4 +28,11 @@
                 app:argType="string"/>
         <argument android:name="url" app:argType="string"/>
     </fragment>
+
+    <!--Help Center-->
+    <fragment android:id="@+id/navigation_help_center"
+              android:name="ru.prsolution.winstrike.presentation.login.help.HelpCenterFragment"
+              tools:layout="@layout/fmt_help_center"
+              android:label="Помощь при входе"
+    />
 </navigation>
