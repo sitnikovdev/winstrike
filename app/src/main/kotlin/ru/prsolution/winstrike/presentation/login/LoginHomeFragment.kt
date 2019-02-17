@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.ac_login.*
 import kotlinx.android.synthetic.main.fmt_login.*
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
@@ -22,8 +21,10 @@ import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.presentation.login.register.UserConfirmActivity
 import ru.prsolution.winstrike.presentation.main.MainActivity
+import ru.prsolution.winstrike.presentation.model.login.LoginInfo
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.TextFormat
+import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
@@ -43,9 +44,6 @@ class LoginHomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            mVm.getUser()
-        }
 
         mVm.authResponse.observe(this@LoginHomeFragment, Observer {
             it.let {
@@ -57,21 +55,20 @@ class LoginHomeFragment : Fragment() {
         initView()
     }
 
-    fun initView() {
+    private fun initView() {
         TextFormat.formatText(et_phone, Constants.PHONE_MASK)
 
         setBtnEnable(login_button, true)
 
-        login_button!!.setOnClickListener {
+        login_button.setOnClickListener {
             if (et_phone?.text?.length!! >= Constants.PHONE_LENGTH && et_password?.text?.length!! >= Constants.PASSWORD_LENGTH) {
 
-// 				loginViewModel!!.username = formatPhone(et_phone!!.text.toString())
-// 				loginViewModel!!.password = et_password!!.text.toString()
+                val username = formatPhone(et_phone!!.text.toString())
+                val password = et_password!!.text.toString()
+                val loginModel = LoginInfo(username, password)
 
-// 				AuthUtils.phone = loginViewModel!!.username.toString()
-// 				AuthUtils.password = loginViewModel!!.password.toString()
+                mVm.getUser(loginModel)
 
-//                vm.signIn()
             } else if (TextUtils.isEmpty(et_phone!!.text)) {
                 longToast(getString(R.string.ac_login_message_phone_hint))
             } else if (TextUtils.isEmpty(et_password!!.text)) {

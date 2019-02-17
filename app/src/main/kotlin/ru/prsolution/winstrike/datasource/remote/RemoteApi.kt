@@ -7,6 +7,7 @@ import ru.prsolution.winstrike.datasource.model.arena.ArenaListEntity
 import ru.prsolution.winstrike.datasource.model.arena.SchemaEntity
 import ru.prsolution.winstrike.datasource.model.city.CityListEntity
 import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
+import ru.prsolution.winstrike.datasource.model.login.LoginEntity
 import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentResponseEntity
 import ru.prsolution.winstrike.domain.models.common.FCMModel
@@ -61,7 +62,7 @@ interface UserApi {
 
     // Авторизация пользователя
     @POST("login")
-    fun getLogin(@Body loginModel: LoginModel): Deferred<Response<AuthResponseEntity>>
+    fun getLogin(@Body loginModel: LoginEntity): Deferred<Response<AuthResponseEntity>>
 
     // Отправка смс c кодом подтверждения
     @POST("confirm_codes")

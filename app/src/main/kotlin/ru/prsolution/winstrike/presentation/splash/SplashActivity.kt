@@ -33,7 +33,9 @@ open class SplashActivity : AppCompatActivity() {
         mainIntent = Intent(this@SplashActivity, MainActivity::class.java)
         signIntent = Intent(Intent(this@SplashActivity, LoginActivity::class.java))
 
-        animation_view.imageAssetsFolder = "images"
+        isCheckLogin()
+
+/*        animation_view.imageAssetsFolder = "images"
         animation_view.setAnimation("data.json")
         animation_view.repeatCount = 0
         animation_view.scale = 1f
@@ -48,7 +50,7 @@ open class SplashActivity : AppCompatActivity() {
             override fun onAnimationStart(animation: Animator) {}
             override fun onAnimationCancel(animation: Animator) {}
             override fun onAnimationRepeat(animation: Animator) {}
-        })
+        })*/
 
     }
 
