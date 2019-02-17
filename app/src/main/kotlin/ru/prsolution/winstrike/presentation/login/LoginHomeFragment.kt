@@ -16,19 +16,21 @@ import kotlinx.android.synthetic.main.fmt_login.*
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.viewModel
-import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.presentation.login.register.UserConfirmActivity
 import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.model.login.LoginInfo
 import ru.prsolution.winstrike.presentation.utils.Constants
+import ru.prsolution.winstrike.presentation.utils.Constants.PASSWORD_LENGTH
+import ru.prsolution.winstrike.presentation.utils.Constants.PHONE_LENGTH
 import ru.prsolution.winstrike.presentation.utils.TextFormat
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
-import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import timber.log.Timber
+import android.net.Uri
+
 
 /**
  * Created by Oleg Sitnikov on 2019-02-16
@@ -40,16 +42,14 @@ class LoginHomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fmt_login, container, false)
+        return inflater.inflate(ru.prsolution.winstrike.R.layout.fmt_login, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         mVm.authResponse.observe(this@LoginHomeFragment, Observer {
-            it.let {
-                it?.let { response ->
-                    onAuthResponseSuccess(response)
-                }
+            it?.let { response ->
+                onAuthResponseSuccess(response)
             }
         })
         initView()
@@ -58,45 +58,36 @@ class LoginHomeFragment : Fragment() {
     private fun initView() {
         TextFormat.formatText(et_phone, Constants.PHONE_MASK)
 
-        setBtnEnable(login_button, true)
-
         login_button.setOnClickListener {
-            if (et_phone?.text?.length!! >= Constants.PHONE_LENGTH && et_password?.text?.length!! >= Constants.PASSWORD_LENGTH) {
+            when {
+                et_phone?.text?.length!! >= PHONE_LENGTH
+                        && et_password?.text?.length!! >= PASSWORD_LENGTH -> {
 
-                val username = formatPhone(et_phone!!.text.toString())
-                val password = et_password!!.text.toString()
-                val loginModel = LoginInfo(username, password)
+                    val username = formatPhone(et_phone.text.toString())
+                    val password = et_password.text.toString()
+                    val loginModel = LoginInfo(username, password)
 
-                mVm.getUser(loginModel)
-
-            } else if (TextUtils.isEmpty(et_phone!!.text)) {
-                longToast(getString(R.string.ac_login_message_phone_hint))
-            } else if (TextUtils.isEmpty(et_password!!.text)) {
-                longToast(getString(R.string.ac_login_error_password))
-            } else if (et_phone!!.text.length < Constants.PHONE_LENGTH) {
-                longToast(getString(R.string.ac_login_error_phone))
-            } else if (et_password!!.text.length < Constants.PASSWORD_LENGTH) {
-                longToast(getString(R.string.ac_login_error_password_lengh))
+                    mVm.getUser(loginModel)
+                }
+                et_phone.text.isEmpty() -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_message_phone_hint))
+                et_phone.text.length < PHONE_LENGTH -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_phone))
+                et_password.text.isEmpty() -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_password))
+                et_password.text.length < PASSWORD_LENGTH -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_password_lengh))
             }
         }
-
-        //        checkFieldEnabled(et_phone, et_password, login_button);
-
-// 		text_button_title!!.setOnClickListener { startActivity(Intent(this, HelpActivity::class.java)) }
 
         setFooter()
     }
 
     private fun onAuthResponseSuccess(authResponse: AuthResponse) {
-        val confirmed = authResponse.user?.confirmed
+        val confirmed = authResponse.user?.confirmed ?: false
 
         updateUser(authResponse)
 
-        if (confirmed!!) {
+        if (confirmed) {
             startActivity(Intent(requireActivity(), MainActivity::class.java))
-            Timber.d("Success signIn")
         } else {
-            val username = authResponse.user.phone
+            val username = authResponse.user?.phone
             //TODO: Fix it!!!
 //            mVm.sendSms()
 
@@ -118,7 +109,7 @@ class LoginHomeFragment : Fragment() {
         Timber.e("Error on auth: %s", appErrorMessage)
         if (appErrorMessage.contains("403")) longToast("Неправильный пароль")
         if (appErrorMessage.contains("404")) {
-            longToast(getString(R.string.ac_login_error_user_not_found))
+            longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
         }
         if (appErrorMessage.contains("502")) longToast("Ошибка сервера")
         if (appErrorMessage.contains("No Internet Connection!"))
@@ -140,7 +131,6 @@ class LoginHomeFragment : Fragment() {
 
 
     private fun setFooter() {
-
         val register = SpannableString("Еще нет аккаунта? Зарегистрируйтесь")
         val registerClick = object : ClickableSpan() {
             override fun onClick(v: View) {
@@ -157,28 +147,22 @@ class LoginHomeFragment : Fragment() {
         val conditionClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 longToast("condition click")
-//            val browserIntent = Intent(this, YandexWebView::class.java)
-//            val url = "file:///android_asset/rules.html"
-//            browserIntent.putExtra("url", url)
-//            startActivity(browserIntent)
+//                TODO: fix it
+//                https@ //stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed
+//                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("file:///android_asset/rules.html"))
+//                startActivity(browserIntent)
             }
         }
         val politicaClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 longToast("politica click")
-//            val browserIntent = Intent(this, YandexWebView::class.java)
-//            val url = "file:///android_asset/politika.html"
-//            browserIntent.putExtra("url", url)
-//            startActivity(browserIntent)
+//                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("file:///android_asset/politika.html"))
+//                startActivity(browserIntent)
             }
         }
         textCondAndPolicy.setSpan(conditionClick, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         textCondAndPolicy.setSpan(politicaClick, 12, textCondAndPolicy.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_conditions.movementMethod = LinkMovementMethod.getInstance()
         tv_conditions.text = textCondAndPolicy
-
-
     }
-
-
 }

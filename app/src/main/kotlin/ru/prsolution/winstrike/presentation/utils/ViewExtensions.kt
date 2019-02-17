@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.presentation.utils
 
 import android.os.Build
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,3 +61,5 @@ fun TextView.setColor(color: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION_C
             .duration = ENTER_DURATION
     }
 }
+
+//fun String.isEmpty(): Boolean = TextUtils.isEmpty(this)
