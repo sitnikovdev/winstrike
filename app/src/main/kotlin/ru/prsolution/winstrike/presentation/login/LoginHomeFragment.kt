@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
@@ -9,6 +10,7 @@ import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fmt_login.*
@@ -26,9 +28,11 @@ import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import androidx.navigation.Navigation
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
+import ru.prsolution.winstrike.presentation.utils.validate
 
 
 /**
@@ -57,10 +61,19 @@ class LoginHomeFragment : Fragment() {
     private fun initView() {
         TextFormat.formatText(et_phone, Constants.PHONE_MASK)
 
+
         login_button.setOnClickListener {
+
+            et_phone.validate({ isPhoneValid(et_phone.text) }, getString(R.string.ac_login_error_phone))
+
+            et_password.validate(
+                { isPasswordValid(et_password.text) },
+                getString(R.string.ac_login_error_password_lengh)
+            )
+
             when {
-                et_phone?.text?.length!! >= PHONE_LENGTH
-                        && et_password?.text?.length!! >= PASSWORD_LENGTH -> {
+                isPhoneValid(et_phone.text) &&
+                        isPasswordValid(et_password.text) -> {
 
                     val username = formatPhone(et_phone.text.toString())
                     val password = et_password.text.toString()
@@ -68,19 +81,23 @@ class LoginHomeFragment : Fragment() {
 
                     mVm.getUser(loginModel)
                 }
-//                et_phone.text.isEmpty() -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_message_phone_hint))
-//                et_phone.text.length < PHONE_LENGTH -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_phone))
-//                et_password.text.isEmpty() -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_password))
-//                et_password.text.length < PASSWORD_LENGTH -> longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_password_lengh))
             }
         }
 
         help_link_tv.setOnClickListener {
             val action = LoginHomeFragmentDirections.nextActionHelp()
-            Navigation.findNavController(requireActivity(),R.id.login_host_fragment).navigate(action)
+            Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
         }
 
         setFooter()
+    }
+
+    private fun isPhoneValid(text: Editable?): Boolean {
+        return text != null && text.length >= PHONE_LENGTH
+    }
+
+    private fun isPasswordValid(text: Editable?): Boolean {
+        return text != null && text.length >= PASSWORD_LENGTH
     }
 
     private fun onAuthResponseSuccess(authResponse: AuthResponse) {

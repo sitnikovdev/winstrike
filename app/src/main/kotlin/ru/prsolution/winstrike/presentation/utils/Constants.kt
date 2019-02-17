@@ -21,7 +21,7 @@ object Constants {
     const val ORDER_URL = "https://dev.winstrike.ru/api/v1/orders"
 
     const val PHONE_MASK = "(___) ___-__-__"
-    const val PHONE_LENGTH = 10
+    const val PHONE_LENGTH = 15
     const val PASSWORD_LENGTH = 6
 
     const val IMAGE_TYPE = "image/jpg"

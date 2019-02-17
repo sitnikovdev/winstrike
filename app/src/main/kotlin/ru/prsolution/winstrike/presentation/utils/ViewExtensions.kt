@@ -2,10 +2,13 @@ package ru.prsolution.winstrike.presentation.utils
 
 import android.content.Context
 import android.os.Build
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -97,3 +100,24 @@ fun View.setHeight(height: Int) {
     params.height = height
     layoutParams = params
 }
+
+// Validate login
+fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object: TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            afterTextChanged.invoke(s.toString())
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+    })
+}
+fun EditText.validate(validator: (String) -> Boolean, message: String): Boolean {
+    this.afterTextChanged {
+        this.error = if (validator(it)) null else message
+    }
+    this.error = if (validator(this.text.toString())) null else message
+    return this.error == null
+}
+
