@@ -10,7 +10,7 @@ import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fmt_login.*
@@ -28,10 +28,11 @@ import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import androidx.navigation.Navigation
-import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
+import ru.prsolution.winstrike.presentation.utils.afterTextChanged
 import ru.prsolution.winstrike.presentation.utils.validate
 
 
@@ -61,6 +62,7 @@ class LoginHomeFragment : Fragment() {
     private fun initView() {
         TextFormat.formatText(et_phone, Constants.PHONE_MASK)
 
+        login_button.isEnabled = true
 
         login_button.setOnClickListener {
 

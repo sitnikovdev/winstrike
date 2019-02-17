@@ -59,7 +59,7 @@
             android:layout_marginStart="@dimen/spacing_42"
             app:layout_constraintStart_toStartOf="@id/line_start"
             app:layout_constraintTop_toBottomOf="@id/tv_access"
-            style="@style/StemRegular15"
+            android:textAppearance="@style/TextAppearance.Winstrike.Content"
     />
 
     <!--Help center title-->
@@ -72,7 +72,7 @@
             android:layout_marginTop="32dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_sms"
-            style="@style/StemMedium17"
+            android:textAppearance="@style/TextAppearance.Winstrike.Title.Large"
     />
 
     <!--Help center Winstrike icon-->
@@ -95,7 +95,7 @@
             android:layout_marginTop="@dimen/spacing_24"
             app:layout_constraintStart_toStartOf="@id/line_start"
             app:layout_constraintTop_toBottomOf="@id/tv_help"
-            style="@style/StemRegular15"
+            android:textAppearance="@style/TextAppearance.Winstrike.Content"
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
