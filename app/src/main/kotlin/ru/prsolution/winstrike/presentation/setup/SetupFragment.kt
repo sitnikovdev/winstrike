@@ -90,7 +90,7 @@ class SetupFragment : Fragment(),
                     require(isAdded) { "+++ SetupFragment not attached to an activity. +++" }
                     val action = SetupFragmentDirections.nextAction()
                     action.acitveLayoutPID = mArenaActivePid
-                    Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+                    Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
                 }
             }
 

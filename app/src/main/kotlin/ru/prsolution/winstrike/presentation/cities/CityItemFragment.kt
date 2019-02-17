@@ -43,7 +43,7 @@ class CityItemFragment : Fragment() {
             arena.publicId?.let {
                 action.arenaPID = it
             }
-            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigate(action)
+            Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
         }
 
     private val adapter = ArenaListAdapter(itemClick)

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.LayoutInflater
@@ -14,9 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fmt_login.*
 import org.jetbrains.anko.support.v4.longToast
-import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.viewModel
-import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.presentation.login.register.UserConfirmActivity
 import ru.prsolution.winstrike.presentation.main.MainActivity
@@ -28,8 +25,10 @@ import ru.prsolution.winstrike.presentation.utils.TextFormat
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
-import timber.log.Timber
-import android.net.Uri
+import androidx.navigation.Navigation
+import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
+import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
 
 
 /**
@@ -97,6 +96,7 @@ class LoginHomeFragment : Fragment() {
         }
     }
 
+    // TODO: Use Cash (RxPaper2).
     private fun updateUser(authResponse: AuthResponse) {
         PrefUtils.name = authResponse.user?.name ?: ""
         PrefUtils.token = authResponse.token ?: ""
@@ -105,6 +105,44 @@ class LoginHomeFragment : Fragment() {
         PrefUtils.publicid = authResponse.user?.publicId ?: ""
     }
 
+
+    private fun setFooter() {
+        val register = SpannableString(getString(R.string.fmt_login_title_register))
+        val registerClick = object : ClickableSpan() {
+            override fun onClick(v: View) {
+                longToast("TODO: Register user")
+//                startActivity(Intent(this@SignInActivity, SingUpActivity::class.java))
+            }
+        }
+        register.setSpan(registerClick, 18, register.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_register.movementMethod = LinkMovementMethod.getInstance()
+        tv_register.text = register
+
+
+        val textCondAndPolicy = SpannableString(getString(R.string.fmt_login_politika_footer))
+        val conditionClick = object : ClickableSpan() {
+            override fun onClick(v: View) {
+                val action = LoginHomeFragmentDirections.nextAction(URL_CONDITION)
+                action.title = getString(R.string.fmt_title_condition)
+                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+
+            }
+        }
+        val politicaClick = object : ClickableSpan() {
+            override fun onClick(v: View) {
+                val action = LoginHomeFragmentDirections.nextAction(URL_POLITIKA)
+                action.title = getString(R.string.fmt_login_title_politika)
+                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+            }
+        }
+        textCondAndPolicy.setSpan(conditionClick, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        textCondAndPolicy.setSpan(politicaClick, 12, textCondAndPolicy.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_conditions.movementMethod = LinkMovementMethod.getInstance()
+        tv_conditions.text = textCondAndPolicy
+    }
+
+
+/*
     fun onAuthFailure(appErrorMessage: String) {
         Timber.e("Error on auth: %s", appErrorMessage)
         if (appErrorMessage.contains("403")) longToast("Неправильный пароль")
@@ -128,41 +166,6 @@ class LoginHomeFragment : Fragment() {
         if (appErrorMessage.contains("409")) toast("Ошибка функции кодогенерации")
         if (appErrorMessage.contains("422")) toast("Не указан номер телефона")
     }
+*/
 
-
-    private fun setFooter() {
-        val register = SpannableString("Еще нет аккаунта? Зарегистрируйтесь")
-        val registerClick = object : ClickableSpan() {
-            override fun onClick(v: View) {
-                longToast("textview clicked")
-//                startActivity(Intent(this@SignInActivity, SingUpActivity::class.java))
-            }
-        }
-        register.setSpan(registerClick, 18, register.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        tv_register.movementMethod = LinkMovementMethod.getInstance()
-        tv_register.text = register
-
-
-        val textCondAndPolicy = SpannableString("Условиями и Политикой конфиденциальности")
-        val conditionClick = object : ClickableSpan() {
-            override fun onClick(v: View) {
-                longToast("condition click")
-//                TODO: fix it
-//                https@ //stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed
-//                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("file:///android_asset/rules.html"))
-//                startActivity(browserIntent)
-            }
-        }
-        val politicaClick = object : ClickableSpan() {
-            override fun onClick(v: View) {
-                longToast("politica click")
-//                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("file:///android_asset/politika.html"))
-//                startActivity(browserIntent)
-            }
-        }
-        textCondAndPolicy.setSpan(conditionClick, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        textCondAndPolicy.setSpan(politicaClick, 12, textCondAndPolicy.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        tv_conditions.movementMethod = LinkMovementMethod.getInstance()
-        tv_conditions.text = textCondAndPolicy
-    }
 }

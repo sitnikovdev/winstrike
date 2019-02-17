@@ -3,9 +3,27 @@
             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/login_navigation"
             app:startDestination="@id/navigation_login">
-
+    <!--Login-->
     <fragment android:id="@+id/navigation_login"
               android:name="ru.prsolution.winstrike.presentation.login.LoginHomeFragment"
               tools:layout="@layout/fmt_login"
-              android:label="LoginHomeFragment"/>
+              android:label="@string/app_name"
+    >
+        <action android:id="@+id/next_action"
+                app:destination="@id/navigation_politika"/>
+    </fragment>
+
+
+    <!--Politika-->
+    <fragment android:id="@+id/navigation_politika"
+              android:label="{title}"
+              tools:layout="@layout/fmt_web_view"
+              android:name="ru.prsolution.winstrike.presentation.login.PolitikaWebViewFragment"
+    >
+        <argument
+                android:defaultValue="Политика Winstrike"
+                android:name="title"
+                app:argType="string"/>
+        <argument android:name="url" app:argType="string"/>
+    </fragment>
 </navigation>
