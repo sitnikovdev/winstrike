@@ -48,6 +48,7 @@ object Versions {
 	const val firebase = "16.0.7"
 	const val firebaseMessaging = "17.3.4"
 	const val fabric = "1.27.0"
+	const val crashlytics = "2.9.8"
 
 	const val leakCanary = "1.6.3"
 
@@ -58,7 +59,7 @@ object Versions {
 
 
 object Libraries {
-	const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+	const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
 	const val androidx = "androidx.appcompat:appcompat:${Versions.androidx}"
 	const val ktx = "androidx.core:core-ktx:${Versions.ktx}"
 	const val lifecycle = "android.arch.lifecycle:extensions:${Versions.lifecycle}"

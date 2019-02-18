@@ -32,21 +32,19 @@ class ArenaListAdapter constructor(private val itemClick: (ArenaItem) -> Unit) :
             itemView.metro_tv.text = item.metro
             itemView.setOnClickListener { itemClick.invoke(item) }
 
-            if (item.publicId?.contains(PrefUtils.arenaPid.toString())!!) {
-                with(itemView) {
+            when {
+               !PrefUtils.arenaPid?.isEmpty()!! && item.publicId?.contains(PrefUtils.arenaPid.toString())!! -> with(itemView) {
                     city_tv.setTextColor(resources.getColor(R.color.white))
                     metro_tv.setTextColor(resources.getColor(R.color.white))
                     card_v.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
                     check_box_iv.setImageResource(R.drawable.ic_check_white)
                 }
-            } else {
-                with(itemView) {
+                else -> with(itemView) {
                     city_tv.setTextColor(resources.getColor(R.color.black))
                     metro_tv.setTextColor(resources.getColor(R.color.black))
                     card_v.setCardBackgroundColor(resources.getColor(R.color.white))
                     check_box_iv.setImageResource(R.drawable.ic_check_white)
                 }
-
             }
         }
     }

@@ -1,111 +1,108 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:fresco="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/root"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:background="@color/white"
-  tools:activity=".presentation.main.MainScreenActivity">
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
-  <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/line_start"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    app:layout_constraintGuide_begin="40dp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+           xmlns:app="http://schemas.android.com/apk/res-auto"
+           xmlns:fresco="http://schemas.android.com/apk/res-auto"
+           xmlns:tools="http://schemas.android.com/tools"
+           android:id="@+id/root"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@color/white"
+           tools:activity=".presentation.main.MainScreenActivity">
 
-  <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/line_end"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    app:layout_constraintGuide_end="@dimen/keyline_40dp"/>
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/line_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="40dp"
+        />
 
-  <TextView
-    android:id="@+id/metro_tv"
-    style="@style/StemRegular18"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="32dp"
-    android:layout_marginBottom="@dimen/title_bottom"
-    android:layout_marginStart="66dp"
-    android:layout_marginEnd="66dp"
-    android:textColor="?themeAccent"
-    app:layout_constraintBottom_toTopOf="@id/head_image"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_goneMarginBottom="24dp"
-    tools:text="ЦДМ на Лубянке"
-    />
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/line_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/keyline_40dp"
+        />
+
+        <TextView
+                android:id="@+id/metro_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="@dimen/title_bottom"
+                android:layout_marginStart="66dp"
+                android:layout_marginEnd="66dp"
+                android:textColor="?themeAccent"
+                app:layout_constraintBottom_toTopOf="@id/head_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_goneMarginBottom="24dp"
+                tools:text="ЦДМ на Лубянке"
+                android:textAppearance="@style/TextAppearance.Winstrike.Title.Big"
+        />
 
 
-  <com.facebook.drawee.view.SimpleDraweeView
-    android:id="@+id/head_image"
-    android:layout_width="match_parent"
-    android:layout_height="130dp"
-    android:layout_marginTop="24dp"
-    app:layout_constraintBottom_toTopOf="@id/arena_description"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/metro_tv"
-    fresco:placeholderImage="@drawable/head_img"/>
+        <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/head_image"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintBottom_toTopOf="@id/arena_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/metro_tv"
+                fresco:placeholderImage="@drawable/head_img"
+        />
 
-  <!--Arena selected combobox-->
+        <!--Arena descriptions-->
 
-  <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rv_arena"
-    android:layout_width="244dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="24dp"
-    android:paddingTop="10dp"
-    android:background="@drawable/edit_text_shape"
-    android:scrollbars="vertical"
-    android:visibility="gone"
-    app:layout_constraintStart_toStartOf="@id/metro_tv"
-    app:layout_constraintTop_toBottomOf="@id/metro_tv"/>
+        <TextView
+                android:id="@+id/arena_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:gravity="start"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/seatdetail_description"
+                app:layout_constraintEnd_toEndOf="@id/head_image"
+                app:layout_constraintStart_toStartOf="@id/head_image"
+                app:layout_constraintTop_toBottomOf="@id/head_image"
+                android:textAppearance="@style/TextAppearance.Winstrike.Content"
+        />
 
-  <!--Arena descriptions-->
+        <TextView
+                android:id="@+id/seat_cat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/seatdetail_category"
+                app:layout_constraintEnd_toEndOf="@id/line_end"
+                app:layout_constraintStart_toStartOf="@id/line_start"
+                app:layout_constraintTop_toBottomOf="@id/arena_description"
+                android:textAppearance="@style/TextAppearance.Winstrike.Title"
+        />
 
-  <TextView
-    android:id="@+id/arena_description"
-    style="@style/StemRegular14"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:layout_marginStart="40dp"
-    android:layout_marginEnd="40dp"
-    android:gravity="start"
-    android:lineSpacingExtra="2dp"
-    android:text="@string/seatdetail_description"
-    app:layout_constraintEnd_toEndOf="@id/head_image"
-    app:layout_constraintStart_toStartOf="@id/head_image"
-    app:layout_constraintTop_toBottomOf="@id/head_image"/>
+        <!--Carousel fragment: seats of arena-->
 
-  <TextView
-    android:id="@+id/seat_cat"
-    style="@style/StemMedium15"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="48dp"
-    android:layout_marginBottom="10dp"
-    android:text="@string/seatdetail_category"
-    app:layout_constraintEnd_toEndOf="@id/line_end"
-    app:layout_constraintStart_toStartOf="@id/line_start"
-    app:layout_constraintTop_toBottomOf="@id/arena_description"/>
+        <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager_seat"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="10dp"
+                android:overScrollMode="never"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/seat_cat"/>
 
-  <!--Carousel fragment: seats of arena-->
-
-  <androidx.viewpager.widget.ViewPager
-    android:id="@+id/view_pager_seat"
-    android:layout_width="0dp"
-    android:layout_height="300dp"
-    android:layout_marginTop="10dp"
-    android:overScrollMode="never"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/seat_cat"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

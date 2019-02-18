@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -64,7 +65,11 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        initAdapter()
+//        initAdapter()
+        val handler = Handler()
+        handler.post {
+            adapter.notifyDataSetChanged()
+        }
     }
 
     // TODO Move in View Model

@@ -173,7 +173,7 @@ class LoginHomeFragment : Fragment() {
     }
 
 
-    fun onAuthFailure(appErrorMessage: String) {
+    private fun onAuthFailure(appErrorMessage: String) {
         Timber.e("Error on auth: %s", appErrorMessage)
         when {
             appErrorMessage.contains("403") ||

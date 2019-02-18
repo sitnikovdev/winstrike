@@ -30,14 +30,13 @@ class CityListAdapter constructor(private val itemClick: (CityItem) -> Unit) :
         fun bind(item: CityItem) {
             itemView.name_tv.text = item.name
 
-            if (item.id.contains(PrefUtils.cityPid.toString())) {
-                with(itemView) {
+            when {
+                !PrefUtils.cityPid?.isEmpty()!! &&  item.id.contains(PrefUtils.cityPid.toString()) -> with(itemView) {
                     card_view.setCardBackgroundColor(resources.getColor(R.color.colorAccent))
                     name_tv.setTextColor(resources.getColor(R.color.white))
                     checkbox_iv.setImageResource(R.drawable.ic_check_white)
                 }
-            } else {
-                with(itemView) {
+                else -> with(itemView) {
                     card_view.setCardBackgroundColor(resources.getColor(R.color.white))
                     name_tv.setTextColor(resources.getColor(R.color.black))
                     checkbox_iv.setImageResource(R.drawable.ic_check_white)

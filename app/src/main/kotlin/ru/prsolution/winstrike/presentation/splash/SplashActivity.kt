@@ -56,14 +56,14 @@ open class SplashActivity : AppCompatActivity() {
 
     private fun isCheckLogin() {
         // If user is signOut from App: go to SingIn screen. Else: check if user is exist on server and if Ok -- go to Main screen.
-        startActivity(signIntent)
-/*        if (PrefUtils.isLogout) {
+//        startActivity(signIntent)
+        if (PrefUtils.isLogout) {
             startActivity(signIntent)
         } else if (!PrefUtils.token?.isEmpty()!!) {
             startActivity(mainIntent)
         } else {
             startActivity(signIntent)
-        }*/
+        }
     }
 
     fun onSendSmsSuccess() {
