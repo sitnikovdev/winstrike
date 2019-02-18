@@ -14,6 +14,9 @@
 
         <action android:id="@+id/action_to_mainActivity"
                 app:destination="@id/mainActivity"/>
+
+        <action android:id="@+id/action_to_loginActivity"
+                app:destination="@id/loginActivity"/>
     </fragment>
 
     <!--Main navigation-->
@@ -55,6 +58,8 @@
             android:id="@+id/mainActivity"
             android:name="ru.prsolution.winstrike.presentation.main.MainActivity"
             android:label="ac_mainscreen" tools:layout="@layout/ac_mainscreen"/>
+    <activity android:id="@+id/loginActivity" android:name="ru.prsolution.winstrike.presentation.login.LoginActivity"
+              android:label="LoginActivity"/>
 
 
 </navigation>

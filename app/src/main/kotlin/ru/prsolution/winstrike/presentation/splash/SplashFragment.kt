@@ -14,7 +14,7 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
  * Created by Oleg Sitnikov on 2019-02-18
  */
 
-class SplashFragment: Fragment() {
+class SplashFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return context?.inflate(R.layout.fmt_splash)
@@ -29,6 +29,7 @@ class SplashFragment: Fragment() {
             override fun onAnimationEnd(animation: Animator) {
                 start()
             }
+
             override fun onAnimationStart(animation: Animator) {}
             override fun onAnimationCancel(animation: Animator) {}
             override fun onAnimationRepeat(animation: Animator) {}
@@ -42,14 +43,16 @@ class SplashFragment: Fragment() {
     private fun start() {
         // If user is sign out from App: go to login screen. Else: check if user is exist on server and if Ok -- go to Main screen.
 //        startActivity(loginIntent)
+//        val action = SplashFragmentDirections.actionToMainActivity()
+//        Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
         if (PrefUtils.isLogout) {
 //            startActivity(loginIntent)
         } else if (PrefUtils.token?.isEmpty()!!) {
-            val action = SplashFragmentDirections.actionToMainActivity()
+            val action = SplashFragmentDirections.actionToNavigationCityList()
             Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
         } else {
 //            startActivity(loginIntent)
-            val action = SplashFragmentDirections.actionToNavigationCityList()
+            val action = SplashFragmentDirections.actionToLoginActivity()
             Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
         }
     }
