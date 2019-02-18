@@ -24,6 +24,9 @@
                 android:defaultValue="No Arena"
                 android:name="title"
                 app:argType="string"/>
+        <action android:id="@+id/action_navigation_home_to_navigation_order" app:destination="@id/navigation_order"/>
+        <action android:id="@+id/action_navigation_home_to_navigation_profile"
+                app:destination="@id/navigation_profile"/>
     </fragment>
 
     <!--Orders-->

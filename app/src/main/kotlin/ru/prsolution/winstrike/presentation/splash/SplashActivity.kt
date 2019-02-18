@@ -7,7 +7,7 @@ import android.text.TextUtils
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.ac_splash.animation_view
+import kotlinx.android.synthetic.main.ac_splash.*
 import org.jetbrains.anko.longToast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.injectFeature
@@ -19,7 +19,7 @@ open class SplashActivity : AppCompatActivity() {
 
 
     private var mainIntent: Intent? = null
-    private var signIntent: Intent? = null
+    private var loginIntent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +31,10 @@ open class SplashActivity : AppCompatActivity() {
         injectFeature()
 
         mainIntent = Intent(this@SplashActivity, MainActivity::class.java)
-        signIntent = Intent(Intent(this@SplashActivity, LoginActivity::class.java))
+        loginIntent = Intent(Intent(this@SplashActivity, LoginActivity::class.java))
 
-        isCheckLogin()
 
-/*        animation_view.imageAssetsFolder = "images"
+        animation_view.imageAssetsFolder = "images"
         animation_view.setAnimation("data.json")
         animation_view.repeatCount = 0
         animation_view.scale = 1f
@@ -43,26 +42,25 @@ open class SplashActivity : AppCompatActivity() {
         animation_view.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationEnd(animation: Animator) {
                 isCheckLogin()
-//                openMainActivity()
                 finish()
             }
 
             override fun onAnimationStart(animation: Animator) {}
             override fun onAnimationCancel(animation: Animator) {}
             override fun onAnimationRepeat(animation: Animator) {}
-        })*/
+        })
 
     }
 
     private fun isCheckLogin() {
         // If user is signOut from App: go to SingIn screen. Else: check if user is exist on server and if Ok -- go to Main screen.
-//        startActivity(signIntent)
+//        startActivity(loginIntent)
         if (PrefUtils.isLogout) {
-            startActivity(signIntent)
+            startActivity(loginIntent)
         } else if (!PrefUtils.token?.isEmpty()!!) {
             startActivity(mainIntent)
         } else {
-            startActivity(signIntent)
+            startActivity(loginIntent)
         }
     }
 

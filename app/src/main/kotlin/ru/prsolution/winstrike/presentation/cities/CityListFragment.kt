@@ -12,6 +12,7 @@ import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.injectFeature
 import ru.prsolution.winstrike.presentation.model.arena.CityItem
+import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.CityListViewModel
 import timber.log.Timber
@@ -26,34 +27,31 @@ class CityListFragment : Fragment() {
     private val mVm: CityListViewModel by viewModel()
 
     private val itemClick: (CityItem) -> Unit =
-            {
-                city ->
+        { city ->
 
-                PrefUtils.cityPid = city.id
+            PrefUtils.cityPid = city.id
 
-                Timber.tag("$$$").d("Selected city id: ${PrefUtils.cityPid}")
+            Timber.tag("$$$").d("Selected city id: ${PrefUtils.cityPid}")
 
-                val action = CityListFragmentDirections.nextAction(city.id,city.name)
-                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
-            }
+            val action = CityListFragmentDirections.nextAction(city.id, city.name)
+            Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+        }
 
     private val adapter = CityListAdapter(itemClick)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fmt_city_list, container, false)
+        return context?.inflate(R.layout.fmt_city_list)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         injectFeature()
 
-
         city_rv.adapter = adapter
 
         if (savedInstanceState == null) {
             mVm.fetchCities()
         }
-
 
         mVm.cityList.observe(this@CityListFragment, Observer { cities ->
 
@@ -62,7 +60,6 @@ class CityListFragment : Fragment() {
             }
 
         })
-
 
     }
 
