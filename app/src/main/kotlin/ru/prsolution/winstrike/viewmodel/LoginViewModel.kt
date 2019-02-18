@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.domain.usecases.LoginUseCase
 import ru.prsolution.winstrike.presentation.model.login.LoginInfo
@@ -24,7 +25,7 @@ class LoginViewModel constructor(val loginUseCase: LoginUseCase) : ViewModel() {
     private val scope = CoroutineScope(coroutineContext)
 
 
-    val authResponse = SingleLiveEvent<AuthResponse>()
+    val authResponse = SingleLiveEvent<Resource<AuthResponse>>()
 
 
     fun getUser(loginModel: LoginInfo) {

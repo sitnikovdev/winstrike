@@ -82,8 +82,8 @@ class CityItemFragment : Fragment() {
         mVm.arenaList.observe(this@CityItemFragment, Observer { arenas ->
 
             arenas?.let {
-                mArenaList = arenas.filter { it.cityPid == mCityPid }
-                mArenaActivePid = arenas[selectedArena].activeLayoutPid
+                mArenaList = arenas.data?.filter { it.cityPid == mCityPid }
+                mArenaActivePid = arenas.data!![selectedArena].activeLayoutPid
                 PrefUtils.acitveArenaPid = mArenaActivePid
                 updateArenaList(mArenaList)
             }

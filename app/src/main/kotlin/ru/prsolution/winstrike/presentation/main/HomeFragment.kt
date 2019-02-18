@@ -92,7 +92,7 @@ class HomeFragment : Fragment() {
             it.let { arenaList ->
 
                 mArenaPid?.let { arenaPid ->
-                    mArena = arenaList.find { it.publicId!!.contains(arenaPid) }
+                    mArena = arenaList.data?.find { it.publicId!!.contains(arenaPid) }
                     (activity as MainActivity).mArenaActiveLayoutPid = mArena?.activeLayoutPid
                     updateArenaInfo(mArena)
                     updateCarouselView(mArena)

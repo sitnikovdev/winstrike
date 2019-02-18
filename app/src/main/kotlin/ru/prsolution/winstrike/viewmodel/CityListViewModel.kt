@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.domain.usecases.CityUseCase
 import ru.prsolution.winstrike.presentation.model.arena.CityItem
 import ru.prsolution.winstrike.presentation.model.arena.mapToPresentation
@@ -23,7 +24,7 @@ class CityListViewModel constructor(val cityUseCase: CityUseCase) : ViewModel() 
 
     private val scope = CoroutineScope(coroutineContext)
 
-    val cityList = SingleLiveEvent<List<CityItem>>()
+    val cityList = SingleLiveEvent<Resource<List<CityItem>>>()
 
     fun fetchCities() {
         scope.launch {

@@ -58,7 +58,7 @@ class CityListFragment : Fragment() {
         mVm.cityList.observe(this@CityListFragment, Observer { cities ->
 
             cities?.let {
-                updateCities(it)
+                updateCities(it.data!!)
             }
 
         })

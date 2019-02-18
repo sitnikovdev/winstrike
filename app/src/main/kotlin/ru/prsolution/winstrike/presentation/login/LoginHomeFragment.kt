@@ -10,7 +10,6 @@ import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fmt_login.*
@@ -26,7 +25,6 @@ import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import androidx.navigation.Navigation
-import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
@@ -49,7 +47,8 @@ class LoginHomeFragment : Fragment() {
 
         mVm.authResponse.observe(this@LoginHomeFragment, Observer {
             it?.let { response ->
-                onAuthResponseSuccess(response)
+                // TODO: process error!
+                onAuthResponseSuccess(response.data!!)
             }
         })
         initView()

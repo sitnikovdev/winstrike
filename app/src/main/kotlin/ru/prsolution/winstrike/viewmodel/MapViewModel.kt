@@ -32,7 +32,7 @@ class MapViewModel constructor(val paymentUseCase: PaymentUseCase) : ViewModel()
     fun getPayment(token: String, paymentModel: Payment) {
         scope.launch {
             val response = paymentUseCase.pay(token, paymentModel)
-            paymentResponse.postValue(response?.mapToPresentation())
+            paymentResponse.postValue(response?.data?.mapToPresentation())
         }
     }
 

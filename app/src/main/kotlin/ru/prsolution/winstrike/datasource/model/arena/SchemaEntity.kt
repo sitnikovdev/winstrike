@@ -1,15 +1,8 @@
 package ru.prsolution.winstrike.datasource.model.arena
 
 import com.squareup.moshi.Json
-import ru.prsolution.winstrike.domain.models.arena.Computer
-import ru.prsolution.winstrike.domain.models.arena.Coors
-import ru.prsolution.winstrike.domain.models.arena.End
-import ru.prsolution.winstrike.domain.models.arena.Label
-import ru.prsolution.winstrike.domain.models.arena.Offer
-import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
-import ru.prsolution.winstrike.domain.models.arena.Seat
-import ru.prsolution.winstrike.domain.models.arena.Start
-import ru.prsolution.winstrike.domain.models.arena.Wall
+import ru.prsolution.winstrike.data.repository.resouces.Resource
+import ru.prsolution.winstrike.domain.models.arena.*
 
 class SchemaEntity(
     @field:Json(name = "room_layout")
@@ -221,3 +214,10 @@ fun ArenaSchemaEntity.mapRoomToDomain(): ArenaSchema =
         walls = walls?.mapWallsToDomain(),
         labels = labels?.mapLabelsToDomain()
     )
+
+
+fun Resource<SchemaEntity>.mapToDomain(): Resource<ArenaSchema> = Resource<ArenaSchema>(
+    state = state,
+    data = data?.roomLayout?.mapRoomToDomain(),
+    message = message
+)

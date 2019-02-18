@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.presentation.model.arena
 
+import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.domain.models.city.City
 
 data class CityItem(
@@ -17,4 +18,12 @@ data class CityItem(
 
 fun List<City>.mapToPresentation(): List<CityItem> =
         map { CityItem(it.publicId, it.name) }
+
+
+
+fun Resource<List<City>>.mapToPresentation(): Resource<List<CityItem>> = Resource<List<CityItem>>(
+        state = state,
+        data = data?.mapToPresentation(),
+        message = message
+)
 

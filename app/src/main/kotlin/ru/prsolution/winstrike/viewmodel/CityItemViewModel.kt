@@ -2,6 +2,7 @@ package ru.prsolution.winstrike.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.domain.usecases.ArenaUseCase
 import ru.prsolution.winstrike.presentation.model.arena.ArenaItem
 import ru.prsolution.winstrike.presentation.model.arena.mapToPresentation
@@ -23,13 +24,13 @@ class CityItemViewModel constructor(val arenaUseCase: ArenaUseCase) : ViewModel(
 
     private val scope = CoroutineScope(coroutineContext)
 
-    val arenaList = SingleLiveEvent<List<ArenaItem>>()
+    val arenaList = SingleLiveEvent<Resource<List<ArenaItem>>>()
 
     // Получение списка имеющихся арен на сервере
     fun fetchArenaList() {
         scope.launch {
-            val cities = arenaUseCase.get(refresh = true)
-            arenaList.postValue(cities?.mapToPresentation())
+            val response = arenaUseCase.get(refresh = true)
+            arenaList.postValue(response?.mapToPresentation())
         }
     }
 

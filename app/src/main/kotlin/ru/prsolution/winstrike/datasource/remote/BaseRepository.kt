@@ -11,19 +11,19 @@ import timber.log.Timber
 
 open class BaseRepository{
 
-    suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>, errorMessage: String): T? {
+    suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>, errorMessage: String): Resource<T>? {
 
         val result : Resource<T> = safeApiResource(call,errorMessage)
-        var data : T? = null
+//        var data : Resource<T>? = null
 
         when(result.state) {
             is ResourceState.SUCCESS ->
-                data = result.data
+                Timber.tag("$$$").d( "${result.state}  - ${result.data.toString()}")
             is ResourceState.ERROR -> {
                 Timber.tag("$$$").d( "$errorMessage & Exception - ${result.message}")
             }
         }
-        return data
+        return result
 
     }
 

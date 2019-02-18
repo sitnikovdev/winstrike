@@ -1,7 +1,11 @@
 package ru.prsolution.winstrike.datasource.model.arena
 
 import com.squareup.moshi.Json
+import ru.prsolution.winstrike.data.repository.resouces.Resource
+import ru.prsolution.winstrike.datasource.model.city.CityListEntity
+import ru.prsolution.winstrike.datasource.model.city.mapToDomain
 import ru.prsolution.winstrike.domain.models.arena.Arena
+import ru.prsolution.winstrike.domain.models.city.City
 
 class ArenaListEntity(var rooms: List<ArenaEntity>)
 
@@ -41,3 +45,11 @@ fun ArenaEntity.mapToDomain(): Arena =
     )
 
 fun List<ArenaEntity>.mapToDomain(): List<Arena> = map { it.mapToDomain() }
+
+
+fun Resource<ArenaListEntity>.mapToDomain(): Resource<List<Arena>> = Resource<List<Arena>>(
+    state = state,
+    data = data?.rooms?.mapToDomain(),
+    message = message
+)
+

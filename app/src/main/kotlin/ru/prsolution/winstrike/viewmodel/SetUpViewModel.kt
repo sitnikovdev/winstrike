@@ -29,7 +29,7 @@ class SetUpViewModel constructor(val arenaUseCase: ArenaUseCase) : ViewModel() {
     fun fetchSchema(arenaPid: String?, time: Map<String, String>) {
         scope.launch {
             val schema = arenaUseCase.get(arenaPid, time, refresh = true)
-            arenaSchema.postValue(schema?.mapToPresentation())
+            arenaSchema.postValue(schema?.data?.mapToPresentation())
         }
     }
 

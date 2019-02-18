@@ -1,6 +1,8 @@
 package ru.prsolution.winstrike.presentation.model.arena
 
+import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.domain.models.arena.Arena
+import ru.prsolution.winstrike.domain.models.city.City
 
 data class ArenaItem(
         val activeLayoutPid: String?,
@@ -45,3 +47,10 @@ fun List<Arena>.mapToPresentation(): List<ArenaItem> =
                 )
         }
 
+
+
+fun Resource<List<Arena>>.mapToPresentation(): Resource<List<ArenaItem>> = Resource<List<ArenaItem>>(
+        state = state,
+        data = data?.mapToPresentation(),
+        message = message
+)

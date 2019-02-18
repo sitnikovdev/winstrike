@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.data.datasource
 
 import io.reactivex.Single
+import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.domain.models.city.City
 
 interface CityCacheDataSource {
@@ -13,6 +14,6 @@ interface CityCacheDataSource {
 
 interface CityRemoteDataSource {
 
-   suspend fun get(): List<City>?
+   suspend fun get(): Resource<List<City>>?
 
 }
