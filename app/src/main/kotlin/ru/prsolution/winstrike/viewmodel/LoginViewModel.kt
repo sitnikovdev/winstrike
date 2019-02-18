@@ -23,7 +23,6 @@ class LoginViewModel constructor(val loginUseCase: LoginUseCase) : ViewModel() {
 
     private val scope = CoroutineScope(coroutineContext)
 
-//    private val loginModel = LoginModel("+79520757099", "123456")
 
     val authResponse = SingleLiveEvent<AuthResponse>()
 

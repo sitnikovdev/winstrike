@@ -20,20 +20,17 @@ import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.presentation.login.register.UserConfirmActivity
 import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.model.login.LoginInfo
-import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.Constants.PASSWORD_LENGTH
 import ru.prsolution.winstrike.presentation.utils.Constants.PHONE_LENGTH
-import ru.prsolution.winstrike.presentation.utils.TextFormat
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import androidx.navigation.Navigation
 import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
-import ru.prsolution.winstrike.presentation.utils.afterTextChanged
-import ru.prsolution.winstrike.presentation.utils.validate
 
 
 /**
@@ -45,8 +42,7 @@ class LoginHomeFragment : Fragment() {
     private val mVm: LoginViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        return inflater.inflate(ru.prsolution.winstrike.R.layout.fmt_login, container, false)
+        return context?.inflate(R.layout.fmt_login)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,7 +57,6 @@ class LoginHomeFragment : Fragment() {
 
     private fun initView() {
         TextFormat.formatText(et_phone, Constants.PHONE_MASK)
-
         login_button.isEnabled = true
 
         login_button.setOnClickListener {
