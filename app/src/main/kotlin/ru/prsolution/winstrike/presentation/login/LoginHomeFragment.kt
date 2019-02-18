@@ -26,7 +26,6 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import androidx.navigation.Navigation
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.data.repository.resouces.ResourceState
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
@@ -95,7 +94,7 @@ class LoginHomeFragment : Fragment() {
 
         help_link_tv.setOnClickListener {
             val action = LoginHomeFragmentDirections.nextActionHelp()
-            Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+            Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
         }
 
         setFooter()
@@ -155,7 +154,7 @@ class LoginHomeFragment : Fragment() {
             override fun onClick(v: View) {
                 val action = LoginHomeFragmentDirections.nextActionPolitika(URL_CONDITION)
                 action.title = getString(R.string.fmt_title_condition)
-                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+                Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
 
             }
         }
@@ -163,7 +162,7 @@ class LoginHomeFragment : Fragment() {
             override fun onClick(v: View) {
                 val action = LoginHomeFragmentDirections.nextActionPolitika(URL_POLITIKA)
                 action.title = getString(R.string.fmt_login_title_politika)
-                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+                Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
             }
         }
         textCondAndPolicy.setSpan(conditionClick, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)

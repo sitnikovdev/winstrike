@@ -591,7 +591,7 @@ class MapFragment : Fragment() {
         val url = payResponse.redirectUrl
         val testUrl = "https://yandex.ru"
         val action = MapFragmentDirections.nextAction(testUrl)
-        Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+        Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
     }
 
 

@@ -82,7 +82,6 @@ class SetupFragment : Fragment(),
 
         // mArenaPid
         mVm.arenaSchema.observe(this@SetupFragment, Observer { schema ->
-
             // data
             schema?.let {
                 this.mArenaSchema = schema
@@ -90,7 +89,7 @@ class SetupFragment : Fragment(),
                     require(isAdded) { "+++ SetupFragment not attached to an activity. +++" }
                     val action = SetupFragmentDirections.nextAction()
                     action.acitveLayoutPID = mArenaActivePid
-                    Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+                    Navigation.findNavController(requireActivity(), R.id.main_host_fragment).navigate(action)
                 }
             }
 

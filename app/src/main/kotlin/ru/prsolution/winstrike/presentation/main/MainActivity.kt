@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(),
         val action = HomeFragmentDirections.nextAction()
         action.seat = seat
         action.activeLayoutPid = this.mArenaActiveLayoutPid.toString()
-        findNavController(R.id.login_host_fragment).navigate(action)
+        findNavController(R.id.main_host_fragment).navigate(action)
     }
 
     override fun onStart() {
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.ac_mainscreen)
 
 //        Navigation
-        navController = Navigation.findNavController(this@MainActivity, R.id.login_host_fragment)
+        navController = Navigation.findNavController(this@MainActivity, R.id.main_host_fragment)
 
         navController.addOnDestinationChangedListener { nav, destination, _ ->
             when (destination.id) {

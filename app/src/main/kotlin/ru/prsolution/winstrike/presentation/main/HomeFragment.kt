@@ -93,6 +93,7 @@ class HomeFragment : Fragment() {
 
                 mArenaPid?.let { arenaPid ->
                     mArena = arenaList.data?.find { it.publicId!!.contains(arenaPid) }
+                    //TODO: replace with preferences
                     (activity as MainActivity).mArenaActiveLayoutPid = mArena?.activeLayoutPid
                     updateArenaInfo(mArena)
                     updateCarouselView(mArena)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/login_navigation"
+            android:id="@+id/login_navigation_graph"
             app:startDestination="@id/navigation_login">
     <!--Login-->
     <fragment android:id="@+id/navigation_login"
@@ -35,4 +35,5 @@
               tools:layout="@layout/fmt_help_center"
               android:label="Помощь при входе"
     />
+
 </navigation>

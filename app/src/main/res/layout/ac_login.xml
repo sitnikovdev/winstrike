@@ -20,7 +20,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
             android:name="androidx.navigation.fragment.NavHostFragment"
-            app:navGraph="@navigation/login_navigation"
+            app:navGraph="@navigation/login_navigation_graph"
             app:defaultNavHost="true"/>
 
 

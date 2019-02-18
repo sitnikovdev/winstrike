@@ -34,7 +34,7 @@ class CityListFragment : Fragment() {
             Timber.tag("$$$").d("Selected city id: ${PrefUtils.cityPid}")
 
             val action = CityListFragmentDirections.nextAction(city.id, city.name)
-            Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+            Navigation.findNavController(requireActivity(), R.id.main_host_fragment).navigate(action)
         }
 
     private val adapter = CityListAdapter(itemClick)

@@ -2,12 +2,10 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/mobile_navigation"
-            android:label="Профиль"
-            app:startDestination="@id/navigation_city_list">
+            android:id="@+id/main_navigation_graph"
+            app:startDestination="@id/navigation_home">
 
     <!--Home-->
-
     <fragment
             android:id="@+id/navigation_home"
             android:label="{title}"
@@ -38,7 +36,6 @@
             tools:layout="@layout/fmt_nopaid"/>
 
     <!--Profile-->
-
     <fragment
             android:id="@+id/navigation_profile"
             android:label="Профиль"
@@ -46,7 +43,6 @@
     </fragment>
 
     <!--SetUp -->
-
     <fragment
             android:id="@+id/navigation_setup"
             android:label="Выберите время"
@@ -68,7 +64,6 @@
     </fragment>
 
     <!--Map-->
-
     <fragment
             android:id="@+id/navigation_map"
             android:label="Забронируйте место"
@@ -83,7 +78,6 @@
     </fragment>
 
     <!--Yandex WebView-->
-
     <fragment
             android:id="@+id/navigation_yandex"
             android:label="Оплата"
@@ -97,33 +91,6 @@
 
     <!--City-->
 
-    <fragment
-            android:id="@+id/navigation_city"
-            android:label="Выберите арену"
-            android:name="ru.prsolution.winstrike.presentation.cities.CityItemFragment"
-            tools:layout="@layout/fmt_city_detail">
-        <action
-                android:id="@+id/next_action"
-                app:destination="@id/navigation_home"/>
-        <argument
-                android:name="cityPid"
-                app:argType="string"
-        />
-        <argument
-                android:name="cityName"
-                app:argType="string"/>
-    </fragment>
-
     <!--CityList-->
-
-    <fragment
-            android:id="@+id/navigation_city_list"
-            android:label="Выберите город"
-            android:name="ru.prsolution.winstrike.presentation.cities.CityListFragment"
-            tools:layout="@layout/fmt_city_list">
-        <action
-                android:id="@+id/next_action"
-                app:destination="@id/navigation_city"/>
-    </fragment>
 
 </navigation>

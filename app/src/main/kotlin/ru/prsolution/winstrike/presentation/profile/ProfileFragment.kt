@@ -21,7 +21,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
-import ru.prsolution.winstrike.presentation.splash.SplashActivity
+import ru.prsolution.winstrike.presentation.StartActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
@@ -113,7 +113,7 @@ class ProfileFragment : Fragment() {
         cvBtnOk.setOnClickListener {
             PrefUtils.isLogout = true
             PrefUtils.token = ""
-            startActivity(Intent(activity, SplashActivity::class.java))
+            startActivity(Intent(activity, StartActivity::class.java))
         }
 
         mDlgSingOut!!.setCanceledOnTouchOutside(true)

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/splash_navigation_graph" app:startDestination="@id/navigation_splash">
+
+    <!--Splash-->
+    <fragment android:id="@+id/navigation_splash"
+              tools:layout="@layout/fmt_splash"
+              android:name="ru.prsolution.winstrike.presentation.splash.SplashFragment"
+              android:label="SplashFragment">
+
+        <action android:id="@+id/action_to_navigation_city_list"
+                app:destination="@id/navigation_city_list"/>
+
+        <action android:id="@+id/action_to_mainActivity"
+                app:destination="@id/mainActivity"/>
+    </fragment>
+
+    <!--Main navigation-->
+
+    <!--City list-->
+    <fragment
+            android:id="@+id/navigation_city_list"
+            android:label="Выберите город"
+            android:name="ru.prsolution.winstrike.presentation.cities.CityListFragment"
+            tools:layout="@layout/fmt_city_list">
+        <action
+                android:id="@+id/next_action"
+                app:destination="@id/navigation_city"/>
+    </fragment>
+
+
+    <!--City-->
+    <fragment
+            android:id="@+id/navigation_city"
+            android:label="Выберите арену"
+            android:name="ru.prsolution.winstrike.presentation.cities.CityItemFragment"
+            tools:layout="@layout/fmt_city_detail">
+
+        <argument
+                android:name="cityPid"
+                app:argType="string"
+        />
+        <argument
+                android:name="cityName"
+                app:argType="string"/>
+    </fragment>
+    <activity
+            android:id="@+id/mainActivity"
+            android:name="ru.prsolution.winstrike.presentation.main.MainActivity"
+            android:label="ac_mainscreen" tools:layout="@layout/ac_mainscreen"/>
+
+
+</navigation>
