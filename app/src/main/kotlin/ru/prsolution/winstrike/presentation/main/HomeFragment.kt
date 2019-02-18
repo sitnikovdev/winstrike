@@ -102,7 +102,6 @@ class HomeFragment : Fragment() {
         })
 
         setupViewPager()
-
     }
 
     override fun onResume() {

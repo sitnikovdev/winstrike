@@ -44,11 +44,13 @@ class SplashFragment: Fragment() {
 //        startActivity(loginIntent)
         if (PrefUtils.isLogout) {
 //            startActivity(loginIntent)
-        } else if (!PrefUtils.token?.isEmpty()!!) {
+        } else if (PrefUtils.token?.isEmpty()!!) {
             val action = SplashFragmentDirections.actionToMainActivity()
             Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
         } else {
 //            startActivity(loginIntent)
+            val action = SplashFragmentDirections.actionToNavigationCityList()
+            Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
         }
     }
 

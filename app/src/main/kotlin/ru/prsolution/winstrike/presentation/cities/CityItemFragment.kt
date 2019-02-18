@@ -36,7 +36,7 @@ class CityItemFragment : Fragment() {
             PrefUtils.arenaPid = arena.publicId
 
             //TODO: fix navigation!
-//            val action = CityItemFragmentDirections.nextAction()
+            val action = CityItemFragmentDirections.actionToMainActivity()
             arena.name?.let {
 //                action.title = it
                 PrefUtils.arenaName = it
@@ -45,6 +45,7 @@ class CityItemFragment : Fragment() {
 //                action.arenaPID = it
             }
 //            Navigation.findNavController(requireActivity(), R.id.main_host_fragment).navigate(action)
+            Navigation.findNavController(requireActivity(),R.id.splash_host_fragment).navigate(action)
         }
 
     private val adapter = ArenaListAdapter(itemClick)
