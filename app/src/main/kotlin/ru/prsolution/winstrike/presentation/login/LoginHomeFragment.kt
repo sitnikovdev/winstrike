@@ -26,9 +26,12 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import androidx.navigation.Navigation
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.data.repository.resouces.ResourceState
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
+import timber.log.Timber
 
 
 /**
@@ -46,9 +49,19 @@ class LoginHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         mVm.authResponse.observe(this@LoginHomeFragment, Observer {
-            it?.let { response ->
+            it?.let {
                 // TODO: process error!
-                onAuthResponseSuccess(response.data!!)
+                when (it.state) {
+//                    ResourceState.LOADING -> swipeRefreshLayout.startRefreshing()
+//                    ResourceState.SUCCESS -> swipeRefreshLayout.stopRefreshing()
+//                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
+                }
+                it.data?.let {
+                    onAuthResponseSuccess(it)
+                }
+                it.message?.let {
+                    onAuthFailure(it)
+                }
             }
         })
         initView()
@@ -160,30 +173,29 @@ class LoginHomeFragment : Fragment() {
     }
 
 
-/*
     fun onAuthFailure(appErrorMessage: String) {
         Timber.e("Error on auth: %s", appErrorMessage)
-        if (appErrorMessage.contains("403")) longToast("Неправильный пароль")
-        if (appErrorMessage.contains("404")) {
-            longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
+        when {
+            appErrorMessage.contains("403") ||
+                    appErrorMessage.contains("404") ->
+                longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
+            appErrorMessage.contains("502") -> longToast("Ошибка сервера")
+            appErrorMessage.contains("No Internet Connection!") ->
+                longToast("Интернет подключение не доступно!")
         }
-        if (appErrorMessage.contains("502")) longToast("Ошибка сервера")
-        if (appErrorMessage.contains("No Internet Connection!"))
-            longToast("Интернет подключение не доступно!")
-    }
 
-    fun onSendSmsSuccess(confirmModel: MessageResponse) {
-        Timber.tag("common").d("Sms send success: %s", confirmModel.message)
-        //        toast("Код выслан повторно");
-    }
+        fun onSendSmsSuccess(confirmModel: MessageResponse) {
+            Timber.tag("common").d("Sms send success: %s", confirmModel.message)
+            //        toast("Код выслан повторно");
+        }
 
-    fun onSmsSendFailure(appErrorMessage: String) {
+/*    fun onSmsSendFailure(appErrorMessage: String) {
         Timber.tag("common").w("Sms send error: %s", appErrorMessage)
         if (appErrorMessage.contains("404"))
             toast("Ошибка отправки кода! Нет пользователя с таким номером")
         if (appErrorMessage.contains("409")) toast("Ошибка функции кодогенерации")
         if (appErrorMessage.contains("422")) toast("Не указан номер телефона")
-    }
-*/
+    }*/
 
+    }
 }
