@@ -64,6 +64,10 @@
         <!--Navigate to Name-->
         <action android:id="@+id/action_to_nameFragment"
                 app:destination="@id/nameFragment"/>
+        <!--Phone-->
+        <argument android:name="phone"
+                  android:defaultValue=" "
+                  app:argType="string"/>
     </fragment>
 
     <!--Name-->
@@ -75,6 +79,10 @@
         <!--Navigation to Main Screen-->
         <action android:id="@+id/action_to_mainActivity"
                 app:destination="@id/mainActivity"/>
+        <!--Phone-->
+        <argument android:name="phone"
+                  android:defaultValue=" "
+                  app:argType="string"/>
     </fragment>
 
     <!--Main Screen-->

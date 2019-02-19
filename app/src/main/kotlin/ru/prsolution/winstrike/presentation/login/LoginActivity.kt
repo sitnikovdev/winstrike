@@ -1,10 +1,12 @@
 package ru.prsolution.winstrike.presentation.login
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -64,7 +66,8 @@ class LoginActivity : AppCompatActivity() {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
     }
 
-    fun setLoginFooter(textView: TextView) {
+//    Login Footer
+    fun setRegisterLoginFooter(textView: TextView) {
 //       Уже есть аккуунт? Войдите
         val register = SpannableString(getString(R.string.fmt_register_message_enter))
         val registerClick = object : ClickableSpan() {
@@ -83,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
         Navigation.findNavController(this, R.id.login_host_fragment).navigate(action)
     }
 
-//    Login policy footer
+    //    Login policy footer
     fun setLoginPolicyFooter(textView: TextView) {
 
         val textCondAndPolicy = SpannableString(getString(R.string.fmt_login_politika_footer))
@@ -107,24 +110,18 @@ class LoginActivity : AppCompatActivity() {
         textView.text = textCondAndPolicy
     }
 
-//    Code policy footer
+    //    Code policy footer
     fun setCodePolicyFooter(textView: TextView) {
 
         val textCondAndPolicy = SpannableString(getString(R.string.fmt_login_politika_footer))
         val conditionClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 //TODO: fix it
-//                val action = LoginFragmentDirections.nextActionPolitika(URL_CONDITION)
-//                action.title = getString(R.string.fmt_title_condition)
-//                Navigation.findNavController(this@LoginActivity, R.id.login_host_fragment).navigate(action)
             }
         }
         val policyClick = object : ClickableSpan() {
             override fun onClick(v: View) {
-                  //TODO: fix it
-//                val action = LoginFragmentDirections.nextActionPolitika(URL_POLITIKA)
-//                action.title = getString(R.string.fmt_login_title_politika)
-//                Navigation.findNavController(this@LoginActivity, R.id.login_host_fragment).navigate(action)
+                //TODO: fix it
             }
         }
         textCondAndPolicy.setSpan(conditionClick, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -140,17 +137,11 @@ class LoginActivity : AppCompatActivity() {
         val conditionClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 //TODO: fix it
-//                val action = LoginFragmentDirections.nextActionPolitika(URL_CONDITION)
-//                action.title = getString(R.string.fmt_title_condition)
-//                Navigation.findNavController(this@LoginActivity, R.id.login_host_fragment).navigate(action)
             }
         }
         val policyClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 //TODO: fix it
-//                val action = LoginFragmentDirections.nextActionPolitika(URL_POLITIKA)
-//                action.title = getString(R.string.fmt_login_title_politika)
-//                Navigation.findNavController(this@LoginActivity, R.id.login_host_fragment).navigate(action)
             }
         }
         textCondAndPolicy.setSpan(conditionClick, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -159,7 +150,13 @@ class LoginActivity : AppCompatActivity() {
         textView.text = textCondAndPolicy
     }
 
-
-
+    // Phone hint and phone
+    fun setPhoneHint(textView: TextView, phone: String?) {
+        val phoneHint = SpannableString("Введите 6-значный код, который был\n" +
+                "отправлен на номер $phone")
+        phoneHint.setSpan(ForegroundColorSpan(Color.BLACK), phoneHint.length - 12, phoneHint.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        textView.text = phoneHint
+    }
 
 }

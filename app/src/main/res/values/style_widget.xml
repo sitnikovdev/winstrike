@@ -36,6 +36,11 @@
         <item name="android:fontFamily">@font/stem_regular</item>
         <item name="android:textSize">15sp</item>
     </style>
+    <style name="TextAppearance.Winstrike.Hint.Big" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/stem_regular</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">15sp</item>
+    </style>
     <style name="TextAppearance.Winstrike.Content.Small" parent="TextAppearance.AppCompat.Body1">
         <item name="android:fontFamily">@font/stem_regular</item>
         <item name="android:textSize">12sp</item>

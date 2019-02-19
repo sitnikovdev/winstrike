@@ -18,6 +18,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.prsolution.winstrike.presentation.utils.Constants.ENTER_DURATION
 import ru.prsolution.winstrike.presentation.utils.Constants.EXIT_DURATION
+import ru.prsolution.winstrike.presentation.utils.Constants.PASSWORD_LENGTH
+import ru.prsolution.winstrike.presentation.utils.Constants.PHONE_LENGTH
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -124,6 +126,17 @@ fun EditText.validate(validator: (String) -> Boolean, message: String): Boolean 
     return this.error == null
 }
 //                Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
+
+fun  Editable.isPhoneValid(): Boolean {
+    return this != null && this.length >= PHONE_LENGTH
+}
+
+fun  Editable.isPasswordValid(): Boolean {
+    return this != null && this.length >= PASSWORD_LENGTH
+}
+
+
+fun EditText.setPhoneMask() = TextFormat.formatText(this, Constants.PHONE_MASK)
 
 
 

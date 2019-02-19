@@ -36,28 +36,30 @@
 
     <!--Title-->
     <TextView
-            android:id="@+id/tv_phone"
+            android:id="@+id/phone_label_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/ripple_effect_title_click"
             android:text="@string/helpunlock_title"
-            app:layout_constraintStart_toStartOf="@id/tv_hint"
+            app:layout_constraintStart_toStartOf="@id/phone_hint_tv"
             app:layout_constraintTop_toBottomOf="@id/v_oval"
             android:textAppearance="@style/TextAppearance.Winstrike.Title"
     />
 
     <!--Description -->
     <TextView
-            android:id="@+id/tv_hint"
-            android:layout_width="297dp"
+            android:id="@+id/phone_hint_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_40"
+            android:layout_marginEnd="@dimen/spacing_40"
             android:layout_marginTop="7dp"
             android:text="@string/helpunlock_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_phone"
-            android:textAppearance="@style/TextAppearance.Winstrike.Content"
+            app:layout_constraintTop_toBottomOf="@id/phone_label_tv"
+            android:textAppearance="@style/TextAppearance.Winstrike.Hint.Big"
     />
 
     <!--Code-->
@@ -66,13 +68,13 @@
             android:layout_width="288dp"
             android:layout_height="56dp"
             android:layout_marginTop="@dimen/spacing_24"
-            app:layout_constraintTop_toBottomOf="@id/tv_hint"
+            app:layout_constraintTop_toBottomOf="@id/phone_hint_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@drawable/edit_text_shape"
             android:gravity="center_vertical"
             app:errorEnabled="true"
-            app:counterEnabled="true"
+            app:counterEnabled="false"
             app:counterMaxLength="10"
             app:counterTextAppearance="@style/TextAppearance.Winstrike.Content"
             android:hint="Код подтверждения"
@@ -112,7 +114,7 @@
             android:background="@drawable/edit_text_shape"
             android:gravity="center_vertical"
             app:errorEnabled="true"
-            app:counterEnabled="true"
+            app:counterEnabled="false"
             app:counterMaxLength="10"
             app:counterTextAppearance="@style/TextAppearance.Winstrike.Content"
             android:hint="Ваше имя"

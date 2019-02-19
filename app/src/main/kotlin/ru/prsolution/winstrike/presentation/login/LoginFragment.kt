@@ -67,21 +67,21 @@ class LoginFragment : Fragment() {
     }
 
     private fun initView() {
-        TextFormat.formatText(et_phone, Constants.PHONE_MASK)
+        et_phone.setPhoneMask()
         login_button.isEnabled = true
 
         login_button.setOnClickListener {
 
-            et_phone.validate({ isPhoneValid(et_phone.text) }, getString(R.string.ac_login_error_phone))
+            et_phone.validate({ et_phone.text!!.isPhoneValid() }, getString(R.string.ac_login_error_phone))
 
             et_password.validate(
-                { isPasswordValid(et_password.text) },
+                { et_password.text!!.isPasswordValid() },
                 getString(R.string.ac_login_error_password_lengh)
             )
 
             when {
-                isPhoneValid(et_phone.text) &&
-                        isPasswordValid(et_password.text) -> {
+                et_phone.text!!.isPhoneValid() &&
+                        et_password.text!!.isPasswordValid() -> {
 
                     val username = formatPhone(et_phone.text.toString())
                     val password = et_password.text.toString()
@@ -93,20 +93,12 @@ class LoginFragment : Fragment() {
         }
 
         help_link_tv.setOnClickListener {
-//            val action = LoginHomeFragmentDirections.nextActionHelp()
-//            Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
+            val action = LoginFragmentDirections.nextActionHelp()
+            Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
         }
 
         setRegisterFooter()
         (activity as LoginActivity).setLoginPolicyFooter(tv_conditions)
-    }
-
-    private fun isPhoneValid(text: Editable?): Boolean {
-        return text != null && text.length >= PHONE_LENGTH
-    }
-
-    private fun isPasswordValid(text: Editable?): Boolean {
-        return text != null && text.length >= PASSWORD_LENGTH
     }
 
     private fun onAuthResponseSuccess(authResponse: AuthResponse) {

@@ -1,21 +1,21 @@
 package ru.prsolution.winstrike.presentation.login.register
 
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
+import kotlinx.android.synthetic.main.fmt_login.*
 import kotlinx.android.synthetic.main.fmt_register.*
+import kotlinx.android.synthetic.main.inc_password.*
+import kotlinx.android.synthetic.main.inc_phone.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.login.LoginActivity
-import ru.prsolution.winstrike.presentation.utils.inflate
+import ru.prsolution.winstrike.presentation.login.LoginFragmentDirections
+import ru.prsolution.winstrike.presentation.model.login.LoginInfo
+import ru.prsolution.winstrike.presentation.utils.*
+import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 
 /*
  * Created by oleg on 31.01.2018.
@@ -29,13 +29,48 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//       Next button
+//       Next button - navigate to Code
         register_button.setOnClickListener {
             val action = RegisterFragmentDirections.actionToNavigationCode()
+            action.phone = "+79520757099"
             (activity as LoginActivity).navigate(action)
         }
-        (activity as LoginActivity).setLoginFooter(tv_register)
+//        initView()
+        (activity as LoginActivity).setRegisterLoginFooter(tv_register_footer)
     }
+
+    private fun initView() {
+        // Validate phone and password and register user
+        et_phone.setPhoneMask()
+
+        register_button.setOnClickListener {
+
+            et_phone.validate({ et_phone.text!!.isPhoneValid() }, getString(R.string.ac_login_error_phone))
+
+            et_password.validate(
+                { et_password.text!!.isPasswordValid() },
+                getString(R.string.ac_login_error_password_lengh)
+            )
+
+            when {
+                et_phone.text!!.isPhoneValid() &&
+                        et_password.text!!.isPasswordValid() -> {
+
+                    val username = formatPhone(et_phone.text.toString())
+                    val password = et_password.text.toString()
+                    val loginModel = LoginInfo(username, password)
+
+//                    mVm.getUser(loginModel)
+
+                    val action = RegisterFragmentDirections.actionToNavigationCode()
+                    (activity as LoginActivity).navigate(action)
+                }
+            }
+        }
+
+    }
+
+
 
     fun init() {
 /*        next_button_phone!!.setOnClickListener {
