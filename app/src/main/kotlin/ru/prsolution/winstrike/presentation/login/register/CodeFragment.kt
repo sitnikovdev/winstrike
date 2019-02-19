@@ -19,6 +19,7 @@ import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
 import ru.prsolution.winstrike.domain.models.common.TimerViewModel
+import ru.prsolution.winstrike.presentation.login.LoginActivity
 import timber.log.Timber
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextColor
 import ru.prsolution.winstrike.presentation.utils.TextFormat.simplePhoneFormat
@@ -54,11 +55,14 @@ class CodeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        // Next button
         next_button.setOnClickListener {
             val action = CodeFragmentDirections.actionToNameFragment()
             Navigation.findNavController(requireActivity(),R.id.login_host_fragment).navigate(action)
         }
+
+        (activity as LoginActivity).setCodePolicyFooter(tv_policy)
+//        (activity as LoginActivity).setLoginFooter()
 
     }
 
@@ -183,7 +187,7 @@ class CodeFragment : Fragment() {
             simplePhoneFormat(phone!!), "#9b9b9b", "#000000"
         )
 
-        setFooter()*/
+        setLoginFooter()*/
 }
 
 fun onUserConfirmSuccess(confirmModel: MessageResponse) {
@@ -252,7 +256,7 @@ private fun confirmFalse() {
 }
 
 // TODO Copy paste code - remove it
-private fun setFooter() {
+private fun setLoginFooter() {
     val mystring = "Условиями"
     val content = SpannableString(mystring)
     content.setSpan(UnderlineSpan(), 0, mystring.length, 0)

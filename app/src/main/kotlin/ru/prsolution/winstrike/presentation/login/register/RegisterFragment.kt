@@ -1,29 +1,20 @@
 package ru.prsolution.winstrike.presentation.login.register
 
-import android.content.Intent
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.ac_smshelp.*
 import kotlinx.android.synthetic.main.fmt_register.*
-import org.jetbrains.anko.support.v4.longToast
-import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.TextFormat
-import ru.prsolution.winstrike.domain.models.login.LoginModel
-import ru.prsolution.winstrike.domain.models.common.MessageResponse
-import ru.prsolution.winstrike.domain.models.login.UserModel
-import timber.log.Timber
-import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
-import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
-import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
-import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.presentation.login.LoginActivity
-import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.inflate
 
 /*
@@ -32,18 +23,18 @@ import ru.prsolution.winstrike.presentation.utils.inflate
 
 class RegisterFragment : Fragment() {
 
-//    private var presenter: RegisterPresenter? = null
-    private var user: LoginModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return context?.inflate(R.layout.fmt_register)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//       Next button
         register_button.setOnClickListener {
             val action = RegisterFragmentDirections.actionToNavigationCode()
-            Navigation.findNavController(requireActivity(),R.id.login_host_fragment).navigate(action)
+            (activity as LoginActivity).navigate(action)
         }
+        (activity as LoginActivity).setLoginFooter(tv_register)
     }
 
     fun init() {
@@ -57,7 +48,6 @@ class RegisterFragment : Fragment() {
 //            presenter!!.createUser(user!!)
         }
 
-        setFooter()*/
     }
 
     fun onSendSmsSuccess(authResponse: MessageResponse) {
@@ -74,14 +64,6 @@ class RegisterFragment : Fragment() {
 
     private fun getConfirmSmsModel(phone: String): SmsModel {
         return SmsModel(phone)
-    }
-
-    private fun setFooter() {
-//        TextFormat.formatText(et_phone, Constants.PHONE_MASK)
-//        setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
-//        setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
-
-//        tv_register2!!.setOnClickListener { startActivity(Intent(requireActivity(), LoginActivity::class.java)) }
     }
 
 
@@ -120,8 +102,10 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+*/
+
     }
 
+
 }
+

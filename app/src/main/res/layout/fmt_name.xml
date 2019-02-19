@@ -153,7 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_2"
             android:text="@string/ac_login_hint_register"
-            app:layout_constraintBottom_toTopOf="@id/tv_conditions"
+            app:layout_constraintBottom_toTopOf="@id/tv_name_policy"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textAppearance="@style/TextAppearance.Winstrike.Hint.Small"
@@ -161,7 +161,7 @@
 
     <!--Politica condition-->
     <TextView
-            android:id="@+id/tv_conditions"
+            android:id="@+id/tv_name_policy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_8"

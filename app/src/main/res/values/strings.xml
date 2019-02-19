@@ -169,5 +169,6 @@
     <string name="fmt_login_title_politika">Политика конфиденциальности</string>
     <string name="fmt_login_politika_footer">Условиями и Политикой конфиденциальности</string>
     <string name="fmt_login_title_register">Еще нет аккаунта? Зарегистрируйтесь</string>
+    <string name="fmt_register_message_enter">Уже есть аккуунт? Войдите</string>
     <string name="start_button_text">Поехали!</string>
 </resources>

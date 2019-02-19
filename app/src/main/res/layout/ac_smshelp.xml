@@ -218,7 +218,7 @@
     <!--Footer text-->
     <!--TODO: make it spannable-->
     <TextView
-            android:id="@+id/tv_register"
+            android:id="@+id/tv_account_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_10"
@@ -226,14 +226,14 @@
             android:layout_marginBottom="@dimen/spacing_15"
             android:text="Уже есть аккаунт?"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_register2"
+            app:layout_constraintEnd_toStartOf="@id/tv_account_hint2"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/line_start"
             style="@style/StemRegular15"
     />
 
     <TextView
-            android:id="@+id/tv_register2"
+            android:id="@+id/tv_account_hint2"
             style="@style/StemRegular15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -242,6 +242,6 @@
             android:text="Войдите"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/line_end"
-            app:layout_constraintStart_toEndOf="@id/tv_register"/>
+            app:layout_constraintStart_toEndOf="@id/tv_account_hint"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

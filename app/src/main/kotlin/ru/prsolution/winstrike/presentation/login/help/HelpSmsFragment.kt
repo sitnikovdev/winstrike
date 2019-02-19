@@ -14,16 +14,12 @@ import kotlinx.android.synthetic.main.ac_smshelp.et_code
 import kotlinx.android.synthetic.main.ac_smshelp.et_phone
 import kotlinx.android.synthetic.main.ac_smshelp.next_button_confirm
 import kotlinx.android.synthetic.main.ac_smshelp.next_button_phone
-import kotlinx.android.synthetic.main.ac_smshelp.tv_register
-import kotlinx.android.synthetic.main.ac_smshelp.tv_register2
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.utils.TextFormat
 import ru.prsolution.winstrike.domain.models.common.TimerViewModel
 import timber.log.Timber
-import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
-import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
 import ru.prsolution.winstrike.domain.models.login.PasswordModel
 import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.presentation.login.LoginActivity
@@ -105,8 +101,8 @@ class HelpSmsFragment : Fragment() {
                 }
         );*/
 
-        setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
-        setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
+//        setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
+//        setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
 
 //        tv_register2!!.setOnClickListener { it -> startActivity(Intent(this@HelpSmsFragment, SignInActivity::class.java)) }
 

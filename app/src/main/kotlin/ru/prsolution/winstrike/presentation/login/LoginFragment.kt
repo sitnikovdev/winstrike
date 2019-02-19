@@ -30,8 +30,6 @@ import kotlinx.android.synthetic.main.inc_phone.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.utils.*
-import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
-import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
 import timber.log.Timber
 
 
@@ -99,7 +97,8 @@ class LoginFragment : Fragment() {
 //            Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
         }
 
-        setFooter()
+        setRegisterFooter()
+        (activity as LoginActivity).setLoginPolicyFooter(tv_conditions)
     }
 
     private fun isPhoneValid(text: Editable?): Boolean {
@@ -137,8 +136,7 @@ class LoginFragment : Fragment() {
         PrefUtils.publicid = authResponse.user?.publicId ?: ""
     }
 
-
-    private fun setFooter() {
+    fun setRegisterFooter() {
         val register = SpannableString(getString(R.string.fmt_login_title_register))
         val registerClick = object : ClickableSpan() {
             override fun onClick(v: View) {
@@ -150,27 +148,6 @@ class LoginFragment : Fragment() {
         tv_register.movementMethod = LinkMovementMethod.getInstance()
         tv_register.text = register
 
-
-        val textCondAndPolicy = SpannableString(getString(R.string.fmt_login_politika_footer))
-        val conditionClick = object : ClickableSpan() {
-            override fun onClick(v: View) {
-                val action = LoginFragmentDirections.nextActionPolitika(URL_CONDITION)
-                action.title = getString(R.string.fmt_title_condition)
-                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
-
-            }
-        }
-        val politicaClick = object : ClickableSpan() {
-            override fun onClick(v: View) {
-                val action = LoginFragmentDirections.nextActionPolitika(URL_POLITIKA)
-                action.title = getString(R.string.fmt_login_title_politika)
-                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
-            }
-        }
-        textCondAndPolicy.setSpan(conditionClick, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        textCondAndPolicy.setSpan(politicaClick, 12, textCondAndPolicy.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        tv_conditions.movementMethod = LinkMovementMethod.getInstance()
-        tv_conditions.text = textCondAndPolicy
     }
 
 

@@ -51,6 +51,9 @@
         <!--Navigation to Code-->
         <action android:id="@+id/action_to_navigation_code"
                 app:destination="@id/navigation_code"/>
+        <!--Navigation to Login-->
+        <action android:id="@+id/action_to_navigation_login"
+                app:destination="@id/navigation_login"/>
     </fragment>
 
     <!--Code-->
