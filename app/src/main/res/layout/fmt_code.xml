@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".presentation.login.LoginActivity"
+>
+
+
+    <!--Head image-->
+    <View
+            android:id="@+id/v_oval"
+            android:layout_width="87dp"
+            android:layout_height="87dp"
+            android:layout_marginTop="@dimen/spacing_50dp"
+            android:background="@drawable/sp_circle"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <ImageView
+            android:id="@+id/image_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_unlock"
+            app:layout_constraintBottom_toBottomOf="@id/v_oval"
+            app:layout_constraintEnd_toEndOf="@id/v_oval"
+            app:layout_constraintStart_toStartOf="@id/v_oval"
+            app:layout_constraintTop_toTopOf="@id/v_oval"/>
+
+    <!--Title-->
+    <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ripple_effect_title_click"
+            android:text="@string/helpunlock_title"
+            app:layout_constraintStart_toStartOf="@id/tv_hint"
+            app:layout_constraintTop_toBottomOf="@id/v_oval"
+            android:textAppearance="@style/TextAppearance.Winstrike.Title"
+    />
+
+    <!--Description-->
+    <TextView
+            android:id="@+id/tv_hint"
+            android:layout_width="@dimen/spacing_297"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:text="@string/helpunlock_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_phone"
+            android:textAppearance="@style/TextAppearance.Winstrike.Content"
+    />
+
+    <!--Code-->
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/code_til"
+            android:layout_width="288dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="@dimen/spacing_24"
+            app:layout_constraintTop_toBottomOf="@id/tv_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/edit_text_shape"
+            android:gravity="center_vertical"
+            app:errorEnabled="true"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            app:counterTextAppearance="@style/TextAppearance.Winstrike.Content"
+            android:hint="Код подтверждения"
+    >
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginStart="@dimen/spacing_24"
+                android:background="@null"
+                android:inputType="textPassword"
+                android:textAppearance="@style/TextAppearance.Winstrike.Content"
+        />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--Next button-->
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/next_button"
+            android:layout_marginTop="@dimen/spacing_32"
+            android:text="@string/all_nextbtn"
+            android:enabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/code_til"
+            style="@style/Widget.Winstrike.Button"
+    />
+
+    <!--Sms hint send by timer-->
+    <TextView
+            android:id="@+id/displayWorkTimeLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/spacing_20"
+            android:layout_marginStart="@dimen/spacing_8"
+            android:layout_marginEnd="@dimen/spacing_8"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/politica_hint_tv"
+            tools:text="*Отправить код повторно через 30 сек"
+            android:textAppearance="@style/TextAppearance.Winstrike.Hint"
+    />
+
+    <!--Footer-->
+    <!--Politica text-->
+    <TextView
+            android:id="@+id/politica_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_2"
+            android:text="@string/ac_login_hint_register"
+            app:layout_constraintBottom_toTopOf="@id/tv_conditions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAppearance="@style/TextAppearance.Winstrike.Hint.Small"
+    />
+
+    <!--Politica condition-->
+    <TextView
+            android:id="@+id/tv_conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_8"
+            android:layout_marginStart="@dimen/spacing_8"
+            android:background="?selectableItemBackground"
+            tools:text="Условиями и Политикой конфиденциальности"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAppearance="@style/TextAppearance.Winstrike.Content.Small"
+    />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

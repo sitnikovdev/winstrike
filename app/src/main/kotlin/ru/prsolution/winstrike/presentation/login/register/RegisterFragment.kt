@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.ac_smshelp.*
-import kotlinx.android.synthetic.main.fmt_register.tv_register
-import kotlinx.android.synthetic.main.inc_password.*
+import kotlinx.android.synthetic.main.fmt_register.*
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
@@ -18,7 +18,6 @@ import ru.prsolution.winstrike.domain.models.login.LoginModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.UserModel
 import timber.log.Timber
-import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot1Color
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextFoot2Color
 import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
@@ -41,8 +40,10 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        init()
-//        presenter = RegisterPresenter()
+        register_button.setOnClickListener {
+            val action = RegisterFragmentDirections.actionToNavigationCode()
+            Navigation.findNavController(requireActivity(),R.id.login_host_fragment).navigate(action)
+        }
     }
 
     fun init() {
@@ -62,7 +63,7 @@ class RegisterFragment : Fragment() {
     fun onSendSmsSuccess(authResponse: MessageResponse) {
         Timber.d("Sms send successfully: %s", authResponse.message)
         toast("Код выслан")
-        val intent = Intent(requireActivity(), UserConfirmActivity::class.java)
+        val intent = Intent(requireActivity(), CodeFragment::class.java)
         intent.putExtra("phone", user!!.phone)
         startActivity(intent)
     }
@@ -76,11 +77,11 @@ class RegisterFragment : Fragment() {
     }
 
     private fun setFooter() {
-        TextFormat.formatText(et_phone, Constants.PHONE_MASK)
-        setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
-        setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
+//        TextFormat.formatText(et_phone, Constants.PHONE_MASK)
+//        setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
+//        setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
 
-        tv_register2!!.setOnClickListener { startActivity(Intent(requireActivity(), LoginActivity::class.java)) }
+//        tv_register2!!.setOnClickListener { startActivity(Intent(requireActivity(), LoginActivity::class.java)) }
     }
 
 
@@ -104,7 +105,7 @@ class RegisterFragment : Fragment() {
             token = authResponse.token
         )
 
-        val intent = Intent(requireActivity(), UserConfirmActivity::class.java)
+        val intent = Intent(requireActivity(), CodeFragment::class.java)
         intent.putExtra("phone", user!!.phone)
         startActivity(intent)
     }

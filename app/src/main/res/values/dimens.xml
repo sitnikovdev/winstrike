@@ -69,4 +69,5 @@
     <dimen name="spacing_235">235dp</dimen>
     <dimen name="spacing_24">24dp</dimen>
     <dimen name="spacing_64">64dp</dimen>
+    <dimen name="spacing_297">297dp</dimen>
 </resources>

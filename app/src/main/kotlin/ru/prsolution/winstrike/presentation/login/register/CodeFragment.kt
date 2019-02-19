@@ -1,16 +1,14 @@
 package ru.prsolution.winstrike.presentation.login.register
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.style.UnderlineSpan
+import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.ac_confsmscode.confirm_button
 import kotlinx.android.synthetic.main.ac_confsmscode.displayWorkTimeLeft
 import kotlinx.android.synthetic.main.ac_confsmscode.et_code
@@ -31,25 +29,24 @@ import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
 import ru.prsolution.winstrike.domain.models.common.TimerViewModel
-import ru.prsolution.winstrike.presentation.login.LoginActivity
 import timber.log.Timber
-
 import ru.prsolution.winstrike.presentation.utils.TextFormat.setTextColor
 import ru.prsolution.winstrike.presentation.utils.TextFormat.simplePhoneFormat
 import ru.prsolution.winstrike.presentation.utils.Utils.setBtnEnable
+import ru.prsolution.winstrike.presentation.utils.inflate
 
 /**
  * Created by oleg on 15/03/2018.
  */
 
-class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListener {
+class CodeFragment : Fragment() {
 
-    private var presenter: UserConfirmPresenter? = null
+    //    private var presenter: UserConfirmPresenter? = null
     private var user: SmsModel? = null
     private var phone: String? = null
     private var timer: TimerViewModel? = null
 
-    override fun onTimeFinish() {
+/*    override fun onTimeFinish() {
         //        setBtnEnable(send_code_again,true);
         timer!!.stopButtonClicked()
 
@@ -59,50 +56,47 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
             v_send_code_again!!.visibility = View.VISIBLE
             tv_send_code_again!!.visibility = View.VISIBLE
         }
+    }*/
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return context?.inflate(R.layout.fmt_code)
     }
 
-    override fun onStop() {
-        super.onStop()
-        presenter!!.onStop()
-    }
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ac_confsmscode)
-
-        presenter = UserConfirmPresenter()
-
-        renderView()
-        init()
+//        presenter = UserConfirmPresenter()
+//        renderView()
+//        init()
     }
 
     private fun renderView() {
-        timer = TimerViewModel()
-        timer!!.listener = this
+//        timer = TimerViewModel()
+//        timer!!.listener = this
 
     }
 
     private fun init() {
 
-        phone = intent.getStringExtra("phone")
+/*        phone = intent.getStringExtra("phone")
         if (phone == null) {
             phone = "9520757099"
             PrefUtils.phone = phone as String
-        }
+        }*/
 
-        confirmFalse()
+//        confirmFalse()
 
-        setBtnEnable(v_nextbtn, false)
+//        setBtnEnable(v_nextbtn, false)
 
-        v_send_code_again!!.setOnClickListener { it ->
-            presenter!!.sendSms(SmsModel(PrefUtils.phone))
-        }
+//        v_send_code_again!!.setOnClickListener { it ->
+//            presenter!!.sendSms(SmsModel(PrefUtils.phone))
+//        }
 
-        tv_send_code_again!!.visibility = View.INVISIBLE
-        v_send_code_again!!.visibility = View.INVISIBLE
+//        tv_send_code_again!!.visibility = View.INVISIBLE
+//        v_send_code_again!!.visibility = View.INVISIBLE
 
-        displayWorkTimeLeft!!.visibility = View.VISIBLE
-        timer!!.startButtonClicked()
+//        displayWorkTimeLeft!!.visibility = View.VISIBLE
+//        timer!!.startButtonClicked()
 
         // Меняем видимость кнопки  корректном вводе кода из смс
         /*
@@ -134,14 +128,14 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
                     }*/
 
             // Hide keyboard
-            val view = this.currentFocus
+//            val view = this.currentFocus
             if (view != null) {
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.windowToken, 0)
+//                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                imm.hideSoftInputFromWindow(view.windowToken, 0)
             }
 
             user = SmsModel(phone)
-            presenter!!.confirmUser(sms_code, user!!)
+//            presenter!!.confirmUser(sms_code, user!!)
         }
 
         et_name!!.addTextChangedListener(object : TextWatcher {
@@ -154,9 +148,9 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
                     val token = "Bearer " + PrefUtils.token
 
                     val profile = ProfileModel(
-                            name = et_name!!.text.toString()
+                        name = et_name!!.text.toString()
                     )
-                    publicId?.let { presenter!!.updateProfile(token, profile, it) }
+//                    publicId?.let { presenter!!.updateProfile(token, profile, it) }
 
                     setBtnEnable(v_nextbtn, true)
 
@@ -174,7 +168,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 													AuthUtils.name = userDb.name
 												}*/
 
-                        startActivity(Intent(this@UserConfirmActivity, LoginActivity::class.java))
+//                        startActivity(Intent(this@CodeFragment, LoginActivity::class.java))
                     }
                 } else {
                     setBtnEnable(confirm_button, false)
@@ -186,8 +180,10 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
             override fun afterTextChanged(s: Editable) {}
         })
 
-        setTextColor(tv_hint!!, "Введите 6-значный код, который был\n" + "отправлен на номер",
-                     simplePhoneFormat(phone!!), "#9b9b9b", "#000000")
+        setTextColor(
+            tv_hint!!, "Введите 6-значный код, который был\n" + "отправлен на номер",
+            simplePhoneFormat(phone!!), "#9b9b9b", "#000000"
+        )
 
         setFooter()
     }
@@ -226,7 +222,7 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
     }
 
     protected fun toast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun confirmSuccess() {
@@ -265,14 +261,14 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
         tv_register2!!.text = content
 
         tv_register2!!.setOnClickListener {
-//            val browserIntent = Intent(this, YandexWebView::class.java)
+            //            val browserIntent = Intent(this, YandexWebView::class.java)
 //            val url = "file:///android_asset/rules.html"
 //            browserIntent.putExtra("url", url)
 //            startActivity(browserIntent)
         }
 
         tv_register4!!.setOnClickListener {
-//            val browserIntent = Intent(this, YandexWebView::class.java)
+            //            val browserIntent = Intent(this, YandexWebView::class.java)
 //                                String url = "file:///android_asset/politika.html";
 //            val url = "https://winstrike.gg/WinstrikePrivacyPolicy.pdf"
 //            browserIntent.putExtra("url", url)
@@ -296,6 +292,6 @@ class UserConfirmActivity : AppCompatActivity(), TimerViewModel.TimeFinishListen
 
     fun onFailtureUpdateProfile(appErrorMessage: String) {
         Timber.d("Wrong update profile")
-        Toast.makeText(this, "Не удалось обновить профиль", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "Не удалось обновить профиль", Toast.LENGTH_LONG).show()
     }
 }

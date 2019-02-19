@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fmt_login.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
-import ru.prsolution.winstrike.presentation.login.register.UserConfirmActivity
+import ru.prsolution.winstrike.presentation.login.register.CodeFragment
 import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.model.login.LoginInfo
 import ru.prsolution.winstrike.presentation.utils.Constants.PASSWORD_LENGTH
@@ -122,7 +122,7 @@ class LoginFragment : Fragment() {
             //TODO: Fix it!!!
 //            mVm.sendSms()
 
-            val intent = Intent(requireActivity(), UserConfirmActivity::class.java)
+            val intent = Intent(requireActivity(), CodeFragment::class.java)
             intent.putExtra("phone", username)
             startActivity(intent)
         }

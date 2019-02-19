@@ -45,7 +45,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.login.register.UserConfirmActivity"
+            android:name=".presentation.login.register.CodeFragment"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity

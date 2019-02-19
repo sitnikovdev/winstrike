@@ -47,6 +47,16 @@
     <fragment android:id="@+id/navigation_register"
               tools:layout="@layout/fmt_register"
               android:name="ru.prsolution.winstrike.presentation.login.register.RegisterFragment"
-              android:label="Регистрация пользователя"/>
+              android:label="Регистрация пользователя">
+        <!--Navigation to Code-->
+        <action android:id="@+id/action_to_navigation_code"
+                app:destination="@id/navigation_code"/>
+    </fragment>
+
+    <!--Code-->
+    <fragment android:id="@+id/navigation_code"
+              tools:layout="@layout/fmt_code"
+              android:name="ru.prsolution.winstrike.presentation.login.register.CodeFragment"
+              android:label="Введите код подтверждения"/>
 
 </navigation>

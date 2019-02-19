@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:activity="ru.prsolution.winstrike.presentation.login.register.UserConfirmActivity">
+    tools:activity="ru.prsolution.winstrike.presentation.login.register.CodeFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line_start"
