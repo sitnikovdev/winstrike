@@ -4,4 +4,4 @@ import com.squareup.moshi.Json
 
 class SmsEntity(
     @field:Json(name = "username")
-    var username: String?)
+    var phone: String?)

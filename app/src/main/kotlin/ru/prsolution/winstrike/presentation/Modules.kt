@@ -47,6 +47,8 @@ val viewModelModule: Module = module {
     viewModel { SetUpViewModel(arenaUseCase = get()) }
     viewModel { MapViewModel(paymentUseCase = get()) }
     viewModel { LoginViewModel(loginUseCase = get()) }
+    viewModel { RegisterViewModel(loginUseCase = get()) }
+    viewModel { SmsViewModel(loginUseCase = get()) }
 }
 
 val useCaseModule: Module = module {

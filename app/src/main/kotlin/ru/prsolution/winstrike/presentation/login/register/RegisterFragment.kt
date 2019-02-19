@@ -5,17 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.fmt_login.*
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fmt_register.*
 import kotlinx.android.synthetic.main.inc_password.*
 import kotlinx.android.synthetic.main.inc_phone.*
+import org.jetbrains.anko.support.v4.longToast
+import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.presentation.login.LoginActivity
 import ru.prsolution.winstrike.presentation.login.LoginFragmentDirections
-import ru.prsolution.winstrike.presentation.model.login.LoginInfo
+import ru.prsolution.winstrike.presentation.model.login.NewUserInfo
+import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.viewmodel.RegisterViewModel
+import ru.prsolution.winstrike.viewmodel.SmsViewModel
+import timber.log.Timber
 
 /*
  * Created by oleg on 31.01.2018.
@@ -23,26 +30,93 @@ import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 
 class RegisterFragment : Fragment() {
 
+    private val mRegisterVm: RegisterViewModel by viewModel()
+    private val mSmsVm: SmsViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return context?.inflate(R.layout.fmt_register)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//       Next button - navigate to Code
-        register_button.setOnClickListener {
+        mRegisterVm.authResponse.observe(this@RegisterFragment, Observer {
+            it?.let {
+                // TODO: process error!
+                when (it.state) {
+//                    ResourceState.LOADING -> swipeRefreshLayout.startRefreshing()
+//                    ResourceState.SUCCESS -> swipeRefreshLayout.stopRefreshing()
+//                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
+                }
+                it.data?.let {
+                    onAuthSuccess(it)
+                }
+                it.message?.let {
+                    onAuthFailure(it)
+                }
+            }
+        })
+/*        register_button.setOnClickListener {
             val action = RegisterFragmentDirections.actionToNavigationCode()
             action.phone = "+79520757099"
             (activity as LoginActivity).navigate(action)
-        }
-//        initView()
+        }*/
+        initView()
         (activity as LoginActivity).setRegisterLoginFooter(tv_register_footer)
     }
+
+    private fun onAuthSuccess(authResponse: AuthResponse) {
+        val confirmed = authResponse.user?.confirmed ?: false
+
+        updateUser(authResponse)
+
+        if (confirmed) {
+            val action = LoginFragmentDirections.actionToMainActivity()
+            (activity as LoginActivity).navigate(action)
+        } else {
+            //TODO: Fix it!!!
+//            longToast("Пользователь не подтвержден. Отправляем СМС и перенаправляемся на страницу подверждения СМС кода.")
+            val phone = authResponse.user?.phone
+//            val smsInfo = SmsInfo(phone)
+//            mSmsVm.send(smsInfo)
+
+            // Open Sms Code screen
+            val action = RegisterFragmentDirections.actionToNavigationCode()
+             phone?.let {action.phone = it}
+            (activity as LoginActivity).navigate(action)
+        }
+    }
+
+    // TODO: Use Cash (RxPaper2).
+    private fun updateUser(authResponse: AuthResponse) {
+        PrefUtils.name = authResponse.user?.name ?: ""
+        PrefUtils.token = authResponse.token ?: ""
+        PrefUtils.phone = authResponse.user?.phone ?: ""
+        PrefUtils.isConfirmed = authResponse.user?.confirmed ?: false
+        PrefUtils.publicid = authResponse.user?.publicId ?: ""
+    }
+
+
+    private fun onAuthFailure(appErrorMessage: String) {
+        Timber.e("Error on auth: %s", appErrorMessage)
+        when {
+            appErrorMessage.contains("403") ||
+                    appErrorMessage.contains("404") ->
+                longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
+            (appErrorMessage.contains("409")) -> longToast("Пользователь уже существует")
+            (appErrorMessage.contains("422")) -> longToast("Пароль слишком короткий.")
+            appErrorMessage.contains("502") -> longToast("Ошибка сервера")
+            (appErrorMessage.contains("413")) -> longToast("Не верный формат данных")
+            appErrorMessage.contains("No Internet Connection!") ->
+                longToast("Интернет подключение не доступно!")
+        }
+
+    }
+
 
     private fun initView() {
         // Validate phone and password and register user
         et_phone.setPhoneMask()
 
+//       Next button - navigate to Code and send SMS
         register_button.setOnClickListener {
 
             et_phone.validate({ et_phone.text!!.isPhoneValid() }, getString(R.string.ac_login_error_phone))
@@ -58,18 +132,16 @@ class RegisterFragment : Fragment() {
 
                     val username = formatPhone(et_phone.text.toString())
                     val password = et_password.text.toString()
-                    val loginModel = LoginInfo(username, password)
+                    val newUserModel = NewUserInfo(username, password)
 
-//                    mVm.getUser(loginModel)
+                    mRegisterVm.getUser(newUserModel)
 
-                    val action = RegisterFragmentDirections.actionToNavigationCode()
-                    (activity as LoginActivity).navigate(action)
                 }
             }
         }
 
-    }
 
+    }
 
 
     fun init() {

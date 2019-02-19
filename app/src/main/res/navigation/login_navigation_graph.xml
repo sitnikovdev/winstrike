@@ -9,21 +9,24 @@
     <fragment android:id="@+id/navigation_login"
               android:name="ru.prsolution.winstrike.presentation.login.LoginFragment"
               tools:layout="@layout/fmt_login"
-              android:label="@string/app_name"
+              android:label="Авторизация пользователя"
     >
-        <!--Navigation to Politika-->
+        <!--Navigate to Policy-->
         <action android:id="@+id/next_action_politika"
                 app:destination="@id/navigation_politika"/>
-        <!--Navigation to Help Center -->
+        <!--Navigate to Help Center -->
         <action android:id="@+id/next_action_help"
                 app:destination="@id/navigation_help_center"/>
-        <!--Navigation to Register-->
+        <!--Navigate to Register-->
         <action android:id="@+id/action_to_navigation_register"
                 app:destination="@id/navigation_register"/>
+        <!--Navigate to Main screen-->
+        <action android:id="@+id/action_to_mainActivity"
+                app:destination="@id/mainActivity"/>
     </fragment>
 
 
-    <!--Politika-->
+    <!--Policy-->
     <fragment android:id="@+id/navigation_politika"
               android:label="{title}"
               tools:layout="@layout/fmt_web_view"

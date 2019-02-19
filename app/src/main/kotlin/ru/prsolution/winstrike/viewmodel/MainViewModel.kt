@@ -7,10 +7,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
-import ru.prsolution.winstrike.networking.RetrofitFactory
 import ru.prsolution.winstrike.data.repository.resouces.Resource
-import ru.prsolution.winstrike.presentation.utils.setSuccess
-import timber.log.Timber
 
 /**
  * Created by oleg 23.01.2019
@@ -18,7 +15,7 @@ import timber.log.Timber
 class MainViewModel : ViewModel() {
 
     // TODO: Use Koin to decouple dependencies from here.
-    private val retrofitService = RetrofitFactory.makeRetrofitService()
+//    private val retrofitService = RetrofitFactory.makeRetrofitService()
 
     // Ответ от FCM сервера на запрос токена
     val fcmResponse = MutableLiveData<Resource<MessageResponse>>()
@@ -34,7 +31,7 @@ class MainViewModel : ViewModel() {
         }
 
         GlobalScope.launch {
-            val request = retrofitService.sendTockenAsync(userToken, fcmBody)
+/*            val request = retrofitService.sendTockenAsync(userToken, fcmBody)
             try {
                 val response = request.await()
                 response.body()?.let {
@@ -42,7 +39,7 @@ class MainViewModel : ViewModel() {
                 }
             } catch (e: Throwable) {
                 Timber.e(e)
-            }
+            }*/
         }
     }
 }

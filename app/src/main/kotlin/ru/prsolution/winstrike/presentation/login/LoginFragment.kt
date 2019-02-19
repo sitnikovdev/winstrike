@@ -1,8 +1,6 @@
 package ru.prsolution.winstrike.presentation.login
 
-import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
@@ -16,11 +14,7 @@ import kotlinx.android.synthetic.main.fmt_login.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
-import ru.prsolution.winstrike.presentation.login.register.CodeFragment
-import ru.prsolution.winstrike.presentation.main.MainActivity
 import ru.prsolution.winstrike.presentation.model.login.LoginInfo
-import ru.prsolution.winstrike.presentation.utils.Constants.PASSWORD_LENGTH
-import ru.prsolution.winstrike.presentation.utils.Constants.PHONE_LENGTH
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
@@ -56,7 +50,7 @@ class LoginFragment : Fragment() {
 //                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
                 }
                 it.data?.let {
-                    onAuthResponseSuccess(it)
+                    onAuthSuccess(it)
                 }
                 it.message?.let {
                     onAuthFailure(it)
@@ -101,21 +95,40 @@ class LoginFragment : Fragment() {
         (activity as LoginActivity).setLoginPolicyFooter(tv_conditions)
     }
 
-    private fun onAuthResponseSuccess(authResponse: AuthResponse) {
+    private fun onAuthSuccess(authResponse: AuthResponse) {
         val confirmed = authResponse.user?.confirmed ?: false
 
         updateUser(authResponse)
 
         if (confirmed) {
-            startActivity(Intent(requireActivity(), MainActivity::class.java))
+            val action = LoginFragmentDirections.actionToMainActivity()
+            (activity as LoginActivity).navigate(action)
         } else {
-            val username = authResponse.user?.phone
             //TODO: Fix it!!!
+            longToast("Пользователь не подтвержден. Отправляем СМС и перенаправляемся на страницу подверждения СМС кода.")
+            val username = authResponse.user?.phone
 //            mVm.sendSms()
 
-            val intent = Intent(requireActivity(), CodeFragment::class.java)
-            intent.putExtra("phone", username)
-            startActivity(intent)
+//            val intent = Intent(requireActivity(), CodeFragment::class.java)
+//            intent.putExtra("phone", username)
+//            startActivity(intent)
+        }
+    }
+
+    private fun onAuthFailure(appErrorMessage: String) {
+        Timber.e("Error on auth: %s", appErrorMessage)
+        when {
+            appErrorMessage.contains("403") ||
+                    appErrorMessage.contains("404") ->
+                longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
+            appErrorMessage.contains("502") -> longToast("Ошибка сервера")
+            appErrorMessage.contains("No Internet Connection!") ->
+                longToast("Интернет подключение не доступно!")
+        }
+
+        fun onSendSmsSuccess(confirmModel: MessageResponse) {
+            Timber.tag("common").d("Sms send success: %s", confirmModel.message)
+            //        toast("Код выслан повторно");
         }
     }
 
@@ -133,7 +146,7 @@ class LoginFragment : Fragment() {
         val registerClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 val action = LoginFragmentDirections.actionToNavigationRegister()
-                Navigation.findNavController(requireActivity(),R.id.login_host_fragment).navigate(action)
+                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
             }
         }
         register.setSpan(registerClick, 18, register.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -143,22 +156,6 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun onAuthFailure(appErrorMessage: String) {
-        Timber.e("Error on auth: %s", appErrorMessage)
-        when {
-            appErrorMessage.contains("403") ||
-                    appErrorMessage.contains("404") ->
-                longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
-            appErrorMessage.contains("502") -> longToast("Ошибка сервера")
-            appErrorMessage.contains("No Internet Connection!") ->
-                longToast("Интернет подключение не доступно!")
-        }
-
-        fun onSendSmsSuccess(confirmModel: MessageResponse) {
-            Timber.tag("common").d("Sms send success: %s", confirmModel.message)
-            //        toast("Код выслан повторно");
-        }
-
 /*    fun onSmsSendFailure(appErrorMessage: String) {
         Timber.tag("common").w("Sms send error: %s", appErrorMessage)
         if (appErrorMessage.contains("404"))
@@ -167,5 +164,4 @@ class LoginFragment : Fragment() {
         if (appErrorMessage.contains("422")) toast("Не указан номер телефона")
     }*/
 
-    }
 }

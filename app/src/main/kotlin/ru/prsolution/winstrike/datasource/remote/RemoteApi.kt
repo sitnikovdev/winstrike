@@ -8,11 +8,14 @@ import ru.prsolution.winstrike.datasource.model.arena.SchemaEntity
 import ru.prsolution.winstrike.datasource.model.city.CityListEntity
 import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
 import ru.prsolution.winstrike.datasource.model.login.LoginEntity
+import ru.prsolution.winstrike.datasource.model.login.NewUserEntity
 import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentResponseEntity
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.LoginModel
+import ru.prsolution.winstrike.domain.models.login.ProfileModel
+import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.domain.models.payment.Payment
 
 interface CityApi {
@@ -59,14 +62,35 @@ interface ArenaApi {
 }
 
 interface UserApi {
+    // Создание пользователя
+    @POST("users")
+    fun getUser(@Body newUserEntity: NewUserEntity): Deferred<Response<AuthResponseEntity>>
+
+    // Отправка смс c кодом подтверждения
+    @POST("confirm_codes")
+    fun sendSms(@Body confirmModel: SmsEntity): Deferred<Response<MessageResponse>>
+
+    // Подтверждение пользоватея по sms коду
+    @POST("confirm_user/{sms_code}")
+    fun confirmUser(
+        @Path(
+            "sms_code") sms_code: String,
+        @Body confirmModel: SmsModel
+    ): Deferred<Response<MessageResponse>>
+
 
     // Авторизация пользователя
     @POST("login")
     fun getLogin(@Body loginModel: LoginEntity): Deferred<Response<AuthResponseEntity>>
 
-    // Отправка смс c кодом подтверждения
-    @POST("confirm_codes")
-    fun sendSms(@Body confirmModel: SmsEntity): Deferred<Response<MessageResponse>>
+    // Обновление профиля
+    @PUT("users/{public_id}")
+    fun updateUser(
+        @Header("authorization") token: String,
+        @Body loginModel: ProfileModel,
+        @Path(
+            "public_id") public_id: String
+    ): Deferred<Response<MessageResponse>>
 
 }
 
