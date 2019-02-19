@@ -5,9 +5,6 @@ import ru.prsolution.winstrike.domain.models.login.LoginModel
 
 class RegisterPresenter() {
 
-    init {
-    }
-
     fun createUser(user: LoginModel) {
 
 /*		val subscription = service.createUser(object : Service.RegisterCallback {

@@ -57,6 +57,27 @@
     <fragment android:id="@+id/navigation_code"
               tools:layout="@layout/fmt_code"
               android:name="ru.prsolution.winstrike.presentation.login.register.CodeFragment"
-              android:label="Введите код подтверждения"/>
+              android:label="Введите код подтверждения">
+        <!--Navigate to Name-->
+        <action android:id="@+id/action_to_nameFragment"
+                app:destination="@id/nameFragment"/>
+    </fragment>
+
+    <!--Name-->
+    <fragment android:id="@+id/nameFragment"
+              tools:layout="@layout/fmt_name"
+              android:name="ru.prsolution.winstrike.presentation.login.register.NameFragment"
+              android:label="Введите Ваше имя"
+    >
+        <!--Navigation to Main Screen-->
+        <action android:id="@+id/action_to_mainActivity"
+                app:destination="@id/mainActivity"/>
+    </fragment>
+
+    <!--Main Screen-->
+    <activity android:id="@+id/mainActivity"
+              android:name="ru.prsolution.winstrike.presentation.main.MainActivity"
+              android:label="ac_mainscreen"
+              tools:layout="@layout/ac_mainscreen"/>
 
 </navigation>

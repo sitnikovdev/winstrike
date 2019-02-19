@@ -4,14 +4,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cl_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".presentation.login.LoginActivity"
->
+        tools:fragment =".">
 
 
-    <!--Head image-->
+    <!--Image head-->
     <View
             android:id="@+id/v_oval"
             android:layout_width="87dp"
@@ -21,8 +21,7 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-    />
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
             android:id="@+id/image_email"
@@ -33,6 +32,7 @@
             app:layout_constraintEnd_toEndOf="@id/v_oval"
             app:layout_constraintStart_toStartOf="@id/v_oval"
             app:layout_constraintTop_toTopOf="@id/v_oval"/>
+
 
     <!--Title-->
     <TextView
@@ -47,12 +47,12 @@
             android:textAppearance="@style/TextAppearance.Winstrike.Title"
     />
 
-    <!--Description-->
+    <!--Description -->
     <TextView
             android:id="@+id/tv_hint"
-            android:layout_width="@dimen/spacing_297"
+            android:layout_width="297dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_8"
+            android:layout_marginTop="7dp"
             android:text="@string/helpunlock_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,17 +87,46 @@
         />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <!--Next button-->
     <com.google.android.material.button.MaterialButton
-            android:id="@+id/next_button"
+            android:id="@+id/start_button"
             android:layout_marginTop="@dimen/spacing_32"
-            android:text="@string/all_nextbtn"
+            android:text="@string/start_button_text"
             android:enabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/code_til"
+            app:layout_constraintTop_toBottomOf="@id/name_til"
             style="@style/Widget.Winstrike.Button"
     />
+
+    <!--Name-->
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/name_til"
+            android:layout_width="288dp"
+            android:layout_height="56dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/code_til"
+            android:layout_marginTop="@dimen/spacing_24"
+            android:background="@drawable/edit_text_shape"
+            android:gravity="center_vertical"
+            app:errorEnabled="true"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            app:counterTextAppearance="@style/TextAppearance.Winstrike.Content"
+            android:hint="Ваше имя"
+    >
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginStart="@dimen/spacing_24"
+                android:background="@null"
+                android:textAppearance="@style/TextAppearance.Winstrike.Content"
+        />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <!--Sms hint send by timer-->
     <TextView
@@ -144,7 +173,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:textAppearance="@style/TextAppearance.Winstrike.Content.Small"
     />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
