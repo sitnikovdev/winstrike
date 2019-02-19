@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.presentation.utils
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.text.Editable
@@ -11,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.annotation.IdRes
+import androidx.navigation.Navigation
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.prsolution.winstrike.presentation.utils.Constants.ENTER_DURATION
@@ -120,4 +123,7 @@ fun EditText.validate(validator: (String) -> Boolean, message: String): Boolean 
     this.error = if (validator(this.text.toString())) null else message
     return this.error == null
 }
+//                Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
+
+
 

@@ -7,14 +7,19 @@
 
     <!--Login-->
     <fragment android:id="@+id/navigation_login"
-              android:name="ru.prsolution.winstrike.presentation.login.LoginHomeFragment"
+              android:name="ru.prsolution.winstrike.presentation.login.LoginFragment"
               tools:layout="@layout/fmt_login"
               android:label="@string/app_name"
     >
+        <!--Navigation to Politika-->
         <action android:id="@+id/next_action_politika"
                 app:destination="@id/navigation_politika"/>
+        <!--Navigation to Help Center -->
         <action android:id="@+id/next_action_help"
                 app:destination="@id/navigation_help_center"/>
+        <!--Navigation to Register-->
+        <action android:id="@+id/action_to_navigation_register"
+                app:destination="@id/navigation_register"/>
     </fragment>
 
 
@@ -37,5 +42,11 @@
               tools:layout="@layout/fmt_help_center"
               android:label="Помощь при входе"
     />
+
+    <!--Register-->
+    <fragment android:id="@+id/navigation_register"
+              tools:layout="@layout/fmt_register"
+              android:name="ru.prsolution.winstrike.presentation.login.register.RegisterFragment"
+              android:label="Регистрация пользователя"/>
 
 </navigation>

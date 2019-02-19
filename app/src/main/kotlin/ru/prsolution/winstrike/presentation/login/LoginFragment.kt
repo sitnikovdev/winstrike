@@ -25,6 +25,8 @@ import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import androidx.navigation.Navigation
+import kotlinx.android.synthetic.main.inc_password.*
+import kotlinx.android.synthetic.main.inc_phone.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.utils.*
@@ -37,7 +39,7 @@ import timber.log.Timber
  * Created by Oleg Sitnikov on 2019-02-16
  */
 
-class LoginHomeFragment : Fragment() {
+class LoginFragment : Fragment() {
 
     private val mVm: LoginViewModel by viewModel()
 
@@ -47,7 +49,7 @@ class LoginHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        mVm.authResponse.observe(this@LoginHomeFragment, Observer {
+        mVm.authResponse.observe(this@LoginFragment, Observer {
             it?.let {
                 // TODO: process error!
                 when (it.state) {
@@ -93,8 +95,8 @@ class LoginHomeFragment : Fragment() {
         }
 
         help_link_tv.setOnClickListener {
-            val action = LoginHomeFragmentDirections.nextActionHelp()
-            Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
+//            val action = LoginHomeFragmentDirections.nextActionHelp()
+//            Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
         }
 
         setFooter()
@@ -140,8 +142,8 @@ class LoginHomeFragment : Fragment() {
         val register = SpannableString(getString(R.string.fmt_login_title_register))
         val registerClick = object : ClickableSpan() {
             override fun onClick(v: View) {
-                longToast("TODO: Register user")
-//                startActivity(Intent(this@SignInActivity, SingUpActivity::class.java))
+                val action = LoginFragmentDirections.actionToNavigationRegister()
+                Navigation.findNavController(requireActivity(),R.id.login_host_fragment).navigate(action)
             }
         }
         register.setSpan(registerClick, 18, register.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -152,17 +154,17 @@ class LoginHomeFragment : Fragment() {
         val textCondAndPolicy = SpannableString(getString(R.string.fmt_login_politika_footer))
         val conditionClick = object : ClickableSpan() {
             override fun onClick(v: View) {
-                val action = LoginHomeFragmentDirections.nextActionPolitika(URL_CONDITION)
+                val action = LoginFragmentDirections.nextActionPolitika(URL_CONDITION)
                 action.title = getString(R.string.fmt_title_condition)
-                Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
+                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
 
             }
         }
         val politicaClick = object : ClickableSpan() {
             override fun onClick(v: View) {
-                val action = LoginHomeFragmentDirections.nextActionPolitika(URL_POLITIKA)
+                val action = LoginFragmentDirections.nextActionPolitika(URL_POLITIKA)
                 action.title = getString(R.string.fmt_login_title_politika)
-                Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
+                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
             }
         }
         textCondAndPolicy.setSpan(conditionClick, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)

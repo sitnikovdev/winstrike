@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.ac_registration.et_password
-import kotlinx.android.synthetic.main.ac_registration.et_phone
-import kotlinx.android.synthetic.main.ac_registration.next_button_phone
-import kotlinx.android.synthetic.main.ac_registration.tv_register
-import kotlinx.android.synthetic.main.ac_registration.tv_register2
+import kotlinx.android.synthetic.main.ac_smshelp.*
+import kotlinx.android.synthetic.main.fmt_register.tv_register
+import kotlinx.android.synthetic.main.inc_password.*
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
 import ru.prsolution.winstrike.R
@@ -28,6 +25,7 @@ import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
 import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.presentation.login.LoginActivity
 import ru.prsolution.winstrike.presentation.utils.Constants
+import ru.prsolution.winstrike.presentation.utils.inflate
 
 /*
  * Created by oleg on 31.01.2018.
@@ -35,32 +33,30 @@ import ru.prsolution.winstrike.presentation.utils.Constants
 
 class RegisterFragment : Fragment() {
 
-    private var presenter: RegisterPresenter? = null
+//    private var presenter: RegisterPresenter? = null
     private var user: LoginModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.ac_registration, container, false)
+        return context?.inflate(R.layout.fmt_register)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        init()
-        presenter = RegisterPresenter()
+//        init()
+//        presenter = RegisterPresenter()
     }
 
     fun init() {
-        next_button_phone!!.setOnClickListener {
+/*        next_button_phone!!.setOnClickListener {
             // Создание пользователя и переход на страницу подтверждения пароля
             user = LoginModel(
                 phone = formatPhone(et_phone?.text.toString()),
                 password = et_password?.text.toString()
             )
 
-            presenter!!.createUser(user!!)
+//            presenter!!.createUser(user!!)
         }
 
-        TextFormat.formatText(et_phone, Constants.PHONE_MASK)
-
-        setFooter()
+        setFooter()*/
     }
 
     fun onSendSmsSuccess(authResponse: MessageResponse) {
@@ -80,14 +76,13 @@ class RegisterFragment : Fragment() {
     }
 
     private fun setFooter() {
+        TextFormat.formatText(et_phone, Constants.PHONE_MASK)
         setTextFoot1Color(tv_register!!, "Уже есть аккаунт?", "#9b9b9b")
         setTextFoot2Color(tv_register2!!, "Войдите", "#c9186c")
 
         tv_register2!!.setOnClickListener { startActivity(Intent(requireActivity(), LoginActivity::class.java)) }
     }
 
-    fun renderView() {
-    }
 
     /**
      * Register new user and send him sms with confirm code.
@@ -126,7 +121,6 @@ class RegisterFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        presenter!!.onStop()
     }
 
 }
