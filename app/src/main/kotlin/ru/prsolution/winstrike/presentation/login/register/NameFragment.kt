@@ -36,8 +36,8 @@ class NameFragment: Fragment() {
         // Поехали!
         //TODO go to City Nav Graph
         start_button.setOnClickListener {
-//            val action = NameFragmentDirections.actionToMainActivity()
-//            Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+            val action =  NameFragmentDirections.actionToCityActivity()
+            (activity as LoginActivity).navigate(action)
         }
 
         (activity as LoginActivity).setPhoneHint(phone_hint_tv, mPhone)

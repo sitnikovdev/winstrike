@@ -65,16 +65,16 @@
 
         <TextView
                 android:id="@+id/arena_description"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
                 android:gravity="fill"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/seatdetail_description"
-                app:layout_constraintEnd_toEndOf="@id/head_image"
-                app:layout_constraintStart_toStartOf="@id/head_image"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/head_image"
                 android:textAppearance="@style/TextAppearance.Winstrike.Content"
         />

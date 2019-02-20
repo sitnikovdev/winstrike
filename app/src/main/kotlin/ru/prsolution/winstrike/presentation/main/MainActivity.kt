@@ -5,14 +5,15 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.ac_mainscreen.*
+import kotlinx.android.synthetic.main.fmt_profile_app.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.koin.experimental.builder.getArguments
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
@@ -27,6 +28,10 @@ class MainActivity : AppCompatActivity(),
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     var mArenaActiveLayoutPid: String? = ""
+
+    var mCityMenuVisible: Boolean = false
+    lateinit var mMenuCity: MenuItem
+    lateinit var mMenuLogOut: MenuItem
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
@@ -56,11 +61,18 @@ class MainActivity : AppCompatActivity(),
 
         navController.addOnDestinationChangedListener { nav, destination, _ ->
             when (destination.id) {
-                R.id.navigation_home -> {bottomNavigation.show()
-                   destination.label = PrefUtils.arenaName
+                R.id.navigation_home -> {
+                    bottomNavigation.show()
+                    destination.label = PrefUtils.arenaName
+                    mCityMenuVisible = true
+                    invalidateOptionsMenu()
                 }
                 R.id.navigation_order,
-                R.id.navigation_profile -> bottomNavigation.show()
+                R.id.navigation_profile -> {
+                    bottomNavigation.show()
+                    mCityMenuVisible = false
+                    invalidateOptionsMenu()
+                }
                 else -> bottomNavigation.hide()
             }
         }
@@ -95,13 +107,16 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        mMenuCity = menu?.findItem(R.id.city_activity)!!
+        mMenuCity.isVisible = mCityMenuVisible
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
+
         return NavigationUI.onNavDestinationSelected(item!!, navController) ||
-            super.onOptionsItemSelected(item)
+                super.onOptionsItemSelected(item)
     }
 
 
@@ -117,5 +132,11 @@ class MainActivity : AppCompatActivity(),
     private fun clearData() {
         TimeDataModel.clearPids()
         TimeDataModel.clearDateTime()
+    }
+
+
+    // Fragment navigation
+    fun navigate(action: NavDirections) {
+        Navigation.findNavController(this, ru.prsolution.winstrike.R.id.main_host_fragment).navigate(action)
     }
 }

@@ -30,6 +30,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
       tools:listitem="@layout/item_city"
+      tools:itemCount = "3"
       >
 
     </androidx.recyclerview.widget.RecyclerView>

@@ -20,10 +20,10 @@
         <!--Navigate to Register-->
         <action android:id="@+id/action_to_navigation_register"
                 app:destination="@id/navigation_register"/>
+        <!-- Navigate to  City Activity -->
+        <action android:id="@+id/action_to_city_activity"
+                app:destination="@id/navigation_city_activity"/>
 
-        <!--Navigate to Main screen-->
-        <action android:id="@+id/action_to_city_navigation_graph"
-                app:destination="@id/city_navigation_graph"/>
     </fragment>
 
 
@@ -80,7 +80,6 @@
               android:name="ru.prsolution.winstrike.presentation.login.register.NameFragment"
               android:label="Введите Ваше имя"
     >
-        <!--Navigation to Main Screen-->
         <!--Code-->
         <argument android:name="code"
                   android:defaultValue=" "
@@ -89,9 +88,19 @@
         <argument android:name="phone"
                   android:defaultValue=" "
                   app:argType="string"/>
-    </fragment>
-    <include app:graph="@navigation/city_navigation_graph"/>
 
-    <!--Main Screen-->
+        <!--Navigation to City Activity -->
+        <action android:id="@+id/action_to_city_activity"
+                app:destination="@id/navigation_city_activity"/>
+    </fragment>
+
+
+
+    <!-- City Activity -->
+    <activity android:id="@+id/navigation_city_activity"
+              tools:layout="@layout/fmt_city_list"
+              android:name="ru.prsolution.winstrike.presentation.cities.CityActivity"
+              android:label="CityActivity"/>
+
 
 </navigation>
