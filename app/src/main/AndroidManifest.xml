@@ -35,7 +35,7 @@
         <activity
             android:name=".presentation.login.LoginActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" android:noHistory="true" />
         <activity
             android:name=".presentation.main.MainActivity"
             android:configChanges="keyboardHidden|orientation"

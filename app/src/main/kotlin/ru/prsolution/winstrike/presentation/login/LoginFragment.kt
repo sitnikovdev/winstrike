@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.presentation.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -23,7 +24,10 @@ import kotlinx.android.synthetic.main.inc_password.*
 import kotlinx.android.synthetic.main.inc_phone.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.presentation.login.register.CodeFragment
+import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*
+import ru.prsolution.winstrike.viewmodel.SmsViewModel
 import timber.log.Timber
 
 
@@ -34,6 +38,7 @@ import timber.log.Timber
 class LoginFragment : Fragment() {
 
     private val mVm: LoginViewModel by viewModel()
+    private val mSmsVm: SmsViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return context?.inflate(R.layout.fmt_login)
@@ -101,17 +106,16 @@ class LoginFragment : Fragment() {
         updateUser(authResponse)
 
         if (confirmed) {
-//            val action = LoginFragmentDirections.actionToMainActivity()
-//            (activity as LoginActivity).navigate(action)
+            val action = LoginFragmentDirections.actionToCityActivity()
+            (activity as LoginActivity).navigate(action)
         } else {
             //TODO: Fix it!!!
             longToast("Пользователь не подтвержден. Отправляем СМС и перенаправляемся на страницу подверждения СМС кода.")
-            val username = authResponse.user?.phone
-//            mVm.sendSms()
+            val phone = authResponse.user?.phone
+            val smsInfo = SmsInfo(phone)
+            mSmsVm.send(smsInfo)
 
-//            val intent = Intent(requireActivity(), CodeFragment::class.java)
-//            intent.putExtra("phone", username)
-//            startActivity(intent)
+//            val action = LoginFragmentDirections.
         }
     }
 

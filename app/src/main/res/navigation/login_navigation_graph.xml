@@ -23,6 +23,9 @@
         <!-- Navigate to  City Activity -->
         <action android:id="@+id/action_to_city_activity"
                 app:destination="@id/navigation_city_activity"/>
+        <!--Navigate to Code-->
+        <action android:id="@+id/action_to_code"
+                app:destination="@id/navigation_code"/>
 
     </fragment>
 
