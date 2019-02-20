@@ -22,6 +22,8 @@ import com.google.android.material.tabs.TabLayout
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.login.ProfileModel
 import ru.prsolution.winstrike.presentation.StartActivity
+import ru.prsolution.winstrike.presentation.main.TempToolbarTitleListener
+import ru.prsolution.winstrike.presentation.model.login.ProfileInfo
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import timber.log.Timber
@@ -51,6 +53,12 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!PrefUtils.name?.isEmpty()!!) {
+            (activity as TempToolbarTitleListener).updateTitle(PrefUtils.name!!)
+        }
+
+
         initAdapter()
     }
 
@@ -82,9 +90,9 @@ class ProfileFragment : Fragment() {
         }
         if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(name)) {
             // call api for update profile here ...
-            val profile = ProfileModel(
+            val profile = ProfileInfo(
                     name = name,
-                    password = password
+                    phone = ""
             )
             val publicId = PrefUtils.publicid
             val token = Constants.TOKEN_TYPE_BEARER + PrefUtils.token

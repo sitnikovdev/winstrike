@@ -23,5 +23,8 @@ class LoginRepositoryImpl constructor(
 
     override suspend fun confirm(smsCode: String, smsModel: SmsModel): Resource<MessageResponse>? =
         remoteDataSource.confirm(smsCode, smsModel.mapToDataSource())
+
+    override suspend fun updateInfo(publicId: String, profileModel: ProfileModel): Resource<MessageResponse>? =
+        remoteDataSource.updateInfo(publicId, profileModel.mapToDataSource())
 }
 

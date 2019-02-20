@@ -6,10 +6,7 @@ import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.domain.repository.LoginRepository
-import ru.prsolution.winstrike.presentation.model.login.LoginInfo
-import ru.prsolution.winstrike.presentation.model.login.NewUserInfo
-import ru.prsolution.winstrike.presentation.model.login.SmsInfo
-import ru.prsolution.winstrike.presentation.model.login.mapToDomain
+import ru.prsolution.winstrike.presentation.model.login.*
 
 class LoginUseCase constructor(private val loginRepository: LoginRepository) {
 
@@ -24,4 +21,7 @@ class LoginUseCase constructor(private val loginRepository: LoginRepository) {
 
     suspend fun confirm(smsCode: String, smsInfo: SmsInfo): Resource<MessageResponse>? =
         loginRepository.confirm(smsCode, smsInfo.mapToDomain())
+
+    suspend fun update(publicId: String, profileInfo: ProfileInfo): Resource<MessageResponse>? =
+        loginRepository.updateInfo(publicId, profileInfo.mapToDomain())
 }

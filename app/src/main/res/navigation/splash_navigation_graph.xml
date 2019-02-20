@@ -29,18 +29,21 @@
 
     <!--Login Activity-->
     <activity android:id="@+id/navigation_login_activity"
+              tools:layout="@layout/fmt_login"
               android:name="ru.prsolution.winstrike.presentation.login.LoginActivity"
               android:label="LoginActivity"/>
 
     <!--City Activity-->
     <activity android:id="@+id/navigation_city_activity"
+              tools:layout="@layout/fmt_city_list"
               android:name="ru.prsolution.winstrike.presentation.cities.CityActivity"
               android:label="CityActivity"/>
 
     <!--MainActivity-->
     <activity android:id="@+id/navigation_main_activity"
               android:name="ru.prsolution.winstrike.presentation.main.MainActivity"
-              android:label="ac_mainscreen" tools:layout="@layout/ac_mainscreen"/>
+              android:label="ac_mainscreen"
+              tools:layout="@layout/ac_mainscreen"/>
 
 
 </navigation>

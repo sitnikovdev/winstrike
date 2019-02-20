@@ -19,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.prsolution.winstrike.presentation.utils.Constants.CODE_LENGTH
 import ru.prsolution.winstrike.presentation.utils.Constants.ENTER_DURATION
 import ru.prsolution.winstrike.presentation.utils.Constants.EXIT_DURATION
+import ru.prsolution.winstrike.presentation.utils.Constants.NAME_LENGTH
 import ru.prsolution.winstrike.presentation.utils.Constants.PASSWORD_LENGTH
 import ru.prsolution.winstrike.presentation.utils.Constants.PHONE_LENGTH
 
@@ -139,6 +140,11 @@ fun  Editable.isPasswordValid(): Boolean {
 fun  Editable.isCodeValid(): Boolean {
     return this != null && this.length >= CODE_LENGTH
 }
+
+fun  Editable.isNameValid(): Boolean {
+    return this != null && this.length >= NAME_LENGTH
+}
+
 
 
 

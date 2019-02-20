@@ -6,6 +6,12 @@
             android:id="@+id/city_activity"
             android:icon="@drawable/ic_nav"
             app:showAsAction="ifRoom"
-            android:title="Settings"/>
+            android:title=""/>
+
+    <item android:id="@+id/navigation_login_activity"
+          android:icon="@drawable/ic_signout"
+          android:title=""
+          app:showAsAction="ifRoom"
+    />
 
 </menu>

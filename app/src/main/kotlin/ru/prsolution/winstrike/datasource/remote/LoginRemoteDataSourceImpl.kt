@@ -2,14 +2,10 @@ package ru.prsolution.winstrike.datasource.remote
 
 import ru.prsolution.winstrike.data.datasource.LoginRemoteDataSource
 import ru.prsolution.winstrike.data.repository.resouces.Resource
-import ru.prsolution.winstrike.datasource.model.login.LoginEntity
-import ru.prsolution.winstrike.datasource.model.login.NewUserEntity
-import ru.prsolution.winstrike.datasource.model.login.SmsEntity
-import ru.prsolution.winstrike.datasource.model.login.mapToDomain
+import ru.prsolution.winstrike.datasource.model.login.*
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
-import ru.prsolution.winstrike.domain.models.login.SmsModel
-import ru.prsolution.winstrike.presentation.model.login.SmsInfo
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
 class LoginRemoteDataSourceImpl constructor(
     private val api: UserApi
@@ -46,6 +42,15 @@ class LoginRemoteDataSourceImpl constructor(
         )
         return response
     }
+
+    override suspend fun updateInfo(publicId: String, profile: ProfileEntity): Resource<MessageResponse>? {
+        val response = safeApiCall(
+            call = { api.updateUser( public_id = publicId, profileEntity = profile).await() },
+            errorMessage = "Error Fetching Cities List"
+        )
+        return response
+    }
+
 
 
 }

@@ -5,19 +5,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_name.*
+import org.jetbrains.anko.support.v4.longToast
+import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.login.LoginActivity
+import ru.prsolution.winstrike.presentation.model.login.ProfileInfo
+import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.inflate
+import ru.prsolution.winstrike.presentation.utils.isCodeValid
+import ru.prsolution.winstrike.presentation.utils.isNameValid
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.validate
+import ru.prsolution.winstrike.viewmodel.ProfileViewModel
+import ru.prsolution.winstrike.viewmodel.RegisterViewModel
+import timber.log.Timber
 
 /**
  * Created by Oleg Sitnikov on 2019-02-19
  */
 
-class NameFragment: Fragment() {
+class NameFragment : Fragment() {
+
+    private val mVm: ProfileViewModel by viewModel()
+
+
     var mPhone = ""
     var mCode = ""
+    lateinit var mUserInfo: ProfileInfo
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return context?.inflate(R.layout.fmt_name)
@@ -25,6 +43,23 @@ class NameFragment: Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mVm.messageResponse.observe(this@NameFragment, Observer {
+            it?.let {
+                // TODO: process error!
+                when (it.state) {
+//                    ResourceState.LOADING -> swipeRefreshLayout.startRefreshing()
+//                    ResourceState.SUCCESS -> swipeRefreshLayout.stopRefreshing()
+//                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
+                }
+                it.data?.let {
+                    onUpdateSuccess(it)
+                }
+                it.message?.let {
+                    onUpdateFailure(it)
+                }
+            }
+        })
+
         arguments?.let {
             val safeArgs = NameFragmentArgs.fromBundle(it)
             mPhone = safeArgs.phone
@@ -33,15 +68,50 @@ class NameFragment: Fragment() {
 
         et_sms_code.text = mCode
 
+        (activity as LoginActivity).setPhoneHint(phone_hint_tv, mPhone)
+        (activity as LoginActivity).setNamePolicyFooter(tv_name_policy)
+
         // Поехали!
         //TODO go to City Nav Graph
         start_button.setOnClickListener {
-            val action =  NameFragmentDirections.actionToCityActivity()
-            (activity as LoginActivity).navigate(action)
+
+            et_name.validate({ et_name.text!!.isNameValid() }, getString(R.string.fmt_name_error_lengh))
+
+            when {
+                et_name.text!!.isNameValid() -> {
+
+                    mUserInfo = ProfileInfo(mPhone, et_name.text.toString())
+                    mVm.updateUserProfile(PrefUtils.publicid!!, mUserInfo)
+
+                }
+
+            }
+
         }
 
-        (activity as LoginActivity).setPhoneHint(phone_hint_tv, mPhone)
-        (activity as LoginActivity).setNamePolicyFooter(tv_name_policy)
+    }
+
+    private fun onUpdateSuccess(message: MessageResponse) {
+        PrefUtils.name = mUserInfo.name
+        val action = NameFragmentDirections.actionToCityActivity()
+        (activity as LoginActivity).navigate(action)
+    }
+
+
+    private fun onUpdateFailure(appErrorMessage: String) {
+        Timber.e("Error on auth: %s", appErrorMessage)
+        when {
+            appErrorMessage.contains("403") ||
+                    appErrorMessage.contains("404") ->
+                longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
+            (appErrorMessage.contains("409")) -> longToast("Не верный код.")
+            appErrorMessage.contains("502") -> longToast("Ошибка сервера")
+            appErrorMessage.contains("401") -> longToast("Ошибка авторизации")
+            (appErrorMessage.contains("413")) -> longToast("Не верный формат данных")
+            appErrorMessage.contains("No Internet Connection!") ->
+                longToast("Интернет подключение не доступно!")
+        }
+
     }
 
 

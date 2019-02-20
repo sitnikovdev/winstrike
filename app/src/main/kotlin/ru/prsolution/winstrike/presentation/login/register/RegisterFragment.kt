@@ -30,7 +30,6 @@ import timber.log.Timber
 class RegisterFragment : Fragment() {
 
     private val mRegisterVm: RegisterViewModel by viewModel()
-    private val mSmsVm: SmsViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return context?.inflate(R.layout.fmt_register)
@@ -80,6 +79,7 @@ class RegisterFragment : Fragment() {
     // TODO: Use Cash (RxPaper2).
     private fun updateUser(authResponse: AuthResponse) {
         PrefUtils.name = authResponse.user?.name ?: ""
+        PrefUtils.password = et_password.text.toString()
         PrefUtils.token = authResponse.token ?: ""
         PrefUtils.phone = authResponse.user?.phone ?: ""
         PrefUtils.isConfirmed = authResponse.user?.confirmed ?: false

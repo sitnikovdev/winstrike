@@ -39,8 +39,17 @@
     <!--Profile-->
     <fragment
             android:id="@+id/navigation_profile"
-            android:label="Профиль"
+            tools:layout="@layout/fmt_profile_prof"
+            android:label="{userName}"
             android:name="ru.prsolution.winstrike.presentation.profile.ProfileFragment">
+        <!--Navigate to Login-->
+        <action android:id="@+id/action_to_login_activity"
+                app:destination="@id/navigation_login_activity"/>
+
+        <!--User name-->
+        <argument android:name="userName"
+                  android:defaultValue="Профиль"
+                  app:argType="string"/>
     </fragment>
 
     <!--SetUp -->
@@ -96,6 +105,13 @@
               tools:layout="@layout/fmt_city_list"
               android:name="ru.prsolution.winstrike.presentation.cities.CityActivity"
               android:label="CityActivity"/>
+
+
+    <!--Login Activity-->
+    <activity android:id="@+id/navigation_login_activity"
+              tools:layout="@layout/fmt_login"
+              android:name="ru.prsolution.winstrike.presentation.login.LoginActivity"
+              android:label="LoginActivity"/>
 
 
 </navigation>

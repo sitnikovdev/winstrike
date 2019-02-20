@@ -5,11 +5,9 @@ import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.datasource.model.login.LoginEntity
 import ru.prsolution.winstrike.datasource.model.login.NewUserEntity
 import ru.prsolution.winstrike.datasource.model.login.SmsEntity
+import ru.prsolution.winstrike.datasource.model.login.ProfileEntity
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
-import ru.prsolution.winstrike.domain.models.login.LoginModel
-import ru.prsolution.winstrike.domain.models.login.AuthResponse
-import ru.prsolution.winstrike.domain.models.login.SmsModel
-import ru.prsolution.winstrike.domain.models.login.UserModel
+import ru.prsolution.winstrike.domain.models.login.*
 
 interface LoginCacheDataSource {
 
@@ -28,5 +26,7 @@ interface LoginRemoteDataSource {
     suspend fun sendSms(smsEntity: SmsEntity): Resource<MessageResponse>?
 
     suspend fun confirm(smsCode: String, smsEntity: SmsEntity): Resource<MessageResponse>?
+
+    suspend fun updateInfo(publicId: String, profile: ProfileEntity): Resource<MessageResponse>?
 
 }

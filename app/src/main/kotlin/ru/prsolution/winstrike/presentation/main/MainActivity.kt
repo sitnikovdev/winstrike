@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.invalidateOptionsMenu
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import kotlinx.android.synthetic.main.fmt_profile_app.*
@@ -17,13 +19,19 @@ import kotlinx.android.synthetic.main.toolbar.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
+import ru.prsolution.winstrike.presentation.profile.ProfileFragmentArgs
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.hide
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.show
 
-class MainActivity : AppCompatActivity(),
+interface TempToolbarTitleListener {
+    fun updateTitle(title: String)
+}
+
+class MainActivity : AppCompatActivity(), TempToolbarTitleListener,
     CarouselFragment.OnSeatClickListener {
+
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -31,7 +39,8 @@ class MainActivity : AppCompatActivity(),
 
     var mCityMenuVisible: Boolean = false
     lateinit var mMenuCity: MenuItem
-    lateinit var mMenuLogOut: MenuItem
+    var mProfileMenuVisible: Boolean = false
+    lateinit var mMenuProfile: MenuItem
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
@@ -65,12 +74,19 @@ class MainActivity : AppCompatActivity(),
                     bottomNavigation.show()
                     destination.label = PrefUtils.arenaName
                     mCityMenuVisible = true
+                    mProfileMenuVisible = false
                     invalidateOptionsMenu()
                 }
-                R.id.navigation_order,
+                R.id.navigation_order -> {
+                    bottomNavigation.show()
+                    mCityMenuVisible = false
+                    mProfileMenuVisible = false
+                    invalidateOptionsMenu()
+                }
                 R.id.navigation_profile -> {
                     bottomNavigation.show()
                     mCityMenuVisible = false
+                    mProfileMenuVisible = true
                     invalidateOptionsMenu()
                 }
                 else -> bottomNavigation.hide()
@@ -86,6 +102,11 @@ class MainActivity : AppCompatActivity(),
 
 
 //        initFCM() // FCM push notifications
+    }
+
+    // Set title in Profile
+    override fun updateTitle(title: String) {
+            toolbar.title = title
     }
 
     private fun setupActionBar(
@@ -108,12 +129,15 @@ class MainActivity : AppCompatActivity(),
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         mMenuCity = menu?.findItem(R.id.city_activity)!!
+        mMenuProfile = menu.findItem(R.id.navigation_login_activity)
         mMenuCity.isVisible = mCityMenuVisible
+        mMenuProfile.isVisible = mProfileMenuVisible
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
+        PrefUtils.token = ""
 
         return NavigationUI.onNavDestinationSelected(item!!, navController) ||
                 super.onOptionsItemSelected(item)
