@@ -20,10 +20,12 @@ import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import androidx.navigation.Navigation
+import com.readystatesoftware.chuck.internal.ui.MainActivity
 import kotlinx.android.synthetic.main.inc_password.*
 import kotlinx.android.synthetic.main.inc_phone.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.login.register.CodeFragment
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*
@@ -114,8 +116,9 @@ class LoginFragment : Fragment() {
             val phone = authResponse.user?.phone
             val smsInfo = SmsInfo(phone)
             mSmsVm.send(smsInfo)
-
-//            val action = LoginFragmentDirections.
+            val action = LoginFragmentDirections.actionToCode()
+            action.phone = PrefUtils.phone!!
+            (activity as NavigationListener).navigate(action)
         }
     }
 
@@ -131,10 +134,6 @@ class LoginFragment : Fragment() {
                 longToast(getString(R.string.fmt_login_message_noinet))
         }
 
-        fun onSendSmsSuccess(confirmModel: MessageResponse) {
-            Timber.tag("common").d("Sms send success: %s", confirmModel.message)
-            //        toast("Код выслан повторно");
-        }
     }
 
     // TODO: Use Cash (RxPaper2).

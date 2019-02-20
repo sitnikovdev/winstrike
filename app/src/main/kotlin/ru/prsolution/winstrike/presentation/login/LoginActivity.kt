@@ -20,37 +20,30 @@ import kotlinx.android.synthetic.main.toolbar.*
 import ru.prsolution.winstrike.presentation.login.register.RegisterFragmentDirections
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
-import android.view.KeyEvent
-import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.presentation.NavigationListener
+import android.content.Intent
+
+
 
 
 /*
  * Created by oleg on 31.01.2018.
  */
 
-class LoginActivity : AppCompatActivity() {
+
+class LoginActivity : AppCompatActivity(), NavigationListener {
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ac_login)
+        setContentView(ru.prsolution.winstrike.R.layout.ac_login)
 
 
 //        Navigation
         navController = Navigation.findNavController(this@LoginActivity, ru.prsolution.winstrike.R.id.login_host_fragment)
 
-        navController.addOnDestinationChangedListener { nav, destination, _ ->
-            /*            when (destination.id) {
-                            R.id.navigation_home -> {bottomNavigation.show()
-                                destination.label = PrefUtils.arenaName
-                            }
-                            R.id.navigation_order,
-                            R.id.navigation_profile -> bottomNavigation.show()
-                            else -> bottomNavigation.hide()
-                        }*/
-        }
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setSupportActionBar(toolbar)
@@ -84,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // Fragment navigation
-    fun navigate(action: NavDirections) {
+    override fun navigate(action: NavDirections) {
         Navigation.findNavController(this, ru.prsolution.winstrike.R.id.login_host_fragment).navigate(action)
     }
 
@@ -159,6 +152,19 @@ class LoginActivity : AppCompatActivity() {
         phoneHint.setSpan(ForegroundColorSpan(Color.BLACK), phoneHint.length - 12, phoneHint.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         textView.text = phoneHint
+    }
+
+    fun exitAppMethod() {
+
+        val intent = Intent(Intent.ACTION_MAIN)
+        intent.addCategory(Intent.CATEGORY_HOME)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        exitAppMethod()
     }
 
 }

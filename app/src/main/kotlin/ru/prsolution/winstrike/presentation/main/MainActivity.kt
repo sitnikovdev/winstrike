@@ -4,32 +4,28 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.invalidateOptionsMenu
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.ac_mainscreen.*
-import kotlinx.android.synthetic.main.fmt_profile_app.*
 import kotlinx.android.synthetic.main.toolbar.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
-import ru.prsolution.winstrike.presentation.profile.ProfileFragmentArgs
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.hide
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.show
 
-interface TempToolbarTitleListener {
+interface ToolbarTitleListener {
     fun updateTitle(title: String)
 }
 
-class MainActivity : AppCompatActivity(), TempToolbarTitleListener,
+class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     CarouselFragment.OnSeatClickListener {
 
 

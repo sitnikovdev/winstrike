@@ -16,7 +16,9 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <activity android:name=".presentation.StartActivity" android:noHistory="true">
+        <activity android:name=".presentation.StartActivity"
+                  android:excludeFromRecents="true"
+                  android:noHistory="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -31,16 +33,24 @@
         <activity
             android:name=".presentation.guides.GuideActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:excludeFromRecents="true"
             android:screenOrientation="portrait" />
+
+        <!--Login-->
         <activity
             android:name=".presentation.login.LoginActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:excludeFromRecents="true"
             android:screenOrientation="portrait" android:noHistory="true" />
+
+        <!--Main-->
         <activity
             android:name=".presentation.main.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity android:name=".presentation.cities.CityActivity"/>
+
+        <!--Fabric-->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="97794305a3c84acb7d3a3335d9b889c90da7a71f" />
@@ -57,6 +67,7 @@
         </service>
     </application>
 
+    <!--Permissions-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 

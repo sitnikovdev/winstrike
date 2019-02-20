@@ -20,9 +20,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.login.ProfileModel
 import ru.prsolution.winstrike.presentation.StartActivity
-import ru.prsolution.winstrike.presentation.main.TempToolbarTitleListener
+import ru.prsolution.winstrike.presentation.main.ToolbarTitleListener
 import ru.prsolution.winstrike.presentation.model.login.ProfileInfo
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -55,7 +54,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (!PrefUtils.name?.isEmpty()!!) {
-            (activity as TempToolbarTitleListener).updateTitle(PrefUtils.name!!)
+            (activity as ToolbarTitleListener).updateTitle(PrefUtils.name!!)
         }
 
 
