@@ -166,10 +166,14 @@
     <string name="ac_login_error_password_lengh">Длина пароля должна не менее 6 символов</string>
     <string name="fmt_code_error_lengh">Длина кода должна не менее 6 символов</string>
     <string name="ac_login_error_user_not_found">Пользователь не найден</string>
+    <string name="fmt_login_error_password_wrong">Не верный пароль</string>
     <string name="fmt_title_condition">Условия использования</string>
     <string name="fmt_login_title_politika">Политика конфиденциальности</string>
     <string name="fmt_login_politika_footer">Условиями и Политикой конфиденциальности</string>
     <string name="fmt_login_title_register">Еще нет аккаунта? Зарегистрируйтесь</string>
     <string name="fmt_register_message_enter">Уже есть аккуунт? Войдите</string>
     <string name="start_button_text">Поехали!</string>
+    <string name="fmt_login_server_error">Ошибка сервера</string>
+    <string name="fmt_login_noinet">No Internet Connection!</string>
+    <string name="fmt_login_message_noinet">Интернет подключение не доступно!</string>
 </resources>

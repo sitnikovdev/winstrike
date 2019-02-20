@@ -16,7 +16,9 @@
                 app:destination="@id/mainActivity"/>
 
         <action android:id="@+id/action_to_loginActivity"
-                app:destination="@id/loginActivity"/>
+                app:destination="@id/loginActivity"
+                app:popUpTo="@+id/splash_navigation_graph"
+                app:popUpToInclusive="true"/>
     </fragment>
 
     <!--Main navigation-->

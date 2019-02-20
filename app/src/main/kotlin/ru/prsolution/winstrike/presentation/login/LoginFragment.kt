@@ -118,12 +118,13 @@ class LoginFragment : Fragment() {
     private fun onAuthFailure(appErrorMessage: String) {
         Timber.e("Error on auth: %s", appErrorMessage)
         when {
-            appErrorMessage.contains("403") ||
-                    appErrorMessage.contains("404") ->
+            appErrorMessage.contains("404") ->
                 longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
-            appErrorMessage.contains("502") -> longToast("Ошибка сервера")
-            appErrorMessage.contains("No Internet Connection!") ->
-                longToast("Интернет подключение не доступно!")
+            appErrorMessage.contains("403") ->
+                longToast(getString(ru.prsolution.winstrike.R.string.fmt_login_error_password_wrong))
+            appErrorMessage.contains("502") -> longToast(getString(R.string.fmt_login_server_error))
+            appErrorMessage.contains(getString(R.string.fmt_login_noinet)) ->
+                longToast(getString(R.string.fmt_login_message_noinet))
         }
 
         fun onSendSmsSuccess(confirmModel: MessageResponse) {

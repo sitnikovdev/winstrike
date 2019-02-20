@@ -29,6 +29,7 @@ class CodeFragment : Fragment() {
 
     //    private var presenter: UserConfirmPresenter? = null
     private var mPhone: String = ""
+    private var mCode: String = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -79,6 +80,7 @@ class CodeFragment : Fragment() {
         PrefUtils.isConfirmed = true
         val action = CodeFragmentDirections.actionToNameFragment()
         action.phone = mPhone
+        action.code = mCode
         (activity as LoginActivity).navigate(action)
     }
 
@@ -107,10 +109,10 @@ class CodeFragment : Fragment() {
 
             when {
                 et_code.text!!.isCodeValid() -> {
-                    val code = et_code.text.toString()
+                    mCode = et_code.text.toString()
                     val smsInfo = SmsInfo(mPhone)
 
-                    mSmsVm.confirm(code, smsInfo)
+                    mSmsVm.confirm(mCode, smsInfo)
 
                 }
             }

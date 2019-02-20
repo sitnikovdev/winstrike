@@ -82,6 +82,10 @@
         <!--Navigation to Main Screen-->
         <action android:id="@+id/action_to_mainActivity"
                 app:destination="@id/mainActivity"/>
+        <!--Code-->
+        <argument android:name="code"
+                  android:defaultValue=" "
+                  app:argType="string"/>
         <!--Phone-->
         <argument android:name="phone"
                   android:defaultValue=" "

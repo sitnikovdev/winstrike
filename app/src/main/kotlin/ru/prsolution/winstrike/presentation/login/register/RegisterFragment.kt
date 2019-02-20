@@ -16,11 +16,9 @@ import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.presentation.login.LoginActivity
 import ru.prsolution.winstrike.presentation.login.LoginFragmentDirections
 import ru.prsolution.winstrike.presentation.model.login.NewUserInfo
-import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.phone
 import ru.prsolution.winstrike.viewmodel.RegisterViewModel
 import ru.prsolution.winstrike.viewmodel.SmsViewModel
 import timber.log.Timber

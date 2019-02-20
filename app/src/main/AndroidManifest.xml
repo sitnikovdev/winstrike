@@ -16,7 +16,7 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <activity android:name=".presentation.StartActivity">
+        <activity android:name=".presentation.StartActivity" android:noHistory="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -34,22 +34,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.login.LoginActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.login.register.RegisterFragment"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.login.help.HelpCenterFragment"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.login.register.CodeFragment"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.login.help.HelpSmsFragment"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity

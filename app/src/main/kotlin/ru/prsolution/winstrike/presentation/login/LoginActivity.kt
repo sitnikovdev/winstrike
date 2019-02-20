@@ -17,10 +17,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.toolbar.*
-import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.login.register.RegisterFragmentDirections
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
+import android.view.KeyEvent
+
 
 /*
  * Created by oleg on 31.01.2018.
@@ -37,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
 
 
 //        Navigation
-        navController = Navigation.findNavController(this@LoginActivity, R.id.login_host_fragment)
+        navController = Navigation.findNavController(this@LoginActivity, ru.prsolution.winstrike.R.id.login_host_fragment)
 
         navController.addOnDestinationChangedListener { nav, destination, _ ->
             /*            when (destination.id) {
@@ -69,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
 //    Login Footer
     fun setRegisterLoginFooter(textView: TextView) {
 //       Уже есть аккуунт? Войдите
-        val register = SpannableString(getString(R.string.fmt_register_message_enter))
+        val register = SpannableString(getString(ru.prsolution.winstrike.R.string.fmt_register_message_enter))
         val registerClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 val action = RegisterFragmentDirections.actionToNavigationLogin()
@@ -83,25 +84,25 @@ class LoginActivity : AppCompatActivity() {
 
     // Fragment navigation
     fun navigate(action: NavDirections) {
-        Navigation.findNavController(this, R.id.login_host_fragment).navigate(action)
+        Navigation.findNavController(this, ru.prsolution.winstrike.R.id.login_host_fragment).navigate(action)
     }
 
     //    Login policy footer
     fun setLoginPolicyFooter(textView: TextView) {
 
-        val textCondAndPolicy = SpannableString(getString(R.string.fmt_login_politika_footer))
+        val textCondAndPolicy = SpannableString(getString(ru.prsolution.winstrike.R.string.fmt_login_politika_footer))
         val conditionClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 val action = LoginFragmentDirections.nextActionPolitika(URL_CONDITION)
-                action.title = getString(R.string.fmt_title_condition)
-                Navigation.findNavController(this@LoginActivity, R.id.login_host_fragment).navigate(action)
+                action.title = getString(ru.prsolution.winstrike.R.string.fmt_title_condition)
+                Navigation.findNavController(this@LoginActivity, ru.prsolution.winstrike.R.id.login_host_fragment).navigate(action)
             }
         }
         val policyClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 val action = LoginFragmentDirections.nextActionPolitika(URL_POLITIKA)
-                action.title = getString(R.string.fmt_login_title_politika)
-                Navigation.findNavController(this@LoginActivity, R.id.login_host_fragment).navigate(action)
+                action.title = getString(ru.prsolution.winstrike.R.string.fmt_login_title_politika)
+                Navigation.findNavController(this@LoginActivity, ru.prsolution.winstrike.R.id.login_host_fragment).navigate(action)
             }
         }
         textCondAndPolicy.setSpan(conditionClick, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -113,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
     //    Code policy footer
     fun setCodePolicyFooter(textView: TextView) {
 
-        val textCondAndPolicy = SpannableString(getString(R.string.fmt_login_politika_footer))
+        val textCondAndPolicy = SpannableString(getString(ru.prsolution.winstrike.R.string.fmt_login_politika_footer))
         val conditionClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 //TODO: fix it
@@ -133,7 +134,7 @@ class LoginActivity : AppCompatActivity() {
     //    Name policy footer
     fun setNamePolicyFooter(textView: TextView) {
 
-        val textCondAndPolicy = SpannableString(getString(R.string.fmt_login_politika_footer))
+        val textCondAndPolicy = SpannableString(getString(ru.prsolution.winstrike.R.string.fmt_login_politika_footer))
         val conditionClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 //TODO: fix it

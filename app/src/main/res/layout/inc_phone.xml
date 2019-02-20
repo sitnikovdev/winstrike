@@ -22,6 +22,8 @@
             android:layout_marginStart="103dp"
             android:maxLines="1"
             android:hint="Номер телефона"
+            android:maxLength="10"
+            android:inputType="phone"
             android:background="@null"
             android:textAppearance="@style/TextAppearance.Winstrike.Content"
     />
