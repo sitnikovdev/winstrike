@@ -101,8 +101,8 @@ class LoginFragment : Fragment() {
         updateUser(authResponse)
 
         if (confirmed) {
-            val action = LoginFragmentDirections.actionToMainActivity()
-            (activity as LoginActivity).navigate(action)
+//            val action = LoginFragmentDirections.actionToMainActivity()
+//            (activity as LoginActivity).navigate(action)
         } else {
             //TODO: Fix it!!!
             longToast("Пользователь не подтвержден. Отправляем СМС и перенаправляемся на страницу подверждения СМС кода.")

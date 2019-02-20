@@ -70,7 +70,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                android:gravity="start"
+                android:gravity="fill"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/seatdetail_description"
                 app:layout_constraintEnd_toEndOf="@id/head_image"

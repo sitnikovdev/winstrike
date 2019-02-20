@@ -21,6 +21,7 @@ import ru.prsolution.winstrike.presentation.login.register.RegisterFragmentDirec
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
 import android.view.KeyEvent
+import ru.prsolution.winstrike.R
 
 
 /*
@@ -34,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(ru.prsolution.winstrike.R.layout.ac_login)
+        setContentView(R.layout.ac_login)
 
 
 //        Navigation

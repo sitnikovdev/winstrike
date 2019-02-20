@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_splash.*
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.presentation.StartActivity
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 
@@ -41,19 +42,26 @@ class SplashFragment : Fragment() {
 
 
     private fun start() {
-        // If user is sign out from App: go to login screen. Else: check if user is exist on server and if Ok -- go to Main screen.
-//        startActivity(loginIntent)
-//        val action = SplashFragmentDirections.actionToMainActivity()
-//        Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
-        if (PrefUtils.isLogout) {
-//            startActivity(loginIntent)
-        } else if (PrefUtils.token?.isEmpty()!!) {
-            val action = SplashFragmentDirections.actionToNavigationCityList()
-            Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
-        } else {
-//            startActivity(loginIntent)
-            val action = SplashFragmentDirections.actionToLoginActivity()
-            Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
+        // If user is sign out -> go to login screen. else -> check if user is exist on server and if Ok -- go to Main screen.
+        when {
+            PrefUtils.isLogout -> {
+    //            startActivity(loginIntent)
+            }
+
+            !PrefUtils.token?.isEmpty()!! && !PrefUtils.cityPid?.isEmpty()!! -> {
+                val action = SplashFragmentDirections.actionToMainActivity()
+                (activity as StartActivity).navigate(action)
+            }
+
+            !PrefUtils.token?.isEmpty()!! -> {
+                val action = SplashFragmentDirections.actionToCityActivity()
+                (activity as StartActivity).navigate(action)
+            }
+
+            else -> {
+                val action = SplashFragmentDirections.actionToLoginActivity()
+                (activity as StartActivity).navigate(action)
+            }
         }
     }
 

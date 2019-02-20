@@ -84,6 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginStart="@dimen/spacing_24"
+                android:maxLength="6"
+                android:inputType="number"
                 android:background="@null"
                 android:textAppearance="@style/TextAppearance.Winstrike.Content"
         />

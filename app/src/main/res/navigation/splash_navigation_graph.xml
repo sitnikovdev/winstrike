@@ -9,59 +9,38 @@
               android:name="ru.prsolution.winstrike.presentation.splash.SplashFragment"
               android:label="SplashFragment">
 
-        <action android:id="@+id/action_to_navigation_city_list"
-                app:destination="@id/navigation_city_list"/>
-
-        <action android:id="@+id/action_to_mainActivity"
-                app:destination="@id/mainActivity"/>
-
-        <action android:id="@+id/action_to_loginActivity"
-                app:destination="@id/loginActivity"
+        <!--Navigate to Login activity-->
+        <action android:id="@+id/action_to_login_activity"
+                app:destination="@id/navigation_login_activity"
                 app:popUpTo="@+id/splash_navigation_graph"
                 app:popUpToInclusive="true"/>
-    </fragment>
 
-    <!--Main navigation-->
+        <!--Navigate to City Activity-->
+        <action android:id="@+id/action_to_city_activity"
+                app:destination="@id/navigation_city_activity"/>
 
-    <!--City list-->
-    <fragment
-            android:id="@+id/navigation_city_list"
-            android:label="Выберите город"
-            android:name="ru.prsolution.winstrike.presentation.cities.CityListFragment"
-            tools:layout="@layout/fmt_city_list">
-
-        <action
-                android:id="@+id/next_action"
-                app:destination="@id/navigation_city"/>
+        <!--Navigate to Main activity-->
+        <action android:id="@+id/action_to_mainActivity"
+                app:destination="@id/navigation_main_activity"/>
 
     </fragment>
 
 
-    <!--City-->
-    <fragment
-            android:id="@+id/navigation_city"
-            android:label="Выберите арену"
-            android:name="ru.prsolution.winstrike.presentation.cities.CityItemFragment"
-            tools:layout="@layout/fmt_city_detail">
 
-        <argument
-                android:name="cityPid"
-                app:argType="string"
-        />
-        <argument
-                android:name="cityName"
-                app:argType="string"/>
+    <!--Login Activity-->
+    <activity android:id="@+id/navigation_login_activity"
+              android:name="ru.prsolution.winstrike.presentation.login.LoginActivity"
+              android:label="LoginActivity"/>
 
-        <action android:id="@+id/action_to_mainActivity" app:destination="@id/mainActivity"/>
-    </fragment>
+    <!--City Activity-->
+    <activity android:id="@+id/navigation_city_activity"
+              android:name="ru.prsolution.winstrike.presentation.cities.CityActivity"
+              android:label="CityActivity"/>
 
     <!--MainActivity-->
-    <activity
-            android:id="@+id/mainActivity"
-            android:name="ru.prsolution.winstrike.presentation.main.MainActivity"
-            android:label="ac_mainscreen" tools:layout="@layout/ac_mainscreen"/>
-    <activity android:id="@+id/loginActivity" android:name="ru.prsolution.winstrike.presentation.login.LoginActivity"
-              android:label="LoginActivity"/>
+    <activity android:id="@+id/navigation_main_activity"
+              android:name="ru.prsolution.winstrike.presentation.main.MainActivity"
+              android:label="ac_mainscreen" tools:layout="@layout/ac_mainscreen"/>
 
 
 </navigation>

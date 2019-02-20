@@ -40,6 +40,7 @@
             android:name=".presentation.main.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
+        <activity android:name=".presentation.cities.CityActivity"/>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="97794305a3c84acb7d3a3335d9b889c90da7a71f" />

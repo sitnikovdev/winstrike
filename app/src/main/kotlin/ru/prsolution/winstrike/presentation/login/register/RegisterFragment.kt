@@ -62,9 +62,10 @@ class RegisterFragment : Fragment() {
 
         updateUser(authResponse)
 
+        //TODO go to City Nav Graph
         if (confirmed) {
-            val action = LoginFragmentDirections.actionToMainActivity()
-            (activity as LoginActivity).navigate(action)
+//            val action = LoginFragmentDirections.actionToMainActivity()
+//            (activity as LoginActivity).navigate(action)
         } else {
 //            "Пользователь не подтвержден. Отправляем СМС и перенаправляемся на страницу подверждения СМС кода."
 //            val smsInfo = SmsInfo(phone)

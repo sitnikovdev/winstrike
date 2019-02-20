@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.fmt_code.*
 import kotlinx.android.synthetic.main.fmt_name.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.login.LoginActivity
@@ -34,9 +33,11 @@ class NameFragment: Fragment() {
 
         et_sms_code.text = mCode
 
+        // Поехали!
+        //TODO go to City Nav Graph
         start_button.setOnClickListener {
-            val action = NameFragmentDirections.actionToMainActivity()
-            Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+//            val action = NameFragmentDirections.actionToMainActivity()
+//            Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
         }
 
         (activity as LoginActivity).setPhoneHint(phone_hint_tv, mPhone)

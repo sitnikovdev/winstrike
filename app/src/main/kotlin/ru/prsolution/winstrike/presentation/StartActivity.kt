@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigation
 
 
 /**
@@ -28,6 +29,11 @@ open class StartActivity : AppCompatActivity() {
         // Init Koin modules
         injectFeature()
 
+    }
+
+    // Fragment navigation
+    fun navigate(action: NavDirections) {
+        Navigation.findNavController(this, ru.prsolution.winstrike.R.id.splash_host_fragment).navigate(action)
     }
 
 }

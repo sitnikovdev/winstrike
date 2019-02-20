@@ -20,9 +20,10 @@
         <!--Navigate to Register-->
         <action android:id="@+id/action_to_navigation_register"
                 app:destination="@id/navigation_register"/>
+
         <!--Navigate to Main screen-->
-        <action android:id="@+id/action_to_mainActivity"
-                app:destination="@id/mainActivity"/>
+        <action android:id="@+id/action_to_city_navigation_graph"
+                app:destination="@id/city_navigation_graph"/>
     </fragment>
 
 
@@ -80,8 +81,6 @@
               android:label="Введите Ваше имя"
     >
         <!--Navigation to Main Screen-->
-        <action android:id="@+id/action_to_mainActivity"
-                app:destination="@id/mainActivity"/>
         <!--Code-->
         <argument android:name="code"
                   android:defaultValue=" "
@@ -91,11 +90,8 @@
                   android:defaultValue=" "
                   app:argType="string"/>
     </fragment>
+    <include app:graph="@navigation/city_navigation_graph"/>
 
     <!--Main Screen-->
-    <activity android:id="@+id/mainActivity"
-              android:name="ru.prsolution.winstrike.presentation.main.MainActivity"
-              android:label="ac_mainscreen"
-              tools:layout="@layout/ac_mainscreen"/>
 
 </navigation>
