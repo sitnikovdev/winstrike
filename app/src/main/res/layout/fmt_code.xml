@@ -80,7 +80,7 @@
             android:hint="Код подтверждения"
     >
         <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_password"
+                android:id="@+id/et_code"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginStart="@dimen/spacing_24"

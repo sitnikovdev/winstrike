@@ -27,4 +27,6 @@ interface LoginRemoteDataSource {
 
     suspend fun sendSms(smsEntity: SmsEntity): Resource<MessageResponse>?
 
+    suspend fun confirm(smsCode: String, smsEntity: SmsEntity): Resource<MessageResponse>?
+
 }

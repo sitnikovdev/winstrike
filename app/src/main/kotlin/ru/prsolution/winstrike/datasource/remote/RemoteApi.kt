@@ -66,22 +66,23 @@ interface UserApi {
     @POST("users")
     fun getUser(@Body newUserEntity: NewUserEntity): Deferred<Response<AuthResponseEntity>>
 
-    // Отправка смс c кодом подтверждения
-    @POST("confirm_codes")
-    fun sendSms(@Body confirmModel: SmsEntity): Deferred<Response<MessageResponse>>
-
     // Подтверждение пользоватея по sms коду
     @POST("confirm_user/{sms_code}")
     fun confirmUser(
         @Path(
             "sms_code") sms_code: String,
-        @Body confirmModel: SmsModel
+        @Body confirmModel:SmsEntity
     ): Deferred<Response<MessageResponse>>
 
 
     // Авторизация пользователя
     @POST("login")
     fun getLogin(@Body loginModel: LoginEntity): Deferred<Response<AuthResponseEntity>>
+
+    // Отправка смс c кодом подтверждения (повторно)
+    @POST("confirm_codes")
+    fun sendSms(@Body confirmModel: SmsEntity): Deferred<Response<MessageResponse>>
+
 
     // Обновление профиля
     @PUT("users/{public_id}")

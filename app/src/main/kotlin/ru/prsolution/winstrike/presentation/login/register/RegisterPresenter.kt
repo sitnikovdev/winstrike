@@ -8,8 +8,8 @@ class RegisterPresenter() {
     fun createUser(user: LoginModel) {
 
 /*		val subscription = service.createUser(object : Service.RegisterCallback {
-			override fun onSuccess(authResponse: AuthResponse) {
-				view.onRegisterSuccess(authResponse)
+			override fun onSuccess(messageResponse: AuthResponse) {
+				view.onRegisterSuccess(messageResponse)
 			}
 
 			override fun onError(networkError: NetworkError) {
@@ -28,8 +28,8 @@ class RegisterPresenter() {
     fun sendSms(smsModel: SmsEntity) {
 
 /*		val subscription = service?.sendSmsByUserRequest(object : Service.SmsCallback {
-			override fun onSuccess(authResponse: MessageResponse) {
-//				view.onSendSmsSuccess(authResponse)
+			override fun onSuccess(messageResponse: MessageResponse) {
+//				view.onSendSmsSuccess(messageResponse)
 			}
 
 			override fun onError(networkError: NetworkError) {

@@ -16,9 +16,9 @@ class UserConfirmPresenter() {
         //        view.showWait();
 
 /*		val subscription = service?.confirmUser(object : Service.ConfirmCallback {
-			override fun onSuccess(authResponse: MessageResponse) {
+			override fun onSuccess(messageResponse: MessageResponse) {
 				//                view.removeWait();
-//				view.onUserConfirmSuccess(authResponse)
+//				view.onUserConfirmSuccess(messageResponse)
 			}
 
 			override fun onError(networkError: NetworkError) {
@@ -38,8 +38,8 @@ class UserConfirmPresenter() {
     fun sendSms(smsModel: SmsModel) {
 
 /*		val subscription = service.sendSmsByUserRequest(object : Service.SmsCallback {
-			override fun onSuccess(authResponse: MessageResponse) {
-				view.onSendSmsSuccess(authResponse)
+			override fun onSuccess(messageResponse: MessageResponse) {
+				view.onSendSmsSuccess(messageResponse)
 			}
 
 			override fun onError(networkError: NetworkError) {
@@ -61,8 +61,8 @@ class UserConfirmPresenter() {
     fun updateProfile(token: String, profile: ProfileModel, publicId: String) {
 
 /*		val subscription = service.updateUser(object : Service.ProfileCallback {
-			override fun onSuccess(authResponse: MessageResponse) {
-				view.onProfileUpdateSuccessfully(authResponse)
+			override fun onSuccess(messageResponse: MessageResponse) {
+				view.onProfileUpdateSuccessfully(messageResponse)
 			}
 
 			override fun onError(networkError: NetworkError) {

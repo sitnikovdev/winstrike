@@ -16,6 +16,7 @@ import androidx.annotation.IdRes
 import androidx.navigation.Navigation
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import ru.prsolution.winstrike.presentation.utils.Constants.CODE_LENGTH
 import ru.prsolution.winstrike.presentation.utils.Constants.ENTER_DURATION
 import ru.prsolution.winstrike.presentation.utils.Constants.EXIT_DURATION
 import ru.prsolution.winstrike.presentation.utils.Constants.PASSWORD_LENGTH
@@ -134,6 +135,11 @@ fun  Editable.isPhoneValid(): Boolean {
 fun  Editable.isPasswordValid(): Boolean {
     return this != null && this.length >= PASSWORD_LENGTH
 }
+
+fun  Editable.isCodeValid(): Boolean {
+    return this != null && this.length >= CODE_LENGTH
+}
+
 
 
 fun EditText.setPhoneMask() = TextFormat.formatText(this, Constants.PHONE_MASK)

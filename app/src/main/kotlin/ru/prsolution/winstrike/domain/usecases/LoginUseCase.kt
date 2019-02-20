@@ -19,7 +19,9 @@ class LoginUseCase constructor(private val loginRepository: LoginRepository) {
     suspend fun getUser(newUserModel: NewUserInfo): Resource<AuthResponse>? =
         loginRepository.getUser(newUserModel.mapToDomain())
 
-
     suspend fun sendSms(smsInfo: SmsInfo): Resource<MessageResponse>? =
         loginRepository.sendSms(smsInfo.mapToDomain())
+
+    suspend fun confirm(smsCode: String, smsInfo: SmsInfo): Resource<MessageResponse>? =
+        loginRepository.confirm(smsCode, smsInfo.mapToDomain())
 }

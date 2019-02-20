@@ -20,6 +20,7 @@ import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.phone
 import ru.prsolution.winstrike.viewmodel.RegisterViewModel
 import ru.prsolution.winstrike.viewmodel.SmsViewModel
 import timber.log.Timber
@@ -54,11 +55,6 @@ class RegisterFragment : Fragment() {
                 }
             }
         })
-/*        register_button.setOnClickListener {
-            val action = RegisterFragmentDirections.actionToNavigationCode()
-            action.phone = "+79520757099"
-            (activity as LoginActivity).navigate(action)
-        }*/
         initView()
         (activity as LoginActivity).setRegisterLoginFooter(tv_register_footer)
     }
@@ -72,14 +68,11 @@ class RegisterFragment : Fragment() {
             val action = LoginFragmentDirections.actionToMainActivity()
             (activity as LoginActivity).navigate(action)
         } else {
-            //TODO: Fix it!!!
-//            longToast("Пользователь не подтвержден. Отправляем СМС и перенаправляемся на страницу подверждения СМС кода.")
-            val phone = authResponse.user?.phone
+//            "Пользователь не подтвержден. Отправляем СМС и перенаправляемся на страницу подверждения СМС кода."
 //            val smsInfo = SmsInfo(phone)
 //            mSmsVm.send(smsInfo)
-
-            // Open Sms Code screen
             val action = RegisterFragmentDirections.actionToNavigationCode()
+            val phone = authResponse.user?.phone
              phone?.let {action.phone = it}
             (activity as LoginActivity).navigate(action)
         }
@@ -157,8 +150,8 @@ class RegisterFragment : Fragment() {
 
     }
 
-    fun onSendSmsSuccess(authResponse: MessageResponse) {
-        Timber.d("Sms send successfully: %s", authResponse.message)
+    fun onSendSmsSuccess(messageResponse: MessageResponse) {
+        Timber.d("Sms send successfully: %s", messageResponse.message)
         toast("Код выслан")
         val intent = Intent(requireActivity(), CodeFragment::class.java)
         intent.putExtra("phone", user!!.phone)
@@ -177,10 +170,10 @@ class RegisterFragment : Fragment() {
     /**
      * Register new user and send him sms with confirm code.
      */
-    fun onRegisterSuccess(authResponse: AuthResponseEntity) {
+    fun onRegisterSuccess(messageResponse: AuthResponseEntity) {
         with(PrefUtils) {
-            token = authResponse.token
-            publicid = authResponse.user?.publicId!!
+            token = messageResponse.token
+            publicid = messageResponse.user?.publicId!!
             isConfirmed = false
             phone = user?.phone
             name = "NoName"
@@ -190,8 +183,8 @@ class RegisterFragment : Fragment() {
             id = null,
             confirmed = false,
             phone = user?.phone,
-            publickId = authResponse.user?.publicId,
-            token = authResponse.token
+            publickId = messageResponse.user?.publicId,
+            token = messageResponse.token
         )
 
         val intent = Intent(requireActivity(), CodeFragment::class.java)

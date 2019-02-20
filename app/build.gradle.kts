@@ -66,10 +66,11 @@ android {
 
     buildTypes {
         getByName("debug") {
-            buildConfigField("String", "DEBUGURL", Constants.DEBUGURL)
+            buildConfigField("String", "DEV_URL", Constants.DEV_URL)
+            buildConfigField("String", "TEST_URL", Constants.TEST_URL)
         }
         getByName("release") {
-            buildConfigField("String", "BASEURL", Constants.BASEURL)
+            buildConfigField("String", "DEV_URL", Constants.DEV_URL)
             isUseProguard = false // user R8 instead
             isMinifyEnabled = true
         }

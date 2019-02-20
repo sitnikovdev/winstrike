@@ -87,9 +87,10 @@ val cacheModule: Module = module {
     single(name = LOGIN_CACHE) { Cache<UserModel>() }
 }
 
-private const val BASE_URL = BuildConfig.DEBUGURL
+private const val DEV_URL = BuildConfig.DEV_URL
+private const val TEST_URL = BuildConfig.TEST_URL
 
-private val retrofit: Retrofit = createNetworkClient(BASE_URL, BuildConfig.DEBUG)
+private val retrofit: Retrofit = createNetworkClient(DEV_URL, BuildConfig.DEBUG)
 
 private val cityApi: CityApi = retrofit.create(CityApi::class.java)
 private val arenaApi: ArenaApi = retrofit.create(ArenaApi::class.java)

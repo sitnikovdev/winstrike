@@ -9,6 +9,7 @@ import ru.prsolution.winstrike.datasource.model.login.mapToDomain
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.domain.models.login.SmsModel
+import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 
 class LoginRemoteDataSourceImpl constructor(
     private val api: UserApi
@@ -37,5 +38,14 @@ class LoginRemoteDataSourceImpl constructor(
         )
         return response
     }
+
+    override suspend fun confirm(smsCode: String, smsEntity: SmsEntity): Resource<MessageResponse>? {
+        val response = safeApiCall(
+            call = { api.confirmUser(smsCode, smsEntity).await() },
+            errorMessage = "Error Fetching Cities List"
+        )
+        return response
+    }
+
 
 }

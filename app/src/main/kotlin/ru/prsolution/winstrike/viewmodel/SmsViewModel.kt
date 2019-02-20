@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
-import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.domain.usecases.LoginUseCase
-import ru.prsolution.winstrike.presentation.model.login.LoginInfo
-import ru.prsolution.winstrike.presentation.model.login.NewUserInfo
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import kotlin.coroutines.CoroutineContext
@@ -28,15 +25,25 @@ class SmsViewModel constructor(val loginUseCase: LoginUseCase) : ViewModel() {
     private val scope = CoroutineScope(coroutineContext)
 
 
-    val authResponse = SingleLiveEvent<Resource<MessageResponse>>()
+    val messageResponse = SingleLiveEvent<Resource<MessageResponse>>()
 
 
+    // Отправка код подтверждения (повторно, если пользователь не получил первый код сразу после регистрации)
     fun send(smsInfo: SmsInfo) {
         scope.launch {
             val response = loginUseCase.sendSms(smsInfo)
-            authResponse.postValue(response)
+            messageResponse.postValue(response)
         }
     }
+
+    // Подтверждение пользователя кодом из СМС
+    fun confirm(smsCode: String, smsInfo: SmsInfo) {
+        scope.launch {
+            val response = loginUseCase.confirm(smsCode, smsInfo)
+            messageResponse.postValue(response)
+        }
+    }
+
 
 
     private fun cancelAllRequests() = coroutineContext.cancel()

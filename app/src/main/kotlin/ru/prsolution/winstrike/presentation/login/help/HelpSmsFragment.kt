@@ -187,8 +187,8 @@ class HelpSmsFragment : Fragment() {
     fun sendSms(smsModel: SmsModel) {
 
 /*		val subscription = service!!.sendSmsByUserRequest(object : Service.SmsCallback {
-			override fun onSuccess(authResponse: MessageResponse) {
-				onSendSmsSuccess(authResponse)
+			override fun onSuccess(messageResponse: MessageResponse) {
+				onSendSmsSuccess(messageResponse)
 			}
 
 			override fun onError(networkError: NetworkError) {
@@ -237,8 +237,8 @@ class HelpSmsFragment : Fragment() {
         //        getViewState().showWait();
 
 /*		val subscription = service!!.refreshPassword(object : Service.RefressPasswordCallback {
-			override fun onSuccess(authResponse: MessageResponse) {
-				onRefreshPasswordSuccess(authResponse)
+			override fun onSuccess(messageResponse: MessageResponse) {
+				onRefreshPasswordSuccess(messageResponse)
 			}
 
 			override fun onError(networkError: NetworkError) {

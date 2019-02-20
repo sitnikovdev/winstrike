@@ -23,6 +23,7 @@ object Constants {
     const val PHONE_MASK = "(___) ___-__-__"
     const val PHONE_LENGTH = 15
     const val PASSWORD_LENGTH = 6
+    const val CODE_LENGTH = 6
 
     const val IMAGE_TYPE = "image/jpg"
     const val SHARE_DRAWABLE = "/drawable/"

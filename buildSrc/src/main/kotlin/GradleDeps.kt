@@ -104,8 +104,8 @@ object Libraries {
 
 // API URL
 object Constants {
-	const val DEBUGURL = "\"http://46.254.21.94:9000/api/v1/\""
-	const val BASEURL = "\"http://api.winstrike.ru:8000/api/v1/\""
+	const val TEST_URL = "\"http://46.254.21.94:9000/api/v1/\""
+	const val DEV_URL = "\"http://api.winstrike.ru:8000/api/v1/\""
 }
 
 object Modules {

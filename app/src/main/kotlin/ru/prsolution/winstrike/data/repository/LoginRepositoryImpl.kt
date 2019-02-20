@@ -20,5 +20,8 @@ class LoginRepositoryImpl constructor(
 
     override suspend fun sendSms(smsModel: SmsModel): Resource<MessageResponse>? =
         remoteDataSource.sendSms(smsModel.mapToDataSource())
+
+    override suspend fun confirm(smsCode: String, smsModel: SmsModel): Resource<MessageResponse>? =
+        remoteDataSource.confirm(smsCode, smsModel.mapToDataSource())
 }
 

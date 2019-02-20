@@ -15,4 +15,6 @@ interface LoginRepository {
 
     suspend fun sendSms(smsModel: SmsModel): Resource<MessageResponse>?
 
+    suspend fun confirm(smsCode: String, smsModel: SmsModel): Resource<MessageResponse>?
+
 }
