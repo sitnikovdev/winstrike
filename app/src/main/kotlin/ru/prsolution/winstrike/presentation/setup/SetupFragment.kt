@@ -1,20 +1,16 @@
 package ru.prsolution.winstrike.presentation.setup
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.app.TimePickerDialog
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.text.format.DateFormat
 import android.view.*
 import android.widget.DatePicker
 import android.widget.TextView
-import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -40,8 +36,8 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 class SetupFragment : Fragment(),
-        DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener {
+    DatePickerDialog.OnDateSetListener
+{
 
     private val mVm: SetUpViewModel by viewModel()
 
@@ -50,8 +46,6 @@ class SetupFragment : Fragment(),
     private var mCpuDescription: TextView? = null
     private var mSeatImage: SimpleDraweeView? = null
     private var mArenaSchema: SchemaItem? = null
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,10 +99,16 @@ class SetupFragment : Fragment(),
         val bntTextSize = 20
         val viewTextSize = 25
 
-         pickerDialog = TimePickerPopWin.Builder(
+        pickerDialog = TimePickerPopWin.Builder(
             requireContext(), (TimePickerPopWin.OnTimePickedListener { hour, min, timeDesc, timeFromData, timeToData ->
-//                textView.text = "$timeFromData - $timeToData"
+                //                textView.text = "$timeFromData - $timeToData"
                 Timber.tag("$$$").d("$timeFromData - $timeToData")
+                onTimeSet(
+                    hourFrom = timeFromData.hour.toInt(),
+                    minuteFrom = timeFromData.min.toInt(),
+                    hourTo = timeToData.hour.toInt(),
+                    minTo = timeToData.min.toInt()
+                    )
             })
         )
             .textConfirm("Продолжить") //text of confirm button
@@ -122,7 +122,7 @@ class SetupFragment : Fragment(),
     }
 
     private fun getArenaByTime(activePid: String?) {
-        require(!TextUtils.isEmpty(activePid) ) { "+++ Arena active pid must be set. +++" }
+        require(!TextUtils.isEmpty(activePid)) { "+++ Arena active pid must be set. +++" }
 
         if (TextUtils.isEmpty(TimeDataModel.start) || TextUtils.isEmpty(TimeDataModel.end)) {
             toast("Не указана дата")
@@ -150,15 +150,22 @@ class SetupFragment : Fragment(),
     }
 
     @SuppressLint("NewApi")
-    override fun onTimeSet(timePicker: TimePicker?, hourOfDay: Int, minute: Int) {
+    // TODO: Provide backport for API < 24.
+    fun onTimeSet(hourFrom: Int, minuteFrom: Int, hourTo: Int, minTo: Int) {
 
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        calendar.set(Calendar.MINUTE, minute)
+
+        // from
+        calendar.set(Calendar.HOUR_OF_DAY, hourFrom)
+        calendar.set(Calendar.MINUTE, minuteFrom)
         val sdf = android.text.format.DateFormat.getTimeFormat(activity)
+
         val timeFrom = sdf.format(calendar.time)
-        calendar.add(Calendar.HOUR_OF_DAY, 1)
+
+        // to
+        calendar.add(Calendar.HOUR_OF_DAY, hourTo - hourFrom)
         val timeTo = sdf.format(calendar.time)
+
         val time = "$timeFrom - $timeTo"
 
         TimeDataModel.timeFrom = timeFrom
@@ -220,7 +227,7 @@ class SetupFragment : Fragment(),
 }
 
 class DatePickerFragment(
-        private val listener: DatePickerDialog.OnDateSetListener
+    private val listener: DatePickerDialog.OnDateSetListener
 ) : DialogFragment() {
 
     init {
@@ -234,29 +241,10 @@ class DatePickerFragment(
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-        return DatePickerDialog(context, R.style.Theme_Winstrike_DateDialog, listener, year,
-                month, day)
-    }
-}
-
-class TimePickerFragment(private val listener: TimePickerDialog.OnTimeSetListener) : DialogFragment() {
-
-    init {
-        requireNotNull(listener) { "+++++ Must implement TimePickerDialog.OnTimeSetListener. +++++" }
-    }
-
-    @SuppressLint("NewApi", "InlinedApi")
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val c = Calendar.getInstance()
-        val hour = c.get(Calendar.HOUR_OF_DAY)
-        val minute = c.get(Calendar.MINUTE)
-
-        return TimePickerDialog(
-            activity, AlertDialog.THEME_HOLO_DARK, listener, hour, minute,
-            DateFormat.is24HourFormat(activity)
-/*        return TimePickerDialog(
-                activity, R.style.TimeDialog, listener, hour, minute,
-                DateFormat.is24HourFormat(activity)*/
+        return DatePickerDialog(
+            context, R.style.Theme_Winstrike_DateDialog, listener, year,
+            month, day
         )
     }
 }
+

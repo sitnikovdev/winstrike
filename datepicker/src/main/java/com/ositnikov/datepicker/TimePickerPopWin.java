@@ -201,6 +201,14 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
             this.min = min;
         }
 
+        public String getHour() {
+            return hour;
+        }
+
+        public String getMin() {
+            return min;
+        }
+
         @Override
         public String toString() {
             return this.hour + ":" + this.min;
