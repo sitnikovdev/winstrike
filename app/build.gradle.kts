@@ -1,3 +1,6 @@
+import Android.compileSdkVersion
+import Android.minSdkVersion
+import Android.targetSdkVersion
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
@@ -125,6 +128,7 @@ kotlinter {
 
 dependencies {
 
+    implementation(project(Modules.datepicker))
 
     /** Kotlin */
     implementation(Libraries.kotlin)

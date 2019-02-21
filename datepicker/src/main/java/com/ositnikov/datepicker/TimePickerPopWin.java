@@ -1,7 +1,6 @@
 package com.ositnikov.datepicker;
 
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -29,9 +28,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import timber.log.Timber;
 
 
 /**
@@ -48,18 +44,12 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
 
     Boolean storeHoursWasTapped = false;
 
-    @BindView(R2.id.tv_hour_from)
     public TextView tv_h_from;
-    @BindView(R2.id.tv_min_from)
     public TextView tv_m_from;
-    @BindView(R2.id.tv_hour_to)
     public TextView tv_h_to;
-    @BindView(R2.id.tv_min_to)
     public TextView tv_m_to;
 
-    @BindView(R2.id.v_tap_from)
     View vTapFrom;
-    @BindView(R2.id.v_tap_to)
     View vTapTo;
 
     TimeData timeFromData = new TimeData("00", "00");
@@ -222,7 +212,6 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
 
         contentView = LayoutInflater.from(mContext).inflate(
                 R.layout.dlg_time_tw, null);
-        ButterKnife.bind(this, contentView);
 
         setTouchable(true);
         setFocusable(true);
@@ -233,28 +222,35 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
 
+        // View init
+        tv_h_from = contentView.findViewById(R.id.tv_hour_from);
+        tv_h_to = contentView.findViewById(R.id.tv_hour_to);
+        tv_m_from = contentView.findViewById(R.id.tv_min_from);
+        tv_m_to = contentView.findViewById(R.id.tv_min_to);
 
-        tv_h_from.setText(String.valueOf(format2LenStr(hourPos)));
-        tv_h_to.setText(String.valueOf(format2LenStr(hourPos + 1)));
+        tv_h_from.setText(format2LenStr(hourPos));
+        tv_h_to.setText(format2LenStr(hourPos + 1));
 
-        tv_m_from.setText(String.valueOf(format2LenStr(minPos + 5)));
-        tv_m_to.setText(String.valueOf(format2LenStr(minPos + 5)));
+        tv_m_from.setText(format2LenStr(minPos + 5));
+        tv_m_to.setText(format2LenStr(minPos + 5));
 
         if (minPos + 5 <= 59) {
-            tv_m_from.setText(String.valueOf(format2LenStr(minPos + 5)));
-            tv_m_to.setText(String.valueOf(format2LenStr(minPos + 5)));
+            tv_m_from.setText(format2LenStr(minPos + 5));
+            tv_m_to.setText(format2LenStr(minPos + 5));
         } else if (minPos + 5 >= 60) {
-            tv_h_from.setText(String.valueOf(format2LenStr(hourPos + 1)));
-            tv_h_to.setText(String.valueOf(format2LenStr(hourPos + 2)));
-            tv_m_from.setText(String.valueOf(format2LenStr( 5)));
-            tv_m_to.setText(String.valueOf(format2LenStr( 5)));
+            tv_h_from.setText(format2LenStr(hourPos + 1));
+            tv_h_to.setText(format2LenStr(hourPos + 2));
+            tv_m_from.setText(format2LenStr(5));
+            tv_m_to.setText(format2LenStr(5));
         }
 
 
         isFromTimeSelect = true;
 
 
-        pickerContainerV = contentView.findViewById(R.id.container_picker);
+        // root layout
+        pickerContainerV = contentView.findViewById(R.id.container);
+
         cancelBtn = (Button) contentView.findViewById(R.id.btn_cancel);
         confirmBtn = (TextView) contentView.findViewById(R.id.btn_confirm);
         confirmBtnTap = (View) contentView.findViewById(R.id.v_button_tap);
@@ -275,12 +271,13 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
         hourLoopView.setVisibility(View.GONE);
         minLoopView.setVisibility(View.GONE);
 
+        // fill numbers list for loop view (hour, min and number)
+        initPickerViews();
 
-        initPickerViews(); // init year and month loop view
-
+        // set text size for views
         setTextSize();
 
-/*        //From time is selected
+/*        //From time is selected listener
         setFromSelected();*/
 
         vTapFrom.setOnClickListener(
@@ -294,7 +291,6 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
 
         //set checked listen
         hourLoopView.setListener(item -> {
-            Timber.tag("time").d("hourLoopView: onItemSelect, hourPos: %s", item);
             hourPos = item;
             if (isFromTimeSelect) {
                 tv_h_from.setText(format2LenStr(item + 1));
@@ -304,11 +300,11 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
                 Integer min = Integer.parseInt(tv_m_from.getText().toString());
 
                 if (hour < 23) {
-                    tv_h_to.setText(String.valueOf(format2LenStr(hour + 1)));
-                    tv_m_to.setText(String.valueOf(format2LenStr(min)));
+                    tv_h_to.setText(format2LenStr(hour + 1));
+                    tv_m_to.setText(format2LenStr(min));
                 } else if (hour >= 23) {
-                    tv_h_to.setText(String.valueOf(format2LenStr(00)));
-                    tv_m_to.setText(String.valueOf(format2LenStr(min)));
+                    tv_h_to.setText(format2LenStr(00));
+                    tv_m_to.setText(format2LenStr(min));
                 }
 
 
@@ -319,12 +315,13 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
         });
 
         lvNumber.setListener(item -> {
-            Timber.tag("time").d("lvNumber: onItemSelect, numberPos: %s", item);
             int hourFrom = Integer.parseInt(tv_h_from.getText().toString());
             int minFrom = Integer.parseInt(tv_m_from.getText().toString());
             int hourInc = item + 1;
+
             // TODO: pass TimeDateModel here
 //            Date timeFrom = TimeDataModel.INSTANCE.getStartDate();
+
             Date timeFrom = new Date();
             Calendar cal = Calendar.getInstance();
             cal.setTime(timeFrom);
@@ -352,7 +349,7 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
                 Integer min = Integer.parseInt(tv_m_from.getText().toString());
 
 //                tv_h_from.setText(String.valueOf(format2LenStr(hour - 1)));
-                tv_m_to.setText(String.valueOf(format2LenStr(min)));
+                tv_m_to.setText(format2LenStr(min));
 
 
             } else if (isToTimeSelect) {
@@ -380,13 +377,11 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
     }
 
     private void timeFromSetOnSelect() {
-        Timber.tag("time").d("timeFromSetOnSelect is fire");
         setFromSelected();
     }
 
 
     private void timeToSetOnSelect() {
-        Timber.tag("time").d("timeToSetOnSelect is fire");
         setToSelected();
     }
 
@@ -500,7 +495,7 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
                     Animation.RELATIVE_TO_SELF, 0);
 
             showAtLocation(activity.getWindow().getDecorView(), Gravity.BOTTOM,
-                           0, 0);
+                    0, 0);
             trans.setDuration(400);
             trans.setInterpolator(new AccelerateDecelerateInterpolator());
 
@@ -645,5 +640,6 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
          */
         void onTimePickCompleted(int hour, int min,
                                  String timeDesc, TimeData timeFromData, TimeData timeToData);
+
     }
 }

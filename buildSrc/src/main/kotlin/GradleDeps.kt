@@ -110,6 +110,7 @@ object Constants {
 
 object Modules {
 	const val app = ":app"
+	const val datepicker = ":datepicker"
 	const val preference = ":preference"
 }
 

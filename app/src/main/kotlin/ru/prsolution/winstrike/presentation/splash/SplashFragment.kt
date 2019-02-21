@@ -1,6 +1,7 @@
 package ru.prsolution.winstrike.presentation.splash
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -26,14 +27,10 @@ class SplashFragment : Fragment() {
         animation_view.setAnimation("data.json")
         animation_view.repeatCount = 0
         animation_view.scale = 1f
-        animation_view.addAnimatorListener(object : Animator.AnimatorListener {
+        animation_view.addAnimatorListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 start()
             }
-
-            override fun onAnimationStart(animation: Animator) {}
-            override fun onAnimationCancel(animation: Animator) {}
-            override fun onAnimationRepeat(animation: Animator) {}
         })
     }
 
