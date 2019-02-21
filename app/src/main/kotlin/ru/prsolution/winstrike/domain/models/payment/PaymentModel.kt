@@ -4,11 +4,12 @@ package ru.prsolution.winstrike.domain.models.payment
  * Created by oleg on 07/03/2018.
  */
 
-import ru.prsolution.winstrike.presentation.model.payment.PaymentItem
+import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
+import ru.prsolution.winstrike.presentation.model.payment.PaymentInfo
 import timber.log.Timber
 import java.util.LinkedHashMap
 
-class Payment(
+class PaymentModel(
     val start_at: String?,
     val end_at: String?,
     var places: List<String>?
@@ -18,7 +19,7 @@ class Payment(
     }
 }
 
-fun Payment.setPlacesPid(placesPid: LinkedHashMap<Int, String>) {
+fun PaymentModel.setPlacesPid(placesPid: LinkedHashMap<Int, String>) {
     // TODO: 13/05/2018   convert to List<String>
     val pids = mutableListOf<String>()
     Timber.d("pids than need to converted: %s", placesPid)
@@ -33,9 +34,14 @@ fun Payment.setPlacesPid(placesPid: LinkedHashMap<Int, String>) {
 }
 
 
-fun Payment.mapToPresentation(): PaymentItem = PaymentItem(
+fun PaymentModel.mapToPresentation(): PaymentInfo = PaymentInfo(
     startAt = start_at,
     endAt = end_at,
     placesPid = places
 )
 
+fun PaymentModel.mapToDataSource(): PaymentEntity = PaymentEntity(
+    startAt = start_at,
+    end_at = end_at,
+    placesPid = places
+)

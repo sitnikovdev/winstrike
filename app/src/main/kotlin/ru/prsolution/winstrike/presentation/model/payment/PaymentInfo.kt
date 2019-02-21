@@ -1,13 +1,13 @@
 package ru.prsolution.winstrike.presentation.model.payment
 
-import ru.prsolution.winstrike.domain.models.payment.Payment
+import ru.prsolution.winstrike.domain.models.payment.PaymentModel
 
 /**
  * Created by oleg on 07/03/2018.
  */
 
 
-class PaymentItem(
+class PaymentInfo(
     val startAt: String?,
     val endAt: String?,
     val placesPid: List<String>?
@@ -19,7 +19,7 @@ class PaymentItem(
 
 }
 
-fun PaymentItem.mapToDomain(): Payment = Payment(
+fun PaymentInfo.mapToDomain(): PaymentModel = PaymentModel(
     start_at = this.startAt,
     end_at = this.endAt,
     places = this.placesPid

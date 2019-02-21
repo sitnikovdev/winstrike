@@ -17,10 +17,6 @@
         <!--Base colors-->
         <item name="themeContentTextColor">@color/black</item>
         <item name="themeContentTextColoOnPrimary">@color/white</item>
-
-        <!--TextView -->
-        <item name="android:textViewStyle">@style/Widget.WinstrikeApp.TextView</item>
-
     </style>
 
 </resources>

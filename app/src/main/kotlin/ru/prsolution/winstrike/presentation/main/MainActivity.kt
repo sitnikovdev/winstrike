@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.ac_mainscreen.*
 import kotlinx.android.synthetic.main.toolbar.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
+import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.hide
@@ -25,8 +26,10 @@ interface ToolbarTitleListener {
     fun updateTitle(title: String)
 }
 
+
+
 class MainActivity : AppCompatActivity(), ToolbarTitleListener,
-    CarouselFragment.OnSeatClickListener {
+    CarouselFragment.OnSeatClickListener, NavigationListener {
 
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -85,7 +88,12 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
                     mProfileMenuVisible = true
                     invalidateOptionsMenu()
                 }
-                else -> bottomNavigation.hide()
+                else -> {
+                    bottomNavigation.hide()
+                    mCityMenuVisible = false
+                    mProfileMenuVisible = false
+                    invalidateOptionsMenu()
+                }
             }
         }
 
@@ -102,7 +110,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
     // Set title in Profile
     override fun updateTitle(title: String) {
-            toolbar.title = title
+        toolbar.title = title
     }
 
     private fun setupActionBar(
@@ -133,7 +141,10 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        PrefUtils.token = ""
+        when (item?.itemId) {
+            R.id.navigation_login_activity ->
+                PrefUtils.token = ""
+        }
 
         return NavigationUI.onNavDestinationSelected(item!!, navController) ||
                 super.onOptionsItemSelected(item)
@@ -156,7 +167,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
 
     // Fragment navigation
-    fun navigate(action: NavDirections) {
+    override fun navigate(action: NavDirections) {
         Navigation.findNavController(this, ru.prsolution.winstrike.R.id.main_host_fragment).navigate(action)
     }
 }

@@ -2,15 +2,13 @@ package ru.prsolution.winstrike.datasource.remote
 
 import ru.prsolution.winstrike.data.datasource.ArenaRemoteDataSource
 import ru.prsolution.winstrike.data.repository.resouces.Resource
-import ru.prsolution.winstrike.datasource.model.arena.mapRoomToDomain
 import ru.prsolution.winstrike.datasource.model.arena.mapToDomain
+import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
 import ru.prsolution.winstrike.datasource.model.payment.mapToDomain
 import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
-import ru.prsolution.winstrike.domain.models.payment.Payment
+import ru.prsolution.winstrike.domain.models.payment.PaymentModel
 import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
-import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel.time
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.arenaPid
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.token
 
 class ArenaRemoteDataSourceImpl constructor(
@@ -36,10 +34,10 @@ class ArenaRemoteDataSourceImpl constructor(
         return response?.mapToDomain()
     }
 
-    override suspend fun getPayment(token: String, payment: Payment): Resource<PaymentResponse>? {
+    override suspend fun getPayment(payment: PaymentEntity): Resource<PaymentResponse>? {
         val response = safeApiCall(
-            call = { api.getPaymentAsync(token, payment).await() },
-            errorMessage = "Error get payment response"
+            call = { api.getPaymentAsync(payment).await() },
+            errorMessage = "Error pay payment response"
         )
 
         return response?.mapToDomain()

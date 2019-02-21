@@ -37,8 +37,6 @@ class SplashFragment : Fragment() {
         })
     }
 
-//        mainIntent = Intent(this@StartActivity, MainActivity::class.java)
-//        loginIntent = Intent(Intent(this@StartActivity, LoginActivity::class.java))
 
 
     private fun start() {

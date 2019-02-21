@@ -42,10 +42,14 @@ import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.domain.models.payment.Payment
+import ru.prsolution.winstrike.domain.models.payment.PaymentModel
+import ru.prsolution.winstrike.domain.models.payment.mapToPresentation
 import ru.prsolution.winstrike.domain.models.payment.setPlacesPid
+import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.model.arena.SchemaItem
 import ru.prsolution.winstrike.presentation.model.arena.mapToDomain
+import ru.prsolution.winstrike.presentation.model.payment.PaymentInfo
+import ru.prsolution.winstrike.presentation.model.payment.mapToDomain
 import ru.prsolution.winstrike.viewmodel.MapViewModel
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 import timber.log.Timber
@@ -141,14 +145,20 @@ class MapFragment : Fragment() {
 
         // payment response from map fragment:
         mVm.paymentResponse.observe(this@MapFragment, Observer {
-            it?.let { response ->
-                if (pending.compareAndSet(true, false)) {
-                    Timber.tag("$$$").d("already pending")
-                } else {
-                    onPaymentShow(response)
-                    pending.set(true)
+            it?.let {
+                when (it.state) {
+//                    ResourceState.LOADING -> swipeRefreshLayout.startRefreshing()
+//                    ResourceState.SUCCESS -> swipeRefreshLayout.stopRefreshing()
+//                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
+                }
+                it.data?.let {
+                    onPaymentShow(it.mapToPresentation())
+                }
+                it.message?.let {
+                    onGetPaymentFailure(it)
                 }
             }
+
         })
 
     }
@@ -162,7 +172,7 @@ class MapFragment : Fragment() {
         requireNotNull(mapLayout) { "++++ Map Fragment root layout must not be null. ++++" }
 
 
-        drawSeat(ArenaMap(schema!!.mapToDomain()))
+        drawSeat(ArenaMap(schema.mapToDomain()))
     }
 
 
@@ -588,15 +598,15 @@ class MapFragment : Fragment() {
     // Open Yandex WebView on payment response from MapFragment
     private fun onPaymentShow(payResponse: PaymentResponseItem) {
         // TODO: Show progress bar when load web view.
+//        val testUrl = "https://yandex.ru"
         val url = payResponse.redirectUrl
-        val testUrl = "https://yandex.ru"
-        val action = MapFragmentDirections.nextAction(testUrl)
-        Navigation.findNavController(requireActivity(), R.id.splash_host_fragment).navigate(action)
+        val action = MapFragmentDirections.nextAction(url)
+        (activity as NavigationListener).navigate(action)
     }
 
 
     fun onPaymentRequest() {
-        val payModel = Payment(
+        val payModel = PaymentModel(
             TimeDataModel.start,
             TimeDataModel.end,
             null
@@ -604,8 +614,7 @@ class MapFragment : Fragment() {
 
         payModel.setPlacesPid(TimeDataModel.pids)
 
-        val token = "Bearer " + PrefUtils.token
-        mVm.getPayment(token, payModel)
+        mVm.getPayment(payModel.mapToPresentation())
 
         // TODO: Clear payModel after payments!!!
         TimeDataModel.pids.clear()

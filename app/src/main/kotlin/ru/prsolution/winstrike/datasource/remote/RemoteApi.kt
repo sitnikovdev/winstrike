@@ -7,13 +7,10 @@ import ru.prsolution.winstrike.datasource.model.arena.ArenaListEntity
 import ru.prsolution.winstrike.datasource.model.arena.SchemaEntity
 import ru.prsolution.winstrike.datasource.model.city.CityListEntity
 import ru.prsolution.winstrike.datasource.model.login.*
+import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentResponseEntity
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
-import ru.prsolution.winstrike.domain.models.login.LoginModel
-import ru.prsolution.winstrike.domain.models.login.ProfileModel
-import ru.prsolution.winstrike.domain.models.login.SmsModel
-import ru.prsolution.winstrike.domain.models.payment.Payment
 
 interface CityApi {
     // Получение  списка городов
@@ -40,10 +37,7 @@ interface ArenaApi {
     //  В случае успеха в ответ приходит ссылка на Яндекс кассу для оплаты.
     @POST("payments")
     fun getPaymentAsync(
-        @Header(
-            "authorization"
-        ) token: String,
-        @Body payment: Payment
+        @Body payment: PaymentEntity
     ): Deferred<Response<PaymentResponseEntity>>
 
 

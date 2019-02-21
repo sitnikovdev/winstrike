@@ -5,9 +5,11 @@ import ru.prsolution.winstrike.data.datasource.ArenaRemoteDataSource
 import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
-import ru.prsolution.winstrike.domain.models.payment.Payment
+import ru.prsolution.winstrike.domain.models.payment.PaymentModel
 import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
+import ru.prsolution.winstrike.domain.models.payment.mapToDataSource
 import ru.prsolution.winstrike.domain.repository.ArenaRepository
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.token
 
 class ArenaRepositoryImpl constructor(
     private val cacheDataSource: ArenaCacheDataSource,
@@ -20,9 +22,7 @@ class ArenaRepositoryImpl constructor(
     override suspend fun get(arenaPid: String?, time: Map<String, String>, refresh: Boolean): Resource<ArenaSchema>? =
         remoteDataSource.getSchema(arenaPid, time)
 
-
-    override suspend fun get(token: String, paymentModel: Payment): Resource<PaymentResponse>? =
-        remoteDataSource.getPayment(token,paymentModel)
-
+    override suspend fun pay(paymentModel: PaymentModel): Resource<PaymentResponse>? =
+        remoteDataSource.getPayment(paymentModel.mapToDataSource())
 }
 

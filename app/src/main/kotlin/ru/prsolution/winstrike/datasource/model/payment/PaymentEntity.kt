@@ -5,7 +5,7 @@ package ru.prsolution.winstrike.datasource.model.payment
  */
 
 import com.squareup.moshi.Json
-import ru.prsolution.winstrike.domain.models.payment.Payment
+import ru.prsolution.winstrike.domain.models.payment.PaymentModel
 
 class PaymentEntity(
     @field:Json(name = "start_at")
@@ -16,7 +16,7 @@ class PaymentEntity(
     val placesPid: List<String>? = null
 )
 
-fun PaymentEntity.mapToDomain(): Payment = Payment(
+fun PaymentEntity.mapToDomain(): PaymentModel = PaymentModel(
     start_at = this.startAt,
     end_at = this.end_at,
     places = this.placesPid
