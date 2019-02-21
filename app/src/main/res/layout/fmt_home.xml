@@ -5,14 +5,14 @@
         android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-           xmlns:app="http://schemas.android.com/apk/res-auto"
-           xmlns:fresco="http://schemas.android.com/apk/res-auto"
-           xmlns:tools="http://schemas.android.com/tools"
-           android:id="@+id/root"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:background="@color/white"
-           tools:activity=".presentation.main.MainScreenActivity">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:fresco="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            tools:activity=".presentation.main.MainScreenActivity">
 
         <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/line_start"
@@ -30,22 +30,30 @@
                 app:layout_constraintGuide_end="@dimen/keyline_40dp"
         />
 
+        <!--Arena title-->
         <TextView
                 android:id="@+id/metro_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="@dimen/title_bottom"
-                android:layout_marginStart="66dp"
-                android:layout_marginEnd="66dp"
                 android:textColor="?themeAccent"
                 app:layout_constraintBottom_toTopOf="@id/head_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_goneMarginBottom="24dp"
-                tools:text="ЦДМ на Лубянке"
+                android:text="ЦДМ на Лубянке"
                 android:textAppearance="@style/TextAppearance.Winstrike.Title.Big"
+        />
+        <TextView
+                android:id="@+id/address_tv"
+                android:layout_width="wrap_content"
+                tools:layout_width="match_parent"
+                android:text="address Moskow city"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/metro_tv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@tools:sample/cities"
+                android:textAppearance="@style/TextAppearance.Winstrike.Content"
         />
 
 
@@ -53,11 +61,11 @@
                 android:id="@+id/head_image"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/address_tv"
                 app:layout_constraintBottom_toTopOf="@id/arena_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/metro_tv"
                 fresco:placeholderImage="@drawable/head_img"
         />
 

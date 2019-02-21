@@ -113,7 +113,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateArenaInfo(arena: ArenaItem?) {
-        metro_tv.text = arena?.metro
+        metro_tv.text = arena?.trsMetro
+        address_tv.text = arena?.exactAddress
         arena_description.text = arena?.description
         head_image.imageURI = Uri.parse(arena?.imageUrl)
     }

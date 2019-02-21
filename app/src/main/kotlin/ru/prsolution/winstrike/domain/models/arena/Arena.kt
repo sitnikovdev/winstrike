@@ -1,21 +1,44 @@
 package ru.prsolution.winstrike.domain.models.arena
 
+import ru.prsolution.winstrike.datasource.model.arena.ArenaEntity
+
 class Arena(
-    val publicId: String? = null,
-    val activeLayoutPid: String? = null,
-    val cityPid: String? = null,
-    val name: String? = null,
-    val metro: String? = null,
-    val roomLayoutPid: String? = null,
-    val description: String? = null,
-    val imageUrl: String? = null,
-    val commonDescription: String? = null,
-    val vipDescription: String? = null,
-    val commonImageUrl: String? = null,
-    val vipImageUrl: String? = null,
-    val locale: String? = null
+    val publicId: String?,
+    val activeLayoutPid: String?,
+    val cityPid: String?,
+    val name: String?,
+    val metro: String?,
+    val roomLayoutPid: String?,
+    val description: String?,
+    val imageUrl: String?,
+    val commonDescription: String?,
+    val vipDescription: String?,
+    val commonImageUrl: String?,
+    val vipImageUrl: String?,
+    val locale: String?,
+    val trs: String?,
+    val trsMetro: String?,
+    val exactAddress: String?
 )
 
 enum class ArenaHallType {
     DOUBLE, COMMON, VIP
 }
+
+
+fun Arena.mapToDatasource(): ArenaEntity = ArenaEntity(
+    publicId = this.publicId,
+    activeLayoutPid = this.activeLayoutPid,
+    cityPid = this.cityPid,
+    name = this.name,
+    metro = this.metro,
+    roomLayoutPid = this.roomLayoutPid,
+    description = this.description,
+    imageUrl = this.imageUrl,
+    commonImageUrl = this.commonImageUrl,
+    vipImageUrl = this.vipImageUrl,
+    locale = this.locale,
+    trs = this.trs,
+    trsMetro = this.trsMetro,
+    exactAddress = this.exactAddress
+)

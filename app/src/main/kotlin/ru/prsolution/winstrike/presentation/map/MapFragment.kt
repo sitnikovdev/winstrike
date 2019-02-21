@@ -63,9 +63,6 @@ class MapFragment : Fragment() {
     private val mVm: MapViewModel by viewModel()
     private val mSetUpVm: SetUpViewModel by viewModel()
 
-    //TODO: fix it
-    private val pending = AtomicBoolean(false)
-
     private var mDlgMapLegend: Dialog? = null
     var mapLayout: RelativeLayout? = null
     private var snackbar: Snackbar? = null

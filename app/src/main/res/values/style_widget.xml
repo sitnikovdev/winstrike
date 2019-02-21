@@ -19,6 +19,7 @@
 
     <!--Title Big-->
     <style name="TextAppearance.Winstrike.Title.Big" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">17sp</item>
     </style>
 
@@ -77,8 +78,8 @@
     <!--Phone and Password edit text fields-->
 
     <!--DatePickerDialog-->
-    <style name="DateDialog" parent="Theme.MaterialComponents.Dialog">
-        <item name="dialogCornerRadius">10dp</item>
+    <style name="Theme.Winstrike.DateDialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="dialogCornerRadius">20dp</item>
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="colorAccent">?themeAccent</item>
         <item name="windowActionBar">false</item>

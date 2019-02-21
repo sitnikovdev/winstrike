@@ -17,7 +17,10 @@ data class ArenaItem(
         val commonDescription: String?,
         val commonImageUrl: String?,
         val vipDescription: String?,
-        val vipImageUrl: String?
+        val vipImageUrl: String?,
+        val trs: String?,
+        val trsMetro: String?,
+        val exactAddress: String?
 )
 
 /**
@@ -43,7 +46,10 @@ fun List<Arena>.mapToPresentation(): List<ArenaItem> =
                         commonDescription = it.commonDescription,
                         commonImageUrl = it.commonImageUrl,
                         vipDescription = it.vipDescription,
-                        vipImageUrl = it.vipImageUrl
+                        vipImageUrl = it.vipImageUrl,
+                        trs = it.trs,
+                        trsMetro = it.trsMetro,
+                        exactAddress = it.exactAddress
                 )
         }
 

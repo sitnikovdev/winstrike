@@ -209,7 +209,7 @@ class DatePickerFragment(
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-        return DatePickerDialog(context, R.style.DateDialog, listener, year,
+        return DatePickerDialog(context, R.style.Theme_Winstrike_DateDialog, listener, year,
                 month, day)
     }
 }

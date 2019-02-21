@@ -2,10 +2,7 @@ package ru.prsolution.winstrike.datasource.model.arena
 
 import com.squareup.moshi.Json
 import ru.prsolution.winstrike.data.repository.resouces.Resource
-import ru.prsolution.winstrike.datasource.model.city.CityListEntity
-import ru.prsolution.winstrike.datasource.model.city.mapToDomain
 import ru.prsolution.winstrike.domain.models.arena.Arena
-import ru.prsolution.winstrike.domain.models.city.City
 
 class ArenaListEntity(var rooms: List<ArenaEntity>)
 
@@ -15,6 +12,9 @@ class ArenaEntity(
     @field:Json(name = "city_pid") val cityPid: String? = null,
     @field:Json(name = "name") val name: String? = null,
     @field:Json(name = "metro") val metro: String? = null,
+    @field:Json(name = "trs") val trs: String? = null,
+    @field:Json(name = "trs_metro") val trsMetro: String? = null,
+    @field:Json(name = "exact_address") val exactAddress: String? = null,
     @field:Json(name = "room_layout_pid") val roomLayoutPid: String? = null,
     @field:Json(name = "description") val description: String? = null,
 
@@ -29,19 +29,22 @@ class ArenaEntity(
 
 fun ArenaEntity.mapToDomain(): Arena =
     Arena(
-        publicId,
-        activeLayoutPid,
-        cityPid,
-        name,
-        metro,
-        roomLayoutPid,
-        description,
-        imageUrl,
-        commonDescription,
-        vipDescription,
-        commonImageUrl,
-        vipImageUrl,
-        locale
+        publicId = publicId,
+        activeLayoutPid =  activeLayoutPid,
+        cityPid = cityPid,
+        name = name,
+        metro = metro,
+        trs = trs,
+        trsMetro = trsMetro,
+        exactAddress = exactAddress,
+        roomLayoutPid = roomLayoutPid,
+        description = description,
+        imageUrl = imageUrl,
+        commonDescription = commonDescription,
+        vipDescription = vipDescription,
+        commonImageUrl = commonImageUrl,
+        vipImageUrl = vipImageUrl,
+        locale = locale
     )
 
 fun List<ArenaEntity>.mapToDomain(): List<Arena> = map { it.mapToDomain() }
