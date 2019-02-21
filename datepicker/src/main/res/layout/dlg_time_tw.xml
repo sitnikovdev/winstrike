@@ -69,6 +69,9 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:textSize="17sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@android:color/white"
         />
 
         <!-- Выберите количество часов в клубе -->
@@ -83,7 +86,11 @@
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title"/>
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                android:textSize="15sp"
+                android:textColor="@android:color/white"
+                android:alpha=".6"
+        />
 
         <!-- "C" -->
         <TextView
@@ -93,13 +100,16 @@
                 android:layout_marginEnd="8dp"
                 android:text="c"
                 android:textAlignment="center"
-                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_hour_from"
                 app:layout_constraintEnd_toStartOf="@id/tv_hour_from"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_hour_from"
-                app:layout_constraintVertical_bias="0.466"/>
+                app:layout_constraintVertical_bias="0.466"
+                android:textSize="15sp"
+                android:textColor="@android:color/white"
+                android:alpha=".6"
+        />
 
         <!--Место тача для выбора "С" времени-->
         <View
@@ -117,10 +127,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
                 tools:text="12"
-                android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_from_sep"
                 app:layout_constraintStart_toEndOf="@id/tv_from_text"
-                app:layout_constraintTop_toTopOf="@id/tv_detail"/>
+                app:layout_constraintTop_toTopOf="@id/tv_detail"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+        />
 
         <!--:-->
         <TextView
@@ -131,10 +143,12 @@
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="58dp"
                 android:text=":"
-                android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_min_from"
                 app:layout_constraintStart_toEndOf="@id/tv_hour_from"
-                app:layout_constraintTop_toTopOf="@id/tv_detail"/>
+                app:layout_constraintTop_toTopOf="@id/tv_detail"
+                android:textSize="22sp"
+                android:textColor="@android:color/white"
+        />
 
         <!-- Минуты "С" -->
         <TextView
@@ -144,10 +158,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
                 tools:text="30"
-                android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_to_text"
                 app:layout_constraintStart_toEndOf="@id/tv_from_sep"
-                app:layout_constraintTop_toTopOf="@id/tv_detail"/>
+                app:layout_constraintTop_toTopOf="@id/tv_detail"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+        />
 
         <!-- ДО -->
         <TextView
@@ -158,12 +174,16 @@
                 android:layout_marginStart="16dp"
                 android:text="до"
                 android:textAlignment="center"
-                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_hour_to"
                 app:layout_constraintEnd_toStartOf="@id/tv_hour_to"
                 app:layout_constraintStart_toEndOf="@id/tv_min_from"
                 app:layout_constraintTop_toTopOf="@+id/tv_hour_to"
-                app:layout_constraintVertical_bias="0.466"/>
+                app:layout_constraintVertical_bias="0.466"
+                android:textSize="15sp"
+                android:textColor="@android:color/white"
+                android:alpha=".6"
+
+        />
 
         <!--Место тача для выбора "ДО" времени -->
         <View
@@ -181,10 +201,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
                 tools:text="14"
-                android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_to_sep"
                 app:layout_constraintStart_toEndOf="@id/tv_to_text"
-                app:layout_constraintTop_toTopOf="@id/tv_detail"/>
+                app:layout_constraintTop_toTopOf="@id/tv_detail"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+        />
 
         <!-- : -->
         <TextView
@@ -195,10 +217,12 @@
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="58dp"
                 android:text=":"
-                android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/tv_min_to"
                 app:layout_constraintStart_toEndOf="@id/tv_hour_to"
-                app:layout_constraintTop_toTopOf="@id/tv_detail"/>
+                app:layout_constraintTop_toTopOf="@id/tv_detail"
+                android:textSize="22sp"
+                android:textColor="@android:color/white"
+        />
 
         <!--Минуты "ДО"-->
         <TextView
@@ -207,10 +231,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
                 tools:text="30"
-                android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_to_sep"
-                app:layout_constraintTop_toTopOf="@id/tv_detail"/>
+                app:layout_constraintTop_toTopOf="@id/tv_detail"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+        />
 
         <TextView
                 android:id="@+id/tv_number"
@@ -221,10 +247,14 @@
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_hour_to"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_hour_to"
+                android:textSize="15sp"
+                android:textColor="@android:color/white"
+                android:alpha=".6"
+        />
 
         <!-- Часы -->
-        <com.olegsv.customdatepicker.datepicker.LoopView
+        <com.ositnikov.datepicker.LoopView
                 android:id="@+id/picker_hour"
                 android:layout_width="85dp"
                 android:layout_height="@dimen/space_loop_hour"
@@ -234,10 +264,14 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_detail"
-                app:layout_constraintVertical_bias="0.473"/>
+                app:layout_constraintVertical_bias="0.473"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+
+        />
 
         <!-- Минуты -->
-        <com.olegsv.customdatepicker.datepicker.LoopView
+        <com.ositnikov.datepicker.LoopView
                 android:id="@+id/picker_min"
                 android:layout_width="85dp"
                 android:layout_height="@dimen/space_loop_min"
@@ -249,7 +283,7 @@
                 app:layout_constraintVertical_bias="0.473"/>
 
         <!--Продолжительность игры-->
-        <com.olegsv.customdatepicker.datepicker.LoopView
+        <com.ositnikov.datepicker.LoopView
                 android:id="@+id/picker_number"
                 android:layout_width="85dp"
                 android:layout_height="@dimen/number_height"
@@ -276,7 +310,10 @@
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="17sp"
+                android:textColor="@android:color/white"
+        />
 
         <!--Кнопка "Продолжить"-->
         <View

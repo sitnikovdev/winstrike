@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
+import android.graphics.Color
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.facebook.drawee.view.SimpleDraweeView
+import com.ositnikov.datepicker.TimePickerPopWin
 import kotlinx.android.synthetic.main.frm_setup.next_button
 import kotlinx.android.synthetic.main.frm_setup.progressBar
 import kotlinx.android.synthetic.main.frm_setup.tv_date
@@ -32,6 +34,7 @@ import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.presentation.model.arena.SchemaItem
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
+import timber.log.Timber
 import java.time.Month
 import java.time.format.TextStyle
 import java.util.Locale
@@ -62,6 +65,8 @@ class SetupFragment : Fragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(ru.prsolution.winstrike.R.layout.frm_setup, container, false)
     }
+
+    private var pickerDialog: TimePickerPopWin? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -96,6 +101,24 @@ class SetupFragment : Fragment(),
         })
 
         initListeners()
+
+        val bntTextSize = 20
+        val viewTextSize = 25
+
+         pickerDialog = TimePickerPopWin.Builder(
+            requireContext(), (TimePickerPopWin.OnTimePickedListener { hour, min, timeDesc, timeFromData, timeToData ->
+//                textView.text = "$timeFromData - $timeToData"
+                Timber.tag("$$$").d("$timeFromData - $timeToData")
+            })
+        )
+            .textConfirm("Продолжить") //text of confirm button
+            .textCancel("CANCEL") //text of cancel button
+            .btnTextSize(bntTextSize) // button text size
+            .viewTextSize(viewTextSize) // pick view text size
+            .colorCancel(Color.parseColor("#999999")) //color of cancel button
+            .colorConfirm(Color.parseColor("#A9A9A9"))//color of confirm button
+            .build()
+
     }
 
     private fun getArenaByTime(activePid: String?) {
@@ -189,8 +212,10 @@ class SetupFragment : Fragment(),
             toast("Сначала выберите дату")
             return
         }
-        val timePicker = TimePickerFragment(this)
-        activity?.supportFragmentManager?.let { timePicker.show(it, "timePicker") }
+//        val timePicker = TimePickerFragment(this)
+//        activity?.supportFragmentManager?.let { timePicker.show(it, "timePicker") }
+
+        pickerDialog?.showPopWin(requireActivity())
     }
 }
 
