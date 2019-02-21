@@ -6,7 +6,6 @@ object AppVersion {
 	const val buildAppVersion = 0
 }
 
-
 object ApplicationId {
 	const val id = "ru.prsolution.winstrike"
 }
