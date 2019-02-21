@@ -69,6 +69,18 @@ class SetupFragment : Fragment(),
         mCpuDescription = view.findViewById(R.id.cpu)
         mSeatImage = view.findViewById(R.id.head_image)
 
+        if (!TimeDataModel.date.isEmpty()) {
+            tv_date.text = TimeDataModel.date.toString()
+        } else {
+             tv_date.text = getString(R.string.seatdetail_date)
+        }
+
+        if (!TimeDataModel.time.isEmpty()) {
+            tv_time.text = TimeDataModel.time.toString()
+        } else {
+            tv_time.text = getString(R.string.seatdetail_time)
+        }
+
         progressBar.visibility = View.INVISIBLE
 
         arguments?.let {
@@ -215,6 +227,7 @@ class SetupFragment : Fragment(),
     }
 
     private fun showTimePickerDialog(v: View) {
+
         if (TextUtils.isEmpty(TimeDataModel.date)) {
             toast("Сначала выберите дату")
             return
