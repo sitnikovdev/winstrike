@@ -64,6 +64,7 @@ class MapFragment : Fragment() {
     lateinit var mSelectedSeat: ImageView
     lateinit var mSeat: SeatMap
     lateinit var mSeatNumber: TextView
+    private lateinit var mAlertDialog: AlertDialog
 
     private var mDlgMapLegend: Dialog? = null
     var mapLayout: RelativeLayout? = null
@@ -105,7 +106,7 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mapLayout = view.findViewById(R.id.rootMap)
-        initSnackBar()
+//        initSnackBar()
 
 
         //TODO: use anather solutuion instead parcebale
@@ -361,6 +362,7 @@ class MapFragment : Fragment() {
 //            snackbar?.show()
             showBookingDialog()
         } else {
+            mAlertDialog.dismiss()
 //            snackbar?.dismiss()
         }
     }
@@ -584,12 +586,13 @@ class MapFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        snackbar?.dismiss()
+//        snackbar?.dismiss()
+//        mAlertDialog.dismiss()
     }
 
     override fun onStart() {
         super.onStart()
-        snackbar?.dismiss()
+//        snackbar?.dismiss()
     }
 
     // Open Yandex WebView on payment response from MapFragment
@@ -615,7 +618,8 @@ class MapFragment : Fragment() {
 
         // TODO: Clear payModel after payments!!!
         TimeDataModel.pids.clear()
-        snackbar?.dismiss()
+        mAlertDialog.dismiss()
+//        snackbar?.dismiss()
     }
 
     private fun onPaymentError(error: String) {
@@ -628,26 +632,32 @@ class MapFragment : Fragment() {
     }
 
 
+
+
     private fun showBookingDialog() {
+
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dlg_booking, mapLayout, false)
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(dialogView)
-        val alertDialog = builder.create()
-        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        alertDialog.show()
+        mAlertDialog = builder.create()
+        mAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        mAlertDialog.show()
+
+
         val arenaTitle = SpannableString("Вы бронируете «${PrefUtils.arenaName}»")
         arenaTitle.setSpan(ForegroundColorSpan(resources.getColor(R.color.magenta)),13,arenaTitle.length,SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         val address = "(${PrefUtils.arenaAddress}, ${PrefUtils.arenaMetro})"
 
 
-        val closeBtn = alertDialog.findViewById<View>(R.id.close_dlg)
+        val closeBtn = mAlertDialog.findViewById<View>(R.id.close_dlg)
         closeBtn?.setOnClickListener {
             TimeDataModel.pids.clear()
             setImage(mSelectedSeat, mSeat)
             mSeatNumber.setTextColor(ContextCompat.getColor(activity!!, R.color.grey))
             mapLayout?.invalidate()
-            alertDialog.dismiss()
+            mAlertDialog.dismiss()
         }
 
         val hallName = if (PrefUtils.hallName?.contains("VIP")!!) {
@@ -656,19 +666,19 @@ class MapFragment : Fragment() {
             "Общий"
         }
 
-        alertDialog.findViewById<TextView>(R.id.arena_tv)?.text = arenaTitle
+        mAlertDialog.findViewById<TextView>(R.id.arena_tv)?.text = arenaTitle
 
-        alertDialog.findViewById<TextView>(R.id.hall_tv)?.text = hallName
+        mAlertDialog.findViewById<TextView>(R.id.hall_tv)?.text = hallName
 
-        alertDialog.findViewById<TextView>(R.id.address_tv)?.text = address
+        mAlertDialog.findViewById<TextView>(R.id.address_tv)?.text = address
 
-        alertDialog.findViewById<TextView>(R.id.mesto_tv)?.text = PrefUtils.seatNumber
+        mAlertDialog.findViewById<TextView>(R.id.mesto_tv)?.text = PrefUtils.seatNumber
 
-        alertDialog.findViewById<TextView>(R.id.date_tv)?.text = TimeDataModel.date
+        mAlertDialog.findViewById<TextView>(R.id.date_tv)?.text = TimeDataModel.date
 
-        alertDialog.findViewById<TextView>(R.id.time_tv)?.text = "c ${TimeDataModel.timeFrom} до ${TimeDataModel.timeTo}"
+        mAlertDialog.findViewById<TextView>(R.id.time_tv)?.text = "c ${TimeDataModel.timeFrom} до ${TimeDataModel.timeTo}"
 
-        val btnBooking = alertDialog.findViewById<View>(R.id.btn_v)
+        val btnBooking = mAlertDialog.findViewById<View>(R.id.btn_v)
         btnBooking?.setOnClickListener(BookingBtnListener())
 
     }
