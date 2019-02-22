@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.frm_setup.tv_date
 import kotlinx.android.synthetic.main.frm_setup.tv_time
 import kotlinx.android.synthetic.main.frm_setup.v_date_tap
 import kotlinx.android.synthetic.main.frm_setup.v_time_tap
+import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
@@ -63,13 +64,13 @@ class SetupFragment : Fragment(),
         mSeatImage = view.findViewById(R.id.head_image)
 
         if (!TimeDataModel.date.isEmpty()) {
-            tv_date.text = TimeDataModel.date.toString()
+            tv_date.text = TimeDataModel.date
         } else {
             tv_date.text = getString(R.string.seatdetail_date)
         }
 
-        if (!TimeDataModel.time.isEmpty()) {
-            tv_time.text = TimeDataModel.time.toString()
+        if (!TimeDataModel.timeFrom.isEmpty()) {
+            tv_time.text ="${TimeDataModel.timeFrom} : ${TimeDataModel.timeTo}"
         } else {
             tv_time.text = getString(R.string.seatdetail_time)
         }
@@ -198,9 +199,13 @@ class SetupFragment : Fragment(),
 
         // next button
         next_button.setOnClickListener {
-            progressBar.visibility = View.VISIBLE
-            getArenaByTime(mArenaActivePid)
-            activity?.supportFragmentManager?.executePendingTransactions()
+            if (TimeDataModel.isDateValid) {
+                progressBar.visibility = View.VISIBLE
+                getArenaByTime(mArenaActivePid)
+                activity?.supportFragmentManager?.executePendingTransactions()
+            } else {
+                longToast("Выберите время")
+            }
         }
     }
 
