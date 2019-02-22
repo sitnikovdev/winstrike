@@ -637,6 +637,17 @@ class MapFragment : Fragment() {
         val alertDialog = builder.create()
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
+
+        val closeBtn = alertDialog.findViewById<View>(R.id.close_dlg)
+        closeBtn?.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        val btnBooking = alertDialog.findViewById<View>(R.id.btn_v)
+        btnBooking?.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
     }
 
 
