@@ -5,6 +5,7 @@ import ru.prsolution.winstrike.data.datasource.ArenaRemoteDataSource
 import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
+import ru.prsolution.winstrike.domain.models.arena.Schedule
 import ru.prsolution.winstrike.domain.models.payment.PaymentModel
 import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
 import ru.prsolution.winstrike.domain.models.payment.mapToDataSource
@@ -24,5 +25,9 @@ class ArenaRepositoryImpl constructor(
 
     override suspend fun pay(paymentModel: PaymentModel): Resource<PaymentResponse>? =
         remoteDataSource.getPayment(paymentModel.mapToDataSource())
+
+
+    override suspend fun getSchedule(): Resource<List<Schedule>>? =
+        remoteDataSource.getSchedule()
 }
 

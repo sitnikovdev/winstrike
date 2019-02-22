@@ -4,6 +4,8 @@ import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.*
 import ru.prsolution.winstrike.datasource.model.arena.ArenaListEntity
+import ru.prsolution.winstrike.datasource.model.arena.ScheduleEntity
+import ru.prsolution.winstrike.datasource.model.arena.SchedulersEntity
 import ru.prsolution.winstrike.datasource.model.arena.SchemaEntity
 import ru.prsolution.winstrike.datasource.model.city.CityListEntity
 import ru.prsolution.winstrike.datasource.model.login.*
@@ -39,6 +41,10 @@ interface ArenaApi {
     fun getPaymentAsync(
         @Body payment: PaymentEntity
     ): Deferred<Response<PaymentResponseEntity>>
+
+    // Расписание работы клубов
+    @GET("schedules")
+    fun getSchedules(): Deferred<Response<SchedulersEntity>>
 
 
     // Send fcm tocken to server

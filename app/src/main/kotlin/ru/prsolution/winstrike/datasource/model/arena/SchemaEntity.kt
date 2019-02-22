@@ -6,160 +6,160 @@ import ru.prsolution.winstrike.domain.models.arena.*
 
 class SchemaEntity(
     @field:Json(name = "room_layout")
-    val roomLayout: ArenaSchemaEntity? = null
+    val roomLayout: ArenaSchemaEntity?
 )
 
 class ArenaSchemaEntity(
     @field:Json(name = "name")
-    val name: String? = null,
+    val name: String?,
 
     @field:Json(name = "create_at")
-    val createAt: String? = null,
+    val createAt: String?,
 
     @field:Json(name = "labels")
-    val labels: List<LabelEntity>? = null,
+    val labels: List<LabelEntity>?,
 
     @field:Json(name = "places")
-    val places: List<SeatEntity>? = null,
+    val places: List<SeatEntity>?,
 
     @field:Json(name = "room_pid")
-    val roomPid: String? = null,
+    val roomPid: String?,
 
     @field:Json(name = "public_id")
-    val publicId: String? = null,
+    val publicId: String?,
 
     @field:Json(name = "walls")
-    val walls: List<WallEntity>? = null
+    val walls: List<WallEntity>?
 
 )
 
 class SeatEntity(
 
     @field:Json(name = "offer_pid")
-    val offerPid: String? = null,
+    val offerPid: String?,
 
     @field:Json(name = "is_hidden")
-    val isHidden: Boolean? = null,
+    val isHidden: Boolean?,
 
     @field:Json(name = "computer")
-    val computer: ComputerEntity? = null,
+    val computer: ComputerEntity?,
 
     @field:Json(name = "public_id")
-    val publicId: String? = null,
+    val publicId: String?,
 
     @field:Json(name = "offer")
-    val offer: OfferEntity? = null,
+    val offer: OfferEntity?,
 
     @field:Json(name = "computer_pid")
-    val computerPid: String? = null,
+    val computerPid: String?,
 
     @field:Json(name = "room_layout_pid")
-    val roomLayoutPid: String? = null,
+    val roomLayoutPid: String?,
 
     @field:Json(name = "name")
-    val name: String? = null,
+    val name: String?,
 
     @field:Json(name = "create_at")
-    val createAt: String? = null,
+    val createAt: String?,
 
     @field:Json(name = "coors")
-    val coors: CoorsEntity? = null,
+    val coors: CoorsEntity?,
 
     @field:Json(name = "status")
-    val status: String? = null
+    val status: String?
 )
 
 class ComputerEntity(
 
     @field:Json(name = "active")
-    val active: Boolean? = null,
+    val active: Boolean?,
 
     @field:Json(name = "name")
-    val name: String? = null,
+    val name: String?,
 
     @field:Json(name = "public_id")
-    val publicId: String? = null,
+    val publicId: String?,
 
     @field:Json(name = "create_at")
-    val createAt: String? = null
+    val createAt: String?
 )
 
 class OfferEntity(
 
     @field:Json(name = "name")
-    val name: String? = null,
+    val name: String?,
 
     @field:Json(name = "cost")
-    val cost: Int? = null,
+    val cost: Int?,
 
     @field:Json(name = "public_id")
-    val publicId: String? = null,
+    val publicId: String?,
 
     @field:Json(name = "create_at")
-    val createAt: String? = null
+    val createAt: String?
 )
 
 class CoorsEntity(
 
     @field:Json(name = "id")
-    val id: String? = null,
+    val id: String?,
 
     @field:Json(name = "angle")
-    val angle: Double? = null,
+    val angle: Double?,
 
     @field:Json(name = "type")
-    val type: Int? = null,
+    val type: Int?,
 
     @field:Json(name = "x")
-    val x: Int? = null,
+    val x: Int?,
 
     @field:Json(name = "y")
-    val y: Int? = null,
+    val y: Int?,
 
     @field:Json(name = "xn")
-    val xn: Int? = null,
+    val xn: Int?,
 
     @field:Json(name = "yn")
-    val yn: Int? = null
+    val yn: Int?
 )
 
 class LabelEntity(
 
     @field:Json(name = "text")
-    val text: String? = null,
+    val text: String?,
 
     @field:Json(name = "x")
-    val x: Int? = null,
+    val x: Int?,
 
     @field:Json(name = "y")
-    val y: Int? = null
+    val y: Int?
 )
 
 class WallEntity(
 
     @field:Json(name = "start")
-    val start: StartEntity? = null,
+    val start: StartEntity?,
 
     @field:Json(name = "end")
-    val end: EndEntity? = null
+    val end: EndEntity?
 )
 
 class StartEntity(
 
     @field:Json(name = "x")
-    val x: Int? = null,
+    val x: Int?,
 
     @field:Json(name = "y")
-    val y: Int? = null
+    val y: Int?
 )
 
 class EndEntity(
 
     @field:Json(name = "x")
-    val x: Int? = null,
+    val x: Int?,
 
     @field:Json(name = "y")
-    val y: Int? = null
+    val y: Int?
 )
 
 fun ComputerEntity.mapToDomain(): Computer =
