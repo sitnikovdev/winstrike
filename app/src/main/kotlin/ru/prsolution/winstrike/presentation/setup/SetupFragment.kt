@@ -30,6 +30,7 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.presentation.model.arena.SchemaItem
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 import timber.log.Timber
 import java.time.Month
@@ -204,6 +205,7 @@ class SetupFragment : Fragment(),
     }
 
     private fun updateSeatInfo(seat: SeatCarousel?) {
+        PrefUtils.hallName = seat?.title
         mSeatName?.text = seat?.title
         mSeatImage?.setImageURI(Uri.parse(seat?.imageUrl))
         mCpuDescription?.text = seat?.description.let { it?.replace(oldValue = "\\", newValue = "") }

@@ -21,11 +21,25 @@ object PrefUtils {
 
     private const val ARENAPID = "arenaPid"
 
+    private const val HALLNAME = "hallName"
+
     private const val ARENANAME = "arenaName"
+
+    private const val SEATNUMBER = "seatNumber"
+
+    private const val ARENAMETRO = "arenaMetro"
+
+    private const val ARENAADDRESS = "arenaAddress"
 
     private const val ACTIVEARENAPID = "activeArenaPid"
 
     private const val CITYPID = "cityPid"
+
+    var seatNumber: String?
+        get() = SharedPrefFactory.prefs.getString(SEATNUMBER, "")
+        set(seatNumber) {
+            SharedPrefFactory.editor.putString(SEATNUMBER, seatNumber).commit()
+        }
 
 
     var cityPid: String?
@@ -44,6 +58,24 @@ object PrefUtils {
         get() = SharedPrefFactory.prefs.getString(ARENANAME, "")
         set(arenaName) {
             SharedPrefFactory.editor.putString(ARENANAME, arenaName).commit()
+        }
+
+    var arenaMetro: String?
+        get() = SharedPrefFactory.prefs.getString(ARENAMETRO, "")
+        set(arenaMetro) {
+            SharedPrefFactory.editor.putString(ARENAMETRO, arenaMetro).commit()
+        }
+
+    var arenaAddress: String?
+        get() = SharedPrefFactory.prefs.getString(ARENAADDRESS, "")
+        set(arenaAddress) {
+            SharedPrefFactory.editor.putString(ARENAADDRESS, arenaAddress).commit()
+        }
+
+    var hallName: String?
+        get() = SharedPrefFactory.prefs.getString(HALLNAME, "")
+        set(hallName) {
+            SharedPrefFactory.editor.putString(HALLNAME, hallName).commit()
         }
 
 

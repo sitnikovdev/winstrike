@@ -113,6 +113,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateArenaInfo(arena: ArenaItem?) {
+        PrefUtils.arenaMetro = arena?.trsMetro
+        PrefUtils.arenaAddress = arena?.exactAddress
+
         metro_tv.text = arena?.trsMetro
         address_tv.text = arena?.exactAddress
         arena_description.text = arena?.description

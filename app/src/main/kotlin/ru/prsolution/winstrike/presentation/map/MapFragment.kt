@@ -13,6 +13,8 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.VectorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -59,8 +61,9 @@ import java.util.LinkedHashMap
 class MapFragment : Fragment() {
     private val mVm: MapViewModel by viewModel()
     private val mSetUpVm: SetUpViewModel by viewModel()
-
-    private var viewGroup: ViewGroup? = null
+    lateinit var mSelectedSeat: ImageView
+    lateinit var mSeat: SeatMap
+    lateinit var mSeatNumber: TextView
 
     private var mDlgMapLegend: Dialog? = null
     var mapLayout: RelativeLayout? = null
@@ -94,17 +97,7 @@ class MapFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (isAdded) {
-            Timber.d("fragment is added")
-        } else {
-            Timber.d("fragment is not added")
-        }
-        if (context != null) {
-            Timber.d("on Attach context not null")
-            this.mContext = context
-        } else {
-            Timber.d("on Attach context is null")
-        }
+        this.mContext = context
     }
 
 
@@ -114,7 +107,6 @@ class MapFragment : Fragment() {
         mapLayout = view.findViewById(R.id.rootMap)
         initSnackBar()
 
-        viewGroup = view.findViewById<ViewGroup>(android.R.id.content)
 
         //TODO: use anather solutuion instead parcebale
         arguments?.let {
@@ -390,7 +382,7 @@ class MapFragment : Fragment() {
         val angleInt = Math.round(angle)
         val angleAbs = Math.abs(angleInt)
 
-        var offsetX: Int
+        val offsetX: Int
 
         if (angleAbs != 90) { // horizontal seats
             offsetX = 0
@@ -526,6 +518,11 @@ class MapFragment : Fragment() {
         override fun onClick(v: View) {
             if (seat.type === SeatType.FREE || seat.type === SeatType.VIP) {
                 if (!mPickedSeatsIds.containsKey(Integer.parseInt(seat.id))) {
+                    val numberSeat = Utils.parseNumber(seat.name)
+                    PrefUtils.seatNumber = numberSeat
+                    mSelectedSeat = ivSeat
+                    mSeat = seat
+                    mSeatNumber = seatNumber
                     ivSeat.setBackgroundResource(R.drawable.ic_seat_picked)
                     seat.pid?.let { onSelectSeat(seat.id, false, it) }
                     Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.id, seat.type, seat.name, seat.pid)
@@ -580,6 +577,7 @@ class MapFragment : Fragment() {
         val snackView = layoutInflater.inflate(R.layout.my_snackbar, null)
         snackLayout = snackbar?.view as Snackbar.SnackbarLayout
         snackLayout?.addView(snackView)
+
         snackLayout?.setOnClickListener(BookingBtnListener())
         snackbar?.dismiss()
     }
@@ -637,18 +635,42 @@ class MapFragment : Fragment() {
         val alertDialog = builder.create()
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alertDialog.show()
+        val arenaTitle = SpannableString("Вы бронируете «${PrefUtils.arenaName}»")
+        arenaTitle.setSpan(ForegroundColorSpan(resources.getColor(R.color.magenta)),13,arenaTitle.length,SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val address = "(${PrefUtils.arenaAddress}, ${PrefUtils.arenaMetro})"
+
 
         val closeBtn = alertDialog.findViewById<View>(R.id.close_dlg)
         closeBtn?.setOnClickListener {
+            TimeDataModel.pids.clear()
+            setImage(mSelectedSeat, mSeat)
+            mSeatNumber.setTextColor(ContextCompat.getColor(activity!!, R.color.grey))
+            mapLayout?.invalidate()
             alertDialog.dismiss()
         }
+
+        val hallName = if (PrefUtils.hallName?.contains("VIP")!!) {
+            "VIP"
+        } else {
+            "Общий"
+        }
+
+        alertDialog.findViewById<TextView>(R.id.arena_tv)?.text = arenaTitle
+
+        alertDialog.findViewById<TextView>(R.id.hall_tv)?.text = hallName
+
+        alertDialog.findViewById<TextView>(R.id.address_tv)?.text = address
+
+        alertDialog.findViewById<TextView>(R.id.mesto_tv)?.text = PrefUtils.seatNumber
+
+        alertDialog.findViewById<TextView>(R.id.date_tv)?.text = TimeDataModel.date
+
+        alertDialog.findViewById<TextView>(R.id.time_tv)?.text = "c ${TimeDataModel.timeFrom} до ${TimeDataModel.timeTo}"
 
         val btnBooking = alertDialog.findViewById<View>(R.id.btn_v)
-        btnBooking?.setOnClickListener {
-            alertDialog.dismiss()
-        }
+        btnBooking?.setOnClickListener(BookingBtnListener())
 
     }
-
 
 }
