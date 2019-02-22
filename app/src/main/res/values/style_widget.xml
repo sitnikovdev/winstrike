@@ -75,22 +75,23 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <!--Phone and Password edit text fields-->
-
-    <!--DatePickerDialog-->
-    <style name="Theme.Winstrike.DateDialog" parent="Theme.MaterialComponents.Dialog">
-        <item name="dialogCornerRadius">20dp</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
-        <item name="colorAccent">?themeAccent</item>
-        <item name="windowActionBar">false</item>
-    </style>
-
 
     <!-- Profile fragment: Tab layout theme-->
     <style name="TabLayoutProfile" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">17sp</item>
         <item name="textAllCaps">false</item>
     </style>
+
+
+    <!--DatePickerDialog-->
+    <style name="Theme.Winstrike.DateDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <!--Custom attributes-->
+        <item name="dialogCornerRadius">20dp</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimaryInverse">@color/yellow</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
 
 </resources>
 

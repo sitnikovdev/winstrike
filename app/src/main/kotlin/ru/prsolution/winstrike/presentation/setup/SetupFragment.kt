@@ -3,6 +3,7 @@ package ru.prsolution.winstrike.presentation.setup
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.net.Uri
@@ -36,8 +37,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 class SetupFragment : Fragment(),
-    DatePickerDialog.OnDateSetListener
-{
+    DatePickerDialog.OnDateSetListener {
 
     private val mVm: SetUpViewModel by viewModel()
 
@@ -47,14 +47,6 @@ class SetupFragment : Fragment(),
     private var mSeatImage: SimpleDraweeView? = null
     private var mArenaSchema: SchemaItem? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // Get list of arenas
-        if (savedInstanceState == null) {
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(ru.prsolution.winstrike.R.layout.frm_setup, container, false)
@@ -72,7 +64,7 @@ class SetupFragment : Fragment(),
         if (!TimeDataModel.date.isEmpty()) {
             tv_date.text = TimeDataModel.date.toString()
         } else {
-             tv_date.text = getString(R.string.seatdetail_date)
+            tv_date.text = getString(R.string.seatdetail_date)
         }
 
         if (!TimeDataModel.time.isEmpty()) {
@@ -108,9 +100,6 @@ class SetupFragment : Fragment(),
 
         initListeners()
 
-        val bntTextSize = 20
-        val viewTextSize = 25
-
         pickerDialog = TimePickerPopWin.Builder(
             requireContext(), (TimePickerPopWin.OnTimePickedListener { hour, min, timeDesc, timeFromData, timeToData ->
                 //                textView.text = "$timeFromData - $timeToData"
@@ -120,13 +109,13 @@ class SetupFragment : Fragment(),
                     minuteFrom = timeFromData.min.toInt(),
                     hourTo = timeToData.hour.toInt(),
                     minTo = timeToData.min.toInt()
-                    )
+                )
             })
         )
             .textConfirm("Продолжить") //text of confirm button
             .textCancel("CANCEL") //text of cancel button
-            .btnTextSize(bntTextSize) // button text size
-            .viewTextSize(viewTextSize) // pick view text size
+            .btnTextSize(20) // button text size
+            .viewTextSize(25) // pick view text size
             .colorCancel(Color.parseColor("#999999")) //color of cancel button
             .colorConfirm(Color.parseColor("#A9A9A9"))//color of confirm button
             .build()
@@ -211,7 +200,6 @@ class SetupFragment : Fragment(),
             progressBar.visibility = View.VISIBLE
             getArenaByTime(mArenaActivePid)
             activity?.supportFragmentManager?.executePendingTransactions()
-//            onMapShow()
         }
     }
 
@@ -232,9 +220,6 @@ class SetupFragment : Fragment(),
             toast("Сначала выберите дату")
             return
         }
-//        val timePicker = TimePickerFragment(this)
-//        activity?.supportFragmentManager?.let { timePicker.show(it, "timePicker") }
-
         pickerDialog?.showPopWin(requireActivity())
     }
 }
