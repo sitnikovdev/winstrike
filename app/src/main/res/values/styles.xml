@@ -4,14 +4,14 @@
     <style name="BaseAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">?themePrimary</item>
         <item name="colorPrimaryDark">?themePrimaryDark</item>
-        <item name="colorSecondary">?themeAccent</item>
+        <item name="colorSecondary">?themeSecondary</item>
     </style>
 
     <!--Custom  theme-->
     <style name="BaseAppTheme.WinstrikeApp">
         <item name="themePrimary">@color/magenta</item>
         <item name="themePrimaryDark">@color/black</item>
-        <item name="themeAccent">@color/magenta</item>
+        <item name="themeSecondary">@color/magenta</item>
         <item name="themeContentBackground">@color/white</item>
 
         <!--Base colors-->

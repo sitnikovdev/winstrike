@@ -24,10 +24,10 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.viewModel
@@ -48,13 +48,10 @@ import ru.prsolution.winstrike.domain.models.payment.setPlacesPid
 import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.model.arena.SchemaItem
 import ru.prsolution.winstrike.presentation.model.arena.mapToDomain
-import ru.prsolution.winstrike.presentation.model.payment.PaymentInfo
-import ru.prsolution.winstrike.presentation.model.payment.mapToDomain
 import ru.prsolution.winstrike.viewmodel.MapViewModel
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 import timber.log.Timber
 import java.util.LinkedHashMap
-import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Created by oleg 24.01.2019
@@ -62,6 +59,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 class MapFragment : Fragment() {
     private val mVm: MapViewModel by viewModel()
     private val mSetUpVm: SetUpViewModel by viewModel()
+
+    private var viewGroup: ViewGroup? = null
 
     private var mDlgMapLegend: Dialog? = null
     var mapLayout: RelativeLayout? = null
@@ -108,12 +107,14 @@ class MapFragment : Fragment() {
         }
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         mapLayout = view.findViewById(R.id.rootMap)
         initSnackBar()
 
+        viewGroup = view.findViewById<ViewGroup>(android.R.id.content)
 
         //TODO: use anather solutuion instead parcebale
         arguments?.let {
@@ -365,9 +366,10 @@ class MapFragment : Fragment() {
 
     private fun onPickedSeatChanged() {
         if (!mPickedSeatsIds.isEmpty()) {
-            snackbar?.show()
+//            snackbar?.show()
+            showBookingDialog()
         } else {
-            snackbar?.dismiss()
+//            snackbar?.dismiss()
         }
     }
 
@@ -626,5 +628,16 @@ class MapFragment : Fragment() {
             toast("Не удается забронировать место.")
         }
     }
+
+
+    private fun showBookingDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dlg_booking, mapLayout, false)
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setView(dialogView)
+        val alertDialog = builder.create()
+        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.show()
+    }
+
 
 }

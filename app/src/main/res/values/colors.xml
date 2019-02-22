@@ -3,7 +3,7 @@
 
     <color name="colorPrimary">@color/black</color>
     <color name="colorPrimaryDark">@color/black</color>
-    <color name="colorAccent">@color/magenta</color>
+    <color name="colorSecondary">@color/magenta</color>
 
     <color name="magenta">#C9186C</color>
     <color name="black">#ff1f1f1f</color>
