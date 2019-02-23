@@ -48,6 +48,7 @@ class OrderListAdapter constructor(private val itemClick: (Order) -> Unit) :
             itemView.time.text = "$timeStart - $timeEnd"
             itemView.compute_name.text = item.place.name
             itemView.code.text = item.accessCode
+            itemView.cost.text ="${item.cost} р."
 
             itemView.setOnClickListener { itemClick.invoke(item) }
         }

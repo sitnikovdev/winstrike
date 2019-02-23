@@ -162,13 +162,37 @@
                 android:textAppearance="@style/TextAppearance.Winstrike.Content"
         />
 
+        <TextView
+                android:id="@+id/cost_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Стоимость"
+                app:layout_constraintStart_toStartOf="@id/thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/code"
+                android:textAppearance="@style/TextAppearance.Winstrike.Hint.Big"
+        />
+
+        <TextView
+                android:id="@+id/cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="false"
+                app:layout_constraintStart_toStartOf="@id/thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/cost_title"
+                tools:text="100 р"
+                android:textAppearance="@style/TextAppearance.Winstrike.Content"
+        />
+
+
         <View
                 android:id="@+id/v_separator"
                 android:layout_width="0dp"
                 android:layout_height="10dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/main_shadow_separator"
-                app:layout_constraintTop_toBottomOf="@id/code"/>
+                app:layout_constraintTop_toBottomOf="@id/cost"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
