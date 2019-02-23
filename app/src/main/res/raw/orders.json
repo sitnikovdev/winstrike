@@ -3,10 +3,13 @@
     {
       "access_code": "wzbuf0rc",
       "cost": 100,
+
       "create_at": "2019-02-23T14:44:17.203193+00:00",
-      "end_at": "2019-02-25T18:45:00+00:00",
-      "public_id": "482a23a4-6a7b-4031-8ad3-4a640c27ba2f",
+
       "start_at": "2019-02-25T17:45:00+00:00",
+      "end_at": "2019-02-25T18:45:00+00:00",
+
+      "public_id": "482a23a4-6a7b-4031-8ad3-4a640c27ba2f",
       "place": {
         "name": "Место 1 (Обычное) Serpuhov",
         "computer": {

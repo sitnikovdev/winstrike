@@ -4,12 +4,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_city.view.*
 import kotlinx.android.synthetic.main.item_paid.view.*
-import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.model.orders.Order
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 /**
  * Created by Oleg Sitnikov on 2019-02-12
@@ -18,6 +19,10 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 class OrderListAdapter constructor(private val itemClick: (Order) -> Unit) :
     ListAdapter<Order, OrderListAdapter.ViewHolder>(OrderDiffCallback()) {
 
+    val formatDate =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+00:00")
+    val dateFormat = SimpleDateFormat("dd MMMM yyyy")
+    val timeFormat = SimpleDateFormat("HH:mm")
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
@@ -25,14 +30,22 @@ class OrderListAdapter constructor(private val itemClick: (Order) -> Unit) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderListAdapter.ViewHolder =
         ViewHolder(parent)
 
+
     inner class ViewHolder(parent: ViewGroup) :
-        RecyclerView.ViewHolder(parent.inflate(R.layout.item_paid)) {
+        RecyclerView.ViewHolder(parent.inflate(ru.prsolution.winstrike.R.layout.item_paid)) {
 
         fun bind(item: Order) {
-            itemView.club_name.text = "Компьютерный клуб: «${PrefUtils.arenaName}»"
 
-            itemView.date.text = item.createAt
-            itemView.time.text = item.createAt
+            var date = formatDate.parse(item.startAt)
+            val dateStarted = dateFormat.format(date)
+            val timeStart = timeFormat.format(date)
+             date = formatDate.parse(item.endAt)
+            val timeEnd = timeFormat.format(date)
+
+
+            itemView.club_name.text = "Компьютерный клуб: «${PrefUtils.arenaName}»"
+            itemView.date.text = dateStarted
+            itemView.time.text = "$timeStart - $timeEnd"
             itemView.compute_name.text = item.place.name
             itemView.code.text = item.accessCode
 
