@@ -10,6 +10,7 @@ import ru.prsolution.winstrike.presentation.utils.inflate
 import android.content.Intent
 import android.net.Uri
 import androidx.core.app.ShareCompat
+import android.content.ActivityNotFoundException
 
 
 /*
@@ -26,7 +27,7 @@ class AppTabFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         cv_recomend.setOnClickListener {
-             shareImg()
+            shareImg()
         }
 
         cv_estimate.setOnClickListener {
@@ -73,9 +74,30 @@ class AppTabFragment : Fragment() {
     }
 
     private fun onGooglePlayButtonClick() {
-        val url = "https://winstrike.gg/"
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(browserIntent)
+//        val url = "https://winstrike.gg/"
+//        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//        startActivity(browserIntent)
+
+        val uri = Uri.parse("market://details?id=" + context?.packageName)
+        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(
+            Intent.FLAG_ACTIVITY_NO_HISTORY or
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+        )
+        try {
+            startActivity(goToMarket)
+        } catch (e: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + context?.packageName)
+                )
+            )
+        }
+
     }
 
     fun onVkClick() {
