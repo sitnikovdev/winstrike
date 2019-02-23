@@ -13,10 +13,10 @@ import ru.prsolution.winstrike.datasource.model.arena.ArenaListEntity
 import ru.prsolution.winstrike.datasource.model.login.AuthResponseEntity
 import ru.prsolution.winstrike.datasource.model.login.SmsEntity
 import ru.prsolution.winstrike.datasource.model.login.PasswordEntity
-import ru.prsolution.winstrike.datasource.model.orders.OrdersEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
 import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
 import ru.prsolution.winstrike.datasource.model.arena.SchemaEntity
+import ru.prsolution.winstrike.datasource.model.orders.OrdersListEntity
 import ru.prsolution.winstrike.domain.models.login.SmsModel
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.login.LoginModel
@@ -99,5 +99,5 @@ interface RetrofitService {
 
     // Получение списка оплаченных мест пользователя
     @GET("orders")
-    fun getOrders(@Header("authorization") token: String): Deferred<Response<OrdersEntity>>
+    fun getOrders(@Header("authorization") token: String): Deferred<Response<OrdersListEntity>>
 }

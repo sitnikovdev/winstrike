@@ -11,11 +11,11 @@ import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.orders.OrderModel
+import ru.prsolution.winstrike.presentation.model.orders.Order
 
 class PlacesAdapter(
     private val context: Context,
-    internal var payList: List<OrderModel>
+    internal var payList: List<Order>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

@@ -3,9 +3,12 @@ package ru.prsolution.winstrike.data.repository
 import ru.prsolution.winstrike.data.datasource.ArenaCacheDataSource
 import ru.prsolution.winstrike.data.datasource.ArenaRemoteDataSource
 import ru.prsolution.winstrike.data.repository.resouces.Resource
+import ru.prsolution.winstrike.datasource.model.orders.mapToDomain
 import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
 import ru.prsolution.winstrike.domain.models.arena.Schedule
+import ru.prsolution.winstrike.domain.models.orders.OrderModel
+import ru.prsolution.winstrike.domain.models.orders.mapToDataSource
 import ru.prsolution.winstrike.domain.models.payment.PaymentModel
 import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
 import ru.prsolution.winstrike.domain.models.payment.mapToDataSource
@@ -29,5 +32,9 @@ class ArenaRepositoryImpl constructor(
 
     override suspend fun getSchedule(): Resource<List<Schedule>>? =
         remoteDataSource.getSchedule()
+
+
+    override suspend fun getOrders(): Resource<List<OrderModel>>? =
+        remoteDataSource.getOrders()
 }
 

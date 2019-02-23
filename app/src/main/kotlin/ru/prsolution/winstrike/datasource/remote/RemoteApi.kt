@@ -9,6 +9,7 @@ import ru.prsolution.winstrike.datasource.model.arena.SchedulersEntity
 import ru.prsolution.winstrike.datasource.model.arena.SchemaEntity
 import ru.prsolution.winstrike.datasource.model.city.CityListEntity
 import ru.prsolution.winstrike.datasource.model.login.*
+import ru.prsolution.winstrike.datasource.model.orders.OrdersListEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentResponseEntity
 import ru.prsolution.winstrike.domain.models.common.FCMModel
@@ -46,6 +47,10 @@ interface ArenaApi {
     @GET("schedules")
     fun getSchedules(): Deferred<Response<SchedulersEntity>>
 
+
+    // Получение списка оплаченных мест пользователя
+    @GET("orders")
+    fun getOrders(): Deferred<Response<OrdersListEntity>>
 
     // Send fcm tocken to server
     @POST("fcm_codes")

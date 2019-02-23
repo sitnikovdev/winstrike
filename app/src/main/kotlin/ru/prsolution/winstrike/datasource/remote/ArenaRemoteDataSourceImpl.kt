@@ -5,11 +5,13 @@ import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.datasource.model.arena.ScheduleEntity
 import ru.prsolution.winstrike.datasource.model.arena.SchedulersEntity
 import ru.prsolution.winstrike.datasource.model.arena.mapToDomain
+import ru.prsolution.winstrike.datasource.model.orders.mapToDomain
 import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
 import ru.prsolution.winstrike.datasource.model.payment.mapToDomain
 import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
 import ru.prsolution.winstrike.domain.models.arena.Schedule
+import ru.prsolution.winstrike.domain.models.orders.OrderModel
 import ru.prsolution.winstrike.domain.models.payment.PaymentModel
 import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.token
@@ -54,6 +56,17 @@ class ArenaRemoteDataSourceImpl constructor(
 
         return response?.mapToDomain()
     }
+
+
+    override suspend fun getOrders(): Resource<List<OrderModel>>? {
+        val response = safeApiCall(
+            call = { api.getOrders().await() },
+            errorMessage = "Error pay payment response"
+        )
+
+        return response?.mapToDomain()
+    }
+
 
 
 }
