@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.presentation.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Build
@@ -7,6 +8,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -151,4 +153,20 @@ fun  Editable.isNameValid(): Boolean {
 fun EditText.setPhoneMask() = TextFormat.formatText(this, Constants.PHONE_MASK)
 
 
+// EditText on end icon click listener
+@SuppressLint("ClickableViewAccessibility")
+fun EditText.onRightDrawableClicked(onClicked: (view: EditText) -> Unit) {
+    this.setOnTouchListener { v, event ->
+        var hasConsumed = false
+        if (v is EditText) {
+            if (event.x >= v.width - v.totalPaddingRight) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    onClicked(this)
+                }
+                hasConsumed = true
+            }
+        }
+        hasConsumed
+    }
+}
 

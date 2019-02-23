@@ -1,101 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:activity="ru.prsolution.winstrike.presentation.profile.ProfileTabFragment">
+<androidx.constraintlayout.widget.ConstraintLayout
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       xmlns:tools="http://schemas.android.com/tools"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       tools:activity="ru.prsolution.winstrike.presentation.profile.ProfileTabFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="40dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="40dp" />
+    <!--User name -->
+    <include layout="@layout/inc_prof_name"/>
 
-    <View
-        android:id="@+id/fio_bgr"
-        android:layout_width="@dimen/width_edit_295dp"
-        android:layout_height="@dimen/height_edit_48dp"
-        android:layout_marginTop="@dimen/height_guide_bottomlayer_90dp"
-        android:background="@drawable/edit_text_shape"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
-        app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--User password -->
+    <include layout="@layout/inc_prof_password"/>
 
-    <EditText
-        android:id="@+id/fio"
-        style="@style/StemMedium15Alpha04"
-        android:layout_width="@dimen/width_editext_255dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/start_edit_25dp"
-        android:background="@android:color/transparent"
-        android:hint="@string/all_fio"
-        android:paddingBottom="5dp"
-        android:textColorHint="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="@id/fio_bgr"
-        app:layout_constraintStart_toStartOf="@id/fio_bgr"
-        app:layout_constraintTop_toTopOf="@id/fio_bgr" />
+    <!--User city -->
+    <include layout="@layout/inc_prof_city"/>
 
-    <View
-        android:id="@+id/password_bgr"
-        android:layout_width="@dimen/width_edit_295dp"
-        android:layout_height="@dimen/height_edit_48dp"
-        android:layout_marginTop="@dimen/margingtop_profileetex_16dp"
-        android:background="@drawable/edit_text_shape"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
-        app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toBottomOf="@id/fio_bgr" />
+    <!--Save button -->
+    <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:text="@string/all_savebtn"
+            android:enabled="true"
+            android:maxLines="1"
+            android:backgroundTint="@color/colorSecondary"
+            android:layout_marginTop="@dimen/spacing_48"
+            app:layout_constraintBottom_toBottomOf="@id/spacer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/city"
+            style="@style/Widget.Winstrike.Button"
+    />
 
-    <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
-        android:id="@+id/et_password"
-        style="@style/StemMedium15Alpha04"
-        android:layout_width="@dimen/width_editext_255dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/start_edit_25dp"
-        android:background="@android:color/transparent"
-        android:hint="@string/all_password_old"
-        android:inputType="textPassword"
-        android:paddingBottom="5dp"
-        android:textColorHint="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="@id/password_bgr"
-        app:layout_constraintStart_toStartOf="@id/password_bgr"
-        app:layout_constraintTop_toTopOf="@id/password_bgr"
-        app:additionalTouchTargetSize="80dp"
-        app:drawable_hide="@mipmap/ic_hide_eye"
-        app:drawable_show="@mipmap/ic_show_eye"
-        app:tint_color="@color/colorAccent" />
-
-    <View
-        android:id="@+id/next_button"
-        android:layout_width="@dimen/width_button"
-        android:layout_height="@dimen/height_button"
-        android:layout_marginTop="@dimen/height_footer_66dp"
-        android:background="@drawable/button_bgr_24dp"
-        android:clickable="true"
-        app:layout_constraintEnd_toEndOf="@id/line_end"
-        app:layout_constraintStart_toStartOf="@id/line_start"
-        app:layout_constraintTop_toBottomOf="@id/password_bgr" />
-
-    <TextView
-        android:id="@+id/btn_next"
-        style="@style/StemMedium17Accent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/all_savebtn"
-        android:textColor="@color/white"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@id/next_button"
-        app:layout_constraintEnd_toEndOf="@id/next_button"
-        app:layout_constraintStart_toStartOf="@id/next_button"
-        app:layout_constraintTop_toTopOf="@id/next_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

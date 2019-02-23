@@ -1,5 +1,7 @@
 package ru.prsolution.winstrike.presentation.utils.pref
 
+import ru.prsolution.winstrike.presentation.model.arena.CityItem
+
 object PrefUtils {
     private const val TOKEN = "token"
     private const val FCMTOKEN = "fcmtoken"
@@ -41,6 +43,10 @@ object PrefUtils {
 
     private const val CITYPID = "cityPid"
 
+    private const val CITYNAME = "cityName"
+
+
+
     var closeTime: String?
         get() = SharedPrefFactory.prefs.getString(CLOSETIME, "")
         set(closeTime) {
@@ -71,6 +77,12 @@ object PrefUtils {
         get() = SharedPrefFactory.prefs.getString(CITYPID, "")
         set(cityPid) {
             SharedPrefFactory.editor.putString(CITYPID, cityPid).commit()
+        }
+
+    var cityName: String?
+        get() = SharedPrefFactory.prefs.getString(CITYNAME, "")
+        set(cityName) {
+            SharedPrefFactory.editor.putString(CITYNAME, cityName).commit()
         }
 
     var arenaPid: String?

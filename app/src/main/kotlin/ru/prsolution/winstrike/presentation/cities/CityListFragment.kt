@@ -30,6 +30,7 @@ class CityListFragment : Fragment() {
         { city ->
 
             PrefUtils.cityPid = city.id
+            PrefUtils.cityName = city.name
 
             Timber.tag("$$$").d("Selected city id: ${PrefUtils.cityPid}")
 

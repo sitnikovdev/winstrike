@@ -5,63 +5,103 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fmt_profile_prof.et_password
-import kotlinx.android.synthetic.main.fmt_profile_prof.fio
-import kotlinx.android.synthetic.main.fmt_profile_prof.next_button
-import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.login.UserModel
+import kotlinx.android.synthetic.main.fmt_name.*
+import kotlinx.android.synthetic.main.inc_prof_city.*
+import ru.prsolution.winstrike.presentation.utils.inflate
+import ru.prsolution.winstrike.presentation.utils.onRightDrawableClicked
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import com.google.android.material.textfield.TextInputLayout
+import android.view.inputmethod.InputConnection
+import android.view.inputmethod.EditorInfo
+import android.content.Context
+import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
+import android.widget.ArrayAdapter
+import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.inc_password.*
+import org.koin.androidx.viewmodel.ext.viewModel
+import ru.prsolution.winstrike.presentation.model.arena.CityItem
+import ru.prsolution.winstrike.viewmodel.CityListViewModel
+
 
 /*
  * Created by oleg on 03.02.2018.
  */
 
 class ProfileTabFragment : Fragment() {
-    private var user: UserModel? = null
+    private val mVm: CityListViewModel by viewModel()
 
-// 	lateinit var listener: OnProfileUpdateClickListener
-
-    interface OnProfileUpdateClickListener {
-        // Update user profile data (name and password)
-        fun onProfileUpdate(name: String, passw: String)
-    }
-
-/*	override fun onAttach(context: Context?) {
-		super.onAttach(context)
-		if (context is OnProfileUpdateClickListener) {
-			listener = context
-		} else {
-			throw ClassCastException(context!!.toString() + " must implements OnProfileButtonsClickListener")
-		}
-	}*/
+    private var CITIES = mutableListOf<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        this.user = UserModel()
-
-        next_button?.setOnClickListener {
-            val name = fio!!.text.toString()
-            val passw = et_password!!.text.toString()
-            //                    setBtnEnable(next_button, false);
-// 			listener.onProfileUpdate(name, passw)
-        }
-
-        if (PrefUtils.name != null) {
-/*			this.user?.name = (AuthUtils.name)
-			if (!TextUtils.isEmpty(user!!.getName())) {
-				fio!!.setText(user!!.getName())
-			}*/
-        }
-
-        return inflater.inflate(R.layout.fmt_profile_prof, container, false)
+        return context?.inflate(ru.prsolution.winstrike.R.layout.fmt_profile_prof)
     }
 
-    private fun setBtnEnable(v: View, isEnable: Boolean) {
-        if (isEnable) {
-            v.alpha = 1f
-            v.isClickable = true
-        } else {
-            v.alpha = .5f
-            v.isClickable = false
+    private lateinit var adapter: ArrayAdapter<String>
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            mVm.fetchCities()
         }
+
+        mVm.cityList.observe(this@ProfileTabFragment, Observer { cities ->
+
+            cities?.let {
+                updateCities(it.data!!)
+            }
+
+        })
+
+        et_name.setText(PrefUtils.name)
+        et_password.setText(PrefUtils.password)
+
+        et_city.setText(PrefUtils.cityName)
+
+        et_city.onRightDrawableClicked {
+            it.text.clear()
+        }
+
+        CITIES = mutableListOf()
+
+        adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line, CITIES
+        )
+
+        et_city.threshold = 1
+
+        et_city.setAdapter(adapter)
+    }
+
+
+    private fun updateCities(data: List<CityItem>) {
+        data.forEach {
+            CITIES.add(it.name)
+        }
+        adapter.notifyDataSetChanged()
+    }
+}
+
+
+class TextInputAutoCompleteTextView : AppCompatAutoCompleteTextView {
+
+    constructor(context: Context) : super(context) {}
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
+
+    override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection? {
+        val ic = super.onCreateInputConnection(outAttrs)
+        if (ic != null && outAttrs.hintText == null) {
+            // If we don't have a hint and our parent is a TextInputLayout, use it hint for the
+            // EditorInfo. This allows us to display a hint in 'extract mode'.
+            val parent = parent
+            if (parent is TextInputLayout) {
+                outAttrs.hintText = parent.hint
+            }
+        }
+        return ic
     }
 }
