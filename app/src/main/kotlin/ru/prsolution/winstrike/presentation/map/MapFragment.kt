@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.presentation.map
 
-import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -15,12 +14,9 @@ import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -66,7 +62,6 @@ class MapFragment : Fragment() {
     lateinit var mSeatNumber: TextView
     private lateinit var mAlertDialog: AlertDialog
 
-    private var mDlgMapLegend: Dialog? = null
     var mapLayout: RelativeLayout? = null
     private var snackbar: Snackbar? = null
     private var snackLayout: Snackbar.SnackbarLayout? = null
@@ -85,7 +80,6 @@ class MapFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dlgMapLegend()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -544,31 +538,6 @@ class MapFragment : Fragment() {
                 seatNumber.setTypeface(null, Typeface.NORMAL)
             }
         }
-    }
-
-    // TODO: remove this Map actions block:
-    private fun dlgMapLegend() {
-        mDlgMapLegend = Dialog(activity, android.R.style.Theme_Dialog)
-        mDlgMapLegend?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        mDlgMapLegend?.setContentView(R.layout.dlg_legend)
-        val tvSee = mDlgMapLegend?.findViewById<TextView>(R.id.tv_see)
-
-        tvSee?.setOnClickListener { mDlgMapLegend?.dismiss() }
-
-        mDlgMapLegend?.setCanceledOnTouchOutside(true)
-        mDlgMapLegend?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        mDlgMapLegend?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        val window = mDlgMapLegend?.window
-        val wlp = window?.attributes
-
-        wlp?.gravity = Gravity.TOP
-        wlp?.flags = wlp?.flags?.and(WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv())
-        wlp?.y = Constants.LEGEND_MAP_TOP_MARGIN
-        window?.attributes = wlp
-
-        mDlgMapLegend?.setCanceledOnTouchOutside(false)
-        mDlgMapLegend?.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-        mDlgMapLegend?.dismiss()
     }
 
     private fun initSnackBar() {

@@ -14,4 +14,11 @@
           app:showAsAction="ifRoom"
     />
 
+
+    <item android:id="@+id/map_legend"
+          android:icon="@drawable/ic_question"
+          android:title=""
+          app:showAsAction="ifRoom"
+    />
+
 </menu>

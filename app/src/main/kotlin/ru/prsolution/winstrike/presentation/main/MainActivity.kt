@@ -1,8 +1,11 @@
 package ru.prsolution.winstrike.presentation.main
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
@@ -17,6 +20,7 @@ import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
+import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.hide
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -34,12 +38,16 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private var mDlgMapLegend: Dialog? = null
+
     var mArenaActiveLayoutPid: String? = ""
 
     var mCityMenuVisible: Boolean = false
     lateinit var mMenuCity: MenuItem
     var mProfileMenuVisible: Boolean = false
     lateinit var mMenuProfile: MenuItem
+    var mMapMenuVisible: Boolean = false
+    lateinit var mMenuMap: MenuItem
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
@@ -60,6 +68,8 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        dlgMapLegend()
+
         clearData()
 
         setContentView(R.layout.ac_mainscreen)
@@ -74,24 +84,35 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
                     destination.label = PrefUtils.arenaName
                     mCityMenuVisible = true
                     mProfileMenuVisible = false
+                    mMapMenuVisible = false
                     invalidateOptionsMenu()
                 }
                 R.id.navigation_order -> {
                     bottomNavigation.show()
                     mCityMenuVisible = false
                     mProfileMenuVisible = false
+                    mMapMenuVisible = false
                     invalidateOptionsMenu()
                 }
                 R.id.navigation_profile -> {
                     bottomNavigation.show()
                     mCityMenuVisible = false
                     mProfileMenuVisible = true
+                    mMapMenuVisible = false
+                    invalidateOptionsMenu()
+                }
+                R.id.navigation_map -> {
+                    bottomNavigation.hide()
+                    mCityMenuVisible = false
+                    mProfileMenuVisible = false
+                    mMapMenuVisible = true
                     invalidateOptionsMenu()
                 }
                 else -> {
                     bottomNavigation.hide()
                     mCityMenuVisible = false
                     mProfileMenuVisible = false
+                    mMapMenuVisible = false
                     invalidateOptionsMenu()
                 }
             }
@@ -134,8 +155,10 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         menuInflater.inflate(R.menu.menu_main, menu)
         mMenuCity = menu?.findItem(R.id.city_activity)!!
         mMenuProfile = menu.findItem(R.id.navigation_login_activity)
+        mMenuMap = menu.findItem(R.id.map_legend)
         mMenuCity.isVisible = mCityMenuVisible
         mMenuProfile.isVisible = mProfileMenuVisible
+        mMenuMap.isVisible = mMapMenuVisible
         return true
     }
 
@@ -144,6 +167,8 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         when (item?.itemId) {
             R.id.navigation_login_activity ->
                 PrefUtils.token = ""
+            R.id.map_legend ->
+                mDlgMapLegend?.show()
         }
 
         return NavigationUI.onNavDestinationSelected(item!!, navController) ||
@@ -170,4 +195,32 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     override fun navigate(action: NavDirections) {
         Navigation.findNavController(this, ru.prsolution.winstrike.R.id.main_host_fragment).navigate(action)
     }
+
+
+    // TODO: remove this Map actions block:
+    private fun dlgMapLegend() {
+        mDlgMapLegend = Dialog(this, android.R.style.Theme_Dialog)
+        mDlgMapLegend?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        mDlgMapLegend?.setContentView(R.layout.dlg_legend)
+        val tvSee = mDlgMapLegend?.findViewById<TextView>(R.id.tv_see)
+
+        tvSee?.setOnClickListener { mDlgMapLegend?.dismiss() }
+
+        mDlgMapLegend?.setCanceledOnTouchOutside(true)
+        mDlgMapLegend?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mDlgMapLegend?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val window = mDlgMapLegend?.window
+        val wlp = window?.attributes
+
+        wlp?.gravity = Gravity.TOP
+        wlp?.flags = wlp?.flags?.and(WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv())
+        wlp?.y = Constants.LEGEND_MAP_TOP_MARGIN
+        window?.attributes = wlp
+
+        mDlgMapLegend?.setCanceledOnTouchOutside(false)
+        mDlgMapLegend?.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        mDlgMapLegend?.dismiss()
+    }
+
+
 }
