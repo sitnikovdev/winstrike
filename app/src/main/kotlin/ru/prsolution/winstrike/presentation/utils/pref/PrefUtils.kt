@@ -25,6 +25,12 @@ object PrefUtils {
 
     private const val ARENANAME = "arenaName"
 
+    private const val SELECTEDDATE = "selectedDate"
+
+    private const val OPENTIME = "openTime"
+
+    private const val CLOSETIME = "closeTime"
+
     private const val SEATNUMBER = "seatNumber"
 
     private const val ARENAMETRO = "arenaMetro"
@@ -34,6 +40,25 @@ object PrefUtils {
     private const val ACTIVEARENAPID = "activeArenaPid"
 
     private const val CITYPID = "cityPid"
+
+    var closeTime: String?
+        get() = SharedPrefFactory.prefs.getString(CLOSETIME, "")
+        set(closeTime) {
+            SharedPrefFactory.editor.putString(CLOSETIME, closeTime).commit()
+        }
+
+    var openTime: String?
+        get() = SharedPrefFactory.prefs.getString(OPENTIME, "")
+        set(openTime) {
+            SharedPrefFactory.editor.putString(OPENTIME, openTime).commit()
+        }
+
+    var selectedDate: String?
+        get() = SharedPrefFactory.prefs.getString(SELECTEDDATE, "")
+        set(selectedDate) {
+            SharedPrefFactory.editor.putString(SELECTEDDATE, selectedDate).commit()
+        }
+
 
     var seatNumber: String?
         get() = SharedPrefFactory.prefs.getString(SEATNUMBER, "")

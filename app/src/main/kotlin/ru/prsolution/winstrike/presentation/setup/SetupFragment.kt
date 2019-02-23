@@ -51,8 +51,7 @@ class SetupFragment : Fragment(),
     private var mArenaSchema: SchemaItem? = null
     private var mArenaSchedule: List<ScheduleItem>? = null
     private var mDayOfWeek: String? = null
-    private var mOpenTime: String? = null
-    private var mCloseTime: String? = null
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -168,21 +167,24 @@ class SetupFragment : Fragment(),
         // save start and end time work on this day from schedulers
         val daySchedule = mArenaSchedule?.filter { it.weekDay == mDayOfWeek }?.get(0)
 
-        mOpenTime = daySchedule?.startTime?.replaceAfter("00", "")
-        mCloseTime = daySchedule?.endTime?.replaceAfter("00", "")
+        PrefUtils.openTime = daySchedule?.startTime?.replaceAfter("00", "")
+        PrefUtils.closeTime = daySchedule?.endTime?.replaceAfter("00", "")
 
-
+        // set selected date
         val monthLoc = Month.of(month + 1).getDisplayName(TextStyle.FULL, Locale("RU"))
         val selectedDate = "$day $monthLoc $year"
 
         TimeDataModel.setDateFromCalendar(selectedDate)
-        val date = TimeDataModel.selectDate
+        PrefUtils.selectedDate = TimeDataModel.selectDate
+        TimeDataModel.timeFrom = ""
+        TimeDataModel.timeTo = ""
 
-        TimeDataModel.setOpenTime(mOpenTime!!)
-        TimeDataModel.setCloseTime(mCloseTime!!)
+        TimeDataModel.setOpenTime(PrefUtils.openTime!!)
+        TimeDataModel.setCloseTime(PrefUtils.closeTime!!)
 
-        // update view model
-        tv_date.text = date
+        // update date info
+        tv_date.text = PrefUtils.selectedDate
+        tv_time.text = TimeDataModel.time
     }
 
     @SuppressLint("NewApi")
@@ -247,7 +249,7 @@ class SetupFragment : Fragment(),
                 }
                 else
                 ->
-                    longToast("Уточните расписание. Время выходит за рамки работы клуба.")
+                    longToast("Время работы клуба на ${PrefUtils.selectedDate} г.:  с ${PrefUtils.openTime} до ${PrefUtils.closeTime}.")
             }
         }
     }
