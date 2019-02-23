@@ -74,10 +74,6 @@ class AppTabFragment : Fragment() {
     }
 
     private fun onGooglePlayButtonClick() {
-//        val url = "https://winstrike.gg/"
-//        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//        startActivity(browserIntent)
-
         val uri = Uri.parse("market://details?id=" + context?.packageName)
         val goToMarket = Intent(Intent.ACTION_VIEW, uri)
         // To count with Play market backstack, After pressing back button,
