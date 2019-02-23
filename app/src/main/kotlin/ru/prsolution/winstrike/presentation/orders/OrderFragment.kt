@@ -6,35 +6,43 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.fmt_paid.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.login.LoginActivity
-import ru.prsolution.winstrike.presentation.login.register.NameFragmentDirections
 import ru.prsolution.winstrike.presentation.model.orders.Order
 import ru.prsolution.winstrike.presentation.utils.inflate
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.OrderViewModel
-import ru.prsolution.winstrike.viewmodel.ProfileViewModel
 import timber.log.Timber
 
 class OrderFragment : Fragment() {
 
     private val mVm: OrderViewModel by viewModel()
 
+
+    private val itemClick: (Order) -> Unit =
+        { order ->
+            Timber.tag("$$$").d("Selected order: ${order.place.name}")
+        }
+
+    private val adapter = OrderListAdapter(itemClick)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return context?.inflate(R.layout.fmt_nopaid)
+
+        return context?.inflate(R.layout.fmt_paid)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        order_rv.adapter = adapter
+
+
         if (savedInstanceState == null) {
             mVm.getOrders()
         }
-
         mVm.orders.observe(this@OrderFragment, Observer {
             it?.let {
                 // TODO: process error!
@@ -44,26 +52,23 @@ class OrderFragment : Fragment() {
 //                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
                 }
                 it.data?.let {
-                    onUpdateSuccess(it)
+                    updateOrders(it)
                 }
                 it.message?.let {
-                    onUpdateFailure(it)
+                    onFailure(it)
                 }
             }
         })
 
-
     }
 
 
-    private fun onUpdateSuccess(orders: List<Order>) {
-//        PrefUtils.name = mUserInfo.name
-//        val action = NameFragmentDirections.actionToCityActivity()
-//        (activity as LoginActivity).navigate(action)
+    private fun updateOrders(orders: List<Order>) {
+        adapter.submitList(orders)
     }
 
 
-    private fun onUpdateFailure(appErrorMessage: String) {
+    private fun onFailure(appErrorMessage: String) {
         Timber.e("Error on auth: %s", appErrorMessage)
         when {
             appErrorMessage.contains("403") ||

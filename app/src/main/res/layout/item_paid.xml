@@ -1,52 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:orientation="vertical">
-
-    <com.google.android.material.card.MaterialCardView
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="3dp"
-        app:cardBackgroundColor="@color/colorAccent">
+>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.Guideline
+        <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/line_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/keyline_40dp" />
+                app:layout_constraintGuide_begin="@dimen/keyline_40dp"/>
 
-            <androidx.constraintlayout.widget.Guideline
+        <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/line_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/keyline_40dp" />
+                app:layout_constraintGuide_end="@dimen/keyline_40dp"/>
 
-            <androidx.constraintlayout.widget.Guideline
+        <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/line_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/height_toolbar_56dp" />
+                app:layout_constraintGuide_begin="@dimen/height_toolbar_56dp"/>
 
-            <androidx.constraintlayout.widget.Guideline
+        <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/line_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/height_statusbar_14dp" />
+                app:layout_constraintGuide_begin="@dimen/height_statusbar_14dp"/>
 
-            <ImageView
+        <ImageView
                 android:id="@+id/thumbnail"
                 android:layout_width="@dimen/width_tumb_294dp"
                 android:layout_height="@dimen/height_tumb_140dp"
@@ -58,117 +53,121 @@
                 android:src="@drawable/main_screen"
                 app:layout_constraintEnd_toEndOf="@id/line_end"
                 app:layout_constraintStart_toStartOf="@id/line_start"
-                app:layout_constraintTop_toBottomOf="@id/seat_name_tv" />
+                app:layout_constraintTop_toBottomOf="@id/club_name"
+        />
 
-            <TextView
-                android:id="@+id/seat_name_tv"
-                style="@style/StemMedium15"
+        <TextView
+                android:id="@+id/club_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="vm.arenaName"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toTopOf="@id/thumbnail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/club_name" />
-
-            <TextView
-                android:id="@+id/tv_date_tt"
+                tools:text="@string/club_name"
                 style="@style/StemMedium15"
+        />
+
+        <TextView
+                android:id="@+id/date_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:text="@string/itempaid_date"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/thumbnail" />
+                app:layout_constraintTop_toBottomOf="@id/thumbnail"
+                style="@style/StemMedium15"
+        />
 
-            <TextView
-                android:id="@+id/tv_date"
-                style="@style/StemRegular15"
+        <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:clickable="false"
-                android:text="vm.date"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/tv_date_tt"
-                tools:text="@string/itempaid_dateval" />
+                app:layout_constraintTop_toBottomOf="@id/date_title"
+                tools:text="@string/itempaid_dateval"
+                style="@style/StemRegular15"
+        />
 
-            <TextView
-                android:id="@+id/tv_time_tt"
-                style="@style/StemMedium15"
+        <TextView
+                android:id="@+id/time_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/itempaid_time"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/tv_date" />
+                app:layout_constraintTop_toBottomOf="@id/date"
+                style="@style/StemMedium15"
+        />
 
-            <TextView
-                android:id="@+id/tv_time"
-                style="@style/StemRegular15"
+        <TextView
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:clickable="false"
-                android:text="vm.time"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/tv_time_tt"
-                tools:text="@string/itempaid_timeval" />
+                app:layout_constraintTop_toBottomOf="@id/time_title"
+                tools:text="@string/itempaid_timeval"
+                style="@style/StemRegular15"
+        />
 
-            <TextView
-                android:id="@+id/tv_pc_tt"
-                style="@style/StemMedium15"
+        <TextView
+                android:id="@+id/computer_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/itempaid_pc"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/tv_time" />
+                app:layout_constraintTop_toBottomOf="@id/time"
+                style="@style/StemMedium15"
+        />
 
-            <TextView
-                android:id="@+id/tv_pc"
-                style="@style/StemRegular15"
+        <TextView
+                android:id="@+id/compute_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:clickable="false"
-                android:text="vm.placeName"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/tv_pc_tt"
-                tools:text="comp name" />
+                app:layout_constraintTop_toBottomOf="@id/computer_title"
+                tools:text="comp name"
+                style="@style/StemRegular15"
+        />
 
-            <TextView
-                android:id="@+id/tv_pccode_tt"
-                style="@style/StemMedium15"
+        <TextView
+                android:id="@+id/code_title"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:layout_marginTop="15dp"
                 android:text="@string/itempaid_pccode"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/tv_pc" />
+                app:layout_constraintTop_toBottomOf="@id/compute_name"
+                style="@style/StemMedium15"
+        />
 
-            <TextView
-                android:id="@+id/tv_pccode"
-                style="@style/StemRegular15"
+        <TextView
+                android:id="@+id/code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:clickable="false"
-                android:text="vm.accessCode"
                 app:layout_constraintStart_toStartOf="@id/thumbnail"
-                app:layout_constraintTop_toBottomOf="@id/tv_pccode_tt"
-                tools:text="@string/itempaid_pccodeval" />
+                app:layout_constraintTop_toBottomOf="@id/code_title"
+                tools:text="@string/itempaid_pccodeval"
+                style="@style/StemRegular15"
+        />
 
-            <View
+        <View
                 android:id="@+id/v_separator"
                 android:layout_width="0dp"
                 android:layout_height="10dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/main_shadow_separator"
-                app:layout_constraintTop_toBottomOf="@id/tv_pccode" />
+                app:layout_constraintTop_toBottomOf="@id/code"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
