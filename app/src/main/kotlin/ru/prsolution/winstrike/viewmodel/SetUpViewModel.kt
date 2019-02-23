@@ -28,6 +28,7 @@ class SetUpViewModel constructor(val arenaUseCase: ArenaUseCase) : ViewModel() {
     // Выбранная  арена по времени и дате
     val arenaSchema = SingleLiveEvent<SchemaItem?>()
 
+    // Расписание работы арен
     val schedulers = SingleLiveEvent<List<ScheduleItem>?>()
 
     fun fetchSchema(arenaPid: String?, time: Map<String, String>) {
@@ -37,13 +38,13 @@ class SetUpViewModel constructor(val arenaUseCase: ArenaUseCase) : ViewModel() {
         }
     }
 
+    // Получить расписание для арен
     fun getSchedule() {
         scope.launch {
             val schedule = arenaUseCase.getSchedule()
             schedulers.postValue(schedule?.data?.mapToPresentation())
         }
     }
-
 
 
     private fun cancelAllRequests() = coroutineContext.cancel()

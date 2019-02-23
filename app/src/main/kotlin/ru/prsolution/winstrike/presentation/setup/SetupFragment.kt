@@ -3,8 +3,8 @@ package ru.prsolution.winstrike.presentation.setup
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.Color
+import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
@@ -29,6 +29,7 @@ import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
+import ru.prsolution.winstrike.presentation.model.arena.ScheduleItem
 import ru.prsolution.winstrike.presentation.model.arena.SchemaItem
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -48,6 +49,10 @@ class SetupFragment : Fragment(),
     private var mCpuDescription: TextView? = null
     private var mSeatImage: SimpleDraweeView? = null
     private var mArenaSchema: SchemaItem? = null
+    private var mArenaSchedule: List<ScheduleItem>? = null
+    private var mDayOfWeek: String? = null
+    private var mOpenTime: String? = null
+    private var mCloseTime: String? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,6 +60,7 @@ class SetupFragment : Fragment(),
     }
 
     private var pickerDialog: TimePickerPopWin? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,7 +76,7 @@ class SetupFragment : Fragment(),
         }
 
         if (!TimeDataModel.timeFrom.isEmpty()) {
-            tv_time.text ="${TimeDataModel.timeFrom} : ${TimeDataModel.timeTo}"
+            tv_time.text = "${TimeDataModel.timeFrom} : ${TimeDataModel.timeTo}"
         } else {
             tv_time.text = getString(R.string.seatdetail_time)
         }
@@ -83,6 +89,16 @@ class SetupFragment : Fragment(),
 
             updateSeatInfo(safeArgs.seat)
         }
+
+        // Get arena schedulers
+        mVm.getSchedule()
+        mVm.schedulers.observe(this@SetupFragment, Observer {
+            // data
+            it?.let {
+                mArenaSchedule = it.filter { it.roomPid == PrefUtils.arenaPid.toString() }
+            }
+
+        })
 
 
         // mArenaPid
@@ -139,14 +155,31 @@ class SetupFragment : Fragment(),
         mVm.fetchSchema(activePid, time)
     }
 
+
     @SuppressLint("NewApi")
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
+
+        val dayFormat = SimpleDateFormat("EEEE", Locale.ENGLISH)
+
+        val calendar = Calendar.getInstance()
+        // get day of week
+        calendar.set(Calendar.DAY_OF_MONTH, day)
+        mDayOfWeek = dayFormat.format(calendar.time)
+        // save start and end time work on this day from schedulers
+        val daySchedule = mArenaSchedule?.filter { it.weekDay == mDayOfWeek }?.get(0)
+
+        mOpenTime = daySchedule?.startTime?.replaceAfter("00", "")
+        mCloseTime = daySchedule?.endTime?.replaceAfter("00", "")
+
 
         val monthLoc = Month.of(month + 1).getDisplayName(TextStyle.FULL, Locale("RU"))
         val selectedDate = "$day $monthLoc $year"
 
         TimeDataModel.setDateFromCalendar(selectedDate)
         val date = TimeDataModel.selectDate
+
+        TimeDataModel.setOpenTime(mOpenTime!!)
+        TimeDataModel.setCloseTime(mCloseTime!!)
 
         // update view model
         tv_date.text = date
@@ -197,14 +230,24 @@ class SetupFragment : Fragment(),
             showTimePickerDialog(it)
         }
 
+
         // next button
         next_button.setOnClickListener {
-            if (TimeDataModel.isDateValid) {
-                progressBar.visibility = View.VISIBLE
-                getArenaByTime(mArenaActivePid)
-                activity?.supportFragmentManager?.executePendingTransactions()
-            } else {
-                longToast("Выберите время")
+            when {
+                TimeDataModel.validateDate() -> {
+                    progressBar.visibility = View.VISIBLE
+                    getArenaByTime(mArenaActivePid)
+                    activity?.supportFragmentManager?.executePendingTransactions()
+                }
+                TimeDataModel.date.isEmpty() -> {
+                    longToast("Выберите дату")
+                }
+                TimeDataModel.timeFrom.isEmpty() -> {
+                    longToast("Выберите время")
+                }
+                else
+                ->
+                    longToast("Уточните расписание. Время выходит за рамки работы клуба.")
             }
         }
     }

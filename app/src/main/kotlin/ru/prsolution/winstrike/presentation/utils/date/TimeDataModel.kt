@@ -16,6 +16,8 @@ object TimeDataModel {
     var end: String = ""
     var timeFrom: String = ""
     var timeTo: String = ""
+    var dateOpenAt: Date? = null
+    var dateCloseAt: Date?  = null
     var isDateSelect = false
 
     fun setIsDateSelect(isSelect: Boolean) {
@@ -25,6 +27,21 @@ object TimeDataModel {
     fun getIsDateSelect(): Boolean {
         return isDateSelect
     }
+
+    fun setOpenTime(openTime: String) {
+         val start = DateTransform.getFormattedDateWithTime(openTime)
+         dateOpenAt = DateTransform.getDateInUTC(
+            start)
+
+    }
+
+    fun setCloseTime(closeTime: String) {
+        val end = DateTransform.getFormattedDateWithTime(closeTime)
+        dateCloseAt = DateTransform.getDateInUTC(
+            end)
+    }
+
+
 
     fun setStartAt(startAt: String) {
         start = DateTransform.getFormattedDateWithTime(startAt)
@@ -49,26 +66,21 @@ object TimeDataModel {
     }
 
     var startDate: Date by observing(Date(), didSet = {
-        validateDate()
+//        validateDate()
     })
 
     var endDate: Date by observing(Date(), didSet = {
-        validateDate()
+//        validateDate()
     })
 
-    fun validateDate(stDate: String, edDate: String): Boolean {
-        if (stDate.isEmpty() || edDate.isEmpty()) {
-            return false
-        }
-        val current = Date()
-        val startDate = DateTransform.getDateInUTC(stDate)
-        val endDate = DateTransform.getDateInUTC(edDate)
-        return startDate.before(endDate) && (startDate.after(current) || startDate.equals(current))
-    }
 
-    private fun validateDate(): Boolean {
+    fun validateDate(): Boolean {
         val current = Date()
-        isDateValid = startDate < endDate && startDate >= current
+        if (!start.isEmpty() && !end.isEmpty()) {
+            isDateValid = startDate < endDate && startDate >= current
+                    &&
+                    startDate >= dateOpenAt  && endDate <= dateCloseAt
+        }
         return isDateValid
     }
 
