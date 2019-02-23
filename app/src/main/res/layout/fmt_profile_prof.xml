@@ -19,6 +19,7 @@
 
     <!--Save button -->
     <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_btn"
             android:layout_width="wrap_content"
             android:text="@string/all_savebtn"
             android:enabled="true"

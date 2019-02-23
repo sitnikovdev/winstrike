@@ -18,10 +18,19 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.fmt_profile_prof.*
 import kotlinx.android.synthetic.main.inc_password.*
+import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.presentation.main.ToolbarTitleListener
 import ru.prsolution.winstrike.presentation.model.arena.CityItem
+import ru.prsolution.winstrike.presentation.model.login.ProfileInfo
+import ru.prsolution.winstrike.presentation.utils.isNameValid
+import ru.prsolution.winstrike.presentation.utils.validate
 import ru.prsolution.winstrike.viewmodel.CityListViewModel
+import ru.prsolution.winstrike.viewmodel.ProfileViewModel
+import timber.log.Timber
 
 
 /*
@@ -29,28 +38,62 @@ import ru.prsolution.winstrike.viewmodel.CityListViewModel
  */
 
 class ProfileTabFragment : Fragment() {
-    private val mVm: CityListViewModel by viewModel()
+    private val mVmCity: CityListViewModel by viewModel()
+    private val mVmProfile: ProfileViewModel by viewModel()
 
-    private var CITIES = mutableListOf<String>()
+    private var cities = mutableListOf<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return context?.inflate(ru.prsolution.winstrike.R.layout.fmt_profile_prof)
     }
 
     private lateinit var adapter: ArrayAdapter<String>
+    lateinit var mUserInfo: ProfileInfo
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
-            mVm.fetchCities()
+            mVmCity.fetchCities()
         }
 
-        mVm.cityList.observe(this@ProfileTabFragment, Observer { cities ->
+
+        save_btn.setOnClickListener {
+
+            et_name.validate({ et_name.text!!.isNameValid() }, getString(ru.prsolution.winstrike.R.string.fmt_name_error_lengh))
+
+            when {
+                et_name.text!!.isNameValid() -> {
+
+                    mUserInfo = ProfileInfo(PrefUtils.phone!!, et_name.text.toString())
+                    mVmProfile.updateUserProfile(PrefUtils.publicid!!, mUserInfo)
+
+                }
+
+            }
+        }
+        mVmProfile.messageResponse.observe(this@ProfileTabFragment, Observer {
+            it?.let {
+                // TODO: process error!
+                when (it.state) {
+//                    ResourceState.LOADING -> swipeRefreshLayout.startRefreshing()
+//                    ResourceState.SUCCESS -> swipeRefreshLayout.stopRefreshing()
+//                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
+                }
+                it.data?.let {
+                    onUpdateSuccess(it)
+                }
+                it.message?.let {
+                    onUpdateFailure(it)
+                }
+            }
+        })
+
+
+        mVmCity.cityList.observe(this@ProfileTabFragment, Observer { cities ->
 
             cities?.let {
                 updateCities(it.data!!)
             }
-
         })
 
         et_name.setText(PrefUtils.name)
@@ -62,11 +105,11 @@ class ProfileTabFragment : Fragment() {
             it.text.clear()
         }
 
-        CITIES = mutableListOf()
+        cities = mutableListOf()
 
         adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_dropdown_item_1line, CITIES
+            android.R.layout.simple_dropdown_item_1line, cities
         )
 
         et_city.threshold = 1
@@ -77,10 +120,36 @@ class ProfileTabFragment : Fragment() {
 
     private fun updateCities(data: List<CityItem>) {
         data.forEach {
-            CITIES.add(it.name)
+            cities.add(it.name)
         }
         adapter.notifyDataSetChanged()
     }
+
+
+    private fun onUpdateSuccess(message: MessageResponse) {
+        (activity as ToolbarTitleListener).updateTitle(mUserInfo.name)
+        PrefUtils.name = mUserInfo.name
+        PrefUtils.cityName = et_city.text.toString()
+        save_btn.isEnabled = false
+    }
+
+
+    private fun onUpdateFailure(appErrorMessage: String) {
+        Timber.e("Error on auth: %s", appErrorMessage)
+        when {
+            appErrorMessage.contains("403") ||
+                    appErrorMessage.contains("404") ->
+                longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
+            (appErrorMessage.contains("409")) -> longToast("Не верный код.")
+            appErrorMessage.contains("502") -> longToast("Ошибка сервера")
+            appErrorMessage.contains("401") -> longToast("Ошибка авторизации")
+            (appErrorMessage.contains("413")) -> longToast("Не верный формат данных")
+            appErrorMessage.contains("No Internet Connection!") ->
+                longToast("Интернет подключение не доступно!")
+        }
+
+    }
+
 }
 
 
