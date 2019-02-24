@@ -8,6 +8,8 @@ import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.orders.OrderModel
 import ru.prsolution.winstrike.domain.repository.ArenaRepository
+import ru.prsolution.winstrike.presentation.model.fcm.FCMPid
+import ru.prsolution.winstrike.presentation.model.fcm.mapToDomain
 
 class ArenaUseCase constructor(private val arenaRepository: ArenaRepository) {
 
@@ -25,6 +27,6 @@ class ArenaUseCase constructor(private val arenaRepository: ArenaRepository) {
     suspend fun getOrders(): Resource<List<OrderModel>>? =
         arenaRepository.getOrders()
 
-    suspend fun sendFCMCode(fcmModel: FCMModel): Resource<MessageResponse>? =
-        arenaRepository.sendFCMCode(fcmModel)
+    suspend fun sendFCMCode(fcmPid: FCMPid): Resource<MessageResponse>? =
+        arenaRepository.sendFCMCode(fcmPid.mapToDomain())
 }

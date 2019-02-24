@@ -23,6 +23,7 @@ import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
+import ru.prsolution.winstrike.presentation.model.fcm.FCMPid
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.hide
@@ -199,7 +200,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     private fun initFCM() {
         val fcmToken = PrefUtils.fcmtoken
         fcmToken?.let {
-            mVmFCM.sendFCMCode(FCMModel(it))
+            mVmFCM.sendFCMCode(FCMPid(it))
         }
     }
 

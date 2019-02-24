@@ -6,6 +6,7 @@ import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.usecases.ArenaUseCase
+import ru.prsolution.winstrike.presentation.model.fcm.FCMPid
 import ru.prsolution.winstrike.presentation.model.login.LoginInfo
 import ru.prsolution.winstrike.presentation.utils.SingleLiveEvent
 import kotlin.coroutines.CoroutineContext
@@ -29,9 +30,9 @@ class FCMViewModel constructor(val arenaUseCase: ArenaUseCase) : ViewModel() {
     val messageResponse = SingleLiveEvent<Resource<MessageResponse>>()
 
 
-    fun sendFCMCode(fcmModel: FCMModel) {
+    fun sendFCMCode(fcmPid: FCMPid) {
         scope.launch {
-            val response = arenaUseCase.sendFCMCode(fcmModel)
+            val response = arenaUseCase.sendFCMCode(fcmPid)
             messageResponse.postValue(response)
         }
     }
