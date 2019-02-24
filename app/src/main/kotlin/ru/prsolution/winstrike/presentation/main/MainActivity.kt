@@ -198,7 +198,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
                 super.onOptionsItemSelected(item)
     }
 
-
+    // Send FCM code to server
     private fun initFCM() {
         val fcmToken = PrefUtils.fcmtoken
         fcmToken?.let {
