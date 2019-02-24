@@ -19,11 +19,11 @@
 
         app:counterTextAppearance="@style/TextAppearance.Winstrike.Content"
         android:hint="@string/all_hintcode"
-        tools:showIn="@layout/fmt_help_phone"
+        tools:showIn="@layout/fmt_help_code"
 >
 
     <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_password"
+            android:id="@+id/et_code_help"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginStart="@dimen/spacing_24"

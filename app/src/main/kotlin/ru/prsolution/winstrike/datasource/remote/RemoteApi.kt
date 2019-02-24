@@ -45,12 +45,12 @@ interface ArenaApi {
 
     // Расписание работы клубов
     @GET("schedules")
-    fun getSchedules(): Deferred<Response<SchedulersEntity>>
+    fun getSchedulesAsync(): Deferred<Response<SchedulersEntity>>
 
 
     // Получение списка оплаченных мест пользователя
     @GET("orders")
-    fun getOrders(): Deferred<Response<OrdersListEntity>>
+    fun getOrdersAsync(): Deferred<Response<OrdersListEntity>>
 
     // Send fcm tocken to server
     @POST("fcm_codes")
@@ -66,11 +66,11 @@ interface ArenaApi {
 interface UserApi {
     // Создание пользователя
     @POST("users")
-    fun getUser(@Body newUserEntity: NewUserEntity): Deferred<Response<AuthResponseEntity>>
+    fun getUserAsync(@Body newUserEntity: NewUserEntity): Deferred<Response<AuthResponseEntity>>
 
     // Подтверждение пользоватея по sms коду
     @POST("confirm_user/{sms_code}")
-    fun confirmUser(
+    fun confirmUserAsync(
         @Path(
             "sms_code") sms_code: String,
         @Body confirmModel:SmsEntity
@@ -79,19 +79,28 @@ interface UserApi {
 
     // Авторизация пользователя
     @POST("login")
-    fun getLogin(@Body loginModel: LoginEntity): Deferred<Response<AuthResponseEntity>>
+    fun getLoginAsync(@Body loginModel: LoginEntity): Deferred<Response<AuthResponseEntity>>
 
     // Отправка смс c кодом подтверждения (повторно)
     @POST("confirm_codes")
-    fun sendSms(@Body confirmModel: SmsEntity): Deferred<Response<MessageResponse>>
+    fun sendSmsAsync(@Body confirmModel: SmsEntity): Deferred<Response<MessageResponse>>
 
 
     // Обновление профиля (имя пользователя)
     @PUT("users/{public_id}")
-    fun updateUser(
+    fun updateUserAsync(
         @Path(
             "public_id") public_id: String,
         @Body profileEntity: ProfileEntity
+    ): Deferred<Response<MessageResponse>>
+
+
+    // Смена пароля (в параметрах передается код подтверждения из СМС)
+    @POST("refresh_password/{confirm_code}")
+    fun changePasswordAsync(
+        @Path(
+            "confirm_code") confirmCode: String,
+        @Body passwordEntity: PasswordEntity
     ): Deferred<Response<MessageResponse>>
 
 }

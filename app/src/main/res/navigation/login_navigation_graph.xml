@@ -74,10 +74,6 @@
         <!--Navigate to Password-->
         <action android:id="@+id/action_to_help_password"
                 app:destination="@id/help_password"/>
-        <!--Code for password confirmation-->
-        <argument android:name="code"
-                  android:defaultValue=" "
-                  app:argType="string"/>
     </fragment>
 
 
@@ -86,6 +82,11 @@
               android:name="ru.prsolution.winstrike.presentation.login.help.HelpPasswordFragment"
               tools:layout="@layout/fmt_change_passw"
               android:label="Введите новый пароль">
+
+        <!--Code for password confirmation-->
+        <argument android:name="code"
+                  android:defaultValue=" "
+                  app:argType="string"/>
 
         <!--Navigate to Login-->
         <action android:id="@+id/action_to_navigation_login"

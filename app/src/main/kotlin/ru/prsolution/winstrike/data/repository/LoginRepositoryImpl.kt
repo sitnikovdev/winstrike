@@ -26,5 +26,8 @@ class LoginRepositoryImpl constructor(
 
     override suspend fun updateInfo(publicId: String, profileModel: ProfileModel): Resource<MessageResponse>? =
         remoteDataSource.updateInfo(publicId, profileModel.mapToDataSource())
+
+    override suspend fun changePassword(confirmCode: String, passwordModel: PasswordModel): Resource<MessageResponse>? =
+        remoteDataSource.changePassword(confirmCode, passwordModel.mapToDataSource())
 }
 

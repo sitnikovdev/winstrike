@@ -16,4 +16,6 @@ interface LoginRepository {
 
     suspend fun updateInfo(publicId: String, profileModel: ProfileModel): Resource<MessageResponse>?
 
+    suspend fun changePassword(confirmCode: String, passwordModel: PasswordModel): Resource<MessageResponse>?
+
 }
