@@ -74,6 +74,10 @@
         <!--Navigate to Password-->
         <action android:id="@+id/action_to_help_password"
                 app:destination="@id/help_password"/>
+        <!--Code for password confirmation-->
+        <argument android:name="code"
+                  android:defaultValue=" "
+                  app:argType="string"/>
     </fragment>
 
 

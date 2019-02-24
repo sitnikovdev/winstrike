@@ -67,6 +67,7 @@
     <!--Phone next button-->
     <com.google.android.material.button.MaterialButton
             android:id="@+id/phone_btn"
+            android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/spacing_8"
             android:text="Отправить код"
             android:enabled="true"

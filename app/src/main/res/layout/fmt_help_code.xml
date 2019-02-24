@@ -66,7 +66,7 @@
 
     <!--Phone next button-->
     <com.google.android.material.button.MaterialButton
-            android:id="@+id/next_button_phone"
+            android:id="@+id/send_code_btn"
             android:layout_marginTop="@dimen/spacing_8"
             android:text="Отправить код"
             android:enabled="true"
@@ -90,7 +90,7 @@
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="@id/line_end"
-            app:layout_constraintTop_toBottomOf="@id/next_button_phone"
+            app:layout_constraintTop_toBottomOf="@id/send_code_btn"
             app:layout_constraintVertical_chainStyle="spread_inside"
             tools:text="@string/helpsms_hintsend"
             android:textAppearance="@style/TextAppearance.Winstrike.Hint"
@@ -118,7 +118,7 @@
 
     <!--Send sms code button-->
     <com.google.android.material.button.MaterialButton
-            android:id="@+id/code_btn"
+            android:id="@+id/confirm_code_btn"
             android:text="Подтвердить"
             android:enabled="true"
             android:maxLines="1"

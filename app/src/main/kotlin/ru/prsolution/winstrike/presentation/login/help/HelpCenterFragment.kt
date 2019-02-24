@@ -28,8 +28,6 @@ class HelpCenterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         tv_sms.setOnClickListener {
-//            startActivity(Intent(requireActivity(), HelpSmsFragment::class.java))
-//            longToast("TODO: Open restore password page")
             val action = HelpCenterFragmentDirections.actionToHelpPhone()
             (activity as NavigationListener).navigate(action)
         }

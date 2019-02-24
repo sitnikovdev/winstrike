@@ -1,6 +1,5 @@
 package ru.prsolution.winstrike.presentation.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -20,13 +19,10 @@ import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
 import androidx.navigation.Navigation
-import com.readystatesoftware.chuck.internal.ui.MainActivity
 import kotlinx.android.synthetic.main.inc_password.*
 import kotlinx.android.synthetic.main.inc_phone.*
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.NavigationListener
-import ru.prsolution.winstrike.presentation.login.register.CodeFragment
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.viewmodel.SmsViewModel
