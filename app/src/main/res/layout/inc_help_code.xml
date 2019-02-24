@@ -2,23 +2,28 @@
 <!--User password -->
 <com.google.android.material.textfield.TextInputLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/password_til"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/v_pass"
         android:layout_width="288dp"
         android:layout_height="56dp"
-        android:layout_marginTop="@dimen/spacing_24"
-        app:layout_constraintTop_toBottomOf="@id/phone_v"
+
+        android:layout_marginTop="@dimen/padding_standart_16dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
         android:background="@drawable/edit_text_shape"
         android:gravity="center_vertical"
         app:errorEnabled="true"
         app:passwordToggleEnabled="true"
         app:counterEnabled="true"
         app:counterMaxLength="10"
-        android:hint="Пароль"
+
         app:counterTextAppearance="@style/TextAppearance.Winstrike.Content"
+        android:hint="@string/all_hintcode"
+        tools:showIn="@layout/fmt_help_phone"
 >
+
     <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"

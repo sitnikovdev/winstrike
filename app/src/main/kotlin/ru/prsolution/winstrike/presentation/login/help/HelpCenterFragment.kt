@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.fmt_help_center.tv_help_centr
 import kotlinx.android.synthetic.main.fmt_help_center.tv_sms
 import org.jetbrains.anko.support.v4.longToast
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.inflate
 
@@ -28,7 +29,9 @@ class HelpCenterFragment : Fragment() {
 
         tv_sms.setOnClickListener {
 //            startActivity(Intent(requireActivity(), HelpSmsFragment::class.java))
-            longToast("TODO: Open restore password page")
+//            longToast("TODO: Open restore password page")
+            val action = HelpCenterFragmentDirections.actionToHelpPhone()
+            (activity as NavigationListener).navigate(action)
         }
 
         tv_help_centr.setOnClickListener {

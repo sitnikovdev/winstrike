@@ -48,16 +48,57 @@
               android:name="ru.prsolution.winstrike.presentation.login.help.HelpCenterFragment"
               tools:layout="@layout/fmt_help_center"
               android:label="Помощь при входе"
-    />
+    >
+        <!--Navigate to phone-->
+        <action android:id="@+id/action_to_help_phone"
+                app:destination="@id/help_phone"/>
+    </fragment>
+
+    <!--Help Phone-->
+    <fragment android:id="@+id/help_phone"
+              android:name="ru.prsolution.winstrike.presentation.login.help.HelpPhoneFragment"
+              tools:layout="@layout/fmt_help_phone"
+              android:label="Введите номер телефона"
+    >
+        <!--Navigate to code-->
+        <action android:id="@+id/action_to_help_code"
+                app:destination="@id/help_code"/>
+    </fragment>
+
+    <!--Help Code-->
+    <fragment android:id="@+id/help_code"
+              android:name="ru.prsolution.winstrike.presentation.login.help.HelpCodeFragment"
+              tools:layout="@layout/fmt_help_code"
+              android:label="Введите код подтверждения">
+
+        <!--Navigate to Password-->
+        <action android:id="@+id/action_to_help_password"
+                app:destination="@id/help_password"/>
+    </fragment>
+
+
+    <!--Help Password-->
+    <fragment android:id="@+id/help_password"
+              android:name="ru.prsolution.winstrike.presentation.login.help.HelpPasswordFragment"
+              tools:layout="@layout/fmt_change_passw"
+              android:label="Введите новый пароль">
+
+        <!--Navigate to Login-->
+        <action android:id="@+id/action_to_navigation_login"
+                app:destination="@id/navigation_login"/>
+    </fragment>
+
 
     <!--Register-->
     <fragment android:id="@+id/navigation_register"
               tools:layout="@layout/fmt_register"
               android:name="ru.prsolution.winstrike.presentation.login.register.RegisterFragment"
               android:label="Регистрация пользователя">
+
         <!--Navigation to Code-->
         <action android:id="@+id/action_to_navigation_code"
                 app:destination="@id/navigation_code"/>
+
         <!--Navigation to Login-->
         <action android:id="@+id/action_to_navigation_login"
                 app:destination="@id/navigation_login"/>
@@ -96,7 +137,6 @@
         <action android:id="@+id/action_to_city_activity"
                 app:destination="@id/navigation_city_activity"/>
     </fragment>
-
 
 
     <!-- City Activity -->

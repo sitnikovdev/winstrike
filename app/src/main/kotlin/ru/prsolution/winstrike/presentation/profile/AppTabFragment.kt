@@ -96,31 +96,31 @@ class AppTabFragment : Fragment() {
 
     }
 
-    fun onVkClick() {
+    private fun onVkClick() {
         val url = "https://vk.com/winstrikearena"
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(browserIntent)
     }
 
-    fun onInstagramClick() {
+    private fun onInstagramClick() {
         val url = "https://www.instagram.com/winstrikearena/"
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(browserIntent)
     }
 
-    fun onTweeterClick() {
+    private fun onTweeterClick() {
         val url = "https://twitter.com/winstrikearena"
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(browserIntent)
     }
 
-    fun onFacebookClick() {
+    private fun onFacebookClick() {
         val url = "https://www.facebook.com/winstrikegg/"
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(browserIntent)
     }
 
-    fun onTwitchClick() {
+    private fun onTwitchClick() {
         val url = "https://www.twitch.tv/winstrikearena"
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(browserIntent)
