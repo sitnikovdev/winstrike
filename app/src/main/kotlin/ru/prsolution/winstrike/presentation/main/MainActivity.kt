@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
@@ -16,8 +17,10 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import kotlinx.android.synthetic.main.toolbar.*
+import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
+import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.utils.Constants
@@ -25,29 +28,31 @@ import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.hide
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.show
+import ru.prsolution.winstrike.viewmodel.FCMViewModel
+import timber.log.Timber
+import java.util.concurrent.atomic.AtomicBoolean
 
 interface ToolbarTitleListener {
     fun updateTitle(title: String)
 }
 
 
-
 class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     CarouselFragment.OnSeatClickListener, NavigationListener {
 
+    private val mVmFCM: FCMViewModel by viewModel()
+
+    private val pendingMapMenu = AtomicBoolean(false)
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-
     private var mDlgMapLegend: Dialog? = null
-
     var mArenaActiveLayoutPid: String? = ""
-
-    var mCityMenuVisible: Boolean = false
-    lateinit var mMenuCity: MenuItem
-    var mProfileMenuVisible: Boolean = false
-    lateinit var mMenuProfile: MenuItem
-    var mMapMenuVisible: Boolean = false
-    lateinit var mMenuMap: MenuItem
+    private var mCityMenuVisible: Boolean = false
+    private lateinit var mMenuCity: MenuItem
+    private var mProfileMenuVisible: Boolean = false
+    private lateinit var mMenuProfile: MenuItem
+    private var mMapMenuVisible: Boolean = false
+    private lateinit var mMenuMap: MenuItem
 
     // Show SetUpFragment when user click on carousel view selected seat item
     override fun onCarouselClick(seat: SeatCarousel?) {
@@ -126,7 +131,25 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         setupBottomNavMenu(navController)
 
 
-//        initFCM() // FCM push notifications
+        initFCM() // FCM push notifications
+
+        mVmFCM.messageResponse.observe(this@MainActivity, Observer {
+            it?.let { resource ->
+                // TODO: process error!
+                when (resource.state) {
+//                    ResourceState.LOADING -> swipeRefreshLayout.startRefreshing()
+//                    ResourceState.SUCCESS -> swipeRefreshLayout.stopRefreshing()
+//                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
+                }
+                resource.data?.let {
+                    Timber.tag("$$$").d("FCM token sent!")
+                }
+                resource.message?.let {
+                    Timber.tag("$$$").e("FCM token DIDN'T sent!")
+                }
+            }
+        })
+
     }
 
     // Set title in Profile
@@ -178,12 +201,11 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
     private fun initFCM() {
         val fcmToken = PrefUtils.fcmtoken
-        val userToken = PrefUtils.token
-        if (!fcmToken?.isEmpty()!!) {
-            // TODO fix it: server send "message": "Token is missing" (see logs). Try install chuck.
-// 			userToken?.let { vm.sendFCMToken(it, FCMModel(PrefUtils.fcmtoken)) }
+        fcmToken?.let {
+            mVmFCM.sendFCMCode(FCMModel(it))
         }
     }
+
 
     private fun clearData() {
         TimeDataModel.clearPids()

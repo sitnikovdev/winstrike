@@ -2,12 +2,15 @@ package ru.prsolution.winstrike.data.datasource
 
 import io.reactivex.Single
 import ru.prsolution.winstrike.data.repository.resouces.Resource
+import ru.prsolution.winstrike.datasource.model.fcm.FCMEntity
 import ru.prsolution.winstrike.datasource.model.orders.OrderEntity
 import ru.prsolution.winstrike.datasource.model.orders.OrdersListEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
 import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
 import ru.prsolution.winstrike.domain.models.arena.Schedule
+import ru.prsolution.winstrike.domain.models.common.FCMModel
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.orders.OrderModel
 import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
 
@@ -30,4 +33,6 @@ interface ArenaRemoteDataSource {
     suspend fun getSchedule(): Resource<List<Schedule>>?
 
     suspend fun getOrders(): Resource<List<OrderModel>>?
+
+    suspend fun sendFCMCode(fcmEntity: FCMEntity): Resource<MessageResponse>?
 }

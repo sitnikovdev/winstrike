@@ -52,6 +52,7 @@
             android:name="io.fabric.ApiKey"
             android:value="97794305a3c84acb7d3a3335d9b889c90da7a71f" />
 
+        <!--FCM services init-->
         <service android:name=".presentation.utils.fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

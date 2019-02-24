@@ -7,13 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import kotlinx.android.synthetic.main.fmt_web_view.*
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.presentation.utils.gone
 import ru.prsolution.winstrike.presentation.utils.inflate
-import ru.prsolution.winstrike.viewmodel.MainViewModel
-import timber.log.Timber
 
 /**
  * Created by Oleg Sitnikov on 2019-01-27
@@ -22,7 +20,6 @@ import timber.log.Timber
 class YandexWebViewFragment : Fragment() {
     private var mWebView: WebView? = null
     private var url: String? = null
-    private var progressBar: ProgressBar? = null
 
 
     override fun onCreateView(
@@ -35,8 +32,6 @@ class YandexWebViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        progressBar = view.findViewById(R.id.progressBar)
-        progressBar?.visibility = View.VISIBLE
 
 
         arguments?.let {
@@ -47,12 +42,10 @@ class YandexWebViewFragment : Fragment() {
         mWebView = view.findViewById<View>(R.id.webView) as WebView
         mWebView?.webViewClient = MyWebViewClient()
         mWebView?.isHorizontalScrollBarEnabled = false
-        // включаем поддержку JavaScript
         // (TODO: Remove if don't need it. Introduce XSS vulnerabilities.)
         mWebView?.settings?.javaScriptEnabled = true
         mWebView?.settings?.loadWithOverviewMode = true
         mWebView?.settings?.useWideViewPort = true
-        // указываем страницу загрузки
         if (!TextUtils.isEmpty(url)) {
             mWebView?.loadUrl(url)
         }
@@ -62,17 +55,7 @@ class YandexWebViewFragment : Fragment() {
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            progressBar?.visibility = View.GONE
-        }
-
-        override fun onLoadResource(view: WebView, url: String) {
-            super.onLoadResource(view, url)
-            Timber.d("Load link: %s", url)
-            if (url == "https://dev.winstrike.ru/api/v1/orders") {
-// 				val intent = Intent()
-// 				intent.putExtra("payments", true)
-// 				startActivity(Intent(this@YandexWebView, MainActivity::class.java))
-            }
+            pbar.gone()
         }
     }
 }

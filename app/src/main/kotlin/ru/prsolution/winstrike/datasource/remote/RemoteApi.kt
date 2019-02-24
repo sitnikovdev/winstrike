@@ -8,6 +8,7 @@ import ru.prsolution.winstrike.datasource.model.arena.ScheduleEntity
 import ru.prsolution.winstrike.datasource.model.arena.SchedulersEntity
 import ru.prsolution.winstrike.datasource.model.arena.SchemaEntity
 import ru.prsolution.winstrike.datasource.model.city.CityListEntity
+import ru.prsolution.winstrike.datasource.model.fcm.FCMEntity
 import ru.prsolution.winstrike.datasource.model.login.*
 import ru.prsolution.winstrike.datasource.model.orders.OrdersListEntity
 import ru.prsolution.winstrike.datasource.model.payment.PaymentEntity
@@ -52,14 +53,13 @@ interface ArenaApi {
     @GET("orders")
     fun getOrdersAsync(): Deferred<Response<OrdersListEntity>>
 
-    // Send fcm tocken to server
+    // Отправка пуш уведомления пользователю перед концом сеанса
     @POST("fcm_codes")
     fun sendTockenAsync(
-        @Header(
-            "authorization"
-        ) token: String,
-        @Body tokenModel: FCMModel
+        @Body fcmEntity: FCMEntity
     ): Deferred<Response<MessageResponse>>
+
+
 
 }
 
@@ -102,6 +102,7 @@ interface UserApi {
             "confirm_code") confirmCode: String,
         @Body passwordEntity: PasswordEntity
     ): Deferred<Response<MessageResponse>>
+
 
 }
 

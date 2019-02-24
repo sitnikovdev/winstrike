@@ -3,17 +3,18 @@ package ru.prsolution.winstrike.data.repository
 import ru.prsolution.winstrike.data.datasource.ArenaCacheDataSource
 import ru.prsolution.winstrike.data.datasource.ArenaRemoteDataSource
 import ru.prsolution.winstrike.data.repository.resouces.Resource
-import ru.prsolution.winstrike.datasource.model.orders.mapToDomain
+import ru.prsolution.winstrike.datasource.model.fcm.FCMEntity
 import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.domain.models.arena.ArenaSchema
 import ru.prsolution.winstrike.domain.models.arena.Schedule
+import ru.prsolution.winstrike.domain.models.common.FCMModel
+import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.domain.models.common.mapToDataSource
 import ru.prsolution.winstrike.domain.models.orders.OrderModel
-import ru.prsolution.winstrike.domain.models.orders.mapToDataSource
 import ru.prsolution.winstrike.domain.models.payment.PaymentModel
 import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
 import ru.prsolution.winstrike.domain.models.payment.mapToDataSource
 import ru.prsolution.winstrike.domain.repository.ArenaRepository
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.token
 
 class ArenaRepositoryImpl constructor(
     private val cacheDataSource: ArenaCacheDataSource,
@@ -36,5 +37,8 @@ class ArenaRepositoryImpl constructor(
 
     override suspend fun getOrders(): Resource<List<OrderModel>>? =
         remoteDataSource.getOrders()
+
+    override suspend fun sendFCMCode(fcmModel: FCMModel): Resource<MessageResponse>? =
+        remoteDataSource.sendFCMCode(fcmModel.mapToDataSource())
 }
 
