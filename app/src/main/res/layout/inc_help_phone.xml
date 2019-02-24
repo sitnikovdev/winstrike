@@ -18,7 +18,7 @@
 >
 
     <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_phone"
+            android:id="@+id/et_phone_help"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_marginBottom="8dp"

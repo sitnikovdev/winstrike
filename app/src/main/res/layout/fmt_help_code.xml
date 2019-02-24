@@ -134,7 +134,7 @@
     <!--Footer text-->
     <!--TODO: make it spannable-->
     <TextView
-            android:id="@+id/tv_account_hint"
+            android:id="@+id/login_footer_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Уже есть аккаунт? Войдите"
@@ -142,7 +142,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:textAppearance="@style/TextAppearance.Winstrike.Hint"
+            android:textAppearance="@style/TextAppearance.Winstrike.Hint.Big"
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

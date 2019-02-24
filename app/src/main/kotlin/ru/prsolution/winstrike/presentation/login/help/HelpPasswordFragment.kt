@@ -87,7 +87,7 @@ class HelpPasswordFragment : Fragment() {
     }
 
     private fun onUpdateSuccess(message: MessageResponse) {
-        longToast("Пароль изменен")
+        longToast("Пароль успешно изменен")
         // Update password
         PrefUtils.password = mPassword.password
         // Go to Login

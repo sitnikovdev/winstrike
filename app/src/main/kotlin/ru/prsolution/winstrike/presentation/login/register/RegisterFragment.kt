@@ -13,6 +13,7 @@ import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
+import ru.prsolution.winstrike.presentation.login.FooterSetUp
 import ru.prsolution.winstrike.presentation.login.LoginActivity
 import ru.prsolution.winstrike.presentation.login.LoginFragmentDirections
 import ru.prsolution.winstrike.presentation.model.login.NewUserInfo
@@ -53,7 +54,8 @@ class RegisterFragment : Fragment() {
             }
         })
         initView()
-        (activity as LoginActivity).setRegisterLoginFooter(tv_register_footer)
+        val action = RegisterFragmentDirections.actionToNavigationLogin()
+        (activity as FooterSetUp).setRegisterLoginFooter(tv_register_footer, action)
     }
 
     private fun onAuthSuccess(authResponse: AuthResponse) {
@@ -71,7 +73,7 @@ class RegisterFragment : Fragment() {
 //            mSmsVm.send(smsInfo)
             val action = RegisterFragmentDirections.actionToNavigationCode()
             val phone = authResponse.user?.phone
-             phone?.let {action.phone = it}
+            phone?.let { action.phone = it }
             (activity as LoginActivity).navigate(action)
         }
     }

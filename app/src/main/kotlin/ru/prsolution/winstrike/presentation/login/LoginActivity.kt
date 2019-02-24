@@ -30,8 +30,11 @@ import android.content.Intent
  * Created by oleg on 31.01.2018.
  */
 
+interface FooterSetUp {
+    fun setRegisterLoginFooter(textView: TextView, action: NavDirections)
+}
 
-class LoginActivity : AppCompatActivity(), NavigationListener {
+class LoginActivity : AppCompatActivity(), NavigationListener, FooterSetUp {
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -62,12 +65,12 @@ class LoginActivity : AppCompatActivity(), NavigationListener {
     }
 
 //    Login Footer
-    fun setRegisterLoginFooter(textView: TextView) {
+override fun setRegisterLoginFooter(textView: TextView, action: NavDirections) {
 //       Уже есть аккуунт? Войдите
         val register = SpannableString(getString(ru.prsolution.winstrike.R.string.fmt_register_message_enter))
         val registerClick = object : ClickableSpan() {
             override fun onClick(v: View) {
-                val action = RegisterFragmentDirections.actionToNavigationLogin()
+//                val action = RegisterFragmentDirections.actionToNavigationLogin()
                 navigate(action)
             }
         }

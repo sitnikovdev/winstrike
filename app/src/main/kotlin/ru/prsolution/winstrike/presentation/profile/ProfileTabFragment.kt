@@ -59,7 +59,7 @@ class ProfileTabFragment : Fragment() {
 
         save_btn.setOnClickListener {
 
-            et_name.validate({ et_name.text!!.isNameValid() }, getString(ru.prsolution.winstrike.R.string.fmt_name_error_lengh))
+            et_name.validate({ et_name.text?.isNameValid()!! }, getString(ru.prsolution.winstrike.R.string.fmt_name_error_lengh))
 
             when {
                 et_name.text!!.isNameValid() -> {
@@ -127,10 +127,11 @@ class ProfileTabFragment : Fragment() {
 
 
     private fun onUpdateSuccess(message: MessageResponse) {
+        longToast("Информация обновлена")
         (activity as ToolbarTitleListener).updateTitle(mUserInfo.name)
         PrefUtils.name = mUserInfo.name
         PrefUtils.cityName = et_city.text.toString()
-        save_btn.isEnabled = false
+//        save_btn.isEnabled = false
     }
 
 

@@ -63,6 +63,10 @@
         <!--Navigate to code-->
         <action android:id="@+id/action_to_help_code"
                 app:destination="@id/help_code"/>
+
+        <!--Navigate to Login-->
+        <action android:id="@+id/action_to_login"
+                app:destination="@id/navigation_login"/>
     </fragment>
 
     <!--Help Code-->
@@ -74,6 +78,10 @@
         <!--Navigate to Password-->
         <action android:id="@+id/action_to_help_password"
                 app:destination="@id/help_password"/>
+
+        <!--Navigate to Login-->
+        <action android:id="@+id/action_to_login"
+                app:destination="@id/navigation_login"/>
     </fragment>
 
 

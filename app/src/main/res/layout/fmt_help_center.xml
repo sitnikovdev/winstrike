@@ -37,7 +37,7 @@
             android:layout_marginStart="@dimen/spacing_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textAppearance="@style/TextAppearance.Winstrike.Title.Large"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
     />
 
     <!--Restore password icon-->
@@ -55,12 +55,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/help_menu_title"
+            android:clickable="true"
+            android:focusable="true"
             android:background="?selectableItemBackground"
             android:layout_marginTop="@dimen/spacing_24"
             android:layout_marginStart="@dimen/spacing_42"
             app:layout_constraintStart_toStartOf="@id/line_start"
             app:layout_constraintTop_toBottomOf="@id/tv_access"
-            android:textAppearance="@style/TextAppearance.Winstrike.Content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
     />
 
     <!--Help center title-->
@@ -73,7 +75,7 @@
             android:layout_marginTop="32dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_sms"
-            android:textAppearance="@style/TextAppearance.Winstrike.Title.Large"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
     />
 
     <!--Help center Winstrike icon-->
@@ -91,12 +93,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/help_winstrike_title"
-            android:background="@drawable/ripple_effect_title_click"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?selectableItemBackground"
             android:layout_marginStart="@dimen/spacing_42"
             android:layout_marginTop="@dimen/spacing_24"
             app:layout_constraintStart_toStartOf="@id/line_start"
             app:layout_constraintTop_toBottomOf="@id/tv_help"
-            android:textAppearance="@style/TextAppearance.Winstrike.Content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

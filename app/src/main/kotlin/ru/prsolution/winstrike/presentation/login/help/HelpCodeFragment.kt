@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fmt_code.*
 import kotlinx.android.synthetic.main.fmt_help_code.*
 import kotlinx.android.synthetic.main.fmt_help_code.view.*
+import kotlinx.android.synthetic.main.fmt_help_phone.*
 import kotlinx.android.synthetic.main.inc_help_code.*
 import kotlinx.android.synthetic.main.inc_help_phone.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.NavigationListener
+import ru.prsolution.winstrike.presentation.login.FooterSetUp
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.isCodeValid
@@ -31,12 +33,16 @@ class HelpCodeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Set footer
+        val action = HelpCodeFragmentDirections.actionToLogin()
+        (activity as FooterSetUp).setRegisterLoginFooter(textView = login_footer_code , action = action)
+
         // Set phone mask
 //        et_phone.setPhoneMask()
 
-        et_phone.setText(PrefUtils.phone)
+        et_phone_help.setText(PrefUtils.phone)
 
-        et_phone.isEnabled = false
+        et_phone_help.isEnabled = false
 
         send_code_btn.isEnabled = false
 
