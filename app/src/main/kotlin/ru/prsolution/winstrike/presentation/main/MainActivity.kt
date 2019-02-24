@@ -30,7 +30,6 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.show
 import ru.prsolution.winstrike.viewmodel.FCMViewModel
 import timber.log.Timber
-import java.util.concurrent.atomic.AtomicBoolean
 
 interface ToolbarTitleListener {
     fun updateTitle(title: String)
@@ -41,8 +40,6 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     CarouselFragment.OnSeatClickListener, NavigationListener {
 
     private val mVmFCM: FCMViewModel by viewModel()
-
-    private val pendingMapMenu = AtomicBoolean(false)
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var mDlgMapLegend: Dialog? = null

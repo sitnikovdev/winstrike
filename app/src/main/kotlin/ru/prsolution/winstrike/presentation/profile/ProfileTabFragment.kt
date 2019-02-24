@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fmt_profile_prof.*
 import kotlinx.android.synthetic.main.inc_password.*
+import kotlinx.android.synthetic.main.inc_prof_name.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
@@ -59,12 +60,12 @@ class ProfileTabFragment : Fragment() {
 
         save_btn.setOnClickListener {
 
-            et_name.validate({ et_name.text?.isNameValid()!! }, getString(ru.prsolution.winstrike.R.string.fmt_name_error_lengh))
+            et_name_prof.validate({ et_name_prof.text?.isNameValid()!! }, getString(ru.prsolution.winstrike.R.string.fmt_name_error_lengh))
 
             when {
-                et_name.text!!.isNameValid() -> {
+                et_name_prof.text!!.isNameValid() -> {
 
-                    mUserInfo = ProfileInfo(PrefUtils.phone!!, et_name.text.toString())
+                    mUserInfo = ProfileInfo(PrefUtils.phone!!, et_name_prof.text.toString())
                     mVmProfile.updateUserProfile(PrefUtils.publicid!!, mUserInfo)
 
                 }
@@ -96,7 +97,7 @@ class ProfileTabFragment : Fragment() {
             }
         })
 
-        et_name.setText(PrefUtils.name)
+        et_name_prof.setText(PrefUtils.name)
         et_password.setText(PrefUtils.password)
 
         et_city.setText(PrefUtils.cityName)
