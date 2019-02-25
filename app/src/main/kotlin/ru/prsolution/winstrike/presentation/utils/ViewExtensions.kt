@@ -155,10 +155,10 @@ fun EditText.setPhoneMask() = TextFormat.formatText(this, Constants.PHONE_MASK)
 
 // EditText on end icon click listener
 @SuppressLint("ClickableViewAccessibility")
-fun EditText.onRightDrawableClicked(onClicked: (view: EditText) -> Unit) {
+fun TextView.onRightDrawableClicked(onClicked: (view: TextView) -> Unit) {
     this.setOnTouchListener { v, event ->
         var hasConsumed = false
-        if (v is EditText) {
+        if (v is TextView) {
             if (event.x >= v.width - v.totalPaddingRight) {
                 if (event.action == MotionEvent.ACTION_UP) {
                     onClicked(this)

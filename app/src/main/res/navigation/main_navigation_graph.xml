@@ -22,10 +22,18 @@
                 android:defaultValue="No Arena"
                 android:name="title"
                 app:argType="string"/>
-        <action android:id="@+id/action_navigation_home_to_navigation_order" app:destination="@id/navigation_order"/>
+
+        <!--Navigate to Order-->
+        <action android:id="@+id/action_navigation_home_to_navigation_order"
+                app:destination="@id/navigation_order"/>
+
+        <!--Navigate to Profile-->
         <action android:id="@+id/action_navigation_home_to_navigation_profile"
                 app:destination="@id/navigation_profile"/>
-        <action android:id="@+id/action_navigation_home_to_city_activity" app:destination="@id/city_activity"/>
+
+        <!--Navigate to City Activity-->
+        <action android:id="@+id/action_to_city_activity"
+                app:destination="@id/city_activity"/>
     </fragment>
 
     <!--Orders-->
@@ -42,6 +50,7 @@
             tools:layout="@layout/fmt_profile_prof"
             android:label="{userName}"
             android:name="ru.prsolution.winstrike.presentation.profile.ProfileFragment">
+
         <!--Navigate to Login-->
         <action android:id="@+id/action_to_login_activity"
                 app:destination="@id/navigation_login_activity"/>
@@ -50,6 +59,10 @@
         <argument android:name="userName"
                   android:defaultValue="Профиль"
                   app:argType="string"/>
+
+        <!--Navigate to City Activity-->
+        <action android:id="@+id/action_to_city_activity"
+                app:destination="@id/city_activity"/>
     </fragment>
 
     <!--SetUp -->
@@ -104,7 +117,12 @@
     <activity android:id="@+id/city_activity"
               tools:layout="@layout/fmt_city_list"
               android:name="ru.prsolution.winstrike.presentation.cities.CityActivity"
-              android:label="CityActivity"/>
+              android:label="CityActivity"
+    >
+        <argument android:name="navigateToProfile"
+                  app:argType="boolean"
+                  android:defaultValue="false"/>
+    </activity>
 
 
     <!--Login Activity-->
