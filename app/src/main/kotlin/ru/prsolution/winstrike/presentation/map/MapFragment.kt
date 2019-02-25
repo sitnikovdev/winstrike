@@ -39,13 +39,13 @@ import ru.prsolution.winstrike.domain.models.arena.SeatType
 import ru.prsolution.winstrike.presentation.model.payment.PaymentResponseItem
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.domain.models.payment.PaymentModel
 import ru.prsolution.winstrike.domain.models.payment.mapToPresentation
 import ru.prsolution.winstrike.domain.models.payment.setPlacesPid
 import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.model.arena.SchemaItem
 import ru.prsolution.winstrike.presentation.model.arena.mapToDomain
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.MapViewModel
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 import timber.log.Timber
@@ -57,10 +57,12 @@ import java.util.LinkedHashMap
 class MapFragment : Fragment() {
     private val mVm: MapViewModel by viewModel()
     private val mSetUpVm: SetUpViewModel by viewModel()
-    lateinit var mSelectedSeat: ImageView
-    lateinit var mSeat: SeatMap
-    lateinit var mSeatNumber: TextView
-    private lateinit var mAlertDialog: AlertDialog
+    var mSelectedSeatList = mutableListOf<ImageView>()
+    var mSelectedSeatNumberList = mutableMapOf<String, String>()
+    var mSeatList = mutableListOf<SeatMap>()
+    var mSeatNumberList = mutableListOf<TextView>()
+
+    private lateinit var mBookingDialog: AlertDialog
 
     var mapLayout: RelativeLayout? = null
     private var snackbar: Snackbar? = null
@@ -77,10 +79,6 @@ class MapFragment : Fragment() {
     var mXScaleFactor: Float? = null
     var mYScaleFactor: Float? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -100,7 +98,7 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mapLayout = view.findViewById(R.id.rootMap)
-//        initSnackBar()
+        initSnackBar()
 
 
         //TODO: use anather solutuion instead parcebale
@@ -137,10 +135,14 @@ class MapFragment : Fragment() {
 //                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
                 }
                 it.data?.let {
+                    mBookingDialog.dismiss()
                     onPaymentShow(it.mapToPresentation())
+                    TimeDataModel.pids.clear()
+                    mSelectedSeatNumberList.clear()
                 }
                 it.message?.let {
                     onGetPaymentFailure(it)
+                    TimeDataModel.pids.clear()
                 }
             }
 
@@ -150,18 +152,15 @@ class MapFragment : Fragment() {
 
     private fun initMap(schema: SchemaItem?) {
         requireNotNull(schema) { "++++ RoomLayoutFactory must be initView. ++++" }
-
-
-        rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
-
         requireNotNull(mapLayout) { "++++ Map Fragment root layout must not be null. ++++" }
 
+        rootLayoutParams = RelativeLayout.LayoutParams(RLW, RLW)
 
         drawSeat(ArenaMap(schema.mapToDomain()))
     }
 
 
-    // TODO: Move this code in Interactor
+    // TODO: Move this code in UseCases
     private fun drawSeat(arenaMap: ArenaMap?) {
 
         val schema = arenaMap?.arenaSchema
@@ -317,9 +316,7 @@ class MapFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        // Clear listeners
-
+        // Clear listeners to prevent memory leak
         snackLayout?.setOnClickListener(null)
 
         for (i in 0 until mapLayout?.childCount!!) {
@@ -344,6 +341,7 @@ class MapFragment : Fragment() {
             mPickedSeatsIds[Integer.parseInt(id)] = publicPid
         } else {
             mPickedSeatsIds.remove(Integer.parseInt(id))
+            mSelectedSeatNumberList.remove(id)
         }
 
         TimeDataModel.pids = mPickedSeatsIds
@@ -353,11 +351,9 @@ class MapFragment : Fragment() {
 
     private fun onPickedSeatChanged() {
         if (!mPickedSeatsIds.isEmpty()) {
-//            snackbar?.show()
-            showBookingDialog()
+            snackbar?.show()
         } else {
-            mAlertDialog.dismiss()
-//            snackbar?.dismiss()
+            snackbar?.dismiss()
         }
     }
 
@@ -515,10 +511,10 @@ class MapFragment : Fragment() {
             if (seat.type === SeatType.FREE || seat.type === SeatType.VIP) {
                 if (!mPickedSeatsIds.containsKey(Integer.parseInt(seat.id))) {
                     val numberSeat = Utils.parseNumber(seat.name)
-                    PrefUtils.seatNumber = numberSeat
-                    mSelectedSeat = ivSeat
-                    mSeat = seat
-                    mSeatNumber = seatNumber
+                    mSelectedSeatNumberList[seat.id] = numberSeat
+                    mSelectedSeatList.add(ivSeat)
+                    mSeatList.add(seat)
+                    mSeatNumberList.add(seatNumber)
                     ivSeat.setBackgroundResource(R.drawable.ic_seat_picked)
                     seat.pid?.let { onSelectSeat(seat.id, false, it) }
                     Timber.d("Seat id: %s,type: %s, name: %s, pid: %s", seat.id, seat.type, seat.name, seat.pid)
@@ -555,13 +551,12 @@ class MapFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-//        snackbar?.dismiss()
-//        mAlertDialog.dismiss()
+        snackbar?.dismiss()
     }
 
     override fun onStart() {
         super.onStart()
-//        snackbar?.dismiss()
+        snackbar?.dismiss()
     }
 
     // Open Yandex WebView on payment response from MapFragment
@@ -575,20 +570,8 @@ class MapFragment : Fragment() {
 
 
     fun onPaymentRequest() {
-        val payModel = PaymentModel(
-            TimeDataModel.start,
-            TimeDataModel.end,
-            null
-        )
-
-        payModel.setPlacesPid(TimeDataModel.pids)
-
-        mVm.getPayment(payModel.mapToPresentation())
-
-        // TODO: Clear payModel after payments!!!
-        TimeDataModel.pids.clear()
-        mAlertDialog.dismiss()
-//        snackbar?.dismiss()
+        showBookingDialog()
+        snackbar?.dismiss()
     }
 
     private fun onPaymentError(error: String) {
@@ -601,32 +584,44 @@ class MapFragment : Fragment() {
     }
 
 
-
-
     private fun showBookingDialog() {
 
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dlg_booking, mapLayout, false)
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(dialogView)
-        mAlertDialog = builder.create()
-        mAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mBookingDialog = builder.create()
+        mBookingDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        mAlertDialog.show()
+        mBookingDialog.show()
 
 
         val arenaTitle = SpannableString("Вы бронируете «${PrefUtils.arenaName}»")
-        arenaTitle.setSpan(ForegroundColorSpan(resources.getColor(R.color.magenta)),13,arenaTitle.length,SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        arenaTitle.setSpan(
+            ForegroundColorSpan(resources.getColor(R.color.magenta)),
+            13,
+            arenaTitle.length,
+            SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
 
         val address = "(${PrefUtils.arenaAddress}, ${PrefUtils.arenaMetro})"
 
 
-        val closeBtn = mAlertDialog.findViewById<View>(R.id.close_dlg)
+        val closeBtn = mBookingDialog.findViewById<View>(R.id.close_dlg)
+
+        // On close button click - clear all selected seats
         closeBtn?.setOnClickListener {
             TimeDataModel.pids.clear()
-            setImage(mSelectedSeat, mSeat)
-            mSeatNumber.setTextColor(ContextCompat.getColor(activity!!, R.color.grey))
+            mSeatNumberList.forEach {
+                it.setTextColor(ContextCompat.getColor(activity!!, R.color.grey))
+            }
+            mSelectedSeatList.forEach { iv ->
+                mSeatList.forEach { seat ->
+                    setImage(iv, seat)
+                }
+            }
+            mSelectedSeatNumberList.clear()
             mapLayout?.invalidate()
-            mAlertDialog.dismiss()
+            mBookingDialog.dismiss()
         }
 
         val hallName = if (PrefUtils.hallName?.contains("VIP")!!) {
@@ -635,20 +630,34 @@ class MapFragment : Fragment() {
             "Общий"
         }
 
-        mAlertDialog.findViewById<TextView>(R.id.arena_tv)?.text = arenaTitle
+        mBookingDialog.findViewById<TextView>(R.id.arena_tv)?.text = arenaTitle
 
-        mAlertDialog.findViewById<TextView>(R.id.hall_tv)?.text = hallName
+        mBookingDialog.findViewById<TextView>(R.id.hall_tv)?.text = hallName
 
-        mAlertDialog.findViewById<TextView>(R.id.address_tv)?.text = address
+        mBookingDialog.findViewById<TextView>(R.id.address_tv)?.text = address
 
-        mAlertDialog.findViewById<TextView>(R.id.mesto_tv)?.text = PrefUtils.seatNumber
+        val seatNumbers = mSelectedSeatNumberList.values.joinToString(", ")
 
-        mAlertDialog.findViewById<TextView>(R.id.date_tv)?.text = TimeDataModel.date
+        mBookingDialog.findViewById<TextView>(R.id.mesto_tv)?.text = seatNumbers
 
-        mAlertDialog.findViewById<TextView>(R.id.time_tv)?.text = "c ${TimeDataModel.timeFrom} до ${TimeDataModel.timeTo}"
+        mBookingDialog.findViewById<TextView>(R.id.date_tv)?.text = TimeDataModel.date
 
-        val btnBooking = mAlertDialog.findViewById<View>(R.id.btn_v)
-        btnBooking?.setOnClickListener(BookingBtnListener())
+        mBookingDialog.findViewById<TextView>(R.id.time_tv)?.text =
+            "c ${TimeDataModel.timeFrom} до ${TimeDataModel.timeTo}"
+
+        val btnBooking = mBookingDialog.findViewById<View>(R.id.btn_v)
+        btnBooking?.setOnClickListener {
+            // set up data for payment request (time star, time end and selected seat's pid)
+            val payModel = PaymentModel(
+                TimeDataModel.start,
+                TimeDataModel.end,
+                null
+            )
+
+            payModel.setPlacesPid(TimeDataModel.pids)
+
+            mVm.getPayment(payModel.mapToPresentation())
+        }
 
     }
 

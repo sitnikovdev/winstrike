@@ -81,7 +81,7 @@
 
     <!--Sms code send hint text 30 sec-->
     <TextView
-            android:id="@+id/displayWorkTimeLeft"
+            android:id="@+id/timer_tv"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_marginEnd="@dimen/spacing_8"
@@ -92,6 +92,8 @@
             app:layout_constraintEnd_toEndOf="@id/line_end"
             app:layout_constraintTop_toBottomOf="@id/send_code_btn"
             app:layout_constraintVertical_chainStyle="spread_inside"
+            android:visibility="invisible"
+            tools:visibility="visible"
             tools:text="@string/helpsms_hintsend"
             android:textAppearance="@style/TextAppearance.Winstrike.Hint"
     />
@@ -109,7 +111,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/phone_ti"
-            app:layout_constraintTop_toBottomOf="@+id/displayWorkTimeLeft"
+            app:layout_constraintTop_toBottomOf="@+id/timer_tv"
             android:textAppearance="@style/TextAppearance.Winstrike.Title"
     />
 

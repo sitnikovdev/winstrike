@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fmt_web_view.*
 import ru.prsolution.winstrike.R
@@ -30,9 +31,11 @@ class YandexWebViewFragment : Fragment() {
         return context?.inflate(R.layout.fmt_web_view)
     }
 
+    private var progBar: ProgressBar? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        progBar = view.findViewById(R.id.pbar)
 
         arguments?.let {
             val safeArgs = YandexWebViewFragmentArgs.fromBundle(it)
@@ -55,7 +58,9 @@ class YandexWebViewFragment : Fragment() {
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            pbar.gone()
+            progBar?.let {
+                it.gone()
+            }
         }
     }
 }
