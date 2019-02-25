@@ -4,14 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fmt_paid.*
+import kotlinx.android.synthetic.main.item_city.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.model.orders.Order
 import ru.prsolution.winstrike.presentation.utils.inflate
+import ru.prsolution.winstrike.presentation.utils.visible
 import ru.prsolution.winstrike.viewmodel.OrderViewModel
 import timber.log.Timber
 
@@ -52,7 +57,11 @@ class OrderFragment : Fragment() {
 //                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
                 }
                 it.data?.let {
-                    updateOrders(it)
+                    if (!it.isEmpty()) {
+                        updateOrders(it)
+                    } else {
+                        cv_nopay.visible()
+                    }
                 }
                 it.message?.let {
                     onFailure(it)
