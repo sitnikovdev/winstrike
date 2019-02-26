@@ -144,7 +144,7 @@ class HomeFragment : Fragment() {
         }
 
         //TODO: HardCore  "Winstrike Corner" Arena!!!
-        if (mArenaPid == "de6864d2-d02c-4e37-bb04-b19bf961d07a") {
+        if (mArenaName!!.contains("Winstrike Corner") ) {
             hallType = ArenaHallType.COMMON
         }
 
