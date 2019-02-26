@@ -132,8 +132,8 @@ class HomeFragment : Fragment() {
         }
         // Define mArena type ( double(common & vip), common, vip)
         if (
-                (!TextUtils.isEmpty(arenaItem?.commonDescription) && (!TextUtils.isEmpty(arenaItem?.vipDescription))) ||
-                (!TextUtils.isEmpty(arenaItem?.commonImageUrl) && (!TextUtils.isEmpty(arenaItem?.vipImageUrl)))
+            (!TextUtils.isEmpty(arenaItem?.commonDescription) && (!TextUtils.isEmpty(arenaItem?.vipDescription))) ||
+            (!TextUtils.isEmpty(arenaItem?.commonImageUrl) && (!TextUtils.isEmpty(arenaItem?.vipImageUrl)))
 
         ) {
             hallType = ArenaHallType.DOUBLE
@@ -141,6 +141,11 @@ class HomeFragment : Fragment() {
             hallType = ArenaHallType.COMMON
         } else if (!TextUtils.isEmpty(arenaItem?.vipDescription)) {
             hallType = ArenaHallType.VIP
+        }
+
+        //TODO: HardCore  "Winstrike Corner" Arena!!!
+        if (mArenaPid == "de6864d2-d02c-4e37-bb04-b19bf961d07a") {
+            hallType = ArenaHallType.COMMON
         }
 
         when (hallType) {
@@ -182,8 +187,8 @@ class HomeFragment : Fragment() {
         with(mCarouselAdapter) {
             seatMap.forEach {
                 CarouselFragment.newInstance(
-                        activity?.supportFragmentManager,
-                        it.value
+                    activity?.supportFragmentManager,
+                    it.value
                 )?.let { this?.addFragment(fragment = it) }
             }
         }

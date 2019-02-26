@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.graphics.Color
+import android.icu.text.DateFormat
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.icu.util.TimeZone
+import android.icu.util.TimeZone.getTimeZone
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -35,9 +38,7 @@ import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 import timber.log.Timber
-import java.time.Month
-import java.time.format.TextStyle
-import java.util.Locale
+import java.util.*
 
 class SetupFragment : Fragment(),
     DatePickerDialog.OnDateSetListener {
@@ -51,7 +52,6 @@ class SetupFragment : Fragment(),
     private var mArenaSchema: SchemaItem? = null
     private var mArenaSchedule: List<ScheduleItem>? = null
     private var mDayOfWeek: String? = null
-
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -155,7 +155,6 @@ class SetupFragment : Fragment(),
     }
 
 
-    @SuppressLint("NewApi")
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
 
         val dayFormat = SimpleDateFormat("EEEE", Locale.ENGLISH)
@@ -171,7 +170,9 @@ class SetupFragment : Fragment(),
         PrefUtils.closeTime = daySchedule?.endTime?.replaceAfter("00", "")
 
         // set selected date
-        val monthLoc = Month.of(month + 1).getDisplayName(TextStyle.FULL, Locale("RU"))
+//        val monthLoc = Month.of(month + 1).getDisplayName(TextStyle.FULL, Locale("RU"))
+        val month_date = SimpleDateFormat("MMMM", Locale("RU"))
+        val monthLoc = month_date.format(calendar.time)
         val selectedDate = "$day $monthLoc $year"
 
         TimeDataModel.setDateFromCalendar(selectedDate)
@@ -196,8 +197,7 @@ class SetupFragment : Fragment(),
         // from
         calendar.set(Calendar.HOUR_OF_DAY, hourFrom)
         calendar.set(Calendar.MINUTE, minuteFrom)
-        val sdf = android.text.format.DateFormat.getTimeFormat(activity)
-
+        val sdf = SimpleDateFormat("HH:mm")
         val timeFrom = sdf.format(calendar.time)
 
         // to
