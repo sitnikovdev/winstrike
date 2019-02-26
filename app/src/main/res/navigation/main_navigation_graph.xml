@@ -24,11 +24,11 @@
                 app:argType="string"/>
 
         <!--Navigate to Order-->
-        <action android:id="@+id/action_navigation_home_to_navigation_order"
+        <action android:id="@+id/action_to_order"
                 app:destination="@id/navigation_order"/>
 
         <!--Navigate to Profile-->
-        <action android:id="@+id/action_navigation_home_to_navigation_profile"
+        <action android:id="@+id/action_to_profile"
                 app:destination="@id/navigation_profile"/>
 
         <!--Navigate to City Activity-->

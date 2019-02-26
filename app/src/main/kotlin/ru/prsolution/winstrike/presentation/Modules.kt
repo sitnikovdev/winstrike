@@ -91,7 +91,8 @@ val cacheModule: Module = module {
 }
 
 private const val DEV_URL = BuildConfig.DEV_URL
-private const val TEST_URL = BuildConfig.TEST_URL
+private const val PROD_URL = BuildConfig.PROD_URL
+
 
 private val retrofit: Retrofit = createNetworkClient(DEV_URL, BuildConfig.DEBUG)
 

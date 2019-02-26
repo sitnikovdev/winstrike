@@ -6,6 +6,7 @@ object AppVersion {
 	const val buildAppVersion = 0
 }
 
+
 object ApplicationId {
 	const val id = "ru.prsolution.winstrike"
 }
@@ -104,8 +105,8 @@ object Libraries {
 
 // API URL
 object Constants {
-	const val TEST_URL = "\"http://46.254.21.94:9000/api/v1/\""
-	const val DEV_URL = "\"http://api.winstrike.ru:8000/api/v1/\""
+	const val DEV_URL = "\"http://46.254.21.94:9000/api/v1/\""
+	const val PROD_URL = "\"http://api.winstrike.ru:8000/api/v1/\""
 }
 
 object Modules {
