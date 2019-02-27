@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.fmt_city_detail.*
+import kotlinx.android.synthetic.main.fmt_arena.*
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.model.arena.ArenaItem
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedArena
@@ -23,7 +23,7 @@ import ru.prsolution.winstrike.viewmodel.CityItemViewModel
  * Created by Oleg Sitnikov on 2019-02-11
  */
 
-class CityItemFragment : Fragment() {
+class ArenaItemFragment : Fragment() {
 
     private val mVm: CityItemViewModel by viewModel()
 
@@ -37,7 +37,7 @@ class CityItemFragment : Fragment() {
 
             //TODO: Navigate to Main Screen
             val action =
-                CityItemFragmentDirections.actionNavigationCityToMainActivity()
+                ArenaItemFragmentDirections.actionToHome()
             arena.name?.let {
                 action.title = it
                 PrefUtils.arenaName = it
@@ -45,7 +45,7 @@ class CityItemFragment : Fragment() {
             arena.publicId?.let {
                 action.arenaPID = it
             }
-            (activity as CityActivity).navigate(action)
+            (activity as NavigationListener).navigate(action)
         }
 
     private val adapter = ArenaListAdapter(itemClick)
@@ -53,7 +53,7 @@ class CityItemFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fmt_city_detail, container, false)
+        return inflater.inflate(R.layout.fmt_arena, container, false)
     }
 
     private var mArenaActivePid: String? = null
@@ -61,7 +61,7 @@ class CityItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         arguments?.let {
-            val safeArgs = CityItemFragmentArgs.fromBundle(it)
+            val safeArgs = ArenaItemFragmentArgs.fromBundle(it)
             this.mCityPid = safeArgs.cityPid
             this.mCityName = safeArgs.cityName
             PrefUtils.cityPid = this.mCityPid
@@ -81,7 +81,7 @@ class CityItemFragment : Fragment() {
             mVm.fetchArenaList()
         }
 
-        mVm.arenaList.observe(this@CityItemFragment, Observer { arenas ->
+        mVm.arenaList.observe(this@ArenaItemFragment, Observer { arenas ->
 
             arenas?.let {
                 mArenaList = arenas.data?.filter { it.cityPid == mCityPid }

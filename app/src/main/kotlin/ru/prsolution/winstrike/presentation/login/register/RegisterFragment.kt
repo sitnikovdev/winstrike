@@ -13,6 +13,7 @@ import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
+import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.login.FooterSetUp
 import ru.prsolution.winstrike.presentation.login.LoginActivity
 import ru.prsolution.winstrike.presentation.login.LoginFragmentDirections
@@ -74,8 +75,10 @@ class RegisterFragment : Fragment() {
             val action = RegisterFragmentDirections.actionToNavigationCode()
             val phone = authResponse.user?.phone
             phone?.let { action.phone = it }
-            (activity as LoginActivity).navigate(action)
+            (activity as NavigationListener).navigate(action)
+
         }
+
     }
 
     // TODO: Use Cash (RxPaper2).
@@ -206,7 +209,6 @@ class RegisterFragment : Fragment() {
 */
 
     }
-
 
 }
 

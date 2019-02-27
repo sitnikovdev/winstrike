@@ -3,7 +3,220 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/main_navigation_graph"
-            app:startDestination="@id/navigation_home">
+            app:startDestination="@id/navigation_splash">
+
+    <!--Help Center -->
+    <fragment android:id="@+id/navigation_help_center"
+              android:name="ru.prsolution.winstrike.presentation.login.help.HelpCenterFragment"
+              tools:layout="@layout/fmt_help_center"
+              android:label="Помощь при входе"
+    >
+        <!--Navigate to phone-->
+        <action android:id="@+id/action_to_help_phone"
+                app:destination="@id/help_phone"/>
+    </fragment>
+
+    <!--Code Help -->
+    <fragment android:id="@+id/help_code"
+              android:name="ru.prsolution.winstrike.presentation.login.help.HelpCodeFragment"
+              tools:layout="@layout/fmt_help_code"
+              android:label="Введите код подтверждения">
+
+        <!--Navigate to Password-->
+        <action android:id="@+id/action_to_help_password"
+                app:destination="@id/help_password"/>
+
+        <!--Navigate to Login-->
+        <action android:id="@+id/action_to_login"
+                app:destination="@id/navigation_login"/>
+    </fragment>
+
+    <!--Phone - Help-->
+    <fragment android:id="@+id/help_phone"
+              android:name="ru.prsolution.winstrike.presentation.login.help.HelpPhoneFragment"
+              tools:layout="@layout/fmt_help_phone"
+              android:label="Введите номер телефона"
+    >
+        <!--Navigate to code-->
+        <action android:id="@+id/action_to_help_code"
+                app:destination="@id/help_code"/>
+
+        <!--Navigate to Login-->
+        <action android:id="@+id/action_to_login"
+                app:destination="@id/navigation_login"/>
+    </fragment>
+
+    <!--Password Help-->
+    <fragment android:id="@+id/help_password"
+              android:name="ru.prsolution.winstrike.presentation.login.help.HelpPasswordFragment"
+              tools:layout="@layout/fmt_change_passw"
+              android:label="Введите новый пароль">
+
+        <!--Code for password confirmation-->
+        <argument android:name="code"
+                  android:defaultValue=" "
+                  app:argType="string"/>
+
+        <!--Navigate to Login-->
+        <action android:id="@+id/action_to_navigation_login"
+                app:destination="@id/navigation_login"/>
+    </fragment>
+
+    <!--Name - Help-->
+    <fragment android:id="@+id/help_name"
+              tools:layout="@layout/fmt_name"
+              android:name="ru.prsolution.winstrike.presentation.login.register.NameFragment"
+              android:label="Введите Ваше имя"
+    >
+        <!--Code-->
+        <argument android:name="code"
+                  android:defaultValue=" "
+                  app:argType="string"/>
+        <!--Phone-->
+        <argument android:name="phone"
+                  android:defaultValue=" "
+                  app:argType="string"/>
+
+        <!--Navigation to City List -->
+        <action android:id="@+id/action_to_city_list"
+                app:destination="@id/navigation_city_list"/>
+
+    </fragment>
+
+    <!--Register - Help-->
+    <fragment android:id="@+id/navigation_register"
+              tools:layout="@layout/fmt_register"
+              android:name="ru.prsolution.winstrike.presentation.login.register.RegisterFragment"
+              android:label="Регистрация пользователя">
+
+        <!--Navigation to Code-->
+        <action android:id="@+id/action_to_navigation_code"
+                app:destination="@id/navigation_code"/>
+
+        <!--Navigation to Login-->
+        <action android:id="@+id/action_to_navigation_login"
+                app:destination="@id/navigation_login"/>
+    </fragment>
+
+    <!--Code Help-->
+    <fragment android:id="@+id/navigation_code"
+              tools:layout="@layout/fmt_code"
+              android:name="ru.prsolution.winstrike.presentation.login.register.CodeFragment"
+              android:label="Введите код подтверждения">
+        <!--Navigate to Name-->
+        <action android:id="@+id/action_to_nameFragment"
+                app:destination="@id/help_name"/>
+        <!--Phone-->
+        <argument android:name="phone"
+                  android:defaultValue=" "
+                  app:argType="string"/>
+    </fragment>
+
+    <!--Policy - Login-->
+    <fragment android:id="@+id/navigation_politika"
+              android:label="{title}"
+              tools:layout="@layout/fmt_web_view"
+              android:name="ru.prsolution.winstrike.presentation.login.PolitikaWebViewFragment"
+    >
+        <argument
+                android:defaultValue="Политика Winstrike"
+                android:name="title"
+                app:argType="string"/>
+        <argument android:name="url" app:argType="string"/>
+    </fragment>
+
+    <!--Login-->
+    <fragment android:id="@+id/navigation_login"
+              android:name="ru.prsolution.winstrike.presentation.login.LoginFragment"
+              tools:layout="@layout/fmt_login"
+              android:label="Авторизация пользователя"
+    >
+        <!--Navigate to Policy-->
+        <action android:id="@+id/next_action_politika"
+                app:destination="@id/navigation_politika"/>
+        <!--Navigate to Help Center -->
+        <action android:id="@+id/next_action_help"
+                app:destination="@id/navigation_help_center"/>
+        <!--Navigate to Register-->
+        <action android:id="@+id/action_to_navigation_register"
+                app:destination="@id/navigation_register"/>
+
+        <!--Navigate to Code-->
+        <action android:id="@+id/action_to_code"
+                app:destination="@id/navigation_code"/>
+
+        <!-- Navigate to  City List -->
+        <action android:id="@+id/action_to_city_list"
+                app:destination="@id/navigation_city_list"/>
+
+    </fragment>
+
+
+    <!--Splash-->
+    <fragment android:id="@+id/navigation_splash"
+              tools:layout="@layout/fmt_splash"
+              android:name="ru.prsolution.winstrike.presentation.splash.SplashFragment"
+              android:label="Splash Screen Fragment">
+
+
+        <!--Navigate to City List-->
+        <action android:id="@+id/action_to_city_list"
+                app:destination="@id/navigation_city_list"/>
+
+        <!--Navigate to Login-->
+        <action android:id="@+id/action_to_login"
+                app:destination="@id/navigation_login"
+                app:popUpToInclusive="true"
+        />
+
+        <!--Navigate to Home-->
+        <action android:id="@+id/action_to_home"
+                app:destination="@id/navigation_home"
+        />
+
+        <argument android:name="navigate_to_city"
+                  app:argType="boolean"
+                  android:defaultValue="false"/>
+
+    </fragment>
+
+    <!--City List-->
+    <fragment
+            android:id="@+id/navigation_city_list"
+            android:label="Выберите город"
+            android:name="ru.prsolution.winstrike.presentation.cities.CityListFragment"
+            tools:layout="@layout/fmt_city_list">
+
+        <!--Navigate to Arena Item-->
+        <action
+                android:id="@+id/action_to_arena"
+                app:destination="@id/navigation_arena"/>
+
+    </fragment>
+
+    <!--Arena List-->
+    <fragment
+            android:id="@+id/navigation_arena"
+            android:label="Выберите арену"
+            android:name="ru.prsolution.winstrike.presentation.cities.ArenaItemFragment"
+            tools:layout="@layout/fmt_arena">
+
+        <argument
+                android:name="cityPid"
+                app:argType="string"
+                android:defaultValue=" "
+        />
+        <argument
+                android:name="cityName"
+                app:argType="string"
+                android:defaultValue=" "
+        />
+
+        <!--Navigate to Home -->
+        <action android:id="@+id/action_to_home"
+                app:destination="@id/navigation_home"/>
+
+    </fragment>
 
     <!--Home-->
     <fragment
@@ -31,9 +244,9 @@
         <action android:id="@+id/action_to_profile"
                 app:destination="@id/navigation_profile"/>
 
-        <!--Navigate to City Activity-->
-        <action android:id="@+id/action_to_city_activity"
-                app:destination="@id/city_activity"/>
+        <!--Navigate to City List-->
+        <action android:id="@+id/action_to_city_list"
+                app:destination="@id/navigation_city_list"/>
     </fragment>
 
     <!--Orders-->
@@ -52,17 +265,17 @@
             android:name="ru.prsolution.winstrike.presentation.profile.ProfileFragment">
 
         <!--Navigate to Login-->
-        <action android:id="@+id/action_to_login_activity"
-                app:destination="@id/navigation_login_activity"/>
+        <action android:id="@+id/action_to_login"
+                app:destination="@id/navigation_login"/>
 
         <!--User name-->
         <argument android:name="userName"
                   android:defaultValue="Профиль"
                   app:argType="string"/>
 
-        <!--Navigate to City Activity-->
-        <action android:id="@+id/action_to_city_activity"
-                app:destination="@id/city_activity"/>
+        <!--Navigate to City List -->
+        <action android:id="@+id/action_to_city_list"
+                app:destination="@id/navigation_city_list"/>
     </fragment>
 
     <!--SetUp -->
@@ -106,30 +319,12 @@
             android:label="Оплата"
             android:name="ru.prsolution.winstrike.presentation.payment.YandexWebViewFragment"
             tools:layout="@layout/fmt_web_view">
+
         <argument
                 android:name="url"
                 app:argType="string"
                 app:nullable="true"/>
     </fragment>
-
-
-    <!--City Actity-->
-    <activity android:id="@+id/city_activity"
-              tools:layout="@layout/fmt_city_list"
-              android:name="ru.prsolution.winstrike.presentation.cities.CityActivity"
-              android:label="CityActivity"
-    >
-        <argument android:name="navigateToProfile"
-                  app:argType="boolean"
-                  android:defaultValue="false"/>
-    </activity>
-
-
-    <!--Login Activity-->
-    <activity android:id="@+id/navigation_login_activity"
-              tools:layout="@layout/fmt_login"
-              android:name="ru.prsolution.winstrike.presentation.login.LoginActivity"
-              android:label="LoginActivity"/>
 
 
 </navigation>

@@ -2,19 +2,15 @@ package ru.prsolution.winstrike.presentation.login.help
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.text.SpannableString
 import android.view.*
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fmt_code.*
 import kotlinx.android.synthetic.main.fmt_help_code.*
-import kotlinx.android.synthetic.main.fmt_help_code.view.*
-import kotlinx.android.synthetic.main.fmt_help_phone.*
 import kotlinx.android.synthetic.main.inc_help_code.*
 import kotlinx.android.synthetic.main.inc_help_phone.*
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.NavigationListener
-import ru.prsolution.winstrike.presentation.login.FooterSetUp
+import ru.prsolution.winstrike.presentation.main.FooterProvider
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -47,7 +43,7 @@ class HelpCodeFragment : Fragment() {
 
         // Set footer
         val action = HelpCodeFragmentDirections.actionToLogin()
-        (activity as FooterSetUp).setRegisterLoginFooter(textView = login_footer_code , action = action)
+        (activity as FooterProvider).setRegisterLoginFooter(textView = login_footer_code , action = action)
 
         // Set phone mask
 //        et_phone.setPhoneMask()

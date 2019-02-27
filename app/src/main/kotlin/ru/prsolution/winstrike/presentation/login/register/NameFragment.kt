@@ -12,7 +12,9 @@ import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.login.LoginActivity
+import ru.prsolution.winstrike.presentation.main.FooterProvider
 import ru.prsolution.winstrike.presentation.model.login.ProfileInfo
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.inflate
@@ -68,8 +70,8 @@ class NameFragment : Fragment() {
 
         et_sms_code.text = mCode
 
-        (activity as LoginActivity).setPhoneHint(phone_hint_tv, mPhone)
-        (activity as LoginActivity).setNamePolicyFooter(tv_name_policy)
+        (activity as FooterProvider).setPhoneHint(phone_hint_tv, mPhone)
+        (activity as FooterProvider).setNamePolicyFooter(tv_name_policy)
 
         // Поехали!
         //TODO go to City Nav Graph
@@ -93,8 +95,8 @@ class NameFragment : Fragment() {
 
     private fun onUpdateSuccess(message: MessageResponse) {
         PrefUtils.name = mUserInfo.name
-        val action = NameFragmentDirections.actionToCityActivity()
-        (activity as LoginActivity).navigate(action)
+        val action = NameFragmentDirections.actionToCityList()
+        (activity as NavigationListener).navigate(action)
     }
 
 

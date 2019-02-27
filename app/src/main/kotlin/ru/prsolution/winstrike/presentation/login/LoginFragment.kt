@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.inc_password.*
 import kotlinx.android.synthetic.main.inc_phone.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.NavigationListener
+import ru.prsolution.winstrike.presentation.main.FooterProvider
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.viewmodel.SmsViewModel
@@ -91,11 +92,11 @@ class LoginFragment : Fragment() {
 
         help_link_tv.setOnClickListener {
             val action = LoginFragmentDirections.nextActionHelp()
-            Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+            (activity as NavigationListener).navigate(action)
         }
 
         setRegisterFooter()
-        (activity as LoginActivity).setLoginPolicyFooter(tv_conditions)
+        (activity as FooterProvider).setLoginPolicyFooter(tv_conditions)
     }
 
     private fun onAuthSuccess(authResponse: AuthResponse) {
@@ -104,8 +105,8 @@ class LoginFragment : Fragment() {
         updateUser(authResponse)
 
         if (confirmed) {
-            val action = LoginFragmentDirections.actionToCityActivity()
-            (activity as LoginActivity).navigate(action)
+            val action = LoginFragmentDirections.actionToCityList()
+            (activity as NavigationListener).navigate(action)
         } else {
             //TODO: Fix it!!!
             longToast("Пользователь не подтвержден. Отправляем СМС и перенаправляемся на страницу подверждения СМС кода.")
@@ -146,7 +147,7 @@ class LoginFragment : Fragment() {
         val registerClick = object : ClickableSpan() {
             override fun onClick(v: View) {
                 val action = LoginFragmentDirections.actionToNavigationRegister()
-                Navigation.findNavController(requireActivity(), R.id.login_host_fragment).navigate(action)
+                (activity as NavigationListener).navigate(action)
             }
         }
         register.setSpan(registerClick, 18, register.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)

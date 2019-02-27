@@ -12,7 +12,9 @@ import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
+import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.login.LoginActivity
+import ru.prsolution.winstrike.presentation.main.FooterProvider
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
@@ -71,8 +73,8 @@ class CodeFragment : Fragment() {
 */
 
         initView()
-        (activity as LoginActivity).setPhoneHint(hint_tv, mPhone)
-        (activity as LoginActivity).setCodePolicyFooter(tv_policy)
+        (activity as FooterProvider).setPhoneHint(hint_tv, mPhone)
+        (activity as FooterProvider).setCodePolicyFooter(tv_policy)
     }
 
 
@@ -81,7 +83,7 @@ class CodeFragment : Fragment() {
         val action = CodeFragmentDirections.actionToNameFragment()
         action.phone = mPhone
         action.code = mCode
-        (activity as LoginActivity).navigate(action)
+        (activity as NavigationListener).navigate(action)
     }
 
 

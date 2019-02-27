@@ -6,16 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_city_list.*
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
+import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.injectFeature
 import ru.prsolution.winstrike.presentation.model.arena.CityItem
 import ru.prsolution.winstrike.presentation.utils.inflate
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.CityListViewModel
-import timber.log.Timber
 
 
 /**
@@ -32,10 +31,10 @@ class CityListFragment : Fragment() {
             PrefUtils.cityPid = city.id
             PrefUtils.cityName = city.name
 
-            Timber.tag("$$$").d("Selected city id: ${PrefUtils.cityPid}")
-
-            val action = CityListFragmentDirections.nextAction(city.id, city.name)
-            (activity as CityActivity).navigate(action)
+            val action = CityListFragmentDirections.actionToArena()
+            action.cityName = city.name
+            action.cityPid = city.id
+            (activity as NavigationListener).navigate(action)
         }
 
     private val adapter = CityListAdapter(itemClick)

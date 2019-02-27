@@ -16,7 +16,8 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <activity android:name=".presentation.StartActivity"
+        <!--Main-->
+        <activity android:name=".presentation.main.MainActivity"
                   android:noHistory="true">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -40,12 +41,6 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" android:noHistory="true" />
 
-        <!--Main-->
-        <activity
-            android:name=".presentation.main.MainActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity android:name=".presentation.cities.CityActivity"/>
 
         <!--Fabric-->
         <meta-data

@@ -5,11 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDirections
-import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_help_phone.*
 import kotlinx.android.synthetic.main.inc_help_phone.*
-import kotlinx.android.synthetic.main.inc_phone.*
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.NavigationListener

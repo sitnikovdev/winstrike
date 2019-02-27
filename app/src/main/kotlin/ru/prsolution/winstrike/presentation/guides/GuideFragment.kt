@@ -4,14 +4,12 @@ package ru.prsolution.winstrike.presentation.guides
  * Created by oleg on 31.01.2018.
  */
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.prsolution.winstrike.R
-import ru.prsolution.winstrike.presentation.login.LoginActivity
 
 class GuideFragment : Fragment() {
     private var guideNumber: Int? = 0
@@ -36,7 +34,7 @@ class GuideFragment : Fragment() {
         val btn_nextGuide3 = viewPre3.findViewById<View>(R.id.btn_nextGuide1)
         val fl_prev3 = viewPre3.findViewById<View>(R.id.fl_prev)
         val nextButton = viewPre3.findViewById<View>(R.id.next_button)
-        nextButton.setOnClickListener { it -> startActivity(Intent(activity, LoginActivity::class.java)) }
+//        nextButton.setOnClickListener { it -> startActivity(Intent(activity, LoginActivity::class.java)) }
 
         when (guideNumber) {
             0 -> {

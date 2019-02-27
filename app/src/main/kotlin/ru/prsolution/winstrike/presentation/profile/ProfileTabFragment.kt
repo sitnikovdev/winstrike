@@ -90,9 +90,7 @@ class ProfileTabFragment : Fragment() {
         et_city.setText(PrefUtils.cityName)
 
         et_city.onRightDrawableClicked {
-            //            it.text.clear()
-            //TODO: Open city list fragment
-            val action = ProfileFragmentDirections.actionToCityActivity()
+            val action = ProfileFragmentDirections.actionToCityList()
             (activity as NavigationListener).navigate(action)
         }
 

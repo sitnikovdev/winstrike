@@ -3,12 +3,12 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/city_activity"
+            android:id="@+id/navigation_city_list"
             android:icon="@drawable/ic_nav"
             app:showAsAction="ifRoom"
             android:title=""/>
 
-    <item android:id="@+id/navigation_login_activity"
+    <item android:id="@+id/action_to_login"
           android:icon="@drawable/ic_signout"
           android:title=""
           app:showAsAction="ifRoom"
