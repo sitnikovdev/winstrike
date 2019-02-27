@@ -14,15 +14,12 @@ import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
 import ru.prsolution.winstrike.presentation.NavigationListener
-import ru.prsolution.winstrike.presentation.login.FooterSetUp
-import ru.prsolution.winstrike.presentation.login.LoginActivity
-import ru.prsolution.winstrike.presentation.login.LoginFragmentDirections
+import ru.prsolution.winstrike.presentation.main.FooterProvider
 import ru.prsolution.winstrike.presentation.model.login.NewUserInfo
 import ru.prsolution.winstrike.presentation.utils.*
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.RegisterViewModel
-import ru.prsolution.winstrike.viewmodel.SmsViewModel
 import timber.log.Timber
 
 /*
@@ -56,7 +53,7 @@ class RegisterFragment : Fragment() {
         })
         initView()
         val action = RegisterFragmentDirections.actionToNavigationLogin()
-        (activity as FooterSetUp).setRegisterLoginFooter(tv_register_footer, action)
+        (activity as FooterProvider).setRegisterLoginFooter(tv_register_footer, action)
     }
 
     private fun onAuthSuccess(authResponse: AuthResponse) {

@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.inc_help_phone.*
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.NavigationListener
-import ru.prsolution.winstrike.presentation.login.FooterSetUp
+import ru.prsolution.winstrike.presentation.main.FooterProvider
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.inflate
@@ -36,7 +36,7 @@ class HelpPhoneFragment : Fragment() {
 
         // Set footer
         val action = HelpPhoneFragmentDirections.actionToLogin()
-        (activity as FooterSetUp).setRegisterLoginFooter(textView = login_footer , action = action)
+        (activity as FooterProvider).setRegisterLoginFooter(textView = login_footer , action = action)
 
         // Set phone mask
         et_phone_help.setPhoneMask()
