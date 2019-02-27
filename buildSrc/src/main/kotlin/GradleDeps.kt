@@ -2,7 +2,7 @@ object AppVersion {
 	// App version information
 	const val majorAppVersion = 0
 	const val minorAppVersion = 50
-	const val patchAppVersion = 8
+	const val patchAppVersion = 9
 	const val buildAppVersion = 0
 }
 

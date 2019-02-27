@@ -132,8 +132,7 @@ class HomeFragment : Fragment() {
         }
         // Define mArena type ( double(common & vip), common, vip)
         if (
-            (!TextUtils.isEmpty(arenaItem?.commonDescription) && (!TextUtils.isEmpty(arenaItem?.vipDescription))) ||
-            (!TextUtils.isEmpty(arenaItem?.commonImageUrl) && (!TextUtils.isEmpty(arenaItem?.vipImageUrl)))
+            (!TextUtils.isEmpty(arenaItem?.commonDescription) && (!TextUtils.isEmpty(arenaItem?.vipDescription)))
 
         ) {
             hallType = ArenaHallType.DOUBLE
@@ -143,10 +142,6 @@ class HomeFragment : Fragment() {
             hallType = ArenaHallType.VIP
         }
 
-        //TODO: HardCore  "Winstrike Corner" Arena!!!
-        if (mArenaName!!.contains("Winstrike Corner") ) {
-            hallType = ArenaHallType.COMMON
-        }
 
         when (hallType) {
             ArenaHallType.DOUBLE -> { // create two mArena: COMMON and VIP
