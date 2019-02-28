@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
             when (destination.id) {
                 R.id.navigation_splash -> {
                     if (pending.compareAndSet(false, true)) {
+                        bottomNavigation.hide()
                         Timber.d("show splash")
                     } else {
                         pending.set(true)
