@@ -310,10 +310,12 @@ public class TimePickerPopWin extends PopupWindow implements View.OnClickListene
                 if (hour < 23) {
                     tv_h_to.setText(format2LenStr(hour + 1));
                     tv_m_to.setText(format2LenStr(min));
-                } else if (hour >= 23) {
+                }
+                if (hour >= 23) {
                     tv_h_to.setText(format2LenStr(00));
                     tv_m_to.setText(format2LenStr(min));
                 }
+
 
 
             } else if (isToTimeSelect) {
