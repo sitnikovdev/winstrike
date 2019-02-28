@@ -22,14 +22,6 @@ object TimeDataModel {
     var isDateWrong = false
     var isScheduleWrong = false
 
-    fun setIsDateSelect(isSelect: Boolean) {
-        isDateSelect = isSelect
-    }
-
-    fun getIsDateSelect(): Boolean {
-        return isDateSelect
-    }
-
     fun setOpenTime(openTime: String) {
         val start = DateTransform.getFormattedDateWithTime(openTime)
         dateOpenAt = DateTransform.getDateInUTC(
