@@ -22,13 +22,11 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
-import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.injectFeature
 import ru.prsolution.winstrike.presentation.login.LoginFragmentDirections
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.model.fcm.FCMPid
-import ru.prsolution.winstrike.presentation.setup.SetupFragmentDirections
 import ru.prsolution.winstrike.presentation.splash.SplashFragmentDirections
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
@@ -45,6 +43,10 @@ interface ToolbarTitleListener {
     fun updateTitle(title: String)
 }
 
+interface CurrentFragment {
+    var mCurrentFragment: String
+}
+
 interface FooterProvider {
     fun setLoginPolicyFooter(textView: TextView)
     fun setNamePolicyFooter(textView: TextView)
@@ -54,9 +56,11 @@ interface FooterProvider {
 }
 
 class MainActivity : AppCompatActivity(), ToolbarTitleListener,
-    CarouselFragment.OnSeatClickListener, NavigationListener, FooterProvider {
+    CarouselFragment.OnSeatClickListener, NavigationListener, FooterProvider, CurrentFragment {
 
     private val mVmFCM: FCMViewModel by viewModel()
+    private lateinit var mNavController: NavController
+    override var mCurrentFragment: String = "home"
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var mDlgMapLegend: Dialog? = null
@@ -82,7 +86,6 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         PrefUtils.isLogout = false
     }
 
-    private lateinit var navController: NavController
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,24 +99,30 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
         setContentView(R.layout.ac_mainscreen)
 
-         val pending = AtomicBoolean(false)
+        val pending = AtomicBoolean(false)
 //        Navigation
-        navController = Navigation.findNavController(this@MainActivity, R.id.main_host_fragment)
+        mNavController = Navigation.findNavController(this@MainActivity, R.id.main_host_fragment)
 
-        navController.addOnDestinationChangedListener { nav, destination, _ ->
+        mNavController.addOnDestinationChangedListener { nav, destination, _ ->
             when (destination.id) {
+                // When BACK on Home is pressed
                 R.id.navigation_splash -> {
                     if (pending.compareAndSet(false, true)) {
                         bottomNavigation.hide()
                         Timber.d("show splash")
                     } else {
                         pending.set(true)
-                        destination.label = "Выберите город"
-                        val action = SplashFragmentDirections.actionToCityList()
-                        navigate(action)
+//                        destination.label = "Выберите город"
+//                        val action = SplashFragmentDirections.actionToCityList()
+//                        navigate(action)
                     }
                 }
+                R.id.navigation_login -> {
+                    supportActionBar?.hide()
+                    bottomNavigation.hide()
+                }
                 R.id.navigation_home -> {
+                    supportActionBar?.show()
                     bottomNavigation.show()
                     destination.label = PrefUtils.arenaName
                     mCityMenuVisible = true
@@ -153,12 +162,16 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         }
 
 
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+
+
+
+        appBarConfiguration = AppBarConfiguration(mNavController.graph)
 
         setSupportActionBar(toolbar)
-        setupActionBar(navController, appBarConfiguration)
-        setupBottomNavMenu(navController)
+        setupActionBar(mNavController, appBarConfiguration)
+        setupBottomNavMenu(mNavController)
 
+        supportActionBar?.hide()
 
         initFCM() // FCM push notifications
 
@@ -181,6 +194,8 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
     }
 
+
+
     // Set title in Profile
     override fun updateTitle(title: String) {
         toolbar.title = title
@@ -200,7 +215,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
+        return NavigationUI.navigateUp(mNavController, appBarConfiguration)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -219,11 +234,36 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         when (item?.itemId) {
             R.id.action_to_login ->
                 PrefUtils.token = ""
+
             R.id.map_legend ->
                 mDlgMapLegend?.show()
+
+
+            android.R.id.home -> {
+                when (mNavController.currentDestination?.id) {
+                    R.id.navigation_splash -> {
+                        Timber.d("open splash. Current fragment: $mCurrentFragment")
+                    }
+                    R.id.navigation_home -> {
+                        Timber.d("open home")
+//                        mNavController.navigateUp()
+                        mNavController.navigate(R.id.navigation_city_list)
+                        return true
+                    }
+                    R.id.navigation_profile,
+                    R.id.navigation_order
+                    -> {
+                        Timber.d("open home")
+                        mNavController.navigate(R.id.navigation_home)
+                        return true
+                    }
+                }
+                return NavigationUI.onNavDestinationSelected(item, mNavController) ||
+                        super.onOptionsItemSelected(item)
+            }
         }
 
-        return NavigationUI.onNavDestinationSelected(item!!, navController) ||
+        return NavigationUI.onNavDestinationSelected(item!!, mNavController) ||
                 super.onOptionsItemSelected(item)
     }
 

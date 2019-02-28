@@ -28,7 +28,7 @@
 
         <!--Navigate to Login-->
         <action android:id="@+id/action_to_login"
-                app:destination="@id/navigation_login"/>
+                app:destination="@id/navigation_login" app:popUpTo="@+id/help_code" app:popUpToInclusive="true"/>
     </fragment>
 
     <!--Phone - Help-->
@@ -43,7 +43,7 @@
 
         <!--Navigate to Login-->
         <action android:id="@+id/action_to_login"
-                app:destination="@id/navigation_login"/>
+                app:destination="@id/navigation_login" app:popUpToInclusive="true" app:popUpTo="@+id/help_phone"/>
     </fragment>
 
     <!--Password Help-->
@@ -59,7 +59,7 @@
 
         <!--Navigate to Login-->
         <action android:id="@+id/action_to_navigation_login"
-                app:destination="@id/navigation_login"/>
+                app:destination="@id/navigation_login" app:popUpToInclusive="true" app:popUpTo="@+id/help_password"/>
     </fragment>
 
     <!--Name - Help-->
@@ -169,7 +169,7 @@
         <action android:id="@+id/action_to_login"
                 app:destination="@id/navigation_login"
                 app:popUpToInclusive="true"
-        />
+                app:popUpTo="@+id/navigation_splash"/>
 
         <!--Navigate to Home-->
         <action android:id="@+id/action_to_home"
@@ -193,7 +193,7 @@
         <action
                 android:id="@+id/action_to_arena"
                 app:destination="@id/navigation_arena"
-                app:popUpToInclusive="true" app:popUpTo="@+id/navigation_city_list"/>
+        />
 
     </fragment>
 

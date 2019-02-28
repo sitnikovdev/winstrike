@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.icu.text.DateFormat
+import android.icu.text.DateFormatSymbols
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
@@ -36,8 +37,10 @@ import ru.prsolution.winstrike.presentation.model.arena.ScheduleItem
 import ru.prsolution.winstrike.presentation.model.arena.SchemaItem
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedDate
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 import timber.log.Timber
+import java.time.format.TextStyle
 import java.util.*
 
 class SetupFragment : Fragment(),
@@ -171,8 +174,10 @@ class SetupFragment : Fragment(),
 
         // set selected date
 //        val monthLoc = Month.of(month + 1).getDisplayName(TextStyle.FULL, Locale("RU"))
-        val month_date = SimpleDateFormat("MMMM", Locale("RU"))
-        val monthLoc = month_date.format(calendar.time)
+//        val month_date = SimpleDateFormat("MMMM", Locale("RU"))
+//        val month_date = SimpleDateFormat("MMMM", Locale("RU"))
+        val monthLoc = (DateFormatSymbols(Locale("RU")).months[month])
+
         val selectedDate = "$day $monthLoc $year"
 
         TimeDataModel.setDateFromCalendar(selectedDate)
@@ -247,9 +252,15 @@ class SetupFragment : Fragment(),
                 TimeDataModel.timeFrom.isEmpty() -> {
                     longToast("Выберите время")
                 }
+                TimeDataModel.isDateWrong -> {
+                    longToast("Неправильно выбрана дата")
+                }
+                TimeDataModel.isScheduleWrong -> {
+                    longToast("Время работы клуба на ${PrefUtils.selectedDate} г.:  с ${PrefUtils.openTime} до ${PrefUtils.closeTime}.")
+                }
                 else
                 ->
-                    longToast("Время работы клуба на ${PrefUtils.selectedDate} г.:  с ${PrefUtils.openTime} до ${PrefUtils.closeTime}.")
+                    longToast("Неправильно выбрана дата")
             }
         }
     }

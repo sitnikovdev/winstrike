@@ -17,8 +17,10 @@ object TimeDataModel {
     var timeFrom: String = ""
     var timeTo: String = ""
     var dateOpenAt: Date? = null
-    var dateCloseAt: Date?  = null
+    var dateCloseAt: Date? = null
     var isDateSelect = false
+    var isDateWrong = false
+    var isScheduleWrong = false
 
     fun setIsDateSelect(isSelect: Boolean) {
         isDateSelect = isSelect
@@ -29,30 +31,33 @@ object TimeDataModel {
     }
 
     fun setOpenTime(openTime: String) {
-         val start = DateTransform.getFormattedDateWithTime(openTime)
-         dateOpenAt = DateTransform.getDateInUTC(
-            start)
+        val start = DateTransform.getFormattedDateWithTime(openTime)
+        dateOpenAt = DateTransform.getDateInUTC(
+            start
+        )
 
     }
 
     fun setCloseTime(closeTime: String) {
         val end = DateTransform.getFormattedDateWithTime(closeTime)
         dateCloseAt = DateTransform.getDateInUTC(
-            end)
+            end
+        )
     }
-
 
 
     fun setStartAt(startAt: String) {
         start = DateTransform.getFormattedDateWithTime(startAt)
         startDate = DateTransform.getDateInUTC(
-                start)
+            start
+        )
     }
 
     fun setEndAt(endAt: String) {
         end = DateTransform.getFormattedDateWithTime(endAt)
         endDate = DateTransform.getDateInUTC(
-                end)
+            end
+        )
     }
 
     fun setDateFromCalendar(dateCal: String) {
@@ -66,11 +71,11 @@ object TimeDataModel {
     }
 
     var startDate: Date by observing(Date(), didSet = {
-//        validateDate()
+        //        validateDate()
     })
 
     var endDate: Date by observing(Date(), didSet = {
-//        validateDate()
+        //        validateDate()
     })
 
 
@@ -79,14 +84,18 @@ object TimeDataModel {
         if (!start.isEmpty() && !end.isEmpty()) {
             isDateValid = startDate < endDate && startDate >= current
                     &&
-                    startDate >= dateOpenAt  && endDate <= dateCloseAt
+                    startDate >= dateOpenAt && endDate <= dateCloseAt
         }
+        isDateWrong = !(startDate < endDate && startDate >= current)
+        isScheduleWrong = !(startDate >= dateOpenAt && endDate <= dateCloseAt)
+
         return isDateValid
     }
 
     var isDateValid: Boolean by observing(false, {
         Timber.d(
-                "dates: valid $isDateValid, start_at: $start, endAt: $end")
+            "dates: valid $isDateValid, start_at: $start, endAt: $end"
+        )
     })
 
     fun clearPids() {
@@ -110,7 +119,7 @@ object TimeDataModel {
         didSet: () -> Unit = { }
     ) = object : ObservableProperty<T>(initialValue) {
         override fun beforeChange(property: KProperty<*>, oldValue: T, newValue: T): Boolean =
-                true.apply { willSet() }
+            true.apply { willSet() }
 
         override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) = didSet()
     }
