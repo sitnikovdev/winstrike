@@ -270,7 +270,8 @@
 
         <!--Navigate to Login-->
         <action android:id="@+id/action_to_login"
-                app:destination="@id/navigation_login"/>
+                app:destination="@id/navigation_login" app:popUpToInclusive="true"
+                app:popUpTo="@+id/navigation_home"/>
 
         <!--User name-->
         <argument android:name="userName"

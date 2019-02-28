@@ -12,6 +12,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.navigation.*
 import androidx.navigation.ui.AppBarConfiguration
@@ -103,20 +104,8 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 //        Navigation
         mNavController = Navigation.findNavController(this@MainActivity, R.id.main_host_fragment)
 
-        mNavController.addOnDestinationChangedListener { nav, destination, _ ->
+        mNavController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                // When BACK on Home is pressed
-                R.id.navigation_splash -> {
-                    if (pending.compareAndSet(false, true)) {
-                        bottomNavigation.hide()
-                        Timber.d("show splash")
-                    } else {
-                        pending.set(true)
-//                        destination.label = "Выберите город"
-//                        val action = SplashFragmentDirections.actionToCityList()
-//                        navigate(action)
-                    }
-                }
                 R.id.navigation_login -> {
                     supportActionBar?.hide()
                     bottomNavigation.hide()
@@ -172,6 +161,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         setupBottomNavMenu(mNavController)
 
         supportActionBar?.hide()
+        bottomNavigation.hide()
 
         initFCM() // FCM push notifications
 
@@ -241,12 +231,8 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
             android.R.id.home -> {
                 when (mNavController.currentDestination?.id) {
-                    R.id.navigation_splash -> {
-                        Timber.d("open splash. Current fragment: $mCurrentFragment")
-                    }
                     R.id.navigation_home -> {
                         Timber.d("open home")
-//                        mNavController.navigateUp()
                         mNavController.navigate(R.id.navigation_city_list)
                         return true
                     }
@@ -287,6 +273,14 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         Navigation.findNavController(this, ru.prsolution.winstrike.R.id.main_host_fragment).navigate(action)
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (PrefUtils.token?.isEmpty()!!) {
+            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            finish()
+            android.os.Process.killProcess(android.os.Process.myPid())
+        }
+    }
 
     // TODO: remove this Map actions block:
     private fun dlgMapLegend() {
