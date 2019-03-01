@@ -44,10 +44,6 @@ interface ToolbarTitleListener {
     fun updateTitle(title: String)
 }
 
-interface CurrentFragment {
-    var mCurrentFragment: String
-}
-
 interface FooterProvider {
     fun setLoginPolicyFooter(textView: TextView)
     fun setNamePolicyFooter(textView: TextView)
@@ -57,11 +53,10 @@ interface FooterProvider {
 }
 
 class MainActivity : AppCompatActivity(), ToolbarTitleListener,
-    CarouselFragment.OnSeatClickListener, NavigationListener, FooterProvider, CurrentFragment {
+    CarouselFragment.OnSeatClickListener, NavigationListener, FooterProvider {
 
     private val mVmFCM: FCMViewModel by viewModel()
-    private lateinit var mNavController: NavController
-    override var mCurrentFragment: String = "home"
+    override lateinit var mNavController: NavController
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var mDlgMapLegend: Dialog? = null
@@ -223,7 +218,12 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
         when (item?.itemId) {
             R.id.action_to_login ->
+            {
                 PrefUtils.token = ""
+                mNavController.popBackStack(R.id.navigation_city_list, true)
+                mNavController.navigate(R.id.navigation_login)
+                return true
+            }
 
             R.id.map_legend ->
                 mDlgMapLegend?.show()
@@ -275,11 +275,11 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (PrefUtils.token?.isEmpty()!!) {
-            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+/*        if (PrefUtils.token?.isEmpty()!! && mCurrentFragment.contains("HelpCenterFragment")) {
+            mNavController.popBackStack()
             finish()
             android.os.Process.killProcess(android.os.Process.myPid())
-        }
+        }*/
     }
 
     // TODO: remove this Map actions block:

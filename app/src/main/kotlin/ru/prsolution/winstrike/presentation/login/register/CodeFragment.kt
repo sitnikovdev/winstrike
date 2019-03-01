@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fmt_code.*
-import kotlinx.android.synthetic.main.fmt_register.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.NavigationListener
-import ru.prsolution.winstrike.presentation.login.LoginActivity
 import ru.prsolution.winstrike.presentation.main.FooterProvider
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*

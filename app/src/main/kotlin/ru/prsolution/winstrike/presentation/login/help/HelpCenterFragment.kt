@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fmt_help_center.tv_help_centr
 import kotlinx.android.synthetic.main.fmt_help_center.tv_sms
-import org.jetbrains.anko.support.v4.longToast
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.utils.Constants

@@ -18,7 +18,6 @@ import ru.prsolution.winstrike.presentation.model.login.LoginInfo
 import ru.prsolution.winstrike.presentation.utils.TextFormat.formatPhone
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.viewmodel.LoginViewModel
-import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.inc_password.*
 import kotlinx.android.synthetic.main.inc_phone.*
 import ru.prsolution.winstrike.R

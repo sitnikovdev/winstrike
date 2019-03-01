@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fmt_change_passw.*
 import kotlinx.android.synthetic.main.inc_help_password_bottom.*
 import kotlinx.android.synthetic.main.inc_help_password_top.*
-import kotlinx.android.synthetic.main.inc_prof_city.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
@@ -17,7 +16,6 @@ import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.model.login.Password
 import ru.prsolution.winstrike.presentation.utils.inflate
-import ru.prsolution.winstrike.presentation.utils.isNameValid
 import ru.prsolution.winstrike.presentation.utils.isPasswordValid
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.validate

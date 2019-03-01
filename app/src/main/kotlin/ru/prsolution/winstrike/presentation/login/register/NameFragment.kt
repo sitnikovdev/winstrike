@@ -6,24 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fmt_name.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.NavigationListener
-import ru.prsolution.winstrike.presentation.login.LoginActivity
 import ru.prsolution.winstrike.presentation.main.FooterProvider
 import ru.prsolution.winstrike.presentation.model.login.ProfileInfo
-import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.inflate
-import ru.prsolution.winstrike.presentation.utils.isCodeValid
 import ru.prsolution.winstrike.presentation.utils.isNameValid
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.validate
 import ru.prsolution.winstrike.viewmodel.ProfileViewModel
-import ru.prsolution.winstrike.viewmodel.RegisterViewModel
 import timber.log.Timber
 
 /**

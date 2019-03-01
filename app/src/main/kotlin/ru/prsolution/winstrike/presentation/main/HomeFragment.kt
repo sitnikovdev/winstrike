@@ -46,7 +46,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as CurrentFragment).mCurrentFragment = this.javaClass.simpleName
         mCarouselAdapter = CarouselAdapter(activity?.supportFragmentManager)
     }
 

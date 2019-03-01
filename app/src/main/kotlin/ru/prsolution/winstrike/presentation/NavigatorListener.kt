@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.presentation
 
+import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 
 /**
@@ -8,4 +9,5 @@ import androidx.navigation.NavDirections
 
 interface NavigationListener {
     fun navigate(action: NavDirections)
+    var mNavController: NavController
 }
