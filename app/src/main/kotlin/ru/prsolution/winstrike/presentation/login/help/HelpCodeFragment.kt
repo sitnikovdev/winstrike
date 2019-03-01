@@ -3,7 +3,9 @@ package ru.prsolution.winstrike.presentation.login.help
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.fmt_help_code.*
 import kotlinx.android.synthetic.main.inc_help_code.*
 import kotlinx.android.synthetic.main.inc_help_phone.*
@@ -30,20 +32,28 @@ class HelpCodeFragment : Fragment() {
         return context?.inflate(R.layout.fmt_help_code)
     }
 
+    private var timerTv: TextView? = null
+    private var sendCodeBtn: MaterialButton? = null
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        timerTv = view.findViewById(R.id.timer_tv)
+        sendCodeBtn = view.findViewById(R.id.send_code_btn)
+
         startTimer()
 
-        send_code_btn.setOnClickListener {
+        sendCodeBtn?.setOnClickListener {
             val smsInfo = SmsInfo(PrefUtils.phone)
             mSmsVm.send(smsInfo)
             startTimer()
         }
 
+
         // Set footer
         val action = HelpCodeFragmentDirections.actionToLogin()
-        (activity as FooterProvider).setRegisterLoginFooter(textView = login_footer_code , action = action)
+        (activity as FooterProvider).setRegisterLoginFooter(textView = login_footer_code, action = action)
 
         // Set phone mask
 //        et_phone.setPhoneMask()
@@ -52,7 +62,7 @@ class HelpCodeFragment : Fragment() {
 
         et_phone_help.isEnabled = false
 
-        send_code_btn.isEnabled = false
+        sendCodeBtn?.isEnabled = false
 
         // Confirm code button
         confirm_code_btn.setOnClickListener {
@@ -75,12 +85,12 @@ class HelpCodeFragment : Fragment() {
     }
 
     private fun startTimer() {
-        send_code_btn.isEnabled = false
+        sendCodeBtn?.isEnabled = false
         mCountDownTimer = CodeCountDownTimer(30_000, 1_000)
         mCountDownTimer!!.start()
-        timer_tv.text = "*Отправить код повторно через 30 сек"
-        timer_tv.visible()
-        timer_tv.invalidate()
+        timerTv?.text = "*Отправить код повторно через 30 сек"
+        timerTv?.visible()
+        timerTv?.invalidate()
     }
 
     inner class CodeCountDownTimer(millisInFuture: Long, countDownInterval: Long) :
@@ -92,13 +102,13 @@ class HelpCodeFragment : Fragment() {
             val progress = (millisUntilFinished / 1_000).toInt()
 
             Timber.tag("$$$").d("timer: $progress")
-            timer_tv.text = "*Отправить код повторно через $progress сек"
-            timer_tv.invalidate()
+            timerTv?.text = "*Отправить код повторно через $progress сек"
+            timerTv?.invalidate()
         }
 
         override fun onFinish() {
-            send_code_btn.isEnabled = true
-            timer_tv.gone()
+            sendCodeBtn?.isEnabled = true
+            timerTv?.gone()
         }
     }
 
