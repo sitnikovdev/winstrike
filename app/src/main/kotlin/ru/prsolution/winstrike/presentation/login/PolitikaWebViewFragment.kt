@@ -33,6 +33,10 @@ class PolitikaWebViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var url = ""
+
+        
+        progressBar = view.findViewById(R.id.pbar)
+
         progressBar?.visible()
 
         arguments?.let {
