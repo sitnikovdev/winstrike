@@ -56,6 +56,8 @@ object Versions {
 	const val rxpaper = "1.4.0"
 
 	const val koin = "2.0.0-beta-1"
+
+	const val materialDialog = "2.0.3"
 }
 
 
@@ -101,6 +103,8 @@ object Libraries {
 
 	const val koinAndroid = "org.koin:koin-android:${Versions.koin}"
 	const val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
+
+	const val materialDialog = "com.afollestad.material-dialogs:core:${Versions.materialDialog}"
 }
 
 // API URL

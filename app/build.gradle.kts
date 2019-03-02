@@ -194,4 +194,7 @@ dependencies {
     // koin android
     implementation( Libraries.koinAndroid)
     implementation( Libraries.koinViewModel)
+
+    // material dialog
+    implementation(Libraries.materialDialog)
 }

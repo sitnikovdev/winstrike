@@ -18,6 +18,7 @@ import androidx.navigation.*
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.afollestad.materialdialogs.MaterialDialog
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.androidx.viewmodel.ext.viewModel
@@ -95,7 +96,11 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
         setContentView(R.layout.ac_mainscreen)
 
-        val pending = AtomicBoolean(false)
+        MaterialDialog(this).show {
+            title(R.string.ac_main_message_app_version_title)
+            message(R.string.ac_main_message_app_version_message)
+        }
+
 //        Navigation
         mNavController = Navigation.findNavController(this@MainActivity, R.id.main_host_fragment)
 
