@@ -28,7 +28,6 @@ class HelpCenterFragment : Fragment() {
 
 
         tv_sms.setOnClickListener {
-            val stack = (activity as NavigationListener).mNavController
             val action = HelpCenterFragmentDirections.actionToHelpPhone()
             (activity as NavigationListener).navigate(action)
         }
