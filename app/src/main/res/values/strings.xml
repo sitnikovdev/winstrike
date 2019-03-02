@@ -181,4 +181,6 @@
     <string name="ac_main_message_app_version_message">Перейти в Play Market, чтобы установить новую версию для
         корректной работы приложения
     </string>
+    <string name="ac_main_app_version_dialog_ok_btn">Продолжить</string>
+    <string name="ac_main_app_version_dialog_cancel_btn">Отменить</string>
 </resources>

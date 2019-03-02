@@ -1,8 +1,11 @@
 package ru.prsolution.winstrike.presentation.main
 
 import android.app.Dialog
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -12,7 +15,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.navigation.*
 import androidx.navigation.ui.AppBarConfiguration
@@ -29,7 +31,6 @@ import ru.prsolution.winstrike.presentation.injectFeature
 import ru.prsolution.winstrike.presentation.login.LoginFragmentDirections
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
 import ru.prsolution.winstrike.presentation.model.fcm.FCMPid
-import ru.prsolution.winstrike.presentation.splash.SplashFragmentDirections
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
@@ -39,10 +40,13 @@ import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.show
 import ru.prsolution.winstrike.viewmodel.FCMViewModel
 import timber.log.Timber
-import java.util.concurrent.atomic.AtomicBoolean
 
 interface ToolbarTitleListener {
     fun updateTitle(title: String)
+}
+
+interface OnGooglePlayRedirect {
+     fun onGooglePlayButtonClick()
 }
 
 interface FooterProvider {
@@ -54,7 +58,7 @@ interface FooterProvider {
 }
 
 class MainActivity : AppCompatActivity(), ToolbarTitleListener,
-    CarouselFragment.OnSeatClickListener, NavigationListener, FooterProvider {
+    CarouselFragment.OnSeatClickListener, NavigationListener, FooterProvider, OnGooglePlayRedirect {
 
     private val mVmFCM: FCMViewModel by viewModel()
     override lateinit var mNavController: NavController
@@ -99,6 +103,15 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         MaterialDialog(this).show {
             title(R.string.ac_main_message_app_version_title)
             message(R.string.ac_main_message_app_version_message)
+            positiveButton ( text = getString(R.string.ac_main_app_version_dialog_ok_btn) ){
+                onGooglePlayButtonClick()
+                finish()
+            }
+            negativeButton ( text = getString(R.string.ac_main_app_version_dialog_cancel_btn) ) {
+                it.dismiss()
+            }
+            cancelable(false)
+            cancelOnTouchOutside(false)
         }
 
 //        Navigation
@@ -402,6 +415,30 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         register.setSpan(registerClick, 18, register.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         textView.movementMethod = LinkMovementMethod.getInstance()
         textView.text = register
+    }
+
+
+     override fun onGooglePlayButtonClick() {
+        val uri = Uri.parse("market://details?id=" + this.packageName)
+        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(
+            Intent.FLAG_ACTIVITY_NO_HISTORY or
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+        )
+        try {
+            startActivity(goToMarket)
+        } catch (e: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + this.packageName)
+                )
+            )
+        }
+
     }
 
 

@@ -161,14 +161,4 @@ class LoginFragment : Fragment() {
         tv_register.text = register
 
     }
-
-
-/*    fun onSmsSendFailure(appErrorMessage: String) {
-        Timber.tag("common").w("Sms send error: %s", appErrorMessage)
-        if (appErrorMessage.contains("404"))
-            toast("Ошибка отправки кода! Нет пользователя с таким номером")
-        if (appErrorMessage.contains("409")) toast("Ошибка функции кодогенерации")
-        if (appErrorMessage.contains("422")) toast("Не указан номер телефона")
-    }*/
-
 }

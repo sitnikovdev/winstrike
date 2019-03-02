@@ -10,7 +10,8 @@ import ru.prsolution.winstrike.presentation.utils.inflate
 import android.content.Intent
 import android.net.Uri
 import androidx.core.app.ShareCompat
-import android.content.ActivityNotFoundException
+import android.content.Context
+import ru.prsolution.winstrike.presentation.main.OnGooglePlayRedirect
 
 
 /*
@@ -19,8 +20,18 @@ import android.content.ActivityNotFoundException
 
 class AppTabFragment : Fragment() {
 
+    private lateinit var  mContext: OnGooglePlayRedirect
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return context?.inflate(ru.prsolution.winstrike.R.layout.fmt_profile_app)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        require(context is OnGooglePlayRedirect) {
+            "*====== OnGooglePlayRedirect is not implemented in context ========*"
+        }
+        mContext = context as OnGooglePlayRedirect
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,7 +42,7 @@ class AppTabFragment : Fragment() {
         }
 
         cv_estimate.setOnClickListener {
-            onGooglePlayButtonClick()
+           mContext.onGooglePlayButtonClick()
         }
 
 
@@ -71,29 +82,6 @@ class AppTabFragment : Fragment() {
             ("Winstrike Arena - киберспорт в центре Москвы.\n" + "Качай приложение и играй за 50 рублей/час")
         )
         startActivity(Intent.createChooser(shareIntent, "Send"))
-    }
-
-    private fun onGooglePlayButtonClick() {
-        val uri = Uri.parse("market://details?id=" + context?.packageName)
-        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-        // To count with Play market backstack, After pressing back button,
-        // to taken back to our application, we need to add following flags to intent.
-        goToMarket.addFlags(
-            Intent.FLAG_ACTIVITY_NO_HISTORY or
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK
-        )
-        try {
-            startActivity(goToMarket)
-        } catch (e: ActivityNotFoundException) {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=" + context?.packageName)
-                )
-            )
-        }
-
     }
 
     private fun onVkClick() {
