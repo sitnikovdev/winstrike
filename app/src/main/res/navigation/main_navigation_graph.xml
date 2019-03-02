@@ -167,7 +167,8 @@
 
         <!--Navigate to City List-->
         <action android:id="@+id/action_to_city_list"
-                app:destination="@id/navigation_city_list"/>
+                app:destination="@id/navigation_city_list" app:popUpTo="@+id/navigation_splash"
+                app:popUpToInclusive="true"/>
 
         <!--Navigate to Login-->
         <action android:id="@+id/action_to_login"
@@ -178,7 +179,7 @@
         <!--Navigate to Home-->
         <action android:id="@+id/action_to_home"
                 app:destination="@id/navigation_home"
-        />
+                app:popUpTo="@+id/navigation_splash" app:popUpToInclusive="true"/>
 
         <argument android:name="navigate_to_city"
                   app:argType="boolean"
@@ -197,7 +198,7 @@
         <action
                 android:id="@+id/action_to_arena"
                 app:destination="@id/navigation_arena"
-        />
+                app:popUpTo="@+id/navigation_city_list" app:popUpToInclusive="true"/>
 
     </fragment>
 
@@ -221,7 +222,7 @@
 
         <!--Navigate to Home -->
         <action android:id="@+id/action_to_home"
-                app:destination="@id/navigation_home"/>
+                app:destination="@id/navigation_home" app:popUpTo="@+id/navigation_arena" app:popUpToInclusive="true"/>
 
     </fragment>
 
@@ -275,7 +276,7 @@
         <!--Navigate to Login-->
         <action android:id="@+id/action_to_login"
                 app:destination="@id/navigation_login" app:popUpToInclusive="true"
-                app:popUpTo="@+id/navigation_home"/>
+                app:popUpTo="@+id/navigation_profile"/>
 
         <!--User name-->
         <argument android:name="userName"

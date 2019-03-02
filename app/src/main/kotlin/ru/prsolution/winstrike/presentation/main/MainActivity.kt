@@ -223,7 +223,10 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
             R.id.action_to_login ->
             {
                 PrefUtils.token = ""
-                mNavController.popBackStack(R.id.navigation_city_list, true)
+//                mNavController.popBackStack(R.id.navigation_splash, true)
+                while (mNavController.popBackStack()) {
+                    mNavController.popBackStack()
+                }
                 mNavController.navigate(R.id.navigation_login)
                 return true
             }
