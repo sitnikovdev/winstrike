@@ -147,7 +147,7 @@
 
         <!--Navigate to Code-->
         <action android:id="@+id/action_to_code"
-                app:destination="@id/navigation_code"/>
+                app:destination="@id/navigation_code" app:popUpTo="@+id/navigation_login" app:popUpToInclusive="false"/>
 
         <!-- Navigate to  City List -->
         <action android:id="@+id/action_to_city_list"
