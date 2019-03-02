@@ -38,6 +38,7 @@ import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.hide
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.show
+import ru.prsolution.winstrike.viewmodel.AppViewModel
 import ru.prsolution.winstrike.viewmodel.FCMViewModel
 import timber.log.Timber
 
@@ -46,7 +47,7 @@ interface ToolbarTitleListener {
 }
 
 interface OnGooglePlayRedirect {
-     fun onGooglePlayButtonClick()
+    fun onGooglePlayButtonClick()
 }
 
 interface FooterProvider {
@@ -60,6 +61,7 @@ interface FooterProvider {
 class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     CarouselFragment.OnSeatClickListener, NavigationListener, FooterProvider, OnGooglePlayRedirect {
 
+    private val mAppVm: AppViewModel by viewModel()
     private val mVmFCM: FCMViewModel by viewModel()
     override lateinit var mNavController: NavController
 
@@ -100,19 +102,6 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
         setContentView(R.layout.ac_mainscreen)
 
-        MaterialDialog(this).show {
-            title(R.string.ac_main_message_app_version_title)
-            message(R.string.ac_main_message_app_version_message)
-            positiveButton ( text = getString(R.string.ac_main_app_version_dialog_ok_btn) ){
-                onGooglePlayButtonClick()
-                finish()
-            }
-            negativeButton ( text = getString(R.string.ac_main_app_version_dialog_cancel_btn) ) {
-                it.dismiss()
-            }
-            cancelable(false)
-            cancelOnTouchOutside(false)
-        }
 
 //        Navigation
         mNavController = Navigation.findNavController(this@MainActivity, R.id.main_host_fragment)
@@ -166,10 +155,6 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
             }
         }
 
-
-
-
-
         appBarConfiguration = AppBarConfiguration(mNavController.graph)
 
         setSupportActionBar(toolbar)
@@ -180,6 +165,31 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         bottomNavigation.hide()
 
         initFCM() // FCM push notifications
+
+        // TODO: Check new version of app here
+        mAppVm.checkVersion("0.50")
+
+        mAppVm.messageResponse.observe(this@MainActivity, Observer {
+            it?.let { resource ->
+                // TODO: process error!
+                when (resource.state) {
+//                    ResourceState.LOADING -> swipeRefreshLayout.startRefreshing()
+//                    ResourceState.SUCCESS -> swipeRefreshLayout.stopRefreshing()
+//                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
+                }
+                resource.data?.let { messageResponse ->
+                    Timber.tag("$$$").d("New version checked!")
+                    messageResponse.message?.let { message ->
+                        if (message.contains("you need to update this app"))
+                            showUpdate()
+                    }
+                }
+                resource.message?.let {
+                    Timber.tag("$$$").e("New version checked FAIL!")
+                }
+            }
+        })
+
 
         mVmFCM.messageResponse.observe(this@MainActivity, Observer {
             it?.let { resource ->
@@ -200,6 +210,20 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
     }
 
+    private fun showUpdate() {
+        MaterialDialog(this).show {
+            title(R.string.ac_main_message_app_version_title)
+            message(R.string.ac_main_message_app_version_message)
+            positiveButton(text = getString(R.string.ac_main_app_version_dialog_ok_btn)) {
+                onGooglePlayButtonClick()
+            }
+            negativeButton(text = getString(R.string.ac_main_app_version_dialog_cancel_btn)) {
+                it.dismiss()
+            }
+            cancelable(false)
+            cancelOnTouchOutside(false)
+        }
+    }
 
 
     // Set title in Profile
@@ -238,8 +262,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when (item?.itemId) {
-            R.id.action_to_login ->
-            {
+            R.id.action_to_login -> {
                 PrefUtils.token = ""
                 while (mNavController.popBackStack()) {
                     mNavController.popBackStack()
@@ -418,7 +441,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     }
 
 
-     override fun onGooglePlayButtonClick() {
+    override fun onGooglePlayButtonClick() {
         val uri = Uri.parse("market://details?id=" + this.packageName)
         val goToMarket = Intent(Intent.ACTION_VIEW, uri)
         // To count with Play market backstack, After pressing back button,

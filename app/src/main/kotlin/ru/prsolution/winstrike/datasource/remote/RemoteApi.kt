@@ -16,6 +16,15 @@ import ru.prsolution.winstrike.datasource.model.payment.PaymentResponseEntity
 import ru.prsolution.winstrike.domain.models.common.FCMModel
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 
+interface AppApi {
+    @GET("rooms")
+    fun getVersion(
+        @Query("v") appVersion: String,
+        @Query("device") device: String = "android"
+    ): Deferred<Response<MessageResponse>>
+}
+
+
 interface CityApi {
     // Получение  списка городов
     @GET("cities")

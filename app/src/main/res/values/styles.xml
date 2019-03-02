@@ -19,10 +19,10 @@
         <item name="themeContentTextColoOnPrimary">@color/white</item>
 
         <!--Material dialogs-->
-        <item name="md_color_title">?themePrimaryDark</item>
-        <dimen name="md_action_button_textsize">14sp</dimen>
-        <dimen name="md_title_textsize">20sp</dimen>
-        <dimen name="md_message_textsize">16sp</dimen>
+        <!--<item name="md_color_title">?themePrimaryDark</item>-->
+        <!--<dimen name="md_action_button_textsize">14sp</dimen>-->
+        <!--<dimen name="md_title_textsize">20sp</dimen>-->
+        <!--<dimen name="md_message_textsize">16sp</dimen>-->
     </style>
 
 </resources>

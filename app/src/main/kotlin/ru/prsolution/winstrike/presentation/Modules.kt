@@ -7,6 +7,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import ru.prsolution.winstrike.BuildConfig
 import ru.prsolution.winstrike.data.datasource.*
+import ru.prsolution.winstrike.data.repository.AppRepositoryImpl
 import ru.prsolution.winstrike.data.repository.ArenaRepositoryImpl
 import ru.prsolution.winstrike.data.repository.CityRepositoryImpl
 import ru.prsolution.winstrike.data.repository.LoginRepositoryImpl
@@ -17,13 +18,11 @@ import ru.prsolution.winstrike.datasource.remote.*
 import ru.prsolution.winstrike.domain.models.arena.Arena
 import ru.prsolution.winstrike.domain.models.city.City
 import ru.prsolution.winstrike.domain.models.login.UserModel
+import ru.prsolution.winstrike.domain.repository.AppRepository
 import ru.prsolution.winstrike.domain.repository.ArenaRepository
 import ru.prsolution.winstrike.domain.repository.CityRepository
 import ru.prsolution.winstrike.domain.repository.LoginRepository
-import ru.prsolution.winstrike.domain.usecases.ArenaUseCase
-import ru.prsolution.winstrike.domain.usecases.CityUseCase
-import ru.prsolution.winstrike.domain.usecases.LoginUseCase
-import ru.prsolution.winstrike.domain.usecases.PaymentUseCase
+import ru.prsolution.winstrike.domain.usecases.*
 import ru.prsolution.winstrike.networking.createNetworkClient
 import ru.prsolution.winstrike.presentation.utils.cache.Cache
 import ru.prsolution.winstrike.viewmodel.*
@@ -42,6 +41,7 @@ private val loadFeature by lazy {
 }
 
 val viewModelModule: Module = module {
+    viewModel { AppViewModel(appUseCase = get()) }
     viewModel { CityListViewModel(cityUseCase = get()) }
     viewModel { CityItemViewModel(arenaUseCase = get()) }
     viewModel { SetUpViewModel(arenaUseCase = get()) }
@@ -55,6 +55,7 @@ val viewModelModule: Module = module {
 }
 
 val useCaseModule: Module = module {
+    factory { AppUseCase(appRepository = get()) }
     factory { CityUseCase(cityRepository = get()) }
     factory { ArenaUseCase(arenaRepository = get()) }
     factory { PaymentUseCase(arenaRepository = get()) }
@@ -62,12 +63,15 @@ val useCaseModule: Module = module {
 }
 
 val repositoryModule: Module = module {
+    single { AppRepositoryImpl( remoteDataSource = get()) as AppRepository }
     single { CityRepositoryImpl(cacheDataSource = get(), remoteDataSource = get()) as CityRepository }
     single { ArenaRepositoryImpl(cacheDataSource = get(), remoteDataSource = get()) as ArenaRepository }
     single { LoginRepositoryImpl(cacheDataSource = get(), remoteDataSource = get()) as LoginRepository }
 }
 
 val dataSourceModule: Module = module {
+    single { AppRemoteDataSourceImpl(api = appApi) as AppRemoteDataSource }
+
     single { CityCacheDataSourceImpl(cache = get(CITY_CACHE)) as CityCacheDataSource }
     single { CityRemoteDataSourceImpl(api = cityApi) as CityRemoteDataSource }
 
@@ -79,6 +83,7 @@ val dataSourceModule: Module = module {
 }
 
 val networkModule: Module = module {
+    single { appApi }
     single { cityApi }
     single { arenaApi }
     single { userApi }
@@ -94,8 +99,10 @@ private const val DEV_URL = BuildConfig.DEV_URL
 private const val PROD_URL = BuildConfig.PROD_URL
 
 
-private val retrofit: Retrofit = createNetworkClient(PROD_URL, BuildConfig.DEBUG)
+//private val retrofit: Retrofit = createNetworkClient(PROD_URL, BuildConfig.DEBUG)
+private val retrofit: Retrofit = createNetworkClient(DEV_URL, BuildConfig.DEBUG)
 
+private val appApi: AppApi = retrofit.create(AppApi::class.java)
 private val cityApi: CityApi = retrofit.create(CityApi::class.java)
 private val arenaApi: ArenaApi = retrofit.create(ArenaApi::class.java)
 private val userApi: UserApi = retrofit.create(UserApi::class.java)
