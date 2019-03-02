@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
+import kotlinx.android.synthetic.main.fmt_code.*
 import kotlinx.android.synthetic.main.fmt_help_code.*
 import kotlinx.android.synthetic.main.inc_help_code.*
 import kotlinx.android.synthetic.main.inc_help_phone.*
@@ -39,9 +40,12 @@ class HelpCodeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val stack = (activity as NavigationListener).mNavController
+//        (activity as NavigationListener).mNavController.popBackStack()
+
         timerTv = view.findViewById(R.id.timer_tv)
         sendCodeBtn = view.findViewById(R.id.send_code_btn)
-
+        et_code_help.requestFocus()
         startTimer()
 
         sendCodeBtn?.setOnClickListener {

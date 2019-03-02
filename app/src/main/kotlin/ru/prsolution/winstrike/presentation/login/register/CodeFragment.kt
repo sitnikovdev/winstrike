@@ -37,6 +37,8 @@ class CodeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val stack = (activity as NavigationListener).mNavController
+
         mSmsVm.messageResponse.observe(this@CodeFragment, Observer {
             it?.let {
                 // TODO: process error!

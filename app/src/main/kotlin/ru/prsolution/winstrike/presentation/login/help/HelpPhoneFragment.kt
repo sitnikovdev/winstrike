@@ -34,12 +34,15 @@ class HelpPhoneFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val stack = (activity as NavigationListener).mNavController
+//        (activity as NavigationListener).mNavController.popBackStack()
         // Set footer
         val action = HelpPhoneFragmentDirections.actionToLogin()
         (activity as FooterProvider).setRegisterLoginFooter(textView = login_footer , action = action)
 
         // Set phone mask
         et_phone_help.setPhoneMask()
+        et_phone_help.requestFocus()
 
         phone_btn.setOnClickListener {
 

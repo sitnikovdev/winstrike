@@ -35,6 +35,8 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val stack = (activity as NavigationListener).mNavController
+
         mRegisterVm.authResponse.observe(this@RegisterFragment, Observer {
             it?.let {
                 // TODO: process error!

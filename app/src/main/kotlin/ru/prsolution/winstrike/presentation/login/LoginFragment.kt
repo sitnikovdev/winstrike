@@ -44,6 +44,13 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        arguments?.let {
+            val args = LoginFragmentArgs.fromBundle(it)
+            if (args.clearStack) {
+                (activity as NavigationListener).mNavController.popBackStack()
+            }
+        }
+
         mVm.authResponse.observe(this@LoginFragment, Observer {
             it?.let {
                 // TODO: process error!

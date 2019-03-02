@@ -26,6 +26,9 @@ class HelpCenterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        val stack = (activity as NavigationListener).mNavController
+//        (activity as NavigationListener).mNavController.popBackStack()
+
         tv_sms.setOnClickListener {
             val action = HelpCenterFragmentDirections.actionToHelpPhone()
             (activity as NavigationListener).navigate(action)

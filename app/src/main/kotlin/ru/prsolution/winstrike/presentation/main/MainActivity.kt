@@ -135,6 +135,9 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
                     mMapMenuVisible = true
                     invalidateOptionsMenu()
                 }
+                R.id.help_name -> {
+//                    mNavController.popBackStack(R.id.navigation_login, false)
+                }
                 else -> {
                     bottomNavigation.hide()
                     mCityMenuVisible = false
@@ -273,14 +276,6 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         Navigation.findNavController(this, ru.prsolution.winstrike.R.id.main_host_fragment).navigate(action)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-/*        if (PrefUtils.token?.isEmpty()!! && mCurrentFragment.contains("HelpCenterFragment")) {
-            mNavController.popBackStack()
-            finish()
-            android.os.Process.killProcess(android.os.Process.myPid())
-        }*/
-    }
 
     // TODO: remove this Map actions block:
     private fun dlgMapLegend() {
