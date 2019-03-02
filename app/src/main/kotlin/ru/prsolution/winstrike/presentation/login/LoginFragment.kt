@@ -97,7 +97,6 @@ class LoginFragment : Fragment() {
         }
 
         help_link_tv.setOnClickListener {
-            val stack = (activity as NavigationListener).mNavController
             val action = LoginFragmentDirections.nextActionHelp()
             (activity as NavigationListener).navigate(action)
         }
