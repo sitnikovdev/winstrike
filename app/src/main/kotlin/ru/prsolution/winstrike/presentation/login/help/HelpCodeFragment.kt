@@ -40,9 +40,6 @@ class HelpCodeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val stack = (activity as NavigationListener).mNavController
-//        (activity as NavigationListener).mNavController.popBackStack()
-
         timerTv = view.findViewById(R.id.timer_tv)
         sendCodeBtn = view.findViewById(R.id.send_code_btn)
         et_code_help.requestFocus()

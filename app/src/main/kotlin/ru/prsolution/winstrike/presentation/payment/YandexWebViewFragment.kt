@@ -20,7 +20,7 @@ import ru.prsolution.winstrike.presentation.utils.inflate
 
 class YandexWebViewFragment : Fragment() {
     private var mWebView: WebView? = null
-    private var url: String? = null
+    private var url: String? = ""
 
 
     override fun onCreateView(
@@ -58,9 +58,7 @@ class YandexWebViewFragment : Fragment() {
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            progBar?.let {
-                it.gone()
-            }
+            progBar?.gone()
         }
     }
 }

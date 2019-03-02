@@ -40,9 +40,6 @@ class HelpPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val stack = (activity as NavigationListener).mNavController
-//        (activity as NavigationListener).mNavController.popBackStack()
-
         arguments?.let {
             val safeArg = HelpPasswordFragmentArgs.fromBundle(it)
             mConfirmCode = safeArg.code

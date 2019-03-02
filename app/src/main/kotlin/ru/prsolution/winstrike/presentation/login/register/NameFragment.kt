@@ -40,7 +40,6 @@ class NameFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val stack = (activity as NavigationListener).mNavController
 
         mVm.messageResponse.observe(this@NameFragment, Observer {
             it?.let {
