@@ -23,8 +23,10 @@ import kotlinx.android.synthetic.main.inc_phone.*
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.main.FooterProvider
+import ru.prsolution.winstrike.presentation.model.fcm.FCMPid
 import ru.prsolution.winstrike.presentation.model.login.SmsInfo
 import ru.prsolution.winstrike.presentation.utils.*
+import ru.prsolution.winstrike.viewmodel.FCMViewModel
 import ru.prsolution.winstrike.viewmodel.SmsViewModel
 import timber.log.Timber
 
@@ -37,6 +39,7 @@ class LoginFragment : Fragment() {
 
     private val mVm: LoginViewModel by viewModel()
     private val mSmsVm: SmsViewModel by viewModel()
+    private val mVmFCM: FCMViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return context?.inflate(R.layout.fmt_login)
@@ -67,6 +70,24 @@ class LoginFragment : Fragment() {
                 }
             }
         })
+
+        mVmFCM.messageResponse.observe(this@LoginFragment, Observer {
+            it?.let { resource ->
+                // TODO: process error!
+                when (resource.state) {
+//                    ResourceState.LOADING -> swipeRefreshLayout.startRefreshing()
+//                    ResourceState.SUCCESS -> swipeRefreshLayout.stopRefreshing()
+//                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
+                }
+                resource.data?.let {
+                    Timber.tag("$$$").d("FCM token sent!")
+                }
+                resource.message?.let {
+                    Timber.tag("$$$").e("FCM token DIDN'T sent!")
+                }
+            }
+        })
+
         initView()
     }
 
@@ -110,12 +131,14 @@ class LoginFragment : Fragment() {
 
         updateUser(authResponse)
 
+        initFCM() // FCM push notifications
+
         if (confirmed) {
             val action = LoginFragmentDirections.actionToCityList()
             (activity as NavigationListener).navigate(action)
         } else {
             //TODO: Fix it!!!
-            longToast("Пользователь не подтвержден. Отправляем СМС и перенаправляемся на страницу подверждения СМС кода.")
+            longToast("Пользователь не подтвержден. Отправлена СМС для подверждения номера телефона.")
             val phone = authResponse.user?.phone
             val smsInfo = SmsInfo(phone)
             mSmsVm.send(smsInfo)
@@ -146,7 +169,17 @@ class LoginFragment : Fragment() {
         PrefUtils.phone = authResponse.user?.phone ?: ""
         PrefUtils.isConfirmed = authResponse.user?.confirmed ?: false
         PrefUtils.publicid = authResponse.user?.publicId ?: ""
+
     }
+
+    // Send FCM code to server
+    private fun initFCM() {
+        val fcmToken = PrefUtils.fcmtoken
+        fcmToken?.let {
+            mVmFCM.sendFCMCode(FCMPid(it))
+        }
+    }
+
 
     fun setRegisterFooter() {
         val register = SpannableString(getString(R.string.fmt_login_title_register))

@@ -24,6 +24,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import kotlinx.android.synthetic.main.ac_mainscreen.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.androidx.viewmodel.ext.viewModel
+import ru.prsolution.winstrike.BuildConfig
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.arena.SeatCarousel
 import ru.prsolution.winstrike.presentation.NavigationListener
@@ -62,7 +63,6 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     CarouselFragment.OnSeatClickListener, NavigationListener, FooterProvider, OnGooglePlayRedirect {
 
     private val mAppVm: AppViewModel by viewModel()
-    private val mVmFCM: FCMViewModel by viewModel()
     override lateinit var mNavController: NavController
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -142,9 +142,6 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
                     mMapMenuVisible = true
                     invalidateOptionsMenu()
                 }
-                R.id.help_name -> {
-//                    mNavController.popBackStack(R.id.navigation_login, false)
-                }
                 else -> {
                     bottomNavigation.hide()
                     mCityMenuVisible = false
@@ -164,10 +161,9 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         supportActionBar?.hide()
         bottomNavigation.hide()
 
-        initFCM() // FCM push notifications
 
         // TODO: Check new version of app here
-        mAppVm.checkVersion("0.50")
+        mAppVm.checkVersion( BuildConfig.VERSION_CODE.toString())
 
         mAppVm.messageResponse.observe(this@MainActivity, Observer {
             it?.let { resource ->
@@ -191,28 +187,11 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
         })
 
 
-        mVmFCM.messageResponse.observe(this@MainActivity, Observer {
-            it?.let { resource ->
-                // TODO: process error!
-                when (resource.state) {
-//                    ResourceState.LOADING -> swipeRefreshLayout.startRefreshing()
-//                    ResourceState.SUCCESS -> swipeRefreshLayout.stopRefreshing()
-//                    ResourceState.ERROR -> swipeRefreshLayout.stopRefreshing()
-                }
-                resource.data?.let {
-                    Timber.tag("$$$").d("FCM token sent!")
-                }
-                resource.message?.let {
-                    Timber.tag("$$$").e("FCM token DIDN'T sent!")
-                }
-            }
-        })
-
     }
 
     private fun showUpdate() {
         MaterialDialog(this).show {
-            title(R.string.ac_main_message_app_version_title)
+            title(R.string.ac_main_message_title)
             message(R.string.ac_main_message_app_version_message)
             positiveButton(text = getString(R.string.ac_main_app_version_dialog_ok_btn)) {
                 onGooglePlayButtonClick()
@@ -297,14 +276,6 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
         return NavigationUI.onNavDestinationSelected(item!!, mNavController) ||
                 super.onOptionsItemSelected(item)
-    }
-
-    // Send FCM code to server
-    private fun initFCM() {
-        val fcmToken = PrefUtils.fcmtoken
-        fcmToken?.let {
-            mVmFCM.sendFCMCode(FCMPid(it))
-        }
     }
 
 
