@@ -36,16 +36,10 @@
             android:screenOrientation="portrait" />
 
         <!--Login-->
-        <activity
-            android:name=".presentation.login.LoginActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" android:noHistory="true" />
 
-
-        <!--Fabric-->
         <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="97794305a3c84acb7d3a3335d9b889c90da7a71f" />
+                android:name="io.fabric.ApiKey"
+                android:value="97794305a3c84acb7d3a3335d9b889c90da7a71f" />
 
         <!--FCM services init-->
         <service android:name=".presentation.utils.fcm.MyFirebaseMessagingService">

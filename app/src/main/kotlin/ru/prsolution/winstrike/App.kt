@@ -1,7 +1,9 @@
 package ru.prsolution.winstrike
 
 import android.app.Application
+import com.crashlytics.android.Crashlytics
 import com.facebook.drawee.backends.pipeline.Fresco
+import io.fabric.sdk.android.Fabric
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -54,7 +56,7 @@ class App : Application() {
             // https://github.com/square/leakcanary/wiki/Customizing-LeakCanary#uploading-to-a-server
             else -> LeakCanary.install(this)
         }*/
-        //        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, Crashlytics())
         instance = this
 
         // Unique initialization of Cache library to allow saving into device

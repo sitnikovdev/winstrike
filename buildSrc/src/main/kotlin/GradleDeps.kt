@@ -48,7 +48,7 @@ object Versions {
 
 	const val firebase = "16.0.7"
 	const val firebaseMessaging = "17.3.4"
-	const val fabric = "1.27.0"
+	const val fabric = "1.27.1"
 	const val crashlytics = "2.9.8"
 
 	const val leakCanary = "1.6.3"

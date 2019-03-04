@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.inc_password.*
 import kotlinx.android.synthetic.main.inc_prof_name.*
 import org.jetbrains.anko.support.v4.longToast
 import org.koin.androidx.viewmodel.ext.viewModel
+import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.main.ToolbarTitleListener
@@ -113,7 +114,7 @@ class ProfileTabFragment : Fragment() {
                 longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
             (appErrorMessage.contains("409")) -> longToast("Не верный код.")
             appErrorMessage.contains("502") -> longToast("Ошибка сервера")
-            appErrorMessage.contains("401") -> longToast("Ошибка авторизации")
+            appErrorMessage.contains("401") -> longToast(getString(R.string.message_error_auth))
             (appErrorMessage.contains("413")) -> longToast("Не верный формат данных")
             appErrorMessage.contains("No Internet Connection!") ->
                 longToast("Интернет подключение не доступно!")

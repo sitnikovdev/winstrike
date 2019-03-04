@@ -16,6 +16,7 @@ import org.koin.androidx.viewmodel.ext.viewModel
 import ru.prsolution.winstrike.R
 import ru.prsolution.winstrike.presentation.model.orders.Order
 import ru.prsolution.winstrike.presentation.utils.inflate
+import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import ru.prsolution.winstrike.presentation.utils.visible
 import ru.prsolution.winstrike.viewmodel.OrderViewModel
 import timber.log.Timber
@@ -64,7 +65,10 @@ class OrderFragment : Fragment() {
                     }
                 }
                 it.message?.let {
-                    onFailure(it)
+//                    longToast("Error: $it")
+//                    longToast("PrefUtils.token [Order Fragrment]: ${PrefUtils.token}")
+//                    onFailure(it)
+                    cv_nopay.visible()
                 }
             }
         })
@@ -85,7 +89,7 @@ class OrderFragment : Fragment() {
                 longToast(getString(ru.prsolution.winstrike.R.string.ac_login_error_user_not_found))
             (appErrorMessage.contains("409")) -> longToast("Не верный код.")
             appErrorMessage.contains("502") -> longToast("Ошибка сервера")
-            appErrorMessage.contains("401") -> longToast("Ошибка авторизации")
+            appErrorMessage.contains("401") -> longToast(getString(R.string.message_error_auth))
             (appErrorMessage.contains("413")) -> longToast("Не верный формат данных")
             appErrorMessage.contains("No Internet Connection!") ->
                 longToast("Интернет подключение не доступно!")

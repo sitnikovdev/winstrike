@@ -183,4 +183,5 @@
     </string>
     <string name="ac_main_app_version_dialog_ok_btn">Продолжить</string>
     <string name="ac_main_app_version_dialog_cancel_btn">Отменить</string>
+    <string name="message_error_auth">Ошибка авторизации. Зайдите в меню Профиль и нажмите на кнопку выхода из приложения.</string>
 </resources>

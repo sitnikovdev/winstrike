@@ -2,14 +2,12 @@ package ru.prsolution.winstrike.networking
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.readystatesoftware.chuck.ChuckInterceptor
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import ru.prsolution.winstrike.App
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.token
 import java.util.concurrent.TimeUnit
 
 fun createNetworkClient(baseUrl: String, debug: Boolean = false) =
@@ -18,7 +16,7 @@ fun createNetworkClient(baseUrl: String, debug: Boolean = false) =
 private fun httpClient(debug: Boolean): OkHttpClient {
     val httpLoggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT)
     val clientBuilder = OkHttpClient.Builder()
-    if (debug) {
+//    if (debug) {
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         clientBuilder.addInterceptor(httpLoggingInterceptor)
         clientBuilder.addInterceptor(ChuckInterceptor(App.instance))
@@ -27,7 +25,7 @@ private fun httpClient(debug: Boolean): OkHttpClient {
                 .addHeader("Authorization", "Bearer ${PrefUtils.token}")
                 .build()
             it.proceed(newRequest)
-        }
+//        }
     }
     with(clientBuilder) {
         connectTimeout(120, TimeUnit.SECONDS)

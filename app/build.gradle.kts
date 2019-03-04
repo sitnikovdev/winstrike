@@ -1,6 +1,3 @@
-import Android.compileSdkVersion
-import Android.minSdkVersion
-import Android.targetSdkVersion
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
@@ -16,8 +13,14 @@ plugins {
     id("com.github.ben-manes.versions") version "0.20.0" // uses gradle depUp ; show old dependencies in terminal
 //    id ("org.jlleitschuh.gradle.ktlint-idea") version "7.1.0" // Gradle plugin that automatically creates check and format tasks for project Kotlin sources
     id("org.jmailen.kotlinter") version "1.21.0"
+    id("io.fabric")
 }
 
+repositories {
+    maven {
+        url = uri("https://maven.fabric.io/public")
+    }
+}
 
 androidExtensions {
     configure(delegateClosureOf<AndroidExtensionsExtension> {
@@ -197,4 +200,6 @@ dependencies {
 
     // material dialog
     implementation(Libraries.materialDialog)
+
+    implementation("com.crashlytics.sdk.android:crashlytics:2.9.9@aar"){isTransitive = true}
 }

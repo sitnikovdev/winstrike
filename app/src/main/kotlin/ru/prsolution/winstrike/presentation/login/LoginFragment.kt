@@ -164,11 +164,15 @@ class LoginFragment : Fragment() {
 
     // TODO: Use Cash (RxPaper2).
     private fun updateUser(authResponse: AuthResponse) {
+//        longToast("AuthResponse token: ${authResponse.token}")
+
         PrefUtils.name = authResponse.user?.name ?: ""
         PrefUtils.token = authResponse.token ?: ""
         PrefUtils.phone = authResponse.user?.phone ?: ""
         PrefUtils.isConfirmed = authResponse.user?.confirmed ?: false
         PrefUtils.publicid = authResponse.user?.publicId ?: ""
+
+//        longToast("PrefUtils.token [Login Fragrment]: ${PrefUtils.token}")
 
     }
 

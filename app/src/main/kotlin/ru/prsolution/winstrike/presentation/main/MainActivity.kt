@@ -1,5 +1,6 @@
 package ru.prsolution.winstrike.presentation.main
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -13,6 +14,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -140,6 +142,14 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
                     mCityMenuVisible = false
                     mProfileMenuVisible = false
                     mMapMenuVisible = true
+                    invalidateOptionsMenu()
+                }
+                R.id.navigation_city_list ->{
+                    hideKeyboard()
+                    bottomNavigation.hide()
+                    mCityMenuVisible = false
+                    mProfileMenuVisible = false
+                    mMapMenuVisible = false
                     invalidateOptionsMenu()
                 }
                 else -> {
@@ -435,5 +445,15 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
     }
 
+   fun  hideKeyboard() {
+     val imm: InputMethodManager =  this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    //Find the currently focused view, so we can grab the correct window token from it.
+    var view = this.currentFocus
+    //If no view currently has focus, create a new one, just so we can grab a window token from it
+    if (view == null) {
+        view = View(this)
+    }
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
+}
 
 }
