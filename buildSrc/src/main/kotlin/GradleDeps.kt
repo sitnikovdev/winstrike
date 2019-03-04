@@ -105,6 +105,7 @@ object Libraries {
 	const val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
 
 	const val materialDialog = "com.afollestad.material-dialogs:core:${Versions.materialDialog}"
+
 }
 
 // API URL

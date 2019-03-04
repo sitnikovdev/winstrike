@@ -95,7 +95,7 @@ val cacheModule: Module = module {
     single(name = LOGIN_CACHE) { Cache<UserModel>() }
 }
 
-private const val DEV_URL = BuildConfig.DEV_URL
+//private const val DEV_URL = BuildConfig.DEV_URL
 private const val PROD_URL = BuildConfig.PROD_URL
 
 

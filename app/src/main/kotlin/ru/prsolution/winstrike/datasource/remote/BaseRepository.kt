@@ -4,10 +4,6 @@ import retrofit2.Response
 import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.data.repository.resouces.ResourceState
 import timber.log.Timber
-import android.widget.Toast
-import android.R.string
-import com.google.gson.JsonParser
-import org.json.JSONObject
 
 
 /**
@@ -41,9 +37,10 @@ open class BaseRepository {
         try {
             val errorJsonString = response.errorBody()?.string()
             code = response.code().toString()
-            message = JsonParser().parse(errorJsonString)
+            message = errorJsonString.toString()
+/*            message = JsonParser().parse(errorJsonString)
                 .asJsonObject["message"]
-                .asString
+                .asString*/
         } catch (e: Exception) {
             Timber.tag("$$$").d(e.message)
         }
