@@ -78,7 +78,7 @@ android {
         getByName("release") {
             buildConfigField("String", "PROD_URL", Constants.PROD_URL)
             isUseProguard = false // user R8 instead
-            isMinifyEnabled = true
+            isMinifyEnabled = false
         }
     }
 
