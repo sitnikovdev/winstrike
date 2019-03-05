@@ -4,16 +4,15 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.graphics.Color
-import android.icu.text.DateFormat
 import android.icu.text.DateFormatSymbols
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
-import android.icu.util.TimeZone
-import android.icu.util.TimeZone.getTimeZone
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
@@ -21,13 +20,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.facebook.drawee.view.SimpleDraweeView
+import com.google.android.material.button.MaterialButton
 import com.ositnikov.datepicker.TimePickerPopWin
-import kotlinx.android.synthetic.main.frm_setup.next_button
-import kotlinx.android.synthetic.main.frm_setup.progressBar
-import kotlinx.android.synthetic.main.frm_setup.tv_date
-import kotlinx.android.synthetic.main.frm_setup.tv_time
-import kotlinx.android.synthetic.main.frm_setup.v_date_tap
-import kotlinx.android.synthetic.main.frm_setup.v_time_tap
+import kotlinx.android.synthetic.main.frm_setup.*
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.viewModel
@@ -37,10 +32,8 @@ import ru.prsolution.winstrike.presentation.model.arena.ScheduleItem
 import ru.prsolution.winstrike.presentation.model.arena.SchemaItem
 import ru.prsolution.winstrike.presentation.utils.date.TimeDataModel
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
-import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils.selectedDate
 import ru.prsolution.winstrike.viewmodel.SetUpViewModel
 import timber.log.Timber
-import java.time.format.TextStyle
 import java.util.*
 
 class SetupFragment : Fragment(),
@@ -64,23 +57,36 @@ class SetupFragment : Fragment(),
     private var pickerDialog: TimePickerPopWin? = null
 
 
+    private var vDateTap: View? = null
+    private var tvDate: TextView? = null
+    private var vTimeTap: View? = null
+    private var tvTime: TextView? = null
+    private var nextButton: MaterialButton? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        vDateTap = view.findViewById(R.id.v_date_tap)
+        tvDate = view.findViewById(R.id.tv_date)
+        tvTime = view.findViewById(R.id.tv_time)
+        vTimeTap = view.findViewById(R.id.v_time_tap)
+
+        nextButton = view.findViewById(R.id.next_button)
 
         mSeatName = view.findViewById(R.id.seat_name_tv)
         mCpuDescription = view.findViewById(R.id.cpu)
         mSeatImage = view.findViewById(R.id.head_image)
 
         if (!TimeDataModel.date.isEmpty()) {
-            tv_date.text = TimeDataModel.date
+            tvDate?.text = TimeDataModel.date
         } else {
-            tv_date.text = getString(R.string.seatdetail_date)
+            tvDate?.text = getString(R.string.seatdetail_date)
         }
 
         if (!TimeDataModel.timeFrom.isEmpty()) {
-            tv_time.text = "${TimeDataModel.timeFrom} : ${TimeDataModel.timeTo}"
+            tvTime?.text = "${TimeDataModel.timeFrom} : ${TimeDataModel.timeTo}"
         } else {
-            tv_time.text = getString(R.string.seatdetail_time)
+            tvTime?.text = getString(R.string.seatdetail_time)
         }
 
         progressBar.visibility = View.INVISIBLE
@@ -189,8 +195,8 @@ class SetupFragment : Fragment(),
         TimeDataModel.setCloseTime(PrefUtils.closeTime!!)
 
         // update date info
-        tv_date.text = PrefUtils.selectedDate
-        tv_time.text = TimeDataModel.time
+        tvDate?.text = PrefUtils.selectedDate
+        tvTime?.text = TimeDataModel.time
     }
 
     @SuppressLint("NewApi")
@@ -217,29 +223,29 @@ class SetupFragment : Fragment(),
         TimeDataModel.setStartAt(timeFrom)
         TimeDataModel.setEndAt(timeTo)
 
-        tv_time.text = time
+        tvTime?.text = time
     }
 
     private fun initListeners() {
         // date
-        v_date_tap.setOnClickListener {
+        vDateTap?.setOnClickListener {
             showDatePickerDialog(it)
         }
-        tv_date.setOnClickListener {
+        tvDate?.setOnClickListener {
             showDatePickerDialog(it)
         }
 
         // time
-        v_time_tap.setOnClickListener {
+        vTimeTap?.setOnClickListener {
             showTimePickerDialog(it)
         }
-        tv_time.setOnClickListener {
+        tvTime?.setOnClickListener {
             showTimePickerDialog(it)
         }
 
 
         // next button
-        next_button.setOnClickListener {
+        nextButton?.setOnClickListener {
             when {
                 TimeDataModel.validateDate() -> {
                     progressBar.visibility = View.VISIBLE
