@@ -247,16 +247,16 @@ class SetupFragment : Fragment(),
         // next button
         nextButton?.setOnClickListener {
             when {
-                TimeDataModel.validateDate() -> {
-                    progressBar.visibility = View.VISIBLE
-                    getArenaByTime(mArenaActivePid)
-                    activity?.supportFragmentManager?.executePendingTransactions()
-                }
                 TimeDataModel.date.isEmpty() -> {
                     longToast("Выберите дату")
                 }
                 TimeDataModel.timeFrom.isEmpty() -> {
                     longToast("Выберите время")
+                }
+                TimeDataModel.validateDate() -> {
+                    progressBar.visibility = View.VISIBLE
+                    getArenaByTime(mArenaActivePid)
+                    activity?.supportFragmentManager?.executePendingTransactions()
                 }
                 TimeDataModel.isDateWrong -> {
                     longToast("Неправильно выбрана дата")
