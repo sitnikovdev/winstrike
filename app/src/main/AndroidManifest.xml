@@ -18,24 +18,14 @@
 
         <!--Main-->
         <activity android:name=".presentation.main.MainActivity"
-                  android:noHistory="true">
+        android:launchMode="singleTop">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
-
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
-
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".presentation.guides.GuideActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-
-        <!--Login-->
 
         <meta-data
                 android:name="io.fabric.ApiKey"

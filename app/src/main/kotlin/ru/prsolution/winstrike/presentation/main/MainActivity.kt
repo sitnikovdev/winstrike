@@ -95,6 +95,17 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Fix bag with restart app when tap on home icon
+        // https://stackoverflow.com/questions/16126511/app-completely-restarting-when-launched-by-icon-press-in-launcher
+        if (!isTaskRoot) {
+            val intent = intent
+            val intentAction = intent.action
+            if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && intentAction != null && intentAction == Intent.ACTION_MAIN) {
+                finish()
+                return
+            }
+        }
+
         // Init Koin modules
         injectFeature()
 
@@ -144,7 +155,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
                     mMapMenuVisible = true
                     invalidateOptionsMenu()
                 }
-                R.id.navigation_city_list ->{
+                R.id.navigation_city_list -> {
                     hideKeyboard()
                     bottomNavigation.hide()
                     mCityMenuVisible = false
@@ -173,7 +184,7 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
 
         // TODO: Check new version of app here
-        mAppVm.checkVersion( BuildConfig.VERSION_CODE.toString())
+        mAppVm.checkVersion(BuildConfig.VERSION_CODE.toString())
 
         mAppVm.messageResponse.observe(this@MainActivity, Observer {
             it?.let { resource ->
@@ -445,15 +456,15 @@ class MainActivity : AppCompatActivity(), ToolbarTitleListener,
 
     }
 
-   fun  hideKeyboard() {
-     val imm: InputMethodManager =  this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    //Find the currently focused view, so we can grab the correct window token from it.
-    var view = this.currentFocus
-    //If no view currently has focus, create a new one, just so we can grab a window token from it
-    if (view == null) {
-        view = View(this)
+    fun hideKeyboard() {
+        val imm: InputMethodManager = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = this.currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(this)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
-    imm.hideSoftInputFromWindow(view.windowToken, 0)
-}
 
 }

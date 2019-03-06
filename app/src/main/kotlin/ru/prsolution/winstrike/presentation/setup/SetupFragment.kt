@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.graphics.Color
-import android.icu.text.DateFormatSymbols
-import android.icu.text.SimpleDateFormat
-import android.icu.util.Calendar
+import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -200,7 +200,6 @@ class SetupFragment : Fragment(),
     }
 
     @SuppressLint("NewApi")
-    // TODO: Provide backport for API < 24.
     fun onTimeSet(hourFrom: Int, minuteFrom: Int, hourTo: Int, minTo: Int) {
 
         val calendar = Calendar.getInstance()
@@ -208,7 +207,7 @@ class SetupFragment : Fragment(),
         // from
         calendar.set(Calendar.HOUR_OF_DAY, hourFrom)
         calendar.set(Calendar.MINUTE, minuteFrom)
-        val sdf = SimpleDateFormat("HH:mm")
+        val sdf = SimpleDateFormat("HH:mm", Locale("RU"))
         val timeFrom = sdf.format(calendar.time)
 
         // to
