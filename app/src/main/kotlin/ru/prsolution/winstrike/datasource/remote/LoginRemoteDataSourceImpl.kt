@@ -5,6 +5,7 @@ import ru.prsolution.winstrike.data.repository.resouces.Resource
 import ru.prsolution.winstrike.datasource.model.login.*
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.login.AuthResponse
+import ru.prsolution.winstrike.networking.UserApi
 
 class LoginRemoteDataSourceImpl constructor(
     private val api: UserApi

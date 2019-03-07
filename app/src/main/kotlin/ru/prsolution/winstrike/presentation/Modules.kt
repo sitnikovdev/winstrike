@@ -23,7 +23,7 @@ import ru.prsolution.winstrike.domain.repository.ArenaRepository
 import ru.prsolution.winstrike.domain.repository.CityRepository
 import ru.prsolution.winstrike.domain.repository.LoginRepository
 import ru.prsolution.winstrike.domain.usecases.*
-import ru.prsolution.winstrike.networking.createNetworkClient
+import ru.prsolution.winstrike.networking.*
 import ru.prsolution.winstrike.presentation.utils.cache.Cache
 import ru.prsolution.winstrike.viewmodel.*
 

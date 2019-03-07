@@ -13,6 +13,7 @@ import ru.prsolution.winstrike.domain.models.arena.Schedule
 import ru.prsolution.winstrike.domain.models.common.MessageResponse
 import ru.prsolution.winstrike.domain.models.orders.OrderModel
 import ru.prsolution.winstrike.domain.models.payment.PaymentResponse
+import ru.prsolution.winstrike.networking.ArenaApi
 
 class ArenaRemoteDataSourceImpl constructor(
     private val api: ArenaApi

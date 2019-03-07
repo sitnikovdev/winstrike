@@ -1,4 +1,4 @@
-package ru.prsolution.winstrike.datasource.remote
+package ru.prsolution.winstrike.networking
 
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
