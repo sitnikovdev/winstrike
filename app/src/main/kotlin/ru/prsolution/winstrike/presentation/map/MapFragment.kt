@@ -565,7 +565,8 @@ class MapFragment : Fragment() {
         // TODO: Show progress bar when load web view.
 //        val testUrl = "https://yandex.ru"
         val url = payResponse.redirectUrl
-        val action = MapFragmentDirections.nextAction(url)
+        val action = MapFragmentDirections.nextAction()
+        action.url = url
         (activity as NavigationListener).navigate(action)
     }
 

@@ -6,7 +6,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import ru.prsolution.winstrike.App
 import ru.prsolution.winstrike.presentation.utils.pref.PrefUtils
 import java.util.concurrent.TimeUnit
 
@@ -17,9 +16,9 @@ private fun httpClient(debug: Boolean): OkHttpClient {
     val httpLoggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT)
     val clientBuilder = OkHttpClient.Builder()
 //    if (debug) {
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
         clientBuilder.addInterceptor(httpLoggingInterceptor)
-        clientBuilder.addInterceptor(ChuckInterceptor(App.instance))
+//        clientBuilder.addInterceptor(ChuckInterceptor(App.instance))
         clientBuilder.addInterceptor {
             val newRequest = it.request().newBuilder()
                 .addHeader("Authorization", "Bearer ${PrefUtils.token}")

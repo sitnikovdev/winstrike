@@ -334,7 +334,7 @@
         <argument
                 android:name="url"
                 app:argType="string"
-                app:nullable="true"/>
+                app:nullable="true" android:defaultValue="https://passport.yandex.ru/"/>
     </fragment>
 
 

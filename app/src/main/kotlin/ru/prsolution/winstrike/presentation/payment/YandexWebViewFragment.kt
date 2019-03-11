@@ -20,7 +20,7 @@ import ru.prsolution.winstrike.presentation.utils.inflate
 
 class YandexWebViewFragment : Fragment() {
     private var mWebView: WebView? = null
-    private var url: String? = ""
+    private var url: String? = "https://passport.yandex.ru/"
 
 
     override fun onCreateView(
