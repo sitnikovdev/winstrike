@@ -164,6 +164,8 @@ class SetupFragment : Fragment(),
     }
 
 
+    private var daySchedule: ScheduleItem? = null
+
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
 
         val dayFormat = SimpleDateFormat("EEEE", Locale.ENGLISH)
@@ -173,7 +175,13 @@ class SetupFragment : Fragment(),
         calendar.set(Calendar.DAY_OF_MONTH, day)
         mDayOfWeek = dayFormat.format(calendar.time)
         // save start and end time work on this day from schedulers
-        val daySchedule = mArenaSchedule?.filter { it.weekDay == mDayOfWeek }?.get(0)
+        // TODO: fix indexOf bound exeption
+        try {
+            daySchedule = mArenaSchedule?.filter { it.weekDay == mDayOfWeek }?.get(0)
+        } catch (e: Exception) {
+            Timber.e(e)
+            return
+        }
 
         PrefUtils.openTime = daySchedule?.startTime?.replaceAfter("00", "")
         PrefUtils.closeTime = daySchedule?.endTime?.replaceAfter("00", "")
