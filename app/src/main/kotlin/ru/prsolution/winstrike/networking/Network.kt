@@ -1,7 +1,6 @@
 package ru.prsolution.winstrike.networking
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,10 +13,10 @@ fun createNetworkClient(baseUrl: String, debug: Boolean = false) =
 
 private fun httpClient(debug: Boolean): OkHttpClient {
     val httpLoggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT)
+    httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
     val clientBuilder = OkHttpClient.Builder()
 //    if (debug) {
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
-        clientBuilder.addInterceptor(httpLoggingInterceptor)
+//        clientBuilder.addInterceptor(httpLoggingInterceptor)
 //        clientBuilder.addInterceptor(ChuckInterceptor(App.instance))
         clientBuilder.addInterceptor {
             val newRequest = it.request().newBuilder()

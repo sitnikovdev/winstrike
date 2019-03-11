@@ -2,7 +2,7 @@ object AppVersion {
 	// App version information
 	const val majorAppVersion = 0
 	const val minorAppVersion = 50
-	const val patchAppVersion = 23
+	const val patchAppVersion = 24
 	const val buildAppVersion = 0
 }
 
@@ -28,7 +28,7 @@ object Versions {
 	const val lifecycle = "2.0.0"
 	const val ktx = "1.0.0-alpha1"
 
-	const val navigation = "1.0.0-beta02"
+	const val navigation = "1.0.0-rc02"
 
 	const val constraintLayout = "2.0.0-alpha3"
 
@@ -38,8 +38,8 @@ object Versions {
 	const val coroutinesRetrofit = "0.9.2"
 	const val coroutines = "1.1.1"
 
-	const val fresco = "1.12.1"
-	const val lottie = "3.0.0-beta1"
+	const val fresco = "1.13.0"
+	const val lottie = "3.0.0-beta3"
 	const val decoro = "1.3.5"
 	const val showhidepasswordedittext = "0.8"
 
@@ -47,7 +47,7 @@ object Versions {
 	const val timber = "4.7.1"
 
 	const val firebase = "16.0.7"
-	const val firebaseMessaging = "17.3.4"
+	const val firebaseMessaging = "17.4.0"
 	const val fabric = "1.27.1"
 	const val crashlytics = "2.9.8"
 

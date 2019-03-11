@@ -576,15 +576,6 @@ class MapFragment : Fragment() {
         snackbar?.dismiss()
     }
 
-    private fun onPaymentError(error: String) {
-        TimeDataModel.pids.clear()
-        if (error.contains("different time")) {
-            toast("Не удается забронировать место на указанный интервал времени.")
-        } else {
-            toast("Не удается забронировать место.")
-        }
-    }
-
 
     private fun showBookingDialog() {
 

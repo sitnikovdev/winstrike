@@ -9,9 +9,7 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
     id("androidx.navigation.safeargs")
-//    id("com.getkeepsafe.dexcount")
     id("com.github.ben-manes.versions") version "0.20.0" // uses gradle depUp ; show old dependencies in terminal
-//    id ("org.jlleitschuh.gradle.ktlint-idea") version "7.1.0" // Gradle plugin that automatically creates check and format tasks for project Kotlin sources
     id("org.jmailen.kotlinter") version "1.21.0"
     id("io.fabric")
 }
@@ -131,6 +129,7 @@ kotlinter {
 
 dependencies {
 
+    /** Date picker library **/
     implementation(project(Modules.datepicker))
 
     /** Kotlin */
@@ -177,8 +176,8 @@ dependencies {
     // Timber
     implementation(Libraries.timber)
     // Chuck
-    debugImplementation(Libraries.chuck)
-    releaseImplementation(Libraries.chuckRelease)
+//    debugImplementation(Libraries.chuck)
+//    releaseImplementation(Libraries.chuckRelease)
 
 /*    debugImplementation(Libraries.leakCanaryAndroid)
     releaseImplementation(Libraries.leakCanaryAndroidNoOp)
@@ -188,7 +187,7 @@ dependencies {
     // phone mask
     implementation(Libraries.decoro)
     // password
-    implementation(Libraries.showhidepasswordedittext)
+//    implementation(Libraries.showhidepasswordedittext)
 
 
     // rxpaper
