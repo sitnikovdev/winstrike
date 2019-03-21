@@ -198,7 +198,7 @@
         <action
                 android:id="@+id/action_to_arena"
                 app:destination="@id/navigation_arena"
-                app:popUpTo="@+id/navigation_city_list" app:popUpToInclusive="true"/>
+                app:popUpToInclusive="false"/>
 
     </fragment>
 
