@@ -10,16 +10,16 @@ data class OrdersListEntity(
 )
 
 fun OrderEntity.mapToDomain(): OrderModel = OrderModel(
-    accessCode = this.accessCode,
-    cost = this.cost,
-    createAt = this.createAt,
-    endAt = this.endAt,
+    accessCode = this.accessCode?:"",
+    cost = this.cost?:0,
+    createAt = this.createAt?:"",
+    endAt = this.endAt?:"",
     place = this.place,
-    placePid = this.placePid,
-    publicId = this.publicId,
-    roomName = this.roomName,
-    startAt = this.startAt,
-    userPid = this.userPid
+    placePid = this.placePid?:"",
+    publicId = this.publicId?:"",
+    roomName = this.roomName?:"",
+    startAt = this.startAt?:"",
+    userPid = this.userPid?:""
 
 )
 

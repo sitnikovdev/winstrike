@@ -6,16 +6,16 @@ import ru.prsolution.winstrike.presentation.model.orders.Order
 import ru.prsolution.winstrike.presentation.model.orders.Place
 
 data class OrderModel(
-    val accessCode: String,
-    val cost: Int,
-    val createAt: String,
-    val endAt: String,
+    val accessCode: String = "",
+    val cost: Int = 0,
+    val createAt: String = "",
+    val endAt: String = "",
     val place: Place,
-    val placePid: String,
-    val publicId: String,
-    val roomName: String,
-    val startAt: String,
-    val userPid: String
+    val placePid: String = "",
+    val publicId: String = "",
+    val roomName: String = "",
+    val startAt: String = "",
+    val userPid: String = ""
 )
 
 // Map to presentation
