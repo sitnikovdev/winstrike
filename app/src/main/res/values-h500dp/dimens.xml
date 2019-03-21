@@ -23,4 +23,5 @@
     <dimen name="space_text">-30dp</dimen>
     <dimen name="hall_line_lengh">430dp</dimen>
     <dimen name="button_space">32dp</dimen>
+    <dimen name="log_lg_top">70dp</dimen>
 </resources>

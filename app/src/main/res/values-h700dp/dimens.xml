@@ -25,4 +25,5 @@
     <dimen name="hall_line_lengh">200dp</dimen>
     <dimen name="button_space">56dp</dimen>
     <dimen name="app_recomend">12sp</dimen>
+    <dimen name="log_lg_top">80dp</dimen>
 </resources>

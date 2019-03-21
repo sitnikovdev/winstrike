@@ -33,7 +33,6 @@ import ru.prsolution.winstrike.presentation.NavigationListener
 import ru.prsolution.winstrike.presentation.injectFeature
 import ru.prsolution.winstrike.presentation.login.LoginFragmentDirections
 import ru.prsolution.winstrike.presentation.main.carousel.CarouselFragment
-import ru.prsolution.winstrike.presentation.model.fcm.FCMPid
 import ru.prsolution.winstrike.presentation.utils.Constants
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_CONDITION
 import ru.prsolution.winstrike.presentation.utils.Constants.URL_POLITIKA
