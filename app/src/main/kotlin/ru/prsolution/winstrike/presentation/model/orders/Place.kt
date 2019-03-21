@@ -4,7 +4,7 @@ import ru.prsolution.winstrike.domain.models.orders.PlaceModel
 
 data class Place(
     val computer: Computer,
-    val name: String
+    val name: String = " "
 )
 
 fun Place.mapToDomain(): PlaceModel = PlaceModel(
