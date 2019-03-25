@@ -95,12 +95,12 @@ val cacheModule: Module = module {
     single(name = LOGIN_CACHE) { Cache<UserModel>() }
 }
 
-//private const val DEV_URL = BuildConfig.DEV_URL
+private const val DEV_URL = BuildConfig.DEV_URL
 private const val PROD_URL = BuildConfig.PROD_URL
 
 
-private val retrofit: Retrofit = createNetworkClient(PROD_URL, BuildConfig.DEBUG)
-//private val retrofit: Retrofit = createNetworkClient(DEV_URL, BuildConfig.DEBUG)
+//private val retrofit: Retrofit = createNetworkClient(PROD_URL, BuildConfig.DEBUG)
+private val retrofit: Retrofit = createNetworkClient(DEV_URL, BuildConfig.DEBUG)
 
 private val appApi: AppApi = retrofit.create(AppApi::class.java)
 private val cityApi: CityApi = retrofit.create(CityApi::class.java)

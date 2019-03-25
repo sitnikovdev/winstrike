@@ -67,7 +67,7 @@ class ArenaItemFragment : Fragment() {
             PrefUtils.cityPid = this.mCityPid
         }
 
-        val spannable = SpannableString("Ваш регион: ${mCityName}")
+        val spannable = SpannableString("Ваш регион: $mCityName")
 
         spannable.setSpan(
             ForegroundColorSpan(resources.getColor(R.color.colorAccent)),
