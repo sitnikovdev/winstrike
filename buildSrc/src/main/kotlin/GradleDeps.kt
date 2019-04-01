@@ -19,7 +19,7 @@ object Android {
 
 
 object Versions {
-	const val gradle = "3.5.0-alpha07"
+	const val gradle = "3.5.0-alpha09"
 
 	const val googleServicies = "4.2.0"
 	const val kotlin = "1.3.21"
